@@ -1,6 +1,6 @@
 # Containers
 
-Expressive promotes and advocates the usage of
+Mezzio promotes and advocates the usage of
 [Dependency Injection](http://www.martinfowler.com/articles/injection.html)/[Inversion of Control](https://en.wikipedia.org/wiki/Inversion_of_control)
 (also referred to as DI — or DIC — and IoC, respectively)
 containers when writing your applications. These should be used for the
@@ -16,13 +16,13 @@ middleware when ready to dispatch it; this encourages the idea of defining
 middleware-specific dependencies, and factories for ensuring they are injected.
 
 To facilitate this and allow you as a developer to choose the container you
-prefer, zend-expressive typehints against [PSR-11 Container](https://github.com/php-fig/container),
+prefer, mezzio typehints against [PSR-11 Container](https://github.com/php-fig/container),
 and throughout this manual, we attempt to show using a variety of containers in
 examples.
 
 At this time, we document support for the following specific containers:
 
-- [zend-servicemanager](zend-servicemanager.md)
+- [laminas-servicemanager](laminas-servicemanager.md)
 - [pimple-interop](pimple.md)
 - [aura.di](aura-di.md)
 
@@ -41,5 +41,5 @@ At this time, we document support for the following specific containers:
 > clear typehint to follow (e.g., most middleware only uses `callable` as a
 > typehint, or where we want to imply specific configuration is necessary (e.g.,
 > [Whoops](http://filp.github.io/whoops/) requires specific configuration to
-> work correctly with Expressive, and thus we do not want a generic service name
+> work correctly with Mezzio, and thus we do not want a generic service name
 > for it). We try to keep these to a minimum, however.

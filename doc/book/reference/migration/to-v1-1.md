@@ -1,6 +1,6 @@
-# Migration to Expressive 1.1
+# Migration to Mezzio 1.1
 
-Expressive 1.1 should not result in any upgrade problems for users. However,
+Mezzio 1.1 should not result in any upgrade problems for users. However,
 starting in this version, we offer a few changes affecting the following that
 you should be aware of, and potentially update your application to adopt:
 
@@ -14,45 +14,45 @@ you should be aware of, and potentially update your application to adopt:
 The following classes and/or methods are deprecated with the 1.1.0 release, and
 will be removed for the 2.0 release:
 
-- `Zend\Expressive\Application::pipeErrorHandler()`: Stratigility v1 error
-  middleware are removed in the Stratigility v2 release, which Expressive 2.0 will
+- `Mezzio\Application::pipeErrorHandler()`: Stratigility v1 error
+  middleware are removed in the Stratigility v2 release, which Mezzio 2.0 will
   adopt.
 
-- `Zend\Expressive\Application::routeMiddleware()`: routing middleware moves to
-  a dedicated class starting in Expressive 2.0. If you were referencing the
+- `Mezzio\Application::routeMiddleware()`: routing middleware moves to
+  a dedicated class starting in Mezzio 2.0. If you were referencing the
   method in order to pipe it as middleware, use `pipeRoutingMiddleware()` or
   `pipe(ApplicationFactory::ROUTING_MIDDLEWARE)` instead.
 
-- `Zend\Expressive\Application::dispatchMiddleware()`: dispatch middleware moves
-  to a dedicated class starting in Expressive 2.0.If you were referencing the
+- `Mezzio\Application::dispatchMiddleware()`: dispatch middleware moves
+  to a dedicated class starting in Mezzio 2.0.If you were referencing the
   method in order to pipe it as middleware, use `pipeDispatchMiddleware()` or
   `pipe(ApplicationFactory::DISPATCH_MIDDLEWARE)` instead.
 
-- `Zend\Expressive\Application::getFinalHandler()`: this method gets renamed to
-  `getDefaultDelegate()` in Expressive 2.0. We recommend retrieving the value
+- `Mezzio\Application::getFinalHandler()`: this method gets renamed to
+  `getDefaultDelegate()` in Mezzio 2.0. We recommend retrieving the value
   from the application dependency injection container if you need it elsewhere.
 
-- `Zend\Expressive\Application::raiseThrowables()`: this method becomes a no-op
-  in Stratigility 2.0, on which Expressive 2.0 is based; the behavior it enabled
+- `Mezzio\Application::raiseThrowables()`: this method becomes a no-op
+  in Stratigility 2.0, on which Mezzio 2.0 is based; the behavior it enabled
   becomes the default behavior in that version.
 
-- `Zend\Expressive\Container\Exception\InvalidArgumentException`: this exception
-  type is thrown by `ApplicationFactory`; in Expressive 2.0, it throws
-  `Zend\Expressive\Exception\InvalidArgumentException` instead.
+- `Mezzio\Container\Exception\InvalidArgumentException`: this exception
+  type is thrown by `ApplicationFactory`; in Mezzio 2.0, it throws
+  `Mezzio\Exception\InvalidArgumentException` instead.
 
-- `Zend\Expressive\Container\Exception\NotFoundException`: this exception type
+- `Mezzio\Container\Exception\NotFoundException`: this exception type
   is not currently used anyways.
 
-- `Zend\Expressive\ErrorMiddlewarePipe`: Stratigility v1 error middleware are
-  removed in the Stratigility v2 release, which Expressive 2.0 will adopt,
+- `Mezzio\ErrorMiddlewarePipe`: Stratigility v1 error middleware are
+  removed in the Stratigility v2 release, which Mezzio 2.0 will adopt,
   making this specialized middleware pipe type irrelvant.
 
-- `Zend\Expressive\TemplatedErrorHandler` and `Zend\Expressive\WhoopsErrorHandler`:
-  The concept of "final handlers" will be removed in Expressive 2.0, to be
+- `Mezzio\TemplatedErrorHandler` and `Mezzio\WhoopsErrorHandler`:
+  The concept of "final handlers" will be removed in Mezzio 2.0, to be
   replaced with "default delegates" (implementations of
   `Interop\Http\ServerMiddleware\DelegateInterface` that will be called if the
   middleware pipeline is exhausted, and which will be guaranteed to return a
-  response). Expressive 2.0 will provide tooling to upgrade your dependencies to
+  response). Mezzio 2.0 will provide tooling to upgrade your dependencies to
   make the transition seamless; end users will only be affected if they were
   extending these classes.
 
@@ -63,20 +63,20 @@ these.
 ## Original messages
 
 Stratigility 1.3 deprecates its internal request and response decorators,
-`Zend\Stratigility\Http\Request` and `Zend\Stratigility\Http\Response`,
+`Laminas\Stratigility\Http\Request` and `Laminas\Stratigility\Http\Response`,
 respectively. The main utility of these instances was to provide access in
 inner middleware layers to the original request, original response, and original
 URI.
 
 As such access may still be desired, Stratigility 1.3 introduced
-`Zend\Stratigility\Middleware\OriginalMessages`. This middleware injects the
+`Laminas\Stratigility\Middleware\OriginalMessages`. This middleware injects the
 following attributes into the request it passes to `$next()`:
 
 - `originalRequest` is the request instance provided to the middleware.
 - `originalUri` is the URI instance associated with that request.
 - `originalResponse` is the response instance provided to the middleware.
 
-`Zend\Stratigility\FinalHandler` was updated to use these when they're
+`Laminas\Stratigility\FinalHandler` was updated to use these when they're
 available starting with version 1.0.3.
 
 We recommend adding the `OriginalMessages` middleware as the outermost (first)
@@ -86,8 +86,8 @@ look like this:
 ```php
 // config/autoload/middleware-pipeline.global.php
 /* ... */
-use Zend\Expressive\Helper;
-use Zend\Stratigility\Middleware\OriginalMessages;
+use Mezzio\Helper;
+use Laminas\Stratigility\Middleware\OriginalMessages;
 
 return [
     'dependencies' => [
@@ -111,7 +111,7 @@ return [
 ];
 ```
 
-If you are [programmatically creating your pipeline](https://mwop.net/blog/2016-05-16-programmatic-expressive.html),
+If you are [programmatically creating your pipeline](https://mwop.net/blog/2016-05-16-programmatic-mezzio.html),
 use the following:
 
 ```php
@@ -122,20 +122,20 @@ $app->pipe(OriginalMessages::class);
 ### Identifying and fixing getOriginal calls
 
 To help you identify and update calls in your own code to the `getOriginal*()`
-methods, we provide a tool via the [zendframework/zend-expressive-tooling](https://github.com/zendframework/zend-expressive-tooling)
-package, `vendor/bin/expressive-migrate-original-messages`.
+methods, we provide a tool via the [mezzio/mezzio-tooling](https://github.com/mezzio/mezzio-tooling)
+package, `vendor/bin/mezzio-migrate-original-messages`.
 
 First, install the tooling package; since the tooling it provides is only
 useful during development, install it as a development requirement:
 
 ```bash
-$ composer require --dev zendframework/zend-expressive-tooling
+$ composer require --dev mezzio/mezzio-tooling
 ```
 
 Once installed,  you can execute the tool using:
 
 ```bash
-$ ./vendor/bin/expressive-migrate-original-messages
+$ ./vendor/bin/mezzio-migrate-original-messages
 ```
 
 Passing the arguments `help`, `--help`, or `-h` will provide usage information;
@@ -157,11 +157,11 @@ update those calls to use the `originalResponse` request attribute.
 
 ## Programmatic middleware pipelines
 
-With Expressive 1.0, we recommended creating middleware pipelines and routing
+With Mezzio 1.0, we recommended creating middleware pipelines and routing
 via configuration. Starting with 1.1, we recommend *programmatic creation of
 pipelines and routing*.
 
-Programmatic pipelines exercise the existing Expressive API. Methods include:
+Programmatic pipelines exercise the existing Mezzio API. Methods include:
 
 - `pipe()` allows you to pipe middleware for the pipeline; this can optionally
   take a `$path` argument. (If one argument is present, it is assumed to be
@@ -180,7 +180,7 @@ Programmatic pipelines exercise the existing Expressive API. Methods include:
   middleware into the pipeline. We recommend **NOT** using this method, and
   instead adapting your application to use [standard middleware for error
   handling](#error-handling). Otherwise, it acts just like `pipe()`.
-  Starting in Expressive 1.1, this method will emit a deprecation notice.
+  Starting in Mezzio 1.1, this method will emit a deprecation notice.
 
 As an example pipeline:
 
@@ -194,7 +194,7 @@ $app->pipeDispatchMiddleware();
 $app->pipe(NotFoundHandler::class);
 ```
 
-Expressive also provides methods for specifying routed middleware. These
+Mezzio also provides methods for specifying routed middleware. These
 include:
 
 - `get($path, $middleware, $name = null)`
@@ -204,7 +204,7 @@ include:
 - `delete($path, $middleware, $name = null)`
 - `route($path, $middleware, array $methods = null, $name = null)`
 
-Each returns a `Zend\Expressive\Router\Route` instance; this is useful if you
+Each returns a `Mezzio\Router\Route` instance; this is useful if you
 wish to provide additional options to your route:
 
 ```php
@@ -231,12 +231,12 @@ programmatic/declarative statements. Specifically:
 Once you've written these, you will then need to make the following changes to
 your application:
 
-- First, enable the `zend-expressive.programmatic_pipeline` configuration flag.
+- First, enable the `mezzio.programmatic_pipeline` configuration flag.
   This can be done in any `config/autoload/*.global.php` file:
 
   ```php
   return [
-      'zend-expressive' => [
+      'mezzio' => [
           'programmatic_pipeline' => true,
       ],
   ];
@@ -278,7 +278,7 @@ Prior to version 1.1, error handling was accomplished via two mechanisms:
   exhausted without returning a response, and has the signature `function
   (ServerRequestInterface $request, ResponseInterface $response, $err = null)`;
   it is provided to the middleware pipeline when invoking the outermost
-  middleware; in the case of Expressive, it is composed in the `Application`
+  middleware; in the case of Mezzio, it is composed in the `Application`
   instance, and passed to the application middleware when it executes `run()`.
   When invoked, it needs to decide if invocation is due to no middleware
   executing (HTTP 404 status), middleware calling `$next()` with an altered
@@ -286,19 +286,19 @@ Prior to version 1.1, error handling was accomplished via two mechanisms:
   (calling `$next()` with the third, error, argument) with no error middleware
   returning a response.
 
-Expressive 1.1 updates the minimum supported Stratigility version to 1.3, which
+Mezzio 1.1 updates the minimum supported Stratigility version to 1.3, which
 deprecates the concept of error middleware, and recommends a "final handler"
 that does no error handling, but instead returns a canned response (typically a
 404). Additionally, it deprecates the practice of wrapping middleware execution
 in a try/catch block, and provides a flag for disabling that behavior entirely,
 `raise_throwables`.
 
-Starting in Expressive 1.1, you can set the `raise_throwables` flag in your
+Starting in Mezzio 1.1, you can set the `raise_throwables` flag in your
 configuration:
 
 ```php
 return [
-    'zend-expressive' => [
+    'mezzio' => [
         'raise_throwables' => true,
     ],
 ];
@@ -346,7 +346,7 @@ function (
 ```
 
 Stratigility 1.3 provides such an implementation via its
-`Zend\Stratigility\Middleware\ErrorHandler`. In addition to the try/catch block,
+`Laminas\Stratigility\Middleware\ErrorHandler`. In addition to the try/catch block,
 it also sets up a PHP error handler that will catch any PHP error types in the
 current `error_reporting` mask; the error handler will raise exceptions of the
 type `ErrorException` with the PHP error details.
@@ -372,7 +372,7 @@ namespace Acme;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class TemplatedErrorResponseGenerator
 {
@@ -412,9 +412,9 @@ namespace Acme\Container;
 
 use Acme\TemplatedErrorResponseGenerator;
 use Psr\Container\ContainerInterface;
-use Zend\Diactoros\Response;
-use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Laminas\Diactoros\Response;
+use Mezzio\Template\TemplateRendererInterface;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
 class ErrorHandlerFactory
 {
@@ -434,7 +434,7 @@ Once that is created you can tell your middleware configuration about it:
 ```php
 // in config/autoload/middleware-pipeline.global.php
 use Acme\Container\ErrorHandlerFactory;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
 return [
     'dependencies' => [
@@ -462,7 +462,7 @@ Alternately, if using a programmatic pipeline, as detailed in the previous
 section, you can use the following:
 
 ```php
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
 $app->pipe(ErrorHandler::class);
 // add all other middleware after it
@@ -472,7 +472,7 @@ $app->pipe(ErrorHandler::class);
 
 At the innermost layer of your application, you need middleware guaranteed to
 return a response; typically, this indicates a failure to route the request,
-and, as such, an HTTP 404 response.  `Zend\Stratigility\Middleware\NotFoundHandler`
+and, as such, an HTTP 404 response.  `Laminas\Stratigility\Middleware\NotFoundHandler`
 provides an implementation, but is written such that the response body remains
 empty. As such, you might write a custom, templated handler:
 
@@ -481,8 +481,8 @@ namespace Acme;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Laminas\Diactoros\Response;
+use Mezzio\Template\TemplateRendererInterface;
 
 class TemplatedNotFoundHandler
 {
@@ -520,7 +520,7 @@ namespace Acme\Container;
 
 use Acme\TemplatedNotFoundHandler;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class TemplatedNotFoundHandlerFactory
 {
@@ -578,29 +578,29 @@ $app->pipe(TemplatedNotFoundHandler::class);
 If you use the new error handling paradigm, we recommend that you also audit
 your application for legacy Stratigility error middleware, as well as invocation
 of error middleware. To do this, we provide a tool via the
-[zendframework/zend-expressive-tooling](https://github.com/zendframework/zend-expressive-tooling)
-package, `vendor/bin/expressive-scan-for-error-middleware`.
+[mezzio/mezzio-tooling](https://github.com/mezzio/mezzio-tooling)
+package, `vendor/bin/mezzio-scan-for-error-middleware`.
 
 First, install the tooling as a development requirement:
 
 ```bash
-$ composer require --dev zendframework/zend-expressive-tooling
+$ composer require --dev mezzio/mezzio-tooling
 ```
 
 The tool will scan the `src/` directory by default, but allows you to scan other
 directories via the `--dir` flag. It will detect and report files with any of
 the following:
 
-- Classes implementing `Zend\Stratigility\ErrorMiddlewareInterface`.
+- Classes implementing `Laminas\Stratigility\ErrorMiddlewareInterface`.
 - Invokable classes implementing the error middleware signature.
 - Methods accepting `$next` that invoke it with an error argument.
 
 As an example running it:
 
 ```bash
-$ ./vendor/bin/expressive-scan-for-error-middleware scan
+$ ./vendor/bin/mezzio-scan-for-error-middleware scan
 # or, with a directory argument:
-$ ./vendor/bin/expressive-scan-for-error-middleware scan --dir ./lib
+$ ./vendor/bin/mezzio-scan-for-error-middleware scan --dir ./lib
 ```
 
 You may also call the tool using its `help` command, or either of the `--help`
@@ -616,15 +616,15 @@ memoizing](#original-messages), [programmatic
 pipelines](#programmatic-middleware-pipelines), and [middleware-based error
 handling](#error-handling) &mdash; might look like the following examples.
 
-First, we'll tell Expressive to use programmatic pipelines, and to enable the
+First, we'll tell Mezzio to use programmatic pipelines, and to enable the
 new error handling (by telling it to "raise throwables", instead of catching
 them):
 
 ```php
-// In config/autoload/zend-expressive.global.php:
+// In config/autoload/mezzio.global.php:
 return [
     /* ... */
-    'zend-expressive' => [
+    'mezzio' => [
         'programmatic_pipeline' => true,
         'raise_throwables' => true,
         /* ... */
@@ -638,10 +638,10 @@ dependencies:
 ```php
 use Acme\Container;
 use Acme\TemplatedNotFoundHandler;
-use Zend\Expressive\Container\ApplicationFactory;
-use Zend\Expressive\Helper;
-use Zend\Stratigility\Middleware\ErrorHandler;
-use Zend\Stratigility\Middleware\OriginalMessages;
+use Mezzio\Container\ApplicationFactory;
+use Mezzio\Helper;
+use Laminas\Stratigility\Middleware\ErrorHandler;
+use Laminas\Stratigility\Middleware\OriginalMessages;
 
 return [
     'dependencies' => [
@@ -664,8 +664,8 @@ the skeleton application:
 
 ```php
 use App\Action;
-use Zend\Expressive\Router\FastRouteRouter;
-use Zend\Expressive\Router\RouterInterface;
+use Mezzio\Router\FastRouteRouter;
+use Mezzio\Router\RouterInterface;
 
 return [
     'dependencies' => [
@@ -684,10 +684,10 @@ To create our pipeline, we will create the file `config/pipeline.php`:
 
 ```php
 use Acme\TemplatedNotFoundHandler;
-use Zend\Expressive\Container\ApplicationFactory;
-use Zend\Expressive\Helper;
-use Zend\Stratigility\Middleware\ErrorHandler;
-use Zend\Stratigility\Middleware\OriginalMessages;
+use Mezzio\Container\ApplicationFactory;
+use Mezzio\Helper;
+use Laminas\Stratigility\Middleware\ErrorHandler;
+use Laminas\Stratigility\Middleware\OriginalMessages;
 
 $app->pipe(OriginalMessages::class);
 $app->pipe(ErrorHandler::class);
@@ -721,7 +721,7 @@ our new pipeline and routing files; we'll do that between retrieving the
 application from the container, and running the application:
 
 ```php
-$app = $container->get(\Zend\Expressive\Application::class);
+$app = $container->get(\Mezzio\Application::class);
 require 'config/pipeline.php';
 require 'config/routes.php';
 $app->run();
@@ -732,7 +732,7 @@ previously!
 
 ## Looking forward
 
-Expressive 2.0 will ship error handling middleware and "not found" middleware,
+Mezzio 2.0 will ship error handling middleware and "not found" middleware,
 as well as tools to convert your application to a programmatic pipeline in such
 a way as to utilize these shipped implementations. In the meantime, however, you
 can adopt programmatic pipelines and the new error handling paradigm within the
