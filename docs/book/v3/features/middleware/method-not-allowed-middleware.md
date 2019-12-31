@@ -4,8 +4,8 @@ When the path matches, but the HTTP method does not, your application should
 return a `405 Method Not Allowed` status in response.
 
 To enable that functionality, we provide
-`Zend\Expressive\Router\Middleware\MethodNotAllowedMiddleware` via the
-zend-expressive-router package.
+`Mezzio\Router\Middleware\MethodNotAllowedMiddleware` via the
+mezzio-router package.
 
 This middleware triggers when the following conditions occur:
 
@@ -32,5 +32,5 @@ $app->pipe(MethodNotAllowedMiddleware::class);
 $app->pipe(DispatchMiddleware::class);
 ```
 
-(Note: if you used the Expressive skeleton, this middleware is likely already in
+(Note: if you used the Mezzio skeleton, this middleware is likely already in
 your pipeline.)

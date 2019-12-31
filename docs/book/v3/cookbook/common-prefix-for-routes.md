@@ -15,12 +15,12 @@ the above segregated under the path `/api`.
 
 To accomplish it, we will pipe an _array_ of middleware _under a path_, `/api`.
 
-When we pipe an array of middleware, internally, `Zend\Expressive\Application`
-creates a new `Zend\Stratigility\MiddlewarePipe` instance, and pipes each
+When we pipe an array of middleware, internally, `Mezzio\Application`
+creates a new `Laminas\Stratigility\MiddlewarePipe` instance, and pipes each
 middleware item to it.
 
 When we specify a path, the middleware is decorated with a
-`Zend\Stratigility\Middleware\PathMiddlewareDecorator`. This middleware will
+`Laminas\Stratigility\Middleware\PathMiddlewareDecorator`. This middleware will
 compare the request path against the path with which it was created; if they
 match, it passes processing on to its middleware.
 
@@ -29,8 +29,8 @@ The following example assumes you are using the structure of
 
 ```php
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\MiddlewareFactory;
+use Mezzio\Application;
+use Mezzio\MiddlewareFactory;
 
 /**
  * Setup middleware pipeline:
@@ -49,10 +49,10 @@ Alternately, you can perform the path decoration manually:
 
 ```php
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\MiddlewareFactory;
+use Mezzio\Application;
+use Mezzio\MiddlewareFactory;
 
-use function Zend\Stratigility\path;
+use function Laminas\Stratigility\path;
 
 /**
  * Setup middleware pipeline:
@@ -69,4 +69,4 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
 (Calling `$factory->pipeline()` is necessary here to ensure that we create the
 `MiddlewarePipe` instance, and so that each item in the specified pipeline will
-be decorated as `Zend\Expressive\Middleware\LazyLoadingMiddleware`.)
+be decorated as `Mezzio\Middleware\LazyLoadingMiddleware`.)

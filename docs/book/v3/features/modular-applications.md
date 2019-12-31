@@ -1,24 +1,24 @@
 # Modular applications
 
-Zend Framework 2+ applications have a concept of _modules_, independent units that
+Laminas+ applications have a concept of _modules_, independent units that
 can provide configuration, services, and hooks into its MVC lifecycle. This
-functionality is provided by zend-modulemanager.
+functionality is provided by laminas-modulemanager.
 
-Expressive provides similar functionality by incorporating two packages within
+Mezzio provides similar functionality by incorporating two packages within
 the default skeleton application:
 
-- [zendframework/zend-config-aggregator](https://github.com/zendframework/zend-config-aggregator),
+- [laminas/laminas-config-aggregator](https://github.com/laminas/laminas-config-aggregator),
   which provides features for aggregating configuration from a variety of
   sources, including:
     - PHP files globbed from the filesystem that return an array of configuration.
-    - [zend-config](https://docs.zendframework.com/zend-config)-compatible
+    - [laminas-config](https://docs.laminas.dev/laminas-config)-compatible
       configuration files globbed from the filesystem.
     - Configuration provider classes; these are invokable classes which return an
       array of configuration.
-- [zendframework/zend-component-installer](https://github.com/zendframework/zend-component-installer),
-  a Composer plugin that looks for an `extra.zf.config-provider` entry in a
+- [laminas/laminas-component-installer](https://github.com/laminas/laminas-component-installer),
+  a Composer plugin that looks for an `extra.laminas.config-provider` entry in a
   package to install, and, if found, adds an entry for that provider to the
-  `config/config.php` file (if it uses zend-config-aggregator).
+  `config/config.php` file (if it uses laminas-config-aggregator).
 
 These features allow you to install packages via composer and expose their
 configuration &mdash; which may include dependency information &mdash; to your
@@ -26,7 +26,7 @@ application.
 
 ## Making your application modular
 
-When using the Expressive installer via the skeleton application, the first
+When using the Mezzio installer via the skeleton application, the first
 question asked is the installation type, which includes the options:
 
 - Minimal (no default middleware, templates, or assets; configuration only)
@@ -40,7 +40,7 @@ however, the initial "App" module will not be modular.
 
 ## Module structure
 
-Expressive does not force you to use any particular structure for your
+Mezzio does not force you to use any particular structure for your
 module; its only requirement is to expose default configuration using a "config
 provider", which is simply an invokable class that returns a configuration
 array.
@@ -190,12 +190,12 @@ instead of parsing and merging the various configuration sources.
 
 ## Tooling support
 
-The skeleton ships with zend-expressive-tooling by default, which allows you
+The skeleton ships with mezzio-tooling by default, which allows you
 to execute the following command in order to create a module skeleton, add and
 enable autoloading rules for it, and register it with your application:
 
 ```bash
-$ composer expressive module:create {ModuleName}
+$ composer mezzio module:create {ModuleName}
 ```
 
 We recommend using this tool when creating new modules.
@@ -210,5 +210,5 @@ This approach may look simple, but it is flexible and powerful:
 - You can override module configuration using `*.global.php` and `*.local.php` files.
 - If cached config is found, `ConfigAggregator` does not iterate over provider list.
 
-For more details, please refer to the [zend-config-aggregator
-documentation](https://docs.zendframework.com/zend-config-aggregator/).
+For more details, please refer to the [laminas-config-aggregator
+documentation](https://docs.laminas.dev/laminas-config-aggregator/).

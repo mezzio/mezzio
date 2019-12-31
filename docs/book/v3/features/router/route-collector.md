@@ -1,10 +1,10 @@
 # The Route Collector
 
-`Zend\Expressive\Router\RouteCollector` is a class that exists to help you
+`Mezzio\Router\RouteCollector` is a class that exists to help you
 _create_ path-based routes, while simultaneously injecting them into a router
 instance.
 
-It composes a `Zend\Expressive\Router\RouterInterface` instance via its
+It composes a `Mezzio\Router\RouterInterface` instance via its
 constructor, and provides the following methods:
 
 - `route()`
@@ -24,7 +24,7 @@ public function {method}(
     string $path,
     Psr\Http\Server\MiddlewareInterface $middleware,
     string $name = null
-) : Zend\Expressive\Router\Route
+) : Mezzio\Router\Route
 ```
 
 The `any()` method has the same signature, but indicates that it will answer to
@@ -38,12 +38,12 @@ public function route(
     Psr\Http\Server\MiddlewareInterface $middleware,
     array $methods = null,
     string $name = null
-) : Zend\Expressive\Router\Route
+) : Mezzio\Router\Route
 ```
 
 A `null` value for the `$methods` indicates any HTTP method is allowed.
 
-`Zend\Expressive\Application` composes an instance of this class
+`Mezzio\Application` composes an instance of this class
 and proxies to it when any of the above methods are called.
-`Zend\Expressive\Router\Middleware\RouteMiddleware`, by default, composes the
+`Mezzio\Router\Middleware\RouteMiddleware`, by default, composes the
 same router instance, allowing it to honor the definitions created.

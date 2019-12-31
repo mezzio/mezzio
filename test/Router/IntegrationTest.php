@@ -1,40 +1,41 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Router;
+namespace MezzioTest\Router;
 
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Stream;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\Stratigility\MiddlewarePipe;
+use Mezzio\Application;
+use Mezzio\MiddlewareContainer;
+use Mezzio\MiddlewareFactory;
+use Mezzio\Router\AuraRouter;
+use Mezzio\Router\FastRouteRouter;
+use Mezzio\Router\LaminasRouter;
+use Mezzio\Router\Middleware\DispatchMiddleware;
+use Mezzio\Router\Middleware\ImplicitHeadMiddleware;
+use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
+use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
+use Mezzio\Router\Middleware\RouteMiddleware;
+use Mezzio\Router\RouteCollector;
+use Mezzio\Router\RouterInterface;
+use MezzioTest\ContainerTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Stream;
-use Zend\Expressive\Application;
-use Zend\Expressive\MiddlewareContainer;
-use Zend\Expressive\MiddlewareFactory;
-use Zend\Expressive\Router\AuraRouter;
-use Zend\Expressive\Router\FastRouteRouter;
-use Zend\Expressive\Router\Middleware\DispatchMiddleware;
-use Zend\Expressive\Router\Middleware\ImplicitHeadMiddleware;
-use Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware;
-use Zend\Expressive\Router\Middleware\MethodNotAllowedMiddleware;
-use Zend\Expressive\Router\Middleware\RouteMiddleware;
-use Zend\Expressive\Router\RouteCollector;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Router\ZendRouter;
-use Zend\HttpHandlerRunner\RequestHandlerRunner;
-use Zend\Stratigility\MiddlewarePipe;
-use ZendTest\Expressive\ContainerTrait;
 
 use function array_pop;
 use function sprintf;
@@ -93,7 +94,7 @@ class IntegrationTest extends TestCase
         return [
             'aura'       => [AuraRouter::class],
             'fast-route' => [FastRouteRouter::class],
-            'zf2'        => [ZendRouter::class],
+            'laminas'        => [LaminasRouter::class],
         ];
     }
 
@@ -372,7 +373,7 @@ class IntegrationTest extends TestCase
         $app->pipe(new MethodNotAllowedMiddleware($this->responseFactory));
         $app->pipe(new DispatchMiddleware());
 
-        // Add a route with Zend\Expressive\Router\Route::HTTP_METHOD_ANY
+        // Add a route with Mezzio\Router\Route::HTTP_METHOD_ANY
         $response = clone $this->response;
         $app->route('/foo', function ($req, $handler) use ($response) {
             $stream = new Stream('php://temp', 'w+');
@@ -397,8 +398,8 @@ class IntegrationTest extends TestCase
             'aura-options'       => [AuraRouter::class, RequestMethod::METHOD_OPTIONS],
             'fast-route-head'    => [FastRouteRouter::class, RequestMethod::METHOD_HEAD],
             'fast-route-options' => [FastRouteRouter::class, RequestMethod::METHOD_OPTIONS],
-            'zf2-head'           => [ZendRouter::class, RequestMethod::METHOD_HEAD],
-            'zf2-options'        => [ZendRouter::class, RequestMethod::METHOD_OPTIONS],
+            'laminas-head'           => [LaminasRouter::class, RequestMethod::METHOD_HEAD],
+            'laminas-options'        => [LaminasRouter::class, RequestMethod::METHOD_OPTIONS],
         ];
     }
 

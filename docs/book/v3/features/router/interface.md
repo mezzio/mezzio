@@ -1,16 +1,16 @@
 # Routing Interface
 
-Expressive defines `Zend\Expressive\Router\RouterInterface`, which is used by
-the `Zend\Expressive\Router\RouteMiddleware` &mdash; as well as the
-`Zend\Expressive\Router\RouteCollector` consumed by
-`Zend\Expressive\Application` &mdash; in order to provide dynamic routing
+Mezzio defines `Mezzio\Router\RouterInterface`, which is used by
+the `Mezzio\Router\RouteMiddleware` &mdash; as well as the
+`Mezzio\Router\RouteCollector` consumed by
+`Mezzio\Application` &mdash; in order to provide dynamic routing
 capabilities to middleware. The interface serves as an abstraction to allow
 routers with varying capabilities to be used with an application.
 
 The interface is defined as follows:
 
 ```php
-namespace Zend\Expressive\Router;
+namespace Mezzio\Router;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -59,7 +59,7 @@ interface RouterInterface
      * to league/uri to encode it.
      *
      * @see https://github.com/auraphp/Aura.Router/blob/3.x/docs/generating-paths.md
-     * @see https://docs.zendframework.com/zend-router/routing/
+     * @see https://docs.laminas.dev/laminas-router/routing/
      * @throws Exception\RuntimeException if unable to generate the given URI.
      */
     public function generateUri(string $name, array $substitutions = [], array $options = []) : string;
@@ -68,8 +68,8 @@ interface RouterInterface
 
 Developers may create and use their own implementations. We recommend
 registering your implementation as the service
-`Zend\Expressive\Router\RouterInterface` in your container to ensure other
-factories provided by zend-expressive will receive your custom service.
+`Mezzio\Router\RouterInterface` in your container to ensure other
+factories provided by mezzio will receive your custom service.
 
 Implementors should also read the following sections detailing the `Route` and
 `RouteResult` classes, to ensure that their implementations interoperate
@@ -77,7 +77,7 @@ correctly.
 
 ## Routes
 
-Routes are defined via `Zend\Expressive\Router\Route`, and aggregate the
+Routes are defined via `Mezzio\Router\Route`, and aggregate the
 following information:
 
 - Path to match.
@@ -89,7 +89,7 @@ following information:
 The `Route` class has the following signature:
 
 ```php
-namespace Zend\Expressive\Router;
+namespace Mezzio\Router;
 
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Psr\Http\Message\ResponseInterface;
@@ -150,8 +150,8 @@ class Route implements MiddlewareInterface
 ```
 
 Typically, developers will use the `route()` method of either
-`Zend\Expressive\Router\PathBasedRoutingMiddleware` or
-`Zend\Expressive\Application` (or one of the HTTP-specific routing methods of
+`Mezzio\Router\PathBasedRoutingMiddleware` or
+`Mezzio\Application` (or one of the HTTP-specific routing methods of
 either class) to create routes, and will not need to interact with `Route`
 instances.  Additionally, when working with `RouteResult` instances, you may
 pull the `Route` instance from that in order to obtain data about the matched
@@ -165,9 +165,9 @@ what they may need from the request in order to perform their routing logic; for
 example, they may need the request method, the URI path, the value of the
 `HTTPS` server variable, etc.
 
-Implementations are expected to return a `Zend\Expressive\Router\RouteResult`
+Implementations are expected to return a `Mezzio\Router\RouteResult`
 instance, which is then injected as a request attribute under the name
-`Zend\Expressive\Router\RouteResult` when passing processing of the request to
+`Mezzio\Router\RouteResult` when passing processing of the request to
 the provided handler. Additionally, in the event of success, it will pull any
 matched parameters from the result and inject them as request attributes as
 well.
@@ -175,22 +175,22 @@ well.
 Dispatch middleware can then retrieve the route result from the request and
 process it, passing the route result its own request and handler.
 
-The zend-expressive-router package also provides a number of middleware geared
+The mezzio-router package also provides a number of middleware geared
 towards handling failed results which can be placed between routing and dispatch
 middleware:
 
-- `Zend\Expressive\Router\Middleware\MethodNotAllowedMiddleware` checks to see
+- `Mezzio\Router\Middleware\MethodNotAllowedMiddleware` checks to see
   if the route failures was due to the HTTP method, and, if so, return a 405
   response with an appropriate `Allow` header.
   ([read more](../middleware/method-not-allowed-middleware.md))
 
-- `Zend\Expressive\Router\Middleware\ImplicitHeadMiddleware` checks to see if a
+- `Mezzio\Router\Middleware\ImplicitHeadMiddleware` checks to see if a
   routing failure was due to a route match using a `HEAD` request, and will then
   dispatch the appropriate route via `GET` request, and inject an empty body
   into the returned response.
   ([read more](../middleware/implicit-methods-middleware.md#implicitheadmiddleware))
 
-- `Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware` checks to see if a
+- `Mezzio\Router\Middleware\ImplicitOptionsMiddleware` checks to see if a
   routing failure was due to a route match using a `OPTIONS` request; if so, it
   will return a 200 response with an appropriate `Allow `header.
   ([read more](../middleware/implicit-methods-middleware.md#implicitoptionsmiddleware))
@@ -198,7 +198,7 @@ middleware:
 The `RouteResult` signature is as follows:
 
 ```php
-namespace Zend\Expressive\Router;
+namespace Mezzio\Router;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
