@@ -1,43 +1,44 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Container;
+namespace Mezzio\Container;
 
 use Interop\Container\ContainerInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\Expressive\WhoopsErrorHandler;
+use Mezzio\Template\TemplateRendererInterface;
+use Mezzio\WhoopsErrorHandler;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Run as Whoops;
 
 /**
  * Create and return an instance of the whoops error handler.
  *
- * Register this factory as the service `Zend\Expressive\FinalHandler` in
+ * Register this factory as the service `Mezzio\FinalHandler` in
  * the container of your choice.
  *
  * This factory has optional dependencies on the following services:
  *
- * - 'Zend\Expressive\Template\TemplateRendererInterface', which should return an
+ * - 'Mezzio\Template\TemplateRendererInterface', which should return an
  *   implementation of that interface. If not present, the error handler
  *   will not create templated responses.
  * - 'config' (which should return an array or array-like object with a
- *   "zend-expressive" top-level key, and an "error_handler" subkey,
+ *   "mezzio" top-level key, and an "error_handler" subkey,
  *   containing the configuration for the error handler).
  *
  * This factory has required dependencies on the following services:
  *
- * - Zend\Expressive\Whoops, which should return a Whoops\Run instance.
- * - Zend\Expressive\WhoopsPageHandler, which should return a
+ * - Mezzio\Whoops, which should return a Whoops\Run instance.
+ * - Mezzio\WhoopsPageHandler, which should return a
  *   Whoops\Handler\PrettyPageHandler instance.
  *
  * Configuration should look like the following:
  *
  * <code>
- * 'zend-expressive' => [
+ * 'mezzio' => [
  *     'error_handler' => [
  *         'template_404'   => 'name of 404 template',
  *         'template_error' => 'name of error template',
@@ -64,7 +65,7 @@ use Whoops\Run as Whoops;
  * @deprecated since 1.1.0, to be removed in 2.0.0. The "final handler" concept
  *     will be replaced with a "default delegate", which will be an
  *     implementation of Interop\Http\ServerMiddleware\DelegateInterface that
- *     returns a canned response. Expressive will provide tools to migrate your
+ *     returns a canned response. Mezzio will provide tools to migrate your
  *     code to use default delegates for 2.0; you will only need to manually
  *     change your code if you are extending this class.
  */
@@ -74,30 +75,32 @@ class WhoopsErrorHandlerFactory
     {
         $template = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
-            : null;
+            : ($container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)
+                ? $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)
+                : null);
 
         $config = $container->has('config')
             ? $container->get('config')
             : [];
 
-        $expressiveConfig = isset($config['zend-expressive']['error_handler'])
-            ? $config['zend-expressive']['error_handler']
+        $mezzioConfig = isset($config['mezzio']['error_handler'])
+            ? $config['mezzio']['error_handler']
             : [];
 
         $whoopsConfig = isset($config['whoops'])
             ? $config['whoops']
             : [];
 
-        $whoops = $container->get('Zend\Expressive\Whoops');
-        $whoops->pushHandler($container->get('Zend\Expressive\WhoopsPageHandler'));
+        $whoops = $container->get('Mezzio\Whoops');
+        $whoops->pushHandler($container->get('Mezzio\WhoopsPageHandler'));
         $this->registerJsonHandler($whoops, $whoopsConfig);
 
         return new WhoopsErrorHandler(
             $whoops,
             null,
             $template,
-            (isset($expressiveConfig['template_404']) ? $expressiveConfig['template_404'] : 'error/404'),
-            (isset($expressiveConfig['template_error']) ? $expressiveConfig['template_error'] : 'error/error')
+            (isset($mezzioConfig['template_404']) ? $mezzioConfig['template_404'] : 'error/404'),
+            (isset($mezzioConfig['template_error']) ? $mezzioConfig['template_error'] : 'error/error')
         );
     }
 

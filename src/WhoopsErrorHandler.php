@@ -1,11 +1,12 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -23,7 +24,7 @@ use Whoops\Run as Whoops;
  * @deprecated since 1.1.0, to be removed in 2.0.0. The "final handler" concept
  *     will be replaced with a "default delegate", which will be an
  *     implementation of Interop\Http\ServerMiddleware\DelegateInterface that
- *     returns a canned response. Expressive will provide tools to migrate your
+ *     returns a canned response. Mezzio will provide tools to migrate your
  *     code to use default delegates for 2.0; you will only need to manually
  *     change your code if you are extending this class.
  */
@@ -110,7 +111,7 @@ class WhoopsErrorHandler extends TemplatedErrorHandler
         $uri = $request->getAttribute('originalUri', false) ?: $request->getUri();
         $request = $request->getAttribute('originalRequest', false) ?: $request;
 
-        $handler->addDataTable('Expressive Application Request', [
+        $handler->addDataTable('Mezzio Application Request', [
             'HTTP Method'            => $request->getMethod(),
             'URI'                    => (string) $uri,
             'Script'                 => $request->getServerParams()['SCRIPT_NAME'],

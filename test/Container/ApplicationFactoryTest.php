@@ -1,42 +1,41 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
 use Closure;
 use InvalidArgumentException;
+use Laminas\Diactoros\Response\EmitterInterface;
+use Laminas\Diactoros\Response\SapiEmitter;
+use Laminas\Stratigility\ErrorMiddlewareInterface;
+use Laminas\Stratigility\FinalHandler;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\NoopFinalHandler;
+use Laminas\Stratigility\Route as StratigilityRoute;
+use Mezzio\Application;
+use Mezzio\Container\ApplicationFactory;
+use Mezzio\Container\Exception as ContainerException;
+use Mezzio\Emitter\EmitterStack;
+use Mezzio\ErrorMiddlewarePipe;
+use Mezzio\Exception\InvalidMiddlewareException;
+use Mezzio\Router\FastRouteRouter;
+use Mezzio\Router\Route;
+use Mezzio\Router\RouterInterface;
+use MezzioTest\ContainerTrait;
+use MezzioTest\TestAsset\InvokableMiddleware;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use ReflectionFunction;
 use ReflectionProperty;
 use SplQueue;
-use Zend\Diactoros\Response\EmitterInterface;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Expressive\Application;
-use Zend\Expressive\Container\ApplicationFactory;
-use Zend\Expressive\Container\Exception as ContainerException;
-use Zend\Expressive\Emitter\EmitterStack;
-use Zend\Expressive\ErrorMiddlewarePipe;
-use Zend\Expressive\Exception\InvalidMiddlewareException;
-use Zend\Expressive\Router\FastRouteRouter;
-use Zend\Expressive\Router\Route;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Stratigility\ErrorMiddlewareInterface;
-use Zend\Stratigility\FinalHandler;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\NoopFinalHandler;
-use Zend\Stratigility\Route as StratigilityRoute;
-use ZendTest\Expressive\ContainerTrait;
-use ZendTest\Expressive\TestAsset\InvokableMiddleware;
 
 /**
- * @covers Zend\Expressive\Container\ApplicationFactory
+ * @covers Mezzio\Container\ApplicationFactory
  */
 class ApplicationFactoryTest extends TestCase
 {
@@ -66,7 +65,7 @@ class ApplicationFactoryTest extends TestCase
 
         $this->injectServiceInContainer($this->container, RouterInterface::class, $this->router->reveal());
         $this->injectServiceInContainer($this->container, EmitterInterface::class, $this->emitter->reveal());
-        $this->injectServiceInContainer($this->container, 'Zend\Expressive\FinalHandler', $this->finalHandler);
+        $this->injectServiceInContainer($this->container, 'Mezzio\FinalHandler', $this->finalHandler);
     }
 
     public function assertRoute($spec, array $routes)
@@ -951,7 +950,7 @@ class ApplicationFactoryTest extends TestCase
                     'options' => [],
                 ],
             ],
-            'zend-expressive' => [
+            'mezzio' => [
                 'programmatic_pipeline' => true,
             ],
         ];
@@ -983,7 +982,7 @@ class ApplicationFactoryTest extends TestCase
     public function testSetsApplicationRaiseThrowablesFlagWhenConfigFlagEnabled()
     {
         $config = [
-            'zend-expressive' => [
+            'mezzio' => [
                 'programmatic_pipeline' => true,
                 'raise_throwables'      => true,
             ],
@@ -991,6 +990,7 @@ class ApplicationFactoryTest extends TestCase
 
         $this->injectServiceInContainer($this->container, 'config', $config);
         $this->container->has(NoopFinalHandler::class)->willReturn(false);
+        $this->container->has(\Zend\Stratigility\NoopFinalHandler::class)->willReturn(false);
 
         $app = $this->factory->__invoke($this->container->reveal());
 
@@ -1003,15 +1003,16 @@ class ApplicationFactoryTest extends TestCase
     public function testWillNotInjectFinalHandlerIfRaiseThrowablesFlagEnabled()
     {
         $config = [
-            'zend-expressive' => [
+            'mezzio' => [
                 'programmatic_pipeline' => true,
                 'raise_throwables'      => true,
             ],
         ];
 
         $this->injectServiceInContainer($this->container, 'config', $config);
-        $this->container->has('Zend\Expressive\FinalHandler')->shouldNotBeCalled();
+        $this->container->has('Mezzio\FinalHandler')->shouldNotBeCalled();
         $this->container->has(NoopFinalHandler::class)->willReturn(false);
+        $this->container->has(\Zend\Stratigility\NoopFinalHandler::class)->willReturn(false);
 
         $app = $this->factory->__invoke($this->container->reveal());
 
@@ -1036,14 +1037,14 @@ class ApplicationFactoryTest extends TestCase
         };
 
         $config = [
-            'zend-expressive' => [
+            'mezzio' => [
                 'programmatic_pipeline' => true,
                 'raise_throwables'      => true,
             ],
         ];
 
         $this->injectServiceInContainer($this->container, 'config', $config);
-        $this->container->has('Zend\Expressive\FinalHandler')->shouldNotBeCalled();
+        $this->container->has('Mezzio\FinalHandler')->shouldNotBeCalled();
         $this->injectServiceInContainer($this->container, NoopFinalHandler::class, $finalHandler);
 
         $app = $this->factory->__invoke($this->container->reveal());
