@@ -1,29 +1,30 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Router;
+namespace MezzioTest\Router;
 
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Interop\Http\ServerMiddleware\DelegateInterface;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\Stream;
+use Mezzio\Application;
+use Mezzio\Middleware;
+use Mezzio\Router\AuraRouter;
+use Mezzio\Router\FastRouteRouter;
+use Mezzio\Router\LaminasRouter;
+use Mezzio\Router\RouterInterface;
+use MezzioTest\ContainerTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Stream;
-use Zend\Expressive\Application;
-use Zend\Expressive\Middleware;
-use Zend\Expressive\Router\AuraRouter;
-use Zend\Expressive\Router\FastRouteRouter;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Router\ZendRouter;
-use ZendTest\Expressive\ContainerTrait;
 
 class IntegrationTest extends TestCase
 {
@@ -61,7 +62,7 @@ class IntegrationTest extends TestCase
         return [
             'aura'       => [AuraRouter::class],
             'fast-route' => [FastRouteRouter::class],
-            'zf2'        => [ZendRouter::class],
+            'laminas'        => [LaminasRouter::class],
         ];
     }
 
@@ -326,7 +327,7 @@ class IntegrationTest extends TestCase
         $app->pipeRoutingMiddleware();
         $app->pipeDispatchMiddleware();
 
-        // Add a route with Zend\Expressive\Router\Route::HTTP_METHOD_ANY
+        // Add a route with Mezzio\Router\Route::HTTP_METHOD_ANY
         $app->route('/foo', function ($req, $res, $next) {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware');
@@ -349,8 +350,8 @@ class IntegrationTest extends TestCase
             'aura-options'       => [AuraRouter::class, RequestMethod::METHOD_OPTIONS],
             'fast-route-head'    => [FastRouteRouter::class, RequestMethod::METHOD_HEAD],
             'fast-route-options' => [FastRouteRouter::class, RequestMethod::METHOD_OPTIONS],
-            'zf2-head'           => [ZendRouter::class, RequestMethod::METHOD_HEAD],
-            'zf2-options'        => [ZendRouter::class, RequestMethod::METHOD_OPTIONS],
+            'laminas-head'           => [LaminasRouter::class, RequestMethod::METHOD_HEAD],
+            'laminas-options'        => [LaminasRouter::class, RequestMethod::METHOD_OPTIONS],
         ];
     }
 
@@ -366,11 +367,11 @@ class IntegrationTest extends TestCase
             'fast-route-put'    => [FastRouteRouter::class, RequestMethod::METHOD_PUT],
             'fast-route-delete' => [FastRouteRouter::class, RequestMethod::METHOD_DELETE],
             'fast-route-patch'  => [FastRouteRouter::class, RequestMethod::METHOD_PATCH],
-            'zf2-get'           => [ZendRouter::class, RequestMethod::METHOD_GET],
-            'zf2-post'          => [ZendRouter::class, RequestMethod::METHOD_POST],
-            'zf2-put'           => [ZendRouter::class, RequestMethod::METHOD_PUT],
-            'zf2-delete'        => [ZendRouter::class, RequestMethod::METHOD_DELETE],
-            'zf2-patch'         => [ZendRouter::class, RequestMethod::METHOD_PATCH],
+            'laminas-get'           => [LaminasRouter::class, RequestMethod::METHOD_GET],
+            'laminas-post'          => [LaminasRouter::class, RequestMethod::METHOD_POST],
+            'laminas-put'           => [LaminasRouter::class, RequestMethod::METHOD_PUT],
+            'laminas-delete'        => [LaminasRouter::class, RequestMethod::METHOD_DELETE],
+            'laminas-patch'         => [LaminasRouter::class, RequestMethod::METHOD_PATCH],
         ];
     }
 

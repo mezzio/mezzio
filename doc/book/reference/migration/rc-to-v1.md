@@ -80,8 +80,8 @@ be undesired. As a result, we now require you to inject each manually.
 
 This change will require changes in your application.
 
-1. If you are using Expressive programmatically (i.e., you are not using
-   a container and the `Zend\Expressive\Container\ApplicationFactory`),
+1. If you are using Mezzio programmatically (i.e., you are not using
+   a container and the `Mezzio\Container\ApplicationFactory`),
    you are now *required* to call `Application::pipeRoutingMiddleware()`.
    Additionally, a new method, `Application::pipeDispatchMiddleware()` exists
    for injecting the application with the dispatch middleware, this, too, must
@@ -100,7 +100,7 @@ $app->pipeDispatchMiddleware();
 ```
 
 2. If you are creating your `Application` instance using a container and the
-   `Zend\Expressive\Container\ApplicationFactory`, you will need to update your
+   `Mezzio\Container\ApplicationFactory`, you will need to update your
    configuration to list the routing and dispatch middleware. The next section
    details the configuration changes necessary.
 
@@ -197,10 +197,10 @@ your configuration if you want your routed middleware to dispatch!  This change
 gives you full control over the flow of the pipeline.
 
 To specify the routing middleware, use the constant
-`Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE` in place of
+`Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE` in place of
 a middleware array; this has the value `EXPRESSIVE_ROUTING_MIDDLEWARE`, if you
 do not want to import the class. Similarly, for the dispatch middleware, use the
-constant `Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE`
+constant `Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE`
 (value `EXPRESSIVE_DISPATCH_MIDDLEWARE`) to specify the dispatch middleware.
 
 As such, the default configuration now becomes:
@@ -230,9 +230,9 @@ return [
         // - dispatch middleware
         [
             'middleware' => [
-                Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
                 Helper\UrlHelperMiddleware::class,
-                Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
         ]
@@ -256,8 +256,8 @@ To update an existing application:
   key. Provide a `priority` value greater than 1. We recommend having a single
   middleware specification with an array of middleware that represents the "pre
   routing" middleware.
-- Add the entries for `Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE`
-  and `Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE`
+- Add the entries for `Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE`
+  and `Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE`
   immediately following any `pre_routing` middleware, and before any
   `post_routing` middleware; we recommend grouping it per the above example.
 - Promote all `post_routing` middleware up a level, and remove the
@@ -275,8 +275,8 @@ return [
         'pre_routing' => [
             [
                 'middleware' => [
-                    Zend\Expressive\Helper\ServerUrlMiddleware::class,
-                    Zend\Expressive\Helper\UrlHelperMiddleware::class,
+                    Mezzio\Helper\ServerUrlMiddleware::class,
+                    Mezzio\Helper\UrlHelperMiddleware::class,
                 ],
             ],
             ['middleware' => DebugToolbarMiddleware::class],
@@ -300,7 +300,7 @@ return [
     'middleware_pipeline' => [
         'always' => [
             'middleware' => [
-                Zend\Expressive\Helper\ServerUrlMiddleware::class,
+                Mezzio\Helper\ServerUrlMiddleware::class,
                 DebugToolbarMiddleware::class,
             ],
             'priority' => PHP_INT_MAX,
@@ -313,9 +313,9 @@ return [
 
         'routing' => [
             'middleware' => [
-                Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
-                Zend\Expressive\Helper\UrlHelperMiddleware::class,
-                Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Mezzio\Helper\UrlHelperMiddleware::class,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
         ],
@@ -351,7 +351,7 @@ dispatch.
 As of RC6, the following changes have occurred with regards to route result
 observers:
 
-- They are deprecated for usage with `Zend\Expressive\Application`, and that
+- They are deprecated for usage with `Mezzio\Application`, and that
   class will not be a route result subject starting in 1.1. You will need to
   start migrating to alternative solutions.
 - The functionality for notifying observers has been moved from the routing
@@ -390,9 +390,9 @@ however, you will need to register it following the routing middleware:
         /* ... */
         'routing' => [
             'middleware' => [
-                Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
-                Zend\Expressive\Container\ApplicationFactory::ROUTE_RESULT_OBSERVER_MIDDLEWARE,
-                Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTE_RESULT_OBSERVER_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
         ],
@@ -409,8 +409,8 @@ To make your observers forwards-compatible requires two changes:
 If your observer looked like the following:
 
 ```php
-use Zend\Expressive\Router\RouteResult;
-use Zend\Expressive\Router\RouteResultObserverInterface;
+use Mezzio\Router\RouteResult;
+use Mezzio\Router\RouteResultObserverInterface;
 
 class MyObserver implements RouteResultObserverInterface
 {
@@ -431,7 +431,7 @@ class MyObserver implements RouteResultObserverInterface
 You could rewrite it as follows:
 
 ```php
-use Zend\Expressive\Router\RouteResult;
+use Mezzio\Router\RouteResult;
 
 class MyObserver
 {
@@ -472,9 +472,9 @@ If you are using the `ApplicationFactory`, alter your configuration:
         /* ... */
         'routing' => [
             'middleware' => [
-                Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
                 MyObserver::class,
-                Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
         ],

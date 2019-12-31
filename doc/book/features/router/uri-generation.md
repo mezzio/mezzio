@@ -1,10 +1,10 @@
 # URI Generation
 
-One aspect of the `Zend\Expressive\Router\RouterInterface` is that it provides a
+One aspect of the `Mezzio\Router\RouterInterface` is that it provides a
 `generateUri()` method. This method accepts a route name, and optionally an
 associative array of substitutions to use in the generated URI (e.g., if the URI
-has any named placeholders). Starting in zend-expressive-router 2.0, shipped
-with Expressive 2.0, you may also pass router-specific options to use during
+has any named placeholders). Starting in mezzio-router 2.0, shipped
+with Mezzio 2.0, you may also pass router-specific options to use during
 URI generation as a third argument.
 
 ## Naming routes
@@ -51,7 +51,7 @@ the name:
   $route->setName('foo'); // "foo"
   ```
 
-Clearly, this can become difficult to remember. As such, Expressive offers the
+Clearly, this can become difficult to remember. As such, Mezzio offers the
 ability to specify a custom string for the route name as an additional, optional
 argument to any of the above:
 
@@ -88,4 +88,4 @@ You can omit the second argument if no substitutions are necessary.
 >
 > For this to work, you'll need to compose the router instance in any class that
 > requires the URI generation facility. Inject the
-> `Zend\Expressive\Router\RouterInterface` service in these situations.
+> `Mezzio\Router\RouterInterface` service in these situations.
