@@ -8,9 +8,9 @@ want to expose via the host name "admin.example.org"; how can you do this?
 
 ## The host function
 
-[Stratigility](https://docs.zendframework.com/zend-stratigility/) provides a
-function, `Zend\Stratigility\host()` that can be used to decorate middleware in
-a `Zend\Stratigility\Middleware\HostMiddlewareDecorator` instance. These expect
+[Stratigility](https://docs.laminas.dev/laminas-stratigility/) provides a
+function, `Laminas\Stratigility\host()` that can be used to decorate middleware in
+a `Laminas\Stratigility\Middleware\HostMiddlewareDecorator` instance. These expect
 the string name of a host, and the middleware that should only trigger when that
 host is matched in the request.
 
@@ -18,7 +18,7 @@ As a simple example:
 
 ```php
 // in config/pipeline.php:
-use function Zend\Stratigility\host;
+use function Laminas\Stratigility\host;
 
 $app->pipe(host('admin.example.org', $adminMiddleware));
 ```
@@ -31,8 +31,8 @@ instance; how can you lazy-load a named service instead?
 The `config/pipeline.php` file defines and returns a callable that accepts three
 arguments:
 
-- a `Zend\Expressive\Application $app` instance
-- a `Zend\Expressive\MiddlewareFactory $factory` instance
+- a `Mezzio\Application $app` instance
+- a `Mezzio\MiddlewareFactory $factory` instance
 - a `Psr\Container\ContainerInterface $container` instance
 
 We can use the second of these to help us. We will use the `lazy()` method to

@@ -3,7 +3,7 @@
 The primary use case for templating is within request handlers, to provide templated
 responses. To do this, you will:
 
-- Inject an instance of `Zend\Expressive\Template\TemplateRendererInterface` into your
+- Inject an instance of `Mezzio\Template\TemplateRendererInterface` into your
   request handler.
 - Potentially add paths to the templating instance.
 - Render a template.
@@ -21,7 +21,7 @@ namespace Acme\Blog;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class EntryHandler implements RequestHandlerInterface
 {
@@ -46,7 +46,7 @@ namespace Acme\Blog\Container;
 
 use Acme\Blog\EntryHandler;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class EntryHandlerFactory
 {
@@ -75,8 +75,8 @@ namespace Acme\Blog;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Laminas\Diactoros\Response\HtmlResponse;
+use Mezzio\Template\TemplateRendererInterface;
 
 class EntryHandler implements RequestHandlerInterface
 {

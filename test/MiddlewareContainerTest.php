@@ -1,22 +1,23 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive;
+namespace MezzioTest;
 
+use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
+use Mezzio\Exception;
+use Mezzio\MiddlewareContainer;
+use Mezzio\Router\Middleware\DispatchMiddleware;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Expressive\Exception;
-use Zend\Expressive\MiddlewareContainer;
-use Zend\Expressive\Router\Middleware\DispatchMiddleware;
-use Zend\Stratigility\Middleware\RequestHandlerMiddleware;
 
 class MiddlewareContainerTest extends TestCase
 {

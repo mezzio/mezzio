@@ -25,10 +25,10 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Expressive\Router\RouteResult;
-use Zend\Expressive\Session\Authentication\UserInterface;
-use Zend\Expressive\Session\Flash\FlashMessagesInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Router\RouteResult;
+use Mezzio\Session\Authentication\UserInterface;
+use Mezzio\Session\Flash\FlashMessagesInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class TemplateDefaultsMiddleware implements MiddlewareInterface
 {
@@ -74,11 +74,11 @@ class TemplateDefaultsMiddleware implements MiddlewareInterface
 ```
 
 Next you need to create a factory for this middleware and register it with the
-DI container; [zend-expressive-tooling](../reference/cli-tooling.md) provides
+DI container; [mezzio-tooling](../reference/cli-tooling.md) provides
 functionality for doing so:
 
 ```bash
-$ ./vendor/bin/expressive factory:create "App\Middleware\TemplateDefaultsMiddleware"
+$ ./vendor/bin/mezzio factory:create "App\Middleware\TemplateDefaultsMiddleware"
 ```
 
 Once the factory is created, you can add this to any route that may generate a

@@ -1,6 +1,6 @@
 # ImplicitHeadMiddleware and ImplicitOptionsMiddleware
 
-Expressive offers middleware for implicitly supporting `HEAD` and `OPTIONS`
+Mezzio offers middleware for implicitly supporting `HEAD` and `OPTIONS`
 requests. The HTTP/1.1 specifications indicate that all server implementations
 _must_ support `HEAD` requests for any given URI, and that they _should_ support
 `OPTIONS` requests. To make this possible, we have added features to our routing
@@ -9,39 +9,39 @@ layer, and middleware that can detect _implicit_  support for these methods
 
 > ## Versions prior to 2.2
 >
-> If you are using Expressive versions earlier than 2.2, you may define a
-> `Zend\Expressive\Middleware\ImplicitHeadMiddleware` or
-> `Zend\Expressive\Middleware\ImplicitOptionsMiddleware` service under the
+> If you are using Mezzio versions earlier than 2.2, you may define a
+> `Mezzio\Middleware\ImplicitHeadMiddleware` or
+> `Mezzio\Middleware\ImplicitOptionsMiddleware` service under the
 > `invokables` service configuration.
 >
 > However, starting in version 2.2, these classes are deprecated in favor of their
-> equivalents that are now offered in the zend-expressive-router v2.4+ releases,
-> under the namespace `Zend\Expressive\Router\Middleware`.
+> equivalents that are now offered in the mezzio-router v2.4+ releases,
+> under the namespace `Mezzio\Router\Middleware`.
 >
-> The documentation here has been updated to reflect usage under Expressive 2.2+.
+> The documentation here has been updated to reflect usage under Mezzio 2.2+.
 
 ## ImplicitHeadMiddleware
 
-`Zend\Expressive\Middleware\ImplicitHeadMiddleware` provides support for
+`Mezzio\Middleware\ImplicitHeadMiddleware` provides support for
 handling `HEAD` requests to routed middleware when the route does not expliclity
 allow for the method. It should be registered _between_ the routing and dispatch
 middleware.
 
 To use it, it must first be registered with your container. The easiest way to
-do that is to register the zend-expressive-router `ConfigProvider` in your
+do that is to register the mezzio-router `ConfigProvider` in your
 `config/config.php`:
 
 ```php
 $aggregator = new ConfigAggregator([
-    \Zend\Expressive\Router\ConfigProvider::class,
+    \Mezzio\Router\ConfigProvider::class,
 ```
 
 Alternately, add the following dependency configuration in one of your
 `config/autoload/` configuration files or a `ConfigProvider` class:
 
 ```php
-use Zend\Expressive\Router\Middleware\ImplicitHeadMiddleware;
-use Zend\Expressive\Router\Middleware\ImplicitHeadMiddlewareFactory;
+use Mezzio\Router\Middleware\ImplicitHeadMiddleware;
+use Mezzio\Router\Middleware\ImplicitHeadMiddlewareFactory;
 
 'dependencies' => [
     'factories' => [
@@ -60,8 +60,8 @@ $app->pipe(ImplicitHeadMiddleware::class);
 $app->pipeDispatchMiddleware();
 ```
 
-(Note: if you used the `expressive-pipeline-from-config` tool to create your
-programmatic pipeline, or if you used the Expressive skeleton, this middleware
+(Note: if you used the `mezzio-pipeline-from-config` tool to create your
+programmatic pipeline, or if you used the Mezzio skeleton, this middleware
 is likely already in your pipeline, as is a dependency entry.)
 
 When in place, it will do the following:
@@ -87,32 +87,32 @@ returned response with an empty response body before returning it.
 - Since 2.1.0
 
 When the next layer is dispatched, the request will have an additional
-attribute, `Zend\Expressive\Middleware\ImplicitHeadMiddleware::FORWARDED_HTTP_METHOD_ATTRIBUTE`,
+attribute, `Mezzio\Middleware\ImplicitHeadMiddleware::FORWARDED_HTTP_METHOD_ATTRIBUTE`,
 with a value of `HEAD`. As such, you can check for this value in order to vary
 the headers returned if desired.
 
 ## ImplicitOptionsMiddleware
 
-`Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware` provides support for
+`Mezzio\Router\Middleware\ImplicitOptionsMiddleware` provides support for
 handling `OPTIONS` requests to routed middleware when the route does not
 expliclity allow for the method. Like the `ImplicitHeadMiddleware`, it should be
 registered _between_ the routing and dispatch middleware.
 
 To use it, it must first be registered with your container. The easiest way to
-do that is to register the zend-expressive-router `ConfigProvider` in your
+do that is to register the mezzio-router `ConfigProvider` in your
 `config/config.php`:
 
 ```php
 $aggregator = new ConfigAggregator([
-    \Zend\Expressive\Router\ConfigProvider::class,
+    \Mezzio\Router\ConfigProvider::class,
 ```
 
 Alternately, add the following dependency configuration in one of your
 `config/autoload/` configuration files or a `ConfigProvider` class:
 
 ```php
-use Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware;
-use Zend\Expressive\Router\Middleware\ImplicitOptionsMiddlewareFactory;
+use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
+use Mezzio\Router\Middleware\ImplicitOptionsMiddlewareFactory;
 
 'dependencies' => [
     'factories' => [
@@ -131,8 +131,8 @@ $app->pipe(ImplicitOptionsMiddleware::class);
 $app->pipeDispatchMiddleware();
 ```
 
-(Note: if you used the `expressive-pipeline-from-config` tool to create your
-programmatic pipeline, or if you used the Expressive skeleton, this middleware
+(Note: if you used the `mezzio-pipeline-from-config` tool to create your
+programmatic pipeline, or if you used the Mezzio skeleton, this middleware
 is likely already in your pipeline, as is a dependency entry.)
 
 When in place, it will do the following:

@@ -1,15 +1,17 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Middleware;
+namespace Mezzio\Middleware;
 
 use InvalidArgumentException;
+use Laminas\Stratigility\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
@@ -17,7 +19,6 @@ use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 use Whoops\RunInterface;
-use Zend\Stratigility\Utils;
 
 use function get_class;
 use function gettype;
@@ -100,7 +101,7 @@ class WhoopsErrorResponseGenerator
         $serverParams = $request->getServerParams();
         $scriptName = $serverParams['SCRIPT_NAME'] ?? '';
 
-        $handler->addDataTable('Expressive Application Request', [
+        $handler->addDataTable('Mezzio Application Request', [
             'HTTP Method'            => $request->getMethod(),
             'URI'                    => (string) $uri,
             'Script'                 => $scriptName,

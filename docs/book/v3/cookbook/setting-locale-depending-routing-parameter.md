@@ -57,7 +57,7 @@ $app->get('/:locale/contact', ContactPageHandler::class, 'contact')
 
 > ### Note: Routing may differ based on router
 >
-> The routing examples in this recipe use syntax for the zend-mvc router, and,
+> The routing examples in this recipe use syntax for the laminas-mvc router, and,
 > as such, may not work in your application.
 >
 > For Aura.Router, the 'home' route as listed above would read:

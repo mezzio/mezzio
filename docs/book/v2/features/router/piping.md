@@ -1,16 +1,16 @@
 # Routing vs Piping
 
-Expressive provides two mechanisms for adding middleware to your
+Mezzio provides two mechanisms for adding middleware to your
 application:
 
 - piping, which is a foundation feature of the underlying
-  [zend-stratigility](https://docs.zendframework.com/zend-stratigility/)
+  [laminas-stratigility](https://docs.laminas.dev/laminas-stratigility/)
   implementation.
-- routing, which is an additional feature provided by zend-expressive.
+- routing, which is an additional feature provided by mezzio.
 
 ## Piping
 
-zend-stratigility provides a mechanism termed *piping* for composing middleware
+laminas-stratigility provides a mechanism termed *piping* for composing middleware
 in an application. When you *pipe* middleware to the application, it is added to
 a queue, and dequeued in order until a middleware returns a response instance.
 If none ever returns a response instance, execution is delegated to a "final
@@ -31,13 +31,13 @@ This path segregation, however, is limited: it will only match literal paths.
 This is done purposefully, to provide excellent baseline performance, and to
 prevent feature creep in the library.
 
-Expressive uses and exposes piping to users, with one addition: **middleware
-may be specified by service name, and zend-expressive will lazy-load the service
+Mezzio uses and exposes piping to users, with one addition: **middleware
+may be specified by service name, and mezzio will lazy-load the service
 only when the middleware is invoked**.
 
-In order to accomplish the lazy-loading, zend-expressive wraps the calls to
+In order to accomplish the lazy-loading, mezzio wraps the calls to
 fetch and dispatch the middleware inside a
-`Zend\Expressive\Middleware\LazyLoadingMiddleware` instance; as such, there is
+`Mezzio\Middleware\LazyLoadingMiddleware` instance; as such, there is
 no overhead to utilizing service-based middleware _until it is dispatched_.
 
 ## Routing
@@ -45,7 +45,7 @@ no overhead to utilizing service-based middleware _until it is dispatched_.
 Routing is the process of discovering values from the incoming request based on
 defined criteria. That criteria might look like:
 
-- `/book/:id` (ZF2)
+- `/book/:id` (Laminas)
 - `/book/{id}` (Aura.Router)
 - `/book/{id:\d+}` (FastRoute)
 
@@ -69,7 +69,7 @@ make such performance issues moot).
 
 ## When to Pipe
 
-In Expressive, we recommend that you pipe middleware in the following
+In Mezzio, we recommend that you pipe middleware in the following
 circumstances:
 
 - It should (potentially) run on every execution. Examples for such usage
@@ -79,7 +79,7 @@ circumstances:
     - Handling cookies
 - Error handling.
 - Application segregation. You can write re-usable middleware, potentially even
-  based off of Expressive, that contains its own routing logic, and compose it
+  based off of Mezzio, that contains its own routing logic, and compose it
   such that it only executes if it matches a sub-path.
 
 ## When to Route
@@ -99,7 +99,7 @@ to the application as routed middleware*.
 As noted in the earlier section on piping, piped middleware is *queued*, meaning
 it has a FIFO ("first in, first out") execution order.
 
-Additionally, zend-expressive's routing and dispatch capabilities are themselves
+Additionally, mezzio's routing and dispatch capabilities are themselves
 implemented as piped middleware.
 
 To ensure your middleware is piped correctly, keep in mind the following:
