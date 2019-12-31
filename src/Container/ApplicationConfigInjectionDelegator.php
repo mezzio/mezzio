@@ -1,17 +1,18 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Container;
+namespace Mezzio\Container;
 
+use Mezzio\Application;
+use Mezzio\Exception\InvalidArgumentException;
+use Mezzio\Exception\MissingDependencyException;
 use Psr\Container\ContainerInterface;
 use SplPriorityQueue;
-use Zend\Expressive\Application;
-use Zend\Expressive\Exception\InvalidArgumentException;
-use Zend\Expressive\Exception\MissingDependencyException;
 
 class ApplicationConfigInjectionDelegator
 {
@@ -68,8 +69,8 @@ class ApplicationConfigInjectionDelegator
      *     'middleware_pipeline' => [
      *         // An array of middleware to register with the pipeline.
      *         // entries to register prior to routing/dispatching...
-     *         // - entry for \Zend\Expressive\Router\Middleware\RouteMiddleware::class
-     *         // - entry for \Zend\Expressive\Router\Middleware\DispatchMiddleware::class
+     *         // - entry for \Mezzio\Router\Middleware\RouteMiddleware::class
+     *         // - entry for \Mezzio\Router\Middleware\DispatchMiddleware::class
      *         // entries to register after routing/dispatching...
      *     ],
      * ];
@@ -100,7 +101,7 @@ class ApplicationConfigInjectionDelegator
      *
      * Additionally, you can specify an array of callables or service names as
      * the `middleware` value of a specification. Internally, this will create
-     * a `Zend\Stratigility\MiddlewarePipe` instance, with the middleware
+     * a `Laminas\Stratigility\MiddlewarePipe` instance, with the middleware
      * specified piped in the order provided.
      *
      * @return void
@@ -153,7 +154,7 @@ class ApplicationConfigInjectionDelegator
      * Each route MUST have a path and middleware key at the minimum.
      *
      * The "allowed_methods" key may be omitted, can be either an array or the
-     * value of the Zend\Expressive\Router\Route::HTTP_METHOD_ANY constant; any
+     * value of the Mezzio\Router\Route::HTTP_METHOD_ANY constant; any
      * valid HTTP method token is allowed, which means you can specify custom HTTP
      * methods as well.
      *

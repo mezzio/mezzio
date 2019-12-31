@@ -1,27 +1,28 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use InvalidArgumentException;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Response\EmitterInterface;
+use Laminas\Diactoros\Response\SapiEmitter;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Stratigility\MiddlewarePipe;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use UnexpectedValueException;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Response\EmitterInterface;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Stratigility\MiddlewarePipe;
 
-use function Zend\Stratigility\path;
+use function Laminas\Stratigility\path;
 
 /**
  * Middleware application providing routing based on paths and HTTP methods.
@@ -387,7 +388,7 @@ class Application extends MiddlewarePipe
      * If no IoC container is registered, we raise an exception.
      *
      * @deprecated since 2.2.0; to be removed in 3.0.0. This feature is
-     *     replaced by Zend\Expressive\MiddlewareFactory in that release, which
+     *     replaced by Mezzio\MiddlewareFactory in that release, which
      *     can be retrieved as a service from the application container.
      * @return ContainerInterface
      * @throws Exception\ContainerNotRegisteredException
@@ -405,7 +406,7 @@ class Application extends MiddlewarePipe
      *
      * If no default delegate is present, attempts the following:
      *
-     * - If a container is composed, and it has the 'Zend\Expressive\Delegate\DefaultDelegate'
+     * - If a container is composed, and it has the 'Mezzio\Delegate\DefaultDelegate'
      *   service, pulls that service, assigns it, and returns it.
      * - If no container is composed, creates an instance of Delegate\NotFoundDelegate
      *   using the current response prototype only (i.e., no templating).
@@ -420,8 +421,8 @@ class Application extends MiddlewarePipe
             return $this->defaultDelegate;
         }
 
-        if ($this->container && $this->container->has('Zend\Expressive\Delegate\DefaultDelegate')) {
-            $this->defaultDelegate = $this->container->get('Zend\Expressive\Delegate\DefaultDelegate');
+        if ($this->container && $this->container->has('Mezzio\Delegate\DefaultDelegate')) {
+            $this->defaultDelegate = $this->container->get('Mezzio\Delegate\DefaultDelegate');
             return $this->defaultDelegate;
         }
 

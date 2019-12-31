@@ -1,15 +1,16 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Middleware;
+namespace MezzioTest\Middleware;
 
+use Mezzio\Middleware\ImplicitOptionsMiddleware;
+use Mezzio\Router\Middleware\ImplicitOptionsMiddleware as BaseImplicitOptionsMiddleware;
 use PHPUnit\Framework\TestCase;
-use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
-use Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware as BaseImplicitOptionsMiddleware;
 
 class ImplicitOptionsMiddlewareTest extends TestCase
 {
@@ -26,6 +27,6 @@ class ImplicitOptionsMiddlewareTest extends TestCase
 
         $this->assertInstanceOf(BaseImplicitOptionsMiddleware::class, $middleware);
         $this->assertInternalType('string', $test->message);
-        $this->assertContains('deprecated starting with zend-expressive 2.2', $test->message);
+        $this->assertContains('deprecated starting with mezzio 2.2', $test->message);
     }
 }

@@ -1,34 +1,35 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2016-2018 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Laminas\Diactoros\Response;
+use Mezzio\Application;
+use Mezzio\Container\ApplicationConfigInjectionDelegator;
+use Mezzio\Container\Exception\InvalidServiceException;
+use Mezzio\Exception\InvalidArgumentException;
+use Mezzio\Middleware;
+use Mezzio\MiddlewareContainer;
+use Mezzio\MiddlewareFactory;
+use Mezzio\Router\Middleware\DispatchMiddleware;
+use Mezzio\Router\Middleware\RouteMiddleware as PathBasedRoutingMiddleware;
+use Mezzio\Router\Route;
+use Mezzio\Router\RouterInterface;
+use MezzioTest\ContainerTrait;
+use MezzioTest\TestAsset\CallableInteropMiddleware;
+use MezzioTest\TestAsset\InteropMiddleware;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use ReflectionProperty;
-use Zend\Diactoros\Response;
-use Zend\Expressive\Application;
-use Zend\Expressive\Container\ApplicationConfigInjectionDelegator;
-use Zend\Expressive\Container\Exception\InvalidServiceException;
-use Zend\Expressive\Exception\InvalidArgumentException;
-use Zend\Expressive\Middleware;
-use Zend\Expressive\MiddlewareContainer;
-use Zend\Expressive\MiddlewareFactory;
-use Zend\Expressive\Router\Middleware\DispatchMiddleware;
-use Zend\Expressive\Router\Middleware\RouteMiddleware as PathBasedRoutingMiddleware;
-use Zend\Expressive\Router\Route;
-use Zend\Expressive\Router\RouterInterface;
-use ZendTest\Expressive\ContainerTrait;
-use ZendTest\Expressive\TestAsset\CallableInteropMiddleware;
-use ZendTest\Expressive\TestAsset\InteropMiddleware;
 
 class ApplicationConfigInjectionDelegatorTest extends TestCase
 {

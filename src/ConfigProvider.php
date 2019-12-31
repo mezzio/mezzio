@@ -1,20 +1,21 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
+use Laminas\Stratigility\Middleware\ErrorHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use Zend\Stratigility\Middleware\ErrorHandler;
 
 /**
- * Provide initial configuration for zend-expressive.
+ * Provide initial configuration for mezzio.
  *
- * This class provides initial _production_ configuration for zend-expressive.
+ * This class provides initial _production_ configuration for mezzio.
  */
 class ConfigProvider
 {
@@ -41,7 +42,24 @@ class ConfigProvider
                 Middleware\ImplicitHeadMiddleware::class    => Router\Middleware\ImplicitHeadMiddleware::class,
                 Middleware\ImplicitOptionsMiddleware::class => Router\Middleware\ImplicitOptionsMiddleware::class,
                 Middleware\RouteMiddleware::class           => Router\Middleware\RouteMiddleware::class,
-                'Zend\Expressive\Delegate\DefaultDelegate'  => Handler\NotFoundHandler::class,
+                'Mezzio\Delegate\DefaultDelegate'  => Handler\NotFoundHandler::class,
+
+                // Legacy Zend Framework aliases
+                \Zend\Expressive\Delegate\NotFoundDelegate::class => Delegate\NotFoundDelegate::class,
+                \Zend\Expressive\Middleware\DispatchMiddleware::class => Middleware\DispatchMiddleware::class,
+                \Zend\Expressive\Middleware\ImplicitHeadMiddleware::class => Middleware\ImplicitHeadMiddleware::class,
+                \Zend\Expressive\Middleware\ImplicitOptionsMiddleware::class => Middleware\ImplicitOptionsMiddleware::class,
+                \Zend\Expressive\Middleware\RouteMiddleware::class => Middleware\RouteMiddleware::class,
+                'Zend\Expressive\Delegate\DefaultDelegate' => 'Mezzio\Delegate\DefaultDelegate',
+                \Zend\Expressive\Router\Middleware\DispatchMiddleware::class => Router\Middleware\DispatchMiddleware::class,
+                \Zend\Expressive\Application::class => Application::class,
+                \Zend\Stratigility\Middleware\ErrorHandler::class => ErrorHandler::class,
+                \Zend\Expressive\Handler\NotFoundHandler::class => Handler\NotFoundHandler::class,
+                \Zend\Expressive\Middleware\ErrorResponseGenerator::class => Middleware\ErrorResponseGenerator::class,
+                \Zend\Expressive\Middleware\NotFoundHandler::class => Middleware\NotFoundHandler::class,
+                \Zend\Expressive\Router\Middleware\ImplicitHeadMiddleware::class => Router\Middleware\ImplicitHeadMiddleware::class,
+                \Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware::class => Router\Middleware\ImplicitOptionsMiddleware::class,
+                \Zend\Expressive\Router\Middleware\RouteMiddleware::class => Router\Middleware\RouteMiddleware::class,
             ],
             'invokables' => [
                 Router\Middleware\DispatchMiddleware::class => Router\Middleware\DispatchMiddleware::class,
@@ -56,7 +74,7 @@ class ConfigProvider
                 ResponseInterface::class                 => Container\ResponseFactoryFactory::class,
                 StreamInterface::class                   => Container\StreamFactoryFactory::class,
 
-                // These are duplicates, in case the zend-expressive-router package ConfigProvider is not wired:
+                // These are duplicates, in case the mezzio-router package ConfigProvider is not wired:
                 Router\Middleware\ImplicitHeadMiddleware::class    => Router\Middleware\ImplicitHeadMiddlewareFactory::class,
                 Router\Middleware\ImplicitOptionsMiddleware::class => Router\Middleware\ImplicitOptionsMiddlewareFactory::class,
                 Router\Middleware\RouteMiddleware::class           => Router\Middleware\RouteMiddlewareFactory::class,

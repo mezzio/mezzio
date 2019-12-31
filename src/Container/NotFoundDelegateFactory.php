@@ -1,21 +1,22 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Container;
+namespace Mezzio\Container;
 
+use Laminas\Diactoros\Response;
+use Mezzio\Delegate\NotFoundDelegate;
+use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
-use Zend\Diactoros\Response;
-use Zend\Expressive\Delegate\NotFoundDelegate;
-use Zend\Expressive\Template\TemplateRendererInterface;
 
 /**
  * @deprecated since 2.2.0; to be removed in 3.0.0. Use NotFoundHandlerFactory
  *     in version 3, as it will return its replacement, the
- *     Zend\Expressive\Handler\NotFoundHandler.
+ *     Mezzio\Handler\NotFoundHandler.
  */
 class NotFoundDelegateFactory
 {
@@ -28,12 +29,14 @@ class NotFoundDelegateFactory
         $config   = $container->has('config') ? $container->get('config') : [];
         $renderer = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
-            : null;
-        $template = isset($config['zend-expressive']['error_handler']['template_404'])
-            ? $config['zend-expressive']['error_handler']['template_404']
+            : ($container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)
+                ? $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)
+                : null);
+        $template = isset($config['mezzio']['error_handler']['template_404'])
+            ? $config['mezzio']['error_handler']['template_404']
             : NotFoundDelegate::TEMPLATE_DEFAULT;
-        $layout = isset($config['zend-expressive']['error_handler']['layout'])
-            ? $config['zend-expressive']['error_handler']['layout']
+        $layout = isset($config['mezzio']['error_handler']['layout'])
+            ? $config['mezzio']['error_handler']['layout']
             : NotFoundDelegate::LAYOUT_DEFAULT;
 
         return new NotFoundDelegate(new Response(), $renderer, $template, $layout);
