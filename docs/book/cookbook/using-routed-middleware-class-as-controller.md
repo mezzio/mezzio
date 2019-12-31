@@ -1,6 +1,6 @@
 # Handling multiple routes in a single class
 
-Typically, in Expressive, we would define one middleware class per route. For a
+Typically, in Mezzio, we would define one middleware class per route. For a
 standard CRUD-style application, however, this leads to multiple related
 classes:
 
@@ -9,9 +9,9 @@ classes:
 - AlbumPageAdd
 
 If you are familiar with frameworks that provide controllers capable of handling
-multiple "actions", such as those found in Zend Framework's MVC layer, Symfony,
+multiple "actions", such as those found in Laminas's MVC layer, Symfony,
 CodeIgniter, CakePHP, and other popular frameworks, you may want to apply a
-similar pattern when using Expressive.
+similar pattern when using Mezzio.
 
 In other words, what if we want to use only one middleware class to facilitate
 all three of the above?
@@ -65,19 +65,19 @@ namespace Album\Action;
 
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
 
-// Expressive 3.X:
+// Mezzio 3.X:
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 
-// Expressive 2.X:
+// Mezzio 2.X:
 use Interop\Http\ServerMiddleware\DelegateInterface as RequestHandlerInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\EmptyResponse;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Laminas\Diactoros\Response\EmptyResponse;
+use Laminas\Diactoros\Response\HtmlResponse;
+use Mezzio\Template\TemplateRendererInterface;
 
 class AlbumPage implements MiddlewareInterface
 {
@@ -140,17 +140,17 @@ namespace App\Action;
 
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
 
-// Expressive 3.X:
+// Mezzio 3.X:
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\http\Server\RequestHandlerInterface;
 
-// Expressive 2.X:
+// Mezzio 2.X:
 use Interop\Http\ServerMiddleware\DelegateInterface as RequestHandlerInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\EmptyResponse;
+use Laminas\Diactoros\Response\EmptyResponse;
 
 abstract class AbstractPage implements MiddlewareInterface
 {
@@ -181,7 +181,7 @@ namespace Album\Action;
 
 use App\Action\AbstractPage;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class AlbumPage extends AbstractPage
 {
@@ -209,15 +209,15 @@ class AlbumPage extends AbstractPage
 >
 > use Fig\Http\Message\StatusCodeInterface as StatusCode;
 >
-> // Expressive 3.X:
+> // Mezzio 3.X:
 > use Interop\Http\Server\RequestHandlerInterface;
 >
-> // Expressive 2.X:
+> // Mezzio 2.X:
 > use Interop\Http\ServerMiddleware\DelegateInterface as RequestHandlerInterface;
 >
 > use Psr\Http\Message\ResponseInterface;
 > use Psr\Http\Message\ServerRequestInterface;
-> use Zend\Diactoros\Response\EmptyResponse;
+> use Laminas\Diactoros\Response\EmptyResponse;
 >
 > trait ActionBasedInvocation
 > {
@@ -242,7 +242,7 @@ class AlbumPage extends AbstractPage
 >
 > use App\Action\ActionBasedInvocation;
 > use Psr\Http\Message\ResponseInterface;
-> use Zend\Expressive\Template\TemplateRendererInterface;
+> use Mezzio\Template\TemplateRendererInterface;
 >
 > class AlbumPage
 > {

@@ -1,20 +1,21 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Container;
+namespace Mezzio\Container;
 
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Mezzio\ApplicationPipeline;
+use Mezzio\ServerRequestErrorResponseGenerator;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Expressive\ApplicationPipeline;
-use Zend\Expressive\ServerRequestErrorResponseGenerator;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
-use Zend\HttpHandlerRunner\RequestHandlerRunner;
 
 /**
  * Create an ApplicationRunner instance.
@@ -22,17 +23,17 @@ use Zend\HttpHandlerRunner\RequestHandlerRunner;
  * This class consumes three pseudo-services (services that look like class
  * names, but resolve to other artifacts):
  *
- * - Zend\Expressive\ApplicationPipeline, which should resolve to a
- *   Zend\Stratigility\MiddlewarePipeInterface and/or
+ * - Mezzio\ApplicationPipeline, which should resolve to a
+ *   Laminas\Stratigility\MiddlewarePipeInterface and/or
  *   Psr\Http\Server\RequestHandlerInterface instance.
  * - Psr\Http\Message\ServerRequestInterface, which should resolve to a PHP
  *   callable that will return a Psr\Http\Message\ServerRequestInterface
  *   instance.
- * - Zend\Expressive\ServerRequestErrorResponseGenerator, which should resolve
+ * - Mezzio\ServerRequestErrorResponseGenerator, which should resolve
  *   to a PHP callable that accepts a Throwable argument, and which will return
  *   a Psr\Http\Message\ResponseInterface instance.
  *
- * It also consumes the service Zend\HttpHandlerRunner\Emitter\EmitterInterface.
+ * It also consumes the service Laminas\HttpHandlerRunner\Emitter\EmitterInterface.
  */
 class RequestHandlerRunnerFactory
 {

@@ -4,11 +4,11 @@
          bootstrap="vendor/autoload.php"
          colors="true">
     <testsuites>
-        <testsuite name="zend-expressive-response-factory">
+        <testsuite name="mezzio-response-factory">
             <file>./test/Container/ResponseFactoryFactoryWithoutDiactorosTest.php</file>
             <file>./test/Container/StreamFactoryFactoryWithoutDiactorosTest.php</file>
         </testsuite>
-        <testsuite name="zend-expressive">
+        <testsuite name="mezzio">
             <directory>./test</directory>
             <exclude>./test/Container/ResponseFactoryFactoryWithoutDiactorosTest.php</exclude>
             <exclude>./test/Container/StreamFactoryFactoryWithoutDiactorosTest.php</exclude>
