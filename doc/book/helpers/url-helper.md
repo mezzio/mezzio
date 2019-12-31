@@ -1,7 +1,7 @@
 # UrlHelper
 
-`Zend\Expressive\Helper\UrlHelper` provides the ability to generate a URI path
-based on a given route defined in the `Zend\Expressive\Router\RouterInterface`.
+`Mezzio\Helper\UrlHelper` provides the ability to generate a URI path
+based on a given route defined in the `Mezzio\Router\RouterInterface`.
 If registered as a route result observer, and the route being used was also
 the one matched during routing, you can provide a subset of routing
 parameters, and any not provided will be pulled from those matched.
@@ -55,7 +55,7 @@ Each method will raise an exception if:
 ## Creating an instance
 
 In order to use the helper, you will need to instantiate it with the current
-`RouterInterface`. The factory `Zend\Expressive\Helper\UrlHelperFactory` has
+`RouterInterface`. The factory `Mezzio\Helper\UrlHelperFactory` has
 been provided for this purpose, and can be used trivially with most
 dependency injection containers implementing container-interop. Additionally,
 it is most useful when injected with the current results of routing, and as
@@ -74,10 +74,10 @@ The following examples demonstrate programmatic registration of the `UrlHelper`
 service in your selected dependency injection container.
 
 ```php
-use Zend\Expressive\Helper\UrlHelper;
-use Zend\Expressive\Helper\UrlHelperFactory;
+use Mezzio\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelperFactory;
 
-// zend-servicemanager:
+// laminas-servicemanager:
 $services->setFactory(UrlHelper::class, UrlHelperFactory::class);
 
 // Pimple:
@@ -95,7 +95,7 @@ $container->set(
 ```
 
 The following dependency configuration will work for all three when using the
-Expressive skeleton:
+Mezzio skeleton:
 
 ```php
 return ['dependencies' => [
@@ -107,7 +107,7 @@ return ['dependencies' => [
 
 > #### UrlHelperFactory requires RouterInterface
 >
-> The factory requires that a service named `Zend\Expressive\Router\RouterInterface` is present,
+> The factory requires that a service named `Mezzio\Router\RouterInterface` is present,
 > and will raise an exception if the service is not found.
 
 ### Registering the pipeline middleware
@@ -115,7 +115,7 @@ return ['dependencies' => [
 To register the `UrlHelperMiddleware` as pre-routing pipeline middleware:
 
 ```php
-use Zend\Expressive\Helper\UrlHelperMiddleware;
+use Mezzio\Helper\UrlHelperMiddleware;
 
 // Do this early, before piping other middleware or routes:
 $app->pipe(UrlHelperMiddleware::class);
@@ -131,7 +131,7 @@ $app->pipe(UrlHelperMiddleware::class);
 ```
 
 The following dependency configuration will work for all three when using the
-Expressive skeleton:
+Mezzio skeleton:
 
 ```php
 return [
@@ -151,7 +151,7 @@ return [
 
 > #### Skeleton configures helpers
 >
-> If you started your project using the Expressive skeleton package, the
+> If you started your project using the Mezzio skeleton package, the
 > `UrlHelper` and `UrlHelperMiddleware` factories are already registered for
 > you, as is the `UrlHelperMiddleware` pre_routing pipeline middleware.
 
@@ -161,7 +161,7 @@ Compose the helper in your middleware (or elsewhere), and then use it to
 generate URI paths:
 
 ```php
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class FooMiddleware
 {

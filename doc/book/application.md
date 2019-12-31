@@ -1,7 +1,7 @@
 # Applications
 
-In zend-expressive, you define a `Zend\Expressive\Application` instance and
-execute it. The `Application` instance is itself [middleware](https://github.com/zendframework/zend-stratigility/blob/master/doc/book/middleware.md)
+In mezzio, you define a `Mezzio\Application` instance and
+execute it. The `Application` instance is itself [middleware](https://github.com/laminas/laminas-stratigility/blob/master/doc/book/middleware.md)
 that composes:
 
 - a [router](router/intro.md), for dynamically routing requests to middleware.
@@ -9,7 +9,7 @@ that composes:
   middleware to dispatch.
 - a [final handler](error-handling.md), for handling error conditions raised by
   the application.
-- an [emitter](https://github.com/zendframework/zend-diactoros/blob/master/doc/book/emitting-responses.md),
+- an [emitter](https://github.com/laminas/laminas-diactoros/blob/master/doc/book/emitting-responses.md),
   for emitting the response when application execution is complete.
 
 You can define the `Application` instance in several ways:
@@ -35,18 +35,18 @@ following constructor:
 
 ```php
 /**
- * @param Zend\Expressive\Router\RouterInterface $router
+ * @param Mezzio\Router\RouterInterface $router
  * @param null|Interop\Container\ContainerInterface $container IoC container from which to pull services, if any.
  * @param null|callable $finalHandler Final handler to use when $out is not
  *     provided on invocation.
- * @param null|Zend\Diactoros\Response\EmitterInterface $emitter Emitter to use when `run()` is
+ * @param null|Laminas\Diactoros\Response\EmitterInterface $emitter Emitter to use when `run()` is
  *     invoked.
  */
 public function __construct(
-    Zend\Expressive\Router\RouterInterface $router,
+    Mezzio\Router\RouterInterface $router,
     Interop\Container\ContainerInterface $container = null,
     callable $finalHandler = null,
-    Zend\Diactoros\Response\EmitterInterface $emitter = null
+    Laminas\Diactoros\Response\EmitterInterface $emitter = null
 );
 ```
 
@@ -55,7 +55,7 @@ middleware **must** be provided as callables.
 
 ### AppFactory
 
-`Zend\Expressive\AppFactory` provides a convenience layer for creating an
+`Mezzio\AppFactory` provides a convenience layer for creating an
 `Application` instance; it makes the assumption that you will use defaults in
 most situations, and likely only change which container and/or router you wish
 to use. It has the following signature:
@@ -63,13 +63,13 @@ to use. It has the following signature:
 ```php
 AppFactory::create(
     Interop\Container\ContainerInterface $container = null,
-    Zend\Expressive\Router\RouterInterface $router = null
+    Mezzio\Router\RouterInterface $router = null
 );
 ```
 
 When no container or router are provided, it defaults to:
 
-- zend-servicemanager for the container.
+- laminas-servicemanager for the container.
 - FastRoute for the router.
 
 ### Container factory
@@ -83,7 +83,7 @@ for details.
 
 We [discuss routing vs piping elsewhere](router/piping.md); routing is the act
 of dynamically matching an incoming request against criteria, and it is one of
-the primary features of zend-expressive.
+the primary features of mezzio.
 
 Regardless of which [router implementation](router/interface.md) you use, you
 can use the following methods to provide routable middleware:
@@ -98,20 +98,20 @@ public function route(
     $middleware = null,
     array $methods = null,
     $name = null
-) : Zend\Expressive\Router\Route
+) : Mezzio\Router\Route
 ```
 
 where:
 
 - `$pathOrRoute` may be either a string path to match, or a
-  `Zend\Expressive\Router\Route` instance.
+  `Mezzio\Router\Route` instance.
 - `$middleware` **must** be present if `$pathOrRoute` is a string path, and
   **must** be:
   - a callable;
   - a service name that resolves to valid middleware in the container;
   - a fully qualified class name of a constructor-less class;
   - an array of any of the above; these will be composed in order into a
-    `Zend\Stratigility\MiddlewarePipe` instance.
+    `Laminas\Stratigility\MiddlewarePipe` instance.
 - `$methods` must be an array of HTTP methods valid for the given path and
   middleware. If null, it assumes any method is valid.
 - `$name` is the optional name for the route, and is used when generating a URI
@@ -131,7 +131,7 @@ function (
     $pathOrRoute,
     $middleware = null,
     $name = null
-) : Zend\Expressive\Router\Route
+) : Mezzio\Router\Route
 ```
 
 Essentially, each calls `route()` and specifies an array consisting solely of
@@ -139,7 +139,7 @@ the corresponding HTTP method for the `$methods` argument.
 
 ### Piping
 
-Because zend-expressive builds on [zend-stratigility](https://github.com/zendframework/zend-stratigility),
+Because mezzio builds on [laminas-stratigility](https://github.com/laminas/laminas-stratigility),
 and, more specifically, its `MiddlewarePipe` definition, you can also pipe
 (queue) middleware to the application. This is useful for adding middleware that
 should execute on each request, defining error handlers, and/or segregating
@@ -162,9 +162,9 @@ where:
   - a service name that resolves to valid middleware in the container;
   - a fully qualified class name of a constructor-less class;
   - an array of any of the above; these will be composed in order into a
-    `Zend\Stratigility\MiddlewarePipe` instance.
+    `Laminas\Stratigility\MiddlewarePipe` instance.
 
-Unlike `Zend\Stratigility\MiddlewarePipe`, `Application::pipe()` *allows
+Unlike `Laminas\Stratigility\MiddlewarePipe`, `Application::pipe()` *allows
 fetching middleware by service name*. This facility allows lazy-loading of
 middleware only when it is invoked. Internally, it wraps the call to fetch and
 dispatch the middleware inside a closure.
@@ -210,8 +210,8 @@ methods for retrieving them. They include:
 - `getContainer()`: returns the composed [container-interop](https://github.com/container-interop/container-interop)
   instance (used to retrieve routed middleware).
 - `getEmitter()`: returns the composed
-  [emitter](https://github.com/zendframework/zend-diactoros/blob/master/doc/book/emitting-responses.md),
-  typically a `Zend\Expressive\Emitter\EmitterStack` instance.
+  [emitter](https://github.com/laminas/laminas-diactoros/blob/master/doc/book/emitting-responses.md),
+  typically a `Mezzio\Emitter\EmitterStack` instance.
 - `getFinalHandler(ResponseInterface $response = null)`: retrieves the final
   handler instance. This is middleware with the signature `function ($request,
   $response, $error = null)`, and it is invoked when the middleware pipeline

@@ -50,7 +50,7 @@ and return a response.
 ```php
 namespace Application;
 
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class NotFound
 {
@@ -106,7 +106,7 @@ To do this via configuration, add an entry under the `post_routing` key of the
 ```
 
 The above example assumes you are using the `ApplicationFactory` and/or the
-Expressive skeleton to manage your application instantiation and configuration.
+Mezzio skeleton to manage your application instantiation and configuration.
 
 To manually add the middleware, you will need to pipe it to the application
 instance:

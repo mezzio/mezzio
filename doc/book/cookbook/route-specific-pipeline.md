@@ -26,7 +26,7 @@ using a container that supports factories.
 
 ```php
 use Interop\Container\ContainerInterface;
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\MiddlewarePipe;
 
 class ApiResourcePipelineFactory
 {
@@ -52,15 +52,15 @@ This gives you full control over the creation of the pipeline. You would,
 however, need to ensure that you map the middleware to the pipeline factory when
 setting up your container configuration.
 
-One alternative when using zend-servicemanager is to use a [delegator factory](http://framework.zend.com/manual/current/en/modules/zend.service-manager.delegator-factories.html).
+One alternative when using laminas-servicemanager is to use a [delegator factory](https://docs.laminas.dev/laminas.service-manager.delegator-factories.html).
 Delegator factories allow you to decorate the primary factory used to create the
 middleware in order to change the instance or return an alternate instance. In
 this case, we'd do the latter. The following is an example:
 
 ```php
-use Zend\ServiceManager\DelegatorFactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\ServiceManager\DelegatorFactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Stratigility\MiddlewarePipe;
 
 class ApiResourcePipelineDelegatorFactory
 {
