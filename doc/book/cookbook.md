@@ -45,7 +45,7 @@ $app->run();
 ```
 
 The above works, because every `Application` instance is itself middleware, and, more specifically,
-an instance of [Stratigility's `MiddlewarePipe`](https://github.com/zendframework/zend-stratigility/blob/master/doc/book/middleware.md),
+an instance of [Stratigility's `MiddlewarePipe`](https://github.com/laminas/laminas-stratigility/blob/master/doc/book/middleware.md),
 which provides the ability to compose middleware.
 
 ## How can I specify a route-specific middleware pipeline?
@@ -76,7 +76,7 @@ using a container that supports factories.
 
 ```php
 use Interop\Container\ContainerInterface;
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\MiddlewarePipe;
 
 class ApiResourcePipelineFactory
 {
@@ -102,15 +102,15 @@ This gives you full control over the creation of the pipeline. You would,
 however, need to ensure that you map the middleware to the pipeline factory when
 setting up your container configuration.
 
-One alternative when using zend-servicemanager is to use a [delegator factory](http://framework.zend.com/manual/current/en/modules/zend.service-manager.delegator-factories.html).
+One alternative when using laminas-servicemanager is to use a [delegator factory](https://docs.laminas.dev/laminas.service-manager.delegator-factories.html).
 Delegator factories allow you to decorate the primary factory used to create the
 middleware in order to change the instance or return an alternate instance. In
 this case, we'd do the latter. The following is an example:
 
 ```php
-use Zend\ServiceManager\DelegatorFactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\ServiceManager\DelegatorFactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Stratigility\MiddlewarePipe;
 
 class ApiResourcePipelineDelegatorFactory
 {
@@ -285,7 +285,7 @@ and return a response.
 ```php
 namespace Application;
 
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class NotFound
 {
@@ -341,7 +341,7 @@ To do this via configuration, add an entry under the `post_routing` key of the
 ```
 
 The above example assumes you are using the `ApplicationFactory` and/or the
-Expressive skeleton to manage your application instantiation and configuration.
+Mezzio skeleton to manage your application instantiation and configuration.
 
 To manually add the middleware, you will need to pipe it to the application
 instance:
