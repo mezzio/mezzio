@@ -1,6 +1,6 @@
 # Quick Start: Standalone Usage
 
-Expressive allows you to get started at your own pace. You can start with
+Mezzio allows you to get started at your own pace. You can start with
 the simplest example, detailed below, or move on to a more structured,
 configuration-driven approach as detailed in the [use case examples](usage-examples.md).
 
@@ -9,31 +9,31 @@ configuration-driven approach as detailed in the [use case examples](usage-examp
 First, let's create a new project directory and enter it:
 
 ```bash
-$ mkdir expressive
-$ cd expressive
+$ mkdir mezzio
+$ cd mezzio
 ```
 
-## 2. Install Expressive
+## 2. Install Mezzio
 
 If you haven't already, [install Composer](https://getcomposer.org). Once you
-have, we can install Expressive, along with a router and a container:
+have, we can install Mezzio, along with a router and a container:
 
 ```bash
-$ composer require zendframework/zend-expressive zendframework/zend-expressive-fastroute zendframework/zend-servicemanager
+$ composer require mezzio/mezzio mezzio/mezzio-fastroute laminas/laminas-servicemanager
 ```
 
 > ### Routers
 >
-> Expressive needs a routing implementation in order to create routed
+> Mezzio needs a routing implementation in order to create routed
 > middleware. We suggest FastRoute in the quick start, but you can also
-> currently choose from Aura.Router and the ZF2 MVC router.
+> currently choose from Aura.Router and the Laminas MVC router.
 
 > ### Containers
 >
-> We highly recommend using dependency injection containers with Expressive;
+> We highly recommend using dependency injection containers with Mezzio;
 > they allow you to define dependencies for your middleware, as well as to lazy
 > load your middleware only when it needs to be executed. We suggest
-> zend-servicemanager in the quick start, but you can also use any container
+> laminas-servicemanager in the quick start, but you can also use any container
 > supporting [container-interop](https://github.com/container-interop/container-interop).
 
 ## 3. Create a web root directory
@@ -55,7 +55,7 @@ root, and we want it to intercept any incoming request; as such, we'll use
 
 ```php
 <?php
-use Zend\Expressive\AppFactory;
+use Mezzio\AppFactory;
 
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
@@ -110,7 +110,7 @@ http://localhost:8080/ to see if your application responds correctly!
 
 ## Next steps
 
-At this point, you have a working zend-expressive application, that responds to
+At this point, you have a working mezzio application, that responds to
 a single route. From here, you may want to read up on:
 
 - [Applications](application.md)

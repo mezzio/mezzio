@@ -9,33 +9,33 @@ it provides:
 - Helpers for escaping, and the ability to provide custom helper extensions.
 
 We provide a [TemplateRendererInterface](interface.md) wrapper for Plates via
-`Zend\Expressive\Plates\PlatesRenderer`.
+`Mezzio\Plates\PlatesRenderer`.
 
 ## Installing Plates
 
 To use the Plates wrapper, you must install the Plates integration:
 
 ```bash
-$ composer require zendframework/zend-expressive-platesrenderer
+$ composer require mezzio/mezzio-platesrenderer
 ```
 
 ## Using the wrapper
 
-If instantiated without arguments, `Zend\Expressive\Plates\PlatesRenderer` will create
+If instantiated without arguments, `Mezzio\Plates\PlatesRenderer` will create
 an instance of the Plates engine, which it will then proxy to.
 
 ```php
-use Zend\Expressive\Plates\PlatesRenderer;
+use Mezzio\Plates\PlatesRenderer;
 
 $renderer = new PlatesRenderer();
 ```
 
 Alternately, you can instantiate and configure the engine yourself, and pass it
-to the `Zend\Expressive\Plates\PlatesRenderer` constructor:
+to the `Mezzio\Plates\PlatesRenderer` constructor:
 
 ```php
 use League\Plates\Engine as PlatesEngine;
-use Zend\Expressive\Plates\PlatesRenderer;
+use Mezzio\Plates\PlatesRenderer;
 
 // Create the engine instance:
 $plates = new PlatesEngine();

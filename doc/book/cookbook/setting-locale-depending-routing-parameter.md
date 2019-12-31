@@ -25,8 +25,8 @@ lowercase alphabetical characters:
 return [
     'dependencies' => [
         'invokables' => [
-            Zend\Expressive\Router\RouterInterface::class =>
-                Zend\Expressive\Router\ZendRouter::class,
+            Mezzio\Router\RouterInterface::class =>
+                Mezzio\Router\LaminasRouter::class,
         ],
         'factories' => [
             Application\Action\HomePageAction::class =>
@@ -63,7 +63,7 @@ return [
 ```
 > ### Note: Routing may differ based on router
 >
-> The routing examples in this recipe use syntax for the zend-mvc router, and,
+> The routing examples in this recipe use syntax for the laminas-mvc router, and,
 > as such, may not work in your application.
 >
 > For Aura.Router, the 'home' route as listed above would read:
@@ -111,7 +111,7 @@ Such a `LocalizationMiddleware` class could look similar to this:
 namespace Application\I18n;
 
 use Locale;
-use Zend\Expressive\Router\RouteResult;
+use Mezzio\Router\RouteResult;
 
 class LocalizationMiddleware
 {
@@ -141,10 +141,10 @@ return [
         /* ... */
         [
             'middleware' => [
-                Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
                 Helper\UrlHelperMiddleware::class,
                 LocalizationMiddleware::class,
-                Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
         ],
