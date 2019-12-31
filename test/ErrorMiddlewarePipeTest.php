@@ -1,21 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive;
+namespace MezzioTest;
 
+use Laminas\Stratigility\Http\Response as StratigilityResponse;
+use Laminas\Stratigility\MiddlewarePipe;
+use Mezzio\ErrorMiddlewarePipe;
 use PHPUnit_Framework_TestCase as TestCase;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\UriInterface as Uri;
-use Zend\Expressive\ErrorMiddlewarePipe;
-use Zend\Stratigility\Http\Response as StratigilityResponse;
-use Zend\Stratigility\MiddlewarePipe;
 
 class ErrorMiddlewarePipeTest extends TestCase
 {

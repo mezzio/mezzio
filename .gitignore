@@ -1,7 +1,7 @@
-doc/html/
-vendor/
-zf-mkdoc-theme/
-clover.xml
-composer.lock
-coveralls-upload.json
-zf-mkdoc-theme.tgz
+/clover.xml
+/composer.lock
+/coveralls-upload.json
+/doc/html/
+/laminas-mkdoc-theme.tgz
+/laminas-mkdoc-theme/
+/vendor/

@@ -1,25 +1,24 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Mezzio\Container\Exception\InvalidServiceException;
+use Mezzio\Container\WhoopsPageHandlerFactory;
+use MezzioTest\ContainerTrait;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use ReflectionFunction;
 use ReflectionProperty;
 use Whoops\Handler\PrettyPageHandler;
-use Zend\Expressive\Container\Exception\InvalidServiceException;
-use Zend\Expressive\Container\WhoopsPageHandlerFactory;
-use ZendTest\Expressive\ContainerTrait;
 
 /**
- * @covers Zend\Expressive\Container\WhoopsPageHandlerFactory
+ * @covers Mezzio\Container\WhoopsPageHandlerFactory
  */
 class WhoopsPageHandlerFactoryTest extends TestCase
 {
