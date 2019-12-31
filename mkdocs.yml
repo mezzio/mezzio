@@ -1,6 +1,6 @@
 docs_dir: docs/book
 site_dir: docs/html
-pages:
+nav:
     - index.md
     - 'Getting Started':
         - 'Overview and Features': getting-started/features.md
@@ -13,7 +13,7 @@ pages:
             - Introduction: features/container/intro.md
             - 'Container Factories': features/container/factories.md
             - 'Delegator Factories': features/container/delegator-factories.md
-            - 'Using zend-servicemanager': features/container/zend-servicemanager.md
+            - 'Using laminas-servicemanager': features/container/laminas-servicemanager.md
             - 'Using Pimple': features/container/pimple.md
             - 'Using Aura.Di': features/container/aura-di.md
         - 'Routing Adapters':
@@ -23,14 +23,14 @@ pages:
             - 'Routing vs Piping': features/router/piping.md
             - 'Using Aura': features/router/aura.md
             - 'Using FastRoute': features/router/fast-route.md
-            - 'Using the ZF2 Router': features/router/zf2.md
+            - 'Using the Laminas Router': features/router/laminas-router.md
         - Templating:
             - Introduction: features/template/intro.md
             - 'Template Renderer Interface': features/template/interface.md
             - 'Templated Middleware': features/template/middleware.md
             - 'Using Plates': features/template/plates.md
             - 'Using Twig': features/template/twig.md
-            - 'Using zend-view': features/template/zend-view.md
+            - 'Using laminas-view': features/template/laminas-view.md
         - 'Error Handling': features/error-handling.md
         - 'Modular Applications': features/modular-applications.md
         - Middleware:
@@ -47,9 +47,9 @@ pages:
         - 'Prepending a common path to all routes': cookbook/common-prefix-for-routes.md
         - 'Route-specific middleware pipelines': cookbook/route-specific-pipeline.md
         - 'Setting custom 404 page handling': cookbook/custom-404-page-handling.md
-        - 'Registering custom view helpers when using zend-view': cookbook/using-custom-view-helpers.md
-        - 'Using zend-form view helpers': cookbook/using-zend-form-view-helpers.md
-        - 'Using Expressive from a subdirectory': cookbook/using-a-base-path.md
+        - 'Registering custom view helpers when using laminas-view': cookbook/using-custom-view-helpers.md
+        - 'Using laminas-form view helpers': cookbook/using-laminas-form-view-helpers.md
+        - 'Using Mezzio from a subdirectory': cookbook/using-a-base-path.md
         - 'Building modular applications': cookbook/modular-layout.md
         - 'Setting a locale based on a routing parameter': cookbook/setting-locale-depending-routing-parameter.md
         - 'Setting a locale without a routing parameter': cookbook/setting-locale-without-routing-parameter.md
@@ -58,17 +58,16 @@ pages:
         - 'Flash Messengers': cookbook/flash-messengers.md
         - 'Passing data between middleware': cookbook/passing-data-between-middleware.md
     - Reference:
-        - "Why choose Expressive?": why-expressive.md
+        - "Why choose Mezzio?": why-mezzio.md
         - "CLI Tooling": reference/cli-tooling.md
         - Examples: reference/usage-examples.md
-        - 'Expressive Projects': reference/expressive-projects.md
+        - 'Mezzio Projects': reference/mezzio-projects.md
         - Migration:
             - 'From RC5 and Earlier': reference/migration/rc-to-v1.md
-            - 'To Expressive 1.1': reference/migration/to-v1-1.md
-            - 'To Expressive 2.0': reference/migration/to-v2.md
-site_name: Expressive
-site_description: 'zend-expressive: PSR-7 Middleware Microframework'
-repo_url: 'https://github.com/zendframework/zend-expressive'
-copyright: 'Copyright (c) 2015-2017 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
+            - 'To Mezzio 1.1': reference/migration/to-v1-1.md
+            - 'To Mezzio 2.0': reference/migration/to-v2.md
+site_name: Mezzio
+site_description: 'mezzio: PSR-7 Middleware Microframework'
+repo_url: 'https://github.com/mezzio/mezzio'
 extra_css:
-    - css/zend-expressive.css
+    - css/mezzio.css

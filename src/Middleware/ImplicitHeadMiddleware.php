@@ -1,20 +1,21 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Middleware;
+namespace Mezzio\Middleware;
 
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Stream;
+use Mezzio\Router\RouteResult;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Stream;
-use Zend\Expressive\Router\RouteResult;
 
 /**
  * Handle implicit HEAD requests.
@@ -52,7 +53,7 @@ class ImplicitHeadMiddleware implements ServerMiddlewareInterface
 
     /**
      * @param null|ResponseInterface $response Response prototype to return
-     *     for implicit HEAD requests; if none provided, an empty zend-diactoros
+     *     for implicit HEAD requests; if none provided, an empty laminas-diactoros
      *     instance will be created.
      */
     public function __construct(ResponseInterface $response = null)

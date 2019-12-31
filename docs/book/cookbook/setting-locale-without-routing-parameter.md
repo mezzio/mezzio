@@ -33,7 +33,7 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Locale;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class SetLocaleMiddleware implements MiddlewareInterface
 {
@@ -74,7 +74,7 @@ Then you will need a factory for the `SetLocaleMiddleware` to inject the
 namespace Application\I18n;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class SetLocaleMiddlewareFactory
 {
@@ -113,7 +113,7 @@ If using a programmatic pipeline:
 
 ```php
 use Application\I18n\SetLocaleMiddleware;
-use Zend\Expressive\Helper\UrlHelperMiddleware;
+use Mezzio\Helper\UrlHelperMiddleware;
 
 /* ... */
 $app->pipe(SetLocaleMiddleware::class);
@@ -142,9 +142,9 @@ return [
 
         'routing' => [
             'middleware' => [
-                Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
-                Zend\Expressive\Helper\UrlHelperMiddleware::class,
-                Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Mezzio\Helper\UrlHelperMiddleware::class,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
         ],
@@ -166,7 +166,7 @@ generate a URL and it will do the rest.
 
 > ### Helpers differ between template renderers
 >
-> The above example is specific to zend-view; syntax will differ for
+> The above example is specific to laminas-view; syntax will differ for
 > Twig and Plates.
 
 ## Redirecting within your middleware
@@ -182,8 +182,8 @@ namespace Application\Action;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\RedirectResponse;
-use Zend\Expressive\Helper\UrlHelper;
+use Laminas\Diactoros\Response\RedirectResponse;
+use Mezzio\Helper\UrlHelper;
 
 class RedirectAction implements MiddlewareInterface
 {
@@ -218,7 +218,7 @@ following would work for the above middleware:
 namespace Application\Action;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class RedirectActionFactory
 {

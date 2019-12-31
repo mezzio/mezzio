@@ -1,39 +1,40 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
 use ArrayObject;
 use Interop\Http\ServerMiddleware\DelegateInterface;
+use Laminas\Diactoros\Response\EmitterInterface;
+use Laminas\Diactoros\Response\SapiEmitter;
+use Laminas\Stratigility\MiddlewarePipe;
+use Mezzio\Application;
+use Mezzio\Container\ApplicationFactory;
+use Mezzio\Delegate\NotFoundDelegate;
+use Mezzio\Emitter\EmitterStack;
+use Mezzio\Exception as MezzioException;
+use Mezzio\Middleware\DispatchMiddleware;
+use Mezzio\Middleware\LazyLoadingMiddleware;
+use Mezzio\Middleware\RouteMiddleware;
+use Mezzio\Router\FastRouteRouter;
+use Mezzio\Router\Route;
+use Mezzio\Router\RouterInterface;
+use MezzioTest\ContainerTrait;
+use MezzioTest\TestAsset\InteropMiddleware;
+use MezzioTest\TestAsset\InvokableMiddleware;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use ReflectionProperty;
-use Zend\Diactoros\Response\EmitterInterface;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Expressive\Application;
-use Zend\Expressive\Container\ApplicationFactory;
-use Zend\Expressive\Delegate\NotFoundDelegate;
-use Zend\Expressive\Emitter\EmitterStack;
-use Zend\Expressive\Exception as ExpressiveException;
-use Zend\Expressive\Middleware\DispatchMiddleware;
-use Zend\Expressive\Middleware\LazyLoadingMiddleware;
-use Zend\Expressive\Middleware\RouteMiddleware;
-use Zend\Expressive\Router\FastRouteRouter;
-use Zend\Expressive\Router\Route;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Stratigility\MiddlewarePipe;
-use ZendTest\Expressive\ContainerTrait;
-use ZendTest\Expressive\TestAsset\InteropMiddleware;
-use ZendTest\Expressive\TestAsset\InvokableMiddleware;
 
 /**
- * @covers Zend\Expressive\Container\ApplicationFactory
+ * @covers Mezzio\Container\ApplicationFactory
  */
 class ApplicationFactoryTest extends TestCase
 {
@@ -65,7 +66,7 @@ class ApplicationFactoryTest extends TestCase
 
         $this->injectServiceInContainer($this->container, RouterInterface::class, $this->router->reveal());
         $this->injectServiceInContainer($this->container, EmitterInterface::class, $this->emitter->reveal());
-        $this->injectServiceInContainer($this->container, 'Zend\Expressive\Delegate\DefaultDelegate', $this->delegate);
+        $this->injectServiceInContainer($this->container, 'Mezzio\Delegate\DefaultDelegate', $this->delegate);
     }
 
     public static function assertRoute($spec, array $routes)
@@ -222,7 +223,7 @@ class ApplicationFactoryTest extends TestCase
 
         $this->injectServiceInContainer($this->container, 'config', $config);
 
-        $this->expectException(ExpressiveException\InvalidArgumentException::class);
+        $this->expectException(MezzioException\InvalidArgumentException::class);
         $this->expectExceptionMessage('pipeline');
         $this->factory->__invoke($this->container->reveal());
     }
@@ -317,7 +318,7 @@ class ApplicationFactoryTest extends TestCase
 
         $this->injectServiceInContainer($this->container, 'config', $config);
 
-        $this->expectException(ExpressiveException\InvalidArgumentException::class);
+        $this->expectException(MezzioException\InvalidArgumentException::class);
         $this->expectExceptionMessage('route must be in form of an array; received "string"');
         $this->factory->__invoke($this->container->reveal());
     }
@@ -343,7 +344,7 @@ class ApplicationFactoryTest extends TestCase
 
         $this->injectServiceInContainer($this->container, 'config', $config);
 
-        $this->expectException(ExpressiveException\InvalidArgumentException::class);
+        $this->expectException(MezzioException\InvalidArgumentException::class);
         $this->expectExceptionMessage('options must be an array; received "string"');
         $this->factory->__invoke($this->container->reveal());
     }
@@ -551,7 +552,7 @@ class ApplicationFactoryTest extends TestCase
                     'options' => [],
                 ],
             ],
-            'zend-expressive' => [
+            'mezzio' => [
                 'programmatic_pipeline' => true,
             ],
         ];

@@ -1,7 +1,7 @@
 # Quick Start: Using the Skeleton + Installer
 
-The easiest way to get started with Expressive is to use the [skeleton
-application and installer](https://github.com/zendframework/zend-expressive-skeleton).
+The easiest way to get started with Mezzio is to use the [skeleton
+application and installer](https://github.com/mezzio/mezzio-skeleton).
 The skeleton provides a generic structure for creating your applications, and
 prompts you to choose a router, dependency injection container, template
 renderer, and error handler from the outset.
@@ -11,7 +11,7 @@ renderer, and error handler from the outset.
 First, we'll create a new project, using Composer's `create-project` command:
 
 ```bash
-$ composer create-project zendframework/zend-expressive-skeleton expressive
+$ composer create-project mezzio/mezzio-skeleton mezzio
 ```
 
 This will prompt you to choose:
@@ -21,7 +21,7 @@ This will prompt you to choose:
   (directories under `src/` are modules, each with source code and potentially
   templates, configuration, assets, etc.).
 
-- A dependency injection container. We recommend using the default, Zend
+- A dependency injection container. We recommend using the default, Laminas
   ServiceManager.
 
 - A router. We recommend using the default, FastRoute.
@@ -71,7 +71,7 @@ Starting in version 2 of the skeleton, we ship tools to make development easier.
 
 ### Development Mode
 
-[zf-development-mode](https://github.com/zfcampus/zf-development-mode) allows
+[laminas-development-mode](https://github.com/laminas/laminas-development-mode) allows
 you to enable and disable development mode from your cli.
 
 ```bash
@@ -124,16 +124,16 @@ _modules_, which can contain source code, templates, assets, and more; these can
 later be repackaged for re-use if desired.
 
 Support for modules is available via the
-[zend-component-installer](https://github.com/zendframework/zend-component-installer)
-and [zend-config-aggregator](https://github.com/zendframework/zend-config-aggregator)
-packages; the [zend-expressive-tooling](https://github.com/zendframework/zend-expressive-tooling).
+[laminas-component-installer](https://github.com/laminas/laminas-component-installer)
+and [laminas-config-aggregator](https://github.com/laminas/laminas-config-aggregator)
+packages; the [mezzio-tooling](https://github.com/mezzio/mezzio-tooling).
 package provides tools for creating and manipulating modules in your
 application.
 
 ### Component Installer
 
 Whenever you add a component or module that exposes itself as such, the
-[zend-component-installer](https://docs.zendframework.com/zend-component-installer/)
+[laminas-component-installer](https://docs.laminas.dev/laminas-component-installer/)
 composer plugin will prompt you, asking if and where you want to inject its
 configuration. This ensures that components are wired automatically for you.
 
@@ -143,7 +143,7 @@ tools intended only for usage during development, choose
 
 ### Config Aggregator
 
-The [zend-config-aggregator](https://github.com/zendframework/zend-config-aggregator)
+The [laminas-config-aggregator](https://github.com/laminas/laminas-config-aggregator)
 library collects and merges configuration from different sources. It also supports
 configuration caching.
 
@@ -248,26 +248,26 @@ class ConfigProvider
 }
 ```
 
-### expressive-module command
+### mezzio-module command
 
 To aid in the creation, registration, and deregistration of modules in your
-application, the installer will add the [zendframework/zend-expressive-tooling](https://github.com/zendframework/zend-expressive-tooling)
+application, the installer will add the [mezzio/mezzio-tooling](https://github.com/mezzio/mezzio-tooling)
 as a development requirement when you choose the modular application layout.
 
 The tool is available from your application root directory via
-`./vendor/bin/expressive-module`. For brevity, we will only reference the tool's
-name, `expressive-module`, when describing its capabilities.
+`./vendor/bin/mezzio-module`. For brevity, we will only reference the tool's
+name, `mezzio-module`, when describing its capabilities.
 
 This tool provides the following functionality:
 
-- `expressive-module create <modulename>` will create the default directory
+- `mezzio-module create <modulename>` will create the default directory
   structure for the named module, create a `ConfigProvider` for the module, add
   an autoloading rule to `composer.json`, and register the `ConfigProvider` with
   the application configuration.
-- `expressive-module register <modulename>` will add an autoloading rule to
+- `mezzio-module register <modulename>` will add an autoloading rule to
   `composer.json` for the module, and register its `ConfigProvider`, if found,
   with the application configuration.
-- `expressive-module deregister <modulename>` will remove any autoloading rules
+- `mezzio-module deregister <modulename>` will remove any autoloading rules
   for the module from `composer.json`, and deregister its `ConfigProvider`, if
   found, from the application configuration.
 
@@ -283,7 +283,7 @@ your middleware.
 ### Piping
 
 [Piping](../features/router/piping.md#piping) is a foundation feature of the
-underlying [zend-stratigility](https://docs.zendframework.com/zend-stratigility/)
+underlying [laminas-stratigility](https://docs.laminas.dev/laminas-stratigility/)
 implementation. You can setup the middleware pipeline in `config/pipeline.php`.
 In this section, we'll demonstrate setting up a basic pipeline that includes
 error handling, segregated applications, routing, middleware dispatch, and more.
@@ -306,8 +306,8 @@ $app->pipe(ServerUrlMiddleware::class);
 
 Piped middleware may be either callables or service names. Middleware may also
 be passed as an array; each item in the array must resolve to middleware
-eventually (i.e., callable or service name); underneath, Expressive creates
-`Zend\Stratigility\MiddlewarePipe` instances with each of the middleware listed
+eventually (i.e., callable or service name); underneath, Mezzio creates
+`Laminas\Stratigility\MiddlewarePipe` instances with each of the middleware listed
 piped to it.
 
 Middleware can be attached to specific paths, allowing you to mix and match
@@ -361,12 +361,12 @@ The full example then looks something like this:
 ```php
 // In config/pipeline.php:
 
-use Zend\Expressive\Helper\ServerUrlMiddleware;
-use Zend\Expressive\Helper\UrlHelperMiddleware;
-use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
-use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
-use Zend\Expressive\Middleware\NotFoundHandler;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Mezzio\Helper\ServerUrlMiddleware;
+use Mezzio\Helper\UrlHelperMiddleware;
+use Mezzio\Middleware\ImplicitHeadMiddleware;
+use Mezzio\Middleware\ImplicitOptionsMiddleware;
+use Mezzio\Middleware\NotFoundHandler;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
 $app->pipe(ErrorHandler::class);
 $app->pipe(ServerUrlMiddleware::class);
@@ -388,7 +388,7 @@ $app->pipe(NotFoundHandler::class);
 ### Routing
 
 [Routing](../features/router/piping.md#routing) is an additional feature
-provided by Expressive. Routing is setup in `config/routes.php`.
+provided by Mezzio. Routing is setup in `config/routes.php`.
 
 You can setup routes with a single request method:
 
@@ -418,7 +418,7 @@ Alternately, to be explicit, the above could be written as:
 $app->route(
   '/contact',
   App\Action\ContactAction::class,
-  Zend\Expressive\Router\Route::HTTP_METHOD_ANY,
+  Mezzio\Router\Route::HTTP_METHOD_ANY,
   'contact'
 );
 ```
@@ -441,7 +441,7 @@ single method, `process()`, which accepts a
 
 > ### Legacy double-pass middleware
 >
-> Prior to Expressive 2.0, the default middleware style was what is termed
+> Prior to Mezzio 2.0, the default middleware style was what is termed
 > "double-pass", for the fact that it passes both the request and response between
 > layers. This middleware did not require an interface, and relied on a
 > conventional definition of:
@@ -463,7 +463,7 @@ single method, `process()`, which accepts a
 > returned from inner layers may not be based off the `$response` provided to them
 > (as inner layers may create and return a completely different response).
 >
-> Starting in Expressive 2.0, we add support for
+> Starting in Mezzio 2.0, we add support for
 > [http-interop/http-middleware](https://github.com/http-interop/http-middleware),
 > which is a working group of [PHP-FIG](http://www.php-fig.org/) dedicated to
 > creating a common middleware standard. This middleware uses what is termed
@@ -471,7 +471,7 @@ single method, `process()`, which accepts a
 > passed between layers. We now recommend writing middleware using the
 > http-middleware interfaces for all new middleware.
 >
-> Middleware using the double-pass style is still accepted by Expressive, but
+> Middleware using the double-pass style is still accepted by Mezzio, but
 > support for it will be discontinued once http-middleware is formally approved
 > by PHP-FIG.
 
@@ -488,7 +488,7 @@ namespace App\Action;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\HtmlResponse;
+use Laminas\Diactoros\Response\HtmlResponse;
 
 class HelloAction implements MiddlewareInterface
 {
@@ -577,8 +577,8 @@ namespace App\Action;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Laminas\Diactoros\Response\HtmlResponse;
+use Mezzio\Template\TemplateRendererInterface;
 
 class HelloAction implements MiddlewareInterface
 {
@@ -614,9 +614,9 @@ injection.
 
 For the next part of the example, we'll be creating and wiring a factory for
 creating the `HelloAction` instance; the example assumes you used the default
-selection for a dependency injection container, zend-servicemanager.
+selection for a dependency injection container, laminas-servicemanager.
 
-zend-servicemanager provides a tool for generating factories based on
+laminas-servicemanager provides a tool for generating factories based on
 reflecting a class; we'll use that to generate our factory:
 
 ```bash
@@ -657,7 +657,7 @@ application!
 
 Congratulations! You've now created your application, and started writing
 middleware! It's time to start learning about the rest of the features of
-Expressive:
+Mezzio:
 
 - [Containers](../features/container/intro.md)
 - [Routing](../features/router/intro.md)

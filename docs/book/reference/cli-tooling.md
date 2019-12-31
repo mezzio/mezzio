@@ -1,13 +1,13 @@
 # Command Line Tooling
 
-Expressive offers a number of tools for assisting in project development. This
+Mezzio offers a number of tools for assisting in project development. This
 page catalogues each.
 
 ## Development Mode
 
 - Since 2.0.
 
-The package [zfcampus/zf-development-mode](https://github.com/zfcampus/zf-development-mode)
+The package [laminas/laminas-development-mode](https://github.com/laminas/laminas-development-mode)
 provides a simple way to toggle in and out of _development mode_. Doing so
 allows you to ship known development-specific settings within your repository,
 while ensuring they are not enabled in production. The tooling essentially
@@ -20,8 +20,8 @@ enables optional, development-specific configuration in your application by:
   `config/autoload/development.local.php`; this can be used to provide local
   overrides of a number of configuration settings.
 
-The package provides the tooling via `vendor/bin/zf-development-mode`. If you
-are using the Expressive skeleton, it provides aliases via Composer:
+The package provides the tooling via `vendor/bin/laminas-development-mode`. If you
+are using the Mezzio skeleton, it provides aliases via Composer:
 
 ```php
 $ composer development-enable
@@ -33,33 +33,33 @@ Add settings to your `development.*.php.dist` files, and commit those files to
 your repository; always toggle out of and into development mode after making
 changes, to ensure they pick up in your development environment.
 
-## Expressive command-line tool
+## Mezzio command-line tool
 
-- Since zend-expressive-tooling 0.4.0 and zend-expressive-skeleton 2.0.2
+- Since mezzio-tooling 0.4.0 and mezzio-skeleton 2.0.2
 
-The package [zendframework/zend-expressive-tooling](https://github.com/zendframework/zend-expressive-tooling)
-provides the script `vendor/bin/expressive`, which contains a number of commands
+The package [mezzio/mezzio-tooling](https://github.com/mezzio/mezzio-tooling)
+provides the script `vendor/bin/mezzio`, which contains a number of commands
 related to migration, modules, and middleware.
 
 You can install it if it is not already present in your application:
 
 ```bash
-$ composer require --dev zendframework/zend-expressive-tooling
+$ composer require --dev mezzio/mezzio-tooling
 ```
 
-If you installed the Expressive skeleton prior to version 2.0.2, you will want
-to update the tooling to get the latest release, which contains the `expressive`
+If you installed the Mezzio skeleton prior to version 2.0.2, you will want
+to update the tooling to get the latest release, which contains the `mezzio`
 binary, as follows:
 
 ```bash
-$ composer require --dev "zendframework/zend-expressive-tooling:^0.4.1"
+$ composer require --dev "mezzio/mezzio-tooling:^0.4.1"
 ```
 
 Once installed, invoking the binary without arguments will give a listing of
 available tools:
 
 ```bash
-$ ./vendor/bin/expressive
+$ ./vendor/bin/mezzio
 ```
 
 Commands supported include:
@@ -100,34 +100,34 @@ Commands supported include:
 You may obtain full help for each command by invoking:
 
 ```bash
-$ ./vendor/bin/expressive help <command>
+$ ./vendor/bin/mezzio help <command>
 ```
 
 ## Modules
 
 - Since 2.0.
-- Deprecated since zend-expressive-tooling 0.4.0; see the [Expressive CLI tool
-  section above](#expressive-command-line-tool).
+- Deprecated since mezzio-tooling 0.4.0; see the [Mezzio CLI tool
+  section above](#mezzio-command-line-tool).
 
-The package [zendframework/zend-expressive-tooling](https://github.com/zendframework/zend-expressive-tooling)
-provides the binary `vendor/bin/expressive-module`, which allows you to create,
+The package [mezzio/mezzio-tooling](https://github.com/mezzio/mezzio-tooling)
+provides the binary `vendor/bin/mezzio-module`, which allows you to create,
 register, and deregister modules, assuming you are using a [modular application
 layout](../features/modular-applications.md).
 
 > ### Adding tooling to existing applications
 >
-> If you have upgraded from Expressive 1.X, you can install
-> zendframework/zend-expressive-tooling via Composer:
+> If you have upgraded from Mezzio 1.X, you can install
+> mezzio/mezzio-tooling via Composer:
 >
 > ```bash
-> $ composer require --dev zendframework/zend-expressive-tooling
+> $ composer require --dev mezzio/mezzio-tooling
 > ```
 
 For instance, if you wish to create a new module for managing users, you might
 execute the following:
 
 ```bash
-$ ./vendor/bin/expressive-module create User
+$ ./vendor/bin/mezzio-module create User
 ```
 
 Which would create the following tree:
@@ -152,20 +152,20 @@ The `register` command will take an existing module and:
   `config/config.php`, if possible.
 
 ```bash
-$ ./vendor/bin/expressive-module register Account
+$ ./vendor/bin/mezzio-module register Account
 ```
 
 The `deregister` command does the opposite of `register`.
 
 ```bash
-$ ./vendor/bin/expressive-module deregister Account
+$ ./vendor/bin/mezzio-module deregister Account
 ```
 
 ## Migrate to programmatic pipelines
 
 - Since 2.0.
-- Deprecated since zend-expressive-tooling 0.4.0; see the [Expressive CLI tool
-  section above](#expressive-command-line-tool).
+- Deprecated since mezzio-tooling 0.4.0; see the [Mezzio CLI tool
+  section above](#mezzio-command-line-tool).
 
 Starting in 2.0, we recommend using _programmatic pipelines_, versus
 configuration-defined pipelines. For those upgrading their applications from 1.X
@@ -174,23 +174,23 @@ generate:
 
 - `config/pipeline.php`, with the middleware pipeline
 - `config/routes.php`, with routing directives
-- `config/autoload/zend-expressive.global.php`, with settings to ensure
-  programmatic pipelines are used, and new middleware provided for Expressive
+- `config/autoload/mezzio.global.php`, with settings to ensure
+  programmatic pipelines are used, and new middleware provided for Mezzio
   2.0 is registered.
 - directives within `public/index.php` for using the generated pipeline and
   routes directives.
 
 To use this feature, you will need to first install
-zendframework/zend-expressive-tooling:
+mezzio/mezzio-tooling:
 
 ```bash
-$ composer require --dev zendframework/zend-expressive-tooling
+$ composer require --dev mezzio/mezzio-tooling
 ```
 
 Invoke it as follows:
 
 ```bash
-$ ./vendor/bin/expressive-pipeline-from-config generate
+$ ./vendor/bin/mezzio-pipeline-from-config generate
 ```
 
 The tool will notify you of any errors, including whether or not it found (and
@@ -199,11 +199,11 @@ skipped) Stratigility v1-style "error middleware".
 ## Detect usage of legacy getOriginal*() calls
 
 - Since 2.0.
-- Deprecated since zend-expressive-tooling 0.4.0; see the [Expressive CLI tool
-  section above](#expressive-command-line-tool).
+- Deprecated since mezzio-tooling 0.4.0; see the [Mezzio CLI tool
+  section above](#mezzio-command-line-tool).
 
 When upgrading to version 2.0, you will also receive an upgrade to
-zendframework/zend-stratigility 2.0. That version eliminates internal decorator
+laminas/laminas-stratigility 2.0. That version eliminates internal decorator
 classes for the request and response instances, which were used to provide
 access to the outermost request/response; internal layers could use these to
 determine the full URI that resulted in their invocation, which is useful when
@@ -218,10 +218,10 @@ This affects the following methods:
 
 To provide equivalent functionality, we provide a couple of tools.
 
-First, Stratigility provides middleware, `Zend\Stratigility\Middleware\OriginalMessages`,
+First, Stratigility provides middleware, `Laminas\Stratigility\Middleware\OriginalMessages`,
 which will inject the current request, its URI, and, if invoked as double-pass
 middleware, current response, as _request attributes_, named, respectively,
-`originalRequest`, `originalUri`, and `originalResponse`. (Since Expressive 2.0
+`originalRequest`, `originalUri`, and `originalResponse`. (Since Mezzio 2.0
 decorates double-pass middleware using a wrapper that composes a response, the
 "original response" will be the response prototype composed in the `Application`
 instance.) This should be registered as the outermost middleware layer.
@@ -242,17 +242,17 @@ $originalResponse = $request->getAttribute('originalResponse') ?: new Response()
 > or creating a new instance on-the-fly.
 
 To aid you in migrating your existing code to use the new `getAttribute()`
-syntax, zendframework/zend-expressive-tooling provides a binary,
-`vendor/bin/expressive-migrate-original-messages`. First, install that package:
+syntax, mezzio/mezzio-tooling provides a binary,
+`vendor/bin/mezzio-migrate-original-messages`. First, install that package:
 
 ```bash
-$ composer require --dev zendframework/zend-expressive-tooling
+$ composer require --dev mezzio/mezzio-tooling
 ```
 
 Then invoke it as follows:
 
 ```bash
-$ ./vendor/bin/expressive-migrate-original-messages scan
+$ ./vendor/bin/mezzio-migrate-original-messages scan
 ```
 
 This script will update any `getOriginalRequest()` and `getOriginalUri()` calls,
@@ -262,18 +262,18 @@ on how to correct those manually.
 ## Detect usage of legacy error middleware
 
 - Since 2.0.
-- Deprecated since zend-expressive-tooling 0.4.0; see the [Expressive CLI tool
-  section above](#expressive-command-line-tool).
+- Deprecated since mezzio-tooling 0.4.0; see the [Mezzio CLI tool
+  section above](#mezzio-command-line-tool).
 
 When upgrading to version 2.0, you will also receive an upgrade to
-zendframework/zend-stratigility 2.0. That version eliminates what was known as
+laminas/laminas-stratigility 2.0. That version eliminates what was known as
 "error middleware", middleware that either implemented
-`Zend\Stratigility\ErrorMiddlewareInterface`, or duck-typed it by implementing
+`Laminas\Stratigility\ErrorMiddlewareInterface`, or duck-typed it by implementing
 the signature `function ($error, $request, $response, callable $next)`.
 
 Such "error middleware" allowed other middleware to invoke the `$next` argument
 with an additional, third argument representing an error condition; when that
-occurred, Stratigility/Expressive would start iterating through error middleware
+occurred, Stratigility/Mezzio would start iterating through error middleware
 until one was able to return a response. Each would receive the error as the
 first argument, and determine how to act upon it.
 
@@ -285,18 +285,18 @@ features](../features/error-handling.md). However, you may find that:
 - You have standard middleware in your application that invokes `$next` with the
   third, error argument.
 
-To help you identify such instances, zendframework/zend-expressive-tooling
-provides the script `vendor/bin/expressive-scan-for-error-middleware`. First,
+To help you identify such instances, mezzio/mezzio-tooling
+provides the script `vendor/bin/mezzio-scan-for-error-middleware`. First,
 install that package:
 
 ```bash
-$ composer require --dev zendframework/zend-expressive-tooling
+$ composer require --dev mezzio/mezzio-tooling
 ```
 
 Then invoke it as follows:
 
 ```bash
-$ ./vendor/bin/expressive-scan-for-error-middleware scan
+$ ./vendor/bin/mezzio-scan-for-error-middleware scan
 ```
 
 The script will notify you of any places where it finds either use case, and

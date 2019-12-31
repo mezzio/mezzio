@@ -1,19 +1,20 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Laminas\Diactoros\Response;
+use Mezzio\Container\NotFoundDelegateFactory;
+use Mezzio\Delegate\NotFoundDelegate;
+use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
-use Zend\Diactoros\Response;
-use Zend\Expressive\Container\NotFoundDelegateFactory;
-use Zend\Expressive\Delegate\NotFoundDelegate;
-use Zend\Expressive\Template\TemplateRendererInterface;
 
 class NotFoundDelegateFactoryTest extends TestCase
 {
@@ -29,6 +30,7 @@ class NotFoundDelegateFactoryTest extends TestCase
     {
         $this->container->has('config')->willReturn(false);
         $this->container->has(TemplateRendererInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
         $factory = new NotFoundDelegateFactory();
 
         $delegate = $factory($this->container->reveal());
@@ -52,7 +54,7 @@ class NotFoundDelegateFactoryTest extends TestCase
     public function testFactoryUsesConfigured404TemplateWhenPresent()
     {
         $config = [
-            'zend-expressive' => [
+            'mezzio' => [
                 'error_handler' => [
                     'layout' => 'layout::error',
                     'template_404' => 'foo::bar',
@@ -62,16 +64,17 @@ class NotFoundDelegateFactoryTest extends TestCase
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn($config);
         $this->container->has(TemplateRendererInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
         $factory = new NotFoundDelegateFactory();
 
         $delegate = $factory($this->container->reveal());
         $this->assertAttributeEquals(
-            $config['zend-expressive']['error_handler']['layout'],
+            $config['mezzio']['error_handler']['layout'],
             'layout',
             $delegate
         );
         $this->assertAttributeEquals(
-            $config['zend-expressive']['error_handler']['template_404'],
+            $config['mezzio']['error_handler']['template_404'],
             'template',
             $delegate
         );

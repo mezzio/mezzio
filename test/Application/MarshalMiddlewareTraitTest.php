@@ -1,14 +1,22 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Application;
+namespace MezzioTest\Application;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
+use Laminas\Stratigility\Middleware\CallableInteropMiddlewareWrapper;
+use Laminas\Stratigility\Middleware\CallableMiddlewareWrapper;
+use Laminas\Stratigility\MiddlewarePipe;
+use Mezzio\Application;
+use Mezzio\Exception\InvalidMiddlewareException;
+use Mezzio\Middleware;
+use Mezzio\Router\RouterInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
@@ -17,13 +25,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use ReflectionMethod;
 use ReflectionProperty;
 use stdClass;
-use Zend\Expressive\Application;
-use Zend\Expressive\Exception\InvalidMiddlewareException;
-use Zend\Expressive\Middleware;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper;
-use Zend\Stratigility\Middleware\CallableMiddlewareWrapper;
-use Zend\Stratigility\MiddlewarePipe;
 
 class MarshalMiddlewareTraitTest extends TestCase
 {
