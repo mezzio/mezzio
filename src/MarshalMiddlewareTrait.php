@@ -1,21 +1,22 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
+use Laminas\Stratigility\MiddlewarePipe;
+use Mezzio\Router\Middleware\DispatchMiddleware;
+use Mezzio\Router\Middleware\RouteMiddleware;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Webimpress\HttpMiddlewareCompatibility\MiddlewareInterface;
-use Zend\Expressive\Router\Middleware\DispatchMiddleware;
-use Zend\Expressive\Router\Middleware\RouteMiddleware;
-use Zend\Stratigility\MiddlewarePipe;
 
-use function Zend\Stratigility\middleware;
-use function Zend\Stratigility\doublePassMiddleware;
+use function Laminas\Stratigility\doublePassMiddleware;
+use function Laminas\Stratigility\middleware;
 
 /**
  * Trait defining methods for verifying and/or generating middleware to pipe to
@@ -222,7 +223,7 @@ trait MarshalMiddlewareTrait
         trigger_error(sprintf(
             'Detected double-pass middleware (%s).'
             . ' Usage of callable double-pass middleware is deprecated. Before piping or routing'
-            . ' such middleware, pass it to Zend\Stratigility\doublePassMiddleware(), along with'
+            . ' such middleware, pass it to Laminas\Stratigility\doublePassMiddleware(), along with'
             . ' a PSR-7 response instance.',
             $type
         ), E_USER_DEPRECATED);

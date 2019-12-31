@@ -1,30 +1,31 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Application;
+namespace MezzioTest\Application;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Laminas\Stratigility\MiddlewarePipe;
+use Mezzio\Application;
+use Mezzio\Exception\InvalidArgumentException;
+use Mezzio\Router\Middleware\DispatchMiddleware;
+use Mezzio\Router\Middleware\RouteMiddleware;
+use Mezzio\Router\Route;
+use Mezzio\Router\RouterInterface;
+use MezzioTest\ContainerTrait;
+use MezzioTest\TestAsset\CallableInteropMiddleware;
+use MezzioTest\TestAsset\InvokableMiddleware;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use ReflectionProperty;
 use SplQueue;
-use Zend\Expressive\Application;
-use Zend\Expressive\Exception\InvalidArgumentException;
-use Zend\Expressive\Router\Middleware\DispatchMiddleware;
-use Zend\Expressive\Router\Middleware\RouteMiddleware;
-use Zend\Expressive\Router\Route;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Stratigility\MiddlewarePipe;
-use ZendTest\Expressive\ContainerTrait;
-use ZendTest\Expressive\TestAsset\CallableInteropMiddleware;
-use ZendTest\Expressive\TestAsset\InvokableMiddleware;
 
 /**
  * Tests the functionality present in the ApplicationConfigInjectionTrait.

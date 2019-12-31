@@ -1,10 +1,10 @@
 # Content-Length Middleware
 
-- **Available since zend-expressive-helpers version 4.1.0.**
+- **Available since mezzio-helpers version 4.1.0.**
 
 In some cases, you may want to include an explicit `Content-Length` response
 header, without having to inject it manually. To facilitate this, we provide
-`Zend\Expressive\Helper\ContentLengthMiddleware`.
+`Mezzio\Helper\ContentLengthMiddleware`.
 
 > ### When to use this middleware
 >
@@ -34,7 +34,7 @@ To add it to your container, add the following configuration:
 ```php
 // In a `config/autoload/*.global.php` file, or a `ConfigProvider` class:
 
-use Zend\Expressive\Helper;
+use Mezzio\Helper;
 
 return [
     'dependencies' => [
@@ -50,7 +50,7 @@ To register it as pipeline middleware to execute on any request:
 ```php
 // In `config/pipeline.php`:
 
-use Zend\Expressive\Helper;
+use Mezzio\Helper;
 
 $app->pipe(Helper\ContentLengthMiddleware::class);
 ```
@@ -60,7 +60,7 @@ To register it within a routed middleware pipeline:
 ```php
 // In `config/routes.php`:
 
-use Zend\Expressive\Helper;
+use Mezzio\Helper;
 
 $app->get('/download/tarball', [
     Helper\ContentLengthMiddleware::class,

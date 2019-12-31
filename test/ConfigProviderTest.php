@@ -1,25 +1,26 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive;
+namespace MezzioTest;
 
+use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\ServiceManager;
+use Laminas\Stratigility\Middleware\ErrorHandler;
+use Mezzio\Application;
+use Mezzio\ConfigProvider;
+use Mezzio\Delegate\NotFoundDelegate;
+use Mezzio\Handler\NotFoundHandler;
+use Mezzio\Middleware;
+use Mezzio\Router\Middleware as RouterMiddleware;
+use Mezzio\Router\RouterInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\ConfigProvider;
-use Zend\Expressive\Delegate\NotFoundDelegate;
-use Zend\Expressive\Handler\NotFoundHandler;
-use Zend\Expressive\Middleware;
-use Zend\Expressive\Router\Middleware as RouterMiddleware;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\ServiceManager\Config;
-use Zend\ServiceManager\ServiceManager;
-use Zend\Stratigility\Middleware\ErrorHandler;
 
 class ConfigProviderTest extends TestCase
 {
@@ -40,7 +41,7 @@ class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey(Middleware\ImplicitOptionsMiddleware::class, $aliases);
         $this->assertArrayHasKey(Middleware\RouteMiddleware::class, $aliases);
         $this->assertArrayHasKey(NotFoundDelegate::class, $aliases);
-        $this->assertArrayHasKey('Zend\Expressive\Delegate\DefaultDelegate', $aliases);
+        $this->assertArrayHasKey('Mezzio\Delegate\DefaultDelegate', $aliases);
     }
 
     public function testProviderDefinesExpectedFactoryServices()
