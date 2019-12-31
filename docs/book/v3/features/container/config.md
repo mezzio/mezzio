@@ -8,10 +8,10 @@
 dependency injection containers, and that interface is geared towards
 _consumption_ of the container &mdash; not _population_ of it.
 
-Expressive _consumes_ a PSR-11 container, but also provides _configuration_ for
+Mezzio _consumes_ a PSR-11 container, but also provides _configuration_ for
 a container: it defines what services it needs, and how to create them.
 
-As such, any container consumed by Expressive must also understand its
+As such, any container consumed by Mezzio must also understand its
 configuration format, and deliver consistent understanding of that format when
 providing services based on it.
 
@@ -70,13 +70,13 @@ key/value pairs. As an example:
 
 ```php
 'aliases' => [
-    'Zend\Expressive\Delegate\DefaultDelegate' => \Zend\Expressive\Handler\NotFoundHandler::class,
+    'Mezzio\Delegate\DefaultDelegate' => \Mezzio\Handler\NotFoundHandler::class,
 ],
 ```
 
-In this case, if the service named "Zend\\Expressive\\Delegate\\DefaultDelegate"
+In this case, if the service named "Mezzio\\Delegate\\DefaultDelegate"
 is requested, the container should resolve that to the service
-`Zend\Expressive\Handler\NotFoundHandler` and return that instead.
+`Mezzio\Handler\NotFoundHandler` and return that instead.
 
 Aliases may reference any other service defined in the container. These include
 services defined under the keys:
@@ -118,7 +118,7 @@ A typical factory will generally ignore the second argument:
 
 ```php
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class SomePageHandlerFactory
 {
@@ -136,7 +136,7 @@ argument and varying creation based on it:
 
 ```php
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class PageFactory
 {
@@ -254,6 +254,6 @@ container configuration.
 
 Examples of how the above capabilities may be implemented include:
 
-- [zendframework/zend-auradi-config](https://github.com/zendframework/zend-auradi-config)
-- [zendframework/zend-pimple-config](https://github.com/zendframework/zend-auradi-config)
-- [jsoumelidis/zend-sf-di-config](https://github.com/zendframework/zend-auradi-config)
+- [laminas/laminas-auradi-config](https://github.com/laminas/laminas-auradi-config)
+- [laminas/laminas-pimple-config](https://github.com/laminas/laminas-auradi-config)
+- [jsoumelidis/zend-sf-di-config](https://github.com/laminas/laminas-auradi-config)

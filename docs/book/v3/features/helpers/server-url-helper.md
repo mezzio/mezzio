@@ -1,6 +1,6 @@
 # ServerUrlHelper
 
-`Zend\Expressive\Helper\ServerUrlHelper` provides the ability to generate a full
+`Mezzio\Helper\ServerUrlHelper` provides the ability to generate a full
 URI by passing only the path to the helper; it will then use that path with the
 current `Psr\Http\Message\UriInterface` instance provided to it in order to
 generate a fully qualified URI.
@@ -40,14 +40,14 @@ Where:
 
 In order to use the helper, you will need to inject it with the current
 `UriInterface` from the request instance. To automate this, we provide
-`Zend\Expressive\Helper\ServerUrlMiddleware`, which composes a `ServerUrl`
+`Mezzio\Helper\ServerUrlMiddleware`, which composes a `ServerUrl`
 instance, and, when invoked, injects it with the URI instance.
 
 As such, you will need to register the `ServerUrlMiddleware` as pipeline
 middleware, anytime before the routing middleware:
 
 ```php
-use Zend\Expressive\Helper\ServerUrlMiddleware;
+use Mezzio\Helper\ServerUrlMiddleware;
 
 // Programmatically:
 $app->pipe(ServerUrlMiddleware::class);
@@ -58,7 +58,7 @@ $app->pipe(DispatchMiddleware::class);
 
 > ### Skeleton configures helpers
 >
-> If you started your project using the Expressive skeleton package, the
+> If you started your project using the Mezzio skeleton package, the
 > `ServerUrlHelper` and `ServerUrlMiddleware` factories are already registered
 > for you, as is the `ServerUrlMiddleware` pipeline middleware.
 
@@ -72,7 +72,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterfacel
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Expressive\Helper\ServerUrlHelper;
+use Mezzio\Helper\ServerUrlHelper;
 
 class FooMiddleware implements MiddlewareInterface
 {
