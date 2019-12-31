@@ -1,41 +1,40 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive;
+namespace MezzioTest;
 
 use BadMethodCallException;
 use DomainException;
 use Interop\Container\ContainerInterface;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Response\EmitterInterface;
+use Laminas\Diactoros\Response\SapiEmitter;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequest as Request;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\Route as StratigilityRoute;
+use Mezzio\Application;
+use Mezzio\Emitter\EmitterStack;
+use Mezzio\Exception;
+use Mezzio\Exception\InvalidMiddlewareException;
+use Mezzio\Router\Exception as RouterException;
+use Mezzio\Router\Route;
+use Mezzio\Router\RouteResult;
+use Mezzio\Router\RouterInterface;
+use MezzioTest\TestAsset\InvokableMiddleware;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionProperty;
 use RuntimeException;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Response\EmitterInterface;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Diactoros\ServerRequest as Request;
-use Zend\Diactoros\ServerRequest;
-use Zend\Expressive\Application;
-use Zend\Expressive\Emitter\EmitterStack;
-use Zend\Expressive\Exception;
-use Zend\Expressive\Router\Exception as RouterException;
-use Zend\Expressive\Exception\InvalidMiddlewareException;
-use Zend\Expressive\Router\Route;
-use Zend\Expressive\Router\RouteResult;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\Route as StratigilityRoute;
-use ZendTest\Expressive\TestAsset\InvokableMiddleware;
 
 /**
- * @covers Zend\Expressive\Application
+ * @covers Mezzio\Application
  */
 class ApplicationTest extends TestCase
 {
@@ -256,7 +255,7 @@ class ApplicationTest extends TestCase
 
     /**
      * @dataProvider uncallableMiddleware
-     * @expectedException \Zend\Expressive\Exception\InvalidMiddlewareException
+     * @expectedException \Mezzio\Exception\InvalidMiddlewareException
      */
     public function testThrowsExceptionWhenDispatchingUncallableMiddleware($middleware)
     {

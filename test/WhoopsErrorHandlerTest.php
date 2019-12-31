@@ -1,13 +1,17 @@
 <?php
+
 /**
- * @see       http://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive;
+namespace MezzioTest;
 
 use Exception;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Stratigility\Http\Request as StratigilityRequest;
+use Mezzio\WhoopsErrorHandler;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
@@ -17,12 +21,9 @@ use ReflectionClass;
 use Whoops\Handler\Handler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
-use Zend\Diactoros\ServerRequest;
-use Zend\Expressive\WhoopsErrorHandler;
-use Zend\Stratigility\Http\Request as StratigilityRequest;
 
 /**
- * @covers Zend\Expressive\WhoopsErrorHandler
+ * @covers Mezzio\WhoopsErrorHandler
  */
 class WhoopsErrorHandlerTest extends TestCase
 {
@@ -57,7 +58,7 @@ class WhoopsErrorHandlerTest extends TestCase
         $exception = new Exception('Boom!');
 
         $pageHandler = $this->getPrettyPageHandler();
-        $pageHandler->addDataTable('Expressive Application Request', Argument::type('array'))->shouldBeCalled();
+        $pageHandler->addDataTable('Mezzio Application Request', Argument::type('array'))->shouldBeCalled();
         $pageHandler->setRun(Argument::any())->shouldBeCalled();
         $pageHandler->setInspector(Argument::any())->shouldBeCalled();
         $pageHandler->setException($exception)->shouldBeCalled();
@@ -103,7 +104,7 @@ class WhoopsErrorHandlerTest extends TestCase
         $exception = new Exception('Boom!');
 
         $pageHandler = $this->getPrettyPageHandler();
-        $pageHandler->addDataTable('Expressive Application Request', Argument::type('array'))->shouldBeCalled();
+        $pageHandler->addDataTable('Mezzio Application Request', Argument::type('array'))->shouldBeCalled();
         $pageHandler->setRun(Argument::any())->shouldBeCalled();
         $pageHandler->setInspector(Argument::any())->shouldBeCalled();
         $pageHandler->setException($exception)->shouldBeCalled();

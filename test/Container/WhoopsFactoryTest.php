@@ -1,25 +1,24 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Mezzio\Container\WhoopsFactory;
+use MezzioTest\ContainerTrait;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use ReflectionProperty;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
-use Zend\Expressive\Container\WhoopsFactory;
-use ZendTest\Expressive\ContainerTrait;
 
 /**
- * @covers Zend\Expressive\Container\WhoopsFactory
+ * @covers Mezzio\Container\WhoopsFactory
  */
 class WhoopsFactoryTest extends TestCase
 {
@@ -32,7 +31,7 @@ class WhoopsFactoryTest extends TestCase
     {
         $pageHandler     = $this->prophesize(PrettyPageHandler::class);
         $this->container = $this->mockContainerInterface();
-        $this->injectServiceInContainer($this->container, 'Zend\Expressive\WhoopsPageHandler', $pageHandler->reveal());
+        $this->injectServiceInContainer($this->container, 'Mezzio\WhoopsPageHandler', $pageHandler->reveal());
 
         $this->factory = new WhoopsFactory();
     }
