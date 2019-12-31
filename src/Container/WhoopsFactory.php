@@ -1,11 +1,12 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Container;
+namespace Mezzio\Container;
 
 use Interop\Container\ContainerInterface;
 use Whoops\Handler\JsonResponseHandler;
@@ -15,12 +16,12 @@ use Whoops\Util\Misc as WhoopsUtil;
 /**
  * Create and return an instance of the Whoops runner.
  *
- * Register this factory as the service `Zend\Expressive\Whoops` in the
+ * Register this factory as the service `Mezzio\Whoops` in the
  * container of your choice. This service depends on two others:
  *
  * - 'config' (which should return an array or array-like object with a "whoops"
  *   key, containing the configuration for whoops).
- * - 'Zend\Expressive\WhoopsPageHandler', which should return a
+ * - 'Mezzio\WhoopsPageHandler', which should return a
  *   Whoops\Handler\PrettyPageHandler instance to register on the whoops
  *   instance.
  *
@@ -54,7 +55,7 @@ class WhoopsFactory
         $whoops = new Whoops();
         $whoops->writeToOutput(false);
         $whoops->allowQuit(false);
-        $whoops->pushHandler($container->get('Zend\Expressive\WhoopsPageHandler'));
+        $whoops->pushHandler($container->get('Mezzio\WhoopsPageHandler'));
         $this->registerJsonHandler($whoops, $config);
         $whoops->register();
         return $whoops;

@@ -1,26 +1,27 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
 use Interop\Container\ContainerInterface;
 use InvalidArgumentException;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Response\EmitterInterface;
+use Laminas\Diactoros\Response\SapiEmitter;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Stratigility\FinalHandler;
+use Laminas\Stratigility\Http\Response as StratigilityResponse;
+use Laminas\Stratigility\MiddlewarePipe;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 use UnexpectedValueException;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Response\EmitterInterface;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Stratigility\FinalHandler;
-use Zend\Stratigility\Http\Response as StratigilityResponse;
-use Zend\Stratigility\MiddlewarePipe;
 
 /**
  * Middleware application providing routing based on paths and HTTP methods.
@@ -295,7 +296,7 @@ class Application extends MiddlewarePipe
      *     removed in Stratigility 2.0. You can start using standard middleware
      *     for error handling by calling `raiseThrowables()` on the `Application`
      *     instance, and piping such middleware in an outer layer of your application.
-     *     For an example, {@see Zend\Stratigility\Middleware\ErrorHandler}.
+     *     For an example, {@see Laminas\Stratigility\Middleware\ErrorHandler}.
      * @param string|callable $path Either a URI path prefix, or middleware.
      * @param null|string|callable $middleware Middleware
      * @return self

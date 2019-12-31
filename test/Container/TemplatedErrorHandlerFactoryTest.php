@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Mezzio\Container\TemplatedErrorHandlerFactory;
+use Mezzio\Template\TemplateRendererInterface;
+use Mezzio\TemplatedErrorHandler;
+use MezzioTest\ContainerTrait;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
-use Zend\Expressive\Container\TemplatedErrorHandlerFactory;
-use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\Expressive\TemplatedErrorHandler;
-use ZendTest\Expressive\ContainerTrait;
 
 /**
- * @covers Zend\Expressive\Container\TemplatedErrorHandlerFactory
+ * @covers Mezzio\Container\TemplatedErrorHandlerFactory
  */
 class TemplatedErrorHandlerFactoryTest extends TestCase
 {
@@ -52,7 +51,7 @@ class TemplatedErrorHandlerFactoryTest extends TestCase
 
     public function testWillInjectTemplateNamesFromConfigurationWhenPresent()
     {
-        $config = ['zend-expressive' => ['error_handler' => [
+        $config = ['mezzio' => ['error_handler' => [
             'template_404'   => 'error::404',
             'template_error' => 'error::500',
         ]]];

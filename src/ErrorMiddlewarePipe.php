@@ -1,24 +1,25 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Laminas\Stratigility\FinalHandler;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\Next;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use ReflectionMethod;
 use ReflectionProperty;
-use Zend\Stratigility\FinalHandler;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\Next;
 
 /**
  * MiddlewarePipe implementation that acts as error middleware.
  *
- * Normal MiddlewarePipe implementations implement Zend\Stratigility\MiddlewareInterface,
+ * Normal MiddlewarePipe implementations implement Laminas\Stratigility\MiddlewareInterface,
  * which can be consumed as normal middleware, but not as error middleware, as
  * the signature for error middleware differs.
  *
@@ -32,7 +33,7 @@ use Zend\Stratigility\Next;
  * @deprecated since 1.1.0; to remove in 2.0.0. Stratigility 1.3 deprecates the
  *     concept of "error middleware" (middleware accepting exactly four arguments
  *     the first of which being an error) in favor of using standard middleware
- *     for error handling; you can use `Zend\Stratigility\ErrorHandler` either
+ *     for error handling; you can use `Laminas\Stratigility\ErrorHandler` either
  *     directly or as an example of how to implement such middleware. If you are
  *     using Stratigility 1.3, you can enable such error handling by calling
  *     `raiseThrowables()` on your `Application` instance.
@@ -104,7 +105,7 @@ class ErrorMiddlewarePipe
      * Proxies to the composed MiddlewarePipe's equivalent method.
      *
      * @param Request $request
-     * @return \Zend\Stratigility\Http\Request
+     * @return \Laminas\Stratigility\Http\Request
      */
     private function decorateRequest(Request $request)
     {
@@ -119,7 +120,7 @@ class ErrorMiddlewarePipe
      * Proxies to the composed MiddlewarePipe's equivalent method.
      *
      * @param Response $response
-     * @return \Zend\Stratigility\Http\Response
+     * @return \Laminas\Stratigility\Http\Response
      */
     private function decorateResponse(Response $response)
     {

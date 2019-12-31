@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
+use Laminas\Diactoros\Stream;
+use Laminas\Stratigility\Utils;
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use Zend\Diactoros\Stream;
-use Zend\Stratigility\Utils;
 
 /**
  * Final handler with templated page capabilities.
@@ -22,7 +23,7 @@ use Zend\Stratigility\Utils;
  * @deprecated since 1.1.0, to be removed in 2.0.0. The "final handler" concept
  *     will be replaced with a "default delegate", which will be an
  *     implementation of Interop\Http\ServerMiddleware\DelegateInterface that
- *     returns a canned response. Expressive will provide tools to migrate your
+ *     returns a canned response. Mezzio will provide tools to migrate your
  *     code to use default delegates for 2.0; you will only need to manually
  *     change your code if you are extending this class.
  */

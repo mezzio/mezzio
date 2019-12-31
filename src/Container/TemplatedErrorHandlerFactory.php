@@ -1,35 +1,36 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Container;
+namespace Mezzio\Container;
 
 use Interop\Container\ContainerInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\Expressive\TemplatedErrorHandler;
+use Mezzio\Template\TemplateRendererInterface;
+use Mezzio\TemplatedErrorHandler;
 
 /**
  * Create and return an instance of the templated error handler.
  *
- * Register this factory as the service `Zend\Expressive\FinalHandler` in
+ * Register this factory as the service `Mezzio\FinalHandler` in
  * the container of your choice.
  *
  * This factory has optional dependencies on the following services:
  *
- * - 'Zend\Expressive\Template\TemplateRendererInterface', which should return an
+ * - 'Mezzio\Template\TemplateRendererInterface', which should return an
  *   implementation of that interface. If not present, the error handler
  *   will not create templated responses.
  * - 'config' (which should return an array or array-like object with a
- *   "zend-expressive" top-level key, and an "error_handler" subkey,
+ *   "mezzio" top-level key, and an "error_handler" subkey,
  *   containing the configuration for the error handler).
  *
  * Configuration should look like the following:
  *
  * <code>
- * 'zend-expressive' => [
+ * 'mezzio' => [
  *     'error_handler' => [
  *         'template_404'   => 'name of 404 template',
  *         'template_error' => 'name of error template',
@@ -42,7 +43,7 @@ use Zend\Expressive\TemplatedErrorHandler;
  * @deprecated since 1.1.0, to be removed in 2.0.0. The "final handler" concept
  *     will be replaced with a "default delegate", which will be an
  *     implementation of Interop\Http\ServerMiddleware\DelegateInterface that
- *     returns a canned response. Expressive will provide tools to migrate your
+ *     returns a canned response. Mezzio will provide tools to migrate your
  *     code to use default delegates for 2.0; you will only need to manually
  *     change your code if you are extending this class.
  */
@@ -52,14 +53,16 @@ class TemplatedErrorHandlerFactory
     {
         $template = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
-            : null;
+            : ($container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)
+                ? $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)
+                : null);
 
         $config = $container->has('config')
             ? $container->get('config')
             : [];
 
-        $config = isset($config['zend-expressive']['error_handler'])
-            ? $config['zend-expressive']['error_handler']
+        $config = isset($config['mezzio']['error_handler'])
+            ? $config['mezzio']['error_handler']
             : [];
 
         return new TemplatedErrorHandler(
