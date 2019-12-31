@@ -1,6 +1,6 @@
-# Migration to Expressive 3.0
+# Migration to Mezzio 3.0
 
-Expressive 3.0 should not result in many upgrade problems for users. However,
+Mezzio 3.0 should not result in many upgrade problems for users. However,
 starting in this version, we offer a few changes affecting the following that
 you should be aware of, and potentially update your application to adopt:
 
@@ -11,7 +11,7 @@ you should be aware of, and potentially update your application to adopt:
 
 ## PHP 7.1 support
 
-Starting in Expressive 3.0 we support only PHP 7.1+.
+Starting in Mezzio 3.0 we support only PHP 7.1+.
 
 ## Signature changes
 
@@ -29,12 +29,12 @@ All middlewares and delegators implements now interfaces from PSR-15
 
 The following signature changes were made that could affect _class extensions_:
 
-- `Zend\Expressive\Application::__construct(...)`
+- `Mezzio\Application::__construct(...)`
   Third parameter is now `RequestHandlerInterface` instead of `DelegateInterface`
 
 ## Removed functionality 
 
-- double-pass middlewares (introduced in Expressive 1.X, deprecated in Expressive 2.X)
+- double-pass middlewares (introduced in Mezzio 1.X, deprecated in Mezzio 2.X)
 
 ## PSR-15 Support
 
@@ -42,10 +42,10 @@ As said before, all middlewares and request handlers now implements PSR-15
 interfaces. It means `process` method (of middleware) and `handle` method
 (of request handler) have declared return type `\Psr\Http\Message\ResponseInterface`.
 
-To update your middlewares you can use tool available in `zend-expressive-tooling`:
+To update your middlewares you can use tool available in `mezzio-tooling`:
 
 ```console
-$ vendor/bin/expressive migrate:interop-middleware [--src|-s=<path-to-src>]
+$ vendor/bin/mezzio migrate:interop-middleware [--src|-s=<path-to-src>]
 ```
 
 It looks for all interop middlewares and delegators and convert them to PSR-15
