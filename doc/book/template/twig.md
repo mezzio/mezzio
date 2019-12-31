@@ -8,7 +8,7 @@ as a standalone component by SensioLabs. It provides:
 - Helpers for escaping, and the ability to provide custom helper extensions.
 
 We provide a [TemplateRendererInterface](interface.md) wrapper for Twig via
-`Zend\Expressive\Template\TwigRenderer`.
+`Mezzio\Template\TwigRenderer`.
 
 ## Installing Twig
 
@@ -20,22 +20,22 @@ $ composer require twig/twig
 
 ## Using the wrapper
 
-If instantiated without arguments, `Zend\Expressive\Template\TwigRenderer` will create
+If instantiated without arguments, `Mezzio\Template\TwigRenderer` will create
 an instance of the Twig engine, which it will then proxy to.
 
 ```php
-use Zend\Expressive\Template\TwigRenderer;
+use Mezzio\Template\TwigRenderer;
 
 $renderer = new TwigRenderer();
 ```
 
 Alternately, you can instantiate and configure the engine yourself, and pass it
-to the `Zend\Expressive\Template\TwigRenderer` constructor:
+to the `Mezzio\Template\TwigRenderer` constructor:
 
 ```php
 use Twig_Environment;
 use Twig_Loader_Array;
-use Zend\Expressive\Template\TwigRenderer;
+use Mezzio\Template\TwigRenderer;
 
 // Create the engine instance:
 $loader = new Twig_Loader_Array(include 'config/templates.php');

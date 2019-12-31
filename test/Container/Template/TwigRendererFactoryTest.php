@@ -1,21 +1,20 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Container\Template;
+namespace MezzioTest\Container\Template;
 
 use Interop\Container\ContainerInterface;
+use Mezzio\Container\Template\TwigRendererFactory;
+use Mezzio\Router\RouterInterface;
+use Mezzio\Template\Twig\TwigExtension;
+use Mezzio\Template\TwigRenderer;
 use PHPUnit_Framework_TestCase as TestCase;
 use ReflectionProperty;
-use Zend\Expressive\Container\Template\TwigRendererFactory;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Template\TwigRenderer;
-use Zend\Expressive\Template\Twig\TwigExtension;
 
 class TwigFactoryTest extends TestCase
 {
@@ -40,6 +39,7 @@ class TwigFactoryTest extends TestCase
     {
         $this->container->has('config')->willReturn(false);
         $this->container->has(RouterInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Router\RouterInterface::class)->willReturn(false);
         $factory = new TwigRendererFactory();
         $twig = $factory($this->container->reveal());
         $this->assertInstanceOf(TwigRenderer::class, $twig);
@@ -62,6 +62,7 @@ class TwigFactoryTest extends TestCase
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn($config);
         $this->container->has(RouterInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Router\RouterInterface::class)->willReturn(false);
         $factory = new TwigRendererFactory();
         $twig = $factory($this->container->reveal());
 
@@ -91,6 +92,7 @@ class TwigFactoryTest extends TestCase
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn($config);
         $this->container->has(RouterInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Router\RouterInterface::class)->willReturn(false);
         $factory = new TwigRendererFactory();
         $twig = $factory($this->container->reveal());
 
@@ -108,7 +110,7 @@ class TwigFactoryTest extends TestCase
         $twig = $factory($this->container->reveal());
 
         $environment = $this->fetchTwigEnvironment($twig);
-        $this->assertTrue($environment->hasExtension('zend-expressive'));
+        $this->assertTrue($environment->hasExtension('mezzio'));
     }
 
     public function testUsesAssetsConfigurationWhenAddingTwigExtension()
@@ -128,7 +130,7 @@ class TwigFactoryTest extends TestCase
         $twig = $factory($this->container->reveal());
 
         $environment = $this->fetchTwigEnvironment($twig);
-        $extension = $environment->getExtension('zend-expressive');
+        $extension = $environment->getExtension('mezzio');
         $this->assertInstanceOf(TwigExtension::class, $extension);
         $this->assertAttributeEquals($config['templates']['assets_url'], 'assetsUrl', $extension);
         $this->assertAttributeEquals($config['templates']['assets_version'], 'assetsVersion', $extension);
@@ -145,6 +147,7 @@ class TwigFactoryTest extends TestCase
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn($config);
         $this->container->has(RouterInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Router\RouterInterface::class)->willReturn(false);
         $factory = new TwigRendererFactory();
         $twig = $factory($this->container->reveal());
 
@@ -161,6 +164,7 @@ class TwigFactoryTest extends TestCase
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn($config);
         $this->container->has(RouterInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Router\RouterInterface::class)->willReturn(false);
         $factory = new TwigRendererFactory();
         $twig = $factory($this->container->reveal());
 

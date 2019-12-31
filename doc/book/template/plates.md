@@ -9,7 +9,7 @@ it provides:
 - Helpers for escaping, and the ability to provide custom helper extensions.
 
 We provide a [TemplateRendererInterface](interface.md) wrapper for Plates via
-`Zend\Expressive\Template\PlatesRenderer`.
+`Mezzio\Template\PlatesRenderer`.
 
 ## Installing Plates
 
@@ -21,21 +21,21 @@ $ composer require league/plates
 
 ## Using the wrapper
 
-If instantiated without arguments, `Zend\Expressive\Template\PlatesRenderer` will create
+If instantiated without arguments, `Mezzio\Template\PlatesRenderer` will create
 an instance of the Plates engine, which it will then proxy to.
 
 ```php
-use Zend\Expressive\Template\PlatesRenderer;
+use Mezzio\Template\PlatesRenderer;
 
 $renderer = new PlatesRenderer();
 ```
 
 Alternately, you can instantiate and configure the engine yourself, and pass it
-to the `Zend\Expressive\Template\PlatesRenderer` constructor:
+to the `Mezzio\Template\PlatesRenderer` constructor:
 
 ```php
 use League\Plates\Engine as PlatesEngine;
-use Zend\Expressive\Template\PlatesRenderer;
+use Mezzio\Template\PlatesRenderer;
 
 // Create the engine instance:
 $plates = new PlatesEngine();

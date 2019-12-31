@@ -29,41 +29,41 @@ this example, we'll have that in `config/services.php`.
 
 ```php
 use Interop\Container\Pimple\PimpleInterop as Pimple;
-use Zend\Expressive\Container;
-use Zend\Expressive\Router;
-use Zend\Expressive\Template;
+use Mezzio\Container;
+use Mezzio\Router;
+use Mezzio\Template;
 
 $container = new Pimple();
 
 // Application and configuration
 $container['config'] = include 'config/config.php';
-$container['Zend\Expressive\Application'] = new Container\ApplicationFactory;
+$container['Mezzio\Application'] = new Container\ApplicationFactory;
 
 // Routing
 // In most cases, you can instantiate the router you want to use without using a
 // factory:
-$container['Zend\Expressive\Router\RouterInterface'] = function ($container) {
+$container['Mezzio\Router\RouterInterface'] = function ($container) {
     return new Router\Aura();
 };
 
 // Templating
 // In most cases, you can instantiate the template renderer you want to use
 // without using a factory:
-$container['Zend\Expressive\Template\TemplateRendererInterface'] = function ($container) {
+$container['Mezzio\Template\TemplateRendererInterface'] = function ($container) {
     return new Template\Plates();
 };
 
 // These next two can be added in any environment; they won't be used unless
 // you add the WhoopsErrorHandler as the FinalHandler implementation:
-$container['Zend\Expressive\Whoops'] = new Container\WhoopsFactory();
-$container['Zend\Expressive\WhoopsPageHandler'] = new Container\WhoopsPageHandlerFactory();
+$container['Mezzio\Whoops'] = new Container\WhoopsFactory();
+$container['Mezzio\WhoopsPageHandler'] = new Container\WhoopsPageHandlerFactory();
 
 // Error Handling
 // If in development:
-$container['Zend\Expressive\FinalHandler'] = new Container\WhoopsErrorHandlerFactory();
+$container['Mezzio\FinalHandler'] = new Container\WhoopsErrorHandlerFactory();
 
 // If in production:
-$container['Zend\Expressive\FinalHandler'] = new Container\TemplatedErrorHandlerFactory();
+$container['Mezzio\FinalHandler'] = new Container\TemplatedErrorHandlerFactory();
 
 return $container;
 ```
@@ -73,13 +73,13 @@ Your bootstrap (typically `public/index.php`) will then look like this:
 ```php
 chdir(dirname(__DIR__));
 $container = require 'config/services.php';
-$app = $container->get('Zend\Expressive\Application');
+$app = $container->get('Mezzio\Application');
 $app->run();
 ```
 
 > ### Environments
 > 
 > In the example above, we provide two alternate definitions for the service
-> `Zend\Expressive\FinalHandler`, one for development and one for production.
+> `Mezzio\FinalHandler`, one for development and one for production.
 > You will need to add logic to your file to determine which definition to
 > provide; this could be accomplished via an environment variable.

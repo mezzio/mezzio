@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Template;
+namespace MezzioTest\Template;
 
 use ArrayObject;
 use League\Plates\Engine;
+use Mezzio\Exception;
+use Mezzio\Template\PlatesRenderer;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Expressive\Exception;
-use Zend\Expressive\Template\PlatesRenderer;
 
 class PlatesRendererTest extends TestCase
 {

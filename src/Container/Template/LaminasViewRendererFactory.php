@@ -1,29 +1,28 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Container\Template;
+namespace Mezzio\Container\Template;
 
 use Interop\Container\ContainerInterface;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Template\ZendView;
-use Zend\Expressive\Template\ZendViewRenderer;
-use Zend\View\HelperPluginManager;
-use Zend\View\Renderer\PhpRenderer;
-use Zend\View\Resolver;
+use Laminas\View\HelperPluginManager;
+use Laminas\View\Renderer\PhpRenderer;
+use Laminas\View\Resolver;
+use Mezzio\Router\RouterInterface;
+use Mezzio\Template\LaminasView;
+use Mezzio\Template\LaminasViewRenderer;
 
 /**
- * Create and return a ZendView template instance.
+ * Create and return a LaminasView template instance.
  *
- * Requires the Zend\Expressive\Router\RouterInterface service (for creating
+ * Requires the Mezzio\Router\RouterInterface service (for creating
  * the UrlHelper instance).
  *
- * Optionally requires the Zend\View\HelperPluginManager service; if present,
+ * Optionally requires the Laminas\View\HelperPluginManager service; if present,
  * will use the service to inject the PhpRenderer instance.
  *
  * Optionally uses the service 'config', which should return an array. This
@@ -44,14 +43,14 @@ use Zend\View\Resolver;
  * ]
  * </code>
  *
- * Injects the HelperPluginManager used by the PhpRenderer with zend-expressive
+ * Injects the HelperPluginManager used by the PhpRenderer with mezzio
  * overrides of the url and serverurl helpers.
  */
-class ZendViewRendererFactory
+class LaminasViewRendererFactory
 {
     /**
      * @param ContainerInterface $container
-     * @returns ZendViewRenderer
+     * @returns LaminasViewRenderer
      */
     public function __invoke(ContainerInterface $container)
     {
@@ -73,7 +72,7 @@ class ZendViewRendererFactory
         $this->injectHelpers($renderer, $container);
 
         // Inject renderer
-        $view = new ZendViewRenderer($renderer, isset($config['layout']) ? $config['layout'] : null);
+        $view = new LaminasViewRenderer($renderer, isset($config['layout']) ? $config['layout'] : null);
 
         // Add template paths
         $allPaths = isset($config['paths']) && is_array($config['paths']) ? $config['paths'] : [];
@@ -102,12 +101,14 @@ class ZendViewRendererFactory
     {
         $helpers = $container->has(HelperPluginManager::class)
             ? $container->get(HelperPluginManager::class)
-            : new HelperPluginManager();
+            : ($container->has(\Zend\View\HelperPluginManager::class)
+                ? $container->get(\Zend\View\HelperPluginManager::class)
+                : new HelperPluginManager());
 
         $helpers->setFactory('url', function () use ($container) {
-            return new ZendView\UrlHelper($container->get(RouterInterface::class));
+            return new LaminasView\UrlHelper($container->get(RouterInterface::class));
         });
-        $helpers->setInvokableClass('serverurl', ZendView\ServerUrlHelper::class);
+        $helpers->setInvokableClass('serverurl', LaminasView\ServerUrlHelper::class);
 
         $renderer->setHelperPluginManager($helpers);
     }

@@ -1,7 +1,7 @@
 # Error Handling
 
-Expressive provides error handling out of the box, via zend-stratigility's [FinalHandler
-implementation](https://github.com/zendframework/zend-stratigility/blob/master/doc/book/api.md#finalhandler).
+Mezzio provides error handling out of the box, via laminas-stratigility's [FinalHandler
+implementation](https://github.com/laminas/laminas-stratigility/blob/master/doc/book/api.md#finalhandler).
 This pseudo-middleware is executed in the following conditions:
 
 - If the middleware stack is exhausted, and no middleware has returned a response.
@@ -28,13 +28,13 @@ In the event that an error *was* passed, it does the following:
   reason phrase. If the `FinalHandler` was initialized with an option indicating that it is in
   development mode, it writes the exception stack trace to the response body.
 
-This workflow stays the same throughout zend-expressive. But sometimes, it's just not enough.
+This workflow stays the same throughout mezzio. But sometimes, it's just not enough.
 
 ## Templated Errors
 
 You'll typically want to provide error messages in your site template. To do so, we provide
-`Zend\Expressive\TemplatedErrorHandler`. This class is similar to the `FinalHandler`, but accepts,
-optionally, a `Zend\Expressive\Template\TemplateRendererInterface` instance, and template names to use for
+`Mezzio\TemplatedErrorHandler`. This class is similar to the `FinalHandler`, but accepts,
+optionally, a `Mezzio\Template\TemplateRendererInterface` instance, and template names to use for
 404 and general error conditions. This makes it a good choice for use in production.
 
 First, of course, you'll need to select a templating system and ensure you have
@@ -45,9 +45,9 @@ Once you have selected your templating system, you can setup the templated error
 handler.
 
 ```php
-use Zend\Expressive\Application;
-use Zend\Expressive\Template\PlatesRenderer;
-use Zend\Expressive\TemplatedErrorHandler;
+use Mezzio\Application;
+use Mezzio\Template\PlatesRenderer;
+use Mezzio\TemplatedErrorHandler;
 
 $plates = new Plates();
 $plates->addPath(__DIR__ . '/templates/error', 'error');
@@ -70,7 +70,7 @@ the `TemplatedErrorHandler` as your final handler within a container-based appli
 
 [whoops](http://filp.github.io/whoops/) is a library for providing a more usable UI around
 exceptions and PHP errors. We provide integration with this library through
-`Zend\Express\WhoopsErrorHandler`. This error handler derives from the `TemplatedErrorHandler`, and
+`Laminas\Express\WhoopsErrorHandler`. This error handler derives from the `TemplatedErrorHandler`, and
 uses its features for 404 status and non-exception errors. For exceptions, however, it will return
 the whoops output. As such, it is a good choice for use in development.
 
@@ -87,9 +87,9 @@ instance and template names, just as you would for a `TemplatedErrorHandler`.
 ```php
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
-use Zend\Expressive\Application;
-use Zend\Expressive\Template\PlatesRenderer;
-use Zend\Expressive\WhoopsErrorHandler;
+use Mezzio\Application;
+use Mezzio\Template\PlatesRenderer;
+use Mezzio\WhoopsErrorHandler;
 
 $handler = new PrettyPageHandler();
 
@@ -117,11 +117,11 @@ $app->run();
 ```
 
 The calls to `writeToOutput(false)`, `allowQuit(false)`, and `register()` must be made to guarantee
-whoops will interoperate well with zend-expressive.
+whoops will interoperate well with mezzio.
 
 You can add more handlers if desired.
 
-Internally, when an exception is discovered, zend-expressive adds some data to the whoops output,
+Internally, when an exception is discovered, mezzio adds some data to the whoops output,
 primarily around the request information (URI, HTTP request method, route match attributes, etc.).
 
 See the next section for techniques on configuring the `WhoopsErrorHandler` as your final handler
@@ -134,7 +134,7 @@ factories that work with [container-interop](https://github.com/container-intero
 container implementations to simplify setup.
 
 In each case, you should register the selected error handler's factory as the service
-`Zend\Expressive\FinalHandler`.
+`Mezzio\FinalHandler`.
 
-- For the `TemplatedErrorHandler`, use [`Zend\Expressive\Container\TemplatedErrorHandlerFactory`](container/factories.md#templatederrorhandlerfactory).
-- For the `WhoopsErrorHandler`, use [`Zend\Expressive\Container\WhoopsErrorHandlerFactory`](container/factories.md#whoopserrorhandlerfactory).
+- For the `TemplatedErrorHandler`, use [`Mezzio\Container\TemplatedErrorHandlerFactory`](container/factories.md#templatederrorhandlerfactory).
+- For the `WhoopsErrorHandler`, use [`Mezzio\Container\WhoopsErrorHandlerFactory`](container/factories.md#whoopserrorhandlerfactory).

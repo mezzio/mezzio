@@ -1,27 +1,26 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Container\Template;
+namespace MezzioTest\Container\Template;
 
 use Interop\Container\ContainerInterface;
+use Laminas\View\HelperPluginManager;
+use Laminas\View\Model\ModelInterface;
+use Laminas\View\Resolver\AggregateResolver;
+use Laminas\View\Resolver\TemplateMapResolver;
+use Mezzio\Container\Template\LaminasViewRendererFactory;
+use Mezzio\Router\RouterInterface;
+use Mezzio\Template\LaminasView;
+use Mezzio\Template\LaminasViewRenderer;
 use PHPUnit_Framework_TestCase as TestCase;
 use ReflectionProperty;
-use Zend\Expressive\Container\Template\ZendViewRendererFactory;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Template\ZendView;
-use Zend\Expressive\Template\ZendViewRenderer;
-use Zend\View\HelperPluginManager;
-use Zend\View\Model\ModelInterface;
-use Zend\View\Resolver\AggregateResolver;
-use Zend\View\Resolver\TemplateMapResolver;
 
-class ZendViewRendererFactoryTest extends TestCase
+class LaminasViewRendererFactoryTest extends TestCase
 {
     /** @var  ContainerInterface */
     private $container;
@@ -33,27 +32,28 @@ class ZendViewRendererFactoryTest extends TestCase
         $this->container = $this->prophesize(ContainerInterface::class);
     }
 
-    public function fetchPhpRenderer(ZendViewRenderer $view)
+    public function fetchPhpRenderer(LaminasViewRenderer $view)
     {
         $r = new ReflectionProperty($view, 'renderer');
         $r->setAccessible(true);
         return $r->getValue($view);
     }
 
-    public function testCallingFactoryWithNoConfigReturnsZendViewInstance()
+    public function testCallingFactoryWithNoConfigReturnsLaminasViewInstance()
     {
         $this->container->has('config')->willReturn(false);
         $this->container->has(HelperPluginManager::class)->willReturn(false);
-        $factory = new ZendViewRendererFactory();
+        $this->container->has(\Zend\View\HelperPluginManager::class)->willReturn(false);
+        $factory = new LaminasViewRendererFactory();
         $view    = $factory($this->container->reveal());
-        $this->assertInstanceOf(ZendViewRenderer::class, $view);
+        $this->assertInstanceOf(LaminasViewRenderer::class, $view);
         return $view;
     }
 
     /**
-     * @depends testCallingFactoryWithNoConfigReturnsZendViewInstance
+     * @depends testCallingFactoryWithNoConfigReturnsLaminasViewInstance
      */
-    public function testUnconfiguredZendViewInstanceContainsNoPaths(ZendViewRenderer $view)
+    public function testUnconfiguredLaminasViewInstanceContainsNoPaths(LaminasViewRenderer $view)
     {
         $paths = $view->getPaths();
         $this->assertInternalType('array', $paths);
@@ -70,7 +70,8 @@ class ZendViewRendererFactoryTest extends TestCase
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn($config);
         $this->container->has(HelperPluginManager::class)->willReturn(false);
-        $factory = new ZendViewRendererFactory();
+        $this->container->has(\Zend\View\HelperPluginManager::class)->willReturn(false);
+        $factory = new LaminasViewRendererFactory();
         $view = $factory($this->container->reveal());
 
         $r = new ReflectionProperty($view, 'layout');
@@ -90,7 +91,8 @@ class ZendViewRendererFactoryTest extends TestCase
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn($config);
         $this->container->has(HelperPluginManager::class)->willReturn(false);
-        $factory = new ZendViewRendererFactory();
+        $this->container->has(\Zend\View\HelperPluginManager::class)->willReturn(false);
+        $factory = new LaminasViewRendererFactory();
         $view = $factory($this->container->reveal());
 
         $paths = $view->getPaths();
@@ -123,7 +125,8 @@ class ZendViewRendererFactoryTest extends TestCase
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn($config);
         $this->container->has(HelperPluginManager::class)->willReturn(false);
-        $factory = new ZendViewRendererFactory();
+        $this->container->has(\Zend\View\HelperPluginManager::class)->willReturn(false);
+        $factory = new LaminasViewRendererFactory();
         $view = $factory($this->container->reveal());
 
         $r = new ReflectionProperty($view, 'renderer');
@@ -149,19 +152,20 @@ class ZendViewRendererFactoryTest extends TestCase
         $router = $this->prophesize(RouterInterface::class)->reveal();
         $this->container->has('config')->willReturn(false);
         $this->container->has(HelperPluginManager::class)->willReturn(false);
+        $this->container->has(\Zend\View\HelperPluginManager::class)->willReturn(false);
         $this->container->has(RouterInterface::class)->willReturn(true);
         $this->container->get(RouterInterface::class)->willReturn($router);
-        $factory = new ZendViewRendererFactory();
+        $factory = new LaminasViewRendererFactory();
         $view    = $factory($this->container->reveal());
-        $this->assertInstanceOf(ZendViewRenderer::class, $view);
+        $this->assertInstanceOf(LaminasViewRenderer::class, $view);
 
         $renderer = $this->fetchPhpRenderer($view);
         $helpers  = $renderer->getHelperPluginManager();
         $this->assertInstanceOf(HelperPluginManager::class, $helpers);
         $this->assertTrue($helpers->has('url'));
         $this->assertTrue($helpers->has('serverurl'));
-        $this->assertInstanceOf(ZendView\UrlHelper::class, $helpers->get('url'));
-        $this->assertInstanceOf(ZendView\ServerUrlHelper::class, $helpers->get('serverurl'));
+        $this->assertInstanceOf(LaminasView\UrlHelper::class, $helpers->get('url'));
+        $this->assertInstanceOf(LaminasView\ServerUrlHelper::class, $helpers->get('serverurl'));
     }
 
     public function testWillUseHelperManagerFromContainer()
@@ -174,9 +178,9 @@ class ZendViewRendererFactoryTest extends TestCase
         $helpers = new HelperPluginManager();
         $this->container->has(HelperPluginManager::class)->willReturn(true);
         $this->container->get(HelperPluginManager::class)->willReturn($helpers);
-        $factory = new ZendViewRendererFactory();
+        $factory = new LaminasViewRendererFactory();
         $view    = $factory($this->container->reveal());
-        $this->assertInstanceOf(ZendViewRenderer::class, $view);
+        $this->assertInstanceOf(LaminasViewRenderer::class, $view);
 
         $renderer = $this->fetchPhpRenderer($view);
         $this->assertSame($helpers, $renderer->getHelperPluginManager());
@@ -190,7 +194,7 @@ class ZendViewRendererFactoryTest extends TestCase
     {
         $this->assertTrue($helpers->has('url'));
         $this->assertTrue($helpers->has('serverurl'));
-        $this->assertInstanceOf(ZendView\UrlHelper::class, $helpers->get('url'));
-        $this->assertInstanceOf(ZendView\ServerUrlHelper::class, $helpers->get('serverurl'));
+        $this->assertInstanceOf(LaminasView\UrlHelper::class, $helpers->get('url'));
+        $this->assertInstanceOf(LaminasView\ServerUrlHelper::class, $helpers->get('serverurl'));
     }
 }
