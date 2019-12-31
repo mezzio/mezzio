@@ -1,7 +1,7 @@
 # Quick Start: Using the Skeleton + Installer
 
-The easiest way to get started with Expressive is to use the [skeleton
-application and installer](https://github.com/zendframework/zend-expressive-skeleton).
+The easiest way to get started with Mezzio is to use the [skeleton
+application and installer](https://github.com/mezzio/mezzio-skeleton).
 The skeleton provides a generic structure for creating your applications, and
 prompts you to choose a router, dependency injection container, template
 renderer, and error handler from the outset.
@@ -11,13 +11,13 @@ renderer, and error handler from the outset.
 First, we'll create a new project, using Composer's `create-project` command:
 
 ```bash
-$ composer create-project zendframework/zend-expressive-skeleton expressive
+$ composer create-project mezzio/mezzio-skeleton mezzio
 ```
 
 This will prompt you to choose:
 
 - A router. We recommend using the default, FastRoute.
-- A dependency injection container. We recommend using the default, Zend
+- A dependency injection container. We recommend using the default, Laminas
   ServiceManager.
 - A template renderer. You can ignore this when creating an API project, but if
   you will be creating any HTML pages, we recommend installing one. We prefer
@@ -155,8 +155,8 @@ namespace App\Action;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Laminas\Diactoros\Response\HtmlResponse;
+use Mezzio\Template\TemplateRendererInterface;
 
 class HelloAction
 {
@@ -184,8 +184,8 @@ calls on it to render a template. A few things to note:
 
 - We no longer need to escape our target; the template takes care of that for us.
 - We're using a specific response type here, from
-  [Diactoros](https://github.com/zendframework/zend-diactoros), which is the
-  default PSR-7 implementation Expressive uses. This response type simplifies
+  [Diactoros](https://github.com/laminas/laminas-diactoros), which is the
+  default PSR-7 implementation Mezzio uses. This response type simplifies
   our response creation.
 
 How does the template renderer get into the action, however? The answer is
@@ -193,7 +193,7 @@ dependency injection.
 
 For the next part of the example, we'll be creating and wiring a factory for
 creating the `HelloAction` instance; the example assumes you used the default
-selection for a dependency injection container, Zend ServiceManager.
+selection for a dependency injection container, Laminas ServiceManager.
 
 Let's create a factory. Create the file `src/Action/HelloActionFactory.php` with
 the following contents:
@@ -203,7 +203,7 @@ the following contents:
 namespace App\Action;
 
 use Interop\Container\ContainerInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class HelloActionFactory
 {
@@ -260,7 +260,7 @@ application!
 
 Congratulations! You've now created your application, and started writing
 middleware! It's time to start learning about the rest of the features of
-Expressive:
+Mezzio:
 
 - [Containers](container/intro.md)
 - [Routing](router/intro.md)
