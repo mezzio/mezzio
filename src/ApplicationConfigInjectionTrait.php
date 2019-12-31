@@ -1,14 +1,15 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
+use Mezzio\Router\Route;
 use SplPriorityQueue;
-use Zend\Expressive\Router\Route;
 
 trait ApplicationConfigInjectionTrait
 {
@@ -60,7 +61,7 @@ trait ApplicationConfigInjectionTrait
      *
      * Additionally, you can specify an array of callables or service names as
      * the `middleware` value of a specification. Internally, this will create
-     * a `Zend\Stratigility\MiddlewarePipe` instance, with the middleware
+     * a `Laminas\Stratigility\MiddlewarePipe` instance, with the middleware
      * specified piped in the order provided.
      *
      * @param null|array $config If null, attempts to pull the 'config' service
@@ -125,7 +126,7 @@ trait ApplicationConfigInjectionTrait
      * Each route MUST have a path and middleware key at the minimum.
      *
      * The "allowed_methods" key may be omitted, can be either an array or the
-     * value of the Zend\Expressive\Router\Route::HTTP_METHOD_ANY constant; any
+     * value of the Mezzio\Router\Route::HTTP_METHOD_ANY constant; any
      * valid HTTP method token is allowed, which means you can specify custom HTTP
      * methods as well.
      *
