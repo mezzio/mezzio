@@ -1,11 +1,11 @@
 # Using Double-Pass Middleware
 
-Expressive uses [PSR-15](https://www.php-fig.org/psr/psr-15/) middleware and
+Mezzio uses [PSR-15](https://www.php-fig.org/psr/psr-15/) middleware and
 request handlers exclusively as of version 3.
 
 In previous releases, however, we supported "double-pass" middleware, and a
 number of third-party packages provided double-pass middleware. How can you use
-this middleware with Expressive 3?
+this middleware with Mezzio 3?
 
 > ### What is Double-Pass Middleware?
 >
@@ -26,9 +26,9 @@ this middleware with Expressive 3?
 
 ## doublePassMiddleware function
 
-zend-stratigility v2.2 and v3.0 ship a utility function,
-`Zend\Stratigility\doublePassMiddleware()`, that will decorate a callable
-double-pass middleware using a `Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator`
+laminas-stratigility v2.2 and v3.0 ship a utility function,
+`Laminas\Stratigility\doublePassMiddleware()`, that will decorate a callable
+double-pass middleware using a `Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator`
 instance; this latter is a PSR-15 impelementation, and can thus be used in your
 middleware pipelines.
 
@@ -36,12 +36,12 @@ The function (and class) also expects a [PSR-7](https://www.php-fig.org/psr/psr-
 `ResponseInterface` instance as a second argument; this is then passed as the
 `$response` argument to the double-pass middleware. The following examples
 demostrate both piping and routing to double pass middleware using this
-technique, and using zend-diactoros to provide the response instance.
+technique, and using laminas-diactoros to provide the response instance.
 
 ```php
-use Zend\Diactoros\Response;
+use Laminas\Diactoros\Response;
 
-use function Zend\Stratigility\doublePassMiddleware;
+use function Laminas\Stratigility\doublePassMiddleware;
 
 $app->pipe(doublePassMiddleware(function ($request, $response, $next) {
     $response = $next($request, $response);
@@ -79,7 +79,7 @@ To demonstrate:
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 
-use function Zend\Stratigility\doublePassMiddleware;
+use function Laminas\Stratigility\doublePassMiddleware;
 
 class SomeDoublePassMiddlewareFactory
 {
@@ -117,7 +117,7 @@ The delegator factory would look like this:
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 
-use function Zend\Stratigility\doublePassMiddleware;
+use function Laminas\Stratigility\doublePassMiddleware;
 
 class DoublePassMiddlewareDelegator
 {
@@ -160,19 +160,19 @@ This approach has a couple of benefits:
 
 ### Extending the MiddlewareContainer
 
-Another possibility is to extend `Zend\Expressive\MiddlewareContainer` to add
+Another possibility is to extend `Mezzio\MiddlewareContainer` to add
 awareness of double-pass middleware, and have it auto-decorate them for you.
 
 A contributor has created such a library:
 
-- https://github.com/Moln/expressive-callable-middleware-compat
+- https://github.com/Moln/mezzio-callable-middleware-compat
 
-You can install it using `composer require moln/expressive-callable-middleware-compat`.
-Once installed, add its `Moln\ExpressiveCallableCompat\ConfigProvider` as an
-entry in your `config/config.php` **after** the `Zend\Expressive\ConfigProvider`
+You can install it using `composer require moln/mezzio-callable-middleware-compat`.
+Once installed, add its `Moln\MezzioCallableCompat\ConfigProvider` as an
+entry in your `config/config.php` **after** the `Mezzio\ConfigProvider`
 entry. This last point is particularly important: providers are merged in the order
 presented, with later entries having precedence; you need to ensure the new
-package overrides the `MiddlewareContainer` service provided by zend-expressive!
+package overrides the `MiddlewareContainer` service provided by mezzio!
 
 When you use this approach, it will automatically detect double-pass middleware
 and decorate it for you.

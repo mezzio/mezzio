@@ -1,18 +1,18 @@
 # Applications
 
-In zend-expressive, you define a `Zend\Expressive\Application` instance and
-execute it. The `Application` instance is itself [middleware](https://docs.zendframework.com/zend-stratigility/middleware/)
+In mezzio, you define a `Mezzio\Application` instance and
+execute it. The `Application` instance is itself [middleware](https://docs.laminas.dev/laminas-stratigility/middleware/)
 that composes:
 
-- a `Zend\Expressive\MiddlewareFactory` instance, used to prepare middleware
+- a `Mezzio\MiddlewareFactory` instance, used to prepare middleware
   arguments to pipe into:
-- a `Zend\Stratigility\MiddlewarePipe` instance, representing the application
+- a `Laminas\Stratigility\MiddlewarePipe` instance, representing the application
   middleware pipeline.
-- a `Zend\Expressive\Router\RouteCollector` instance, used to create
-  `Zend\Expressive\Router\Route` instances based on a combination of paths and
+- a `Mezzio\Router\RouteCollector` instance, used to create
+  `Mezzio\Router\Route` instances based on a combination of paths and
   HTTP methods, and which also injects created instances into the application's
   router.
-- a `Zend\HttpHandlerRunner\RequestHandlerRunner` instance which will ultimately
+- a `Laminas\HttpHandlerRunner\RequestHandlerRunner` instance which will ultimately
   be responsible for marshaling the incoming request, passing it to the
   `MiddlewarePipe`, and emitting the response.
 
@@ -34,10 +34,10 @@ following constructor:
 
 ```php
 public function __construct(
-    Zend\Expressive\MiddlewareFactory $factory,
-    Zend\Stratigility\MiddlewarePipeInterface $pipeline,
-    Zend\Expressive\Router\RouteCollector $routes,
-    Zend\HttpHandlerRunner\RequestHandlerRunner $runner
+    Mezzio\MiddlewareFactory $factory,
+    Laminas\Stratigility\MiddlewarePipeInterface $pipeline,
+    Mezzio\Router\RouteCollector $routes,
+    Laminas\HttpHandlerRunner\RequestHandlerRunner $runner
 ) {
 ```
 
@@ -51,7 +51,7 @@ for details.
 
 We [discuss routing vs piping elsewhere](router/piping.md); routing is the act
 of dynamically matching an incoming request against criteria, and it is one of
-the primary features of zend-expressive.
+the primary features of mezzio.
 
 Regardless of which [router implementation](router/interface.md) you use, you
 can use the following `Application` methods to provide routable middleware:
@@ -66,7 +66,7 @@ public function route(
     $middleware,
     array $methods = null,
     string $name = null
-) : Zend\Expressive\Router\Route
+) : Mezzio\Router\Route
 ```
 
 where:
@@ -77,7 +77,7 @@ where:
     - a fully qualified class name of a constructor-less class that represents a
       PSR-15 `MiddlewareInterface` or `RequestHandlerInterface` instance;
     - an array of any of the above; these will be composed in order into a
-      `Zend\Stratigility\MiddlewarePipe` instance.
+      `Laminas\Stratigility\MiddlewarePipe` instance.
 - `$methods` must be an array of HTTP methods valid for the given path and
   middleware. If null, it assumes any method is valid.
 - `$name` is the optional name for the route, and is used when generating a URI
@@ -97,7 +97,7 @@ function (
     string $path,
     $middleware,
     string $name = null
-) : Zend\Expressive\Router\Route
+) : Mezzio\Router\Route
 ```
 
 Essentially, each calls `route()` and specifies an array consisting solely of
@@ -105,7 +105,7 @@ the corresponding HTTP method for the `$methods` argument.
 
 ### Piping
 
-Because zend-expressive builds on [zend-stratigility](https://docs.zendframework.com/zend-stratigility/),
+Because mezzio builds on [laminas-stratigility](https://docs.laminas.dev/laminas-stratigility/),
 and, more specifically, its `MiddlewarePipe` definition, you can also pipe
 (queue) middleware to the application. This is useful for adding middleware that
 should execute on each request, defining error handlers, and/or segregating
@@ -128,13 +128,13 @@ where:
     - a fully qualified class name of a constructor-less class that represents a
       PSR-15 `MiddlewareInterface` or `RequestHandlerInterface` instance;
     - an array of any of the above; these will be composed in order into a
-      `Zend\Stratigility\MiddlewarePipe` instance.
+      `Laminas\Stratigility\MiddlewarePipe` instance.
 
-Unlike `Zend\Stratigility\MiddlewarePipe`, `Application::pipe()` *allows
+Unlike `Laminas\Stratigility\MiddlewarePipe`, `Application::pipe()` *allows
 fetching middleware and request handlers by service name*. This facility allows
 lazy-loading of middleware only when it is invoked. Internally, it wraps the
 call to fetch and dispatch the middleware inside a
-`Zend\Expressive\Middleware\LazyLoadingMiddleware` instance.
+`Mezzio\Middleware\LazyLoadingMiddleware` instance.
 
 Read the section on [piping vs routing](router/piping.md) for more information.
 
@@ -144,16 +144,16 @@ Routing and dispatch middleware must be piped to the application like any other
 middleware. You can do so using the following:
 
 ```php
-$app->pipe(Zend\Expressive\Router\Middleware\RouteMiddleware::class);
-$app->pipe(Zend\Expressive\Router\Middleware\DispatchMiddleware::class);
+$app->pipe(Mezzio\Router\Middleware\RouteMiddleware::class);
+$app->pipe(Mezzio\Router\Middleware\DispatchMiddleware::class);
 ```
 
 We recommend piping the following middleware between the two as well:
 
 ```php
-$app->pipe(Zend\Expressive\Router\Middleware\ImplicitHeadMiddleware::class);
-$app->pipe(Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware::class);
-$app->pipe(Zend\Expressive\Router\Middleware\MethodNotAllowedMiddleware::class);
+$app->pipe(Mezzio\Router\Middleware\ImplicitHeadMiddleware::class);
+$app->pipe(Mezzio\Router\Middleware\ImplicitOptionsMiddleware::class);
+$app->pipe(Mezzio\Router\Middleware\MethodNotAllowedMiddleware::class);
 ```
 
 These allow your application to return:

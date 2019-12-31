@@ -1,12 +1,12 @@
 # Templating
 
-By default, no middleware or handlers in Expressive are templated. We do not even
+By default, no middleware or handlers in Mezzio are templated. We do not even
 provide a default templating engine, as the choice of templating engine is often
 very specific to the project and/or organization.
 
 We do, however, provide abstraction for templating via the interface
-`Zend\Expressive\Template\TemplateRendererInterface`, which allows you to write
-middleware that is engine-agnostic. For Expressive, this means:
+`Mezzio\Template\TemplateRendererInterface`, which allows you to write
+middleware that is engine-agnostic. For Mezzio, this means:
 
 - All adapters MUST support template namespacing. Namespaces MUST be referenced
   using the notation `namespace::template` when rendering.
@@ -27,7 +27,7 @@ We currently support:
 
 - [Plates](plates.md)
 - [Twig](twig.md)
-- [zend-view](zend-view.md)
+- [laminas-view](laminas-view.md)
 
 Each has an associated container factory; details are found in the
 [factories documentation](../container/factories.md).

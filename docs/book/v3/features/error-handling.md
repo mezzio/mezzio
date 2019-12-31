@@ -52,42 +52,42 @@ $app->pipe($errorMiddleware);
 ```
 
 So that you do not need to do this, we provide an error handler for you, via
-zend-stratigility: `Zend\Stratigility\Middleware\ErrorHandler`.
+laminas-stratigility: `Laminas\Stratigility\Middleware\ErrorHandler`.
 
 This implementation allows you to both:
 
 - provide a response generator, invoked when an error is caught; and
 - register listeners to trigger when errors are caught.
 
-We provide the factory `Zend\Expressive\Container\ErrorHandlerFactory` for
+We provide the factory `Mezzio\Container\ErrorHandlerFactory` for
 generating the instance; it should be mapped to the service
-`Zend\Stratigility\Middleware\ErrorHandler`.
+`Laminas\Stratigility\Middleware\ErrorHandler`.
 
 We provide two error response generators for you:
 
-- `Zend\Expressive\Middleware\ErrorResponseGenerator`, which optionally will
-  accept a `Zend\Expressive\Template\TemplateRendererInterface` instance, and a
+- `Mezzio\Middleware\ErrorResponseGenerator`, which optionally will
+  accept a `Mezzio\Template\TemplateRendererInterface` instance, and a
   template name. When present, these will be used to generate response content;
   otherwise, a plain text response is generated that notes the request method
   and URI.
 
-- `Zend\Expressive\Middleware\WhoopsErrorResponseGenerator`, which uses
+- `Mezzio\Middleware\WhoopsErrorResponseGenerator`, which uses
   [whoops](http://filp.github.io/whoops/) to present detailed exception
   and request information; this implementation is intended for development
   purposes.
 
 Each also has an accompanying factory for generating the instance:
 
-- `Zend\Expressive\Container\ErrorResponseGeneratorFactory`
-- `Zend\Expressive\Container\WhoopsErrorResponseGeneratorFactory`
+- `Mezzio\Container\ErrorResponseGeneratorFactory`
+- `Mezzio\Container\WhoopsErrorResponseGeneratorFactory`
 
-Map the service `Zend\Expressive\Middleware\ErrorResponseGenerator` to one of
+Map the service `Mezzio\Middleware\ErrorResponseGenerator` to one of
 these two factories in your configuration:
 
 ```php
-use Zend\Expressive\Container;
-use Zend\Expressive\Middleware;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Mezzio\Container;
+use Mezzio\Middleware;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
 return [
     'dependencies' => [
@@ -104,14 +104,14 @@ return [
 > You can specify the above in one of your `config/autoload/*.global.php` files,
 > to ensure you have a production-capable error response generator.
 >
-> If you are using [zf-development-mode](https://github.com/zfcampus/zf-development-mode)
+> If you are using [laminas-development-mode](https://github.com/laminas/laminas-development-mode)
 > in your application (which is provided by default in the skeleton
 > application), you can toggle usage of whoops by adding configuration to the file
 > `config/autoload/development.local.php.dist`:
 >
 > ```php
-> use Zend\Expressive\Container;
-> use Zend\Expressive\Middleware;
+> use Mezzio\Container;
+> use Mezzio\Middleware;
 >
 > return [
 >     'dependencies' => [
@@ -125,14 +125,14 @@ return [
 > When you enable development mode, whoops will then be enabled; when you
 > disable development mode, you'll be using your production generator.
 >
-> If you are not using zf-development-mode, you can define a
+> If you are not using laminas-development-mode, you can define a
 > `config/autoload/*.local.php` file with the above configuration whenever you
 > want to enable whoops.
 
 ## Listening for errors
 
 When errors occur, you may want to _listen_ for them in order to provide
-features such as logging. `Zend\Stratigility\Middleware\ErrorHandler` provides
+features such as logging. `Laminas\Stratigility\Middleware\ErrorHandler` provides
 the ability to do so via its `attachListener()` method.
 
 This method accepts a callable with the following signature:
@@ -196,7 +196,7 @@ namespace Acme;
 
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
 class LoggingErrorListenerDelegatorFactory
 {
@@ -258,10 +258,10 @@ middleware was capable of handling the request, and thus an HTTP 404 Not Found
 condition.
 
 To simplify such responses, we provide
-`Zend\Expressive\Handler\NotFoundHandler`.  It will report a 404 response,
+`Mezzio\Handler\NotFoundHandler`.  It will report a 404 response,
 optionally using a composed template renderer to do so.
 
-We provide a factory, `Zend\Expressive\Container\NotFoundHandlerFactory`, for
+We provide a factory, `Mezzio\Container\NotFoundHandlerFactory`, for
 creating an instance, which we [detail elsewhere](container/factories.md#notfoundhandlerfactory). You should pipe it as the innermost layer of your application:
 
 ```php

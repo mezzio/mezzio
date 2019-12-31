@@ -7,13 +7,13 @@ web root. For example:
 var/
 |- www/
 |  |- wordpress/
-|  |- expressive/
+|  |- mezzio/
 |  |  |- public/
 |  |  |  |- index.php
 ```
 
-where `/var/www` is the web root, and your Expressive application is in the
-`expressive/` subdirectory. How can you make your application work correctly in
+where `/var/www` is the web root, and your Mezzio application is in the
+`mezzio/` subdirectory. How can you make your application work correctly in
 this environment?
 
 ## .htaccess in the application root.
@@ -30,7 +30,7 @@ RewriteRule (.*) ./public/$1
 >
 > If you are using a web-server other than Apache, and know how to do a similar
 > rewrite, we'd love to know! Please submit ideas/instructions to
-> [our issue tracker](https://github.com/zendframework/zend-expressive/issues)!
+> [our issue tracker](https://github.com/mezzio/mezzio/issues)!
 
 ## Use middleware to rewrite the path
 
@@ -80,7 +80,7 @@ return [
 
 The base path should be the portion of the web root leading up to the
 `index.php` of your application. In the above example, this would be
-`/expressive`.
+`/mezzio`.
 
 ### mtymek/blast-base-url
 
@@ -110,9 +110,9 @@ return [
         /* ... */
         'routing' => [
             'middleware' => [
-                Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
-                Zend\Expressive\Helper\UrlHelperMiddleware::class,
-                Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Mezzio\Helper\UrlHelperMiddleware::class,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
         ],
@@ -127,7 +127,7 @@ the request URI and the operating system path to the application.
 
 The primary advantage of `mtymek/blast-base-url` is in its additional features:
 
-- it injects `Zend\Expressive\Helper\UrlHelper` with the base path, allowing you
+- it injects `Mezzio\Helper\UrlHelper` with the base path, allowing you
   to create relative route-based URLs.
 - it provides a new helper, `Blast\BaseUrl\BasePathHelper`, which allows you to
   create URLs relative to the base path; this is particularly useful for assets.
@@ -146,7 +146,7 @@ return [
 ];
 ```
 
-Finally, if you're using zend-view, you can register a new "basePath" helper in
+Finally, if you're using laminas-view, you can register a new "basePath" helper in
 your `config/autoload/templates.global.php`:
 
 ```php
@@ -169,6 +169,6 @@ Usage of the `BasePath` helper is as follows:
 // as pulled from your container:
 echo $basePathHelper('/icons/favicon.ico');
 
-// or, from zend-view's PhpRenderer:
+// or, from laminas-view's PhpRenderer:
 echo $this->basePath('/icons/favicon.ico');
 ```
