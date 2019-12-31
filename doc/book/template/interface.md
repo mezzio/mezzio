@@ -1,11 +1,11 @@
 # The Template Interface
 
-Expressive defines `Zend\Expressive\Template\TemplateInterface`, which can be
+Mezzio defines `Mezzio\Template\TemplateInterface`, which can be
 injected into middleware in order to create templated response bodies. The
 interface is defined as follows:
 
 ```php
-namespace Zend\Expressive\Template;
+namespace Mezzio\Template;
 
 interface TemplateInterface
 {
@@ -51,7 +51,7 @@ interface TemplateInterface
 >
 > - Plates uses the syntax `namespace::template`.
 > - Twig uses the syntax `@namespace/template`.
-> - zend-view does not natively support namespaces, though custom resolvers
+> - laminas-view does not natively support namespaces, though custom resolvers
 >   can provide the functionality.
 >
 > To make different engines compatible, we require implementations to support
@@ -74,7 +74,7 @@ the actual template. You may use the `addPath()` method to do so:
 $template->addPath('templates');
 ```
 
-Template engines adapted for zend-expressive are also required to allow
+Template engines adapted for mezzio are also required to allow
 *namespacing* templates; when adding a path, you specify the template
 *namespace* that it fulfills, and the engine will only return a template from
 that path if the namespace provided matches the namespace for the path.

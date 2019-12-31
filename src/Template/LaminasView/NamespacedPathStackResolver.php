@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @see       http://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Template\ZendView;
+namespace Mezzio\Template\LaminasView;
 
+use Laminas\View\Exception as ViewException;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Resolver\TemplatePathStack;
 use SplFileInfo;
 use SplStack;
 use Traversable;
-use Zend\View\Exception as ViewException;
-use Zend\View\Renderer\RendererInterface;
-use Zend\View\Resolver\TemplatePathStack;
 
 /**
  * Variant of TemplatePathStack providing namespaced paths.
@@ -46,8 +47,8 @@ class NamespacedPathStackResolver extends TemplatePathStack
     {
         $this->useViewStream = (bool) ini_get('short_open_tag');
         if ($this->useViewStream) {
-            if (!in_array('zend.view', stream_get_wrappers())) {
-                stream_wrapper_register('zend.view', 'Zend\View\Stream');
+            if (!in_array('laminas.view', stream_get_wrappers())) {
+                stream_wrapper_register('laminas.view', 'Laminas\View\Stream');
             }
         }
 
@@ -215,7 +216,7 @@ class NamespacedPathStackResolver extends TemplatePathStack
 
                 if ($this->useStreamWrapper()) {
                     // If using a stream wrapper, prepend the spec to the path
-                    $filePath = 'zend.view://' . $filePath;
+                    $filePath = 'laminas.view://' . $filePath;
                 }
                 return $filePath;
             }
