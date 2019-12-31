@@ -1,19 +1,20 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Mezzio\Container\NotFoundMiddlewareFactory;
+use Mezzio\Handler\NotFoundHandler;
+use Mezzio\Middleware\NotFoundMiddleware;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Container\NotFoundMiddlewareFactory;
-use Zend\Expressive\Handler\NotFoundHandler;
-use Zend\Expressive\Middleware\NotFoundMiddleware;
 
 class NotFoundMiddlewareFactoryTest extends TestCase
 {

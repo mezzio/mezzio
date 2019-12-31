@@ -1,21 +1,22 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Container;
+namespace Mezzio\Container;
 
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\Stratigility\MiddlewarePipe;
+use Mezzio\Application;
+use Mezzio\ApplicationPipeline;
+use Mezzio\MiddlewareFactory;
+use Mezzio\Router\PathBasedRoutingMiddleware;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\ApplicationPipeline;
-use Zend\Expressive\MiddlewareFactory;
-use Zend\Expressive\Router\PathBasedRoutingMiddleware;
-use Zend\HttpHandlerRunner\RequestHandlerRunner;
-use Zend\Stratigility\MiddlewarePipe;
 
 /**
  * Create an Application instance.
@@ -23,11 +24,11 @@ use Zend\Stratigility\MiddlewarePipe;
  * This class consumes three other services, and one pseudo-service (service
  * that looks like a class name, but resolves to a different resource):
  *
- * - Zend\Expressive\MiddlewareFactory.
- * - Zend\Expressive\ApplicationPipeline, which should resolve to a
- *   Zend\Stratigility\MiddlewarePipeInterface instance.
- * - Zend\Expressive\Middleware\RouteMiddleware.
- * - Zend\HttpHandler\RequestHandlerRunner.
+ * - Mezzio\MiddlewareFactory.
+ * - Mezzio\ApplicationPipeline, which should resolve to a
+ *   Laminas\Stratigility\MiddlewarePipeInterface instance.
+ * - Mezzio\Middleware\RouteMiddleware.
+ * - Laminas\HttpHandler\RequestHandlerRunner.
  */
 class ApplicationFactory
 {

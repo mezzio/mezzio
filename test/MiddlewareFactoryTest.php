@@ -1,26 +1,27 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive;
+namespace MezzioTest;
 
+use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
+use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
+use Laminas\Stratigility\MiddlewarePipe;
+use Mezzio\Exception;
+use Mezzio\Middleware\LazyLoadingMiddleware;
+use Mezzio\MiddlewareContainer;
+use Mezzio\MiddlewareFactory;
+use Mezzio\Router\DispatchMiddleware;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use ReflectionProperty;
-use Zend\Expressive\Exception;
-use Zend\Expressive\MiddlewareContainer;
-use Zend\Expressive\MiddlewareFactory;
-use Zend\Expressive\Middleware\LazyLoadingMiddleware;
-use Zend\Expressive\Router\DispatchMiddleware;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\Middleware\CallableMiddlewareDecorator;
-use Zend\Stratigility\Middleware\RequestHandlerMiddleware;
 
 class MiddlewareFactoryTest extends TestCase
 {

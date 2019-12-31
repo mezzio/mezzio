@@ -3,7 +3,7 @@
 The primary use case for templating is within middleware, to provide templated
 responses. To do this, you will:
 
-- Inject an instance of `Zend\Expressive\Template\TemplateRendererInterface` into your
+- Inject an instance of `Mezzio\Template\TemplateRendererInterface` into your
   middleware.
 - Potentially add paths to the templating instance.
 - Render a template.
@@ -19,17 +19,17 @@ setter. As an example:
 <?php
 namespace Acme\Blog;
 
-// Expressive 3.X:
+// Mezzio 3.X:
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 
-// Expressive 2.X:
+// Mezzio 2.X:
 use Interop\Http\ServerMiddleware\DelegateInterface as RequestHandlerInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class EntryMiddleware implements MiddlewareInterface
 {
@@ -55,7 +55,7 @@ namespace Acme\Blog\Container;
 
 use Acme\Blog\EntryMiddleware;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class EntryMiddlewareFactory
 {
@@ -82,18 +82,18 @@ substitutions to pass to it. This will typically look like the following:
 <?php
 namespace Acme\Blog;
 
-// Expressive 3.X:
+// Mezzio 3.X:
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 
-// Expressive 2.X:
+// Mezzio 2.X:
 use Interop\Http\ServerMiddleware\DelegateInterface as RequestHandlerInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Laminas\Diactoros\Response\HtmlResponse;
+use Mezzio\Template\TemplateRendererInterface;
 
 class EntryMiddleware implements MiddlewareInterface
 {

@@ -1,19 +1,20 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Emitter;
+namespace Mezzio\Emitter;
 
 use InvalidArgumentException;
+use Laminas\Diactoros\Response\EmitterInterface;
+use Mezzio\Exception;
 use Psr\Http\Message\ResponseInterface;
 use SplStack;
-use Zend\Diactoros\Response\EmitterInterface;
-use Zend\Expressive\Exception;
 
 /**
  * Provides an EmitterInterface implementation that acts as a stack of Emitters.

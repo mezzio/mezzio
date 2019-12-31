@@ -29,18 +29,18 @@ If it does find one, it uses the value to setup the locale. It also:
 <?php
 namespace Application\I18n;
 
-// Expressive 3.X:
+// Mezzio 3.X:
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 
-// Expressive 2.X:
+// Mezzio 2.X:
 use Interop\Http\ServerMiddleware\DelegateInterface as RequestHandlerInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 
 use Locale;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class SetLocaleMiddleware implements MiddlewareInterface
 {
@@ -59,9 +59,9 @@ class SetLocaleMiddleware implements MiddlewareInterface
 
         if (! preg_match('#^/(?P<locale>[a-z]{2,3}([-_][a-zA-Z]{2}|))/#', $path, $matches)) {
             Locale::setDefault('de_DE');
-            // Expressive 3.X:
+            // Mezzio 3.X:
             return $handler->handle($request);
-            // Expressive 2.X:
+            // Mezzio 2.X:
             return $handler->process($request);
         }
 
@@ -69,12 +69,12 @@ class SetLocaleMiddleware implements MiddlewareInterface
         Locale::setDefault(Locale::canonicalize($locale));
         $this->helper->setBasePath($locale);
         
-        // Expressive 3.X:
+        // Mezzio 3.X:
         return $handler->handle($request->withUri(
             $uri->withPath(substr($path, 3))
         ));
 
-        // Expressive 2.X:
+        // Mezzio 2.X:
         return $handler->process($request->withUri(
             $uri->withPath(substr($path, strlen($locale)+1))
         ));
@@ -90,7 +90,7 @@ Then you will need a factory for the `SetLocaleMiddleware` to inject the
 namespace Application\I18n;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class SetLocaleMiddlewareFactory
 {
@@ -129,7 +129,7 @@ If using a programmatic pipeline:
 
 ```php
 use Application\I18n\SetLocaleMiddleware;
-use Zend\Expressive\Helper\UrlHelperMiddleware;
+use Mezzio\Helper\UrlHelperMiddleware;
 
 /* ... */
 $app->pipe(SetLocaleMiddleware::class);
@@ -158,9 +158,9 @@ return [
 
         'routing' => [
             'middleware' => [
-                Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
-                Zend\Expressive\Helper\UrlHelperMiddleware::class,
-                Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Mezzio\Helper\UrlHelperMiddleware::class,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
         ],
@@ -182,7 +182,7 @@ generate a URL and it will do the rest.
 
 > ### Helpers differ between template renderers
 >
-> The above example is specific to zend-view; syntax will differ for
+> The above example is specific to laminas-view; syntax will differ for
 > Twig and Plates.
 
 ## Redirecting within your middleware
@@ -195,17 +195,17 @@ middleware and use it for URL generation:
 <?php
 namespace Application\Action;
 
-// Expressive 3.X:
+// Mezzio 3.X:
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 
-// Expressive 2.X:
+// Mezzio 2.X:
 use Interop\Http\ServerMiddleware\DelegateInterface as RequestHandlerInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\RedirectResponse;
-use Zend\Expressive\Helper\UrlHelper;
+use Laminas\Diactoros\Response\RedirectResponse;
+use Mezzio\Helper\UrlHelper;
 
 class RedirectAction implements MiddlewareInterface
 {
@@ -235,7 +235,7 @@ following would work for the above middleware:
 namespace Application\Action;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class RedirectActionFactory
 {
