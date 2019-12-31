@@ -1,23 +1,24 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Diactoros\Request;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Response\EmitterInterface;
+use Laminas\Diactoros\Response\SapiEmitter;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Stratigility\FinalHandler;
+use Laminas\Stratigility\Http\Response as StratigilityResponse;
+use Laminas\Stratigility\MiddlewarePipe;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Request;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Response\EmitterInterface;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Stratigility\FinalHandler;
-use Zend\Stratigility\Http\Response as StratigilityResponse;
-use Zend\Stratigility\MiddlewarePipe;
 
 /**
  * Middleware application providing routing based on paths and HTTP methods.

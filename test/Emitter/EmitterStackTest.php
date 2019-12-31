@@ -1,24 +1,23 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Emitter;
+namespace MezzioTest\Emitter;
 
 use InvalidArgumentException;
+use Laminas\Diactoros\Response\EmitterInterface;
+use Mezzio\Emitter\EmitterStack;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use SplStack;
-use Zend\Diactoros\Response\EmitterInterface;
-use Zend\Expressive\Emitter\EmitterStack;
 
 /**
- * @covers Zend\Expressive\Emitter\EmitterStack
+ * @covers Mezzio\Emitter\EmitterStack
  */
 class EmitterStackTest extends TestCase
 {
