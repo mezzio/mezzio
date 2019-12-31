@@ -1,7 +1,7 @@
 # Overview
 
-Expressive allows you to write [PSR-7](http://www.php-fig.org/psr/psr-7/)
-[middleware](https://github.com/zendframework/zend-stratigility/blob/master/doc/book/middleware.md)
+Mezzio allows you to write [PSR-7](http://www.php-fig.org/psr/psr-7/)
+[middleware](https://github.com/laminas/laminas-stratigility/blob/master/doc/book/middleware.md)
 applications for the web.
 
 PSR-7 is a standard defining HTTP message interfaces; these are the incoming
@@ -17,7 +17,7 @@ maintain.
 Middleware is also designed for composability; you should be able to nest
 middleware and re-use middleware.
 
-With Expressive, you can build PSR-7-based middleware applications:
+With Mezzio, you can build PSR-7-based middleware applications:
 
 - APIs
 - Websites
@@ -26,33 +26,33 @@ With Expressive, you can build PSR-7-based middleware applications:
 
 ## Features
 
-Expressive builds on [zend-stratigility](https://github.com/zendframework/zend-stratigility)
+Mezzio builds on [laminas-stratigility](https://github.com/laminas/laminas-stratigility)
 to provide a robust convenience layer on which to build applications. The
 features it provides include:
 
 - **Routing**
   
-  Stratigility provides limited, literal matching only. Expressive allows you
+  Stratigility provides limited, literal matching only. Mezzio allows you
   to utilize dynamic routing capabilities from a variety of routers, providing
   much more fine-grained matching capabilities. The routing layer also allows
   restricting matched routes to specific HTTP methods, and will return "405 Not
   Allowed" responses with an "Allow" HTTP header containing allowed HTTP
   methods for invalid requests.
 
-  Routing is abstracted in Expressive, allowing the developer to choose the
+  Routing is abstracted in Mezzio, allowing the developer to choose the
   routing library that best fits the project needs. By default, we provide
-  wrappers for Aura.Router, FastRoute, and the zend-mvc router.
+  wrappers for Aura.Router, FastRoute, and the laminas-mvc router.
 
 - **PSR-11 Container**
 
-  Expressive encourages the use of Dependency Injection, and defines its
+  Mezzio encourages the use of Dependency Injection, and defines its
   `Application` class to compose a PSR-11 `ContainerInterface`
   instance. The container is used to lazy-load middleware, whether it is
-  piped (Stratigility interface) or routed (Expressive).
+  piped (Stratigility interface) or routed (Mezzio).
 
 - **Templating**
 
-  While Expressive does not assume templating is being used, it provides a
+  While Mezzio does not assume templating is being used, it provides a
   templating abstraction. Developers can write middleware that typehints on
   this abstraction, and assume that the underlying adapter will provide
   layout support and namespaced template support.
@@ -60,16 +60,16 @@ features it provides include:
 - **Error Handling**
 
   Applications should handle errors gracefully, but also handle them differently
-  in development versus production. Expressive provides both basic error
+  in development versus production. Mezzio provides both basic error
   handling via Stratigility's own `ErrorHandler` implementation, providing
   specialized error response generators that can perform templating or use
   Whoops.
 
 ## Flow Overview
 
-Below is a diagram detailing the workflow used by Expressive.
+Below is a diagram detailing the workflow used by Mezzio.
 
-![Expressive Architectural Flow](../images/architecture.png)
+![Mezzio Architectural Flow](../images/architecture.png)
 
 The `Application` acts as an "onion"; in the diagram above, the top is the
 outer-most layer of the onion, while the bottom is the inner-most.
@@ -112,7 +112,7 @@ its way back out the onion.
 > }
 > ```
 >
-> In Expressive 1.X, the default middleware style was what is known as _double
+> In Mezzio 1.X, the default middleware style was what is known as _double
 > pass_ middleware. Double pass middleware receives both the request and a
 > response in addition to the delegate, and passes both the request and response
 > to the delegate when invoking it:
@@ -128,14 +128,14 @@ its way back out the onion.
 > It is termed "double pass" because you pass both the request and response when
 > delegating to the next layer.
 > 
-> Expressive 2.X still supports double-pass middleware, though we recommend the
+> Mezzio 2.X still supports double-pass middleware, though we recommend the
 > lambda style.
 
 > ### Stratigility 1.X Error Middleware
 >
-> The Expressive 1.X series was based on Stratigility 1.X, which had a concept
+> The Mezzio 1.X series was based on Stratigility 1.X, which had a concept
 > of _error middleware_. This was middleware that either implemented
-> `Zend\Stratigility\ErrorMiddlewareInterface`, or the "error middleware"
+> `Laminas\Stratigility\ErrorMiddlewareInterface`, or the "error middleware"
 > signature of:
 >
 > ```php
@@ -157,7 +157,7 @@ its way back out the onion.
 > Because this middleware would only be invoked in these special conditions,
 > we recommended piping such middleware _last_ in the queue.
 >
-> Starting with Expressive 1.1, this feature was deprecated, in favor of
+> Starting with Mezzio 1.1, this feature was deprecated, in favor of
 > using standard middleware with try/catch blocks internally for error
 > handling. As such, we still document it, for our 1.X users, but recommend
 > migrating to the suggested error handling practices.
@@ -173,13 +173,13 @@ be attached.  Middleware specifying high integer prioritiess are attached (and
 thus executed) earlier, while those specifying lower and/or negative integers
 are attached later. The default priority is 1.
 
-Expressive provides default implementations of "routing" and "dispatch"
+Mezzio provides default implementations of "routing" and "dispatch"
 middleware, which you either attach to the middleware pipeline manually, or via
 configuration. These are implemented as the classes
-`Zend\Expressive\Middleware\RouteMiddleware` and
-`Zend\Expressive\Middleware\DispatchMiddleware`, respectively.
+`Mezzio\Middleware\RouteMiddleware` and
+`Mezzio\Middleware\DispatchMiddleware`, respectively.
 
-Routing within Expressive consists of decomposing the request to match it to
+Routing within Mezzio consists of decomposing the request to match it to
 middleware that can handle that given request. This typically consists of a
 combination of matching the requested URI path along with allowed HTTP methods:
 
@@ -201,7 +201,7 @@ that you wish to execute for every request. These might include:
 - bootstrapping
 - parsing of request body parameters
 - addition of debugging tools
-- embedded Expressive applications that you want to match at a given literal
+- embedded Mezzio applications that you want to match at a given literal
   path
 - etc.
 

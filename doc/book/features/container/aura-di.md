@@ -40,7 +40,7 @@ return $containerBuilder->newConfiguredInstance([
 ]);
 ```
 
-The bare minimum `ContainerConfig` code needed to make zend-expressive work is:
+The bare minimum `ContainerConfig` code needed to make mezzio work is:
 
 ```php
 <?php
@@ -53,16 +53,16 @@ use Aura\Router\Generator;
 use Aura\Router\RouteCollection;
 use Aura\Router\RouteFactory;
 use Aura\Router\Router;
-use Zend\Escaper\Escaper;
-use Zend\Expressive\Application;
-use Zend\Expressive\Container as ExpressiveContainer;
-use Zend\Expressive\Delegate;
-use Zend\Expressive\Middleware;
-use Zend\Expressive\Plates\PlatesRenderer;
-use Zend\Expressive\Router\AuraRouter;
-use Zend\Expressive\Router\Route;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Laminas\Escaper\Escaper;
+use Mezzio\Application;
+use Mezzio\Container as MezzioContainer;
+use Mezzio\Delegate;
+use Mezzio\Middleware;
+use Mezzio\Plates\PlatesRenderer;
+use Mezzio\Router\AuraRouter;
+use Mezzio\Router\Route;
+use Mezzio\Router\RouterInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class Common extends ContainerConfig
 {
@@ -77,14 +77,14 @@ class Common extends ContainerConfig
         );
         $di->params[AuraRouter::class]['router'] = $di->lazyNew(Router::class);
         $di->set(RouterInterface::class, $di->lazyNew(AuraRouter::class));
-        $di->set(Container\NotFoundDelegateFactory::class, $di->lazyNew(ExpressiveContainer\NotFoundDelegateFactory::class));
-        $di->set(Delegate\NotFoundDelegate::class, $di->lazyGetCall(ExpressiveContainer\NotFoundDelegateFactory::class, '__invoke', $di));
-        $di->set('Zend\Expressive\Delegate\DefaultDelegate', $di->lazyGetCall(ExpressiveContainer\NotFoundDelegateFactory::class, '__invoke', $di));
-        $di->set(Container\ApplicationFactory::class, $di->lazyNew(ExpressiveContainer\ApplicationFactory::class));
-        $di->set(Application::class, $di->lazyGetCall(ExpressiveContainer\ApplicationFactory::class, '__invoke', $di));
+        $di->set(Container\NotFoundDelegateFactory::class, $di->lazyNew(MezzioContainer\NotFoundDelegateFactory::class));
+        $di->set(Delegate\NotFoundDelegate::class, $di->lazyGetCall(MezzioContainer\NotFoundDelegateFactory::class, '__invoke', $di));
+        $di->set('Mezzio\Delegate\DefaultDelegate', $di->lazyGetCall(MezzioContainer\NotFoundDelegateFactory::class, '__invoke', $di));
+        $di->set(Container\ApplicationFactory::class, $di->lazyNew(MezzioContainer\ApplicationFactory::class));
+        $di->set(Application::class, $di->lazyGetCall(MezzioContainer\ApplicationFactory::class, '__invoke', $di));
 
         // Not Found handler
-        $di->set(Middleware\NotFoundHandler::class, $di->lazyGetCall(ExpressiveContainer\NotFoundHandlerFactory::class, '__invoke', $di));
+        $di->set(Middleware\NotFoundHandler::class, $di->lazyGetCall(MezzioContainer\NotFoundHandlerFactory::class, '__invoke', $di));
 
         // Templating
         // In most cases, you can instantiate the template renderer you want to use
@@ -93,17 +93,17 @@ class Common extends ContainerConfig
 
         // These next two can be added in any environment; they won't be used unless
         // you add the WhoopsErrorResponseGenerator as the ErrorResponseGenerator implementation:
-        $di->set(ExpressiveContainer\WhoopsFactory::class, $di->lazyNew(ExpressiveContainer\WhoopsFactory::class));
-        $di->set('Zend\Expressive\Whoops', $di->lazyGetCall(ExpressiveContainer\WhoopsFactory::class, '__invoke', $di));
-        $di->set(ExpressiveContainer\WhoopsPageHandlerFactory::class, $di->lazyNew(ExpressiveContainer\WhoopsPageHandlerFactory::class));
-        $di->set('Zend\Expressive\WhoopsPageHandler', $di->lazyGetCall(ExpressiveContainer\WhoopsPageHandlerFactory::class, '__invoke', $di));
+        $di->set(MezzioContainer\WhoopsFactory::class, $di->lazyNew(MezzioContainer\WhoopsFactory::class));
+        $di->set('Mezzio\Whoops', $di->lazyGetCall(MezzioContainer\WhoopsFactory::class, '__invoke', $di));
+        $di->set(MezzioContainer\WhoopsPageHandlerFactory::class, $di->lazyNew(MezzioContainer\WhoopsPageHandlerFactory::class));
+        $di->set('Mezzio\WhoopsPageHandler', $di->lazyGetCall(MezzioContainer\WhoopsPageHandlerFactory::class, '__invoke', $di));
 
         // Error Handling
-        $di->set('Zend\Stratigility\Middleware\ErrorHandler', $di->lazyGetCall(ExpressiveContainer\ErrorHandlerFactory::class, '__invoke', $di));
+        $di->set('Laminas\Stratigility\Middleware\ErrorHandler', $di->lazyGetCall(MezzioContainer\ErrorHandlerFactory::class, '__invoke', $di));
 
         // If in development:
-        $di->set(ExpressiveContainer\WhoopsErrorResponseGeneratorFactory::class, $di->lazyNew(ExpressiveContainer\WhoopsErrorResponseGeneratorFactory::class));
-        $di->set(Middleware\ErrorResponseGenerator::class, $di->lazyGetCall(ExpressiveContainer\WhoopsErrorResponseGeneratorFactory::class, '__invoke', $di));
+        $di->set(MezzioContainer\WhoopsErrorResponseGeneratorFactory::class, $di->lazyNew(MezzioContainer\WhoopsErrorResponseGeneratorFactory::class));
+        $di->set(Middleware\ErrorResponseGenerator::class, $di->lazyGetCall(MezzioContainer\WhoopsErrorResponseGeneratorFactory::class, '__invoke', $di));
 
         // If in production:
         // $di->set(Middleware\ErrorResponseGenerator::class, $di->lazyGetCall(Container\ErrorResponseGeneratorFactory::class, '__invoke', $di));
@@ -130,7 +130,7 @@ Your bootstrap (typically `public/index.php`) will then look like this:
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 $container = require 'config/services.php';
-$app = $container->get(Zend\Expressive\Application::class);
+$app = $container->get(Mezzio\Application::class);
 require 'config/pipeline.php';
 require 'config/routes.php';
 $app->run();
