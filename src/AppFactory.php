@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
 use Interop\Container\ContainerInterface;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\Diactoros\Response\SapiEmitter;
+use Laminas\ServiceManager\ServiceManager;
 
 /**
  * Create and return an Application instance.
@@ -21,7 +20,7 @@ use Zend\ServiceManager\ServiceManager;
  *
  * The Application instance returned is guaranteed to have a router, a
  * container, and an emitter stack; by default, the FastRoute router and the
- * ZF2 ServiceManager are used.
+ * Laminas ServiceManager are used.
  */
 final class AppFactory
 {
@@ -29,7 +28,7 @@ final class AppFactory
      * Create and return an Application instance.
      *
      * Will inject the instance with the container and/or router when provided;
-     * otherwise, it will use a ZF2 ServiceManager instance and the FastRoute
+     * otherwise, it will use a Laminas ServiceManager instance and the FastRoute
      * router bridge.
      *
      * The factory also injects the Application with an Emitter\EmitterStack that

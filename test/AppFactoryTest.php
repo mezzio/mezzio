@@ -1,28 +1,27 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive;
+namespace MezzioTest;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Diactoros\Response\SapiEmitter;
+use Laminas\ServiceManager\ServiceManager;
+use Mezzio\AppFactory;
+use Mezzio\Application;
+use Mezzio\Emitter\EmitterStack;
+use Mezzio\Router\FastRouteRouter;
+use Mezzio\Router\RouterInterface;
 use PHPUnit_Framework_TestCase as TestCase;
 use ReflectionClass;
 use ReflectionProperty;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Expressive\AppFactory;
-use Zend\Expressive\Application;
-use Zend\Expressive\Emitter\EmitterStack;
-use Zend\Expressive\Router\FastRouteRouter;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\ServiceManager\ServiceManager;
 
 /**
- * @covers Zend\Expressive\AppFactory
+ * @covers Mezzio\AppFactory
  */
 class AppFactoryTest extends TestCase
 {
@@ -46,7 +45,7 @@ class AppFactoryTest extends TestCase
         $this->assertInstanceOf(FastRouteRouter::class, $router);
     }
 
-    public function testFactoryUsesZf2ServiceManagerByDefault()
+    public function testFactoryUsesLaminasServiceManagerByDefault()
     {
         $app        = AppFactory::create();
         $container  = $app->getContainer();

@@ -1,17 +1,17 @@
-# How can I use zend-form view helpers?
+# How can I use laminas-form view helpers?
 
-If you've selected zend-view as your preferred template renderer, you'll likely
+If you've selected laminas-view as your preferred template renderer, you'll likely
 want to use the various view helpers available in other components, such as:
 
-- zend-form
-- zend-i18n
-- zend-navigation
+- laminas-form
+- laminas-i18n
+- laminas-navigation
 
-By default, only the view helpers directly available in zend-view are available;
+By default, only the view helpers directly available in laminas-view are available;
 how can you add the others?
 
-If you installed Expressive via the skeleton, the service
-`Zend\View\HelperPluginManager` is registered for you, and represents the helper
+If you installed Mezzio via the skeleton, the service
+`Laminas\View\HelperPluginManager` is registered for you, and represents the helper
 plugin manager injected into the `PhpRenderer` instance. As such, you only need
 to configure this. The question is: where?
 
@@ -25,19 +25,19 @@ You have three options:
 
 ## Replacing the HelperPluginManager factory
 
-The zend-view integration provides `Zend\Expressive\ZendView\HelperPluginManagerFactory`,
-and the Expressive skeleton registers it be default. The simplest solution for
+The laminas-view integration provides `Mezzio\LaminasView\HelperPluginManagerFactory`,
+and the Mezzio skeleton registers it be default. The simplest solution for
 adding other helpers is to replace it with your own. In your own factory, you
 will *also* configure the plugin manager with the configuration from the
-zend-form component (or whichever other components you wish to use).
+laminas-form component (or whichever other components you wish to use).
 
 ```php
 namespace Your\Application;
 
 use Interop\Container\ContainerInterface;
-use Zend\Form\View\HelperConfig as FormHelperConfig;
-use Zend\ServiceManager\Config;
-use Zend\View\HelperPluginManager;
+use Laminas\Form\View\HelperConfig as FormHelperConfig;
+use Laminas\ServiceManager\Config;
+use Laminas\View\HelperPluginManager;
 
 class HelperPluginManagerFactory
 {
@@ -48,7 +48,7 @@ class HelperPluginManagerFactory
         $manager = new HelperPluginManager(new Config($config));
         $manager->setServiceLocator($container);
 
-        // Add zend-form view helper configuration:
+        // Add laminas-form view helper configuration:
         $formConfig = new FormHelperConfig();
         $formConfig->configureServiceManager($manager);
 
@@ -60,36 +60,36 @@ class HelperPluginManagerFactory
 In your `config/autoload/templates.global.php` file, change the line that reads:
 
 ```php
-Zend\View\HelperPluginManager::class => Zend\Expressive\ZendView\HelperPluginManagerFactory::class,
+Laminas\View\HelperPluginManager::class => Mezzio\LaminasView\HelperPluginManagerFactory::class,
 ```
 
 to instead read as:
 
 ```php
-Zend\View\HelperPluginManager::class => Your\Application\HelperPluginManagerFactory::class,
+Laminas\View\HelperPluginManager::class => Your\Application\HelperPluginManagerFactory::class,
 ```
 
 This approach will work for any of the various containers supported.
 
 ## Delegator factories/service extension
 
-[Delegator factories](http://framework.zend.com/manual/current/en/modules/zend.service-manager.delegator-factories.html)
+[Delegator factories](https://docs.laminas.dev/laminas.service-manager.delegator-factories.html)
 and [service extension](https://github.com/silexphp/Pimple/tree/1.1#modifying-services-after-creation)
 operate on the same principle: they intercept after the original factory was
 called, and then operate on the generated instance, either modifying or
-replacing it. We'll demonstrate this for zend-servicemanager and Pimple; at the
+replacing it. We'll demonstrate this for laminas-servicemanager and Pimple; at the
 time of writing, we're unaware of a mechanism for doing so in Aura.Di.
 
-### zend-servicemanager
+### laminas-servicemanager
 
 You'll first need to create a delegator factory:
 
 ```php
 namespace Your\Application;
 
-use Zend\Form\View\HelperConfig;
-use Zend\ServiceManager\DelegatorFactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Laminas\Form\View\HelperConfig;
+use Laminas\ServiceManager\DelegatorFactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
 class FormHelpersDelegatorFactory
 {
@@ -107,8 +107,8 @@ class FormHelpersDelegatorFactory
 }
 ```
 
-The above creates an instance of the `Zend\Form\View\HelperConfig` class,
-uses it to configure the already created `Zend\View\HelperPluginManager`
+The above creates an instance of the `Laminas\Form\View\HelperConfig` class,
+uses it to configure the already created `Laminas\View\HelperPluginManager`
 instance, and then returns the plugin manager instance.
 
 From here, you'll add a `delegator_factories` configuration key in your
@@ -118,7 +118,7 @@ From here, you'll add a `delegator_factories` configuration key in your
 return [
     'dependencies' => [
         'delegator_factories' => [
-            Zend\View\HelperPluginManager::class => [
+            Laminas\View\HelperPluginManager::class => [
                 Your\Application\FormHelpersDelegatorFactory::class,
             ],
         ],
@@ -147,8 +147,8 @@ invokables are defined:
 ```php
 // The following assumes you've added the following import statements to
 // the start of the file:
-// use Zend\Form\View\HelperConfig as FormHelperConfig;
-// use Zend\View\HelperPluginManager;
+// use Laminas\Form\View\HelperConfig as FormHelperConfig;
+// use Laminas\View\HelperPluginManager;
 $container[HelperPluginManager::class] = $container->extend(
     HelperPluginManager::class,
     function ($helpers, $container) {
@@ -171,8 +171,8 @@ First, define the middleware:
 ```php
 namespace Your\Application
 
-use Zend\Form\View\HelperConfig as FormHelperConfig;
-use Zend\View\HelperPluginManager;
+use Laminas\Form\View\HelperConfig as FormHelperConfig;
+use Laminas\View\HelperPluginManager;
 
 class FormHelpersMiddleware
 {
@@ -198,7 +198,7 @@ You'll also need a factory for the middleware, to ensure it receives the
 ```php
 namespace Your\Application
 
-use Zend\View\HelperPluginManager;
+use Laminas\View\HelperPluginManager;
 
 class FormHelpersMiddlewareFactory
 {
@@ -228,9 +228,9 @@ return [
         /* ... */
         'routing' => [
             'middleware' => [
-                Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
-                Zend\Expressive\Helper\UrlHelperMiddleware::class,
-                Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Mezzio\Helper\UrlHelperMiddleware::class,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
         ],

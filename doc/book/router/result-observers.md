@@ -28,9 +28,9 @@ you to notify such utilities of the results of matching.
 Route result observers must implement the `RouteResultObserverInterface`:
 
 ```php
-namespace Zend\Expressive\Router;
+namespace Mezzio\Router;
 
-use Zend\Expressive\Router\RouteResult;
+use Mezzio\Router\RouteResult;
 
 interface RouteResultObserverInterface
 {
@@ -61,13 +61,13 @@ $app->detachRouteResultObserver($observer);
 
 > ### RouteResultSubjectInterface
 >
-> `Zend\Expressive\Application` implements `Zend\Expressive\Router\RouteResultSubjectInterface`,
+> `Mezzio\Application` implements `Mezzio\Router\RouteResultSubjectInterface`,
 > which defines methods for attaching and detaching route result observers, as
 > well as a method for notifying observers. Typically you'll only see the
 > `Application` class as an implementation of the interface, but you can always
 > create your own implementations as well if desired &mdash; for instance, if
 > you are implementing your own middleware runtime using the various interfaces
-> Expressive provides.
+> Mezzio provides.
 
 ## Example
 
@@ -76,9 +76,9 @@ For this example, we'll build a simple URI generator. It will compose a
 when invoked, generate a URI.
 
 ```php
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Router\RouteResult;
-use Zend\Expressive\ROuter\RouteResultObserverInterface;
+use Mezzio\Router\RouterInterface;
+use Mezzio\Router\RouteResult;
+use Mezzio\ROuter\RouteResultObserverInterface;
 
 class UriGenerator implements RouteResultObserverInterface
 {
@@ -129,7 +129,7 @@ First, the factory, which is essentially a one-liner wrapped in a class:
 
 ```php
 use Container\Interop\ContainerInterface;
-use Zend\Expressive\Router\RouterInterface;
+use Mezzio\Router\RouterInterface;
 
 class UriGeneratorFactory
 {
@@ -150,13 +150,13 @@ Attaching the observer to the application can happen in one of two ways:
 If you choose this method, you will modify your `public/index.php` script (or
 whatever script you've defined as the application gateway.) The following
 assumes you're using the `public/index.php` generated for you when using the
-Expressive skeleton.
+Mezzio skeleton.
 
 In this case, you would attach any observers between the line where you fetch
 the application from the container, and the line when you run it.
 
 ```php
-$app = $container->get('Zend\Expressive\Application');
+$app = $container->get('Mezzio\Application');
 
 // Attach observers
 $app->attachRouteResultObserver($container->get(UriGenerator::class));
@@ -168,13 +168,13 @@ $app->run();
 
 This approach requires a slight change to the factory to:
 
-- Check for a `Zend\Expressive\Application` service; and, if found,
+- Check for a `Mezzio\Application` service; and, if found,
 - Attach the observer to it.
 
 ```php
 use Container\Interop\ContainerInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\Router\RouterInterface;
+use Mezzio\Application;
+use Mezzio\Router\RouterInterface;
 
 class UriGeneratorFactory
 {
@@ -196,8 +196,8 @@ class UriGeneratorFactory
 > Note: Helpers included!
 >
 > You do not need to create the above URI generator for your code; this
-> functionality is already present in the [zendframework/zend-expressive-helpers](https://github.com/zendframework/zend-expressive-helpers)
-> package, and, if you started with the Expressive skeleton, may already
+> functionality is already present in the [mezzio/mezzio-helpers](https://github.com/mezzio/mezzio-helpers)
+> package, and, if you started with the Mezzio skeleton, may already
 > be installed by default!
 >
 > See the [helpers documentation](../helpers/intro.md) for more information.
