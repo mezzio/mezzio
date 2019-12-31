@@ -1,22 +1,23 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Middleware;
+namespace Mezzio\Middleware;
 
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
+use Laminas\Diactoros\Response;
+use Mezzio\Router\RouteResult;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response;
-use Zend\Expressive\Router\RouteResult;
 
 /**
  * Handle implicit OPTIONS requests.
@@ -50,7 +51,7 @@ class ImplicitOptionsMiddleware implements MiddlewareInterface
 
     /**
      * @param null|ResponseInterface $response Response prototype to use for
-     *     implicit OPTIONS requests; if not provided a zend-diactoros Response
+     *     implicit OPTIONS requests; if not provided a laminas-diactoros Response
      *     instance will be created and used.
      */
     public function __construct(ResponseInterface $response = null)

@@ -1,24 +1,25 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\Stratigility\Middleware\ErrorHandler;
+use Laminas\Stratigility\Middleware\ErrorResponseGenerator;
 use Psr\Http\Message\ResponseInterface;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
-use Zend\HttpHandlerRunner\RequestHandlerRunner;
-use Zend\Stratigility\Middleware\ErrorHandler;
-use Zend\Stratigility\Middleware\ErrorResponseGenerator;
 
 /**
- * Provide initial configuration for zend-expressive.
+ * Provide initial configuration for mezzio.
  *
- * This class provides initial _production_ configuration for zend-expressive.
+ * This class provides initial _production_ configuration for mezzio.
  */
 class ConfigProvider
 {
@@ -37,6 +38,24 @@ class ConfigProvider
                 Delegate\DefaultDelegate::class      => Middleware\NotFoundMiddleware::class,
                 Middleware\DispatchMiddleware::class => Router\DispatchMiddleware::class,
                 Middleware\RouteMiddleware::class    => Router\PathBasedRoutingMiddleware::class,
+
+                // Legacy Zend Framework aliases
+                \Zend\Expressive\Delegate\DefaultDelegate::class => Delegate\DefaultDelegate::class,
+                \Zend\Expressive\Middleware\DispatchMiddleware::class => Middleware\DispatchMiddleware::class,
+                \Zend\Expressive\Middleware\RouteMiddleware::class => Middleware\RouteMiddleware::class,
+                \Zend\Expressive\Application::class => Application::class,
+                \Zend\Expressive\ApplicationPipeline::class => ApplicationPipeline::class,
+                \Zend\HttpHandlerRunner\Emitter\EmitterInterface::class => EmitterInterface::class,
+                \Zend\Stratigility\Middleware\ErrorHandler::class => ErrorHandler::class,
+                \Zend\Stratigility\Middleware\ErrorResponseGenerator::class => ErrorResponseGenerator::class,
+                \Zend\Expressive\MiddlewareContainer::class => MiddlewareContainer::class,
+                \Zend\Expressive\MiddlewareFactory::class => MiddlewareFactory::class,
+                \Zend\Expressive\Middleware\NotFoundMiddleware::class => Middleware\NotFoundMiddleware::class,
+                \Zend\HttpHandlerRunner\RequestHandlerRunner::class => RequestHandlerRunner::class,
+                \Zend\Expressive\Router\DispatchMiddleware::class => Router\DispatchMiddleware::class,
+                \Zend\Expressive\Router\PathBasedRoutingMiddleware::class => Router\PathBasedRoutingMiddleware::class,
+                \Zend\Expressive\ServerRequestErrorResponseGenerator::class => ServerRequestErrorResponseGenerator::class,
+                \Zend\Expressive\ServerRequestFactory::class => ServerRequestFactory::class,
             ],
             'factories' => [
                 Application::class                         => Container\ApplicationFactory::class,

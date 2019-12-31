@@ -1,21 +1,22 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Mezzio\Container\NotFoundMiddlewareFactory;
+use Mezzio\Middleware\NotFoundMiddleware;
+use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Expressive\Container\NotFoundMiddlewareFactory;
-use Zend\Expressive\Middleware\NotFoundMiddleware;
-use Zend\Expressive\Template\TemplateRendererInterface;
 
 class NotFoundMiddlewareFactoryTest extends TestCase
 {
@@ -36,6 +37,7 @@ class NotFoundMiddlewareFactoryTest extends TestCase
     {
         $this->container->has('config')->willReturn(false);
         $this->container->has(TemplateRendererInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
         $factory = new NotFoundMiddlewareFactory();
 
         $middleware = $factory($this->container->reveal());
@@ -59,7 +61,7 @@ class NotFoundMiddlewareFactoryTest extends TestCase
     public function testFactoryUsesConfigured404TemplateWhenPresent()
     {
         $config = [
-            'zend-expressive' => [
+            'mezzio' => [
                 'error_handler' => [
                     'layout' => 'layout::error',
                     'template_404' => 'foo::bar',
@@ -69,16 +71,17 @@ class NotFoundMiddlewareFactoryTest extends TestCase
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn($config);
         $this->container->has(TemplateRendererInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
         $factory = new NotFoundMiddlewareFactory();
 
         $middleware = $factory($this->container->reveal());
         $this->assertAttributeEquals(
-            $config['zend-expressive']['error_handler']['layout'],
+            $config['mezzio']['error_handler']['layout'],
             'layout',
             $middleware
         );
         $this->assertAttributeEquals(
-            $config['zend-expressive']['error_handler']['template_404'],
+            $config['mezzio']['error_handler']['template_404'],
             'template',
             $middleware
         );

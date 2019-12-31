@@ -2,9 +2,9 @@
 
 > ### Deprecated
 >
-> This recipe is deprecated with the release of Expressive 2.0, as that release
+> This recipe is deprecated with the release of Mezzio 2.0, as that release
 > now expects and requires that you provide innermost middleware that will
-> return a response, and provides `Zend\Expressive\Middleware\NotFoundHandler`
+> return a response, and provides `Mezzio\Middleware\NotFoundHandler`
 > as a default implementation. Please see the [error handling chapter](../features/error-handling.md)
 > for more information.
 
@@ -58,7 +58,7 @@ and return a response.
 ```php
 namespace App;
 
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class NotFound
 {
@@ -102,9 +102,9 @@ configuration, after the dispatch middleware:
     /* ... */
     'routing' => [
         'middleware' => [
-            Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
-            Zend\Expressive\Helper\UrlHelperMiddleware::class,
-            Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+            Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+            Mezzio\Helper\UrlHelperMiddleware::class,
+            Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
         ],
         'priority' => 1,
     ],
@@ -117,7 +117,7 @@ configuration, after the dispatch middleware:
 ```
 
 The above example assumes you are using the `ApplicationFactory` and/or the
-Expressive skeleton to manage your application instantiation and configuration.
+Mezzio skeleton to manage your application instantiation and configuration.
 
 To manually add the middleware, you will need to pipe it to the application
 instance:
