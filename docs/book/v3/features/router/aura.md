@@ -41,17 +41,17 @@ instance.
 To use Aura.Router, you will first need to install the Aura.Router integration:
 
 ```bash
-$ composer require zendframework/zend-expressive-aurarouter
+$ composer require mezzio/mezzio-aurarouter
 ```
 
 ## Quick Start
 
-At its simplest, you can instantiate a `Zend\Expressive\Router\AuraRouter` instance
+At its simplest, you can instantiate a `Mezzio\Router\AuraRouter` instance
 with no arguments; it will create the underlying Aura.Router objects required
 and compose them for you:
 
 ```php
-use Zend\Expressive\Router\AuraRouter;
+use Mezzio\Router\AuraRouter;
 
 $router = new AuraRouter();
 ```
@@ -60,13 +60,13 @@ $router = new AuraRouter();
 
 If you need greater control over the Aura.Router setup and configuration, you
 can create the instances necessary and inject them into
-`Zend\Expressive\Router\AuraRouter` during instantiation.
+`Mezzio\Router\AuraRouter` during instantiation.
 
 ```php
 <?php
 use Aura\Router\RouterFactory;
-use Zend\Expressive\AppFactory;
-use Zend\Expressive\Router\AuraRouter as AuraBridge;
+use Mezzio\AppFactory;
+use Mezzio\Router\AuraRouter as AuraBridge;
 
 $auraRouter = (new RouterFactory())->newInstance();
 $auraRouter->setSecure(true);
@@ -92,15 +92,15 @@ $app = AppFactory::create(null, $router);
 ## Factory-Driven Creation
 
 We provide and enable a factory for generating your Aura.Router instance when
-you install the zend-expressive-aurarouter package. This will generally serve
+you install the mezzio-aurarouter package. This will generally serve
 your needs.
 
 If you want to provide custom setup or configuration, you can do so. In this
 example, we will be defining two factories:
 
 - A factory to register as and generate an `Aura\Router\Router` instance.
-- A factory registered as `Zend\Expressive\Router\RouterInterface`, which
-  creates and returns a `Zend\Expressive\Router\AuraRouter` instance composing the
+- A factory registered as `Mezzio\Router\RouterInterface`, which
+  creates and returns a `Mezzio\Router\AuraRouter` instance composing the
   `Aura\Router\Router` instance.
 
 The factory might look like this:
@@ -134,7 +134,7 @@ class AuraRouterFactory
 namespace App\Container;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Router\AuraRouter as AuraBridge;
+use Mezzio\Router\AuraRouter as AuraBridge;
 
 class RouterFactory
 {
@@ -156,7 +156,7 @@ From here, you will need to register your factories with your IoC container:
 return [
     'factories' => [
         \Aura\Router\Router::class => \App\Container\AuraRouterFactory::class,
-        \Zend\Expressive\Router\RouterInterface::class => \App\Container\RouterFactory::class,
+        \Mezzio\Router\RouterInterface::class => \App\Container\RouterFactory::class,
     ],
 ];
 ```

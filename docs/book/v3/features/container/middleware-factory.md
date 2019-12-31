@@ -11,12 +11,12 @@ like the following:
 
 ```php
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\Middleware\LazyLoadingMiddleware;
-use Zend\Stratigility\MiddlewarePipe;
+use Mezzio\Application;
+use Mezzio\Middleware\LazyLoadingMiddleware;
+use Laminas\Stratigility\MiddlewarePipe;
 
-use function Zend\Stratigility\middleware;
-use function Zend\Stratigility\path;
+use function Laminas\Stratigility\middleware;
+use function Laminas\Stratigility\path;
 
 return function (Application $app, ContainerInterface $container) : void {
     $app->pipe(path(
@@ -30,7 +30,7 @@ return function (Application $app, ContainerInterface $container) : void {
 
     $booksPipeline = new MiddlewarePipe();
     $booksPipeline->pipe(new LazyLoadingMiddleware(
-        Zend\ProblemDetails\ProblemDetailsMiddleware::class,
+        Mezzio\ProblemDetails\ProblemDetailsMiddleware::class,
         $container
     ));
     $booksPipeline->pipe(new LazyLoadingMiddleware(
@@ -46,7 +46,7 @@ return function (Application $app, ContainerInterface $container) : void {
         $container
     ));
     $booksPipeline->pipe(new LazyLoadingMiddleware(
-        Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware::class
+        Mezzio\Helper\BodyParams\BodyParamsMiddleware::class
         $container
     ));
     $booksPipeline->pipe(new LazyLoadingMiddleware(
@@ -63,7 +63,7 @@ return function (Application $app, ContainerInterface $container) : void {
 
 Additionally, this would pose an enormous burden when migrating to version 3.
 
-For these reasons, we developed the class `Zend\Expressive\MiddlewareFactory`.
+For these reasons, we developed the class `Mezzio\MiddlewareFactory`.
 It composes a [MiddlewareContainer](middleware-container.md) in order to back
 the following operations.
 
@@ -75,7 +75,7 @@ $middleware = $factory->callable(function ($request, $handler) {
 ```
 
 This method takes a callable middleware, and decorates it as a
-`Zend\Stratigility\Middleware\CallableMiddlewareDecorator` instance.
+`Laminas\Stratigility\Middleware\CallableMiddlewareDecorator` instance.
 
 ## handler
 
@@ -84,7 +84,7 @@ $middleware = $factory->handler($requestHandler);
 ```
 
 This method takes a PSR-15 request handler instance and decorates it as a
-`Zend\Stratigility\Middleware\RequestHandlerMiddleware` instance.
+`Laminas\Stratigility\Middleware\RequestHandlerMiddleware` instance.
 
 ## lazy
 
@@ -93,7 +93,7 @@ $middleware = $factory->lazy(App\Middleware\FooMiddleware::class);
 ```
 
 This method decorates the service name using
-`Zend\Expressive\Middlware\LazyLoadingMiddleware`, passing the composed
+`Mezzio\Middlware\LazyLoadingMiddleware`, passing the composed
 `MiddlewareContainer` to the instance during instantiation.
 
 ## pipeline
@@ -108,7 +108,7 @@ $pipeline = $factory->pipeline(
 );
 ```
 
-Creates and returns a `Zend\Stratigility\MiddlewarePipe`, after passing each
+Creates and returns a `Laminas\Stratigility\MiddlewarePipe`, after passing each
 argument to `prepare()` first.
 
 (You may pass an array of values instead of individual arguments as well.)
@@ -134,8 +134,8 @@ These are expected to return a callable with the following signature:
 
 ```php
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\MiddlewareFactory;
+use Mezzio\Application;
+use Mezzio\MiddlewareFactory;
 
 return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
 };
@@ -149,10 +149,10 @@ As an example, we'll rewrite our initial example to use the `MiddlewareFactory`:
 
 ```php
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\MiddlewareFactory;
+use Mezzio\Application;
+use Mezzio\MiddlewareFactory;
 
-use function Zend\Stratigility\path;
+use function Laminas\Stratigility\path;
 
 return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
     $app->pipe(path('/foo', $factory->prepare(App\FooMiddleware::class)));
@@ -166,7 +166,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
         App\SessionMiddleware::class,
         App\AuthenticationMiddleware::class,
         App\AuthorizationMiddleware::class,
-        Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware::class,
+        Mezzio\Helper\BodyParams\BodyParamsMiddleware::class,
         App\ValidationMiddleware::class,
         App\Handler\CreateBookHandler::class
     ));

@@ -26,8 +26,8 @@ using a container that supports factories.
 
 ```php
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\MiddlewareFactory;
-use Zend\Stratigility\MiddlewarePipe;
+use Mezzio\MiddlewareFactory;
+use Laminas\Stratigility\MiddlewarePipe;
 
 class ApiResourcePipelineFactory
 {
@@ -58,17 +58,17 @@ This gives you full control over the creation of the pipeline. You would,
 however, need to ensure that you map the middleware to the pipeline factory when
 setting up your container configuration.
 
-One alternative when using zend-servicemanager is to use a [delegator factory](https://docs.zendframework.com/zend-servicemanager/delegators/).
+One alternative when using laminas-servicemanager is to use a [delegator factory](https://docs.laminas.dev/laminas-servicemanager/delegators/).
 Delegator factories allow you to decorate the primary factory used to create the
 middleware in order to change the instance or return an alternate instance. In
 this case, we'd do the latter. The following is an example:
 
 ```php
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\MiddlewareFactory;
-use Zend\ServiceManager\DelegatorFactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stratigility\MiddlewarePipe;
+use Mezzio\MiddlewareFactory;
+use Laminas\ServiceManager\DelegatorFactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Stratigility\MiddlewarePipe;
 
 class ApiResourcePipelineDelegatorFactory implements DelegatorFactoryInterface
 {
@@ -139,7 +139,7 @@ When either of these approaches are used, the individual middleware listed
 **MUST** be one of the following:
 
 - an instance of `Psr\Http\Middleware\MiddlewareInterface`;
-- a callable middleware (will be decorated using `Zend\Stratigility\middleware()`);
+- a callable middleware (will be decorated using `Laminas\Stratigility\middleware()`);
 - a service name of middleware available in the container;
 - a fully qualified class name of a directly instantiable (no constructor
   arguments) middleware class.

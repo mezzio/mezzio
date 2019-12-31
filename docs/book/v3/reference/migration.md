@@ -1,6 +1,6 @@
-# Migration to Expressive 3.0
+# Migration to Mezzio 3.0
 
-Expressive 3.0 should not result in many upgrade problems for users. However,
+Mezzio 3.0 should not result in many upgrade problems for users. However,
 starting in this version, we offer a few changes affecting the following that
 you should be aware of, and potentially update your application to adopt:
 
@@ -14,14 +14,14 @@ you should be aware of, and potentially update your application to adopt:
 
 ## PHP 7.1 support
 
-Starting in Expressive 3.0 we support only PHP 7.1+.
+Starting in Mezzio 3.0 we support only PHP 7.1+.
 
 ## PSR-15 Support
 
 All middleware and delegators now implement interfaces from
 [PSR-15](https://www.php-fig.org/psr/psr-15) instead of
 http-interop/http-middleware (a PSR-15 precursor). This means the following
-changes were made throughout Expressive:
+changes were made throughout Mezzio:
 
 - The `process()` method of all middleware now type hint the second argument
   against the PSR-15 `RequestHandlerInterface`, instead of the previous
@@ -39,11 +39,11 @@ changes were made throughout Expressive:
 
 This change also affects all middleware you, as an application developer, have
 written, and your middleware will need to be update. We provide a tool for this
-via zend-expressive-tooling. Make sure that package is up-to-date (a version 1
+via mezzio-tooling. Make sure that package is up-to-date (a version 1
 release should be installed), and run the following:
 
 ```php
-$ ./vendor/bin/expressive migrate:interop-middleware
+$ ./vendor/bin/mezzio migrate:interop-middleware
 ```
 
 This tool will locate any http-interop middleware and update it to PSR-15
@@ -51,21 +51,21 @@ middleware.
 
 ## New dependencies
 
-Expressive adds the following packages as dependencies:
+Mezzio adds the following packages as dependencies:
 
 - [psr/http-server-middleware](https://github.com/php-fig/http-server-middleware)
   provides the PSR-15 interfaces, and replaces the previous dependency on
   http-interop/http-middleware.
 
-- [zendframework/zend-expressive-router](https://github.com/zendframework/zend-expressive-router);
+- [mezzio/mezzio-router](https://github.com/mezzio/mezzio-router);
   previously, we depended on this package indirectly; now it is a direct
   requirement.
 
-- [zendframework/zend-expressive-tooling](https://github.com/zendframework/zend-expressive-tooling);
+- [mezzio/mezzio-tooling](https://github.com/mezzio/mezzio-tooling);
   this was suggested previously, but is now required as a development
   dependency.
 
-- [zendframework/zend-httphandlerrunner](https://github.com/zendframework/zend-httphandlerrunner);
+- [laminas/laminas-httphandlerrunner](https://github.com/laminas/laminas-httphandlerrunner);
   this is now used for the purposes of marshaling the server request, dispatching
   the application, and emitting the response. The functionality is generalized
   enough to warrant a separate package.
@@ -74,52 +74,52 @@ Expressive adds the following packages as dependencies:
 
 The following classes were added in version 3:
 
-- `Zend\Expressive\Container\ApplicationConfigInjectionDelegator` is a
+- `Mezzio\Container\ApplicationConfigInjectionDelegator` is a
   [delegator factory](../features/container/delegator-factories.md) capable of
   piping and routing middleware from configuration. See the (recipe on
   autowiring routes and pipeline middleware)(../cookbook/autowiring-routes-and-pipelines.md)
   for more information.
 
-- `Zend\Expressive\Container\ApplicationPipelineFactory` will produce an empty
-  `MiddlewarePipe` for use with `Zend\Expressive\Application`.
+- `Mezzio\Container\ApplicationPipelineFactory` will produce an empty
+  `MiddlewarePipe` for use with `Mezzio\Application`.
 
-- `Zend\Expressive\Container\EmitterFactory` will produce a
-  `Zend\HttpHandlerRunner\Emitter\EmitterStack` instance for use with the
+- `Mezzio\Container\EmitterFactory` will produce a
+  `Laminas\HttpHandlerRunner\Emitter\EmitterStack` instance for use with the
   `RequestHandlerRunner` instance composed by the `Application`. See the
   [chapter on emitters](../features/emitters.md) for more details.
 
-- `Zend\Expressive\Container\MiddlewareContainerFactory` will produce a
+- `Mezzio\Container\MiddlewareContainerFactory` will produce a
   `MiddlewareContainer` composing the application container instance.
 
-- `Zend\Expressive\Container\MiddlewareFactoryFactory` will produce a
+- `Mezzio\Container\MiddlewareFactoryFactory` will produce a
   `MiddlewareFactory` composing a `MiddlewareContainer` instance.
 
-- `Zend\Expressive\Container\RequestHandlerRunnerFactory` will produce a
-  `Zend\HttpHandlerRunner\RequestHandlerRunner` instance for use with the
-  `Application` instance. See the [zend-httphandlerrunner
-  documentation](https://docs.zendframework.com/zend-httphandlerrunner) for more
+- `Mezzio\Container\RequestHandlerRunnerFactory` will produce a
+  `Laminas\HttpHandlerRunner\RequestHandlerRunner` instance for use with the
+  `Application` instance. See the [laminas-httphandlerrunner
+  documentation](https://docs.laminas.dev/laminas-httphandlerrunner) for more
   details on this collaborator.
 
-- `Zend\Expressive\Container\ServerRequestErrorResponseGeneratorFactory` will
-  produce a `Zend\Expressive\Response\ServerRequestErrorResponseGenerator`
+- `Mezzio\Container\ServerRequestErrorResponseGeneratorFactory` will
+  produce a `Mezzio\Response\ServerRequestErrorResponseGenerator`
   instance for use with the `RequestHandlerRunner`.
 
-- `Zend\Expressive\Container\ServerRequestFactoryFactory` will produce a PHP
+- `Mezzio\Container\ServerRequestFactoryFactory` will produce a PHP
   callable capable of generating a PSR-7 `ServerRequestInterface` instance for use
   with the `RequestHandlerRunner`.
 
-- `Zend\Expressive\MiddlewareContainer` decorates a PSR-11 container, and
+- `Mezzio\MiddlewareContainer` decorates a PSR-11 container, and
   ensures that the values pulled are PSR-15 `MiddlewareInterface` instances.
   If the container returns a PSR-15 `RequestHandlerInterface`, it decorates it
-  via `Zend\Stratigility\Middleware\RequestHandlerMiddleware`. All other types
+  via `Laminas\Stratigility\Middleware\RequestHandlerMiddleware`. All other types
   result in an exception being thrown.
 
-- `Zend\Expressive\MiddlewareFactory` allows creation of `MiddlewareInterface`
+- `Mezzio\MiddlewareFactory` allows creation of `MiddlewareInterface`
   instances from a variety of argument types, and is used by `Application` to
   allow piping and routing to middleware services, arrays of services, and more.
   It composes a `MiddlewareContainer` internally.
 
-- `Zend\Expressive\Response\ServerRequestErrorResponseGenerator` can act as a
+- `Mezzio\Response\ServerRequestErrorResponseGenerator` can act as a
   response generator for the `RequestHandlerRunner` when its composed server
   request factory raises an exception.
 
@@ -130,25 +130,25 @@ and/or consumers.
 
 ### Application
 
-`Zend\Expressive\Application` was refactored dramatically for version 3.
+`Mezzio\Application` was refactored dramatically for version 3.
 
 If you were instantiating it directly previously, the constructor arguments are
 now, in order:
 
-- `Zend\Expressive\MiddlewareFactory`
-- `Zend\Stratigility\MiddlewarePipeInterface`
-- `Zend\Expressive\Router\RouteCollector`
-- `Zend\HttpHandlerRunner\RequestHandlerRunner`
-- `Zend\Expressive\Application::__construct(...)`
+- `Mezzio\MiddlewareFactory`
+- `Laminas\Stratigility\MiddlewarePipeInterface`
+- `Mezzio\Router\RouteCollector`
+- `Laminas\HttpHandlerRunner\RequestHandlerRunner`
+- `Mezzio\Application::__construct(...)`
 
 `Application` no longer supports piping or routing to double-pass middleware. If
 you continue to need double-pass middleware (e.g., defined by a third-party
-library), use `Zend\Stratigility\doublePassMiddleware()` to decorate it prior to
+library), use `Laminas\Stratigility\doublePassMiddleware()` to decorate it prior to
 piping or routing to it:
 
 ```php
-use Zend\Diactoros\Response;
-use function Zend\Stratigility\doublePassMiddleware;
+use Laminas\Diactoros\Response;
+use function Laminas\Stratigility\doublePassMiddleware;
 
 $app->pipe(doublePassMiddleware($someDoublePassMiddleware, new Response()));
 
@@ -157,78 +157,78 @@ $app->get('/foo', doublePassMiddleware($someDoublePassMiddleware, new Response()
 
 Additionally, the following methods were **removed**:
 
-- `pipeRoutingMiddleware()`: use `pipe(\Zend\Expressive\Router\RouteMiddleware::class)`
+- `pipeRoutingMiddleware()`: use `pipe(\Mezzio\Router\RouteMiddleware::class)`
   instead.
-- `pipeDispatchMiddleware()`: use `pipe(\Zend\Expressive\Router\DispatchMiddleware::class)`
+- `pipeDispatchMiddleware()`: use `pipe(\Mezzio\Router\DispatchMiddleware::class)`
   instead.
 - `getContainer()`
 - `getDefaultDelegate()`: ensure you pipe middleware or a request handler
   capable of returning a response at the innermost layer;
-  `Zend\Expressive\Handler\NotFoundHandler` can be used for this.
-- `getEmitter()`: use the `Zend\HttpHandlerRunner\Emitter\EmitterInterface` service from the container.
+  `Mezzio\Handler\NotFoundHandler` can be used for this.
+- `getEmitter()`: use the `Laminas\HttpHandlerRunner\Emitter\EmitterInterface` service from the container.
 - `injectPipelineFromConfig()`: use the new `ApplicationConfigInjectionDelegator` and/or the static method of the same name it defines.
 - `injectRoutesFromConfig()`: use the new `ApplicationConfigInjectionDelegator` and/or the static method of the same name it defines.
 
 ### ApplicationFactory
 
-`Zend\Expressive\Container\ApplicationFactory` no longer looks at the
-`zend-expressive.programmatic_pipeline` flag, nor does it inject pipeline
+`Mezzio\Container\ApplicationFactory` no longer looks at the
+`mezzio.programmatic_pipeline` flag, nor does it inject pipeline
 middleware and/or routed middleware from configuration any longer.
 
 If you want to use configuration-driven pipelines and/or middleware, you may
-register the new class `Zend\Expressive\Container\ApplicationConfigInjectionDelegator`
-as a delegator factory on the `Zend\Expressive\Application` service.
+register the new class `Mezzio\Container\ApplicationConfigInjectionDelegator`
+as a delegator factory on the `Mezzio\Application` service.
 
 ### NotFoundHandlerFactory
 
-`Zend\Expressive\Container\NotFoundHandlerFactory` now returns an instance of
-`Zend\Expressive\Handler\NotFoundHandler`, instead of
-`Zend\Expressive\Middleware\NotFoundHandler` (which has been removed).
+`Mezzio\Container\NotFoundHandlerFactory` now returns an instance of
+`Mezzio\Handler\NotFoundHandler`, instead of
+`Mezzio\Middleware\NotFoundHandler` (which has been removed).
 
 ### LazyLoadingMiddleware
 
-`Zend\Expressive\Middleware\LazyLoadingMiddleware` now composes a
-`Zend\Expressive\MiddlewareContainer` instance instead of a more general PSR-11
+`Mezzio\Middleware\LazyLoadingMiddleware` now composes a
+`Mezzio\MiddlewareContainer` instance instead of a more general PSR-11
 container; this is to ensure that the value returned is a PSR-15
 `MiddlewareInterface` instance.
 
 ## Removed classes and traits
 
-- `Zend\Expressive\AppFactory` was removed. If you were using it previously,
-  either use `Zend\Expressive\Application` directly, or a
-  `Zend\Stratigility\MiddlewarePipe` instance.
+- `Mezzio\AppFactory` was removed. If you were using it previously,
+  either use `Mezzio\Application` directly, or a
+  `Laminas\Stratigility\MiddlewarePipe` instance.
 
-- `Zend\Expressive\ApplicationConfigInjectionTrait`; the functionality of this
-  trait was replaced by the `Zend\Expressive\Container\ApplicationConfigInjectionDelegator`.
+- `Mezzio\ApplicationConfigInjectionTrait`; the functionality of this
+  trait was replaced by the `Mezzio\Container\ApplicationConfigInjectionDelegator`.
 
-- `Zend\Expressive\Delegate\NotFoundDelegate`; use `Zend\Expressive\Handler\NotFoundHandler`
-  instead. Its factory, `Zend\Expressive\Container\NotFoundDelegateFactory`, was
+- `Mezzio\Delegate\NotFoundDelegate`; use `Mezzio\Handler\NotFoundHandler`
+  instead. Its factory, `Mezzio\Container\NotFoundDelegateFactory`, was
   also removed.
 
-- `Zend\Expressive\Emitter\EmitterStack`; use `Zend\HttpHandlerRunner\Emitter\EmitterStack`
+- `Mezzio\Emitter\EmitterStack`; use `Laminas\HttpHandlerRunner\Emitter\EmitterStack`
   instead.
 
-- `Zend\Expressive\IsCallableInteropMiddlewareTrait`; there is no functional
+- `Mezzio\IsCallableInteropMiddlewareTrait`; there is no functional
   equivalent, nor a need for this functionality as of version 3.
 
-- `Zend\Expressive\MarshalMiddlewareTrait`; the functionality of this trait was
-  replaced by a combination of `Zend\Expressive\MiddlewareContainer` and
-  `Zend\Expressive\MiddlewareFactory`.
+- `Mezzio\MarshalMiddlewareTrait`; the functionality of this trait was
+  replaced by a combination of `Mezzio\MiddlewareContainer` and
+  `Mezzio\MiddlewareFactory`.
 
-- `Zend\Expressive\Middleware\DispatchMiddleware`; use
-  `Zend\Expressive\Router\Middleware\DispatchMiddleware` instead.
+- `Mezzio\Middleware\DispatchMiddleware`; use
+  `Mezzio\Router\Middleware\DispatchMiddleware` instead.
 
-- `Zend\Expressive\Middleware\ImplicitHeadMiddleware`; use
-  `Zend\Expressive\Router\Middleware\ImplicitHeadMiddleware` instead.
+- `Mezzio\Middleware\ImplicitHeadMiddleware`; use
+  `Mezzio\Router\Middleware\ImplicitHeadMiddleware` instead.
 
-- `Zend\Expressive\Middleware\ImplicitOptionsMiddleware`; use
-  `Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware` instead.
+- `Mezzio\Middleware\ImplicitOptionsMiddleware`; use
+  `Mezzio\Router\Middleware\ImplicitOptionsMiddleware` instead.
 
-- `Zend\Expressive\Middleware\NotFoundHandler`; use `Zend\Expressive\Handler\NotFoundHandler`
+- `Mezzio\Middleware\NotFoundHandler`; use `Mezzio\Handler\NotFoundHandler`
   instead.
 
-- `Zend\Expressive\Middleware\RouteMiddleware`; use
-  `Zend\Expressive\Router\Middleware\RouteMiddleware` instead.
+- `Mezzio\Middleware\RouteMiddleware`; use
+  `Mezzio\Router\Middleware\RouteMiddleware` instead.
 
 ## Upgrading
 
@@ -242,38 +242,38 @@ backup of your existing code.
 Install the migration tooling using the following command:
 
 ```bash
-$ composer require --dev zendframework/zend-expressive-migration
+$ composer require --dev mezzio/mezzio-migration
 ```
 
 Once installed, run the following command to migrate your application:
 
 ```bash
-$ ./vendor/bin/expressive-migration migrate
+$ ./vendor/bin/mezzio-migration migrate
 ```
 
 This package does the following:
 
 - Uninstalls all current dependencies (by removing the `vendor/` directory).
-- Updates existing dependency constraints for known Expressive packages to their
-  latest stable versions. (See the tools [README](https://github.com/zendframework/zend-expressive-migration)
+- Updates existing dependency constraints for known Mezzio packages to their
+  latest stable versions. (See the tools [README](https://github.com/mezzio/mezzio-migration)
   for details on what versions of which packages the tool uses.)
-- Adds development dependencies on zendframework/zend-component-installer and
-  zendframework/zend-expressive-tooling.
+- Adds development dependencies on laminas/laminas-component-installer and
+  mezzio/mezzio-tooling.
 - Updates the `config/pipeline.php` file to:
     - add strict type declarations.
     - modify it to return a callable, per the v3 skeleton.
     - update the middleware pipeline as follows:
         - `pipeRoutingMiddleware()` becomes a `pipe()` operation referencing the
-          zend-expressive-router `RouteMiddleware`.
+          mezzio-router `RouteMiddleware`.
         - `pipeDispatchMiddleware()` becomes a `pipe()` operation referencing the
-          zend-expressive-router `DispatchMiddleware`.
+          mezzio-router `DispatchMiddleware`.
         - update references to `ImplicitHeadMiddleware` to reference the version
-          in zend-expressive-router.
+          in mezzio-router.
         - update references to `ImplicitOptionsMiddleware` to reference the version
-          in zend-expressive-router.
-        - update references to `Zend\Expressive\Middleware\NotFoundHandler` to
-          reference `Zend\Expressive\Handler\NotFoundHandler`.
-        - add a `pipe()` entry for the zend-expressive-router
+          in mezzio-router.
+        - update references to `Mezzio\Middleware\NotFoundHandler` to
+          reference `Mezzio\Handler\NotFoundHandler`.
+        - add a `pipe()` entry for the mezzio-router
           `MethodNotAllowedMiddleware`.
 - Updates the `config/routes.php` file to:
     - add strict type declarations.
@@ -282,13 +282,13 @@ This package does the following:
 - Updates `config/container.php` when Pimple or Aura.Di are in use:
     - For Pimple:
         - The package `xtreamwayz/pimple-container-interop` is replaced with
-          `zendframework/zend-pimple-config`.
+          `laminas/laminas-pimple-config`.
         - The Pimple variant of `container.php` from the v3 skeleton is used.
     - For Aura.Di
-        - The package `aura/di` is replaced with `zendframework/zend-auradi-config`.
+        - The package `aura/di` is replaced with `laminas/laminas-auradi-config`.
         - The Aura.Di variant of `container.php` from the v3 skeleton is used.
-- Executes `./vendor/bin/expressive migrate:interop-middleware`.
-- Executes `./vendor/bin/expressive migrate:middleware-to-request-handler`.
+- Executes `./vendor/bin/mezzio migrate:interop-middleware`.
+- Executes `./vendor/bin/mezzio migrate:middleware-to-request-handler`.
 - Runs `./vendor/bin/phpcbf` if it is installed.
 
 These steps should take care of most migration tasks.

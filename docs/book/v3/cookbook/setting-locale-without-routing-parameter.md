@@ -34,7 +34,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class SetLocaleMiddleware implements MiddlewareInterface
 {
@@ -75,7 +75,7 @@ Then you will need a factory for the `SetLocaleMiddleware` to inject the
 namespace App\I18n;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class SetLocaleMiddlewareFactory
 {
@@ -136,7 +136,7 @@ generate a URL and it will do the rest.
 
 > ### Helpers differ between template renderers
 >
-> The above example is specific to zend-view; syntax will differ for
+> The above example is specific to laminas-view; syntax will differ for
 > Twig and Plates.
 
 ## Redirecting within your request handlers
@@ -152,8 +152,8 @@ namespace App\Handler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response\RedirectResponse;
-use Zend\Expressive\Helper\UrlHelper;
+use Laminas\Diactoros\Response\RedirectResponse;
+use Mezzio\Helper\UrlHelper;
 
 class RedirectHandler implements RequestHandlerInterface
 {
@@ -183,7 +183,7 @@ would work for the above middleware:
 namespace App\Handler;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class RedirectHandlerFactory
 {

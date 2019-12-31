@@ -10,8 +10,8 @@ is a custom delegator factory.
 
 ## ApplicationConfigInjectionDelegator
 
-Expressive ships with the class `Zend\Expressive\Container\ApplicationConfigInjectionDelegator`,
-which can be used as a delegator factory for the `Zend\Expressive\Application`
+Mezzio ships with the class `Mezzio\Container\ApplicationConfigInjectionDelegator`,
+which can be used as a delegator factory for the `Mezzio\Application`
 class in order to automate piping of pipeline middleware and routing to request
 handlers and middleware.
 
@@ -56,8 +56,8 @@ service configuration somewhere, either at the application level in a
 return [
     'dependencies' => [
         'delegators' => [
-            \Zend\Expressive\Application::class => [
-                \Zend\Expressive\Container\ApplicationConfigInjectionDelegator::class,
+            \Mezzio\Application::class => [
+                \Mezzio\Container\ApplicationConfigInjectionDelegator::class,
             ],
         ],
     ],
@@ -93,7 +93,7 @@ following keys:
 - `middleware` (**required**, string or array): the value should be a middleware
   service name, or an array of service names (in which case a `MiddlewarePipe`
   will be created and piped).
-- `allowed_methods` (optional, array or value of `Zend\Expressive\Route\HTTP_METHOD_ANY):
+- `allowed_methods` (optional, array or value of `Mezzio\Route\HTTP_METHOD_ANY):
   the HTTP methods allowed for the route. If this is omitted, the assumption is
   any method is allowed.
 - `name` (optional, string): the name of the route, if any; this can be used
@@ -107,7 +107,7 @@ following keys:
 As outlined in the introduction to this recipe, we can also create our own
 custom delegator factories in order to inject pipeline or routed middleware.
 Unlike the above solution, the solution we will outline here will exercise the
-`Zend\Expressive\Application` API in order to populate it.
+`Mezzio\Application` API in order to populate it.
 
 First, we'll create the class `App\Factory\PipelineAndRoutesDelegator`, with
 the following contents:
@@ -119,16 +119,16 @@ namespace App\Factory;
 
 use App\Handler;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\Handler\NotFoundHandler;
-use Zend\Expressive\Helper\ServerUrlMiddleware;
-use Zend\Expressive\Helper\UrlHelperMiddleware;
-use Zend\Expressive\Router\Middleware\DispatchMiddleware;
-use Zend\Expressive\Router\Middleware\ImplicitHeadMiddleware;
-use Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware;
-use Zend\Expressive\Router\Middleware\MethodNotAllowedMiddleware;
-use Zend\Expressive\Router\Middleware\RouteMiddleware;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Mezzio\Application;
+use Mezzio\Handler\NotFoundHandler;
+use Mezzio\Helper\ServerUrlMiddleware;
+use Mezzio\Helper\UrlHelperMiddleware;
+use Mezzio\Router\Middleware\DispatchMiddleware;
+use Mezzio\Router\Middleware\ImplicitHeadMiddleware;
+use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
+use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
+use Mezzio\Router\Middleware\RouteMiddleware;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
 class PipelineAndRoutesDelegator
 {
@@ -178,7 +178,7 @@ public function getDependencies()
     return [
         /* . . . */
         'delegators' => [
-            \Zend\Expressive\Application::class => [
+            \Mezzio\Application::class => [
                 Factory\PipelineAndRoutesDelegator::class,
             ],
         ],
@@ -253,7 +253,7 @@ With regards to routes, there are other considerations:
   in use. As an example, each of the currently supported router implementations
   has a different syntax for placeholders:
 
-    - `/user/:id` + "constraints" configuration to define constraints (zend-router)
+    - `/user/:id` + "constraints" configuration to define constraints (laminas-router)
     - `/user/{id}` + "tokens" configuration to define constraints (Aura.Router)
     - `/user/{id:\d+}` (FastRoute)
 
