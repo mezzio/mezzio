@@ -1,18 +1,19 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2016-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Container;
+namespace Mezzio\Container;
 
+use Mezzio\Middleware\NotFoundMiddleware;
+use Mezzio\Response\NotFoundResponseInterface;
+use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Middleware\NotFoundMiddleware;
-use Zend\Expressive\Response\NotFoundResponseInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
 
 class NotFoundMiddlewareFactory
 {
@@ -21,10 +22,12 @@ class NotFoundMiddlewareFactory
         $config   = $container->has('config') ? $container->get('config') : [];
         $renderer = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
-            : null;
-        $template = $config['zend-expressive']['error_handler']['template_404']
+            : ($container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)
+                ? $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)
+                : null);
+        $template = $config['mezzio']['error_handler']['template_404']
                     ?? NotFoundMiddleware::TEMPLATE_DEFAULT;
-        $layout   = $config['zend-expressive']['error_handler']['layout']
+        $layout   = $config['mezzio']['error_handler']['layout']
                     ?? NotFoundMiddleware::LAYOUT_DEFAULT;
 
         return new NotFoundMiddleware(
