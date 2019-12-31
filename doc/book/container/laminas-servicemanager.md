@@ -1,8 +1,8 @@
-# Using zend-servicemanager
+# Using laminas-servicemanager
 
-[zend-servicemanager](https://github.com/zendframework/zend-servicemanager) is a
+[laminas-servicemanager](https://github.com/laminas/laminas-servicemanager) is a
 code-driven dependency injection container provided as a standalone component by
-Zend Framework. It features:
+Laminas. It features:
 
 - lazy-loading of invokable (constructor-less) classes.
 - ability to define factories for specific classes.
@@ -13,7 +13,7 @@ Zend Framework. It features:
   workflow (aka *delegator factories*).
 - interface injection (via *initializers*).
 
-zend-servicemanager may either be created and populated programattically, or via
+laminas-servicemanager may either be created and populated programattically, or via
 configuration. Configuration uses the following structure:
 
 ```php
@@ -25,14 +25,14 @@ configuration. Configuration uses the following structure:
         'service name' => 'class to instantiate',
     ],
     'factories' => [
-        'service name' => 'callable, Zend\ServiceManager\FactoryInterface instance, or name of factory class returning the service',
+        'service name' => 'callable, Laminas\ServiceManager\FactoryInterface instance, or name of factory class returning the service',
     ],
     'abstract_factories' => [
-        'class name of Zend\ServiceManager\AbstractFactoryInterface implementation',
+        'class name of Laminas\ServiceManager\AbstractFactoryInterface implementation',
     ],
     'delegators' => [
         'service name' => [
-            'class name of Zend\ServiceManager\DelegatorFactoryInterface implementation',
+            'class name of Laminas\ServiceManager\DelegatorFactoryInterface implementation',
         ],
     ],
     'lazy_services' => [
@@ -41,89 +41,89 @@ configuration. Configuration uses the following structure:
         ],
     ],
     'initializers' => [
-        'callable, Zend\ServiceManager\InitializerInterface implementation, or name of initializer class',
+        'callable, Laminas\ServiceManager\InitializerInterface implementation, or name of initializer class',
     ],
 ]
 ```
 
-Read more about zend-servicemanager in [its documentation](http://framework.zend.com/manual/current/en/modules/zend.service-manager.html).
+Read more about laminas-servicemanager in [its documentation](https://docs.laminas.dev/laminas.service-manager.html).
 
-## Installing zend-servicemanager
+## Installing laminas-servicemanager
 
-To use zend-servicemanager with zend-expressive, you can install it via
+To use laminas-servicemanager with mezzio, you can install it via
 composer:
 
 ```bash
-$ composer require zendframework/zend-servicemanager
+$ composer require laminas/laminas-servicemanager
 ```
 
-## Configuring zend-servicemanager
+## Configuring laminas-servicemanager
 
-You can configure zend-servicemanager either programmatically or via
+You can configure laminas-servicemanager either programmatically or via
 configuration. We'll show you both methods.
 
 ### Programmatically
 
-To use zend-servicemanager programatically, you'll need to create a
-`Zend\ServiceManager\ServiceManager` instance, and then start populating it.
+To use laminas-servicemanager programatically, you'll need to create a
+`Laminas\ServiceManager\ServiceManager` instance, and then start populating it.
 
 For this example, we'll assume your application configuration (used by several
 factories to configure instances) is in `config/config.php`, and that that file
 returns an array.
 
 We'll create a `config/services.php` file that creates and returns a
-`Zend\ServiceManager\ServiceManager` instance as follows:
+`Laminas\ServiceManager\ServiceManager` instance as follows:
 
 ```php
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 $container = new ServiceManager();
 
 // Application and configuration
 $container->setService('config', include 'config/config.php');
 $container->setFactory(
-    'Zend\Expressive\Application',
-    'Zend\Expressive\Container\ApplicationFactory'
+    'Mezzio\Application',
+    'Mezzio\Container\ApplicationFactory'
 );
 
 // Routing
 // In most cases, you can instantiate the router you want to use without using a
 // factory:
 $container->setInvokableClass(
-    'Zend\Expressive\Router\RouterInterface',
-    'Zend\Expressive\Router\Aura'
+    'Mezzio\Router\RouterInterface',
+    'Mezzio\Router\Aura'
 );
 
 // Templating
 // In most cases, you can instantiate the template renderer you want to use
 // without using a factory:
 $container->setInvokableClass(
-    'Zend\Expressive\Template\TemplateInterface',
-    'Zend\Expressive\Template\Plates'
+    'Mezzio\Template\TemplateInterface',
+    'Mezzio\Template\Plates'
 );
 
 // These next two can be added in any environment; they won't be used unless
 // you add the WhoopsErrorHandler as the FinalHandler implementation:
 $container->setFactory(
-    'Zend\Expressive\Whoops',
-    'Zend\Expressive\Container\WhoopsFactory'
+    'Mezzio\Whoops',
+    'Mezzio\Container\WhoopsFactory'
 );
 $container->setFactory(
-    'Zend\Expressive\WhoopsPageHandler',
-    'Zend\Expressive\Container\WhoopsPageHandlerFactory'
+    'Mezzio\WhoopsPageHandler',
+    'Mezzio\Container\WhoopsPageHandlerFactory'
 );
 
 // Error Handling
 // If in development:
 $container->setFactory(
-    'Zend\Expressive\FinalHandler',
-    'Zend\Expressive\Container\WhoopsErrorHandlerFactory'
+    'Mezzio\FinalHandler',
+    'Mezzio\Container\WhoopsErrorHandlerFactory'
 );
 
 // If in production:
 $container->setFactory(
-    'Zend\Expressive\FinalHandler',
-    'Zend\Expressive\Container\TemplatedErrorHandlerFactory'
+    'Mezzio\FinalHandler',
+    'Mezzio\Container\TemplatedErrorHandlerFactory'
 );
 
 return $container;
@@ -134,7 +134,7 @@ Your bootstrap (typically `public/index.php`) will then look like this:
 ```php
 chdir(dirname(__DIR__));
 $container = require 'config/services.php';
-$app = $container->get('Zend\Expressive\Application');
+$app = $container->get('Mezzio\Application');
 $app->run();
 ```
 
@@ -151,13 +151,13 @@ return [
         'config' => include __DIR__ . '/config.php',
     ],
     'invokables' => [
-        'Zend\Expressive\Router\RouterInterface'     => 'Zend\Expressive\Router\Aura',
-        'Zend\Expressive\Template\TemplateInterface' => 'Zend\Expressive\Template\Plates'
+        'Mezzio\Router\RouterInterface'     => 'Mezzio\Router\Aura',
+        'Mezzio\Template\TemplateInterface' => 'Mezzio\Template\Plates'
     ],
     'factories' => [
-        'Zend\Expressive\Application'       => 'Zend\Expressive\Container\ApplicationFactory',
-        'Zend\Expressive\Whoops'            => 'Zend\Expressive\Container\WhoopsFactory',
-        'Zend\Expressive\WhoopsPageHandler' => 'Zend\Expressive\Container\WhoopsPageHandlerFactory',
+        'Mezzio\Application'       => 'Mezzio\Container\ApplicationFactory',
+        'Mezzio\Whoops'            => 'Mezzio\Container\WhoopsFactory',
+        'Mezzio\WhoopsPageHandler' => 'Mezzio\Container\WhoopsPageHandlerFactory',
     ],
 ];
 ```
@@ -165,8 +165,8 @@ return [
 `config/services.php` becomes:
 
 ```php
-use Zend\ServiceManager\Config;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\ServiceManager;
 
 return new ServiceManager(new Config(include 'config/dependencies.php'));
 ```
@@ -182,31 +182,31 @@ In the first case, you would change the `config/services.php` example to look
 like this:
 
 ```php
-use Zend\ServiceManager\Config;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\ServiceManager;
 
 $container = new ServiceManager(new Config(include 'config/services.php'));
 switch ($variableOrConstantIndicatingEnvironment) {
     case 'development':
         $container->setFactory(
-            'Zend\Expressive\FinalHandler',
-            'Zend\Expressive\Container\WhoopsErrorHandlerFactory'
+            'Mezzio\FinalHandler',
+            'Mezzio\Container\WhoopsErrorHandlerFactory'
         );
         break;
     case 'production':
     default:
         $container->setFactory(
-            'Zend\Expressive\FinalHandler',
-            'Zend\Expressive\Container\TemplatedErrorHandlerFactory'
+            'Mezzio\FinalHandler',
+            'Mezzio\Container\TemplatedErrorHandlerFactory'
         );
 }
 return $container;
 ```
 
-In the second case, you will need to install zend-config:
+In the second case, you will need to install laminas-config:
 
 ```bash
-$ composer require zendframework/zend-config
+$ composer require laminas/laminas-config
 ```
 
 Then, create the directory `config/autoload/`, and create two files,
@@ -217,7 +217,7 @@ add an entry for `config/autoload/*local.php` to ensure "local"
 `config/dependencies.php` will look like this:
 
 ```php
-use Zend\Config\Config;
+use Laminas\Config\Config;
 
 return Config::fromFiles(
     glob('config/autoload/dependencies.{global,local}.php', GLOB_BRACE)
@@ -232,12 +232,12 @@ return [
         'config' => include __DIR__ . '/config.php',
     ],
     'invokables' => [
-        'Zend\Expressive\Router\RouterInterface'     => 'Zend\Expressive\Router\Aura',
-        'Zend\Expressive\Template\TemplateInterface' => 'Zend\Expressive\Template\Plates'
+        'Mezzio\Router\RouterInterface'     => 'Mezzio\Router\Aura',
+        'Mezzio\Template\TemplateInterface' => 'Mezzio\Template\Plates'
     ],
     'factories' => [
-        'Zend\Expressive\Application'       => 'Zend\Expressive\Container\ApplicationFactory',
-        'Zend\Expressive\FinalHandler'      => 'Zend\Expressive\Container\TemplatedErrorHandlerFactory',
+        'Mezzio\Application'       => 'Mezzio\Container\ApplicationFactory',
+        'Mezzio\FinalHandler'      => 'Mezzio\Container\TemplatedErrorHandlerFactory',
     ],
 ];
 ```
@@ -248,9 +248,9 @@ like this:
 ```php
 return [
     'factories' => [
-        'Zend\Expressive\FinalHandler'      => 'Zend\Expressive\Container\WhoopsErrorHandlerFactory',
-        'Zend\Expressive\Whoops'            => 'Zend\Expressive\Container\WhoopsFactory',
-        'Zend\Expressive\WhoopsPageHandler' => 'Zend\Expressive\Container\WhoopsPageHandlerFactory',
+        'Mezzio\FinalHandler'      => 'Mezzio\Container\WhoopsErrorHandlerFactory',
+        'Mezzio\Whoops'            => 'Mezzio\Container\WhoopsFactory',
+        'Mezzio\WhoopsPageHandler' => 'Mezzio\Container\WhoopsPageHandlerFactory',
     ],
 ];
 ```

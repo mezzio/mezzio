@@ -1,16 +1,15 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Router;
+namespace Mezzio\Router;
 
+use Mezzio\Exception;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Zend\Expressive\Exception;
 
 /**
  * Interface defining required router capabilities.
@@ -35,7 +34,7 @@ interface RouterInterface
      * URI from it.
      *
      * @see https://github.com/auraphp/Aura.Router#generating-a-route-path
-     * @see http://framework.zend.com/manual/current/en/modules/zend.mvc.routing.html
+     * @see https://docs.laminas.dev/laminas.mvc.routing.html
      * @param string $name
      * @param array $substitutions
      * @return string

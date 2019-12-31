@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Template;
+namespace MezzioTest\Template;
 
 use ArrayObject;
+use Laminas\View\Model\ViewModel;
+use Laminas\View\Renderer\PhpRenderer;
+use Laminas\View\Resolver\TemplatePathStack;
+use Mezzio\Exception;
+use Mezzio\Template\LaminasView;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Expressive\Template\ZendView;
-use Zend\Expressive\Exception;
-use Zend\View\Model\ViewModel;
-use Zend\View\Renderer\PhpRenderer;
-use Zend\View\Resolver\TemplatePathStack;
 
-class ZendViewTest extends TestCase
+class LaminasViewTest extends TestCase
 {
     use TemplatePathAssertionsTrait;
 
@@ -30,21 +29,21 @@ class ZendViewTest extends TestCase
 
     public function testCanPassRendererToConstructor()
     {
-        $template = new ZendView($this->render);
-        $this->assertInstanceOf(ZendView::class, $template);
+        $template = new LaminasView($this->render);
+        $this->assertInstanceOf(LaminasView::class, $template);
         $this->assertAttributeSame($this->render, 'renderer', $template);
     }
 
     public function testInstantiatingWithoutEngineLazyLoadsOne()
     {
-        $template = new ZendView();
-        $this->assertInstanceOf(ZendView::class, $template);
+        $template = new LaminasView();
+        $this->assertInstanceOf(LaminasView::class, $template);
         $this->assertAttributeInstanceOf(PhpRenderer::class, 'renderer', $template);
     }
 
     public function testCanAddPathWithEmptyNamespace()
     {
-        $template = new ZendView();
+        $template = new LaminasView();
         $template->addPath(__DIR__ . '/TestAsset');
         $paths = $template->getPaths();
         $this->assertInternalType('array', $paths);
@@ -56,7 +55,7 @@ class ZendViewTest extends TestCase
 
     public function testCanAddPathWithNamespace()
     {
-        $template = new ZendView();
+        $template = new LaminasView();
         $template->addPath(__DIR__ . '/TestAsset', 'test');
         $paths = $template->getPaths();
         $this->assertInternalType('array', $paths);
@@ -68,12 +67,12 @@ class ZendViewTest extends TestCase
 
     public function testDelegatesRenderingToUnderlyingImplementation()
     {
-        $template = new ZendView();
+        $template = new LaminasView();
         $template->addPath(__DIR__ . '/TestAsset');
-        $name = 'ZendView';
-        $result = $template->render('zendview', [ 'name' => $name ]);
+        $name = 'LaminasView';
+        $result = $template->render('laminasview', [ 'name' => $name ]);
         $this->assertContains($name, $result);
-        $content = file_get_contents(__DIR__ . '/TestAsset/zendview.phtml');
+        $content = file_get_contents(__DIR__ . '/TestAsset/laminasview.phtml');
         $content = str_replace('<?php echo $name ?>', $name, $content);
         $this->assertEquals($content, $result);
     }
@@ -96,17 +95,17 @@ class ZendViewTest extends TestCase
      */
     public function testRenderRaisesExceptionForInvalidParameterTypes($params)
     {
-        $template = new ZendView();
+        $template = new LaminasView();
         $this->setExpectedException(Exception\InvalidArgumentException::class);
         $template->render('foo', $params);
     }
 
     public function testCanRenderWithNullParams()
     {
-        $template = new ZendView();
+        $template = new LaminasView();
         $template->addPath(__DIR__ . '/TestAsset');
-        $result = $template->render('zendview-null', null);
-        $content = file_get_contents(__DIR__ . '/TestAsset/zendview-null.phtml');
+        $result = $template->render('laminasview-null', null);
+        $content = file_get_contents(__DIR__ . '/TestAsset/laminasview-null.phtml');
         $this->assertEquals($content, $result);
     }
 
@@ -128,11 +127,11 @@ class ZendViewTest extends TestCase
      */
     public function testCanRenderWithParameterObjects($params, $search)
     {
-        $template = new ZendView();
+        $template = new LaminasView();
         $template->addPath(__DIR__ . '/TestAsset');
-        $result = $template->render('zendview', $params);
+        $result = $template->render('laminasview', $params);
         $this->assertContains($search, $result);
-        $content = file_get_contents(__DIR__ . '/TestAsset/zendview.phtml');
+        $content = file_get_contents(__DIR__ . '/TestAsset/laminasview.phtml');
         $content = str_replace('<?php echo $name ?>', $search, $content);
         $this->assertEquals($content, $result);
     }
@@ -142,12 +141,12 @@ class ZendViewTest extends TestCase
      */
     public function testWillRenderContentInLayoutPassedToConstructor()
     {
-        $template = new ZendView(null, 'zendview-layout');
+        $template = new LaminasView(null, 'laminasview-layout');
         $template->addPath(__DIR__ . '/TestAsset');
-        $name = 'ZendView';
-        $result = $template->render('zendview', [ 'name' => $name ]);
+        $name = 'LaminasView';
+        $result = $template->render('laminasview', [ 'name' => $name ]);
         $this->assertContains($name, $result);
-        $content = file_get_contents(__DIR__ . '/TestAsset/zendview.phtml');
+        $content = file_get_contents(__DIR__ . '/TestAsset/laminasview.phtml');
         $content = str_replace('<?php echo $name ?>', $name, $content);
         $this->assertContains($content, $result);
         $this->assertContains('<title>Layout Page</title>', $result, sprintf("Received %s", $result));
@@ -158,12 +157,12 @@ class ZendViewTest extends TestCase
      */
     public function testWillRenderContentInLayoutPassedDuringRendering()
     {
-        $template = new ZendView(null);
+        $template = new LaminasView(null);
         $template->addPath(__DIR__ . '/TestAsset');
-        $name = 'ZendView';
-        $result = $template->render('zendview', [ 'name' => $name, 'layout' => 'zendview-layout' ]);
+        $name = 'LaminasView';
+        $result = $template->render('laminasview', [ 'name' => $name, 'layout' => 'laminasview-layout' ]);
         $this->assertContains($name, $result);
-        $content = file_get_contents(__DIR__ . '/TestAsset/zendview.phtml');
+        $content = file_get_contents(__DIR__ . '/TestAsset/laminasview.phtml');
         $content = str_replace('<?php echo $name ?>', $name, $content);
         $this->assertContains($content, $result);
 
@@ -175,12 +174,12 @@ class ZendViewTest extends TestCase
      */
     public function testLayoutPassedWhenRenderingOverridesLayoutPassedToConstructor()
     {
-        $template = new ZendView(null, 'zendview-layout');
+        $template = new LaminasView(null, 'laminasview-layout');
         $template->addPath(__DIR__ . '/TestAsset');
-        $name = 'ZendView';
-        $result = $template->render('zendview', [ 'name' => $name, 'layout' => 'zendview-layout2' ]);
+        $name = 'LaminasView';
+        $result = $template->render('laminasview', [ 'name' => $name, 'layout' => 'laminasview-layout2' ]);
         $this->assertContains($name, $result);
-        $content = file_get_contents(__DIR__ . '/TestAsset/zendview.phtml');
+        $content = file_get_contents(__DIR__ . '/TestAsset/laminasview.phtml');
         $content = str_replace('<?php echo $name ?>', $name, $content);
         $this->assertContains($content, $result);
 
@@ -193,14 +192,14 @@ class ZendViewTest extends TestCase
     public function testCanPassViewModelForLayoutToConstructor()
     {
         $layout = new ViewModel();
-        $layout->setTemplate('zendview-layout');
+        $layout->setTemplate('laminasview-layout');
 
-        $template = new ZendView(null, $layout);
+        $template = new LaminasView(null, $layout);
         $template->addPath(__DIR__ . '/TestAsset');
-        $name = 'ZendView';
-        $result = $template->render('zendview', [ 'name' => $name ]);
+        $name = 'LaminasView';
+        $result = $template->render('laminasview', [ 'name' => $name ]);
         $this->assertContains($name, $result);
-        $content = file_get_contents(__DIR__ . '/TestAsset/zendview.phtml');
+        $content = file_get_contents(__DIR__ . '/TestAsset/laminasview.phtml');
         $content = str_replace('<?php echo $name ?>', $name, $content);
         $this->assertContains($content, $result);
         $this->assertContains('<title>Layout Page</title>', $result, sprintf("Received %s", $result));
@@ -212,14 +211,14 @@ class ZendViewTest extends TestCase
     public function testCanPassViewModelForLayoutParameterWhenRendering()
     {
         $layout = new ViewModel();
-        $layout->setTemplate('zendview-layout2');
+        $layout->setTemplate('laminasview-layout2');
 
-        $template = new ZendView(null, 'zendview-layout');
+        $template = new LaminasView(null, 'laminasview-layout');
         $template->addPath(__DIR__ . '/TestAsset');
-        $name = 'ZendView';
-        $result = $template->render('zendview', [ 'name' => $name, 'layout' => $layout ]);
+        $name = 'LaminasView';
+        $result = $template->render('laminasview', [ 'name' => $name, 'layout' => $layout ]);
         $this->assertContains($name, $result);
-        $content = file_get_contents(__DIR__ . '/TestAsset/zendview.phtml');
+        $content = file_get_contents(__DIR__ . '/TestAsset/laminasview.phtml');
         $content = str_replace('<?php echo $name ?>', $name, $content);
         $this->assertContains($content, $result);
         $this->assertContains('<title>ALTERNATE LAYOUT PAGE</title>', $result);
@@ -230,7 +229,7 @@ class ZendViewTest extends TestCase
      */
     public function testProperlyResolvesNamespacedTemplate()
     {
-        $template = new ZendView();
+        $template = new LaminasView();
         $template->addPath(__DIR__ . '/TestAsset/test', 'test');
 
         $expected = file_get_contents(__DIR__ . '/TestAsset/test/test.phtml');

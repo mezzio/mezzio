@@ -34,11 +34,11 @@
     prevent "[method] on a null" errors.
 
 - [X] Create static factory for default use case
-  - [X] Decide if that factory belongs in the base Expressive package, or a
+  - [X] Decide if that factory belongs in the base Mezzio package, or a
     skeleton. It will require selecting default router (and potentially
     container, if we make it required) implementations!
     - Decision: factory will be a separate class, but in the same package. This
       simplifies the story of knowing what package is the entry point.
     - Decision: the factory will also create a container.
-    - Decision: Aura.Router and ZF2 SM will be used.
+    - Decision: Aura.Router and Laminas SM will be used.
   - [X] Factory SHOULD allow passing router and potentially container.

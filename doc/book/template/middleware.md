@@ -3,7 +3,7 @@
 The primary use case for templating is within middleware, to provide templated
 responses. To do this, you will:
 
-- Inject an instance of `Zend\Expressive\Template\TemplateInterface` into your
+- Inject an instance of `Mezzio\Template\TemplateInterface` into your
   middleware.
 - Potentially add paths to the templating instance.
 - Render a template.
@@ -18,7 +18,7 @@ setter. As an example:
 ```php
 namespace Acme\Blog;
 
-use Zend\Expressive\Template\TemplateInterface;
+use Mezzio\Template\TemplateInterface;
 
 class EntryMiddleware
 {
@@ -49,7 +49,7 @@ class EntryMiddlewareFactory
     public function __invoke(ContainerInterface $container)
     {
         return new EntryMiddleware(
-            $container->get('Zend\Expressive\Template\TemplateInterface')
+            $container->get('Mezzio\Template\TemplateInterface')
         );
     }
 }
@@ -69,8 +69,8 @@ substitutions to pass to it. This will typically look like the following:
 <?php
 namespace Acme\Blog;
 
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Expressive\Template\TemplateInterface;
+use Laminas\Diactoros\Response\HtmlResponse;
+use Mezzio\Template\TemplateInterface;
 
 class EntryMiddleware
 {

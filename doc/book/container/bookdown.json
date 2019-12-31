@@ -3,7 +3,7 @@
     "content": [
         {"Introduction": "intro.md"},
         {"Container Factories": "factories.md"},
-        {"Using zend-servicemanager": "zend-servicemanager.md"},
+        {"Using laminas-servicemanager": "laminas-servicemanager.md"},
         {"Using Pimple": "pimple.md"}
     ]
 }

@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Mezzio\Application;
+use Mezzio\Container\ApplicationFactory;
+use Mezzio\Router\Route;
 use PHPUnit_Framework_TestCase as TestCase;
 use ReflectionFunction;
 use ReflectionProperty;
-use Zend\Expressive\Application;
-use Zend\Expressive\Container\ApplicationFactory;
-use Zend\Expressive\Router\Route;
 
 class ApplicationFactoryTest extends TestCase
 {
@@ -64,34 +63,34 @@ class ApplicationFactoryTest extends TestCase
 
     public function testFactoryWillPullAllReplaceableDependenciesFromContainerWhenPresent()
     {
-        $router       = $this->prophesize('Zend\Expressive\Router\RouterInterface');
-        $emitter      = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $router       = $this->prophesize('Mezzio\Router\RouterInterface');
+        $emitter      = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $finalHandler = function ($req, $res, $err = null) {
         };
 
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->will(function () use ($router) {
                 return $router->reveal();
             });
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->will(function () use ($emitter) {
                 return $emitter->reveal();
             });
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->willReturn($finalHandler);
 
         $this->container
@@ -99,7 +98,7 @@ class ApplicationFactoryTest extends TestCase
             ->willReturn(false);
 
         $app = $this->factory->__invoke($this->container->reveal());
-        $this->assertInstanceOf('Zend\Expressive\Application', $app);
+        $this->assertInstanceOf('Mezzio\Application', $app);
         $test = $this->getRouterFromApplication($app);
         $this->assertSame($router->reveal(), $test);
         $this->assertSame($this->container->reveal(), $app->getContainer());
@@ -109,8 +108,8 @@ class ApplicationFactoryTest extends TestCase
 
     public function testFactorySetsUpRoutesFromConfig()
     {
-        $router = $this->prophesize('Zend\Expressive\Router\RouterInterface');
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $router = $this->prophesize('Mezzio\Router\RouterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $finalHandler = function ($req, $res, $err = null) {
         };
 
@@ -130,28 +129,28 @@ class ApplicationFactoryTest extends TestCase
         ];
 
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->will(function () use ($router) {
                 return $router->reveal();
             });
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->will(function () use ($emitter) {
                 return $emitter->reveal();
             });
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->willReturn($finalHandler);
 
         $this->container
@@ -176,24 +175,24 @@ class ApplicationFactoryTest extends TestCase
     public function testWillUseSaneDefaultsForOptionalServices()
     {
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(false);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->shouldNotBeCalled();
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(false);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->shouldNotBeCalled();
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(false);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->shouldNotBeCalled();
 
         $this->container
@@ -201,13 +200,13 @@ class ApplicationFactoryTest extends TestCase
             ->willReturn(false);
 
         $app = $this->factory->__invoke($this->container->reveal());
-        $this->assertInstanceOf('Zend\Expressive\Application', $app);
+        $this->assertInstanceOf('Mezzio\Application', $app);
         $router = $this->getRouterFromApplication($app);
-        $this->assertInstanceOf('Zend\Expressive\Router\Aura', $router);
+        $this->assertInstanceOf('Mezzio\Router\Aura', $router);
         $this->assertSame($this->container->reveal(), $app->getContainer());
-        $this->assertInstanceOf('Zend\Expressive\Emitter\EmitterStack', $app->getEmitter());
+        $this->assertInstanceOf('Mezzio\Emitter\EmitterStack', $app->getEmitter());
         $this->assertCount(1, $app->getEmitter());
-        $this->assertInstanceOf('Zend\Diactoros\Response\SapiEmitter', $app->getEmitter()->pop());
+        $this->assertInstanceOf('Laminas\Diactoros\Response\SapiEmitter', $app->getEmitter()->pop());
         $this->assertNull($app->getFinalHandler());
     }
 
@@ -216,8 +215,8 @@ class ApplicationFactoryTest extends TestCase
      */
     public function testCanPipeMiddlewareProvidedDuringConfigurationPriorToSettingRoutes()
     {
-        $router = $this->prophesize('Zend\Expressive\Router\RouterInterface');
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $router = $this->prophesize('Mezzio\Router\RouterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $finalHandler = function ($req, $res, $err = null) {
         };
 
@@ -242,28 +241,28 @@ class ApplicationFactoryTest extends TestCase
         ];
 
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->will(function () use ($router) {
                 return $router->reveal();
             });
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->will(function () use ($emitter) {
                 return $emitter->reveal();
             });
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->willReturn($finalHandler);
 
         $this->container
@@ -283,17 +282,17 @@ class ApplicationFactoryTest extends TestCase
         $this->assertCount(3, $pipeline);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertSame($middleware, $route->handler);
         $this->assertEquals('/', $route->path);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertSame($middleware, $route->handler);
         $this->assertEquals('/foo', $route->path);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertSame([$app, 'routeMiddleware'], $route->handler);
         $this->assertEquals('/', $route->path);
     }
@@ -303,8 +302,8 @@ class ApplicationFactoryTest extends TestCase
      */
     public function testCanPipeMiddlewareProvidedDuringConfigurationAfterSettingRoutes()
     {
-        $router = $this->prophesize('Zend\Expressive\Router\RouterInterface');
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $router = $this->prophesize('Mezzio\Router\RouterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $finalHandler = function ($req, $res, $err = null) {
         };
 
@@ -330,28 +329,28 @@ class ApplicationFactoryTest extends TestCase
         ];
 
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->will(function () use ($router) {
                 return $router->reveal();
             });
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->will(function () use ($emitter) {
                 return $emitter->reveal();
             });
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->willReturn($finalHandler);
 
         $this->container
@@ -371,18 +370,18 @@ class ApplicationFactoryTest extends TestCase
         $this->assertCount(3, $pipeline);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertSame([$app, 'routeMiddleware'], $route->handler);
         $this->assertEquals('/', $route->path);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertInstanceOf('Closure', $route->handler);
         $this->assertTrue(call_user_func($route->handler, 'req', 'res'));
         $this->assertEquals('/', $route->path);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertInstanceOf('Closure', $route->handler);
         $this->assertTrue(call_user_func($route->handler, 'req', 'res'));
         $this->assertEquals('/foo', $route->path);
@@ -393,8 +392,8 @@ class ApplicationFactoryTest extends TestCase
      */
     public function testPipedMiddlewareAsServiceNamesAreReturnedAsClosuresThatPullFromContainer()
     {
-        $router = $this->prophesize('Zend\Expressive\Router\RouterInterface');
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $router = $this->prophesize('Mezzio\Router\RouterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $finalHandler = function ($req, $res, $err = null) {
         };
 
@@ -412,28 +411,28 @@ class ApplicationFactoryTest extends TestCase
         ];
 
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->will(function () use ($router) {
                 return $router->reveal();
             });
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->will(function () use ($emitter) {
                 return $emitter->reveal();
             });
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->willReturn($finalHandler);
 
         $this->container
@@ -461,18 +460,18 @@ class ApplicationFactoryTest extends TestCase
         $this->assertCount(3, $pipeline);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertSame([$app, 'routeMiddleware'], $route->handler);
         $this->assertEquals('/', $route->path);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertInstanceOf('Closure', $route->handler);
         $this->assertTrue(call_user_func($route->handler, 'req', 'res'));
         $this->assertEquals('/', $route->path);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertInstanceOf('Closure', $route->handler);
         $this->assertTrue(call_user_func($route->handler, 'req', 'res'));
         $this->assertEquals('/foo', $route->path);
@@ -500,8 +499,8 @@ class ApplicationFactoryTest extends TestCase
      */
     public function testRaisesExceptionForNonCallableNonServiceMiddleware($middleware)
     {
-        $router = $this->prophesize('Zend\Expressive\Router\RouterInterface');
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $router = $this->prophesize('Mezzio\Router\RouterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $finalHandler = function ($req, $res, $err = null) {
         };
 
@@ -515,28 +514,28 @@ class ApplicationFactoryTest extends TestCase
         ];
 
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->will(function () use ($router) {
                 return $router->reveal();
             });
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->will(function () use ($emitter) {
                 return $emitter->reveal();
             });
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->willReturn($finalHandler);
 
         $this->container
@@ -560,8 +559,8 @@ class ApplicationFactoryTest extends TestCase
      */
     public function testRaisesExceptionForPipedMiddlewareServiceNamesNotFoundInContainer()
     {
-        $router = $this->prophesize('Zend\Expressive\Router\RouterInterface');
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $router = $this->prophesize('Mezzio\Router\RouterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $finalHandler = function ($req, $res, $err = null) {
         };
 
@@ -575,28 +574,28 @@ class ApplicationFactoryTest extends TestCase
         ];
 
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->will(function () use ($router) {
                 return $router->reveal();
             });
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->will(function () use ($emitter) {
                 return $emitter->reveal();
             });
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->willReturn($finalHandler);
 
         $this->container
@@ -620,8 +619,8 @@ class ApplicationFactoryTest extends TestCase
      */
     public function testRaisesExceptionOnInvocationOfUninvokableServiceSpecifiedMiddlewarePulledFromContainer()
     {
-        $router = $this->prophesize('Zend\Expressive\Router\RouterInterface');
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $router = $this->prophesize('Mezzio\Router\RouterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $finalHandler = function ($req, $res, $err = null) {
         };
 
@@ -637,28 +636,28 @@ class ApplicationFactoryTest extends TestCase
         ];
 
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->will(function () use ($router) {
                 return $router->reveal();
             });
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->will(function () use ($emitter) {
                 return $emitter->reveal();
             });
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->willReturn($finalHandler);
 
         $this->container
@@ -686,17 +685,17 @@ class ApplicationFactoryTest extends TestCase
         $this->assertCount(3, $pipeline);
 
         $routing = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $routing);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $routing);
         $this->assertSame([$app, 'routeMiddleware'], $routing->handler);
         $this->assertEquals('/', $routing->path);
 
         $first = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $first);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $first);
         $this->assertInstanceOf('Closure', $first->handler);
         $this->assertEquals('/', $first->path);
 
         $second = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $second);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $second);
         $this->assertInstanceOf('Closure', $second->handler);
         $this->assertEquals('/foo', $second->path);
 
@@ -705,7 +704,7 @@ class ApplicationFactoryTest extends TestCase
                 $handler('req', 'res');
                 $this->fail(sprintf('%s handler succeed, but should have raised an exception', $index));
             } catch (\Exception $e) {
-                $this->assertInstanceOf('Zend\Expressive\Exception\InvalidMiddlewareException', $e);
+                $this->assertInstanceOf('Mezzio\Exception\InvalidMiddlewareException', $e);
                 $this->assertContains('Lazy-loaded', $e->getMessage());
             }
         }
@@ -713,8 +712,8 @@ class ApplicationFactoryTest extends TestCase
 
     public function testCanSpecifyRouteViaConfigurationWithNoMethods()
     {
-        $router = $this->prophesize('Zend\Expressive\Router\RouterInterface');
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $router = $this->prophesize('Mezzio\Router\RouterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $finalHandler = function ($req, $res, $err = null) {
         };
 
@@ -728,28 +727,28 @@ class ApplicationFactoryTest extends TestCase
         ];
 
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->will(function () use ($router) {
                 return $router->reveal();
             });
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->will(function () use ($emitter) {
                 return $emitter->reveal();
             });
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->willReturn($finalHandler);
 
         $this->container
@@ -776,8 +775,8 @@ class ApplicationFactoryTest extends TestCase
      */
     public function testCanMarkPipedMiddlewareServiceAsErrorMiddleware()
     {
-        $router = $this->prophesize('Zend\Expressive\Router\RouterInterface');
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $router = $this->prophesize('Mezzio\Router\RouterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $finalHandler = function ($req, $res, $err = null) {
         };
 
@@ -794,28 +793,28 @@ class ApplicationFactoryTest extends TestCase
         ];
 
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->will(function () use ($router) {
                 return $router->reveal();
             });
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->will(function () use ($emitter) {
                 return $emitter->reveal();
             });
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->willReturn($finalHandler);
 
         $this->container
@@ -843,12 +842,12 @@ class ApplicationFactoryTest extends TestCase
         $this->assertCount(2, $pipeline);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertEquals('/', $route->path);
         $this->assertSame([$app, 'routeMiddleware'], $route->handler);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertEquals('/', $route->path);
         $this->assertInstanceOf('Closure', $route->handler);
 
@@ -862,8 +861,8 @@ class ApplicationFactoryTest extends TestCase
      */
     public function testWillPipeRoutingMiddlewareEvenIfNoRoutesAreRegistered()
     {
-        $router  = $this->prophesize('Zend\Expressive\Router\RouterInterface');
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $router  = $this->prophesize('Mezzio\Router\RouterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $finalHandler = function ($req, $res, $err = null) {
         };
 
@@ -881,28 +880,28 @@ class ApplicationFactoryTest extends TestCase
         ];
 
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->will(function () use ($router) {
                 return $router->reveal();
             });
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->will(function () use ($emitter) {
                 return $emitter->reveal();
             });
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->willReturn($finalHandler);
 
         $this->container
@@ -922,25 +921,25 @@ class ApplicationFactoryTest extends TestCase
         $this->assertCount(3, $pipeline);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertSame($middleware, $route->handler);
         $this->assertEquals('/', $route->path);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertSame($middleware, $route->handler);
         $this->assertEquals('/foo', $route->path);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertSame([$app, 'routeMiddleware'], $route->handler);
         $this->assertEquals('/', $route->path);
     }
 
     public function testCanSpecifyRouteNamesViaConfiguration()
     {
-        $router = $this->prophesize('Zend\Expressive\Router\RouterInterface');
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $router = $this->prophesize('Mezzio\Router\RouterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $finalHandler = function ($req, $res, $err = null) {
         };
 
@@ -955,28 +954,28 @@ class ApplicationFactoryTest extends TestCase
         ];
 
         $this->container
-            ->has('Zend\Expressive\Router\RouterInterface')
+            ->has('Mezzio\Router\RouterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\Router\RouterInterface')
+            ->get('Mezzio\Router\RouterInterface')
             ->will(function () use ($router) {
                 return $router->reveal();
             });
 
         $this->container
-            ->has('Zend\Diactoros\Response\EmitterInterface')
+            ->has('Laminas\Diactoros\Response\EmitterInterface')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Diactoros\Response\EmitterInterface')
+            ->get('Laminas\Diactoros\Response\EmitterInterface')
             ->will(function () use ($emitter) {
                 return $emitter->reveal();
             });
 
         $this->container
-            ->has('Zend\Expressive\FinalHandler')
+            ->has('Mezzio\FinalHandler')
             ->willReturn(true);
         $this->container
-            ->get('Zend\Expressive\FinalHandler')
+            ->get('Mezzio\FinalHandler')
             ->willReturn($finalHandler);
 
         $this->container

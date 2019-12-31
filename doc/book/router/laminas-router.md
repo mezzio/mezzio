@@ -1,11 +1,11 @@
-# Using the ZF2 Router
+# Using the Laminas Router
 
-[zend-mvc](https://github.com/zendframework/zend-mvc) provides a router
-implementation; for HTTP applications, the default used in ZF2 applications is
-`Zend\Mvc\Router\Http\TreeRouteStack`, which can compose a number of different
+[laminas-mvc](https://github.com/laminas/laminas-mvc) provides a router
+implementation; for HTTP applications, the default used in Laminas applications is
+`Laminas\Mvc\Router\Http\TreeRouteStack`, which can compose a number of different
 routes of differing types in order to perform routing.
 
-The ZF2 bridge we provide, `Zend\Expressive\Router\Zf`, uses the
+The Laminas bridge we provide, `Mezzio\Router\Laminas`, uses the
 `TreeRouteStack`, and injects `Segment` routes to it; these are in turn injected
 with `Method` routes, and a special "method not allowed" route at negative
 priority to enable us to distinguish between failure to match the path and
@@ -15,10 +15,10 @@ If you instantiate it with no arguments, it will create an empty
 `TreeRouteStack`. Thus, the simplest way to start with this router is:
 
 ```php
-use Zend\Expressive\AppFactory;
-use Zend\Expressive\Router\Zf2 as Zf2Router;
+use Mezzio\AppFactory;
+use Mezzio\Router\Laminas as LaminasRouter;
 
-$app = AppFactory(null, new Zf2Router());
+$app = AppFactory(null, new LaminasRouter());
 ```
 
 The `TreeRouteStack` offers some unique features:
@@ -38,46 +38,46 @@ The answer, then, is to use dependency injection. This can be done in two ways:
 programmatically, or via a factory to use in conjunction with your container
 instance.
 
-## Installing the ZF2 Router
+## Installing the Laminas Router
 
-To use the ZF2 router, you will need to install two dependencies,
-`zendframework/zend-mvc`, and `zendframework/zend-psr7bridge`; the latter is
+To use the Laminas router, you will need to install two dependencies,
+`laminas/laminas-mvc`, and `laminas/laminas-psr7bridge`; the latter is
 used to convert the PSR-7 `ServerRequestInterface` request instances used by
-zend-expressive into zend-http equivalents to pass to the `TreeRouteStack`. You
+mezzio into laminas-http equivalents to pass to the `TreeRouteStack`. You
 can add these via Composer by executing the following in your project root:
 
 ```bash
-$ composer require zendframework/zend-mvc zendframework/zend-psr7bridge
+$ composer require laminas/laminas-mvc laminas/laminas-psr7bridge
 ```
 
 ## Quick Start
 
-At its simplest, you can instantiate a `Zend\Expressive\Router\Zf2` instance
-with no arguments; it will create the underlying zend-mvc routing objects
+At its simplest, you can instantiate a `Mezzio\Router\Laminas` instance
+with no arguments; it will create the underlying laminas-mvc routing objects
 required and compose them for you:
 
 ```php
-use Zend\Expressive\Router\Zf2;
+use Mezzio\Router\Laminas;
 
-$router = new Zf2();
+$router = new Laminas();
 ```
 
 ## Programmatic Creation
 
-If you need greater control over the zend-mvc router setup and configuration,
+If you need greater control over the laminas-mvc router setup and configuration,
 you can create the instances necessary and inject them into
-`Zend\Expressive\Router\Zf2` during instantiation.
+`Mezzio\Router\Laminas` during instantiation.
 
 ```php
-use Zend\Expressive\AppFactory;
-use Zend\Expressive\Router\Zf2 as Zf2Bridge;
-use Zend\Mvc\Router\Http\TreeRouteStack;
+use Mezzio\AppFactory;
+use Mezzio\Router\Laminas;
+use Laminas\Mvc\Router\Http\TreeRouteStack;
 
-$zf2Router = new TreeRouteStack();
-$zf2Router->addPrototypes(/* ... */);
-$zf2Router->setBaseUrl(/* ... */);
+$laminasRouter = new TreeRouteStack();
+$laminasRouter->addPrototypes(/* ... */);
+$laminasRouter->setBaseUrl(/* ... */);
 
-$router = new Zf2Bridge($zf2Router);
+$router = new LaminasRouter($laminasRouter);
 
 // First argument is the container to use, if not using the default;
 // second is the router.
@@ -96,13 +96,13 @@ $app = AppFactory::create(null, $router);
 
 [We recommend using an Inversion of Control container](../container/intro.md)
 for your applications; as such, in this section we will demonstrate 
-two strategies for creating your zend-mvc router implementation.
+two strategies for creating your laminas-mvc router implementation.
 
 ### Basic Router
 
 If you don't need to provide any setup or configuration, you can simply
-instantiate and return an instance of `Zend\Expressive\Router\Zf2` for the
-service name `Zend\Expressive\Router\RouterInterface`.
+instantiate and return an instance of `Mezzio\Router\Laminas` for the
+service name `Mezzio\Router\RouterInterface`.
 
 A factory would look like this:
 
@@ -111,26 +111,26 @@ A factory would look like this:
 namespace Application\Container;
 
 use Interop\Container\ContainerInterface;
-use Zend\Expressive\Router\Zf2;
+use Mezzio\Router\Laminas;
 
 class RouterFactory
 {
     /**
      * @param ContainerInterface $container
-     * @return Zf2
+     * @return Laminas
      */
     public function __invoke(ContainerInterface $container)
     {
-        return new Zf2();
+        return new Laminas();
     }
 }
 ```
 
-You would register this with zend-servicemanager using:
+You would register this with laminas-servicemanager using:
 
 ```php
 $container->setFactory(
-    'Zend\Expressive\Router\RouterInterface',
+    'Mezzio\Router\RouterInterface',
     'Application\Container\RouterFactory'
 );
 ```
@@ -138,16 +138,16 @@ $container->setFactory(
 And in Pimple:
 
 ```php
-$pimple['Zend\Expressive\Router\RouterInterface'] = new Application\Container\RouterFactory();
+$pimple['Mezzio\Router\RouterInterface'] = new Application\Container\RouterFactory();
 ```
 
-For zend-servicemanager, you can omit the factory entirely, and register the
+For laminas-servicemanager, you can omit the factory entirely, and register the
 class as an invokable:
 
 ```php
 $container->setInvokableClass(
-    'Zend\Expressive\Router\RouterInterface',
-    'Zend\Expressive\Router\Zf2'
+    'Mezzio\Router\RouterInterface',
+    'Mezzio\Router\Laminas'
 );
 ```
 
@@ -156,11 +156,11 @@ $container->setInvokableClass(
 If you want to provide custom setup or configuration, you can do so. In this
 example, we will be defining two factories:
 
-- A factory to register as and generate an `Zend\Mvc\Router\Http\TreeRouteStack`
+- A factory to register as and generate an `Laminas\Mvc\Router\Http\TreeRouteStack`
   instance.
-- A factory registered as `Zend\Expressive\Router\RouterInterface`, which
-  creates and returns a `Zend\Expressive\Router\Zf2` instance composing the
-  `Zend\Mvc\Router\Http\TreeRouteStack` instance.
+- A factory registered as `Mezzio\Router\RouterInterface`, which
+  creates and returns a `Mezzio\Router\Laminas` instance composing the
+  `Laminas\Mvc\Router\Http\TreeRouteStack` instance.
 
 Sound difficult? It's not; we've essentially done it above already!
 
@@ -169,7 +169,7 @@ Sound difficult? It's not; we've essentially done it above already!
 namespace Application\Container;
 
 use Interop\Container\ContainerInterface;
-use Zend\Http\Mvc\Router\TreeRouteStack;
+use Laminas\Http\Mvc\Router\TreeRouteStack;
 
 class TreeRouteStackFactory
 {
@@ -191,44 +191,44 @@ class TreeRouteStackFactory
 namespace Application\Container;
 
 use Interop\Container\ContainerInterface;
-use Zend\Expressive\Router\Zf2 as Zf2Bridge;
+use Mezzio\Router\Laminas;
 
 class RouterFactory
 {
     /**
      * @param ContainerInterface $container
-     * @return Zf2Bridge
+     * @return LaminasRouter
      */
     public function __invoke(ContainerInterface $container)
     {
-        return new Zf2Bridge($container->get('Zend\Mvc\Router\Http\TreeRouteStack'));
+        return new LaminasRouter($container->get('Laminas\Mvc\Router\Http\TreeRouteStack'));
     }
 }
 ```
 
 From here, you will need to register your factories with your IoC container.
 
-If you are using zend-servicemanager, this will look like:
+If you are using laminas-servicemanager, this will look like:
 
 ```php
 // Programmatically:
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 $container = new ServiceManager();
 $container->addFactory(
-    'Zend\Mvc\Router\Http\TreeRouteStack',
+    'Laminas\Mvc\Router\Http\TreeRouteStack',
     'Application\Container\TreeRouteStackFactory'
 );
 $container->addFactory(
-    'Zend\Expressive\Router\RouterInterface',
+    'Mezzio\Router\RouterInterface',
     'Application\Container\RouterFactory'
 );
 
 // Alternately, via configuration:
 return [
     'factories' => [
-        'Zend\Mvc\Router\Http\TreeRouteStack' => 'Application\Container\TreeRouteStackFactory',
-        'Zend\Expressive\Router\RouterInterface' => 'Application\Container\RouterFactory',
+        'Laminas\Mvc\Router\Http\TreeRouteStack' => 'Application\Container\TreeRouteStackFactory',
+        'Mezzio\Router\RouterInterface' => 'Application\Container\RouterFactory',
     ],
 ];
 ```
@@ -237,10 +237,10 @@ For Pimple, configuration looks like:
 
 ```php
 use Application\Container\TreeRouteStackFactory;
-use Application\Container\ZfRouterFactory;
+use Application\Container\LaminasRouterFactory;
 use Interop\Container\Pimple\PimpleInterop;
 
 $container = new PimpleInterop();
-$container['Zend\Mvc\Router\Http\TreeRouteStackFactory'] = new TreeRouteStackFactory();
-$container['Zend\Expressive\Router\RouterInterface'] = new RouterFactory();
+$container['Laminas\Mvc\Router\Http\TreeRouteStackFactory'] = new TreeRouteStackFactory();
+$container['Mezzio\Router\RouterInterface'] = new RouterFactory();
 ```

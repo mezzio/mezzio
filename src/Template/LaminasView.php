@@ -1,33 +1,32 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Template;
+namespace Mezzio\Template;
 
-use Zend\View\Model\ModelInterface;
-use Zend\View\Model\ViewModel;
-use Zend\View\Renderer\RendererInterface;
-use Zend\View\Renderer\PhpRenderer;
-use Zend\View\Resolver\AggregateResolver;
-use Zend\View\Resolver\ResolverInterface;
-use Zend\Expressive\Exception;
+use Laminas\View\Model\ModelInterface;
+use Laminas\View\Model\ViewModel;
+use Laminas\View\Renderer\PhpRenderer;
+use Laminas\View\Renderer\RendererInterface;
+use Laminas\View\Resolver\AggregateResolver;
+use Laminas\View\Resolver\ResolverInterface;
+use Mezzio\Exception;
 
 /**
- * Template implementation bridging zendframework/zend-view.
+ * Template implementation bridging laminas/laminas-view.
  *
  * This implementation provides additional capabilities.
  *
  * First, it always ensures the resolver is an AggregateResolver, pushing any
  * non-Aggregate into a new AggregateResolver instance. Additionally, it always
- * registers a ZendView\NamespacedPathStackResolver at priority 0 (lower than
+ * registers a LaminasView\NamespacedPathStackResolver at priority 0 (lower than
  * default) in the Aggregate to ensure we can add and resolve namespaced paths.
  */
-class ZendView implements TemplateInterface
+class LaminasView implements TemplateInterface
 {
     use ArrayParametersTrait;
 
@@ -47,14 +46,14 @@ class ZendView implements TemplateInterface
     private $renderer;
 
     /**
-     * @var ZendView\NamespacedPathStackResolver
+     * @var LaminasView\NamespacedPathStackResolver
      */
     private $resolver;
 
     /**
      * Constructor
      *
-     * Allows specifying the renderer to use (any zend-view renderer is
+     * Allows specifying the renderer to use (any laminas-view renderer is
      * allowed), and optionally also the layout.
      *
      * The layout may be:
@@ -113,7 +112,7 @@ class ZendView implements TemplateInterface
      * parameter, using either:
      *
      * - a string layout template name
-     * - a Zend\View\Model\ModelInterface instance
+     * - a Laminas\View\Model\ModelInterface instance
      *
      * Layouts specified with $params take precedence over layouts passed to
      * the constructor.
@@ -151,7 +150,7 @@ class ZendView implements TemplateInterface
         $paths = [];
 
         foreach ($this->resolver->getPaths() as $namespace => $namespacedPaths) {
-            if ($namespace === ZendView\NamespacedPathStackResolver::DEFAULT_NAMESPACE
+            if ($namespace === LaminasView\NamespacedPathStackResolver::DEFAULT_NAMESPACE
                 || empty($namespace)
                 || is_int($namespace)
             ) {
@@ -264,7 +263,7 @@ class ZendView implements TemplateInterface
     /**
      * Get the default resolver
      *
-     * @return ZendView\NamespacedPathStackResolver
+     * @return LaminasView\NamespacedPathStackResolver
      */
     private function getDefaultResolver()
     {
@@ -274,7 +273,7 @@ class ZendView implements TemplateInterface
     }
 
     /**
-     * Attaches a new ZendView\NamespacedPathStackResolver to the AggregateResolver
+     * Attaches a new LaminasView\NamespacedPathStackResolver to the AggregateResolver
      *
      * A priority of 0 is used, to ensure it is the last queried.
      *
@@ -282,7 +281,7 @@ class ZendView implements TemplateInterface
      */
     private function injectNamespacedResolver(AggregateResolver $aggregate)
     {
-        $aggregate->attach(new ZendView\NamespacedPathStackResolver(), 0);
+        $aggregate->attach(new LaminasView\NamespacedPathStackResolver(), 0);
     }
 
     /**
@@ -292,7 +291,7 @@ class ZendView implements TemplateInterface
     private function hasNamespacedResolver(AggregateResolver $aggregate)
     {
         foreach ($aggregate as $resolver) {
-            if ($resolver instanceof ZendView\NamespacedPathStackResolver) {
+            if ($resolver instanceof LaminasView\NamespacedPathStackResolver) {
                 return true;
             }
         }
@@ -302,12 +301,12 @@ class ZendView implements TemplateInterface
 
     /**
      * @param AggregateResolver $aggregate
-     * @return null|ZendView\NamespacedPathStackResolver
+     * @return null|LaminasView\NamespacedPathStackResolver
      */
     private function getNamespacedResolver(AggregateResolver $aggregate)
     {
         foreach ($aggregate as $resolver) {
-            if ($resolver instanceof ZendView\NamespacedPathStackResolver) {
+            if ($resolver instanceof LaminasView\NamespacedPathStackResolver) {
                 return $resolver;
             }
         }
