@@ -8,7 +8,7 @@ displayed during the GET request. (PRG is used to prevent double-submission of
 forms.) As such, flash messages usually are session-based; the message is set in
 one request, and accessed and cleared in another.
 
-Expressive does not provide native session facilities out-of-the-box, which
+Mezzio does not provide native session facilities out-of-the-box, which
 means you will need:
 
 - Session functionality.
@@ -18,12 +18,12 @@ means you will need:
 A number of flash message libraries already exist that can be integrated via
 middleware, and these typically either use PHP's ext/session functionality or
 have a dependency on a session library. Two such libraries are slim/flash and
-damess/expressive-session-middleware.
+damess/mezzio-session-middleware.
 
 ## slim/flash
 
 Slim's [Flash messages service provider](https://github.com/slimphp/Slim-Flash) can be
-used in Expressive. It uses PHP's native session support.
+used in Mezzio. It uses PHP's native session support.
 
 First, you'll need to add it to your application:
 
@@ -120,7 +120,7 @@ attribute. As an example, middleware generating messages might read as follows:
 
 ```php
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response\RedirectResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
 
 function($request, RequestHandlerInterface $handler)
 {
@@ -146,9 +146,9 @@ function($request, RequestHandlerInterface $handler)
 
 From there, it's a matter of providing the flash messages to your template.
 
-## damess/expressive-session-middleware and Aura.Session
+## damess/mezzio-session-middleware and Aura.Session
 
-[damess/expressive-session-middleware](https://github.com/dannym87/expressive-session-middleware)
+[damess/mezzio-session-middleware](https://github.com/dannym87/mezzio-session-middleware)
 provides middleware for initializing an
 [Aura.Session](https://github.com/auraphp/Aura.Session) instance; Aura.Session
 provides flash messaging capabilities as part of its featureset.
@@ -156,7 +156,7 @@ provides flash messaging capabilities as part of its featureset.
 Install it via Composer:
 
 ```bash
-$ composer require damess/expressive-session-middleware
+$ composer require damess/mezzio-session-middleware
 ```
 
 In `config/autoload/dependencies.global.php`, add an entry for Aura.Session:
@@ -175,7 +175,7 @@ return [
 
 In either `config/autoload/dependencies.global.php` or
 `config/autoload/middleware-pipeline.global.php`, add a factory entry for the
-`damess/expressive-session-middleware`:
+`damess/mezzio-session-middleware`:
 
 ```php
 return [
@@ -237,7 +237,7 @@ message:
 
 ```php
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response\RedirectResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
 
 function($request, RequestHandlerInterface $handler)
 {

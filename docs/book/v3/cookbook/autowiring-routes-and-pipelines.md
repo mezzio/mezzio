@@ -1,6 +1,6 @@
 # How can I autowire routes and pipelines?
 
-Expressive 2.0 switched to _programmatic_ pipelines and routes, versus
+Mezzio 2.0 switched to _programmatic_ pipelines and routes, versus
 _configuration-driven_ pipelines and routing as used in version 1. One drawback
 is that with configuration-driven approaches, users could provide configuration
 via a module `ConfigProvider`, and automatically expose new pipeline middleware
@@ -11,7 +11,7 @@ Or is it?
 ## Delegator Factories
 
 One possibility available to version 2 applications is to use _delegator
-factories_ on the `Zend\Expressive\Application` instance in order to inject
+factories_ on the `Mezzio\Application` instance in order to inject
 these items.
 
 A _delegator factory_ is a factory that _delegates_ creation of an instance to a
@@ -38,13 +38,13 @@ namespace App\Factory;
 
 use App\Action;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\Helper\ServerUrlMiddleware;
-use Zend\Expressive\Helper\UrlHelperMiddleware;
-use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
-use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
-use Zend\Expressive\Middleware\NotFoundHandler;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Mezzio\Application;
+use Mezzio\Helper\ServerUrlMiddleware;
+use Mezzio\Helper\UrlHelperMiddleware;
+use Mezzio\Middleware\ImplicitHeadMiddleware;
+use Mezzio\Middleware\ImplicitOptionsMiddleware;
+use Mezzio\Middleware\NotFoundHandler;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
 class PipelineAndRoutesDelegator
 {
@@ -96,7 +96,7 @@ public function getDependencies()
     return [
         /* . . . */
         'delegators' => [
-            \Zend\Expressive\Application::class => [
+            \Mezzio\Application::class => [
                 Factory\PipelineAndRoutesDelegator::class,
             ],
         ],
@@ -182,7 +182,7 @@ With regards to routes, there are other considerations:
   in use. As an example, each of the currently supported router implementations
   has a different syntax for placeholders:
 
-    - `/user/:id` + "constraints" configuration to define constraints (zend-router)
+    - `/user/:id` + "constraints" configuration to define constraints (laminas-router)
     - `/user/{id}` + "tokens" configuration to define constraints (Aura.Router)
     - `/user/{id:\d+}` (FastRoute)
 
