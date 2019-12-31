@@ -50,7 +50,7 @@ and return a response.
 ```php
 namespace Application;
 
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class NotFound
 {
@@ -94,9 +94,9 @@ configuration, after the dispatch middleware:
     /* ... */
     'routing' => [
         'middleware' => [
-            Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
-            Zend\Expressive\Helper\UrlHelperMiddleware::class,
-            Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+            Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+            Mezzio\Helper\UrlHelperMiddleware::class,
+            Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
         ],
         'priority' => 1,
     ],
@@ -109,7 +109,7 @@ configuration, after the dispatch middleware:
 ```
 
 The above example assumes you are using the `ApplicationFactory` and/or the
-Expressive skeleton to manage your application instantiation and configuration.
+Mezzio skeleton to manage your application instantiation and configuration.
 
 To manually add the middleware, you will need to pipe it to the application
 instance:
