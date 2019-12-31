@@ -1,19 +1,20 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Mezzio\Container\Exception\InvalidServiceException;
+use Mezzio\Container\StreamFactoryFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Throwable;
-use Zend\Expressive\Container\Exception\InvalidServiceException;
-use Zend\Expressive\Container\StreamFactoryFactory;
 
 use function class_exists;
 use function get_class;
@@ -79,6 +80,6 @@ class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
         $this->reloadAutoloaders();
 
         $this->assertInstanceOf(InvalidServiceException::class, $e);
-        $this->assertContains('zendframework/zend-diactoros', $e->getMessage());
+        $this->assertContains('laminas/laminas-diactoros', $e->getMessage());
     }
 }

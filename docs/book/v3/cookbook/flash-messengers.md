@@ -8,7 +8,7 @@ displayed during the GET request. (PRG is used to prevent double-submission of
 forms.) As such, flash messages usually are session-based; the message is set in
 one request, and accessed and cleared in another.
 
-Expressive does not provide native session facilities out-of-the-box, which
+Mezzio does not provide native session facilities out-of-the-box, which
 means you will need:
 
 - Session functionality.
@@ -19,35 +19,35 @@ A number of flash message libraries already exist that can be integrated via
 middleware, and these typically either use PHP's ext/session functionality or
 have a dependency on a session library. Two such libraries are:
 
-- zendframework/zend-expressive-flash
+- mezzio/mezzio-flash
 - slim/flash
 
-## zendframework/zend-expressive-flash
+## mezzio/mezzio-flash
 
-[zend-expressive-flash](https://docs.zendframework.com/zend-expressive-flash/)
-is a new offering from Zend Framework. Using it requires a session persistence
-engine as well, and Zend Framework provides that as well. Install the component
+[mezzio-flash](https://docs.mezzio.dev/mezzio-flash/)
+is a new offering from Laminas. Using it requires a session persistence
+engine as well, and Laminas provides that as well. Install the component
 using the following:
 
 ```bash
-$ composer require zendframework/zend-expressive-flash zendframework/zend-expressive-session-ext
+$ composer require mezzio/mezzio-flash mezzio/mezzio-session-ext
 ```
 
 Once installed, you will need to pipe the middleware, along with the
-zend-expressive-session middleware, in your pipeline. This can be done at the
+mezzio-session middleware, in your pipeline. This can be done at the
 application level:
 
 ```php
-$app->pipe(\Zend\Expressive\Session\SessionMiddleware::class);
-$app->pipe(\Zend\Expressive\Flash\FlashMessageMiddleware::class);
+$app->pipe(\Mezzio\Session\SessionMiddleware::class);
+$app->pipe(\Mezzio\Flash\FlashMessageMiddleware::class);
 ```
 
 or within a routed middleware pipeline:
 
 ```php
 $app->post('/user/login', [
-    \Zend\Expressive\Session\SessionMiddleware::class,
-    \Zend\Expressive\Flash\FlashMessageMiddleware::class,
+    \Mezzio\Session\SessionMiddleware::class,
+    \Mezzio\Flash\FlashMessageMiddleware::class,
     LoginHandler::class,
 ]);
 ```
@@ -68,12 +68,12 @@ $message = $flashMessages->getFlash($messageName);
 
 The component has functionality for specifying the number of hops the message
 will be valid for, as well as accessing messages created in the current request;
-[read more in the documentation](https://docs.zendframework.com/zend-expressive-flash/intro/).
+[read more in the documentation](https://docs.mezzio.dev/mezzio-flash/intro/).
 
 ## slim/flash
 
 Slim's [Flash messages service provider](https://github.com/slimphp/Slim-Flash) can be
-used in Expressive. It uses PHP's native session support.
+used in Mezzio. It uses PHP's native session support.
 
 First, you'll need to add it to your application:
 
@@ -170,7 +170,7 @@ attribute. As an example, middleware generating messages might read as follows:
 
 ```php
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response\RedirectResponse;
+use Laminas\Diactoros\Response\RedirectResponse;
 
 function($request, RequestHandlerInterface $handler)
 {

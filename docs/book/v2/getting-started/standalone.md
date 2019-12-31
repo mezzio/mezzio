@@ -1,46 +1,46 @@
 # Quick Start: Standalone Usage
 
-Expressive allows you to get started at your own pace. You can start with
+Mezzio allows you to get started at your own pace. You can start with
 the simplest example, detailed below, or move on to a more structured,
 configuration-driven approach as detailed in the [use case examples](../reference/usage-examples.md).
 
 > ## Deprecated with version 2.2
 >
-> The `Zend\Expressive\AppFactory` detailed in this chapter is deprecated as of
+> The `Mezzio\AppFactory` detailed in this chapter is deprecated as of
 > version 2.2, and will be removed in version 3.0. We recommend instead
-> constructing `Zend\Expressive\Application` manually, or using a
-> `Zend\Stratigility\MiddlewarePipe` instance instead.
+> constructing `Mezzio\Application` manually, or using a
+> `Laminas\Stratigility\MiddlewarePipe` instance instead.
 
 ## 1. Create a new project directory
 
 First, let's create a new project directory and enter it:
 
 ```bash
-$ mkdir expressive
-$ cd expressive
+$ mkdir mezzio
+$ cd mezzio
 ```
 
-## 2. Install Expressive
+## 2. Install Mezzio
 
 If you haven't already, [install Composer](https://getcomposer.org). Once you
-have, we can install Expressive, along with a router and a container:
+have, we can install Mezzio, along with a router and a container:
 
 ```bash
-$ composer require zendframework/zend-expressive zendframework/zend-expressive-fastroute zendframework/zend-servicemanager
+$ composer require mezzio/mezzio mezzio/mezzio-fastroute laminas/laminas-servicemanager
 ```
 
 > ### Routers
 >
-> Expressive needs a routing implementation in order to create routed
+> Mezzio needs a routing implementation in order to create routed
 > middleware. We suggest FastRoute in the quick start, but you can also
-> currently choose from Aura.Router and zend-router.
+> currently choose from Aura.Router and laminas-router.
 
 > ### Containers
 >
-> We highly recommend using dependency injection containers with Expressive;
+> We highly recommend using dependency injection containers with Mezzio;
 > they allow you to define dependencies for your middleware, as well as to lazy
 > load your middleware only when it needs to be executed. We suggest
-> zend-servicemanager in the quick start, but you can also use any container
+> laminas-servicemanager in the quick start, but you can also use any container
 > supporting [PSR-11 Container](https://github.com/php-fig/container).
 
 ## 3. Create a web root directory
@@ -63,8 +63,8 @@ root, and we want it to intercept any incoming request; as such, we'll use
 ```php
 <?php
 use Interop\Http\ServerMiddleware\DelegateInterface;
-use Zend\Diactoros\Response\TextResponse;
-use Zend\Expressive\AppFactory;
+use Laminas\Diactoros\Response\TextResponse;
+use Mezzio\AppFactory;
 
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
@@ -96,7 +96,7 @@ $app->run();
 > $app->pipeDispatchMiddleware();
 > ```
 >
-> Expressive's `Application` class provides two separate middlewares, one for
+> Mezzio's `Application` class provides two separate middlewares, one for
 > routing, and one for dispatching middleware matched by routing. This allows
 > you to slip in validations between the two activities if desired. They are
 > not automatically piped to the application, however, to allow exactly that
@@ -152,7 +152,7 @@ http://localhost:8080/ to see if your application responds correctly!
 
 ## Next steps
 
-At this point, you have a working zend-expressive application, that responds to
+At this point, you have a working mezzio application, that responds to
 a single route. From here, you may want to read up on:
 
 - [Applications](../features/application.md)
