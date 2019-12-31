@@ -1,20 +1,21 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Container;
+namespace Mezzio\Container;
 
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Mezzio\ApplicationPipeline;
+use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Expressive\ApplicationPipeline;
-use Zend\Expressive\Response\ServerRequestErrorResponseGenerator;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
-use Zend\HttpHandlerRunner\RequestHandlerRunner;
 
 /**
  * Create an ApplicationRunner instance.
@@ -23,14 +24,14 @@ use Zend\HttpHandlerRunner\RequestHandlerRunner;
  * names, but resolve to other artifacts) and two services provided within
  * this package:
  *
- * - Zend\Expressive\ApplicationPipeline, which should resolve to a
- *   Zend\Stratigility\MiddlewarePipeInterface and/or
+ * - Mezzio\ApplicationPipeline, which should resolve to a
+ *   Laminas\Stratigility\MiddlewarePipeInterface and/or
  *   Psr\Http\Server\RequestHandlerInterface instance.
- * - Zend\HttpHandlerRunner\Emitter\EmitterInterface.
+ * - Laminas\HttpHandlerRunner\Emitter\EmitterInterface.
  * - Psr\Http\Message\ServerRequestInterface, which should resolve to a PHP
  *   callable that will return a Psr\Http\Message\ServerRequestInterface
  *   instance.
- * - Zend\Expressive\Response\ServerRequestErrorResponseGeneratorFactory,
+ * - Mezzio\Response\ServerRequestErrorResponseGeneratorFactory,
  *
  */
 class RequestHandlerRunnerFactory

@@ -1,6 +1,6 @@
-<noscript><meta http-equiv="refresh" content="0; url=/zend-expressive/v3/features/template/plates/"></noscript>
+<noscript><meta http-equiv="refresh" content="0; url=/mezzio/v3/features/template/plates/"></noscript>
 <script>
   document.addEventListener("DOMContentLoaded", function (event) {
-    window.location.pathname = '/zend-expressive/v3/features/template/plates/';
+    window.location.pathname = '/mezzio/v3/features/template/plates/';
   });
 </script>

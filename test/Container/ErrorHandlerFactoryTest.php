@@ -1,25 +1,26 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
 use Closure;
+use Laminas\Stratigility\Middleware\ErrorHandler;
+use Laminas\Stratigility\Middleware\ErrorResponseGenerator as StratigilityGenerator;
+use Mezzio\Container\ErrorHandlerFactory;
+use Mezzio\Middleware\ErrorResponseGenerator;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 use TypeError;
-use Zend\Expressive\Container\ErrorHandlerFactory;
-use Zend\Expressive\Middleware\ErrorResponseGenerator;
-use Zend\Stratigility\Middleware\ErrorHandler;
-use Zend\Stratigility\Middleware\ErrorResponseGenerator as StratigilityGenerator;
 
 class ErrorHandlerFactoryTest extends TestCase
 {
@@ -35,7 +36,9 @@ class ErrorHandlerFactoryTest extends TestCase
     {
         $exception = new RuntimeException();
         $this->container->has(ErrorResponseGenerator::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->willReturn(false);
         $this->container->get(ErrorResponseGenerator::class)->shouldNotBeCalled();
+        $this->container->get(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->shouldNotBeCalled();
         $this->container->get(ResponseInterface::class)->willThrow($exception);
 
         $factory = new ErrorHandlerFactory();
@@ -48,7 +51,9 @@ class ErrorHandlerFactoryTest extends TestCase
     {
         $response = $this->prophesize(ResponseInterface::class)->reveal();
         $this->container->has(ErrorResponseGenerator::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->willReturn(false);
         $this->container->get(ErrorResponseGenerator::class)->shouldNotBeCalled();
+        $this->container->get(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->shouldNotBeCalled();
         $this->container->get(ResponseInterface::class)->willReturn($response);
 
         $factory = new ErrorHandlerFactory();
@@ -60,7 +65,9 @@ class ErrorHandlerFactoryTest extends TestCase
     public function testFactoryCreatesHandlerWithStratigilityGeneratorIfNoGeneratorServiceAvailable()
     {
         $this->container->has(ErrorResponseGenerator::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->willReturn(false);
         $this->container->get(ErrorResponseGenerator::class)->shouldNotBeCalled();
+        $this->container->get(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->shouldNotBeCalled();
 
         $this->container->get(ResponseInterface::class)->willReturn(function () {
         });
