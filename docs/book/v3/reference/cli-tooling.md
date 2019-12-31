@@ -1,11 +1,11 @@
 # Command Line Tooling
 
-Expressive offers a number of tools for assisting in project development. This
+Mezzio offers a number of tools for assisting in project development. This
 page catalogues each.
 
 ## Development Mode
 
-The package [zfcampus/zf-development-mode](https://github.com/zfcampus/zf-development-mode)
+The package [laminas/laminas-development-mode](https://github.com/laminas/laminas-development-mode)
 provides a simple way to toggle in and out of _development mode_. Doing so
 allows you to ship known development-specific settings within your repository,
 while ensuring they are not enabled in production. The tooling essentially
@@ -18,8 +18,8 @@ enables optional, development-specific configuration in your application by:
   `config/autoload/development.local.php`; this can be used to provide local
   overrides of a number of configuration settings.
 
-The package provides the tooling via `vendor/bin/zf-development-mode`. If you
-are using the Expressive skeleton, it provides aliases via Composer:
+The package provides the tooling via `vendor/bin/laminas-development-mode`. If you
+are using the Mezzio skeleton, it provides aliases via Composer:
 
 ```php
 $ composer development-enable
@@ -31,23 +31,23 @@ Add settings to your `development.*.php.dist` files, and commit those files to
 your repository; always toggle out of and into development mode after making
 changes, to ensure they pick up in your development environment.
 
-## Expressive command-line tool
+## Mezzio command-line tool
 
-The package [zendframework/zend-expressive-tooling](https://github.com/zendframework/zend-expressive-tooling)
-provides the script `vendor/bin/expressive`, which contains a number of commands
+The package [mezzio/mezzio-tooling](https://github.com/mezzio/mezzio-tooling)
+provides the script `vendor/bin/mezzio`, which contains a number of commands
 related to migration, modules, and middleware.
 
 You can install it if it is not already present in your application:
 
 ```bash
-$ composer require --dev zendframework/zend-expressive-tooling
+$ composer require --dev mezzio/mezzio-tooling
 ```
 
 Once installed, invoking the binary without arguments will give a listing of
 available tools:
 
 ```bash
-$ ./vendor/bin/expressive
+$ ./vendor/bin/mezzio
 ```
 
 > #### Integration with Composer
@@ -56,7 +56,7 @@ $ ./vendor/bin/expressive
 > allowing you to invoke the tooling using:
 >
 > ```bash
-> $ composer expressive
+> $ composer mezzio
 > ```
 >
 > You can use either that form, or invoke the script directly as detailed above.
@@ -103,5 +103,5 @@ Commands supported include:
 You may obtain full help for each command by invoking:
 
 ```bash
-$ ./vendor/bin/expressive help <command>
+$ ./vendor/bin/mezzio help <command>
 ```

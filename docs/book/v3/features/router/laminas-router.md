@@ -1,11 +1,11 @@
-# Using zend-router
+# Using laminas-router
 
-[zend-router](https://docs.zendframework.com/zend-router/) provides several
-router implementations used for ZF2+ applications; the default is
-`Zend\Router\Http\TreeRouteStack`, which can compose a number of different
+[laminas-router](https://docs.laminas.dev/laminas-router/) provides several
+router implementations used for Laminas+ applications; the default is
+`Laminas\Router\Http\TreeRouteStack`, which can compose a number of different
 routes of differing types in order to perform routing.
 
-The ZF2 bridge we provide, `Zend\Expressive\Router\ZendRouter`, uses the
+The Laminas bridge we provide, `Mezzio\Router\LaminasRouter`, uses the
 `TreeRouteStack`, and injects `Segment` routes to it; these are in turn injected
 with `Method` routes, and a special "method not allowed" route at negative
 priority to enable us to distinguish between failure to match the path and
@@ -28,12 +28,12 @@ The answer, then, is to use dependency injection. This can be done in two ways:
 programmatically, or via a factory to use in conjunction with your container
 instance.
 
-## Installing the ZF2 Router
+## Installing the Laminas Router
 
-To use the ZF2 router, you will need to install the zend-mvc router integration:
+To use the Laminas router, you will need to install the laminas-mvc router integration:
 
 ```bash
-$ composer require zendframework/zend-expressive-zendrouter
+$ composer require mezzio/mezzio-laminasrouter
 ```
 
 The package provides both a factory for the router, and a `ConfigProvider` that
@@ -44,11 +44,11 @@ wires the router with your application.
 If you want to provide custom setup or configuration, you can do so. In this
 example, we will be defining two factories:
 
-- A factory to register as and generate an `Zend\Router\Http\TreeRouteStack`
+- A factory to register as and generate an `Laminas\Router\Http\TreeRouteStack`
   instance.
-- A factory registered as `Zend\Expressive\Router\RouterInterface`, which
-  creates and returns a `Zend\Expressive\Router\ZendRouter` instance composing the
-  `Zend\Mvc\Router\Http\TreeRouteStack` instance.
+- A factory registered as `Mezzio\Router\RouterInterface`, which
+  creates and returns a `Mezzio\Router\LaminasRouter` instance composing the
+  `Laminas\Mvc\Router\Http\TreeRouteStack` instance.
 
 The factories might look like the following:
 
@@ -57,7 +57,7 @@ The factories might look like the following:
 namespace App\Container;
 
 use Psr\Container\ContainerInterface;
-use Zend\Http\Router\TreeRouteStack;
+use Laminas\Http\Router\TreeRouteStack;
 
 class TreeRouteStackFactory
 {
@@ -79,17 +79,17 @@ class TreeRouteStackFactory
 namespace App\Container;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Router\ZendRouter as Zf2Bridge;
+use Mezzio\Router\LaminasRouter;
 
 class RouterFactory
 {
     /**
      * @param ContainerInterface $container
-     * @return Zf2Bridge
+     * @return LaminasRouter
      */
     public function __invoke(ContainerInterface $container)
     {
-        return new Zf2Bridge($container->get(Zend\Mvc\Router\Http\TreeRouteStack::class));
+        return new LaminasRouter($container->get(Laminas\Mvc\Router\Http\TreeRouteStack::class));
     }
 }
 ```
@@ -100,8 +100,8 @@ From here, you will need to register your factories with your IoC container.
 // in a config/autoload/ file, or within a ConfigProvider class:
 return [
     'factories' => [
-        \Zend\Router\Http\TreeRouteStack::class => App\Container\TreeRouteStackFactory::class,
-        \Zend\Expressive\Router\RouterInterface::class => App\Container\RouterFactory::class,
+        \Laminas\Router\Http\TreeRouteStack::class => App\Container\TreeRouteStackFactory::class,
+        \Mezzio\Router\RouterInterface::class => App\Container\RouterFactory::class,
     ],
 ];
 ```

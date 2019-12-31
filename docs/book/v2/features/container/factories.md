@@ -1,32 +1,32 @@
 # Provided Factories
 
-Expressive provides several factories compatible with
+Mezzio provides several factories compatible with
 [PSR-11 Container](https://www.php-fig.org/psr/psr-11/) to facilitate
 setting up common dependencies. The following is a list of provided
 containers, what they will create, the suggested service name, and any
 additional dependencies they may require.
 
-All factories, unless noted otherwise, are in the `Zend\Expressive\Container`
+All factories, unless noted otherwise, are in the `Mezzio\Container`
 namespace, and define an `__invoke()` method that accepts an
 `Psr\Container\ContainerInterface` instance as the sole argument.
 
 ## ApplicationFactory
 
-- **Provides**: `Zend\Expressive\Application`
-- **Suggested Name**: `Zend\Expressive\Application`
+- **Provides**: `Mezzio\Application`
+- **Suggested Name**: `Mezzio\Application`
 - **Requires**: no additional services are required.
 - **Optional**:
-    - `Zend\Expressive\Router\RouterInterface`. When provided, the service will
+    - `Mezzio\Router\RouterInterface`. When provided, the service will
       be used to construct the `Application` instance; otherwise, an FastRoute router
       implementation will be used.
-    - `Zend\Expressive\Delegate\DefaultDelegate`. This should return an
+    - `Mezzio\Delegate\DefaultDelegate`. This should return an
       `Interop\Http\ServerMiddleware\DelegateInterface` instance to process
       when the middleware pipeline is exhausted without returning a response;
-      by default, this will be a `Zend\Expressive\Delegate\NotFoundDelegate`
+      by default, this will be a `Mezzio\Delegate\NotFoundDelegate`
       instance.
-    - `Zend\Diactoros\Response\EmitterInterface`. If none is provided, an instance
-      of `Zend\Expressive\Emitter\EmitterStack` composing a
-      `Zend\Diactoros\Response\SapiEmitter` instance will be used.
+    - `Laminas\Diactoros\Response\EmitterInterface`. If none is provided, an instance
+      of `Mezzio\Emitter\EmitterStack` composing a
+      `Laminas\Diactoros\Response\SapiEmitter` instance will be used.
     - `config`, an array or `ArrayAccess` instance. This _may_ be used to seed the
       application instance with pipeline middleware and/or routed
       middleware (see more below).
@@ -52,13 +52,13 @@ order to seed the `Application` instance:
       // An array of middleware to register.
       [ /* ... */ ],
 
-      // Expressive 1.0:
-      Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
-      Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+      // Mezzio 1.0:
+      Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+      Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
 
-      // Expressive 1.1 and above (above constants will still work, though):
-      Zend\Expressive\Application::ROUTING_MIDDLEWARE,
-      Zend\Expressive\Application::DISPATCH_MIDDLEWARE,
+      // Mezzio 1.1 and above (above constants will still work, though):
+      Mezzio\Application::ROUTING_MIDDLEWARE,
+      Mezzio\Application::DISPATCH_MIDDLEWARE,
 
       [ /* ... */ ],
   ],
@@ -75,7 +75,7 @@ order to seed the `Application` instance:
       'path'  => '/path/to/match',
       'priority' => 1, // Integer
 
-      // optional under Expressive 1.X; ignored under 2.X:
+      // optional under Mezzio 1.X; ignored under 2.X:
       'error' => false, // boolean
   ],
   ```
@@ -84,7 +84,7 @@ order to seed the `Application` instance:
   service name resolving to valid middleware, middleware instances (either
   http-interop middleware or callable double-pass middleware), or an array of
   these values. If an array is provided, the specified middleware will be
-  composed into a `Zend\Stratigility\MiddlewarePipe` instance.
+  composed into a `Laminas\Stratigility\MiddlewarePipe` instance.
 
   If the `path` key is present, that key will be used to segregate the
   middleware to a specific matched path (in other words, it will not execute if
@@ -101,7 +101,7 @@ order to seed the `Application` instance:
   ignored by the factory, but can be useful when merging several configurations
   into one for the application.
 
-  Under Expressive 1.X, if the `error` key is present and boolean `true`, then
+  Under Mezzio 1.X, if the `error` key is present and boolean `true`, then
   the middleware will be registered as error middleware. (This is necessary due
   to the fact that the factory defines a callable wrapper around middleware to
   enable lazy-loading of middleware.) We recommend _not_ using this feature;
@@ -134,7 +134,7 @@ order to seed the `Application` instance:
     - `middleware`: a service name resolving to valid middleware, valid
       middleware (either http-interop middleware or callable double-pass
       middleware), or an array of such values (which will be composed into
-      a `Zend\Stratigility\MiddlewarePipe` instance); this middleware will be
+      a `Laminas\Stratigility\MiddlewarePipe` instance); this middleware will be
       dispatched when the route matches.
 
   Optionally, the route definition may provide:
@@ -151,21 +151,21 @@ order to seed the `Application` instance:
 
 ## ErrorHandlerFactory
 
-- **Provides**: `Zend\Stratigility\Middleware\ErrorHandler`
-- **Suggested Name**: `Zend\Stratigility\Middleware\ErrorHandler`
+- **Provides**: `Laminas\Stratigility\Middleware\ErrorHandler`
+- **Suggested Name**: `Laminas\Stratigility\Middleware\ErrorHandler`
 - **Requires**: no additional services are required.
 - **Optional**:
-    - `Zend\Expressive\Middleware\ErrorResponseGenerator`. If not provided, the error
+    - `Mezzio\Middleware\ErrorResponseGenerator`. If not provided, the error
       handler will not compose an error response generator, making it largely
       useless other than to provide an empty response.
 
 ## ErrorResponseGeneratorFactory
 
-- **Provides**: `Zend\Expressive\Middleware\ErrorResponseGenerator`
-- **Suggested Name**: `Zend\Stratigility\Middleware\ErrorResponseGenerator`
+- **Provides**: `Mezzio\Middleware\ErrorResponseGenerator`
+- **Suggested Name**: `Laminas\Stratigility\Middleware\ErrorResponseGenerator`
 - **Requires**: no additional services are required.
 - **Optional**:
-    - `Zend\Expressive\Template\TemplateRendererInterface`. If not provided, the
+    - `Mezzio\Template\TemplateRendererInterface`. If not provided, the
       error response generator will provide a plain text response instead of a
       templated one.
     - `config`, an array or `ArrayAccess` instance. This will be used to seed the
@@ -176,16 +176,16 @@ When the `config` service is present, the factory can utilize two values:
 
 - `debug`, a flag indicating whether or not to provide debug information when
   creating an error response.
-- `zend-expressive.error_handler.template_error`, a name of an alternate
+- `mezzio.error_handler.template_error`, a name of an alternate
   template to use (instead of the default represented in the
-  `Zend\Expressive\Middleware\ErrorResponseGenerator::TEMPLATE_DEFAULT`
+  `Mezzio\Middleware\ErrorResponseGenerator::TEMPLATE_DEFAULT`
   constant).
 
 As an example:
 
 ```php
 'debug' => true,
-'zend-expressive' => [
+'mezzio' => [
     'error_handler' => [
         'template_error' => 'name of error template',
     ],
@@ -194,26 +194,26 @@ As an example:
 
 ## NotFoundDelegateFactory
 
-- **Provides**: `Zend\Expressive\Delegate\NotFoundDelegate`
-- **Suggested Name**: `Zend\Expressive\Delegate\NotFoundDelegate`, and aliased
-  to `Zend\Expressive\Delegate\DefaultDelegate`.
+- **Provides**: `Mezzio\Delegate\NotFoundDelegate`
+- **Suggested Name**: `Mezzio\Delegate\NotFoundDelegate`, and aliased
+  to `Mezzio\Delegate\DefaultDelegate`.
 - **Requires**: no additional services are required.
 - **Optional**:
-    - `Zend\Expressive\Template\TemplateRendererInterface`. If not provided, the
+    - `Mezzio\Template\TemplateRendererInterface`. If not provided, the
       delegate will provide a plain text response instead of a templated one.
     - `config`, an array or `ArrayAccess` instance. This will be used to seed the
       `NotFoundDelegate` instance with a template name to use.
 
 When the `config` service is present, the factory can utilize two values:
 
-- `zend-expressive.error_handler.template_404`, a name of an alternate
+- `mezzio.error_handler.template_404`, a name of an alternate
   template to use (instead of the default represented in the
-  `Zend\Expressive\Delegate\NotFoundDelegate::TEMPLATE_DEFAULT` constant).
+  `Mezzio\Delegate\NotFoundDelegate::TEMPLATE_DEFAULT` constant).
 
 As an example:
 
 ```php
-'zend-expressive' => [
+'mezzio' => [
     'error_handler' => [
         'template_404' => 'name of 404 template',
     ],
@@ -222,32 +222,32 @@ As an example:
 
 ## NotFoundHandlerFactory
 
-- **Provides**: `Zend\Expressive\Middleware\NotFoundHandler`
-- **Suggested Name**: `Zend\Expressive\Middleware\NotFoundHandler`
-- **Requires**: `Zend\Expressive\Delegate\DefaultDelegate`
+- **Provides**: `Mezzio\Middleware\NotFoundHandler`
+- **Suggested Name**: `Mezzio\Middleware\NotFoundHandler`
+- **Requires**: `Mezzio\Delegate\DefaultDelegate`
 
 ## WhoopsErrorResponseGeneratorFactory
 
-- **Provides**: `Zend\Expressive\Middleware\WhoopsErrorResponseGenerator`
-- **Suggested Name**: `Zend\Expressive\Middleware\ErrorResponseGenerator`
-- **Requires**: `Zend\Expressive\Whoops` (see [WhoopsFactory](#whoopsfactory),
+- **Provides**: `Mezzio\Middleware\WhoopsErrorResponseGenerator`
+- **Suggested Name**: `Mezzio\Middleware\ErrorResponseGenerator`
+- **Requires**: `Mezzio\Whoops` (see [WhoopsFactory](#whoopsfactory),
 below)
 
 ## WhoopsFactory
 
 - **Provides**: `Whoops\Run`
-- **Suggested Name**: `Zend\Expressive\Whoops`
+- **Suggested Name**: `Mezzio\Whoops`
 - **Requires**:
-    - `Zend\Expressive\WhoopsPageHandler`
+    - `Mezzio\WhoopsPageHandler`
 - **Optional**:
     - `config`, an array or `ArrayAccess` instance. This will be used to seed
       additional page handlers, specifically the `JsonResponseHandler` (see
       more below).
 
 This factory creates and configures a `Whoops\Run` instance so that it will work
-properly with `Zend\Expressive\Application`; this includes disabling immediate
+properly with `Mezzio\Application`; this includes disabling immediate
 write-to-output, disabling immediate quit, etc. The `PrettyPageHandler` returned
-for the `Zend\Expressive\WhoopsPageHandler` service will be injected.
+for the `Mezzio\WhoopsPageHandler` service will be injected.
 
 It consumes the following `config` structure:
 
@@ -267,7 +267,7 @@ with no `JsonResponseHandler` composed will be created.
 ## WhoopsPageHandlerFactory
 
 - **Provides**: `Whoops\Handler\PrettyPageHandler`
-- **Suggested Name**: `Zend\Expressive\WhoopsPageHandler`
+- **Suggested Name**: `Mezzio\WhoopsPageHandler`
 - **Optional**:
     - `config`, an array or `ArrayAccess` instance. This will be used to further
       configure the `PrettyPageHandler` instance, specifically with editor
@@ -287,9 +287,9 @@ pre-configured editor types), a callable, or a service name to use.
 
 ## PlatesRendererFactory
 
-- **Provides**: `Zend\Expressive\Template\PlatesRenderer`
-- **FactoryName**: `Zend\Expressive\Plates\PlatesRendererFactory`
-- **Suggested Name**: `Zend\Expressive\Template\TemplateRendererInterface`
+- **Provides**: `Mezzio\Template\PlatesRenderer`
+- **FactoryName**: `Mezzio\Plates\PlatesRendererFactory`
+- **Suggested Name**: `Mezzio\Template\TemplateRendererInterface`
 - **Requires**: no additional services are required.
 - **Optional**:
     - `config`, an array or `ArrayAccess` instance. This will be used to further
@@ -315,13 +315,13 @@ per namespace when using Plates.
 
 ## TwigRendererFactory
 
-- **Provides**: `Zend\Expressive\Template\TwigRenderer`
-- **FactoryName**: `Zend\Expressive\Twig\TwigRendererFactory`
-- **Suggested Name**: `Zend\Expressive\Template\TemplateRendererInterface`
+- **Provides**: `Mezzio\Template\TwigRenderer`
+- **FactoryName**: `Mezzio\Twig\TwigRendererFactory`
+- **Suggested Name**: `Mezzio\Template\TemplateRendererInterface`
 - **Requires**: no additional services are required.
 - **Optional**:
-    - `Zend\Expressive\Router\RouterInterface`; if found, it will be used to
-      seed a `Zend\Expressive\Twig\TwigExtension` instance for purposes
+    - `Mezzio\Router\RouterInterface`; if found, it will be used to
+      seed a `Mezzio\Twig\TwigExtension` instance for purposes
       of rendering application URLs.
     - `config`, an array or `ArrayAccess` instance. This will be used to further
       configure the `Twig` instance, specifically with the filename extension,
@@ -350,20 +350,20 @@ When `debug` is true, it disables caching, enables debug mode, enables strict
 variables, and enables auto reloading. The `assets_*` values are used to seed
 the `TwigExtension` instance (assuming the router was found).
 
-## ZendViewRendererFactory
+## LaminasViewRendererFactory
 
-- **Provides**: `Zend\Expressive\Template\ZendViewRenderer`
-- **FactoryName**: `Zend\Expressive\ZendView\ZendViewRendererFactory`
-- **Suggested Name**: `Zend\Expressive\Template\TemplateRendererInterface`
+- **Provides**: `Mezzio\Template\LaminasViewRenderer`
+- **FactoryName**: `Mezzio\LaminasView\LaminasViewRendererFactory`
+- **Suggested Name**: `Mezzio\Template\TemplateRendererInterface`
 - **Requires**: no additional services are required.
-    - `Zend\Expressive\Router\RouterInterface`, in order to inject the custom
+    - `Mezzio\Router\RouterInterface`, in order to inject the custom
       url helper implementation.
 - **Optional**:
     - `config`, an array or `ArrayAccess` instance. This will be used to further
-      configure the `ZendView` instance, specifically with the layout template
+      configure the `LaminasView` instance, specifically with the layout template
       name, entries for a `TemplateMapResolver`, and and template paths to
       inject.
-    - `Zend\View\HelperPluginManager`; if present, will be used to inject the
+    - `Laminas\View\HelperPluginManager`; if present, will be used to inject the
       `PhpRenderer` instance.
 
 It consumes the following `config` structure:
@@ -384,7 +384,7 @@ It consumes the following `config` structure:
 ```
 
 When creating the `PhpRenderer` instance, it will inject it with a
-`Zend\View\HelperPluginManager` instance (either pulled from the container, or
+`Laminas\View\HelperPluginManager` instance (either pulled from the container, or
 instantiated directly). It injects the helper plugin manager with custom url and
-serverurl helpers, `Zend\Expressive\ZendView\UrlHelper` and
-`Zend\Expressive\ZendView\ServerUrlHelper`, respetively.
+serverurl helpers, `Mezzio\LaminasView\UrlHelper` and
+`Mezzio\LaminasView\ServerUrlHelper`, respetively.
