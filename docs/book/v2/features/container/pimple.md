@@ -29,31 +29,31 @@ this example, we'll have that in `config/container.php`.
 
 ```php
 use Xtreamwayz\Pimple\Container as Pimple;
-use Zend\Expressive\Container;
-use Zend\Expressive\Plates\PlatesRenderer;
-use Zend\Expressive\Router;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Container;
+use Mezzio\Plates\PlatesRenderer;
+use Mezzio\Router;
+use Mezzio\Template\TemplateRendererInterface;
 
 $container = new Pimple();
 
 // Application and configuration
 $container['config'] = include 'config/config.php';
-$container['Zend\Expressive\Application'] = new Container\ApplicationFactory;
+$container['Mezzio\Application'] = new Container\ApplicationFactory;
 
 // Routing
 // In most cases, you can instantiate the router you want to use without using a
 // factory:
-$container['Zend\Expressive\Router\RouterInterface'] = function ($container) {
+$container['Mezzio\Router\RouterInterface'] = function ($container) {
     return new Router\Aura();
 };
 
 // We'll provide a default delegate:
 $delegateFactory = new Container\NotFoundDelegateFactory();
-$container['Zend\Expressive\Delegate\DefaultDelegate'] = $delegateFactory;
-$container[Zend\Expressive\Delegate\NotFoundDelegate::class] = $delegateFactory;
+$container['Mezzio\Delegate\DefaultDelegate'] = $delegateFactory;
+$container[Mezzio\Delegate\NotFoundDelegate::class] = $delegateFactory;
 
 // We'll provide a not found handler:
-$container[Zend\Expressive\Middleware\NotFoundHandler::class] = new Container\NotFoundHandlerFactory();
+$container[Mezzio\Middleware\NotFoundHandler::class] = new Container\NotFoundHandlerFactory();
 
 // Templating
 // In most cases, you can instantiate the template renderer you want to use
@@ -65,19 +65,19 @@ $container[TemplateRendererInterface::class] = function ($container) {
 // These next two can be added in any environment; they won't be used unless
 // you add the WhoopsErrorResponseGenerator as the ErrorResponseGenerator
 // implementation
-$container['Zend\Expressive\Whoops'] = new Container\WhoopsFactory();
-$container['Zend\Expressive\WhoopsPageHandler'] = new Container\WhoopsPageHandlerFactory();
+$container['Mezzio\Whoops'] = new Container\WhoopsFactory();
+$container['Mezzio\WhoopsPageHandler'] = new Container\WhoopsPageHandlerFactory();
 
 // Error Handling
 
 // - In all environments:
-$container['Zend\Expressive\Middleware\ErrorHandler'] = new Container\ErrorHandlerFactory();
+$container['Mezzio\Middleware\ErrorHandler'] = new Container\ErrorHandlerFactory();
 
 // If in development:
-$container[Zend\Expressive\Middleware\ErrorResponseGenerator::class] = new Container\WhoopsErrorResponseGeneratorFactory();
+$container[Mezzio\Middleware\ErrorResponseGenerator::class] = new Container\WhoopsErrorResponseGeneratorFactory();
 
 // If in production:
-$container[Zend\Expressive\Middleware\ErrorResponseGenerator::class] = new Container\ErrorResponseGeneratorFactory();
+$container[Mezzio\Middleware\ErrorResponseGenerator::class] = new Container\ErrorResponseGeneratorFactory();
 
 return $container;
 ```
@@ -87,7 +87,7 @@ Your bootstrap (typically `public/index.php`) will then look like this:
 ```php
 chdir(dirname(__DIR__));
 $container = require 'config/container.php';
-$app = $container->get(Zend\Expressive\Application::class);
+$app = $container->get(Mezzio\Application::class);
 
 require 'config/pipeline.php';
 require 'config/routes.php';
@@ -99,7 +99,7 @@ $app->run();
 > ### Environments
 >
 > In the example above, we provide two alternate definitions for the
-> service `Zend\Expressive\Middleware\ErrorResponseGenerator`, one for
+> service `Mezzio\Middleware\ErrorResponseGenerator`, one for
 > development and one for production. You will need to add logic to your file to
 > determine which definition to provide; this could be accomplished via an
 > environment variable.

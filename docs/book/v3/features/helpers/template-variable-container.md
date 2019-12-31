@@ -1,23 +1,23 @@
 # Template Variable Container
 
-> - Since zend-expressive-helpers 5.3.0
+> - Since mezzio-helpers 5.3.0
 
-[zend-expressive-template](../template/intro.md) provides the method
-[Zend\Expressive\Template\TemplateRendererInterface::addDefaultParam()](../template/interface.md#default-params)
+[mezzio-template](../template/intro.md) provides the method
+[Mezzio\Template\TemplateRendererInterface::addDefaultParam()](../template/interface.md#default-params)
 for providing template variables that should be available to any template.
 
 One common use case for this is to set things such as the current user, current
 section of the website, currently matched route, etc. Unfortunately, because the
 method changes the internal state of the renderer, this can cause problems in an
-async environment, such as [Swoole](https://docs.zendframework.com/zend-expressive-swoole), 
+async environment, such as [Swoole](https://docs.mezzio.dev/mezzio-swoole), 
 where those changes will persist for parallel and subsequent requests.
 
-To provide a stateless alternative, you can create a `Zend\Expressive\Helper\Template\TemplateVariableContainer`
+To provide a stateless alternative, you can create a `Mezzio\Helper\Template\TemplateVariableContainer`
 and persist it as a request attribute. This allows you to set template variables
 that are pipeline-specific, and later extract and merge them with
 handler-specific values when rendering.
 
-To facilitate this further, we provide `Zend\Expressive\Helper\Template\TemplateVariableContainerMiddleware`,
+To facilitate this further, we provide `Mezzio\Helper\Template\TemplateVariableContainerMiddleware`,
 which will populate the attribute for you if it has not yet been.
 
 The container is **immutable**, and any changes will result in a new instance.
@@ -31,7 +31,7 @@ examples below.
 > template renderer instance, or within delegator factories on the renderer,
 > you do not need to make any changes.
 >
-> If you are using our [Swoole integrations](https://docs.zendframework.com/zend-expressive-swoole)
+> If you are using our [Swoole integrations](https://docs.mezzio.dev/mezzio-swoole)
 > or other async application runners, and either currently or plan to set
 > template parameters withing pipeline middleware you definitely need to use the
 > TemplateVariableContainer in order to prevent state problems.
@@ -48,20 +48,20 @@ As an example, consider the following pipeline:
 // In config/pipeline.php
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\Handler\NotFoundHandler;
-use Zend\Expressive\Helper\ServerUrlMiddleware;
-use Zend\Expressive\Helper\Template\TemplateVariableContainerMiddleware;
-use Zend\Expressive\Helper\UrlHelperMiddleware;
-use Zend\Expressive\MiddlewareFactory;
-use Zend\Expressive\Router\Middleware\DispatchMiddleware;
-use Zend\Expressive\Router\Middleware\ImplicitHeadMiddleware;
-use Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware;
-use Zend\Expressive\Router\Middleware\MethodNotAllowedMiddleware;
-use Zend\Expressive\Router\Middleware\RouteMiddleware;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Mezzio\Application;
+use Mezzio\Handler\NotFoundHandler;
+use Mezzio\Helper\ServerUrlMiddleware;
+use Mezzio\Helper\Template\TemplateVariableContainerMiddleware;
+use Mezzio\Helper\UrlHelperMiddleware;
+use Mezzio\MiddlewareFactory;
+use Mezzio\Router\Middleware\DispatchMiddleware;
+use Mezzio\Router\Middleware\ImplicitHeadMiddleware;
+use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
+use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
+use Mezzio\Router\Middleware\RouteMiddleware;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
-use function Zend\Stratigility\path;
+use function Laminas\Stratigility\path;
 
 return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
     $app->pipe(ErrorHandler::class);
@@ -87,7 +87,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 ```
 
 Any middleware or handler that responds to a path beginning with `/api/doc` will
-now have a `Zend\Expressive\Helper\Template\TemplateVariableContainer` attribute
+now have a `Mezzio\Helper\Template\TemplateVariableContainer` attribute
 that contains an instance of that class.
 
 Within middleware that responds on that path, you can then do the following:
@@ -97,8 +97,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Expressive\Helper\Template\TemplateVariableContainer;
-use Zend\Expressive\Router\RouteResult;
+use Mezzio\Helper\Template\TemplateVariableContainer;
+use Mezzio\Router\RouteResult;
 
 class InjectUserAndRouteVariablesMiddleware implements MiddlewareInterface
 {
@@ -134,8 +134,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Expressive\Helper\Template\TemplateVariableContainer;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Helper\Template\TemplateVariableContainer;
+use Mezzio\Template\TemplateRendererInterface;
 
 class SomeHandler implements RequestHandlerInterface
 {
@@ -193,9 +193,9 @@ The `TemplateVariableContainer` contains the following methods:
 
 ## Route template variable middleware
 
-> - Since zend-expressive-helpers 5.3.0
+> - Since mezzio-helpers 5.3.0
 
-`Zend\Expressive\Helper\Template\RouteTemplateVariableMiddleware` will inject
+`Mezzio\Helper\Template\RouteTemplateVariableMiddleware` will inject
 the currently matched route into the [template variable container](#template-variable-container).
 
 This middleware relies on the `TemplateVariableContainerMiddleware` preceding
@@ -204,7 +204,7 @@ request attribute present; if neither is present, it will generate a new
 instance.
 
 It then populates the container's `route` parameter using the results of
-retrieving the `Zend\Expressive\Router\RouteResult` request attribute; the value
+retrieving the `Mezzio\Router\RouteResult` request attribute; the value
 will be either an instance of that class, or `null`.
 
 Templates rendered using the container can then access that value, and test for

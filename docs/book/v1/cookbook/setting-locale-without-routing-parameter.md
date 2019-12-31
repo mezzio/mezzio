@@ -29,7 +29,7 @@ If it does find one, it uses the value to setup the locale. It also:
 namespace Application\I18n;
 
 use Locale;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class SetLocaleMiddleware
 {
@@ -72,7 +72,7 @@ Then you will need a factory for the `SetLocaleMiddleware` to inject the
 namespace Application\I18n;
 
 use Interop\Container\ContainerInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class SetLocaleMiddlewareFactory
 {
@@ -113,9 +113,9 @@ return [
 
         'routing' => [
             'middleware' => [
-                Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
-                Zend\Expressive\Helper\UrlHelperMiddleware::class,
-                Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Mezzio\Helper\UrlHelperMiddleware::class,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
         ],
@@ -137,7 +137,7 @@ generate a URL and it will do the rest.
 
 > ### Helpers differ between template renderers
 >
-> The above example is specific to zend-view; syntax will differ for
+> The above example is specific to laminas-view; syntax will differ for
 > Twig and Plates.
 
 ## Redirecting within your middleware
@@ -151,8 +151,8 @@ namespace Application\Action;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\RedirectResponse;
-use Zend\Expressive\Helper\UrlHelper;
+use Laminas\Diactoros\Response\RedirectResponse;
+use Mezzio\Helper\UrlHelper;
 
 class RedirectAction
 {
@@ -192,7 +192,7 @@ following would work for the above middleware:
 namespace Application\Action;
 
 use Interop\Container\ContainerInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class RedirectActionFactory
 {

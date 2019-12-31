@@ -1,7 +1,7 @@
 # UrlHelper
 
-`Zend\Expressive\Helper\UrlHelper` provides the ability to generate a URI path
-based on a given route defined in the `Zend\Expressive\Router\RouterInterface`.
+`Mezzio\Helper\UrlHelper` provides the ability to generate a URI path
+based on a given route defined in the `Mezzio\Router\RouterInterface`.
 If injected with a route result, and the route being used was also the one
 matched during routing, you can provide a subset of routing parameters, and any
 not provided will be pulled from those matched.
@@ -54,7 +54,7 @@ Where:
   generated URI.
 - `$fragmentIdentifier` is a string to use as the URI fragment.
 - `$options` is an array of options to provide to the router for purposes of
-  controlling URI generation. As an example, zend-router can consume "translator"
+  controlling URI generation. As an example, laminas-router can consume "translator"
   and "text_domain" options in order to provide translated URIs.
 
 Each method will raise an exception if:
@@ -67,13 +67,13 @@ Each method will raise an exception if:
 > ### Signature changes
 >
 > The signature listed above is current as of version 3.0.0 of
-> zendframework/zend-expressive-helpers. Prior to that version, the helper only
+> mezzio/mezzio-helpers. Prior to that version, the helper only
 > accepted the route name and route parameters.
 
 ### Other methods available
 
-- `getRouteResult() : ?Zend\Expressive\Router\RouteResult` (since
-  zend-expressive-helpers 5.2.0): if you want access to the result of routing —
+- `getRouteResult() : ?Mezzio\Router\RouteResult` (since
+  mezzio-helpers 5.2.0): if you want access to the result of routing —
   and, consequently, the matched route name, matched route parameters, and
   matched route — you can use this method. The method returns `null` if no route
   result has been injected yet — which typically happens in the
@@ -98,7 +98,7 @@ as pipeline middleware following the routing middleware, and before the dispatch
 middleware:
 
 ```php
-use Zend\Expressive\Helper\UrlHelperMiddleware;
+use Mezzio\Helper\UrlHelperMiddleware;
 
 // Programmatically:
 $app->pipe(RouteMiddleware::class);
@@ -109,7 +109,7 @@ $app->pipe(DispatchMiddleware::class);
 
 > #### Skeleton configures helpers
 >
-> If you started your project using the Expressive skeleton package, the
+> If you started your project using the Mezzio skeleton package, the
 > `UrlHelper` and `UrlHelperMiddleware` factories are already registered for
 > you, as is the `UrlHelperMiddleware` pipeline middleware.
 
@@ -124,7 +124,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class FooMiddleware implements MiddlewareInterface
 {
@@ -165,7 +165,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Expressive\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 class LocaleMiddleware implements MiddlewareInterface
 {
@@ -203,7 +203,7 @@ detected language prefix.
 
 ## Router-specific helpers
 
-- Since zend-expressive-router 3.1.0 and zend-expressive-helpers 5.1.0.
+- Since mezzio-router 3.1.0 and mezzio-helpers 5.1.0.
 
 Occasionally, you may want to provide a different router instance to nested
 pipeline middleware; in particular, this may occur when you want to [segregate a
@@ -228,10 +228,10 @@ middleware. We might define its dependency configuration as follows:
 ```php
 namespace Auth;
 
-use Zend\Expressive\Helper\UrlHelperFactory;
-use Zend\Expressive\Helper\UrlHelperMiddlewareFactory;
-use Zend\Expressive\Router\FastRouteRouter;
-use Zend\Expressive\Router\Middleware\RouteMiddlewareFactory;
+use Mezzio\Helper\UrlHelperFactory;
+use Mezzio\Helper\UrlHelperMiddlewareFactory;
+use Mezzio\Router\FastRouteRouter;
+use Mezzio\Router\Middleware\RouteMiddlewareFactory;
 
 return [
     'dependencies' => [

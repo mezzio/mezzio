@@ -10,7 +10,7 @@ dispatcher to match incoming requests against routes.
 
 If you wish to use a different combination — e.g., to use the Group Position
 Based route matcher — you will need to create your own instances and inject them
-into the `Zend\Expressive\Router\FastRouteRouter` class, at instantiation.
+into the `Mezzio\Router\FastRouteRouter` class, at instantiation.
 
 The `FastRouteRouter` bridge class accepts two arguments at instantiation:
 
@@ -26,7 +26,7 @@ conjunction with your container instance.
 To use FastRoute, you will first need to install the FastRoute integration:
 
 ```bash
-$ composer require zendframework/zend-expressive-fastroute
+$ composer require mezzio/mezzio-fastroute
 ```
 
 The package provides a factory for the router, and wires it to your container by
@@ -38,8 +38,8 @@ example, we will be defining three factories:
 - A factory to register as and generate a `FastRoute\RouteCollector` instance.
 - A factory to register as `FastRoute\DispatcherFactory` and return a callable
   factory that returns a `RegexBasedAbstract` instance.
-- A factory registered as `Zend\Expressive\Router\RouterInterface`, which
-  creates and returns a `Zend\Expressive\Router\FastRouteRouter` instance
+- A factory registered as `Mezzio\Router\RouterInterface`, which
+  creates and returns a `Mezzio\Router\FastRouteRouter` instance
   composing the two services.
 
 The factories might look like the following:
@@ -93,7 +93,7 @@ class FastRouteDispatcherFactory
 namespace App\Container;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Router\FastRouteRouter as FastRouteBridge;
+use Mezzio\Router\FastRouteRouter as FastRouteBridge;
 
 class RouterFactory
 {
@@ -119,14 +119,14 @@ return [
     'factories' => [
         \FastRoute\RouteCollector::class => \App\Container\FastRouteCollectorFactory::class,
         \FastRoute\DispatcherFactory::class => \App\Container\FastRouteDispatcherFactory::class,
-        \Zend\Expressive\Router\RouterInterface::class => \App\Container\RouterFactory::class,
+        \Mezzio\Router\RouterInterface::class => \App\Container\RouterFactory::class,
     ],
 ];
 ```
 
 ### FastRoute caching support
 
-zend-expressive-fastroute comes with support for FastRoute native dispatch data
+mezzio-fastroute comes with support for FastRoute native dispatch data
 caching.
 
 Enabling this feature requires changes to your configuration. Typically, router
@@ -153,13 +153,13 @@ return [
         'invokables' => [
             /* ... */
             // Comment out or remove the following line:
-            // Zend\Expressive\Router\RouterInterface::class => Zend\Expressive\Router\FastRouteRouter::class,
+            // Mezzio\Router\RouterInterface::class => Mezzio\Router\FastRouteRouter::class,
             /* ... */
         ],
         'factories' => [
             /* ... */
             // Add this line; the specified factory now creates the router instance:
-            Zend\Expressive\Router\RouterInterface::class => Zend\Expressive\Router\FastRouteRouterFactory::class,
+            Mezzio\Router\RouterInterface::class => Mezzio\Router\FastRouteRouterFactory::class,
             /* ... */
         ],
     ],
@@ -189,14 +189,14 @@ The FastRoute-specific caching options are as follows:
 
 - `cache_file` (string) is an optional parameter that represents the path of
   the dispatch data cache file. It can be provided as an absolute file path or
-  as a path relative to the zend-expressive working directory.
+  as a path relative to the mezzio working directory.
 
   It defaults to `data/cache/fastroute.php.cache`, where `data/cache/` is the
-  cache directory defined within the zend-expressive skeleton application.  An
+  cache directory defined within the mezzio skeleton application.  An
   explicit absolute file path is recommended since the php `include` construct
   will skip searching the `include_path` and the current directory.
 
   If you choose a custom path, make sure that the directory exists and is
-  writable by the owner of the PHP process. As with any other zend-expressive
+  writable by the owner of the PHP process. As with any other mezzio
   cached configuration, you will need to purge this file in order to enable any
   newly added route when FastRoute caching is enabled.

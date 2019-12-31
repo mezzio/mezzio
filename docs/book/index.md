@@ -8,7 +8,7 @@
             <h3>PSR-15 Middleware</h3>
 
             <p>
-                Create <a href="https://docs.zendframework.com/zend-stratigility/middleware/">middleware</a>
+                Create <a href="https://docs.laminas.dev/laminas-stratigility/middleware/">middleware</a>
                 applications, using as many layers as you want, and the architecture
                 your project needs.
             </p>
@@ -77,16 +77,16 @@
 Installation is only a [Composer](https://getcomposer.org) command away!
 
 ```bash
-$ composer create-project zendframework/zend-expressive-skeleton expressive
+$ composer create-project mezzio/mezzio-skeleton mezzio
 ```
 
-Expressive provides interfaces for routing and templating, letting _you_
+Mezzio provides interfaces for routing and templating, letting _you_
 choose what to use, and how you want to implement it.
     
 Our unique installer allows you to select <em>your</em> choices when starting
 your project!
 
-![Expressive Installer](images/installer.png)
+![Mezzio Installer](images/installer.png)
 {: .center-block }
 
 [Learn More](v3/getting-started/quick-start.md){: .btn .btn-lg .btn-primary}

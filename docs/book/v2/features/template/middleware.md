@@ -3,7 +3,7 @@
 The primary use case for templating is within middleware, to provide templated
 responses. To do this, you will:
 
-- Inject an instance of `Zend\Expressive\Template\TemplateRendererInterface` into your
+- Inject an instance of `Mezzio\Template\TemplateRendererInterface` into your
   middleware.
 - Potentially add paths to the templating instance.
 - Render a template.
@@ -21,7 +21,7 @@ namespace Acme\Blog;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class EntryMiddleware implements MiddlewareInterface
 {
@@ -46,7 +46,7 @@ namespace Acme\Blog\Container;
 
 use Acme\Blog\EntryMiddleware;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
 class EntryMiddlewareFactory
 {
@@ -75,8 +75,8 @@ namespace Acme\Blog;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Expressive\Template\TemplateRendererInterface;
+use Laminas\Diactoros\Response\HtmlResponse;
+use Mezzio\Template\TemplateRendererInterface;
 
 class EntryMiddleware implements MiddlewareInterface
 {
