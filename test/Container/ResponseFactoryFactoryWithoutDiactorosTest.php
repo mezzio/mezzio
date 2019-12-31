@@ -1,19 +1,20 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Mezzio\Container\Exception\InvalidServiceException;
+use Mezzio\Container\ResponseFactoryFactory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Container\Exception\InvalidServiceException;
-use Zend\Expressive\Container\ResponseFactoryFactory;
 
 class ResponseFactoryFactoryWithoutDiactorosTest extends TestCase
 {
@@ -49,7 +50,7 @@ class ResponseFactoryFactoryWithoutDiactorosTest extends TestCase
     public function testFactoryRaisesAnExceptionIfDiactorosIsNotLoaded()
     {
         $this->expectException(InvalidServiceException::class);
-        $this->expectExceptionMessage('zendframework/zend-diactoros');
+        $this->expectExceptionMessage('laminas/laminas-diactoros');
 
         try {
             ($this->factory)($this->container);

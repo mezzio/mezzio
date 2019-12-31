@@ -1,8 +1,8 @@
 # Delegator Factories
 
-Expressive supports the concept of _delegator factories_, which allow decoration
+Mezzio supports the concept of _delegator factories_, which allow decoration
 of services created by your dependency injection container, across all
-dependency injection containers supported by Expressive.
+dependency injection containers supported by Mezzio.
 
 _Delegator factories_ accept the following arguments:
 
@@ -58,5 +58,5 @@ multiple delegator factories to any given service**, which can be a very
 powerful feature.
 
 At the time of writing, this feature works for each of the Aura.Di, Pimple, and
-zend-servicemanager container implementations. Delegator factories have been
-supported with Pimple and zend-servicemanager since the 1.X series.
+laminas-servicemanager container implementations. Delegator factories have been
+supported with Pimple and laminas-servicemanager since the 1.X series.

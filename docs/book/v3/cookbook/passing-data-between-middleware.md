@@ -34,10 +34,10 @@ class PassingDataMiddleware implements MiddlewareInterface
 
         // Step 2: Inject data into the request, call the next middleware and wait for the response
 
-        // Expressive 3.X:
+        // Mezzio 3.X:
         $response = $handler->handle($request->withAttribute(self::class, $data));
 
-        // Expressive 2.X:
+        // Mezzio 2.X:
         $response = $handler->process($request->withAttribute(self::class, $data));
         
         // Step 3: Optionally, do something (with the response) before returning the response
@@ -69,10 +69,10 @@ class ReceivingDataMiddleware implements MiddlewareInterface
 
         // Step 2: Call the next middleware and wait for the response
 
-        // Expressive 3.X:
+        // Mezzio 3.X:
         $response = $handler->handle($request);
 
-        // Expressive 2.X:
+        // Mezzio 2.X:
         $response = $handler->process($request);
         
         // Step 3: Optionally, do something (with the response) before returning the response
@@ -94,7 +94,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response\HtmlResponse;
+use Laminas\Diactoros\Response\HtmlResponse;
 
 class ExampleAction implements MiddlewareInterface
 {
