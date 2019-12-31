@@ -1,3 +1,5 @@
-doc/html/
-vendor/
-composer.lock
+/composer.lock
+/doc/html/
+/laminas-mkdoc-theme.tgz
+/laminas-mkdoc-theme/
+/vendor/

@@ -18,7 +18,7 @@ In all examples, the assumption is the following directory structure:
 
 We assume also that:
 
-- You have installed zend-expressive per the [installation instructions](index.md#installation).
+- You have installed mezzio per the [installation instructions](index.md#installation).
 - `public/` will be the document root of your application.
 - Your own classes are under `src/` with the top-level namespace `Application`,
   and you have configured [autoloading](https://getcomposer.org/doc/01-basic-usage.md#autoloading) in your `composer.json` for those classes.
@@ -71,7 +71,7 @@ methods:
 - `delete($path, $middleware, $name = null)` to route to a path that will only
   respond to the DELETE HTTP method.
 
-All methods return a `Zend\Expressive\Router\Route` method, which allows you to
+All methods return a `Mezzio\Router\Route` method, which allows you to
 specify additional options to associate with the route (e.g., for specifying
 criteria, default values to match, etc.).
 
@@ -98,7 +98,7 @@ $app->put('/post/{id}', 'ReplacePost')
     ]);
 
 // PATCH
-// This example builds on the one above. Expressive allows you to specify
+// This example builds on the one above. Mezzio allows you to specify
 // the same path for a route matching on a different HTTP method, and
 // corresponding to different middleware.
 $app->patch('/post/{id}', 'UpdatePost')
@@ -136,7 +136,7 @@ $app->route('/post', 'HandlePostCollection', ['GET', 'POST']);
 $app->route('/post', 'WillThisHandlePost', []);
 ```
 
-Finally, if desired, you can create a `Zend\Expressive\Router\Route` instance
+Finally, if desired, you can create a `Mezzio\Router\Route` instance
 manually and pass it to `route()` as the sole argument:
 
 ```php
@@ -148,9 +148,9 @@ $app->route($route);
 
 ## Hello World using a Container
 
-Expressive works with [container-interop](https://github.com/container-interop/container-interop),
+Mezzio works with [container-interop](https://github.com/container-interop/container-interop),
 though it's an optional feature. By default, if you use the `AppFactory`, it
-will use [zend-servicemanager](https://github.com/zendframework/zend-servicemanager).
+will use [laminas-servicemanager](https://github.com/laminas/laminas-servicemanager).
 
 In the following example, we'll populate the container with our middleware, and
 the application will pull it from there when matched.
@@ -158,9 +158,9 @@ the application will pull it from there when matched.
 Edit your `public/index.php` to read as follows:
 
 ```php
-use Zend\Diactoros\Response\JsonResponse;
-use Zend\Expressive\AppFactory;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\Diactoros\Response\JsonResponse;
+use Mezzio\AppFactory;
+use Laminas\ServiceManager\ServiceManager;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -223,14 +223,14 @@ One other approach you could take would be to define the application itself in
 the container, and then pull it from there:
 
 ```php
-$container->setFactory('Zend\Expressive\Application', function ($container) {
+$container->setFactory('Mezzio\Application', function ($container) {
     $app = AppFactory::create($container);
     $app->get('/', 'HelloWorld');
     $app->get('/ping', 'Ping');
     return $app;
 });
 
-$app = $container->get('Zend\Expressive\Application');
+$app = $container->get('Mezzio\Application');
 $app->run();
 ```
 
@@ -244,11 +244,11 @@ In the above example, we configured our middleware as services, and then passed
 our service container to the application. At the end, we hinted that you could
 potentially define the application itself as a service.
 
-Expressive already provides a service factory for the application instance
+Mezzio already provides a service factory for the application instance
 to provide fine-grained control over your application. In this example, we'll
 leverage it, defining our routes via configuration.
 
-First, we're going to leverage zend-config to merge configuration files. This is
+First, we're going to leverage laminas-config to merge configuration files. This is
 important, as it allows us to define local, environment-specific configuration
 in files that we then can exclude from our repository. This practice ensures
 that things like credentials are not accidentally published in a public
@@ -256,10 +256,10 @@ repository, and also provides a mechanism for slip-streaming in
 configuration based on our environment (you might use different settings in
 development than in production, after all!).
 
-First, install zend-config:
+First, install laminas-config:
 
 ```bash
-$ composer require zendframework/zend-config
+$ composer require laminas/laminas-config
 ```
 
 Now we can start creating our configuration files and container factories.
@@ -268,7 +268,7 @@ In `config/config.php`, place the following:
 
 ```php
 <?php
-use Zend\Config\Factory as ConfigFactory;
+use Laminas\Config\Factory as ConfigFactory;
 
 return ConfigFactory::fromFiles(
     glob('config/autoload/{global,local}.php', GLOB_BRACE)
@@ -298,7 +298,7 @@ In `config/dependencies.php`, place the following:
 
 ```php
 <?php
-use Zend\Config\Factory as ConfigFactory;
+use Laminas\Config\Factory as ConfigFactory;
 
 return ConfigFactory::fromFiles(
     glob('config/autoload/dependencies.{global,local}.php', GLOB_BRACE)
@@ -318,7 +318,7 @@ return [
         'Application\Ping' => 'Application\Ping',
     ],
     'factories' => [
-        'Zend\Expressive\Application' => 'Zend\Expressive\Container\ApplicationFactory',
+        'Mezzio\Application' => 'Mezzio\Container\ApplicationFactory',
     ],
 ];
 ```
@@ -327,8 +327,8 @@ In `config/services.php`, place the following:
 
 ```php
 <?php
-use Zend\ServiceManager\Config;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\ServiceManager;
 
 return new ServiceManager(new Config(include 'config/dependencies.php'));
 ```
@@ -355,7 +355,7 @@ In `src/Ping.php`, place the following:
 <?php
 namespace Application;
 
-use Zend\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 
 class Ping
 {
@@ -377,7 +377,7 @@ chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
 $container = include 'config/services.php';
-$app       = $container->get('Zend\Expressive\Application');
+$app       = $container->get('Mezzio\Application');
 $app->run();
 ```
 
@@ -471,7 +471,7 @@ the following form:
 ]
 ```
 
-Middleware may be any callable, `Zend\Stratigility\MiddlewareInterface`
+Middleware may be any callable, `Laminas\Stratigility\MiddlewareInterface`
 implementation, or a service name that resolves to one of the two.
 
 The path, if specified, can only be a literal path to match, and is typically
@@ -525,17 +525,17 @@ this is done to ensure that lazy-loading of error middleware works as expected.
 ## Segregating your application to a subpath
 
 One benefit of a middleware-based application is the ability to compose
-middleware and segregate them by paths. `Zend\Expressive\Application` is itself
+middleware and segregate them by paths. `Mezzio\Application` is itself
 middleware, allowing you to do exactly that if desired.
 
 In the following example, we'll assume that `$api` and `$blog` are
-`Zend\Expressive\Application` instances, and compose them into a
-`Zend\Stratigility\MiddlewarePipe`.
+`Mezzio\Application` instances, and compose them into a
+`Laminas\Stratigility\MiddlewarePipe`.
 
 ```php
-use Zend\Diactoros\Server;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\Diactoros\Server;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Stratigility\MiddlewarePipe;
 
 require __DIR__ . '/../vendor/autoload.php';
 

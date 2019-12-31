@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Mezzio\Container\WhoopsErrorHandlerFactory;
+use Mezzio\Template\TemplateRendererInterface;
+use Mezzio\WhoopsErrorHandler;
 use PHPUnit_Framework_TestCase as TestCase;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
-use Zend\Expressive\Container\WhoopsErrorHandlerFactory;
-use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\Expressive\WhoopsErrorHandler;
 
 class WhoopsErrorHandlerFactoryTest extends TestCase
 {
@@ -28,8 +27,8 @@ class WhoopsErrorHandlerFactoryTest extends TestCase
         $whoops      = $this->prophesize(Whoops::class);
         $pageHandler = $this->prophesize(PrettyPageHandler::class);
         $this->container = $this->prophesize('Interop\Container\ContainerInterface');
-        $this->container->get('Zend\Expressive\WhoopsPageHandler')->willReturn($pageHandler->reveal());
-        $this->container->get('Zend\Expressive\Whoops')->willReturn($whoops->reveal());
+        $this->container->get('Mezzio\WhoopsPageHandler')->willReturn($pageHandler->reveal());
+        $this->container->get('Mezzio\Whoops')->willReturn($whoops->reveal());
 
         $this->factory   = new WhoopsErrorHandlerFactory();
     }
@@ -37,6 +36,7 @@ class WhoopsErrorHandlerFactoryTest extends TestCase
     public function testReturnsAWhoopsErrorHandler()
     {
         $this->container->has(TemplateRendererInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
         $this->container->has('config')->willReturn(false);
 
         $factory = $this->factory;
@@ -59,11 +59,12 @@ class WhoopsErrorHandlerFactoryTest extends TestCase
 
     public function testWillInjectTemplateNamesFromConfigurationWhenPresent()
     {
-        $config = ['zend-expressive' => ['error_handler' => [
+        $config = ['mezzio' => ['error_handler' => [
             'template_404'   => 'error::404',
             'template_error' => 'error::500',
         ]]];
         $this->container->has(TemplateRendererInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn($config);
 

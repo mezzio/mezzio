@@ -14,23 +14,23 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- [#131](https://github.com/zendframework/zend-expressive/pull/131) modifies the
+- [zendframework/zend-expressive#131](https://github.com/zendframework/zend-expressive/pull/131) modifies the
   repository to remove the concrete router and template renderer
   implementations, along with any related factories; these are now in their own
   packages. The classes removed include:
-  - `Zend\Expressive\Container\Template\PlatesRendererFactory`
-  - `Zend\Expressive\Container\Template\TwigRendererFactory`
-  - `Zend\Expressive\Container\Template\ZendViewRendererFactory`
-  - `Zend\Expressive\Router\AuraRouter`
-  - `Zend\Expressive\Router\FastRouteRouter`
-  - `Zend\Expressive\Router\ZendRouter`
-  - `Zend\Expressive\Template\PlatesRenderer`
-  - `Zend\Expressive\Template\TwigRenderer`
-  - `Zend\Expressive\Template\Twig\TwigExtension`
-  - `Zend\Expressive\Template\ZendViewRenderer`
-  - `Zend\Expressive\Template\ZendView\NamespacedPathStackResolver`
-  - `Zend\Expressive\Template\ZendView\ServerUrlHelper`
-  - `Zend\Expressive\Template\ZendView\UrlHelper`
+  - `Mezzio\Container\Template\PlatesRendererFactory`
+  - `Mezzio\Container\Template\TwigRendererFactory`
+  - `Mezzio\Container\Template\LaminasViewRendererFactory`
+  - `Mezzio\Router\AuraRouter`
+  - `Mezzio\Router\FastRouteRouter`
+  - `Mezzio\Router\LaminasRouter`
+  - `Mezzio\Template\PlatesRenderer`
+  - `Mezzio\Template\TwigRenderer`
+  - `Mezzio\Template\Twig\TwigExtension`
+  - `Mezzio\Template\LaminasViewRenderer`
+  - `Mezzio\Template\LaminasView\NamespacedPathStackResolver`
+  - `Mezzio\Template\LaminasView\ServerUrlHelper`
+  - `Mezzio\Template\LaminasView\UrlHelper`
 
 ### Fixed
 
@@ -58,31 +58,31 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#132](https://github.com/zendframework/zend-expressive/pull/132) adds
-  `Zend\Expressive\Router\ZendRouter`, replacing
-  `Zend\Expressive\Router\Zf2Router`.
-- [#139](https://github.com/zendframework/zend-expressive/pull/139) adds:
-  - `Zend\Expressive\Template\TemplateRendererInterface`, replacing
-    `Zend\Expressive\Template\TemplateInterface`.
-  - `Zend\Expressive\Template\PlatesRenderer`, replacing
-    `Zend\Expressive\Template\Plates`.
-  - `Zend\Expressive\Template\TwigRenderer`, replacing
-    `Zend\Expressive\Template\Twig`.
-  - `Zend\Expressive\Template\ZendViewRenderer`, replacing
-    `Zend\Expressive\Template\ZendView`.
-- [#143](https://github.com/zendframework/zend-expressive/pull/143) adds
+- [zendframework/zend-expressive#132](https://github.com/zendframework/zend-expressive/pull/132) adds
+  `Mezzio\Router\LaminasRouter`, replacing
+  `Mezzio\Router\LaminasRouter`.
+- [zendframework/zend-expressive#139](https://github.com/zendframework/zend-expressive/pull/139) adds:
+  - `Mezzio\Template\TemplateRendererInterface`, replacing
+    `Mezzio\Template\TemplateInterface`.
+  - `Mezzio\Template\PlatesRenderer`, replacing
+    `Mezzio\Template\Plates`.
+  - `Mezzio\Template\TwigRenderer`, replacing
+    `Mezzio\Template\Twig`.
+  - `Mezzio\Template\LaminasViewRenderer`, replacing
+    `Mezzio\Template\LaminasView`.
+- [zendframework/zend-expressive#143](https://github.com/zendframework/zend-expressive/pull/143) adds
   the method `addDefaultParam($templateName, $param, $value)` to
   `TemplateRendererInterface`, allowing users to specify global and
   template-specific default parameters to use when rendering. To implement the
-  feature, the patch also provides `Zend\Expressive\Template\DefaultParamsTrait`
+  feature, the patch also provides `Mezzio\Template\DefaultParamsTrait`
   to simplify incorporating the feature in implementations.
-- [#133](https://github.com/zendframework/zend-expressive/pull/133) adds a
-  stipulation to `Zend\Expressive\Router\RouterInterface` that `addRoute()`
+- [zendframework/zend-expressive#133](https://github.com/zendframework/zend-expressive/pull/133) adds a
+  stipulation to `Mezzio\Router\RouterInterface` that `addRoute()`
   should *aggregate* `Route` instances only, and delay injection until `match()`
   and/or `generateUri()` are called; all shipped routers now follow this. This
   allows manipulating `Route` instances before calling `match()` or
   `generateUri()` — for instance, to inject options or a name.
-- [#133](https://github.com/zendframework/zend-expressive/pull/133) re-instates
+- [zendframework/zend-expressive#133](https://github.com/zendframework/zend-expressive/pull/133) re-instates
   the `Route::setName()` method, as the changes to lazy-inject routes means that
   setting names and options after adding them to the application now works
   again.
@@ -93,18 +93,18 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- [#132](https://github.com/zendframework/zend-expressive/pull/132) removes
-  `Zend\Expressive\Router\Zf2Router`, renaming it to
-  `Zend\Expressive\Router\ZendRouter`.
-- [#139](https://github.com/zendframework/zend-expressive/pull/139) removes:
-  - `Zend\Expressive\Template\TemplateInterface`, renaming it to
-    `Zend\Expressive\Template\TemplateRendererInterface`.
-  - `Zend\Expressive\Template\Plates`, renaming it to
-    `Zend\Expressive\Template\PlatesRenderer`.
-  - `Zend\Expressive\Template\Twig`, renaming it to
-    `Zend\Expressive\Template\TwigRenderer`.
-  - `Zend\Expressive\Template\ZendView`, renaming it to
-    `Zend\Expressive\Template\ZendViewRenderer`.
+- [zendframework/zend-expressive#132](https://github.com/zendframework/zend-expressive/pull/132) removes
+  `Mezzio\Router\LaminasRouter`, renaming it to
+  `Mezzio\Router\LaminasRouter`.
+- [zendframework/zend-expressive#139](https://github.com/zendframework/zend-expressive/pull/139) removes:
+  - `Mezzio\Template\TemplateInterface`, renaming it to
+    `Mezzio\Template\TemplateRendererInterface`.
+  - `Mezzio\Template\Plates`, renaming it to
+    `Mezzio\Template\PlatesRenderer`.
+  - `Mezzio\Template\Twig`, renaming it to
+    `Mezzio\Template\TwigRenderer`.
+  - `Mezzio\Template\LaminasView`, renaming it to
+    `Mezzio\Template\LaminasViewRenderer`.
 
 ### Fixed
 
@@ -114,7 +114,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#149](https://github.com/zendframework/zend-expressive/pull/149) adds
+- [zendframework/zend-expressive#149](https://github.com/zendframework/zend-expressive/pull/149) adds
   verbiage to the `RouterInterface::generateUri()` method, specifying that the
   returned URI **MUST NOT** be escaped. The `AuraRouter` implementation has been
   updated to internally use `generateRaw()` to follow this guideline, and retain
@@ -130,7 +130,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#140](https://github.com/zendframework/zend-expressive/pull/140) updates the
+- [zendframework/zend-expressive#140](https://github.com/zendframework/zend-expressive/pull/140) updates the
   AuraRouter to use the request method from the request object, and inject that
   under the `REQUEST_METHOD` server parameter key before passing the server
   parameters for matching. This simplifies testing.
@@ -139,15 +139,15 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#128](https://github.com/zendframework/zend-expressive/pull/128) adds
+- [zendframework/zend-expressive#128](https://github.com/zendframework/zend-expressive/pull/128) adds
   container factories for each supported template implementation:
-  - `Zend\Expressive\Container\Template\PlatesFactory`
-  - `Zend\Expressive\Container\Template\TwigFactory`
-  - `Zend\Expressive\Container\Template\ZendViewFactory`
-- [#128](https://github.com/zendframework/zend-expressive/pull/128) adds
-  custom `url` and `serverUrl` zend-view helper implementations, to allow
+  - `Mezzio\Container\Template\PlatesFactory`
+  - `Mezzio\Container\Template\TwigFactory`
+  - `Mezzio\Container\Template\LaminasViewFactory`
+- [zendframework/zend-expressive#128](https://github.com/zendframework/zend-expressive/pull/128) adds
+  custom `url` and `serverUrl` laminas-view helper implementations, to allow
   integration with any router and with PSR-7 URI instances. The newly
-  added `ZendViewFactory` will inject these into the `HelperPluginManager` by
+  added `LaminasViewFactory` will inject these into the `HelperPluginManager` by
   default.
 
 ### Deprecated
@@ -160,7 +160,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#128](https://github.com/zendframework/zend-expressive/pull/128) fixes an
+- [zendframework/zend-expressive#128](https://github.com/zendframework/zend-expressive/pull/128) fixes an
   expectation in the `WhoopsErrorHandler` tests to ensure the tests can run
   successfully.
 
@@ -180,7 +180,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#125](https://github.com/zendframework/zend-expressive/pull/125) fixes the
+- [zendframework/zend-expressive#125](https://github.com/zendframework/zend-expressive/pull/125) fixes the
   `WhoopsErrorHandler` to ensure it pushes the "pretty page handler" into the
   Whoops runtime.
 
@@ -188,14 +188,14 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#116](https://github.com/zendframework/zend-expressive/pull/116) adds
+- [zendframework/zend-expressive#116](https://github.com/zendframework/zend-expressive/pull/116) adds
   `Application::any()` to complement the various HTTP-specific routing methods;
   it has the same signature as `get()`, `post()`, `patch()`, et al, but allows
   any HTTP method.
-- [#120](https://github.com/zendframework/zend-expressive/pull/120) renames the
+- [zendframework/zend-expressive#120](https://github.com/zendframework/zend-expressive/pull/120) renames the
   router classes for easier discoverability, to better reflect their usage, and
   for better naming consistency. `Aura` becomes `AuraRouter`, `FastRoute`
-  becomes `FastRouteRouter` and `Zf2` becomes `Zf2Router`.
+  becomes `FastRouteRouter` and `Laminas` becomes `LaminasRouter`.
 
 ### Deprecated
 
@@ -203,9 +203,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- [#120](https://github.com/zendframework/zend-expressive/pull/120) removes the
-  classes `Zend\Expressive\Router\Aura`, `Zend\Expressive\Router\FastRoute`, and
-  `Zend\Expressive\Router\Zf`, per the "Added" section above.
+- [zendframework/zend-expressive#120](https://github.com/zendframework/zend-expressive/pull/120) removes the
+  classes `Mezzio\Router\Aura`, `Mezzio\Router\FastRoute`, and
+  `Mezzio\Router\Laminas`, per the "Added" section above.
 
 ### Fixed
 
@@ -215,8 +215,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#112](https://github.com/zendframework/zend-expressive/pull/112) adds a
-  chapter to the documentation on using Aura.Di (v3beta) with zend-expressive.
+- [zendframework/zend-expressive#112](https://github.com/zendframework/zend-expressive/pull/112) adds a
+  chapter to the documentation on using Aura.Di (v3beta) with mezzio.
 
 ### Deprecated
 
@@ -228,7 +228,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#118](https://github.com/zendframework/zend-expressive/pull/118) fixes an
+- [zendframework/zend-expressive#118](https://github.com/zendframework/zend-expressive/pull/118) fixes an
   issue whereby route options specified via configuration were not being pushed
   into generated `Route` instances before being passed to the underlying router.
 
