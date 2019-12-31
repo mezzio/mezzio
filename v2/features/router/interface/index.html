@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PSR-15 Middleware in Minutes">  
+    <link rel="canonical" href="https://docs.mezzio.dev/v2/features/router/interface/">
+    <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
+
+    <title>Routing Interface - Mezzio - Laminas Docs</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+        <link href="../../../../css/mezzio.css" rel="stylesheet">
+</head>
+<body id="page-top" class="mezzio">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        
+        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+        </a>
+        <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
+            Documentation
+        </a>
+
+        
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
+                </li>
+            </ul>
+
+            
+            
+                <div class="d-block d-sm-none">
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="../../../..">Mezzio</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                
+            
+
+                
+                
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../../" class="subnavigation__link">Mezzio: PSR-7 Middleware in Minutes</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Getting Started</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../getting-started/features/" class="subnavigation__link">Overview and Features</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../getting-started/standalone/" class="subnavigation__link">Quick Start: Standalone</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../getting-started/skeleton/" class="subnavigation__link">Quick Start: Skeleton Installer</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Features</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../middleware-types/" class="subnavigation__link">Middleware Types</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../application/" class="subnavigation__link">Applications</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Containers</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../container/intro/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../container/factories/" class="subnavigation__link">Container Factories</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../container/delegator-factories/" class="subnavigation__link">Delegator Factories</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../container/laminas-servicemanager/" class="subnavigation__link">Using laminas-servicemanager</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../container/pimple/" class="subnavigation__link">Using Pimple</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../container/aura-di/" class="subnavigation__link">Using Aura.Di</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Routing Adapters</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Routing Interface</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../uri-generation/" class="subnavigation__link">URI Generation</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../piping/" class="subnavigation__link">Routing vs Piping</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../aura/" class="subnavigation__link">Using Aura</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../fast-route/" class="subnavigation__link">Using FastRoute</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../laminas-router/" class="subnavigation__link">Using the Laminas Router</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Templating</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../template/intro/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../template/interface/" class="subnavigation__link">Template Renderer Interface</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../template/middleware/" class="subnavigation__link">Templated Middleware</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../template/plates/" class="subnavigation__link">Using Plates</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../template/twig/" class="subnavigation__link">Using Twig</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../template/laminas-view/" class="subnavigation__link">Using laminas-view</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../error-handling/" class="subnavigation__link">Error Handling</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../modular-applications/" class="subnavigation__link">Modular Applications</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Middleware</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../middleware/implicit-methods-middleware/" class="subnavigation__link">Implicit HEAD and OPTIONS Middleware</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Helpers</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../helpers/intro/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../helpers/url-helper/" class="subnavigation__link">UrlHelper</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../helpers/server-url-helper/" class="subnavigation__link">ServerUrlHelper</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../helpers/body-parse/" class="subnavigation__link">Body Parsing Middleware</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../helpers/content-length/" class="subnavigation__link">Content-Length Middleware</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../emitters/" class="subnavigation__link">Emitters</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Cookbook</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/autowiring-routes-and-pipelines/" class="subnavigation__link">Autowiring routes and pipeline middleware</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/common-prefix-for-routes/" class="subnavigation__link">Prepending a common path to all routes</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/route-specific-pipeline/" class="subnavigation__link">Route-specific middleware pipelines</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/using-custom-view-helpers/" class="subnavigation__link">Registering custom view helpers when using laminas-view</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/using-laminas-form-view-helpers/" class="subnavigation__link">Using laminas-form view helpers</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/using-a-base-path/" class="subnavigation__link">Using Mezzio from a subdirectory</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/setting-locale-depending-routing-parameter/" class="subnavigation__link">Setting a locale based on a routing parameter</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/setting-locale-without-routing-parameter/" class="subnavigation__link">Setting a locale without a routing parameter</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/debug-toolbars/" class="subnavigation__link">Enabling debug toolbars</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/using-routed-middleware-class-as-controller/" class="subnavigation__link">Handling multiple routes in a single class</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/flash-messengers/" class="subnavigation__link">Flash Messengers</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/passing-data-between-middleware/" class="subnavigation__link">Passing data between middleware</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Reference</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../why-mezzio/" class="subnavigation__link">Why choose Mezzio?</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../reference/cli-tooling/" class="subnavigation__link">CLI Tooling</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../reference/usage-examples/" class="subnavigation__link">Examples</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../reference/mezzio-projects/" class="subnavigation__link">Mezzio Projects</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../reference/migration/" class="subnavigation__link">To version 2</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../reference/migration-to-v2-2/" class="subnavigation__link">To version 2.2</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                
+            
+        </ul>
+    </div>
+
+                </div>
+            
+
+            
+            <div class="d-block d-sm-none">
+                <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <header class="header">
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="col-6 offset-md-2">
+                <h1 class="header__title">
+                    Mezzio
+
+                    
+                        <small class="header__subtitle">Mezzio</small>
+                    
+                </h1>
+            </div>
+
+            
+            <div class="col-4 text-sm-right">
+                
+                    
+<div class="version-selector">
+    <div class="btn-group">
+        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            
+                v2
+            
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            
+                
+                    <li class="dropdown-menu__item">
+                        <a href="../../../..">
+                            
+                                v3 (latest)
+                            
+                        </a>
+                    </li>
+                
+            
+                
+                    <li class="dropdown-menu__item dropdown-menu__item--selected">
+                        <a href="../../../">
+                            
+                                v2
+                            
+                        </a>
+                    </li>
+                
+            
+                
+                    <li class="dropdown-menu__item">
+                        <a href="../../../../v1/">
+                            
+                                v1
+                            
+                        </a>
+                    </li>
+                
+            
+        </ul>
+    </div>
+</div>
+
+
+                    <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="https://github.com/mezzio/mezzio/" class="header__link header__link--github" title="Go to repository of Mezzio">
+                        <i class="fa fa-github"></i> GitHub
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-12">
+                
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#routes" class="toc__link">Routes</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#matching-and-routeresults" class="toc__link">Matching and RouteResults</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+            </div>
+            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+                
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="">Overview</a></li>
+
+            
+                <li class="breadcrumb-item"><a href="../../../..">Mezzio</a></li>
+
+                
+                    
+                        
+                        
+                    
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Features</li>
+                        
+                    
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Routing Adapters</li>
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Routing Interface</li>
+            
+        
+    </ol>
+</nav>
+
+
+
+    <div class="alert alert-danger" role="alert">
+        <h4>Caution</h4>
+        <p>
+            The documentation you are viewing is for an older version of this component.<br>
+            <a href="../../../..">Switch to the latest (v3) version.</a>
+        </p>
+    </div>
+
+
+
+
+    
+    
+        <h2 class="chapter__headline">Routing Adapters</h2>
+    
+
+    <h1 id="routing-interface">Routing Interface</h1>
+<p>Mezzio defines <code>Mezzio\Router\RouterInterface</code>, which can be
+injected into and consumed by <code>Mezzio\Application</code> in order to provide
+dynamic routing capabilities to middleware. The interface serves as an
+abstraction to allow routers with varying capabilities to be used with an
+application.</p>
+<p>The interface is defined as follows:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>namespace Mezzio\Router;</span>
+
+<span class=x>use Psr\Http\Message\ServerRequestInterface as Request;</span>
+
+<span class=x>interface RouterInterface</span>
+<span class=x>{</span>
+<span class=x>    /**</span>
+<span class=x>     * Add a route.</span>
+<span class=x>     *</span>
+<span class=x>     * This method adds a route against which the underlying implementation may</span>
+<span class=x>     * match. Implementations MUST aggregate route instances, but MUST NOT use</span>
+<span class=x>     * the details to inject the underlying router until `match()` and/or</span>
+<span class=x>     * `generateUri()` is called.  This is required to allow consumers to</span>
+<span class=x>     * modify route instances before matching (e.g., to provide route options,</span>
+<span class=x>     * inject a name, etc.).</span>
+<span class=x>     *</span>
+<span class=x>     * The method MUST raise Exception\RuntimeException if called after either `match()`</span>
+<span class=x>     * or `generateUri()` have already been called, to ensure integrity of the</span>
+<span class=x>     * router between invocations of either of those methods.</span>
+<span class=x>     *</span>
+<span class=x>     * @param Route $route</span>
+<span class=x>     * @throws Exception\RuntimeException when called after match() or</span>
+<span class=x>     *     generateUri() have been called.</span>
+<span class=x>     */</span>
+<span class=x>    public function addRoute(Route $route);</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Match a request against the known routes.</span>
+<span class=x>     *</span>
+<span class=x>     * Implementations will aggregate required information from the provided</span>
+<span class=x>     * request instance, and pass them to the underlying router implementation;</span>
+<span class=x>     * when done, they will then marshal a `RouteResult` instance indicating</span>
+<span class=x>     * the results of the matching operation and return it to the caller.</span>
+<span class=x>     *</span>
+<span class=x>     * @param  Request $request</span>
+<span class=x>     * @return RouteResult</span>
+<span class=x>     */</span>
+<span class=x>    public function match(Request $request);</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Generate a URI from the named route.</span>
+<span class=x>     *</span>
+<span class=x>     * Takes the named route and any substitutions, and attempts to generate a</span>
+<span class=x>     * URI from it.</span>
+<span class=x>     *</span>
+<span class=x>     * @see https://github.com/auraphp/Aura.Router#generating-a-route-path</span>
+<span class=x>     * @see https://docs.laminas.dev/laminas.mvc.routing.html</span>
+<span class=x>     * @param string $name</span>
+<span class=x>     * @param array $substitutions</span>
+<span class=x>     * @param array $options</span>
+<span class=x>     * @return string</span>
+<span class=x>     * @throws Exception\RuntimeException if unable to generate the given URI.</span>
+<span class=x>     */</span>
+<span class=x>    public function generateUri($name, array $substitutions = [], array $options = []);</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>Developers may create and use their own implementations. We recommend
+registering your implementation as the service
+<code>Mezzio\Router\RouterInterface</code> in your container to ensure other
+factories provided by mezzio will receive your custom service.</p>
+<p>Implementors should also read the following sections detailing the <code>Route</code> and
+<code>RouteResult</code> classes, to ensure that their implementations interoperate
+correctly.</p>
+<h2 id="routes">Routes</h2>
+<p>Routes are defined via <code>Mezzio\Router\Route</code>, and aggregate the
+following information:</p>
+<ul>
+<li>Path to match.</li>
+<li>Middleware to use when the route is matched. This may be a callable or a
+  service name resolving to middleware.</li>
+<li>HTTP methods allowed for the route; if none are provided, all are assumed.</li>
+<li>Optionally, a name by which to reference the route.</li>
+</ul>
+<p>The <code>Route</code> class has the following signature:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>namespace Mezzio\Router;</span>
+
+<span class=x>use Interop\Http\ServerMiddleware\MiddlewareInterface;</span>
+
+<span class=x>class Route</span>
+<span class=x>{</span>
+<span class=x>    const HTTP_METHOD_ANY = 0xff;</span>
+<span class=x>    const HTTP_METHOD_SEPARATOR = &#39;:&#39;;</span>
+
+<span class=x>    /**</span>
+<span class=x>     * @param string $path Path to match.</span>
+<span class=x>     * @param string|callable|MiddlewareInterface $middleware Middleware to use</span>
+<span class=x>     *     when this route is matched.</span>
+<span class=x>     * @param int|array Allowed HTTP methods; defaults to HTTP_METHOD_ANY.</span>
+<span class=x>     * @param string|null $name the route name</span>
+<span class=x>     * @throws Exception\InvalidArgumentException for invalid path type.</span>
+<span class=x>     * @throws Exception\InvalidArgumentException for invalid middleware type.</span>
+<span class=x>     * @throws Exception\InvalidArgumentException for any invalid HTTP method names.</span>
+<span class=x>     */</span>
+<span class=x>    public function __construct($path, $middleware, $methods = self::HTTP_METHOD_ANY, $name = null);</span>
+
+<span class=x>    /**</span>
+<span class=x>     * @return string</span>
+<span class=x>     */</span>
+<span class=x>    public function getPath();</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Set the route name.</span>
+<span class=x>     *</span>
+<span class=x>     * @param string $name</span>
+<span class=x>     */</span>
+<span class=x>    public function setName($name);</span>
+
+<span class=x>    /**</span>
+<span class=x>     * @return string</span>
+<span class=x>     */</span>
+<span class=x>    public function getName();</span>
+
+<span class=x>    /**</span>
+<span class=x>     * @return string|callable|MiddlewareInterface</span>
+<span class=x>     */</span>
+<span class=x>    public function getMiddleware();</span>
+
+<span class=x>    /**</span>
+<span class=x>     * @return int|string[] Returns HTTP_METHOD_ANY or array of allowed methods.</span>
+<span class=x>     */</span>
+<span class=x>    public function getAllowedMethods();</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Indicate whether the specified method is allowed by the route.</span>
+<span class=x>     *</span>
+<span class=x>     * @param string $method HTTP method to test.</span>
+<span class=x>     * @return bool</span>
+<span class=x>     */</span>
+<span class=x>    public function allowsMethod($method);</span>
+
+<span class=x>    /**</span>
+<span class=x>     * @param array $options</span>
+<span class=x>     */</span>
+<span class=x>    public function setOptions(array $options);</span>
+
+<span class=x>    /**</span>
+<span class=x>     * @return array</span>
+<span class=x>     */</span>
+<span class=x>    public function getOptions();</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>Typically, developers will use <code>Mezzio\Application::route()</code> (or one of
+the HTTP-specific routing methods) to create routes, and will not need to
+interact with <code>Route</code> instances. However, that method can <em>also</em> accept <code>Route</code>
+instances, allowing more flexibility in defining and configuring them;
+additionally, when working with <code>RouteResult</code> instances, you may pull the
+<code>Route</code> instance from that in order to obtain data about the matched route.</p>
+<h2 id="matching-and-routeresults">Matching and RouteResults</h2>
+<p>Internally, <code>Mezzio\Application</code> calls on <code>RouterInterface::match()</code>,
+passing it the current request instance. This allows implementations to pull
+what they may need from the request in order to perform their routing logic; for
+example, they may need the request method, the URI path, the value of the
+<code>HTTPS</code> server variable, etc.</p>
+<p>Implementations are expected to return a <code>Mezzio\Router\RouteResult</code>
+instance, which the routing middleware then uses to determine if routing
+succeeded. In the event of success, it will pull any matched parameters from the
+result and inject them as request attributes, and then pull the matched
+middleware and execute it. In the case of failure, it will determine if the
+failure was due to inability to match, or usage of a disallowed HTTP method; in
+the former case, it proceeds to the next middleware in the stack, and in the
+latter, returns a 405 response.</p>
+<p>The <code>RouteResult</code> signature is as follows:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>namespace Mezzio\Router;</span>
+
+<span class=x>class RouteResult</span>
+<span class=x>{</span>
+<span class=x>    /**</span>
+<span class=x>     * Create an instance representing a route success from a Route instance.</span>
+<span class=x>     *</span>
+<span class=x>     * This method should be used for generating an instance indicating a route</span>
+<span class=x>     * success.</span>
+<span class=x>     *</span>
+<span class=x>     * @param Route $route</span>
+<span class=x>     * @param array $params Parameters associated with the matched route.</span>
+<span class=x>     * @return static</span>
+<span class=x>     */</span>
+<span class=x>    public static function fromRoute(Route $route, array $params = []);</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Create an instance representing a route failure.</span>
+<span class=x>     *</span>
+<span class=x>     * @param null|int|array $methods HTTP methods allowed for the current URI, if any</span>
+<span class=x>     * @return static</span>
+<span class=x>     */</span>
+<span class=x>    public static function fromRouteFailure($methods = null);</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Does the result represent successful routing?</span>
+<span class=x>     *</span>
+<span class=x>     * @return bool</span>
+<span class=x>     */</span>
+<span class=x>    public function isSuccess();</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Retrieve the matched route, if possible.</span>
+<span class=x>     *</span>
+<span class=x>     * If this result represents a failure, return false; otherwise, return the</span>
+<span class=x>     * matched route instance.</span>
+<span class=x>     *</span>
+<span class=x>     * @return Route</span>
+<span class=x>     */</span>
+<span class=x>    public function getMatchedRoute();</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Retrieve the matched route name, if possible.</span>
+<span class=x>     *</span>
+<span class=x>     * If this result represents a failure, return false; otherwise, return the</span>
+<span class=x>     * matched route name.</span>
+<span class=x>     *</span>
+<span class=x>     * @return string</span>
+<span class=x>     */</span>
+<span class=x>    public function getMatchedRouteName();</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Retrieve the matched middleware, if possible.</span>
+<span class=x>     *</span>
+<span class=x>     * @return false|callable|string Returns false if the result represents a</span>
+<span class=x>     *     failure; otherwise, a callable or a string service name.</span>
+<span class=x>     */</span>
+<span class=x>    public function getMatchedMiddleware();</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Returns the matched params.</span>
+<span class=x>     *</span>
+<span class=x>     * Guaranteed to return an array, even if it is simply empty.</span>
+<span class=x>     *</span>
+<span class=x>     * @return array</span>
+<span class=x>     */</span>
+<span class=x>    public function getMatchedParams();</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Is this a routing failure result?</span>
+<span class=x>     *</span>
+<span class=x>     * @return bool</span>
+<span class=x>     */</span>
+<span class=x>    public function isFailure();</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Does the result represent failure to route due to HTTP method?</span>
+<span class=x>     *</span>
+<span class=x>     * @return bool</span>
+<span class=x>     */</span>
+<span class=x>    public function isMethodFailure();</span>
+
+<span class=x>    /**</span>
+<span class=x>     * Retrieve the allowed methods for the route failure.</span>
+<span class=x>     *</span>
+<span class=x>     * @return string[] HTTP methods allowed</span>
+<span class=x>     */</span>
+<span class=x>    public function getAllowedMethods();</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>Typically, only those implementing routers will interact with this class.</p>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../intro/">
+                    <i class="fa fa-chevron-left"></i> Previous
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../uri-generation/">
+                    Next <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/mezzio/mezzio/edit/master/docs/book/v2/features/router/interface.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
+                
+            </div>
+            <div class="col-md-3 col-sm-12 sidebar">
+                
+                    <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="../../../..">Mezzio</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                
+            
+
+                
+                
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../../../" class="subnavigation__link">Mezzio: PSR-7 Middleware in Minutes</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Getting Started</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../getting-started/features/" class="subnavigation__link">Overview and Features</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../getting-started/standalone/" class="subnavigation__link">Quick Start: Standalone</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../getting-started/skeleton/" class="subnavigation__link">Quick Start: Skeleton Installer</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Features</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../middleware-types/" class="subnavigation__link">Middleware Types</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../application/" class="subnavigation__link">Applications</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Containers</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../container/intro/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../container/factories/" class="subnavigation__link">Container Factories</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../container/delegator-factories/" class="subnavigation__link">Delegator Factories</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../container/laminas-servicemanager/" class="subnavigation__link">Using laminas-servicemanager</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../container/pimple/" class="subnavigation__link">Using Pimple</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../container/aura-di/" class="subnavigation__link">Using Aura.Di</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Routing Adapters</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Routing Interface</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../uri-generation/" class="subnavigation__link">URI Generation</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../piping/" class="subnavigation__link">Routing vs Piping</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../aura/" class="subnavigation__link">Using Aura</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../fast-route/" class="subnavigation__link">Using FastRoute</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../laminas-router/" class="subnavigation__link">Using the Laminas Router</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Templating</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../template/intro/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../template/interface/" class="subnavigation__link">Template Renderer Interface</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../template/middleware/" class="subnavigation__link">Templated Middleware</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../template/plates/" class="subnavigation__link">Using Plates</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../template/twig/" class="subnavigation__link">Using Twig</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../template/laminas-view/" class="subnavigation__link">Using laminas-view</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../error-handling/" class="subnavigation__link">Error Handling</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../modular-applications/" class="subnavigation__link">Modular Applications</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Middleware</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../middleware/implicit-methods-middleware/" class="subnavigation__link">Implicit HEAD and OPTIONS Middleware</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Helpers</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../helpers/intro/" class="subnavigation__link">Introduction</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../helpers/url-helper/" class="subnavigation__link">UrlHelper</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../helpers/server-url-helper/" class="subnavigation__link">ServerUrlHelper</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../helpers/body-parse/" class="subnavigation__link">Body Parsing Middleware</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../helpers/content-length/" class="subnavigation__link">Content-Length Middleware</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../emitters/" class="subnavigation__link">Emitters</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Cookbook</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/autowiring-routes-and-pipelines/" class="subnavigation__link">Autowiring routes and pipeline middleware</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/common-prefix-for-routes/" class="subnavigation__link">Prepending a common path to all routes</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/route-specific-pipeline/" class="subnavigation__link">Route-specific middleware pipelines</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/using-custom-view-helpers/" class="subnavigation__link">Registering custom view helpers when using laminas-view</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/using-laminas-form-view-helpers/" class="subnavigation__link">Using laminas-form view helpers</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/using-a-base-path/" class="subnavigation__link">Using Mezzio from a subdirectory</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/setting-locale-depending-routing-parameter/" class="subnavigation__link">Setting a locale based on a routing parameter</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/setting-locale-without-routing-parameter/" class="subnavigation__link">Setting a locale without a routing parameter</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/debug-toolbars/" class="subnavigation__link">Enabling debug toolbars</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/using-routed-middleware-class-as-controller/" class="subnavigation__link">Handling multiple routes in a single class</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/flash-messengers/" class="subnavigation__link">Flash Messengers</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../cookbook/passing-data-between-middleware/" class="subnavigation__link">Passing data between middleware</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Reference</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../why-mezzio/" class="subnavigation__link">Why choose Mezzio?</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../reference/cli-tooling/" class="subnavigation__link">CLI Tooling</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../reference/usage-examples/" class="subnavigation__link">Examples</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../reference/mezzio-projects/" class="subnavigation__link">Mezzio Projects</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../reference/migration/" class="subnavigation__link">To version 2</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../../../reference/migration-to-v2-2/" class="subnavigation__link">To version 2.2</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                
+            
+        </ul>
+    </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="footer__button" href="#page-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7 offset-md-2">
+                <h5>Laminas</h5>
+                <ul>
+                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
+                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+
+            
+            <div class="col-md-4 offset-md-2">
+                <h4 class="footer__headline">Support</h4>
+                <ul class="support__list">
+                    <li class="support__list-item">
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://laminas.dev/chat" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://github.com/laminas" class="support__link" title="Github"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://twitter.com/getlaminas" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">License</h4>
+                <p>
+                    Code licensed under <a
+                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                </p>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">Copyright</h4>
+                <p>
+                    <!--Built with love by the Laminas team with the help of our
+                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        let base_url = '../../../..',
+            project  = "mezzio",
+            siteName = 'Mezzio';
+    </script>
+    <script src="/js/scripts.js"></script>
+        <script src="../../../../search/main.js"></script>
+
+    
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search in Mezzio" id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>
