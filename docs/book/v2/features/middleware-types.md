@@ -1,6 +1,6 @@
 # Middleware Types
 
-Expressive allows you to compose applications out of _pipeline_ and _routed_
+Mezzio allows you to compose applications out of _pipeline_ and _routed_
 middleware.
 
 **Pipeline** middleware is middleware that defines the workflow of your
@@ -16,13 +16,13 @@ include such aspects as:
 HTTP methods. As an example, you might want middleware that only responds to
 HTTP POST requests to the path `/users`.
 
-Expressive allows you to define middleware using any of the following:
+Mezzio allows you to define middleware using any of the following:
 
 - [http-interop/http-middleware](https://github.com/http-interop/http-middleware/tree/0.4.1)
   instances.
 - Callable middleware that implements the http-interop/http-middleware signature.
-- Callable "double-pass" middleware (as used in Expressive 1.X, and supported in
-  Expressive 2.X).
+- Callable "double-pass" middleware (as used in Mezzio 1.X, and supported in
+  Mezzio 2.X).
 - Service names resolving to one of the above middleware types.
 - Middleware pipelines expressed as arrays of the above middleware types.
 
@@ -32,7 +32,7 @@ The http-interop/http-middleware project is the basis for the proposed
 [PSR-15](https://www.php-fig.org/psr/psr-15) specification, which covers HTTP
 Server Middleware that consumes [PSR-7](http://www.php-fig.org/psr/psr-7/) HTTP
 messages. The project defines two interfaces, `Interop\Http\ServerMiddleware\MiddlewareInterface` 
-and `Interop\Http\ServerMiddleware\DelegateInterface`. Expressive accepts
+and `Interop\Http\ServerMiddleware\DelegateInterface`. Mezzio accepts
 middleware that implements the `MiddlewareInterface`. As an example:
 
 ```php
@@ -59,7 +59,7 @@ anonymous class.
 ## Callable http-middleware
 
 Sometimes you may not want to create a class for one-off middleware. As such,
-Expressive allows you to provide a PHP callable that uses the same signature as
+Mezzio allows you to provide a PHP callable that uses the same signature as
 `Interop\Http\ServerMiddleware\MiddlewareInterface`:
 
 ```php
@@ -83,7 +83,7 @@ middleware.
 
 ## Double-pass middleware
 
-Expressive 1.X was based on Stratigility 1.X, which allowed middleware with the
+Mezzio 1.X was based on Stratigility 1.X, which allowed middleware with the
 following signature:
 
 ```php
@@ -113,27 +113,27 @@ argument, but instead create a concrete response to return, or manipulate the
 response returned by `$next`; this prevents a number of potential error
 conditions that may otherwise occur due to incomplete or mutated response state.
 
-This middleware is still supported in Expressive 2.X, but we encourage users to
+This middleware is still supported in Mezzio 2.X, but we encourage users to
 adopt http-interop/http-middleware signatures, as we will be deprecating
 double-pass middleware eventually.
 
 ## Service-based middleware
 
 We encourage the use of a dependency injection container for providing your
-middleware. As such, Expressive also allows you to use _service names_ for both
+middleware. As such, Mezzio also allows you to use _service names_ for both
 pipeline and routed middleware. Generally, service names will be the specific
 middleware class names, but can be any valid string that resolves to a service.
 
-When Expressive is provided a service name for middleware, it internally
-decorates the middleware in a `Zend\Expressive\Middleware\LazyLoadingMiddleware`
+When Mezzio is provided a service name for middleware, it internally
+decorates the middleware in a `Mezzio\Middleware\LazyLoadingMiddleware`
 instance, allowing it to be loaded only when dispatched.
 
 ## Middleware pipelines
 
-Expressive allows any pipeline or routed middleware to be self-contained
-[middleware pipelines](https://docs.zendframework.com/zend-stratigility/api/#middleware).
-To prevent the need for instantiating a `Zend\Stratigility\MiddlewarePipe` or
-`Zend\Expressive\Application` instance when defining the pipeline, Expressive
+Mezzio allows any pipeline or routed middleware to be self-contained
+[middleware pipelines](https://docs.laminas.dev/laminas-stratigility/api/#middleware).
+To prevent the need for instantiating a `Laminas\Stratigility\MiddlewarePipe` or
+`Mezzio\Application` instance when defining the pipeline, Mezzio
 allows you to provide an array of middleware:
 
 ```php

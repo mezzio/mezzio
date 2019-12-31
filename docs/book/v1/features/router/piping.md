@@ -1,16 +1,16 @@
 # Routing vs Piping
 
-Expressive provides two mechanisms for adding middleware to your
+Mezzio provides two mechanisms for adding middleware to your
 application:
 
 - piping, which is a foundation feature of the underlying
-  [zend-stratigility](https://github.com/zendframework/zend-stratigility)
+  [laminas-stratigility](https://github.com/laminas/laminas-stratigility)
   implementation.
-- routing, which is an additional feature provided by zend-expressive.
+- routing, which is an additional feature provided by mezzio.
 
 ## Piping
 
-zend-stratigility provides a mechanism termed *piping* for composing middleware
+laminas-stratigility provides a mechanism termed *piping* for composing middleware
 in an application. When you *pipe* middleware to the application, it is added to
 a queue, and dequeued in order until a middleware returns a response instance.
 If none ever returns a response instance, execution is delegated to a "final
@@ -31,15 +31,15 @@ This path segregation, however, is limited: it will only match literal paths.
 This is done purposefully, to provide excellent baseline performance, and to
 prevent feature creep in the library.
 
-Expressive uses and exposes piping to users, with one addition: **middleware
-may be specified by service name, and zend-expressive will lazy-load the service
+Mezzio uses and exposes piping to users, with one addition: **middleware
+may be specified by service name, and mezzio will lazy-load the service
 only when the middleware is invoked**.
 
-In order to accomplish the lazy-loading, zend-expressive wraps the calls to fetch
+In order to accomplish the lazy-loading, mezzio wraps the calls to fetch
 the middleware from the container and to dispatch that middleware inside a
 closure. This poses a problem for error handling middleware, however, as
-zend-stratigility identifies error handling middleware by its arity (number of
-function arguments); as such, zend-expressive defines an additional method for
+laminas-stratigility identifies error handling middleware by its arity (number of
+function arguments); as such, mezzio defines an additional method for
 piping service-driven error handling middleware, `pipeErrorHandler()`. The
 method has the same signature as `pipe()`:
 
@@ -58,7 +58,7 @@ This method will return a closure using the error middleware signature.
 Routing is the process of discovering values from the incoming request based on
 defined criteria. That criteria might look like:
 
-- `/book/:id` (ZF2)
+- `/book/:id` (Laminas)
 - `/book/{id}` (Aura.Router)
 - `/book/{id:\d+}` (FastRoute)
 
@@ -82,7 +82,7 @@ make such performance issues moot).
 
 ## When to Pipe
 
-In Expressive, we recommend that you pipe middleware in the following
+In Mezzio, we recommend that you pipe middleware in the following
 circumstances:
 
 - It should (potentially) run on every execution. Examples for such usage
@@ -92,7 +92,7 @@ circumstances:
     - Handling cookies
 - Error handling. Typically these should be piped after any normal middleware.
 - Application segregation. You can write re-usable middleware, potentially even
-  based off of Expressive, that contains its own routing logic, and compose it
+  based off of Mezzio, that contains its own routing logic, and compose it
   such that it only executes if it matches a sub-path.
 
 ## When to Route
@@ -112,7 +112,7 @@ to the application as routed middleware*.
 As noted in the earlier section on piping, piped middleware is *queued*, meaning
 it has a FIFO ("first in, first out") execution order.
 
-Additionally, zend-expressive's routing capabilities are themselves implemented
+Additionally, mezzio's routing capabilities are themselves implemented
 as piped middleware.
 
 As such, if you programmatically configure the router and add routes without
@@ -143,7 +143,7 @@ To sum:
 - Pipe error handling middleware *after* defining routes and/or *after* calling
   `Application::pipeRouteMiddleware()`.
 
-If you use the provided `Zend\Expressive\Container\ApplicationFactory` for
+If you use the provided `Mezzio\Container\ApplicationFactory` for
 retrieving your `Application` instance, you can do this by defining pre- and
 post-pipeline middleware, and the factory will ensure everything is registered
 correctly.
