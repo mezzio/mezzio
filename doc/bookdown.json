@@ -1,5 +1,5 @@
 {
-  "title": "zend-expressive: PSR-7 Middleware Microframework",
+  "title": "mezzio: PSR-7 Middleware Microframework",
   "content": [
     {"Intro": "../README.md"},
     {"Overview and Features": "book/features.md"},
@@ -14,7 +14,7 @@
     {"Emitters": "book/emitters.md"},
     {"Examples": "book/usage-examples.md"},
     "book/cookbook/bookdown.json",
-    {"Expressive Projects": "book/expressive-projects.md"}
+    {"Mezzio Projects": "book/mezzio-projects.md"}
   ],
   "target": "./html"
 }

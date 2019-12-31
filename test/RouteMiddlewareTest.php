@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive;
+namespace MezzioTest;
 
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Mezzio\Application;
+use Mezzio\Router\RouteResult;
+use Mezzio\Router\RouteResultObserverInterface;
+use Mezzio\Router\RouterInterface;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest;
-use Zend\Expressive\Application;
-use Zend\Expressive\Router\RouteResult;
-use Zend\Expressive\Router\RouteResultObserverInterface;
-use Zend\Expressive\Router\RouterInterface;
 
 class RouteMiddlewareTest extends TestCase
 {
@@ -28,7 +27,7 @@ class RouteMiddlewareTest extends TestCase
 
     public function setUp()
     {
-        $this->router    = $this->prophesize('Zend\Expressive\Router\RouterInterface');
+        $this->router    = $this->prophesize('Mezzio\Router\RouterInterface');
         $this->container = $this->mockContainerInterface();
     }
 
@@ -131,7 +130,7 @@ class RouteMiddlewareTest extends TestCase
         };
 
         $app = $this->getApplication();
-        $this->setExpectedException('Zend\Expressive\Exception\InvalidMiddlewareException', 'does not have');
+        $this->setExpectedException('Mezzio\Exception\InvalidMiddlewareException', 'does not have');
         $app->routeMiddleware($request, $response, $next);
     }
 
@@ -155,7 +154,7 @@ class RouteMiddlewareTest extends TestCase
         };
 
         $app = $this->getApplication();
-        $this->setExpectedException('Zend\Expressive\Exception\InvalidMiddlewareException', 'callable');
+        $this->setExpectedException('Mezzio\Exception\InvalidMiddlewareException', 'callable');
         $app->routeMiddleware($request, $response, $next);
     }
 
@@ -181,7 +180,7 @@ class RouteMiddlewareTest extends TestCase
             $this->fail('Should not enter $next');
         };
 
-        $this->setExpectedException('Zend\Expressive\Exception\InvalidMiddlewareException', 'callable');
+        $this->setExpectedException('Mezzio\Exception\InvalidMiddlewareException', 'callable');
         $app->routeMiddleware($request, $response, $next);
     }
 
@@ -262,7 +261,7 @@ class RouteMiddlewareTest extends TestCase
             $this->fail('Should not enter $next');
         };
 
-        $this->setExpectedException('Zend\Expressive\Exception\InvalidMiddlewareException', 'retrieve');
+        $this->setExpectedException('Mezzio\Exception\InvalidMiddlewareException', 'retrieve');
         $app->routeMiddleware($request, $response, $next);
     }
 
@@ -272,9 +271,9 @@ class RouteMiddlewareTest extends TestCase
     public function routerAdapters()
     {
         return [
-          'aura'       => [ 'Zend\Expressive\Router\AuraRouter' ],
-          'fast-route' => [ 'Zend\Expressive\Router\FastRouteRouter' ],
-          'zf2'        => [ 'Zend\Expressive\Router\ZendRouter' ],
+          'aura'       => [ 'Mezzio\Router\AuraRouter' ],
+          'fast-route' => [ 'Mezzio\Router\FastRouteRouter' ],
+          'laminas'        => [ 'Mezzio\Router\LaminasRouter' ],
         ];
     }
 
@@ -497,7 +496,7 @@ class RouteMiddlewareTest extends TestCase
     {
         $app = new Application(new $adapter);
 
-        // Add a route with Zend\Expressive\Router\Route::HTTP_METHOD_ANY
+        // Add a route with Mezzio\Router\Route::HTTP_METHOD_ANY
         $app->route('/foo', function ($req, $res, $next) {
             $res->getBody()->write('Middleware');
             return $res;

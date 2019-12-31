@@ -4,9 +4,9 @@
         {"Prepending a common path to all routes": "common-prefix-for-routes.md"},
         {"Route-specific middleware pipelines": "route-specific-pipeline.md"},
         {"Setting custom 404 page handling": "custom-404-page-handling.md"},
-        {"Registering custom view helpers when using zend-view": "using-custom-view-helpers.md"},
-        {"Using zend-form view helpers": "using-zend-form-view-helpers.md"},
-        {"Using Expressive from a subdirectory": "using-a-base-path.md"},
+        {"Registering custom view helpers when using laminas-view": "using-custom-view-helpers.md"},
+        {"Using laminas-form view helpers": "using-laminas-form-view-helpers.md"},
+        {"Using Mezzio from a subdirectory": "using-a-base-path.md"},
         {"Building modular applications": "modular-layout.md"}
     ]
 }

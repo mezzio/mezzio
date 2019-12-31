@@ -1,25 +1,24 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Mezzio\Container\WhoopsErrorHandlerFactory;
+use Mezzio\Template\TemplateRendererInterface;
+use Mezzio\WhoopsErrorHandler;
+use MezzioTest\ContainerTrait;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
-use Zend\Expressive\Container\WhoopsErrorHandlerFactory;
-use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\Expressive\WhoopsErrorHandler;
-use ZendTest\Expressive\ContainerTrait;
 
 /**
- * @covers Zend\Expressive\Container\WhoopsErrorHandlerFactory
+ * @covers Mezzio\Container\WhoopsErrorHandlerFactory
  */
 class WhoopsErrorHandlerFactoryTest extends TestCase
 {
@@ -33,8 +32,8 @@ class WhoopsErrorHandlerFactoryTest extends TestCase
         $whoops      = $this->prophesize(Whoops::class);
         $pageHandler = $this->prophesize(PrettyPageHandler::class);
         $this->container = $this->mockContainerInterface();
-        $this->injectServiceInContainer($this->container, 'Zend\Expressive\WhoopsPageHandler', $pageHandler->reveal());
-        $this->injectServiceInContainer($this->container, 'Zend\Expressive\Whoops', $whoops->reveal());
+        $this->injectServiceInContainer($this->container, 'Mezzio\WhoopsPageHandler', $pageHandler->reveal());
+        $this->injectServiceInContainer($this->container, 'Mezzio\Whoops', $whoops->reveal());
 
         $this->factory   = new WhoopsErrorHandlerFactory();
     }
@@ -59,7 +58,7 @@ class WhoopsErrorHandlerFactoryTest extends TestCase
 
     public function testWillInjectTemplateNamesFromConfigurationWhenPresent()
     {
-        $config = ['zend-expressive' => ['error_handler' => [
+        $config = ['mezzio' => ['error_handler' => [
             'template_404'   => 'error::404',
             'template_error' => 'error::500',
         ]]];

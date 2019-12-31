@@ -1,30 +1,29 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive;
+namespace MezzioTest;
 
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Response\SapiEmitter;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequest as Request;
+use Laminas\Stratigility\Route as StratigilityRoute;
+use Mezzio\Application;
+use Mezzio\Emitter\EmitterStack;
+use Mezzio\Router\Route;
+use Mezzio\Router\RouteResult;
+use MezzioTest\TestAsset\InvokableMiddleware;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
 use ReflectionProperty;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Diactoros\ServerRequest as Request;
-use Zend\Diactoros\ServerRequest;
-use Zend\Expressive\Application;
-use Zend\Expressive\Emitter\EmitterStack;
-use Zend\Expressive\Router\Route;
-use Zend\Expressive\Router\RouteResult;
-use Zend\Stratigility\Route as StratigilityRoute;
-use ZendTest\Expressive\TestAsset\InvokableMiddleware;
 
 /**
- * @covers Zend\Expressive\Application
+ * @covers Mezzio\Application
  */
 class ApplicationTest extends TestCase
 {
@@ -35,7 +34,7 @@ class ApplicationTest extends TestCase
         $this->noopMiddleware = function ($req, $res, $next) {
         };
 
-        $this->router = $this->prophesize('Zend\Expressive\Router\RouterInterface');
+        $this->router = $this->prophesize('Mezzio\Router\RouterInterface');
     }
 
     public function getApp()
@@ -57,13 +56,13 @@ class ApplicationTest extends TestCase
     public function testConstructorAcceptsRouterAsAnArgument()
     {
         $app = $this->getApp();
-        $this->assertInstanceOf('Zend\Expressive\Application', $app);
+        $this->assertInstanceOf('Mezzio\Application', $app);
     }
 
     public function testApplicationIsAMiddlewarePipe()
     {
         $app = $this->getApp();
-        $this->assertInstanceOf('Zend\Stratigility\MiddlewarePipe', $app);
+        $this->assertInstanceOf('Laminas\Stratigility\MiddlewarePipe', $app);
     }
 
     public function testRouteMethodReturnsRouteInstance()
@@ -132,7 +131,7 @@ class ApplicationTest extends TestCase
     public function testCallingRouteWithOnlyAPathRaisesAnException()
     {
         $app = $this->getApp();
-        $this->setExpectedException('Zend\Expressive\Exception\InvalidArgumentException');
+        $this->setExpectedException('Mezzio\Exception\InvalidArgumentException');
         $app->route('/path');
     }
 
@@ -157,7 +156,7 @@ class ApplicationTest extends TestCase
     public function testCallingRouteWithAnInvalidPathTypeRaisesAnException($path)
     {
         $app = $this->getApp();
-        $this->setExpectedException('Zend\Expressive\Router\Exception\InvalidArgumentException');
+        $this->setExpectedException('Mezzio\Router\Exception\InvalidArgumentException');
         $app->route($path, 'middleware');
     }
 
@@ -224,7 +223,7 @@ class ApplicationTest extends TestCase
 
         $this->assertCount(1, $pipeline);
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $test  = $route->handler;
 
         $routeMiddleware = [$app, 'routeMiddleware'];
@@ -264,7 +263,7 @@ class ApplicationTest extends TestCase
 
     /**
      * @dataProvider uncallableMiddleware
-     * @expectedException \Zend\Expressive\Exception\InvalidMiddlewareException
+     * @expectedException \Mezzio\Exception\InvalidMiddlewareException
      */
     public function testThrowsExceptionWhenRoutingUncallableMiddleware($middleware)
     {
@@ -290,7 +289,7 @@ class ApplicationTest extends TestCase
 
         $this->assertCount(1, $pipeline);
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $test  = $route->handler;
 
         $this->assertSame($routeMiddleware, $test);
@@ -337,7 +336,7 @@ class ApplicationTest extends TestCase
 
     public function testAllowsInjectingEmitterAtInstantiation()
     {
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $app     = new Application(
             $this->router->reveal(),
             null,
@@ -358,7 +357,7 @@ class ApplicationTest extends TestCase
             return $finalResponse;
         };
 
-        $emitter = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $emitter = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $emitter->emit(
             Argument::type('Psr\Http\Message\ResponseInterface')
         )->shouldBeCalled();
@@ -407,7 +406,7 @@ class ApplicationTest extends TestCase
         $this->assertCount(1, $pipeline);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $this->assertSame([$app, 'routeMiddleware'], $route->handler);
         $this->assertEquals('/', $route->path);
     }
@@ -476,7 +475,7 @@ class ApplicationTest extends TestCase
         $pipeline = $r->getValue($app);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $handler = $route->handler;
 
         $this->assertEquals('invoked', $handler('foo', 'bar'));
@@ -502,7 +501,7 @@ class ApplicationTest extends TestCase
         $pipeline = $r->getValue($app);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $handler = $route->handler;
 
         $this->assertEquals('invoked', $handler('foo', 'bar', 'baz', 'bat'));
@@ -528,7 +527,7 @@ class ApplicationTest extends TestCase
         $pipeline = $r->getValue($app);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $handler = $route->handler;
 
         $this->assertEquals('invoked', $handler('foo', 'bar'));
@@ -554,7 +553,7 @@ class ApplicationTest extends TestCase
         $pipeline = $r->getValue($app);
 
         $route = $pipeline->dequeue();
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $handler = $route->handler;
 
         $this->assertEquals('invoked', $handler('foo', 'bar', 'baz', 'bat'));
