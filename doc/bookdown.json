@@ -1,5 +1,5 @@
 {
-  "title": "zend-expressive: PSR-7 Middleware Microframework",
+  "title": "mezzio: PSR-7 Middleware Microframework",
   "content": [
     {"Intro": "../README.md"},
     {"Overview and Features": "book/features.md"},
