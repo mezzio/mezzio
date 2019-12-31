@@ -1,22 +1,23 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
 use Closure;
+use Mezzio\Container\ServerRequestErrorResponseGeneratorFactory;
+use Mezzio\Response\ServerRequestErrorResponseGenerator;
+use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
-use Zend\Expressive\Container\ServerRequestErrorResponseGeneratorFactory;
-use Zend\Expressive\Response\ServerRequestErrorResponseGenerator;
-use Zend\Expressive\Template\TemplateRendererInterface;
 
 class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 {
@@ -26,7 +27,9 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         $container->has('config')->willReturn(false);
         $container->get('config')->shouldNotBeCalled();
         $container->has(TemplateRendererInterface::class)->willReturn(false);
+        $container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
         $container->get(TemplateRendererInterface::class)->shouldNotBeCalled();
+        $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)->shouldNotBeCalled();
 
         $exception = new RuntimeException();
         $container->get(ResponseInterface::class)->willThrow($exception);
@@ -43,7 +46,9 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         $container->has('config')->willReturn(false);
         $container->get('config')->shouldNotBeCalled();
         $container->has(TemplateRendererInterface::class)->willReturn(false);
+        $container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
         $container->get(TemplateRendererInterface::class)->shouldNotBeCalled();
+        $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)->shouldNotBeCalled();
 
         $responseFactory = function () {
         };
@@ -64,7 +69,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
     {
         $config = [
             'debug' => true,
-            'zend-expressive' => [
+            'mezzio' => [
                 'error_handler' => [
                     'template_error' => 'some::template',
                 ],
@@ -91,7 +96,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         $this->assertAttributeSame(true, 'debug', $generator);
         $this->assertAttributeSame($renderer, 'renderer', $generator);
         $this->assertAttributeSame(
-            $config['zend-expressive']['error_handler']['template_error'],
+            $config['mezzio']['error_handler']['template_error'],
             'template',
             $generator
         );

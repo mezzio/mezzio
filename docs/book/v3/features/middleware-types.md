@@ -1,6 +1,6 @@
 # Middleware Types
 
-Expressive allows you to compose applications out of _pipeline_ and _routed_
+Mezzio allows you to compose applications out of _pipeline_ and _routed_
 middleware.
 
 **Pipeline** middleware is middleware that defines the workflow of your
@@ -16,7 +16,7 @@ include such aspects as:
 HTTP methods. As an example, you might want middleware that only responds to
 HTTP POST requests to the path `/users`.
 
-Expressive allows you to define middleware using any of the following:
+Mezzio allows you to define middleware using any of the following:
 
 - [PSR-15 middleware](https://www.php-fig.org/psr/psr-15/) instances.
 - [PSR-15 request handler](https://www.php-fig.org/psr/psr-15/) instances.
@@ -27,7 +27,7 @@ Expressive allows you to define middleware using any of the following:
 ## PSR-15 middleware
 
 The PSR-15 specification covers HTTP server middleware and request handlers that
-consume [PSR-7](http://www.php-fig.org/psr/psr-7) HTTP messages. Expressive
+consume [PSR-7](http://www.php-fig.org/psr/psr-7) HTTP messages. Mezzio
 accepts both middleware that implements the `MiddlewareInterface` and request
 handlers that implement `RequestHandlerInterface`. As an example:
 
@@ -55,7 +55,7 @@ You could also implement such middleware via an anonymous class.
 ## Callable middleware
 
 Sometimes you may not want to create a class for one-off middleware. As such,
-Expressive allows you to provide a PHP callable that uses the same signature as
+Mezzio allows you to provide a PHP callable that uses the same signature as
 `Psr\Http\Server\MiddlewareInterface`:
 
 ```php
@@ -80,20 +80,20 @@ middleware.
 ## Service-based middleware
 
 We encourage the use of a dependency injection container for providing your
-middleware. As such, Expressive also allows you to use _service names_ for both
+middleware. As such, Mezzio also allows you to use _service names_ for both
 pipeline and routed middleware. Generally, service names will be the specific
 middleware class names, but can be any valid string that resolves to a service.
 
-When Expressive is provided a service name for middleware, it internally
-decorates the middleware in a `Zend\Expressive\Middleware\LazyLoadingMiddleware`
+When Mezzio is provided a service name for middleware, it internally
+decorates the middleware in a `Mezzio\Middleware\LazyLoadingMiddleware`
 instance, allowing it to be loaded only when dispatched.
 
 ## Middleware pipelines
 
-Expressive allows any pipeline or routed middleware to be self-contained
-[middleware pipelines](https://docs.zendframework.com/zend-stratigility/api/#middleware).
-To prevent the need for instantiating a `Zend\Stratigility\MiddlewarePipe` or
-`Zend\Expressive\Application` instance when defining the pipeline, Expressive
+Mezzio allows any pipeline or routed middleware to be self-contained
+[middleware pipelines](https://docs.laminas.dev/laminas-stratigility/api/#middleware).
+To prevent the need for instantiating a `Laminas\Stratigility\MiddlewarePipe` or
+`Mezzio\Application` instance when defining the pipeline, Mezzio
 allows you to provide an array of middleware:
 
 ```php

@@ -1,23 +1,24 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\Stratigility\MiddlewarePipeInterface;
+use Mezzio\Application;
+use Mezzio\ApplicationPipeline;
+use Mezzio\Container\ApplicationFactory;
+use Mezzio\MiddlewareFactory;
+use Mezzio\Router\Middleware\PathBasedRoutingMiddleware;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\ApplicationPipeline;
-use Zend\Expressive\Container\ApplicationFactory;
-use Zend\Expressive\MiddlewareFactory;
-use Zend\Expressive\Router\Middleware\PathBasedRoutingMiddleware;
-use Zend\HttpHandlerRunner\RequestHandlerRunner;
-use Zend\Stratigility\MiddlewarePipeInterface;
 
 class ApplicationFactoryTest extends TestCase
 {

@@ -1,6 +1,6 @@
 # Body Parsing Middleware
 
-`Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware` provides generic
+`Mezzio\Helper\BodyParams\BodyParamsMiddleware` provides generic
 [PSR-7](https://www.php-fig.org/psr/psr-7/) middleware for parsing the request
 body into parameters, and returning a new request instance that composes them.
 The subcomponent provides a strategy pattern around matching the request
@@ -25,7 +25,7 @@ Alternately, register it via configuration, if using configuration-based applica
 
 ```php
 // config/autoload/middleware-pipeline.global.php
-use Zend\Expressive\Helper;
+use Mezzio\Helper;
 
 return [
     'dependencies' => [
@@ -42,9 +42,9 @@ return [
         /* ... */
         'routing' => [
             'middleware' => [
-                Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
                 Helper\UrlHelperMiddleware::class,
-                Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
         ],
@@ -67,7 +67,7 @@ If using a configuration-based application:
 
 ```php
 // config/autoload/routes.global.php
-use Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware;
+use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 
 return [
     'dependencies' => [
@@ -103,10 +103,10 @@ can accomplish that.
 ## Strategies
 
 If you want to intercept and parse other payload types, you can add *strategies*
-to the middleware. Strategies implement `Zend\Expressive\Helper\BodyParams\StrategyInterface`:
+to the middleware. Strategies implement `Mezzio\Helper\BodyParams\StrategyInterface`:
 
 ```php
-namespace Zend\Expressive\Helper\BodyParams;
+namespace Mezzio\Helper\BodyParams;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -142,7 +142,7 @@ registration in the `factories` section of the `middleware-pipeline.config.php`
 file:
 
 ```php
-use Zend\Expressive\Helper\BodyParams\BodyParamsMiddleware;
+use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 
 class MyCustomBodyParamsStrategyFactory
 {
@@ -155,7 +155,7 @@ class MyCustomBodyParamsStrategyFactory
 }
 
 // In config/autoload/middleware-pipeline.config.php:
-use Zend\Expressive\Helper;
+use Mezzio\Helper;
 
 return [
     'dependencies' => [
@@ -177,8 +177,8 @@ return [
 
 By default, `BodyParamsMiddleware` composes the following strategies:
 
-- `Zend\Expressive\Helper\BodyParams\FormUrlEncodedStrategy`
-- `Zend\Expressive\Helper\BodyParams\JsonStrategy`
+- `Mezzio\Helper\BodyParams\FormUrlEncodedStrategy`
+- `Mezzio\Helper\BodyParams\JsonStrategy`
 
 These provide the most basic approaches to parsing the request body. They
 operate in the order they do to ensure the most common content type &mdash;
