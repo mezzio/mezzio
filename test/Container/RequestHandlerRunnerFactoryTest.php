@@ -1,14 +1,20 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Container;
+namespace MezzioTest\Container;
 
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Mezzio\ApplicationPipeline;
+use Mezzio\Container\RequestHandlerRunnerFactory;
+use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Container\ContainerInterface;
@@ -18,11 +24,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 use ReflectionProperty;
 use RuntimeException;
 use Throwable;
-use Zend\Expressive\ApplicationPipeline;
-use Zend\Expressive\Container\RequestHandlerRunnerFactory;
-use Zend\Expressive\Response\ServerRequestErrorResponseGenerator;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
-use Zend\HttpHandlerRunner\RequestHandlerRunner;
 
 class RequestHandlerRunnerFactoryTest extends TestCase
 {
