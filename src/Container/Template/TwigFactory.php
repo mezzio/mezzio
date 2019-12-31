@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Container\Template;
+namespace Mezzio\Container\Template;
 
 use Interop\Container\ContainerInterface;
+use Mezzio\Router\RouterInterface;
+use Mezzio\Template\Twig;
 use Twig_Environment as TwigEnvironment;
 use Twig_Extension_Debug as TwigExtensionDebug;
 use Twig_Loader_Filesystem as TwigLoader;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Template\Twig;
 
 /**
  * Create and return a Twig template instance.

@@ -40,7 +40,7 @@ return $containerBuilder->newConfiguredInstance([
 ]);
 ```
 
-The bare minimum `ContainerConfig` code needed to make zend-expressive work is:
+The bare minimum `ContainerConfig` code needed to make mezzio work is:
 
 ```php
 <?php
@@ -53,13 +53,13 @@ use Aura\Router\Generator;
 use Aura\Router\RouteCollection;
 use Aura\Router\RouteFactory;
 use Aura\Router\Router;
-use Zend\Escaper\Escaper;
-use Zend\Expressive\Application;
-use Zend\Expressive\Container;
-use Zend\Expressive\Router\AuraRouter;
-use Zend\Expressive\Router\Route;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Template;
+use Laminas\Escaper\Escaper;
+use Mezzio\Application;
+use Mezzio\Container;
+use Mezzio\Router\AuraRouter;
+use Mezzio\Router\Route;
+use Mezzio\Router\RouterInterface;
+use Mezzio\Template;
 
 class Common extends ContainerConfig
 {
@@ -85,18 +85,18 @@ class Common extends ContainerConfig
         // These next two can be added in any environment; they won't be used unless
         // you add the WhoopsErrorHandler as the FinalHandler implementation:
         $di->set(Container\WhoopsFactory::class, $di->lazyNew(Container\WhoopsFactory::class));
-        $di->set('Zend\Expressive\Whoops', $di->lazyGetCall(Container\WhoopsFactory::class, '__invoke', $di));
+        $di->set('Mezzio\Whoops', $di->lazyGetCall(Container\WhoopsFactory::class, '__invoke', $di));
         $di->set(Container\WhoopsPageHandlerFactory::class, $di->lazyNew(Container\WhoopsPageHandlerFactory::class));
-        $di->set('Zend\Expressive\WhoopsPageHandler', $di->lazyGetCall(Container\WhoopsPageHandlerFactory::class, '__invoke', $di));
+        $di->set('Mezzio\WhoopsPageHandler', $di->lazyGetCall(Container\WhoopsPageHandlerFactory::class, '__invoke', $di));
 
         // Error Handling
 
         // If in development:
         $di->set(Container\WhoopsErrorHandlerFactory::class, $di->lazyNew(Container\WhoopsErrorHandlerFactory::class));
-        $di->set('Zend\Expressive\FinalHandler', $di->lazyGetCall(Container\WhoopsErrorHandlerFactory::class, '__invoke', $di));
+        $di->set('Mezzio\FinalHandler', $di->lazyGetCall(Container\WhoopsErrorHandlerFactory::class, '__invoke', $di));
 
         // If in production:
-        // $di->set('Zend\Expressive\FinalHandler', $di->lazyGetCall(Container\TemplatedErrorHandlerFactory::class, '__invoke', $di));
+        // $di->set('Mezzio\FinalHandler', $di->lazyGetCall(Container\TemplatedErrorHandlerFactory::class, '__invoke', $di));
     }
 
     public function modify(Container $di)
@@ -120,6 +120,6 @@ Your bootstrap (typically `public/index.php`) will then look like this:
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 $container = require 'config/services.php';
-$app = $container->get('Zend\Expressive\Application');
+$app = $container->get('Mezzio\Application');
 $app->run();
 ```

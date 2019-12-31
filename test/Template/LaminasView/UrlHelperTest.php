@@ -1,20 +1,19 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Template\ZendView;
+namespace MezzioTest\Template\LaminasView;
 
 use ArrayObject;
+use Mezzio\Exception;
+use Mezzio\Router\RouteResult;
+use Mezzio\Router\RouterInterface;
+use Mezzio\Template\LaminasView\UrlHelper;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Expressive\Exception;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Router\RouteResult;
-use Zend\Expressive\Template\ZendView\UrlHelper;
 
 class UrlHelperTest extends TestCase
 {

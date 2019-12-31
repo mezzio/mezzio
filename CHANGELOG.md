@@ -6,15 +6,15 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#128](https://github.com/zendframework/zend-expressive/pull/128) adds
+- [zendframework/zend-expressive#128](https://github.com/zendframework/zend-expressive/pull/128) adds
   container factories for each supported template implementation:
-  - `Zend\Expressive\Container\Template\PlatesFactory`
-  - `Zend\Expressive\Container\Template\TwigFactory`
-  - `Zend\Expressive\Container\Template\ZendViewFactory`
-- [#128](https://github.com/zendframework/zend-expressive/pull/128) adds
-  custom `url` and `serverUrl` zend-view helper implementations, to allow
+  - `Mezzio\Container\Template\PlatesFactory`
+  - `Mezzio\Container\Template\TwigFactory`
+  - `Mezzio\Container\Template\LaminasViewFactory`
+- [zendframework/zend-expressive#128](https://github.com/zendframework/zend-expressive/pull/128) adds
+  custom `url` and `serverUrl` laminas-view helper implementations, to allow
   integration with any router and with PSR-7 URI instances. The newly
-  added `ZendViewFactory` will inject these into the `HelperPluginManager` by
+  added `LaminasViewFactory` will inject these into the `HelperPluginManager` by
   default.
 
 ### Deprecated
@@ -27,7 +27,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#128](https://github.com/zendframework/zend-expressive/pull/128) fixes an
+- [zendframework/zend-expressive#128](https://github.com/zendframework/zend-expressive/pull/128) fixes an
   expectation in the `WhoopsErrorHandler` tests to ensure the tests can run
   successfully.
 
@@ -47,7 +47,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#125](https://github.com/zendframework/zend-expressive/pull/125) fixes the
+- [zendframework/zend-expressive#125](https://github.com/zendframework/zend-expressive/pull/125) fixes the
   `WhoopsErrorHandler` to ensure it pushes the "pretty page handler" into the
   Whoops runtime.
 
@@ -55,14 +55,14 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#116](https://github.com/zendframework/zend-expressive/pull/116) adds
+- [zendframework/zend-expressive#116](https://github.com/zendframework/zend-expressive/pull/116) adds
   `Application::any()` to complement the various HTTP-specific routing methods;
   it has the same signature as `get()`, `post()`, `patch()`, et al, but allows
   any HTTP method.
-- [#120](https://github.com/zendframework/zend-expressive/pull/120) renames the
+- [zendframework/zend-expressive#120](https://github.com/zendframework/zend-expressive/pull/120) renames the
   router classes for easier discoverability, to better reflect their usage, and
   for better naming consistency. `Aura` becomes `AuraRouter`, `FastRoute`
-  becomes `FastRouteRouter` and `Zf2` becomes `Zf2Router`.
+  becomes `FastRouteRouter` and `Laminas` becomes `LaminasRouter`.
 
 ### Deprecated
 
@@ -70,9 +70,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- [#120](https://github.com/zendframework/zend-expressive/pull/120) removes the
-  classes `Zend\Expressive\Router\Aura`, `Zend\Expressive\Router\FastRoute`, and
-  `Zend\Expressive\Router\Zf`, per the "Added" section above.
+- [zendframework/zend-expressive#120](https://github.com/zendframework/zend-expressive/pull/120) removes the
+  classes `Mezzio\Router\Aura`, `Mezzio\Router\FastRoute`, and
+  `Mezzio\Router\Laminas`, per the "Added" section above.
 
 ### Fixed
 
@@ -82,8 +82,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#112](https://github.com/zendframework/zend-expressive/pull/112) adds a
-  chapter to the documentation on using Aura.Di (v3beta) with zend-expressive.
+- [zendframework/zend-expressive#112](https://github.com/zendframework/zend-expressive/pull/112) adds a
+  chapter to the documentation on using Aura.Di (v3beta) with mezzio.
 
 ### Deprecated
 
@@ -95,7 +95,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#118](https://github.com/zendframework/zend-expressive/pull/118) fixes an
+- [zendframework/zend-expressive#118](https://github.com/zendframework/zend-expressive/pull/118) fixes an
   issue whereby route options specified via configuration were not being pushed
   into generated `Route` instances before being passed to the underlying router.
 

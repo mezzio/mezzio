@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Template\Twig;
+namespace Mezzio\Template\Twig;
 
+use Mezzio\Router\RouterInterface;
+use Mezzio\Template\Twig\TwigExtension;
 use PHPUnit_Framework_TestCase as TestCase;
 use Twig_SimpleFunction as SimpleFunction;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Template\Twig\TwigExtension;
 
 class TwigExtensionTest extends TestCase
 {
@@ -47,7 +46,7 @@ class TwigExtensionTest extends TestCase
     public function testExtensionIsNamed()
     {
         $extension = $this->createExtension('', '');
-        $this->assertEquals('zend-expressive', $extension->getName());
+        $this->assertEquals('mezzio', $extension->getName());
     }
 
     public function testRegistersTwigFunctionsForPathAndAsset()
