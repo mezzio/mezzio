@@ -1,10 +1,10 @@
-# How do you register custom view helpers when using zend-view?
+# How do you register custom view helpers when using laminas-view?
 
-If you've selected zend-view as your preferred template renderer, you may want
+If you've selected laminas-view as your preferred template renderer, you may want
 to define and use custom view helpers. How can you use them?
 
-Assuming you've used the Expressive skeleton to start your application, you will
-already have a factory defined for `Zend\View\HelperPluginManager`, and it will
+Assuming you've used the Mezzio skeleton to start your application, you will
+already have a factory defined for `Laminas\View\HelperPluginManager`, and it will
 be injected into the `PhpRenderer` instance used. Since the `HelperPluginManager`
 is available, we can configure it.
 
@@ -22,5 +22,5 @@ return [
 The last is the one you want. In this, you can define service mappings,
 including aliases, invokables, factories, and abstract factories to define how
 helpers are named and created.
-[See the zend-view custom helpers documentation](https://docs.zendframework.com/zend-view/helpers/advanced-usage/)
+[See the laminas-view custom helpers documentation](https://docs.laminas.dev/laminas-view/helpers/advanced-usage/)
 for information on how to populate this configuration.

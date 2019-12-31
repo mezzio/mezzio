@@ -1,13 +1,14 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Container;
+namespace Mezzio\Container;
 
 use Psr\Container\ContainerInterface;
 use Whoops\Handler\PrettyPageHandler;
@@ -15,7 +16,7 @@ use Whoops\Handler\PrettyPageHandler;
 /**
  * Create and return an instance of the whoops PrettyPageHandler.
  *
- * Register this factory as the service `Zend\Expressive\WhoopsPageHandler` in
+ * Register this factory as the service `Mezzio\WhoopsPageHandler` in
  * the container of your choice.
  *
  * This service has an optional dependency on the "config" service, which should

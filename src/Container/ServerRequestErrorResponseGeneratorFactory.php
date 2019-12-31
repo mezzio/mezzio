@@ -1,19 +1,20 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Container;
+namespace Mezzio\Container;
 
+use Mezzio\Middleware\ErrorResponseGenerator;
+use Mezzio\Response\ServerRequestErrorResponseGenerator;
+use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Expressive\Middleware\ErrorResponseGenerator;
-use Zend\Expressive\Response\ServerRequestErrorResponseGenerator;
-use Zend\Expressive\Template\TemplateRendererInterface;
 
 class ServerRequestErrorResponseGeneratorFactory
 {
@@ -24,9 +25,11 @@ class ServerRequestErrorResponseGeneratorFactory
 
         $renderer = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
-            : null;
+            : ($container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)
+                ? $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)
+                : null);
 
-        $template = $config['zend-expressive']['error_handler']['template_error']
+        $template = $config['mezzio']['error_handler']['template_error']
             ?? ServerRequestErrorResponseGenerator::TEMPLATE_DEFAULT;
 
         return new ServerRequestErrorResponseGenerator(
