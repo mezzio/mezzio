@@ -1,11 +1,11 @@
 # The Template Renderer Interface
 
-Expressive defines `Zend\Expressive\Template\TemplateRendererInterface`, which can be
+Mezzio defines `Mezzio\Template\TemplateRendererInterface`, which can be
 injected into middleware in order to create templated response bodies. The
 interface is defined as follows:
 
 ```php
-namespace Zend\Expressive\Template;
+namespace Mezzio\Template;
 
 interface TemplateRendererInterface
 {
@@ -69,7 +69,7 @@ interface TemplateRendererInterface
 >
 > - Plates uses the syntax `namespace::template`.
 > - Twig uses the syntax `@namespace/template`.
-> - zend-view does not natively support namespaces, though custom resolvers
+> - laminas-view does not natively support namespaces, though custom resolvers
 >   can provide the functionality.
 >
 > To make different engines compatible, we require implementations to support
@@ -92,7 +92,7 @@ the actual template. You may use the `addPath()` method to do so:
 $renderer->addPath('templates');
 ```
 
-Template engines adapted for zend-expressive are also required to allow
+Template engines adapted for mezzio are also required to allow
 *namespacing* templates; when adding a path, you specify the template
 *namespace* that it fulfills, and the engine will only return a template from
 that path if the namespace provided matches the namespace for the path.
@@ -188,5 +188,5 @@ Then we can expect the following substitutions will occur when rendering:
 > cases, the implementation will indicate its behavior when default parameters
 > are specified, but a given `$params` argument does not support it.
 >
-> At the time of writing, each of the Plates, Twig, and zend-view
+> At the time of writing, each of the Plates, Twig, and laminas-view
 > implementations support the feature.
