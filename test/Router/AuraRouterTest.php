@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Router;
+namespace MezzioTest\Router;
 
+use Mezzio\Router\AuraRouter;
+use Mezzio\Router\Route;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Expressive\Router\AuraRouter;
-use Zend\Expressive\Router\Route;
 
 class AuraRouterTest extends TestCase
 {
@@ -92,7 +91,7 @@ class AuraRouterTest extends TestCase
 
         $router = $this->getRouter();
         $result = $router->match($request->reveal());
-        $this->assertInstanceOf('Zend\Expressive\Router\RouteResult', $result);
+        $this->assertInstanceOf('Mezzio\Router\RouteResult', $result);
         $this->assertTrue($result->isSuccess());
         $this->assertEquals('/foo', $result->getMatchedRouteName());
         $this->assertEquals('foo', $result->getMatchedMiddleware());
@@ -123,7 +122,7 @@ class AuraRouterTest extends TestCase
 
         $router = $this->getRouter();
         $result = $router->match($request->reveal());
-        $this->assertInstanceOf('Zend\Expressive\Router\RouteResult', $result);
+        $this->assertInstanceOf('Mezzio\Router\RouteResult', $result);
         $this->assertTrue($result->isFailure());
         $this->assertSame(['POST'], $result->getAllowedMethods());
     }
@@ -146,7 +145,7 @@ class AuraRouterTest extends TestCase
 
         $router = $this->getRouter();
         $result = $router->match($request->reveal());
-        $this->assertInstanceOf('Zend\Expressive\Router\RouteResult', $result);
+        $this->assertInstanceOf('Mezzio\Router\RouteResult', $result);
         $this->assertTrue($result->isFailure());
         $this->assertFalse($result->isMethodFailure());
         $this->assertSame([], $result->getAllowedMethods());
@@ -195,7 +194,7 @@ class AuraRouterTest extends TestCase
 
         $router = $this->getRouter();
         $result = $router->match($request->reveal());
-        $this->assertInstanceOf('Zend\Expressive\Router\RouteResult', $result);
+        $this->assertInstanceOf('Mezzio\Router\RouteResult', $result);
         $this->assertTrue($result->isFailure());
         $this->assertFalse($result->isMethodFailure());
         $this->assertSame([], $result->getAllowedMethods());

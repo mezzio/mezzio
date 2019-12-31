@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive\Emitter;
+namespace MezzioTest\Emitter;
 
+use Mezzio\Emitter\EmitterStack;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
-use Zend\Expressive\Emitter\EmitterStack;
 
 class EmitterStackTest extends TestCase
 {
@@ -27,7 +26,7 @@ class EmitterStackTest extends TestCase
 
     public function testIsAnEmitterImplementation()
     {
-        $this->assertInstanceOf('Zend\Diactoros\Response\EmitterInterface', $this->emitter);
+        $this->assertInstanceOf('Laminas\Diactoros\Response\EmitterInterface', $this->emitter);
     }
 
     public function nonEmitterValues()
@@ -41,7 +40,7 @@ class EmitterStackTest extends TestCase
             'zero-float' => [0.0],
             'float'      => [1.1],
             'string'     => ['emitter'],
-            'array'      => [[$this->prophesize('Zend\Diactoros\Response\EmitterInterface')->reveal()]],
+            'array'      => [[$this->prophesize('Laminas\Diactoros\Response\EmitterInterface')->reveal()]],
             'object'     => [(object)[]],
         ];
     }
@@ -75,14 +74,14 @@ class EmitterStackTest extends TestCase
 
     public function testEmitLoopsThroughEmittersUntilOneReturnsNonFalseValue()
     {
-        $first = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $first = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $first->emit()->shouldNotBeCalled();
 
-        $second = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $second = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $second->emit(Argument::type('Psr\Http\Message\ResponseInterface'))
             ->willReturn(null);
 
-        $third = $this->prophesize('Zend\Diactoros\Response\EmitterInterface');
+        $third = $this->prophesize('Laminas\Diactoros\Response\EmitterInterface');
         $third->emit(Argument::type('Psr\Http\Message\ResponseInterface'))
             ->willReturn(false);
 
