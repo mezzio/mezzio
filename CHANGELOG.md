@@ -6,55 +6,55 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#551](https://github.com/zendframework/zend-expressive/pull/551) and
-  [#553](https://github.com/zendframework/zend-expressive/pull/553) add
-  `Zend\Expressive\Container\StreamFactoryFactory`, for producing an callable
+- [zendframework/zend-expressive#551](https://github.com/zendframework/zend-expressive/pull/551) and
+  [zendframework/zend-expressive#553](https://github.com/zendframework/zend-expressive/pull/553) add
+  `Mezzio\Container\StreamFactoryFactory`, for producing an callable
   capable of producing an empty, writable PSR-7 `StreamInterface` instance using
-  zend-diactoros. The stream produced is backed by a `php://temp` stream.
+  laminas-diactoros. The stream produced is backed by a `php://temp` stream.
 
-- [#551](https://github.com/zendframework/zend-expressive/pull/551) and
-  [#554](https://github.com/zendframework/zend-expressive/pull/554) add
-  the following constants under the `Zend\Expressive` namespace:
+- [zendframework/zend-expressive#551](https://github.com/zendframework/zend-expressive/pull/551) and
+  [zendframework/zend-expressive#554](https://github.com/zendframework/zend-expressive/pull/554) add
+  the following constants under the `Mezzio` namespace:
 
   - `DEFAULT_DELEGATE` can be used to refer to the former `DefaultDelegate` FQCN service.
-  - `IMPLICIT_HEAD_MIDDLEWARE` can be used to refer to the former `Zend\Expressive\Router\Middleware\ImplicitHeadMiddleware` service.
-  - `IMPLICIT_OPTIONS_MIDDLEWARE` can be used to refer to the former `Zend\Expressive\Router\Middleware\ImplicitOPTIONSMiddleware` service.
-  - `NOT_FOUND_MIDDLEWARE` can be used to refer to the former `Zend\Expressive\Middleware\NotFoundMiddleware` service.
-  - `NOT_FOUND_RESPONSE` can be used to refer to the former `Zend\Expressive\Response\NotFoundResponseInterface` service.
-  - `SERVER_REQUEST_ERROR_RESPONSE_GENERATOR` can be used to refer to the former `Zend\Expressive\ServerRequestErrorResponseGenerator` service.
-  - `SERVER_REQUEST_FACTORY` can be used to refer to the former `Zend\Expressive\ServerRequestFactory` service.
+  - `IMPLICIT_HEAD_MIDDLEWARE` can be used to refer to the former `Mezzio\Router\Middleware\ImplicitHeadMiddleware` service.
+  - `IMPLICIT_OPTIONS_MIDDLEWARE` can be used to refer to the former `Mezzio\Router\Middleware\ImplicitOPTIONSMiddleware` service.
+  - `NOT_FOUND_MIDDLEWARE` can be used to refer to the former `Mezzio\Middleware\NotFoundMiddleware` service.
+  - `NOT_FOUND_RESPONSE` can be used to refer to the former `Mezzio\Response\NotFoundResponseInterface` service.
+  - `SERVER_REQUEST_ERROR_RESPONSE_GENERATOR` can be used to refer to the former `Mezzio\ServerRequestErrorResponseGenerator` service.
+  - `SERVER_REQUEST_FACTORY` can be used to refer to the former `Mezzio\ServerRequestFactory` service.
 
 ### Changed
 
-- [#551](https://github.com/zendframework/zend-expressive/pull/551) updates
-  dependencies to pin to zend-expressive-router 3.0.0alpha2 or later.
+- [zendframework/zend-expressive#551](https://github.com/zendframework/zend-expressive/pull/551) updates
+  dependencies to pin to mezzio-router 3.0.0alpha2 or later.
 
-- [#551](https://github.com/zendframework/zend-expressive/pull/551) renames
-  `Zend\Expressive\Middleware\NotFoundMiddleware` to
-  `Zend\Expressive\Handler\NotFoundHandler`, which allows it to be used as a
+- [zendframework/zend-expressive#551](https://github.com/zendframework/zend-expressive/pull/551) renames
+  `Mezzio\Middleware\NotFoundMiddleware` to
+  `Mezzio\Handler\NotFoundHandler`, which allows it to be used as a
   PSR-15 request handler, and, when piped or routed to, also as middleware.
   The original class name was aliased to the renamed class in the
   `ConfigProvider`.
 
-- [#551](https://github.com/zendframework/zend-expressive/pull/551) modifies the
+- [zendframework/zend-expressive#551](https://github.com/zendframework/zend-expressive/pull/551) modifies the
   `ApplicationConfigInjectionDelegator` to raise an exception if the callback
   passed to it does not produce an `Application` instance, instead of returning
   the instance without changes. This allows developers to understand what they
   need to correct in their service configuration.
 
-- [#551](https://github.com/zendframework/zend-expressive/pull/551) updates
-  the `ConfigProvider` to add entries for the following zend-expressive-router
+- [zendframework/zend-expressive#551](https://github.com/zendframework/zend-expressive/pull/551) updates
+  the `ConfigProvider` to add entries for the following mezzio-router
   constants as follows:
 
   - `IMPLICIT_HEAD_MIDDLEWARE_RESPONSE` maps to the `ResponseFactory`.
   - `IMPLICIT_HEAD_MIDDLEWARE_STREAM_FACTORY` maps to the `StreamFactory`.
   - `IMPLICIT_OPTIONS_MIDDLEWARE_RESPONSE` maps to the `ResponseFactory`.
 
-- [#554](https://github.com/zendframework/zend-expressive/pull/554) updates
+- [zendframework/zend-expressive#554](https://github.com/zendframework/zend-expressive/pull/554) updates
   the `ConfigProvider` to add entries for the following constants as follows:
 
-  - `IMPLICIT_HEAD_MIDDLEWARE` aliases to the `Zend\Expressive\Router\Middleware\ImplicitHeadMiddleware` service.
-  - `IMPLICIT_OPTIONS_MIDDLEWARE` aliases to the `Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware` service.
+  - `IMPLICIT_HEAD_MIDDLEWARE` aliases to the `Mezzio\Router\Middleware\ImplicitHeadMiddleware` service.
+  - `IMPLICIT_OPTIONS_MIDDLEWARE` aliases to the `Mezzio\Router\Middleware\ImplicitOptionsMiddleware` service.
 
 ### Deprecated
 
@@ -62,21 +62,21 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- [#551](https://github.com/zendframework/zend-expressive/pull/551) removes
-  `Zend\Expressive\Container\RouteMiddlewareFactory`, as zend-expressive-router
+- [zendframework/zend-expressive#551](https://github.com/zendframework/zend-expressive/pull/551) removes
+  `Mezzio\Container\RouteMiddlewareFactory`, as mezzio-router
   now provides a factory for the middleware.
 
-- [#551](https://github.com/zendframework/zend-expressive/pull/551) removes
-  `Zend\Expressive\Container\DispatchMiddlewareFactory`, as zend-expressive-router
+- [zendframework/zend-expressive#551](https://github.com/zendframework/zend-expressive/pull/551) removes
+  `Mezzio\Container\DispatchMiddlewareFactory`, as mezzio-router
   now provides a factory for the middleware.
 
-- [#551](https://github.com/zendframework/zend-expressive/pull/551) removes
-  `Zend\Expressive\Middleware\ImplicitHeadMiddleware`, as it is now provided by
-  the zend-expressive-router package.
+- [zendframework/zend-expressive#551](https://github.com/zendframework/zend-expressive/pull/551) removes
+  `Mezzio\Middleware\ImplicitHeadMiddleware`, as it is now provided by
+  the mezzio-router package.
 
-- [#551](https://github.com/zendframework/zend-expressive/pull/551) removes
-  `Zend\Expressive\Middleware\ImplicitOptionsMiddleware`, as it is now provided
-  by the zend-expressive-router package.
+- [zendframework/zend-expressive#551](https://github.com/zendframework/zend-expressive/pull/551) removes
+  `Mezzio\Middleware\ImplicitOptionsMiddleware`, as it is now provided
+  by the mezzio-router package.
 
 ### Fixed
 
@@ -90,25 +90,25 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- [#547](https://github.com/zendframework/zend-expressive/pull/547) modifies the
+- [zendframework/zend-expressive#547](https://github.com/zendframework/zend-expressive/pull/547) modifies the
   `ConfigProvider`, the `NotFoundMiddlewareFactory`, and the
   `RouteMiddlewareFactory` to remove the concept of the _unshared_
   `ResponseInterface` service, as service sharing is not always configurable in
   container implementations. To resolve the ability to provide discrete
   instances, the `ConfigProvider` defines two new virtual services that each
-  resolve to the `Zend\Expressive\Container\ResponseFactory`:
+  resolve to the `Mezzio\Container\ResponseFactory`:
 
-  - `Zend\Expressive\Response\NotFoundResponseInterface`
-  - `Zend\Expressive\Response\RouterResponseInterface`
+  - `Mezzio\Response\NotFoundResponseInterface`
+  - `Mezzio\Response\RouterResponseInterface`
 
   The related factories now consume these services in order to receive a
   response prototype for the services they produce.
 
-- [#542](https://github.com/zendframework/zend-expressive/pull/542) modifies the
+- [zendframework/zend-expressive#542](https://github.com/zendframework/zend-expressive/pull/542) modifies the
   `composer.json` to no longer suggest the pimple/pimple package, but rather the
   zendframework/zend-pimple-config package.
 
-- [#542](https://github.com/zendframework/zend-expressive/pull/542) modifies the
+- [zendframework/zend-expressive#542](https://github.com/zendframework/zend-expressive/pull/542) modifies the
   `composer.json` to no longer suggest the aura/di package, but rather the
   zendframework/zend-auradi-config package.
 
@@ -144,15 +144,15 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#549](https://github.com/zendframework/zend-expressive/pull/549) modifies how
+- [zendframework/zend-expressive#549](https://github.com/zendframework/zend-expressive/pull/549) modifies how
   the `ServerRequestFactoryFactory` returns the
   `ServerRequestFactory::fromGlobals()` mechanism, wrapping it in an anonymous
   function. This ensures compatibility across all containers.
 
-- [#550](https://github.com/zendframework/zend-expressive/pull/550) fixes how
+- [zendframework/zend-expressive#550](https://github.com/zendframework/zend-expressive/pull/550) fixes how
   the `ConfigProvider` references the `ErrorResponseGenerator`, using the
-  `Zend\Expressive\Middleware` namespace instead of the
-  `Zend\Stratigility\Middleware` namespace.
+  `Mezzio\Middleware` namespace instead of the
+  `Laminas\Stratigility\Middleware` namespace.
 
 ## 3.0.0alpha3 - 2018-02-06
 
@@ -162,16 +162,16 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- [#546](https://github.com/zendframework/zend-expressive/pull/546) merges
-  `Zend\Expressive\Middleware\NotFoundHandler` into
-  `Zend\Expressive\Middleware\NotFoundMiddleware`, as well as merges
-  `Zend\Expressive\Container\NotFoundHandlerFactory` into
-  `Zend\Expressive\Container\NotFoundMiddlewareFactory`. `NotFoundMiddleware`
-  now does the work of the former `Zend\Expressive\Delegate\NotFoundDelegate`,
+- [zendframework/zend-expressive#546](https://github.com/zendframework/zend-expressive/pull/546) merges
+  `Mezzio\Middleware\NotFoundHandler` into
+  `Mezzio\Middleware\NotFoundMiddleware`, as well as merges
+  `Mezzio\Container\NotFoundHandlerFactory` into
+  `Mezzio\Container\NotFoundMiddlewareFactory`. `NotFoundMiddleware`
+  now does the work of the former `Mezzio\Delegate\NotFoundDelegate`,
   and, as such, accepts the following constructor arguments:
 
   - PSR-7 `ResponseInterface $responsePrototype` (required)
-  - `Zend\Expressive\Template\TemplateRendererInterface $renderer` (optional)
+  - `Mezzio\Template\TemplateRendererInterface $renderer` (optional)
   - `string $template = self::TEMPLATE_DEFAULT` (optional; defaults to "error::404")
   - `string $layout = self::LAYOUT_DEFAULT` (optional; defaults to "layout::default")
 
@@ -181,11 +181,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- [#546](https://github.com/zendframework/zend-expressive/pull/546) removes the
-  class `Zend\Expressive\Delegate\DefaultDelegate`, as there is no longer a
+- [zendframework/zend-expressive#546](https://github.com/zendframework/zend-expressive/pull/546) removes the
+  class `Mezzio\Delegate\DefaultDelegate`, as there is no longer a
   concept of a default handler invoked by the application. Instead, developers
   MUST pipe middleware at the innermost layer of the pipeline guaranteed to
-  return a response; we recommend using `Zend\Expressive\Middleware\NotFoundMiddleware` 
+  return a response; we recommend using `Mezzio\Middleware\NotFoundMiddleware` 
   for this purpose.
 
 ### Fixed
@@ -196,12 +196,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) adds support
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) adds support
   for the final PSR-15 interfaces, and explicitly depends on
   psr/http-server-middleware.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) adds a new
-  class, `Zend\Expressive\MiddlewareContainer`. The class decorates a PSR-11
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) adds a new
+  class, `Mezzio\MiddlewareContainer`. The class decorates a PSR-11
   `ContainerInterface`, and adds the following behavior:
 
   - If a class is not in the container, but exists, `has()` will return `true`.
@@ -209,12 +209,12 @@ All notable changes to this project will be documented in this file, in reverse 
     instantiate it, caching the instance locally if it is valid.
   - Any instance pulled from the container or directly instantiated is tested.
     If it is a PSR-15 `RequestHandlerInterface`, it will decorate it in a
-    zend-stratigility `RequestHandlerMiddleware` instance. If the instance is
+    laminas-stratigility `RequestHandlerMiddleware` instance. If the instance is
     not a PSR-15 `MiddlewareInterface`, the container will raise a
-    `Zend\Expressive\Exception\InvalidMiddlewareException`.
+    `Mezzio\Exception\InvalidMiddlewareException`.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) adds a new
-  class, `Zend\Expressive\MiddlewareFactory`. The class composes a
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) adds a new
+  class, `Mezzio\MiddlewareFactory`. The class composes a
   `MiddlewareContainer`, and exposes the following methods:
 
   - `callable(callable $middleware) : CallableMiddlewareDecorator`
@@ -228,43 +228,43 @@ All notable changes to this project will be documented in this file, in reverse 
     `prepare()`, and the result to `MiddlewarePipe::pipe()`, returning the
     pipeline when complete.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) adds
-  the following factory classes, each within the `Zend\Expressive\Container`
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) adds
+  the following factory classes, each within the `Mezzio\Container`
   namespace:
 
   - `ApplicationPipelineFactory`: creates and returns a
-    `Zend\Stratigility\MiddlewarePipe` to use as the application middleware
+    `Laminas\Stratigility\MiddlewarePipe` to use as the application middleware
     pipeline.
-  - `DispatchMiddlewareFactory`: creates and returns a `Zend\Expressive\Router\DispatchMiddleware` instance.
+  - `DispatchMiddlewareFactory`: creates and returns a `Mezzio\Router\DispatchMiddleware` instance.
   - `EmitterFactory`: creates and returns a
-    `Zend\HttpHandlerRunner\Emitter\EmitterStack` instance composing an
+    `Laminas\HttpHandlerRunner\Emitter\EmitterStack` instance composing an
     `SapiEmitter` from that same namespace as the only emitter on the stack.
-    This is used as a dependency for the `Zend\HttpHandlerRunner\RequestHandlerRunner`
+    This is used as a dependency for the `Laminas\HttpHandlerRunner\RequestHandlerRunner`
     service.
-  - `MiddlewareContainerFactory`: creates and returns a `Zend\Expressive\MiddlewareContainer` 
+  - `MiddlewareContainerFactory`: creates and returns a `Mezzio\MiddlewareContainer` 
     instance decorating the PSR-11 container passed to the factory.
-  - `MiddlewareFactoryFactory`: creates and returns a `Zend\Expressive\MiddlewareFactory` 
+  - `MiddlewareFactoryFactory`: creates and returns a `Mezzio\MiddlewareFactory` 
     instance decorating a `MiddlewareContainer` instance as pulled from the
     container.
   - `RequestHandlerRunnerFactory`: creates and returns a
-    `Zend\HttpHandlerRunner\RequestHandlerRunner` instance, using the services
-    `Zend\Expressive\Application`, `Zend\HttpHandlerRunner\Emitter\EmitterInterface`,
-    `Zend\Expressive\ServerRequestFactory`, and `Zend\Expressive\ServerRequestErrorResponseGenerator`.
-  - `RouteMiddlewareFactory`: creates and returns a `Zend\Expressive\Router\PathBasedRoutingMiddleware` instance.
+    `Laminas\HttpHandlerRunner\RequestHandlerRunner` instance, using the services
+    `Mezzio\Application`, `Laminas\HttpHandlerRunner\Emitter\EmitterInterface`,
+    `Mezzio\ServerRequestFactory`, and `Mezzio\ServerRequestErrorResponseGenerator`.
+  - `RouteMiddlewareFactory`: creates and returns a `Mezzio\Router\PathBasedRoutingMiddleware` instance.
   - `ServerRequestFactoryFactory`: creates and returns a `callable` factory for
     generating a PSR-7 `ServerRequestInterface` instance; this returned factory is a
-    dependency for the `Zend\HttpHandlerRunner\RequestHandlerRunner` service.
+    dependency for the `Laminas\HttpHandlerRunner\RequestHandlerRunner` service.
   - `ServerRequestErrorResponseGeneratorFactory`: creates and returns a
     `callable` that accepts a PHP `Throwable` in order to generate a PSR-7
     `ResponseInterface` instance; this returned factory is a dependency for the
-    `Zend\HttpHandlerRunner\RequestHandlerRunner` service, which uses it to
+    `Laminas\HttpHandlerRunner\RequestHandlerRunner` service, which uses it to
     generate a response in the scenario that the `ServerRequestFactory` is
     unable to create a request instance.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) adds
-  the class `Zend\Expressive\Container\ApplicationConfigInjectionDelegator`.
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) adds
+  the class `Mezzio\Container\ApplicationConfigInjectionDelegator`.
   This class may be used either as a delegator factory on the
-  `Zend\Expressive\Application` instance, or you may use the two static methods
+  `Mezzio\Application` instance, or you may use the two static methods
   it defines to inject pipeline middleware and/or routes from configuration:
 
   - `injectPipelineFromConfig(Application $application, array $config) : void`
@@ -273,59 +273,59 @@ All notable changes to this project will be documented in this file, in reverse 
   These methods work the same way as the associated `Application` methods from
   version 2, accepting the same configuration.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) adds
-  `Zend\Expressive\ConfigProvider`, which details the default service mappings.
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) adds
+  `Mezzio\ConfigProvider`, which details the default service mappings.
 
 ### Changed
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) adds
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) adds
   dependencies on each of:
 
-  - zend-stratigility 3.0.0alpha3
-  - zend-expressive-router 3.0.0alpha1
-  - zend-httphandlerrunner 1.0.0
+  - laminas-stratigility 3.0.0alpha3
+  - mezzio-router 3.0.0alpha1
+  - laminas-httphandlerrunner 1.0.0
 
   and removes the dependency http-interop/http-server-middleware.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) renames
-  `Zend\Expressive\Middleware\NotFoundHandler` to
-  `Zend\Expressive\Middleware\NotFoundMiddleware`, and its accompanying factory
-  `Zend\Expressive\Container\NotFoundHandlerFactory` to
-  `Zend\Expressive\Container\NotFoundMiddlewareFactory`.
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) renames
+  `Mezzio\Middleware\NotFoundHandler` to
+  `Mezzio\Middleware\NotFoundMiddleware`, and its accompanying factory
+  `Mezzio\Container\NotFoundHandlerFactory` to
+  `Mezzio\Container\NotFoundMiddlewareFactory`.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) renames
-  `Zend\Expressive\Delegate\NotFoundDelegate` to
-  `Zend\Expressive\Handler\NotFoundHandler`, updating it to implement the PSR-15
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) renames
+  `Mezzio\Delegate\NotFoundDelegate` to
+  `Mezzio\Handler\NotFoundHandler`, updating it to implement the PSR-15
   `RequestHandlerInterface`. It also renames the factory
-  `Zend\Expressive\Container\NotFoundDelegateFactory` to
-  `Zend\Expressive\Container\NotFoundHandlerFactory`.
+  `Mezzio\Container\NotFoundDelegateFactory` to
+  `Mezzio\Container\NotFoundHandlerFactory`.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) refactors
-  `Zend\Expressive\Application` completely.
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) refactors
+  `Mezzio\Application` completely.
 
-  The class no longer extends `Zend\Stratigility\MiddlewarePipe`, and instead
+  The class no longer extends `Laminas\Stratigility\MiddlewarePipe`, and instead
   implements the PSR-15 `MiddlewareInterface` and `RequestHandlerInterface`.
 
   It now **requires** the following dependencies via constructor injection, in
   the following order:
 
-  - `Zend\Expressive\MiddlewareFactory`
-  - `Zend\Stratigility\MiddlewarePipe`; this is the pipeline representing the application.
-  - `Zend\Expressive\Router\PathBasedRoutingMiddleware`
-  - `Zend\HttpHandlerRunner\RequestHandlerRunner`
+  - `Mezzio\MiddlewareFactory`
+  - `Laminas\Stratigility\MiddlewarePipe`; this is the pipeline representing the application.
+  - `Mezzio\Router\PathBasedRoutingMiddleware`
+  - `Laminas\HttpHandlerRunner\RequestHandlerRunner`
 
   It removes all "getter" methods (as detailed in the "Removed" section of this
   release), but retains the following methods, with the changes described below.
   Please note: in most cases, these methods accept the same arguments as in the
   version 2 series, with the exception of callable double-pass middleware (these
-  may be decorated manually using `Zend\Stratigility\doublePassMiddleware()`),
+  may be decorated manually using `Laminas\Stratigility\doublePassMiddleware()`),
   and http-interop middleware (no longer supported; rewrite as PSR-15
   middleware).
 
   - `pipe($middlewareOrPath, $middleware = null) : void` passes its arguments to
     the composed `MiddlewareFactory`'s `prepare()` method; if two arguments are
     provided, the second is passed to the factory, and the two together are
-    passed to `Zend\Stratigility\path()` in order to decorate them to work as
+    passed to `Laminas\Stratigility\path()` in order to decorate them to work as
     middleware.  The prepared middleware is then piped to the composed
     `MiddlewarePipe` instance.
 
@@ -356,17 +356,17 @@ All notable changes to this project will be documented in this file, in reverse 
   - `run() : void` proxies to the composed `RequestHandlerRunner` instance.
     Please note that the method no longer accepts any arguments.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) modifies the
-  `Zend\Expressive\Container\ApplicationFactory` to reflect the changes to the
-  `Zend\Expressive\Application` class as detailed above. It pulls the following
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) modifies the
+  `Mezzio\Container\ApplicationFactory` to reflect the changes to the
+  `Mezzio\Application` class as detailed above. It pulls the following
   services to inject via the constructor:
 
-  - `Zend\Expressive\MiddlewareFactory`
-  - `Zend\Stratigility\ApplicationPipeline`, which should resolve to a
+  - `Mezzio\MiddlewareFactory`
+  - `Laminas\Stratigility\ApplicationPipeline`, which should resolve to a
     `MiddlewarePipe` instance; use the
-    `Zend\Expressive\Container\ApplicationPipelineFactory`.
-  - `Zend\Expressive\Router\PathBasedRoutingMiddleware`
-  - `Zend\HttpHandlerRunner\RequestHandlerRunner`
+    `Mezzio\Container\ApplicationPipelineFactory`.
+  - `Mezzio\Router\PathBasedRoutingMiddleware`
+  - `Laminas\HttpHandlerRunner\RequestHandlerRunner`
 
 ### Deprecated
 
@@ -374,38 +374,38 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) removes
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) removes
   support for http-interop/http-server-middleware.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) removes the
-  class `Zend\Expressive\Middleware\RouteMiddleware`. Use the
-  `PathBasedRoutingMiddleware` or `RouteMiddleware` from zend-expressive-router
-  instead; the factory `Zend\Expressive\Container\RouteMiddlewareFactory` will
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) removes the
+  class `Mezzio\Middleware\RouteMiddleware`. Use the
+  `PathBasedRoutingMiddleware` or `RouteMiddleware` from mezzio-router
+  instead; the factory `Mezzio\Container\RouteMiddlewareFactory` will
   return a `PathBasedRoutingMiddleware` instance for you.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) removes the
-  class `Zend\Expressive\Middleware\DispatchMiddleware`. Use the
-  `DispatchMiddleware` from zend-expressive-router instead; the factory
-  `Zend\Expressive\Container\DispatchMiddlewareFactory` will return an instance
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) removes the
+  class `Mezzio\Middleware\DispatchMiddleware`. Use the
+  `DispatchMiddleware` from mezzio-router instead; the factory
+  `Mezzio\Container\DispatchMiddlewareFactory` will return an instance
   for you.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) removes the
-  class `Zend\Expressive\Emitter\EmitterStack`; use the class
-  `Zend\HttpHandlerRunner\Emitter\EmitterStack` instead.
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) removes the
+  class `Mezzio\Emitter\EmitterStack`; use the class
+  `Laminas\HttpHandlerRunner\Emitter\EmitterStack` instead.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) removes the
-  following methods from `Zend\Expressive\Application`:
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) removes the
+  following methods from `Mezzio\Application`:
 
-  - `pipeRoutingMiddleware()`: use `pipe(\Zend\Expressive\Router\PathBasedRoutingMiddleware::class)` instead.
-  - `pipeDispatchMiddleware()`: use `pipe(\Zend\Expressive\Router\DispatchMiddleware::class)` instead.
+  - `pipeRoutingMiddleware()`: use `pipe(\Mezzio\Router\PathBasedRoutingMiddleware::class)` instead.
+  - `pipeDispatchMiddleware()`: use `pipe(\Mezzio\Router\DispatchMiddleware::class)` instead.
   - `getContainer()`
-  - `getDefaultDelegate()`: ensure you pipe middleware capable of returning a response at the innermost layer; this can be done by decorating a request handler using `Zend\Stratigility\Middleware\RequestHandlerMiddleware`, using `Zend\Expressive\Middleware\NotFoundMiddleware`, or other approaches.
-  - `getEmitter()`: use the `Zend\HttpHandlerRunner\Emitter\EmitterInterface` service from the container.
+  - `getDefaultDelegate()`: ensure you pipe middleware capable of returning a response at the innermost layer; this can be done by decorating a request handler using `Laminas\Stratigility\Middleware\RequestHandlerMiddleware`, using `Mezzio\Middleware\NotFoundMiddleware`, or other approaches.
+  - `getEmitter()`: use the `Laminas\HttpHandlerRunner\Emitter\EmitterInterface` service from the container.
   - `injectPipelineFromConfig()`: use the new `ApplicationConfigInjectionDelegator` and/or the static method of the same name it defines.
   - `injectRoutesFromConfig()`: use the new `ApplicationConfigInjectionDelegator` and/or the static method of the same name it defines.
 
-- [#543](https://github.com/zendframework/zend-expressive/pull/543) removes the
-  class `Zend\Expressive\AppFactory`.
+- [zendframework/zend-expressive#543](https://github.com/zendframework/zend-expressive/pull/543) removes the
+  class `Mezzio\AppFactory`.
 
 ### Fixed
 
@@ -415,10 +415,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#529](https://github.com/zendframework/zend-expressive/pull/529) adds support
+- [zendframework/zend-expressive#529](https://github.com/zendframework/zend-expressive/pull/529) adds support
   for http-interop/http-server-middleware (PSR-15 pre-cursor).
 
-- [#538](https://github.com/zendframework/zend-expressive/pull/538) adds scalar
+- [zendframework/zend-expressive#538](https://github.com/zendframework/zend-expressive/pull/538) adds scalar
   and return type hints to methods wherever possible.
 
 ### Changed
@@ -431,10 +431,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- [#529](https://github.com/zendframework/zend-expressive/pull/529) removes
+- [zendframework/zend-expressive#529](https://github.com/zendframework/zend-expressive/pull/529) removes
   support for PHP versions prior to PHP 7.1.
 
-- [#529](https://github.com/zendframework/zend-expressive/pull/529) removes
+- [zendframework/zend-expressive#529](https://github.com/zendframework/zend-expressive/pull/529) removes
   support for http-interop/http-middleware (previous PSR-15 iteration).
 
 ### Fixed
@@ -445,16 +445,16 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#480](https://github.com/zendframework/zend-expressive/pull/480) updates the
+- [zendframework/zend-expressive#480](https://github.com/zendframework/zend-expressive/pull/480) updates the
   `ImplicitHeadMiddleware` to add a request attribute indicating the request was
   originally generated for a `HEAD` request before delegating the request; you
-  can now pull the attribute `Zend\Expressive\Middleware\ImplicitHeadMiddleware::FORWARDED_HTTP_METHOD_ATTRIBUTE`
+  can now pull the attribute `Mezzio\Middleware\ImplicitHeadMiddleware::FORWARDED_HTTP_METHOD_ATTRIBUTE`
   in your own middleware in order to vary behavior in these scenarios.
 
 ### Changed
 
-- [#505](https://github.com/zendframework/zend-expressive/pull/505) modifies
-  `Zend\Expressive\Application` to remove implementation of `__call()` in favor
+- [zendframework/zend-expressive#505](https://github.com/zendframework/zend-expressive/pull/505) modifies
+  `Mezzio\Application` to remove implementation of `__call()` in favor
   of the following new methods:
 
   - `get($path, $middleware, $name = null)`
@@ -466,15 +466,15 @@ All notable changes to this project will be documented in this file, in reverse 
   This change is an internal implementation detail only, and will not affect
   existing implementations or extensions.
 
-- [#511](https://github.com/zendframework/zend-expressive/pull/511) modifies
+- [zendframework/zend-expressive#511](https://github.com/zendframework/zend-expressive/pull/511) modifies
   the `NotFoundDelegate` to accept an optional `$layout` argument to its
   constructor; the value defaults to `layout::default` if not provided. That
   value will be passed for the `layout` template variable when the delegate
-  renders a template, allowing zend-view users (and potentially other template
+  renders a template, allowing laminas-view users (and potentially other template
   systems) to customize the layout template used for reporting errors.
 
   You may provide the template via the configuration
-  `zend-expressive.error_handler.layout`.
+  `mezzio.error_handler.layout`.
 
 ### Deprecated
 
@@ -508,7 +508,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#534](https://github.com/zendframework/zend-expressive/pull/534) provides a
+- [zendframework/zend-expressive#534](https://github.com/zendframework/zend-expressive/pull/534) provides a
   fix for how it detects `callable` middleware. Previously, it relied on PHP's
   `is_callable()`, but that function can result in false positives when provided
   a 2-element array where the first element is an object, as the function does
@@ -535,11 +535,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#521](https://github.com/zendframework/zend-expressive/pull/521) adds an
+- [zendframework/zend-expressive#521](https://github.com/zendframework/zend-expressive/pull/521) adds an
   explicit requirement on http-interop/http-middleware `^0.4.1` to the package.
-  This is necessary as newer builds of zend-stratigility instead depend on the
+  This is necessary as newer builds of laminas-stratigility instead depend on the
   metapackage webimpress/http-middleware-compatibility instead of the
-  http-interop/http-middleware package — but middleware shipped in Expressive
+  http-interop/http-middleware package — but middleware shipped in Mezzio
   requires it. This addition fixes problems due to missing http-middleware
   interfaces.
 
@@ -547,9 +547,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#508](https://github.com/zendframework/zend-expressive/pull/508) adds
-  documentation covering `Zend\Expressive\Helper\ContentLengthMiddleware`,
-  introduced in zend-expressive-helpers 4.1.0.
+- [zendframework/zend-expressive#508](https://github.com/zendframework/zend-expressive/pull/508) adds
+  documentation covering `Mezzio\Helper\ContentLengthMiddleware`,
+  introduced in mezzio-helpers 4.1.0.
 
 ### Deprecated
 
@@ -561,12 +561,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#479](https://github.com/zendframework/zend-expressive/pull/479) fixes the
+- [zendframework/zend-expressive#479](https://github.com/zendframework/zend-expressive/pull/479) fixes the
   `WhoopsErrorResponseGenerator::$whoops` dockblock Type to support Whoops 1
   and 2.
-- [#482](https://github.com/zendframework/zend-expressive/pull/482) fixes the
+- [zendframework/zend-expressive#482](https://github.com/zendframework/zend-expressive/pull/482) fixes the
   `Application::$defaultDelegate` dockblock Type.
-- [#489](https://github.com/zendframework/zend-expressive/pull/489) fixes an
+- [zendframework/zend-expressive#489](https://github.com/zendframework/zend-expressive/pull/489) fixes an
   edge case in the `WhoopsErrorHandler` whereby it would emit an error if
   `$_SERVER['SCRIPT_NAME']` did not exist. It now checks for that value before
   attempting to use it.
@@ -579,9 +579,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- [#468](https://github.com/zendframework/zend-expressive/pull/468) updates
+- [zendframework/zend-expressive#468](https://github.com/zendframework/zend-expressive/pull/468) updates
   references to `DefaultDelegate::class` to instead use the string
-  `'Zend\Expressive\Delegate\DefaultDelegate'`; using the string makes it clear
+  `'Mezzio\Delegate\DefaultDelegate'`; using the string makes it clear
   that the service name does not resolve to an actual class.
 
 ### Deprecated
@@ -594,7 +594,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#476](https://github.com/zendframework/zend-expressive/pull/476) fixes the
+- [zendframework/zend-expressive#476](https://github.com/zendframework/zend-expressive/pull/476) fixes the
   `WhoopsErrorResponseGenerator` to ensure it returns a proper error status
   code, instead of using a `200 OK` status.
 
@@ -614,12 +614,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#467](https://github.com/zendframework/zend-expressive/pull/467) fixes an
+- [zendframework/zend-expressive#467](https://github.com/zendframework/zend-expressive/pull/467) fixes an
   issue when passing invokable, duck-typed, interop middleware to the
   application without registering it with the container. Prior to the patch, it
   was incorrectly being decorated by
-  `Zend\Stratigility\Middleware\CallableMiddlewareWrapper` instead of
-  `Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper`.
+  `Laminas\Stratigility\Middleware\CallableMiddlewareWrapper` instead of
+  `Laminas\Stratigility\Middleware\CallableInteropMiddlewareWrapper`.
 
 ## 2.0.1 - 2017-03-09
 
@@ -637,7 +637,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#464](https://github.com/zendframework/zend-expressive/pull/464) fixes the
+- [zendframework/zend-expressive#464](https://github.com/zendframework/zend-expressive/pull/464) fixes the
   `WhoopsErrorResponseGenerator` to provide a correct `Content-Type` header to
   the response when a JSON request occurs.
 
@@ -645,153 +645,153 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#450](https://github.com/zendframework/zend-expressive/pull/450) adds support
-  for [PSR-11](http://www.php-fig.org/psr/psr-11/); Expressive is now a PSR-11
+- [zendframework/zend-expressive#450](https://github.com/zendframework/zend-expressive/pull/450) adds support
+  for [PSR-11](http://www.php-fig.org/psr/psr-11/); Mezzio is now a PSR-11
   consumer.
 
-- [#428](https://github.com/zendframework/zend-expressive/pull/428) updates the
-  zend-stratigility dependency to require `^2.0`; this allows usage of both
-  the new middleare-based error handling system introduced in zend-stratigility
+- [zendframework/zend-expressive#428](https://github.com/zendframework/zend-expressive/pull/428) updates the
+  laminas-stratigility dependency to require `^2.0`; this allows usage of both
+  the new middleare-based error handling system introduced in laminas-stratigility
   1.3, as well as usage of [http-interop/http-middleware](https://github.com/http-interop/http-middleware)
-  implementations with Expressive. The following middleware is now supported:
+  implementations with Mezzio. The following middleware is now supported:
   - Implementations of `Interop\Http\ServerMiddleware\MiddlewareInterface`.
   - Callable middleware that implements the same signature as
     `Interop\Http\ServerMiddleware\MiddlewareInterface`.
   - Callable middleware using the legacy double-pass signature
     (`function ($request, $response, callable $next)`); these are now decorated
-    in `Zend\Stratigility\Middleware\CallableMiddlewareWrapper` instances.
+    in `Laminas\Stratigility\Middleware\CallableMiddlewareWrapper` instances.
   - Service names resolving to any of the above.
   - Arrays of any of the above; these will be cast to
-    `Zend\Stratigility\MiddlewarePipe` instances, piping each middleware.
+    `Laminas\Stratigility\MiddlewarePipe` instances, piping each middleware.
 
-- [#396](https://github.com/zendframework/zend-expressive/pull/396) adds
-  `Zend\Expressive\Middleware\NotFoundHandler`, which provides a way to return a
+- [zendframework/zend-expressive#396](https://github.com/zendframework/zend-expressive/pull/396) adds
+  `Mezzio\Middleware\NotFoundHandler`, which provides a way to return a
   templated 404 response to users. This middleware should be used as innermost
-  middleware. You may use the new `Zend\Expressive\Container\NotFoundHandlerFactory`
+  middleware. You may use the new `Mezzio\Container\NotFoundHandlerFactory`
   to generate the instance via your DI container.
 
-- [#396](https://github.com/zendframework/zend-expressive/pull/396) adds
-  `Zend\Expressive\Container\ErrorHandlerFactory`, for generating a
-  `Zend\Stratigility\Middleware\ErrorHandler` to use with your application.
-  If a `Zend\Expressive\Middleware\ErrorResponseGenerator` service is present in
+- [zendframework/zend-expressive#396](https://github.com/zendframework/zend-expressive/pull/396) adds
+  `Mezzio\Container\ErrorHandlerFactory`, for generating a
+  `Laminas\Stratigility\Middleware\ErrorHandler` to use with your application.
+  If a `Mezzio\Middleware\ErrorResponseGenerator` service is present in
   the container, it will be used to seed the `ErrorHandler` with a response
   generator. If you use this facility, you should enable the
-  `zend-expressive.raise_throwables` configuration flag.
+  `mezzio.raise_throwables` configuration flag.
 
-- [#396](https://github.com/zendframework/zend-expressive/pull/396) adds
-  `Zend\Expressive\Middleware\ErrorResponseGenerator` and
-  `Zend\Expressive\Middleware\WhoopsErrorResponseGenerator`, which may be used
-  with `Zend\Stratigility\Middleware\ErrorHandler` to generate error responses.
+- [zendframework/zend-expressive#396](https://github.com/zendframework/zend-expressive/pull/396) adds
+  `Mezzio\Middleware\ErrorResponseGenerator` and
+  `Mezzio\Middleware\WhoopsErrorResponseGenerator`, which may be used
+  with `Laminas\Stratigility\Middleware\ErrorHandler` to generate error responses.
   The first will generate templated error responses if a template renderer is
   composed, and the latter will generate Whoops output.
-  You may use the new `Zend\Expressive\Container\ErrorResponseGeneratorFactory`
-  and `Zend\Expressive\Container\WhoopsErrorResponseGeneratorFactory`,
+  You may use the new `Mezzio\Container\ErrorResponseGeneratorFactory`
+  and `Mezzio\Container\WhoopsErrorResponseGeneratorFactory`,
   respectively, to create these instances; if you do, assign these to the
-  service name `Zend\Expressive\Middleware\ErrorResponseGenerator` to have them
+  service name `Mezzio\Middleware\ErrorResponseGenerator` to have them
   automatically registered with the `ErrorHandler`.
 
-- [#396](https://github.com/zendframework/zend-expressive/pull/396) adds
-  `Zend\Expressive\ApplicationConfigInjectionTrait`, which exposes two methods,
+- [zendframework/zend-expressive#396](https://github.com/zendframework/zend-expressive/pull/396) adds
+  `Mezzio\ApplicationConfigInjectionTrait`, which exposes two methods,
   `injectRoutesFromConfig()` and `injectPipelineFromConfig()`; this trait is now
   composed into the `Application` class. These methods allow you to configure an
   `Application` instance from configuration if desired, and are now used by the
   `ApplicationFactory` to configure the `Application` instance.
 
-- [#396](https://github.com/zendframework/zend-expressive/pull/396) adds
-  a vendor binary, `vendor/bin/expressive-tooling`, which will install (or
-  uninstall) the [zend-expressive-tooling](https://github.com/zendframework/zend-expressive-tooling);
+- [zendframework/zend-expressive#396](https://github.com/zendframework/zend-expressive/pull/396) adds
+  a vendor binary, `vendor/bin/mezzio-tooling`, which will install (or
+  uninstall) the [mezzio-tooling](https://github.com/zendframework/zend-expressive-tooling);
   this package provides migration tools for updating your application to use
   programmatic pipelines and the new error handling strategy, as well as tools
   for identifying usage of the legacy Stratigility request and response
   decorators and error middleware.
 
-- [#413](https://github.com/zendframework/zend-expressive/pull/413) adds the
-  middleware `Zend\Expressive\Middleware\ImplicitHeadMiddleware`; this
+- [zendframework/zend-expressive#413](https://github.com/zendframework/zend-expressive/pull/413) adds the
+  middleware `Mezzio\Middleware\ImplicitHeadMiddleware`; this
   middleware can be used to provide implicit support for `HEAD` requests when
   the matched route does not explicitly support the method.
 
-- [#413](https://github.com/zendframework/zend-expressive/pull/413) adds the
-  middleware `Zend\Expressive\Middleware\ImplicitOptionsMiddleware`; this
+- [zendframework/zend-expressive#413](https://github.com/zendframework/zend-expressive/pull/413) adds the
+  middleware `Mezzio\Middleware\ImplicitOptionsMiddleware`; this
   middleware can be used to provide implicit support for `OPTIONS` requests when
   the matched route does not explicitly support the method; the returned 200
   response will also include an `Allow` header listing allowed HTTP methods for
   the URI.
 
-- [#426](https://github.com/zendframework/zend-expressive/pull/426) adds the
+- [zendframework/zend-expressive#426](https://github.com/zendframework/zend-expressive/pull/426) adds the
   method `Application::getRoutes()`, which will return the list of
-  `Zend\Expressive\Router\Route` instances currently registered with the
+  `Mezzio\Router\Route` instances currently registered with the
   application.
 
-- [#428](https://github.com/zendframework/zend-expressive/pull/428) adds the
-  class `Zend\Expressive\Delegate\NotFoundDelegate`, an
+- [zendframework/zend-expressive#428](https://github.com/zendframework/zend-expressive/pull/428) adds the
+  class `Mezzio\Delegate\NotFoundDelegate`, an
   `Interop\Http\ServerMiddleware\DelegateInterface` implementation. The class
   will return a 404 response; if a `TemplateRendererInterface` is available and
   injected into the delegate, it will provide templated contents for the 404
-  response as well. We also provide `Zend\Expressive\Container\NotFoundDelegateFactory`
+  response as well. We also provide `Mezzio\Container\NotFoundDelegateFactory`
   for providing an instance.
 
-- [#428](https://github.com/zendframework/zend-expressive/pull/428) adds the
-  method `Zend\Expressive\Application::getDefaultDelegate()`. This method will
+- [zendframework/zend-expressive#428](https://github.com/zendframework/zend-expressive/pull/428) adds the
+  method `Mezzio\Application::getDefaultDelegate()`. This method will
   return the default `Interop\Http\ServerMiddleware\DelegateInterface` injected
   during instantiation, or, if none was injected, lazy load an instance of
-  `Zend\Expressive\Delegate\NotFoundDelegate`.
+  `Mezzio\Delegate\NotFoundDelegate`.
 
-- [#428](https://github.com/zendframework/zend-expressive/pull/428) adds the
+- [zendframework/zend-expressive#428](https://github.com/zendframework/zend-expressive/pull/428) adds the
   constants `DISPATCH_MIDDLEWARE` and `ROUTING_MIDDLEWARE` to
-  `Zend\Expressive\Application`; they have identical values to the constants
-  previously defined in `Zend\Expressive\Container\ApplicationFactory`.
+  `Mezzio\Application`; they have identical values to the constants
+  previously defined in `Mezzio\Container\ApplicationFactory`.
 
-- [#428](https://github.com/zendframework/zend-expressive/pull/428) adds
-  `Zend\Expressive\Middleware\LazyLoadingMiddleware`; this essentially extracts
-  the logic previously used within `Zend\Expressive\Application` to provide
+- [zendframework/zend-expressive#428](https://github.com/zendframework/zend-expressive/pull/428) adds
+  `Mezzio\Middleware\LazyLoadingMiddleware`; this essentially extracts
+  the logic previously used within `Mezzio\Application` to provide
   container-based middleware to allow lazy-loading only when dispatched.
 
 ### Changes
 
-- [#440](https://github.com/zendframework/zend-expressive/pull/440) changes the
-  `Zend\Expressive\Application::__call($method, array $args)` signature; in
+- [zendframework/zend-expressive#440](https://github.com/zendframework/zend-expressive/pull/440) changes the
+  `Mezzio\Application::__call($method, array $args)` signature; in
   previous versions, `$args` did not have a typehint. If you are extending the
   class and overriding this method, you will need to update your signature
   accordingly.
 
-- [#428](https://github.com/zendframework/zend-expressive/pull/428) updates
-  `Zend\Expressive\Container\ApplicationFactory` to ignore the
-  `zend-expressive.raise_throwables` configuration setting; Stratigility 2.X no
+- [zendframework/zend-expressive#428](https://github.com/zendframework/zend-expressive/pull/428) updates
+  `Mezzio\Container\ApplicationFactory` to ignore the
+  `mezzio.raise_throwables` configuration setting; Stratigility 2.X no
   longer catches exceptions in its middleware dispatcher, making the setting
   irrelevant.
 
-- [#422](https://github.com/zendframework/zend-expressive/pull/422) updates the
-  zend-expressive-router minimum supported version to 2.0.0.
+- [zendframework/zend-expressive#422](https://github.com/zendframework/zend-expressive/pull/422) updates the
+  mezzio-router minimum supported version to 2.0.0.
 
-- [#428](https://github.com/zendframework/zend-expressive/pull/428) modifies the
-  `Zend\Expressive\Container\ApplicationFactory` constants `DISPATCH_MIDDLEWARE`
+- [zendframework/zend-expressive#428](https://github.com/zendframework/zend-expressive/pull/428) modifies the
+  `Mezzio\Container\ApplicationFactory` constants `DISPATCH_MIDDLEWARE`
   and `ROUTING_MIDDLEWARE` to define themselves based on the constants of the
-  same name now defined in `Zend\Expressive\Application`.
+  same name now defined in `Mezzio\Application`.
 
-- [#428](https://github.com/zendframework/zend-expressive/pull/428) modifies the
-  constructor of `Zend\Expressive\Application`; the third argument was
+- [zendframework/zend-expressive#428](https://github.com/zendframework/zend-expressive/pull/428) modifies the
+  constructor of `Mezzio\Application`; the third argument was
   previously a nullable callable `$finalHandler`; it is now a nullable
   `Interop\Http\ServerMiddleware\DelegateInterface` with the name
   `$defaultDelegate`.
 
-- [#450](https://github.com/zendframework/zend-expressive/pull/450) modifies the
+- [zendframework/zend-expressive#450](https://github.com/zendframework/zend-expressive/pull/450) modifies the
   signatures in several classes to typehint against [PSR-11](http://www.php-fig.org/psr/psr-11/)
   instead of [container-interop](https://github.com/container-interop/container-interop);
   these include:
 
-  - `Zend\Expressive\AppFactory::create()`
-  - `Zend\Expressive\Application::__construct()`
-  - `Zend\Expressive\Container\ApplicationFactory::__invoke()`
-  - `Zend\Expressive\Container\ErrorHandlerFactory::__invoke()`
-  - `Zend\Expressive\Container\ErrorResponseGeneratorFactory::__invoke()`
-  - `Zend\Expressive\Container\NotFoundDelegateFactory::__invoke()`
-  - `Zend\Expressive\Container\NotFoundHandlerFactory::__invoke()`
-  - `Zend\Expressive\Container\WhoopsErrorResponseGeneratorFactory::__invoke()`
-  - `Zend\Expressive\Container\WhoopsFactory::__invoke()`
-  - `Zend\Expressive\Container\WhoopsPageHandlerFactory::__invoke()`
+  - `Mezzio\AppFactory::create()`
+  - `Mezzio\Application::__construct()`
+  - `Mezzio\Container\ApplicationFactory::__invoke()`
+  - `Mezzio\Container\ErrorHandlerFactory::__invoke()`
+  - `Mezzio\Container\ErrorResponseGeneratorFactory::__invoke()`
+  - `Mezzio\Container\NotFoundDelegateFactory::__invoke()`
+  - `Mezzio\Container\NotFoundHandlerFactory::__invoke()`
+  - `Mezzio\Container\WhoopsErrorResponseGeneratorFactory::__invoke()`
+  - `Mezzio\Container\WhoopsFactory::__invoke()`
+  - `Mezzio\Container\WhoopsPageHandlerFactory::__invoke()`
 
-- [#450](https://github.com/zendframework/zend-expressive/pull/450) changes the
-  interface inheritance of `Zend\Expressive\Container\Exception\InvalidServiceException`
+- [zendframework/zend-expressive#450](https://github.com/zendframework/zend-expressive/pull/450) changes the
+  interface inheritance of `Mezzio\Container\Exception\InvalidServiceException`
   to extend `Psr\Container\ContainerExceptionInterface` instead of
   `Interop\Container\Exception\ContainerException`.
 
@@ -801,31 +801,31 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- [#428](https://github.com/zendframework/zend-expressive/pull/428) removes the
-  following routing/dispatch methods from `Zend\Expressive\Application`:
-  - `routeMiddleware()`; this is now encapsulated in `Zend\Expressive\Middleware\RouteMiddleware`.
-  - `dispatchMiddleware()`; this is now encapsulated in `Zend\Expressive\Middleware\DispatchMiddleware`.
+- [zendframework/zend-expressive#428](https://github.com/zendframework/zend-expressive/pull/428) removes the
+  following routing/dispatch methods from `Mezzio\Application`:
+  - `routeMiddleware()`; this is now encapsulated in `Mezzio\Middleware\RouteMiddleware`.
+  - `dispatchMiddleware()`; this is now encapsulated in `Mezzio\Middleware\DispatchMiddleware`.
 
-- [#428](https://github.com/zendframework/zend-expressive/pull/428) removes the
+- [zendframework/zend-expressive#428](https://github.com/zendframework/zend-expressive/pull/428) removes the
   various "final handler" implementations and related factories. Users should
   now use the "default delegates" as detailed in sections previous. Classes
   and methods removed include:
-  - `Zend\Expressive\Application::getFinalHandler()`
-  - `Zend\Expressive\TemplatedErrorHandler`
-  - `Zend\Expressive\WhoopsErrorHandler`
-  - `Zend\Expressive\Container\TemplatedErrorHandlerFactory`
-  - `Zend\Expressive\Container\WhoopsErrorHandlerFactory`
+  - `Mezzio\Application::getFinalHandler()`
+  - `Mezzio\TemplatedErrorHandler`
+  - `Mezzio\WhoopsErrorHandler`
+  - `Mezzio\Container\TemplatedErrorHandlerFactory`
+  - `Mezzio\Container\WhoopsErrorHandlerFactory`
 
-- [#428](https://github.com/zendframework/zend-expressive/pull/428) removes the
-  `Zend\Expressive\ErrorMiddlewarePipe` class, as zend-stratigility 2.X no
-  longer defines `Zend\Stratigility\ErrorMiddlewareInterface` or has a concept
+- [zendframework/zend-expressive#428](https://github.com/zendframework/zend-expressive/pull/428) removes the
+  `Mezzio\ErrorMiddlewarePipe` class, as laminas-stratigility 2.X no
+  longer defines `Laminas\Stratigility\ErrorMiddlewareInterface` or has a concept
   of variant-signature error middleware. Use standard middleware to provide
   error handling now.
 
-- [#428](https://github.com/zendframework/zend-expressive/pull/428) removes the
-  exception types `Zend\Expressive\Container\Exception\InvalidArgumentException`
-  (use `Zend\Expressive\Exception\InvalidArgumentException` instead) and
-  `Zend\Expressive\Container\Exception\NotFoundException` (which was never used
+- [zendframework/zend-expressive#428](https://github.com/zendframework/zend-expressive/pull/428) removes the
+  exception types `Mezzio\Container\Exception\InvalidArgumentException`
+  (use `Mezzio\Exception\InvalidArgumentException` instead) and
+  `Mezzio\Container\Exception\NotFoundException` (which was never used
   internally).
 
 ### Fixed
@@ -848,7 +848,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#447](https://github.com/zendframework/zend-expressive/pull/447) fixes an
+- [zendframework/zend-expressive#447](https://github.com/zendframework/zend-expressive/pull/447) fixes an
   error in the `ApplicationFactory` that occurs when the `config` service is an
   `ArrayObject`. Prior to the fix, `ArrayObject` configurations would cause a
   fatal error when injecting the pipeline and/or routes.
@@ -857,7 +857,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#309](https://github.com/zendframework/zend-expressive/pull/309) adds the
+- [zendframework/zend-expressive#309](https://github.com/zendframework/zend-expressive/pull/309) adds the
   ability to provide options with which to instantiate the `FinalHandler`
   instance, via the configuration:
 
@@ -868,91 +868,91 @@ All notable changes to this project will be documented in this file, in reverse 
       ],
   ```
 
-- [#373](https://github.com/zendframework/zend-expressive/pull/373) adds interception
+- [zendframework/zend-expressive#373](https://github.com/zendframework/zend-expressive/pull/373) adds interception
   of exceptions from the `ServerRequestFactory` for invalid request information in order
   to return `400` responses.
 
-- [#432](https://github.com/zendframework/zend-expressive/pull/432) adds two new
-  configuration flags for use with `Zend\Expressive\Container\ApplicationFactory`:
-  - `zend-expressive.programmatic_pipelines`: when enabled, the factory will
+- [zendframework/zend-expressive#432](https://github.com/zendframework/zend-expressive/pull/432) adds two new
+  configuration flags for use with `Mezzio\Container\ApplicationFactory`:
+  - `mezzio.programmatic_pipelines`: when enabled, the factory will
     ignore the `middleware_pipeline` and `routes` configuration, allowing you to
     wire these programmatically instead. We recommend creating these in the
     files `config/pipeline.php` and `config/routes.php`, respectively, and
     modifying your `public/index.php` to `require` these files in statements
     immediately preceding the call to `$app->run()`.
-  - `zend-expressive.raise_throwables`: when enabled, this will be used to
-    notify zend-stratigility's internal dispatcher to no longer catch
+  - `mezzio.raise_throwables`: when enabled, this will be used to
+    notify laminas-stratigility's internal dispatcher to no longer catch
     exceptions/throwables, and instead allow them to bubble out. This allows you
     to write custom middleware for handling errors.
 
-- [#429](https://github.com/zendframework/zend-expressive/pull/429) adds
-  `Zend\Expressive\Application::getDefaultDelegate()` as a
+- [zendframework/zend-expressive#429](https://github.com/zendframework/zend-expressive/pull/429) adds
+  `Mezzio\Application::getDefaultDelegate()` as a
   forwards-compatibility measure for the upcoming version 2.0.0. Currently,
   it proxies to `getFinalHandler()`.
 
-- [#435](https://github.com/zendframework/zend-expressive/pull/435) adds support
-  for the 2.X versions of zend-expressive-router and the various router
-  implementations. This change also allows usage of zend-expressive-helpers 3.X.
+- [zendframework/zend-expressive#435](https://github.com/zendframework/zend-expressive/pull/435) adds support
+  for the 2.X versions of mezzio-router and the various router
+  implementations. This change also allows usage of mezzio-helpers 3.X.
 
 ### Changed
 
-- [#429](https://github.com/zendframework/zend-expressive/pull/429) updates the
-  minimum supported zend-stratigility version to 1.3.3.
+- [zendframework/zend-expressive#429](https://github.com/zendframework/zend-expressive/pull/429) updates the
+  minimum supported laminas-stratigility version to 1.3.3.
 
-- [#396](https://github.com/zendframework/zend-expressive/pull/396) updates the
-  `Zend\Expressive\Container\ApplicationFactory` to vary creation of the
+- [zendframework/zend-expressive#396](https://github.com/zendframework/zend-expressive/pull/396) updates the
+  `Mezzio\Container\ApplicationFactory` to vary creation of the
   `Application` instance based on two new configuration variables:
 
-  - `zend-expressive.programmatic_pipeline` will cause the factory to skip
+  - `mezzio.programmatic_pipeline` will cause the factory to skip
     injection of the middleware pipeline and routes from configuration. It is
     then up to the developer to do so, or use the `Application` API to pipe
     middleware and/or add routed middleware.
 
-  - `zend-expressive.raise_throwables` will cause the factory to call the new
+  - `mezzio.raise_throwables` will cause the factory to call the new
     `raiseThrowables()` method exposed by `Application` (and inherited from
-    `Zend\Stratigility\MiddlewarePipe`). Doing so will cause the application to
+    `Laminas\Stratigility\MiddlewarePipe`). Doing so will cause the application to
     raise any `Throwable` or `Exception` instances caught, instead of catching
     them and dispatching them to (legacy) Stratigility error middleware.
 
 ### Deprecated
 
-- [#429](https://github.com/zendframework/zend-expressive/pull/429) deprecates
+- [zendframework/zend-expressive#429](https://github.com/zendframework/zend-expressive/pull/429) deprecates
   the following methods and classes:
-  - `Zend\Expressive\Application::pipeErrorHandler()`; use the
+  - `Mezzio\Application::pipeErrorHandler()`; use the
     `raise_throwables` flag and standard middleware to handle errors instead.
-  - `Zend\Expressive\Application::routeMiddleware()`; this is extracted to a
+  - `Mezzio\Application::routeMiddleware()`; this is extracted to a
     dedicated middleware class for 2.0.
-  - `Zend\Expressive\Application::dispatchMiddleware()`; this is extracted to a
+  - `Mezzio\Application::dispatchMiddleware()`; this is extracted to a
     dedicated middleware class for 2.0.
-  - `Zend\Expressive\Application::getFinalHandler()` (this patch provides `getDefaultDelegate()` as a forwards-compatibility measure)
-  - `Zend\Expressive\Container\Exception\InvalidArgumentException`; this will be removed
+  - `Mezzio\Application::getFinalHandler()` (this patch provides `getDefaultDelegate()` as a forwards-compatibility measure)
+  - `Mezzio\Container\Exception\InvalidArgumentException`; this will be removed
     in 2.0.0, and places where it was used will instead throw
-    `Zend\Expressive\Exception\InvalidArgumentException`.
-  - `Zend\Expressive\Container\Exception\NotFoundException`; this exception is
+    `Mezzio\Exception\InvalidArgumentException`.
+  - `Mezzio\Container\Exception\NotFoundException`; this exception is
     never thrown at this point.
-  - `Zend\Expressive\Container\TemplatedErrorHandlerFactory`
-  - `Zend\Expressive\Container\WhoopsErrorHandlerFactory`
-  - `Zend\Expressive\ErrorMiddlewarePipe`; Stratigility 1.3 deprecates its
-    `Zend\Stratigility\ErrorMiddlewareInterface`, and removes it in version 2.0.
+  - `Mezzio\Container\TemplatedErrorHandlerFactory`
+  - `Mezzio\Container\WhoopsErrorHandlerFactory`
+  - `Mezzio\ErrorMiddlewarePipe`; Stratigility 1.3 deprecates its
+    `Laminas\Stratigility\ErrorMiddlewareInterface`, and removes it in version 2.0.
     use the `raise_throwables` flag and standard middleware to handle errors
     instead.
-  - `Zend\Expressive\TemplatedErrorHandler`; the "final handler" concept is
-    retired in Expressive 2.0, and replaced with default delegates (classes
+  - `Mezzio\TemplatedErrorHandler`; the "final handler" concept is
+    retired in Mezzio 2.0, and replaced with default delegates (classes
     implementing `Interop\Http\ServerMiddleware\DelegateInterface` that will be
     executed when the internal pipeline is exhausted, in order to guarantee a
     response). If you are using custom final handlers, you will need to rewrite
-    them when adopting Expressive 2.0.
-  - `Zend\Expressive\WhoopsErrorHandler`
+    them when adopting Mezzio 2.0.
+  - `Mezzio\WhoopsErrorHandler`
 
 ### Removed
 
-- [#406](https://github.com/zendframework/zend-expressive/pull/406) removes the
-  `RouteResultSubjectInterface` implementation from `Zend\Expressive\Application`,
+- [zendframework/zend-expressive#406](https://github.com/zendframework/zend-expressive/pull/406) removes the
+  `RouteResultSubjectInterface` implementation from `Mezzio\Application`,
   per the deprecation prior to the 1.0 stable release.
 
 ### Fixed
 
-- [#442](https://github.com/zendframework/zend-expressive/pull/442) fixes how
+- [zendframework/zend-expressive#442](https://github.com/zendframework/zend-expressive/pull/442) fixes how
   the `WhoopsFactory` disables JSON output for whoops; previously, providing
   boolean `false` values for either of the configuration flags
   `json_exceptions.show_trace` or `json_exceptions.ajax_only` would result in
@@ -975,7 +975,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#420](https://github.com/zendframework/zend-expressive/pull/420) fixes the
+- [zendframework/zend-expressive#420](https://github.com/zendframework/zend-expressive/pull/420) fixes the
   `routeMiddleware()`'s handling of 405 errors such that it now no longer emits
   deprecation notices when running under the Stratigility 1.3 series.
 
@@ -995,22 +995,22 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#403](https://github.com/zendframework/zend-expressive/pull/403) updates the
+- [zendframework/zend-expressive#403](https://github.com/zendframework/zend-expressive/pull/403) updates the
   `AppFactory::create()` logic to raise exceptions in either of the following
   scenarios:
-  - no container is specified, and the class `Zend\ServiceManager\ServiceManager`
+  - no container is specified, and the class `Laminas\ServiceManager\ServiceManager`
     is not available.
-  - no router is specified, and the class `Zend\Expressive\Router\FastRouteRouter`
+  - no router is specified, and the class `Mezzio\Router\FastRouteRouter`
     is not available.
-- [#405](https://github.com/zendframework/zend-expressive/pull/405) fixes how
+- [zendframework/zend-expressive#405](https://github.com/zendframework/zend-expressive/pull/405) fixes how
   the `TemplatedErrorHandler` injects templated content into the response.
   Previously, it would `write()` directly to the existing response body, which
   could lead to issues if previous middleware had written to the response (as
   the templated contents would append the previous contents). With this release,
-  it now creates a new `Zend\Diactoros\Stream`, writes to that, and returns a
+  it now creates a new `Laminas\Diactoros\Stream`, writes to that, and returns a
   new response with that new stream, guaranteeing it only contains the new
   contents.
-- [#404](https://github.com/zendframework/zend-expressive/pull/404) fixes the
+- [zendframework/zend-expressive#404](https://github.com/zendframework/zend-expressive/pull/404) fixes the
   `swallowDeprecationNotices()` handler such that it will not swallow a global
   handler once application execution completes.
 
@@ -1030,7 +1030,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#402](https://github.com/zendframework/zend-expressive/pull/402) fixes how
+- [zendframework/zend-expressive#402](https://github.com/zendframework/zend-expressive/pull/402) fixes how
   `Application::__invoke()` registers the error handler designed to swallow
   deprecation notices, as introduced in 1.0.3. It now checks to see if another
   error handler was previously registered, and, if so, creates a composite
@@ -1044,7 +1044,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changes
 
-- [#395](https://github.com/zendframework/zend-expressive/pull/395) updates
+- [zendframework/zend-expressive#395](https://github.com/zendframework/zend-expressive/pull/395) updates
   `Application::__invoke()` to add an error handler to swallow deprecation
   notices due to triggering error middleware when using Stratigility 1.3+. Since
   error middleware is triggered whenever the `raiseThrowables` flag is not
@@ -1071,7 +1071,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changes
 
-- [#393](https://github.com/zendframework/zend-expressive/pull/393) updates
+- [zendframework/zend-expressive#393](https://github.com/zendframework/zend-expressive/pull/393) updates
   `Application::run()` to inject the request with an `originalResponse`
   attribute using the provided response as the value.
 
@@ -1085,7 +1085,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#393](https://github.com/zendframework/zend-expressive/pull/393) fixes how
+- [zendframework/zend-expressive#393](https://github.com/zendframework/zend-expressive/pull/393) fixes how
   each of the `TemplatedErrorHandler` and `WhoopsErrorHandler` access the
   "original" request, URI, and/or response. Previously, these used
   Stratigility-specific methods; they now use request attributes, eliminating
@@ -1095,9 +1095,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#306](https://github.com/zendframework/zend-expressive/pull/306) adds a
+- [zendframework/zend-expressive#306](https://github.com/zendframework/zend-expressive/pull/306) adds a
   cookbook recipe covering flash messages.
-- [#384](https://github.com/zendframework/zend-expressive/pull/384) adds support
+- [zendframework/zend-expressive#384](https://github.com/zendframework/zend-expressive/pull/384) adds support
   for Whoops version 2 releases, providing PHP 7 support for Whoops.
 
 ### Deprecated
@@ -1110,7 +1110,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#391](https://github.com/zendframework/zend-expressive/pull/391) fixes the
+- [zendframework/zend-expressive#391](https://github.com/zendframework/zend-expressive/pull/391) fixes the
   `Application::run()` implementation to prevent emission of deprecation notices
   when used with Stratigility 1.3.
 
@@ -1120,13 +1120,13 @@ Initial stable release.
 
 ### Added
 
-- [#279](https://github.com/zendframework/zend-expressive/pull/279) updates
+- [zendframework/zend-expressive#279](https://github.com/zendframework/zend-expressive/pull/279) updates
   the documentation to provide automation for pushing to GitHub pages. As part
   of that work, documentation was re-organized, and a landing page provided.
-  Documentation can now be found at: https://zendframework.github.io/zend-expressive/
-- [#299](https://github.com/zendframework/zend-expressive/pull/299) adds
+  Documentation can now be found at: https://docs.mezzio.dev/mezzio/
+- [zendframework/zend-expressive#299](https://github.com/zendframework/zend-expressive/pull/299) adds
   component-specific CSS to the documentation.
-- [#295](https://github.com/zendframework/zend-expressive/pull/295) adds
+- [zendframework/zend-expressive#295](https://github.com/zendframework/zend-expressive/pull/295) adds
   support for handling PHP 7 engine exceptions in the templated and whoops final
   handlers.
 
@@ -1140,30 +1140,30 @@ Initial stable release.
 
 ### Fixed
 
-- [#280](https://github.com/zendframework/zend-expressive/pull/280) fixes
+- [zendframework/zend-expressive#280](https://github.com/zendframework/zend-expressive/pull/280) fixes
   references to the `PlatesRenderer` in the error handling documentation.
-- [#284](https://github.com/zendframework/zend-expressive/pull/284) fixes
+- [zendframework/zend-expressive#284](https://github.com/zendframework/zend-expressive/pull/284) fixes
   the reference to maximebf/php-debugbar in the debug bar documentation.
-- [#285](https://github.com/zendframework/zend-expressive/pull/285) updates
+- [zendframework/zend-expressive#285](https://github.com/zendframework/zend-expressive/pull/285) updates
   the section on mtymek/blast-base-url in the "Using a Base Path" cookbook
   recipe to conform to its latest release.
-- [#286](https://github.com/zendframework/zend-expressive/pull/286) fixes the
+- [zendframework/zend-expressive#286](https://github.com/zendframework/zend-expressive/pull/286) fixes the
   documentation of the Composer "serve" command to correct a typo.
-- [#291](https://github.com/zendframework/zend-expressive/pull/291) fixes the
+- [zendframework/zend-expressive#291](https://github.com/zendframework/zend-expressive/pull/291) fixes the
   documentation links to the RC5 -> v1 migration guide in both the CHANGELOG as
   well as the error messages emitted, ensuring users can locate the correct
   documentation in order to upgrade.
-- [#287](https://github.com/zendframework/zend-expressive/pull/287) updates the
+- [zendframework/zend-expressive#287](https://github.com/zendframework/zend-expressive/pull/287) updates the
   "standalone" quick start to reference calling `$app->pipeRoutingMiddleware()`
   and `$app->pipeDispatchMiddleware()` per the changes in RC6.
-- [#293](https://github.com/zendframework/zend-expressive/pull/293) adds
+- [zendframework/zend-expressive#293](https://github.com/zendframework/zend-expressive/pull/293) adds
   a `require 'vendor/autoload.php';` line to the bootstrap script referenced in
-  the zend-servicemanager examples.
-- [#294](https://github.com/zendframework/zend-expressive/pull/294) updates the
+  the laminas-servicemanager examples.
+- [zendframework/zend-expressive#294](https://github.com/zendframework/zend-expressive/pull/294) updates the
   namespace referenced in the modulear-layout documentation to provide a better
   separation between the module/package/whatever, and the application consuming
   it.
-- [#298](https://github.com/zendframework/zend-expressive/pull/298) fixes a typo
+- [zendframework/zend-expressive#298](https://github.com/zendframework/zend-expressive/pull/298) fixes a typo
   in a URI generation example.
 
 ## 1.0.0rc7 - 2016-01-21
@@ -1172,9 +1172,9 @@ Seventh release candidate.
 
 ### Added
 
-- [#277](https://github.com/zendframework/zend-expressive/pull/277) adds a new
-  class, `Zend\Expressive\ErrorMiddlewarePipe`. It composes a
-  `Zend\Stratigility\MiddlewarePipe`, but implements the error middleware
+- [zendframework/zend-expressive#277](https://github.com/zendframework/zend-expressive/pull/277) adds a new
+  class, `Mezzio\ErrorMiddlewarePipe`. It composes a
+  `Laminas\Stratigility\MiddlewarePipe`, but implements the error middleware
   signature via its own `__invoke()` method.
 
 ### Deprecated
@@ -1187,7 +1187,7 @@ Seventh release candidate.
 
 ### Fixed
 
-- [#277](https://github.com/zendframework/zend-expressive/pull/277) updates the
+- [zendframework/zend-expressive#277](https://github.com/zendframework/zend-expressive/pull/277) updates the
   `MarshalMiddlewareTrait` to create and return an `ErrorMiddlewarePipe` when
   the `$forError` argument provided indicates error middleware is expected.
   This fix allows defining arrays of error middleware via configuration.
@@ -1206,39 +1206,39 @@ In particular:
   need for the route result observer system, as middleware can now be placed
   *between* routing and dispatching — an approach that provides for greater
   flexibility with regards to providing route-based functionality.
-- As a result of the above, `Zend\Expressive\Application` no longer implements
-  `Zend\Expressive\Router\RouteResultSubjectInterface`, though it retains the
+- As a result of the above, `Mezzio\Application` no longer implements
+  `Mezzio\Router\RouteResultSubjectInterface`, though it retains the
   methods associated (each emits a deprecation notice).
-- Configuration for `Zend\Expressive\Container\ApplicationFactory` was modified
+- Configuration for `Mezzio\Container\ApplicationFactory` was modified
   to implement the `middleware_pipeline` as a single queue, instead of
   segregating it between `pre_routing` and `post_routing`. Each item in the
   queue follows the original middleware specification from those keys, with one
   addition: a `priority` key can be used to allow you to granularly shape the
   execution order of the middleware pipeline.
 
-A [migration guide](https://zendframework.github.io/zend-expressive/reference/migration/rc-to-v1/)
+A [migration guide](https://docs.mezzio.dev/mezzio/reference/migration/rc-to-v1/)
 was written to help developers migrate to RC6 from earlier versions.
 
 ### Added
 
-- [#255](https://github.com/zendframework/zend-expressive/pull/255) adds
+- [zendframework/zend-expressive#255](https://github.com/zendframework/zend-expressive/pull/255) adds
   documentation for the base path functionality provided by the `UrlHelper`
-  class of zend-expressive-helpers.
-- [#227](https://github.com/zendframework/zend-expressive/pull/227) adds
+  class of mezzio-helpers.
+- [zendframework/zend-expressive#227](https://github.com/zendframework/zend-expressive/pull/227) adds
   a section on creating localized routes, and setting the application locale
   based on the matched route.
-- [#244](https://github.com/zendframework/zend-expressive/pull/244) adds
+- [zendframework/zend-expressive#244](https://github.com/zendframework/zend-expressive/pull/244) adds
   a recipe on using middleware to detect localized URIs (vs using a routing
   parameter), setting the application locale based on the match detected,
   and setting the `UrlHelper` base path with the same match.
-- [#260](https://github.com/zendframework/zend-expressive/pull/260) adds
-  a recipe on how to add debug toolbars to your Expressive applications.
-- [#261](https://github.com/zendframework/zend-expressive/pull/261) adds
+- [zendframework/zend-expressive#260](https://github.com/zendframework/zend-expressive/pull/260) adds
+  a recipe on how to add debug toolbars to your Mezzio applications.
+- [zendframework/zend-expressive#261](https://github.com/zendframework/zend-expressive/pull/261) adds
   a flow/architectural diagram to the "features" chapter.
-- [#262](https://github.com/zendframework/zend-expressive/pull/262) adds
+- [zendframework/zend-expressive#262](https://github.com/zendframework/zend-expressive/pull/262) adds
   a recipe demonstrating creating classes that can intercept multiple routes.
-- [#270](https://github.com/zendframework/zend-expressive/pull/270) adds
-  new methods to `Zend\Expressive\Application`:
+- [zendframework/zend-expressive#270](https://github.com/zendframework/zend-expressive/pull/270) adds
+  new methods to `Mezzio\Application`:
   - `dispatchMiddleware()` is new middleware for dispatching the middleware
     matched by routing (this functionality was split from `routeMiddleware()`).
   - `routeResultObserverMiddleware()` is new middleware for notifying route
@@ -1250,15 +1250,15 @@ was written to help developers migrate to RC6 from earlier versions.
     middleware to the `Application` instance; like
     `routeResultObserverMiddleware()`, the method only exists for aiding
     migration, and is marked deprecated.
-- [#270](https://github.com/zendframework/zend-expressive/pull/270) adds
-  `Zend\Expressive\MarshalMiddlewareTrait`, which is composed by
-  `Zend\Expressive\Application`; it provides methods for marshaling
+- [zendframework/zend-expressive#270](https://github.com/zendframework/zend-expressive/pull/270) adds
+  `Mezzio\MarshalMiddlewareTrait`, which is composed by
+  `Mezzio\Application`; it provides methods for marshaling
   middleware based on service names or arrays of services.
 
 ### Deprecated
 
-- [#270](https://github.com/zendframework/zend-expressive/pull/270) deprecates
-  the following methods in `Zend\Expressive\Application`, all of which will
+- [zendframework/zend-expressive#270](https://github.com/zendframework/zend-expressive/pull/270) deprecates
+  the following methods in `Mezzio\Application`, all of which will
   be removed in version 1.1:
   - `attachRouteResultObserver()`
   - `detachRouteResultObserver()`
@@ -1268,17 +1268,17 @@ was written to help developers migrate to RC6 from earlier versions.
 
 ### Removed
 
-- [#270](https://github.com/zendframework/zend-expressive/pull/270) removes the
-  `Zend\Expressive\Router\RouteResultSubjectInterface` implementation from
-  `Zend\Expressive\Application`.
-- [#270](https://github.com/zendframework/zend-expressive/pull/270) eliminates
+- [zendframework/zend-expressive#270](https://github.com/zendframework/zend-expressive/pull/270) removes the
+  `Mezzio\Router\RouteResultSubjectInterface` implementation from
+  `Mezzio\Application`.
+- [zendframework/zend-expressive#270](https://github.com/zendframework/zend-expressive/pull/270) eliminates
   the `pre_routing`/`post_routing` terminology from the `middleware_pipeline`,
   in favor of individually specified `priority` values in middleware
   specifications.
 
 ### Fixed
 
-- [#263](https://github.com/zendframework/zend-expressive/pull/263) typo
+- [zendframework/zend-expressive#263](https://github.com/zendframework/zend-expressive/pull/263) typo
   fixes in documentation
 
 ## 1.0.0rc5 - 2015-12-22
@@ -1287,15 +1287,15 @@ Fifth release candidate.
 
 ### Added
 
-- [#233](https://github.com/zendframework/zend-expressive/pull/233) adds a
+- [zendframework/zend-expressive#233](https://github.com/zendframework/zend-expressive/pull/233) adds a
   documentation page detailing projects using and tutorials written on
-  Expressive.
-- [#238](https://github.com/zendframework/zend-expressive/pull/238) adds a
-  cookbook recipe detailing how to handle serving an Expressive application from
+  Mezzio.
+- [zendframework/zend-expressive#238](https://github.com/zendframework/zend-expressive/pull/238) adds a
+  cookbook recipe detailing how to handle serving an Mezzio application from
   a subdirectory of your web root.
-- [#239](https://github.com/zendframework/zend-expressive/pull/239) adds a
-  cookbook recipe detailing how to create modular Expressive applications.
-- [#243](https://github.com/zendframework/zend-expressive/pull/243) adds a
+- [zendframework/zend-expressive#239](https://github.com/zendframework/zend-expressive/pull/239) adds a
+  cookbook recipe detailing how to create modular Mezzio applications.
+- [zendframework/zend-expressive#243](https://github.com/zendframework/zend-expressive/pull/243) adds a
   chapter to the helpers section detailing the new `BodyParseMiddleware`.
 
 ### Deprecated
@@ -1308,10 +1308,10 @@ Fifth release candidate.
 
 ### Fixed
 
-- [#234](https://github.com/zendframework/zend-expressive/pull/234) fixes the
-  inheritance tree for `Zend\Expressive\Exception\RuntimeException` to inherit
+- [zendframework/zend-expressive#234](https://github.com/zendframework/zend-expressive/pull/234) fixes the
+  inheritance tree for `Mezzio\Exception\RuntimeException` to inherit
   from `RuntimeException` and not `InvalidArgumentException`.
-- [#237](https://github.com/zendframework/zend-expressive/pull/237) updates the
+- [zendframework/zend-expressive#237](https://github.com/zendframework/zend-expressive/pull/237) updates the
   Pimple documentation to recommend `xtreamwayz/pimple-container-interop`
   instead of `mouf/pimple-interop`, as the latter consumed Pimple v1, instead of
   the current stable v3.
@@ -1322,8 +1322,8 @@ Fourth release candidate.
 
 ### Added
 
-- [#217](https://github.com/zendframework/zend-expressive/pull/217) adds a
-  cookbook entry to the documentation detailing how to configure zend-view
+- [zendframework/zend-expressive#217](https://github.com/zendframework/zend-expressive/pull/217) adds a
+  cookbook entry to the documentation detailing how to configure laminas-view
   helpers from other components, as well as how to add custom view helpers.
 
 ### Deprecated
@@ -1336,16 +1336,16 @@ Fourth release candidate.
 
 ### Fixed
 
-- [#219](https://github.com/zendframework/zend-expressive/pull/219) updates the
+- [zendframework/zend-expressive#219](https://github.com/zendframework/zend-expressive/pull/219) updates the
   "Hello World Using a Configuration-Driven Container" usage case to use
-  zend-stdlib's `Glob::glob()` instead of the `glob()` native function, to
+  laminas-stdlib's `Glob::glob()` instead of the `glob()` native function, to
   ensure the documented solution is portable across platforms.
-- [#223](https://github.com/zendframework/zend-expressive/pull/223) updates the
+- [zendframework/zend-expressive#223](https://github.com/zendframework/zend-expressive/pull/223) updates the
   documentation to refer to the `composer serve` command where relevant, and
   also details how to create the command for standalone users.
-- [#221](https://github.com/zendframework/zend-expressive/pull/221) splits the
+- [zendframework/zend-expressive#221](https://github.com/zendframework/zend-expressive/pull/221) splits the
   various cookbook entries into separate files, so each is self-contained.
-- [#224](https://github.com/zendframework/zend-expressive/pull/224) adds opening
+- [zendframework/zend-expressive#224](https://github.com/zendframework/zend-expressive/pull/224) adds opening
   `<?php` tags to two configuration file examples, in order to prevent
   copy-paste errors.
 
@@ -1355,22 +1355,22 @@ Third release candidate.
 
 ### Added
 
-- [#185](https://github.com/zendframework/zend-expressive/pull/185)
-  Support casting zend-view models to arrays.
-- [#192](https://github.com/zendframework/zend-expressive/pull/192) adds support
+- [zendframework/zend-expressive#185](https://github.com/zendframework/zend-expressive/pull/185)
+  Support casting laminas-view models to arrays.
+- [zendframework/zend-expressive#192](https://github.com/zendframework/zend-expressive/pull/192) adds support
   for specifying arrays of middleware both when routing and when creating
   pipeline middleware. This feature is opt-in and backwards compatible; simply
   specify an array value that does not resolve as a callable. Values in the
   array **must** be callables, service names resolving to callable middleware,
   or fully qualified class names that can be instantiated without arguments, and
   which result in invokable middleware.
-- [#200](https://github.com/zendframework/zend-expressive/pull/200),
-  [#206](https://github.com/zendframework/zend-expressive/pull/206), and
-  [#211](https://github.com/zendframework/zend-expressive/pull/211) add
+- [zendframework/zend-expressive#200](https://github.com/zendframework/zend-expressive/pull/200),
+  [zendframework/zend-expressive#206](https://github.com/zendframework/zend-expressive/pull/206), and
+  [zendframework/zend-expressive#211](https://github.com/zendframework/zend-expressive/pull/211) add
   functionality for observing computed `RouteResult`s.
-  `Zend\Expressive\Application` now implements
-  `Zend\Expressive\Router\RouteResultSubjectInterface`, which allows attaching
-  `Zend\Expressive\RouteResultObserverInterface` implementations and notifying
+  `Mezzio\Application` now implements
+  `Mezzio\Router\RouteResultSubjectInterface`, which allows attaching
+  `Mezzio\RouteResultObserverInterface` implementations and notifying
   them of computed `RouteResult` instances. The following methods are now
   available on the `Application` instance:
   - `attachRouteResultObserver(Router\RouteResultObserverInterface $observer)`
@@ -1379,10 +1379,10 @@ Third release candidate.
     internally within `routeMiddleware`.
   This feature enables the ability to notify objects of the calculated
   `RouteResult` without needing to inject middleware into the system.
-- [#81](https://github.com/zendframework/zend-expressive/pull/81) adds a
+- [zendframework/zend-expressive#81](https://github.com/zendframework/zend-expressive/pull/81) adds a
   cookbook entry for creating 404 handlers.
-- [#210](https://github.com/zendframework/zend-expressive/pull/210) adds a
-  documentation section on the new [zendframework/zend-expressive-helpers](https://github.com/zendframework/zend-expressive-helpers)
+- [zendframework/zend-expressive#210](https://github.com/zendframework/zend-expressive/pull/210) adds a
+  documentation section on the new [mezzio/mezzio-helpers](https://github.com/zendframework/zend-expressive-helpers)
   utilities.
 
 ### Deprecated
@@ -1391,23 +1391,23 @@ Third release candidate.
 
 ### Removed
 
-- [#204](https://github.com/zendframework/zend-expressive/pull/204) removes the
+- [zendframework/zend-expressive#204](https://github.com/zendframework/zend-expressive/pull/204) removes the
   `Router` and `Template` components, as they are now shipped with the following
   packages, respectively:
-  - [zendframework/zend-expressive-router](https://github.com/zendframework/zend-expressive-router)
-  - [zendframework/zend-expressive-template](https://github.com/zendframework/zend-expressive-template)
+  - [mezzio/mezzio-router](https://github.com/mezzio/mezzio-router)
+  - [mezzio/mezzio-template](https://github.com/zendframework/zend-expressive-template)
   This package has been updated to depend on each of them.
 
 ### Fixed
 
-- [#187](https://github.com/zendframework/zend-expressive/pull/187)
+- [zendframework/zend-expressive#187](https://github.com/zendframework/zend-expressive/pull/187)
   Inject the route result as an attribute
-- [#197](https://github.com/zendframework/zend-expressive/pull/197) updates the
-  `Zend\Expressive\Container\ApplicationFactory` to raise exceptions in cases
+- [zendframework/zend-expressive#197](https://github.com/zendframework/zend-expressive/pull/197) updates the
+  `Mezzio\Container\ApplicationFactory` to raise exceptions in cases
   where received configuration is unusable, instead of silently ignoring it.
   This is a small backwards compatibility break, but is done to eliminate
   difficult to identify issues due to bad configuration.
-- [#202](https://github.com/zendframework/zend-expressive/pull/202) clarifies
+- [zendframework/zend-expressive#202](https://github.com/zendframework/zend-expressive/pull/202) clarifies
   that `RouterInterface` implements **MUST** throw a `RuntimeException` if
   `addRoute()` is called after either `match()` or `generateUri()` have been
   called.
@@ -1469,10 +1469,10 @@ First release candidate.
 
 ### Fixed
 
-- [#160](https://github.com/zendframework/zend-expressive/pull/160) updates
+- [zendframework/zend-expressive#160](https://github.com/zendframework/zend-expressive/pull/160) updates
   `EmitterStack` to throw a component-specific `InvalidArgumentException`
   instead of the generic SPL version.
-- [#163](https://github.com/zendframework/zend-expressive/pull/163) change the
+- [zendframework/zend-expressive#163](https://github.com/zendframework/zend-expressive/pull/163) change the
   documentation on wiring middleware factories to put them in the `dependencies`
   section of `routes.global.php`; this keeps the routing and middleware
   configuration in the same file.
@@ -1481,7 +1481,7 @@ First release candidate.
 
 ### Added
 
-- [#158](https://github.com/zendframework/zend-expressive/pull/158) documents
+- [zendframework/zend-expressive#158](https://github.com/zendframework/zend-expressive/pull/158) documents
   getting started via the [installer + skeleton](https://github.com/zendframework/zend-expressive-skeleton),
   and also documents "next steps" in terms of creating and wiring middleware
   when using the skeleton.
@@ -1514,9 +1514,9 @@ First release candidate.
 
 ### Fixed
 
-- [#156](https://github.com/zendframework/zend-expressive/pull/156) updates how
+- [zendframework/zend-expressive#156](https://github.com/zendframework/zend-expressive/pull/156) updates how
   the routing middleware pulls middleware from the container; in order to work
-  with zend-servicemanager v3 and allow `has()` queries to query abstract
+  with laminas-servicemanager v3 and allow `has()` queries to query abstract
   factories, a second, boolean argument is now passed.
 
 ## 0.5.0 - 2015-10-10
@@ -1531,23 +1531,23 @@ First release candidate.
 
 ### Removed
 
-- [#131](https://github.com/zendframework/zend-expressive/pull/131) modifies the
+- [zendframework/zend-expressive#131](https://github.com/zendframework/zend-expressive/pull/131) modifies the
   repository to remove the concrete router and template renderer
   implementations, along with any related factories; these are now in their own
   packages. The classes removed include:
-  - `Zend\Expressive\Container\Template\PlatesRendererFactory`
-  - `Zend\Expressive\Container\Template\TwigRendererFactory`
-  - `Zend\Expressive\Container\Template\ZendViewRendererFactory`
-  - `Zend\Expressive\Router\AuraRouter`
-  - `Zend\Expressive\Router\FastRouteRouter`
-  - `Zend\Expressive\Router\ZendRouter`
-  - `Zend\Expressive\Template\PlatesRenderer`
-  - `Zend\Expressive\Template\TwigRenderer`
-  - `Zend\Expressive\Template\Twig\TwigExtension`
-  - `Zend\Expressive\Template\ZendViewRenderer`
-  - `Zend\Expressive\Template\ZendView\NamespacedPathStackResolver`
-  - `Zend\Expressive\Template\ZendView\ServerUrlHelper`
-  - `Zend\Expressive\Template\ZendView\UrlHelper`
+  - `Mezzio\Container\Template\PlatesRendererFactory`
+  - `Mezzio\Container\Template\TwigRendererFactory`
+  - `Mezzio\Container\Template\LaminasViewRendererFactory`
+  - `Mezzio\Router\AuraRouter`
+  - `Mezzio\Router\FastRouteRouter`
+  - `Mezzio\Router\LaminasRouter`
+  - `Mezzio\Template\PlatesRenderer`
+  - `Mezzio\Template\TwigRenderer`
+  - `Mezzio\Template\Twig\TwigExtension`
+  - `Mezzio\Template\LaminasViewRenderer`
+  - `Mezzio\Template\LaminasView\NamespacedPathStackResolver`
+  - `Mezzio\Template\LaminasView\ServerUrlHelper`
+  - `Mezzio\Template\LaminasView\UrlHelper`
 
 ### Fixed
 
@@ -1575,31 +1575,31 @@ First release candidate.
 
 ### Added
 
-- [#132](https://github.com/zendframework/zend-expressive/pull/132) adds
-  `Zend\Expressive\Router\ZendRouter`, replacing
-  `Zend\Expressive\Router\Zf2Router`.
-- [#139](https://github.com/zendframework/zend-expressive/pull/139) adds:
-  - `Zend\Expressive\Template\TemplateRendererInterface`, replacing
-    `Zend\Expressive\Template\TemplateInterface`.
-  - `Zend\Expressive\Template\PlatesRenderer`, replacing
-    `Zend\Expressive\Template\Plates`.
-  - `Zend\Expressive\Template\TwigRenderer`, replacing
-    `Zend\Expressive\Template\Twig`.
-  - `Zend\Expressive\Template\ZendViewRenderer`, replacing
-    `Zend\Expressive\Template\ZendView`.
-- [#143](https://github.com/zendframework/zend-expressive/pull/143) adds
+- [zendframework/zend-expressive#132](https://github.com/zendframework/zend-expressive/pull/132) adds
+  `Mezzio\Router\LaminasRouter`, replacing
+  `Mezzio\Router\LaminasRouter`.
+- [zendframework/zend-expressive#139](https://github.com/zendframework/zend-expressive/pull/139) adds:
+  - `Mezzio\Template\TemplateRendererInterface`, replacing
+    `Mezzio\Template\TemplateInterface`.
+  - `Mezzio\Template\PlatesRenderer`, replacing
+    `Mezzio\Template\Plates`.
+  - `Mezzio\Template\TwigRenderer`, replacing
+    `Mezzio\Template\Twig`.
+  - `Mezzio\Template\LaminasViewRenderer`, replacing
+    `Mezzio\Template\LaminasView`.
+- [zendframework/zend-expressive#143](https://github.com/zendframework/zend-expressive/pull/143) adds
   the method `addDefaultParam($templateName, $param, $value)` to
   `TemplateRendererInterface`, allowing users to specify global and
   template-specific default parameters to use when rendering. To implement the
-  feature, the patch also provides `Zend\Expressive\Template\DefaultParamsTrait`
+  feature, the patch also provides `Mezzio\Template\DefaultParamsTrait`
   to simplify incorporating the feature in implementations.
-- [#133](https://github.com/zendframework/zend-expressive/pull/133) adds a
-  stipulation to `Zend\Expressive\Router\RouterInterface` that `addRoute()`
+- [zendframework/zend-expressive#133](https://github.com/zendframework/zend-expressive/pull/133) adds a
+  stipulation to `Mezzio\Router\RouterInterface` that `addRoute()`
   should *aggregate* `Route` instances only, and delay injection until `match()`
   and/or `generateUri()` are called; all shipped routers now follow this. This
   allows manipulating `Route` instances before calling `match()` or
   `generateUri()` — for instance, to inject options or a name.
-- [#133](https://github.com/zendframework/zend-expressive/pull/133) re-instates
+- [zendframework/zend-expressive#133](https://github.com/zendframework/zend-expressive/pull/133) re-instates
   the `Route::setName()` method, as the changes to lazy-inject routes means that
   setting names and options after adding them to the application now works
   again.
@@ -1610,18 +1610,18 @@ First release candidate.
 
 ### Removed
 
-- [#132](https://github.com/zendframework/zend-expressive/pull/132) removes
-  `Zend\Expressive\Router\Zf2Router`, renaming it to
-  `Zend\Expressive\Router\ZendRouter`.
-- [#139](https://github.com/zendframework/zend-expressive/pull/139) removes:
-  - `Zend\Expressive\Template\TemplateInterface`, renaming it to
-    `Zend\Expressive\Template\TemplateRendererInterface`.
-  - `Zend\Expressive\Template\Plates`, renaming it to
-    `Zend\Expressive\Template\PlatesRenderer`.
-  - `Zend\Expressive\Template\Twig`, renaming it to
-    `Zend\Expressive\Template\TwigRenderer`.
-  - `Zend\Expressive\Template\ZendView`, renaming it to
-    `Zend\Expressive\Template\ZendViewRenderer`.
+- [zendframework/zend-expressive#132](https://github.com/zendframework/zend-expressive/pull/132) removes
+  `Mezzio\Router\LaminasRouter`, renaming it to
+  `Mezzio\Router\LaminasRouter`.
+- [zendframework/zend-expressive#139](https://github.com/zendframework/zend-expressive/pull/139) removes:
+  - `Mezzio\Template\TemplateInterface`, renaming it to
+    `Mezzio\Template\TemplateRendererInterface`.
+  - `Mezzio\Template\Plates`, renaming it to
+    `Mezzio\Template\PlatesRenderer`.
+  - `Mezzio\Template\Twig`, renaming it to
+    `Mezzio\Template\TwigRenderer`.
+  - `Mezzio\Template\LaminasView`, renaming it to
+    `Mezzio\Template\LaminasViewRenderer`.
 
 ### Fixed
 
@@ -1631,7 +1631,7 @@ First release candidate.
 
 ### Added
 
-- [#149](https://github.com/zendframework/zend-expressive/pull/149) adds
+- [zendframework/zend-expressive#149](https://github.com/zendframework/zend-expressive/pull/149) adds
   verbiage to the `RouterInterface::generateUri()` method, specifying that the
   returned URI **MUST NOT** be escaped. The `AuraRouter` implementation has been
   updated to internally use `generateRaw()` to follow this guideline, and retain
@@ -1647,7 +1647,7 @@ First release candidate.
 
 ### Fixed
 
-- [#140](https://github.com/zendframework/zend-expressive/pull/140) updates the
+- [zendframework/zend-expressive#140](https://github.com/zendframework/zend-expressive/pull/140) updates the
   AuraRouter to use the request method from the request object, and inject that
   under the `REQUEST_METHOD` server parameter key before passing the server
   parameters for matching. This simplifies testing.
@@ -1656,15 +1656,15 @@ First release candidate.
 
 ### Added
 
-- [#128](https://github.com/zendframework/zend-expressive/pull/128) adds
+- [zendframework/zend-expressive#128](https://github.com/zendframework/zend-expressive/pull/128) adds
   container factories for each supported template implementation:
-  - `Zend\Expressive\Container\Template\PlatesFactory`
-  - `Zend\Expressive\Container\Template\TwigFactory`
-  - `Zend\Expressive\Container\Template\ZendViewFactory`
-- [#128](https://github.com/zendframework/zend-expressive/pull/128) adds
-  custom `url` and `serverUrl` zend-view helper implementations, to allow
+  - `Mezzio\Container\Template\PlatesFactory`
+  - `Mezzio\Container\Template\TwigFactory`
+  - `Mezzio\Container\Template\LaminasViewFactory`
+- [zendframework/zend-expressive#128](https://github.com/zendframework/zend-expressive/pull/128) adds
+  custom `url` and `serverUrl` laminas-view helper implementations, to allow
   integration with any router and with PSR-7 URI instances. The newly
-  added `ZendViewFactory` will inject these into the `HelperPluginManager` by
+  added `LaminasViewFactory` will inject these into the `HelperPluginManager` by
   default.
 
 ### Deprecated
@@ -1677,7 +1677,7 @@ First release candidate.
 
 ### Fixed
 
-- [#128](https://github.com/zendframework/zend-expressive/pull/128) fixes an
+- [zendframework/zend-expressive#128](https://github.com/zendframework/zend-expressive/pull/128) fixes an
   expectation in the `WhoopsErrorHandler` tests to ensure the tests can run
   successfully.
 
@@ -1697,7 +1697,7 @@ First release candidate.
 
 ### Fixed
 
-- [#125](https://github.com/zendframework/zend-expressive/pull/125) fixes the
+- [zendframework/zend-expressive#125](https://github.com/zendframework/zend-expressive/pull/125) fixes the
   `WhoopsErrorHandler` to ensure it pushes the "pretty page handler" into the
   Whoops runtime.
 
@@ -1705,14 +1705,14 @@ First release candidate.
 
 ### Added
 
-- [#116](https://github.com/zendframework/zend-expressive/pull/116) adds
+- [zendframework/zend-expressive#116](https://github.com/zendframework/zend-expressive/pull/116) adds
   `Application::any()` to complement the various HTTP-specific routing methods;
   it has the same signature as `get()`, `post()`, `patch()`, et al, but allows
   any HTTP method.
-- [#120](https://github.com/zendframework/zend-expressive/pull/120) renames the
+- [zendframework/zend-expressive#120](https://github.com/zendframework/zend-expressive/pull/120) renames the
   router classes for easier discoverability, to better reflect their usage, and
   for better naming consistency. `Aura` becomes `AuraRouter`, `FastRoute`
-  becomes `FastRouteRouter` and `Zf2` becomes `Zf2Router`.
+  becomes `FastRouteRouter` and `Laminas` becomes `LaminasRouter`.
 
 ### Deprecated
 
@@ -1720,9 +1720,9 @@ First release candidate.
 
 ### Removed
 
-- [#120](https://github.com/zendframework/zend-expressive/pull/120) removes the
-  classes `Zend\Expressive\Router\Aura`, `Zend\Expressive\Router\FastRoute`, and
-  `Zend\Expressive\Router\Zf`, per the "Added" section above.
+- [zendframework/zend-expressive#120](https://github.com/zendframework/zend-expressive/pull/120) removes the
+  classes `Mezzio\Router\Aura`, `Mezzio\Router\FastRoute`, and
+  `Mezzio\Router\Laminas`, per the "Added" section above.
 
 ### Fixed
 
@@ -1732,8 +1732,8 @@ First release candidate.
 
 ### Added
 
-- [#112](https://github.com/zendframework/zend-expressive/pull/112) adds a
-  chapter to the documentation on using Aura.Di (v3beta) with zend-expressive.
+- [zendframework/zend-expressive#112](https://github.com/zendframework/zend-expressive/pull/112) adds a
+  chapter to the documentation on using Aura.Di (v3beta) with mezzio.
 
 ### Deprecated
 
@@ -1745,7 +1745,7 @@ First release candidate.
 
 ### Fixed
 
-- [#118](https://github.com/zendframework/zend-expressive/pull/118) fixes an
+- [zendframework/zend-expressive#118](https://github.com/zendframework/zend-expressive/pull/118) fixes an
   issue whereby route options specified via configuration were not being pushed
   into generated `Route` instances before being passed to the underlying router.
 

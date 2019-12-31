@@ -2,22 +2,22 @@
 
 > ## DEPRECATED
 >
-> Starting in Expressive 2.0, we now ship features to allow modular applications
+> Starting in Mezzio 2.0, we now ship features to allow modular applications
 > both at the time of installation, or to add following installation. Please
 > see the chapter on [modular applications](../features/modular-applications.md)
 > for more details.
 
-Zend Framework 2 applications have a concept of modules, independent units that
+Laminas applications have a concept of modules, independent units that
 can provide configuration, services, and hooks into its MVC lifecycle. This
-functionality is provided by zend-modulemanager.
+functionality is provided by laminas-modulemanager.
 
-While zend-modulemanager could be used with Expressive, we suggest another
+While laminas-modulemanager could be used with Mezzio, we suggest another
 approach: modules that are based only on configuration. This powerful approach
 doesn't affect performance, and offers extensive flexibility: each module can
 provide its own services (with factories), default configuration, and routes.
 
 This cookbook will show how to organize modules using
-[mtymek/expressive-config-manager](https://github.com/mtymek/expressive-config-manager),
+[mtymek/mezzio-config-manager](https://github.com/mtymek/mezzio-config-manager),
 a lightweight library that aggregates and merges configuration, optionally caching it.
 
 ## Install the configuration manager
@@ -25,20 +25,20 @@ a lightweight library that aggregates and merges configuration, optionally cachi
 The configuration manager is available in Packagist:
 
 ```bash
-$ composer require mtymek/expressive-config-manager
+$ composer require mtymek/mezzio-config-manager
 ```
 
 ## Generate your config
 
-The default Expressive skeleton installs a `config/config.php` file, which
+The default Mezzio skeleton installs a `config/config.php` file, which
 aggregates all configuration. When using the configuration manager, you will
 need to replace the contents of that file with the following code:
 
 ```php
 <?php
 
-use Zend\Expressive\ConfigManager\ConfigManager;
-use Zend\Expressive\ConfigManager\PhpFileProvider;
+use Mezzio\ConfigManager\ConfigManager;
+use Mezzio\ConfigManager\PhpFileProvider;
 
 $configManager = new ConfigManager([
     new PhpFileProvider('config/autoload/{{,*.}global,{,*.}local}.php'),
@@ -161,4 +161,4 @@ This approach may look simple, but it is flexible and powerful:
 - If cached config is found, `ConfigManager` does not iterate over provider list.
 
 For more details, please refer to the
-[Config Manager Documentation](https://github.com/mtymek/expressive-config-manager#expressive-configuration-manager).
+[Config Manager Documentation](https://github.com/mtymek/mezzio-config-manager#mezzio-configuration-manager).

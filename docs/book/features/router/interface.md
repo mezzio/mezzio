@@ -1,7 +1,7 @@
 # Routing Interface
 
-Expressive defines `Zend\Expressive\Router\RouterInterface`, which can be
-injected into and consumed by `Zend\Expressive\Application` in order to provide
+Mezzio defines `Mezzio\Router\RouterInterface`, which can be
+injected into and consumed by `Mezzio\Application` in order to provide
 dynamic routing capabilities to middleware. The interface serves as an
 abstraction to allow routers with varying capabilities to be used with an
 application.
@@ -9,7 +9,7 @@ application.
 The interface is defined as follows:
 
 ```php
-namespace Zend\Expressive\Router;
+namespace Mezzio\Router;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -55,10 +55,10 @@ interface RouterInterface
      * URI from it.
      *
      * @see https://github.com/auraphp/Aura.Router#generating-a-route-path
-     * @see http://framework.zend.com/manual/current/en/modules/zend.mvc.routing.html
+     * @see https://docs.laminas.dev/laminas.mvc.routing.html
      * @param string $name
      * @param array $substitutions
-     * @param array $options Since zend-expressive-router 2.0/zend-expressive 2.0;
+     * @param array $options Since mezzio-router 2.0/mezzio 2.0;
      *     not defined in earlier versions.
      * @return string
      * @throws Exception\RuntimeException if unable to generate the given URI.
@@ -69,8 +69,8 @@ interface RouterInterface
 
 Developers may create and use their own implementations. We recommend
 registering your implementation as the service
-`Zend\Expressive\Router\RouterInterface` in your container to ensure other
-factories provided by zend-expressive will receive your custom service.
+`Mezzio\Router\RouterInterface` in your container to ensure other
+factories provided by mezzio will receive your custom service.
 
 Implementors should also read the following sections detailing the `Route` and
 `RouteResult` classes, to ensure that their implementations interoperate
@@ -78,7 +78,7 @@ correctly.
 
 > ### generateUri() signature change in 2.0
 >
-> Prior to zendframework/zend-expressive-router 2.0.0, the signature of
+> Prior to mezzio/mezzio-router 2.0.0, the signature of
 > `generateUri()` was:
 >
 > ```php
@@ -93,7 +93,7 @@ correctly.
 
 ## Routes
 
-Routes are defined via `Zend\Expressive\Router\Route`, and aggregate the
+Routes are defined via `Mezzio\Router\Route`, and aggregate the
 following information:
 
 - Path to match.
@@ -105,12 +105,12 @@ following information:
 The `Route` class has the following signature:
 
 ```php
-namespace Zend\Expressive\Router;
+namespace Mezzio\Router;
 
-// Expressive 3.X:
+// Mezzio 3.X:
 use Interop\Http\Server\MiddlewareInterface;
 
-// Expressive 2.X:
+// Mezzio 2.X:
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 
 class Route
@@ -122,7 +122,7 @@ class Route
      * @param string $path Path to match.
      * @param string|callable|MiddlewareInterface $middleware Middleware to use
      *     when this route is matched. MiddlewareInterface is supported starting
-     *     in zend-expressive-router 2.1.0.
+     *     in mezzio-router 2.1.0.
      * @param int|array Allowed HTTP methods; defaults to HTTP_METHOD_ANY.
      * @param string|null $name the route name
      * @throws Exception\InvalidArgumentException for invalid path type.
@@ -150,7 +150,7 @@ class Route
 
     /**
      * @return string|callable|MiddlewareInterface MiddlewareInterface is supported
-     *     starting in zend-expressive-router 2.1.0.
+     *     starting in mezzio-router 2.1.0.
      */
     public function getMiddleware();
 
@@ -179,7 +179,7 @@ class Route
 }
 ```
 
-Typically, developers will use `Zend\Expressive\Application::route()` (or one of
+Typically, developers will use `Mezzio\Application::route()` (or one of
 the HTTP-specific routing methods) to create routes, and will not need to
 interact with `Route` instances. However, that method can *also* accept `Route`
 instances, allowing more flexibility in defining and configuring them;
@@ -188,13 +188,13 @@ additionally, when working with `RouteResult` instances, you may pull the
 
 ## Matching and RouteResults
 
-Internally, `Zend\Expressive\Application` calls on `RouterInterface::match()`,
+Internally, `Mezzio\Application` calls on `RouterInterface::match()`,
 passing it the current request instance. This allows implementations to pull
 what they may need from the request in order to perform their routing logic; for
 example, they may need the request method, the URI path, the value of the
 `HTTPS` server variable, etc.
 
-Implementations are expected to return a `Zend\Expressive\Router\RouteResult`
+Implementations are expected to return a `Mezzio\Router\RouteResult`
 instance, which the routing middleware then uses to determine if routing
 succeeded. In the event of success, it will pull any matched parameters from the
 result and inject them as request attributes, and then pull the matched
@@ -206,14 +206,14 @@ latter, returns a 405 response.
 The `RouteResult` signature is as follows:
 
 ```php
-namespace Zend\Expressive\Router;
+namespace Mezzio\Router;
 
 class RouteResult
 {
     /**
      * Create an instance representing a route success.
      *
-     * This method is removed starting in zend-expressive-router 2.0; use
+     * This method is removed starting in mezzio-router 2.0; use
      * fromRoute() instead.
      *
      * @param string $name Name of matched route.
@@ -227,7 +227,7 @@ class RouteResult
     /**
      * Create an instance representing a route success from a Route instance.
      *
-     * This method was introduced in zend-expressive-router 1.3, and should
+     * This method was introduced in mezzio-router 1.3, and should
      * be used for generating an instance indicating a route success from
      * that version forward.
      *
@@ -258,7 +258,7 @@ class RouteResult
      * If this result represents a failure, return false; otherwise, return the
      * matched route instance.
      *
-     * Available starting in zend-expressive-router 1.3.0.
+     * Available starting in mezzio-router 1.3.0.
      *
      * @return Route
      */
