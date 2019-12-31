@@ -90,7 +90,7 @@ return [
 ```
 > ### Note: Routing may differ based on router
 >
-> The routing examples in this recipe use syntax for the zend-mvc router, and,
+> The routing examples in this recipe use syntax for the laminas-mvc router, and,
 > as such, may not work in your application.
 >
 > For Aura.Router, the 'home' route as listed above would read:
@@ -138,11 +138,11 @@ Such a `LocalizationMiddleware` class could look similar to this:
 <?php
 namespace Application\I18n;
 
-// Expressive 3.X:
+// Mezzio 3.X:
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 
-// Expressive 2.X:
+// Mezzio 2.X:
 use Interop\Http\ServerMiddleware\DelegateInterface as RequestHandlerInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 
@@ -165,9 +165,9 @@ class LocalizationMiddleware implements MiddlewareInterface
         );
 
         // Store the locale as a request attribute
-        // Expressive 3.X:
+        // Mezzio 3.X:
         return $handler->handle($request->withAttribute(self::LOCALIZATION_ATTRIBUTE, $locale));
-        // Expressive 2.X:
+        // Mezzio 2.X:
         return $handler->process($request->withAttribute(self::LOCALIZATION_ATTRIBUTE, $locale));
     }
 }
@@ -218,10 +218,10 @@ return [
         /* ... */
         [
             'middleware' => [
-                Zend\Expressive\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
                 Helper\UrlHelperMiddleware::class,
                 LocalizationMiddleware::class,
-                Zend\Expressive\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
         ],

@@ -1,13 +1,14 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -22,7 +23,7 @@ const DEFAULT_DELEGATE = __NAMESPACE__ . '\Delegate\DefaultDelegate';
 
 /**
  * Legacy service name for the DispatchMiddleware referenced in version 2.
- * Should resolve to the Zend\Expressive\Router\Middleware\DispatchMiddleware
+ * Should resolve to the Mezzio\Router\Middleware\DispatchMiddleware
  * service.
  *
  * @deprecated To remove in version 4.0.0.
@@ -32,7 +33,7 @@ const DISPATCH_MIDDLEWARE = __NAMESPACE__ . '\Middleware\DispatchMiddleware';
 
 /**
  * Legacy service name for the ImplicitHeadMiddleware referenced in version 2.
- * Should resolve to the Zend\Expressive\Router\Middleware\ImplicitHeadMiddleware
+ * Should resolve to the Mezzio\Router\Middleware\ImplicitHeadMiddleware
  * service.
  *
  * @deprecated To remove in version 4.0.0.
@@ -42,7 +43,7 @@ const IMPLICIT_HEAD_MIDDLEWARE = __NAMESPACE__ . '\Middleware\ImplicitHeadMiddle
 
 /**
  * Legacy service name for the ImplicitOptionsMiddleware referenced in version 2.
- * Should resolve to the Zend\Expressive\Router\Middleware\ImplicitOptionsMiddleware
+ * Should resolve to the Mezzio\Router\Middleware\ImplicitOptionsMiddleware
  * service.
  *
  * @deprecated To remove in version 4.0.0.
@@ -61,7 +62,7 @@ const NOT_FOUND_MIDDLEWARE = __NAMESPACE__ . '\Middleware\NotFoundMiddleware';
 
 /**
  * Legacy service name for the RouteMiddleware referenced in version 2.
- * Should resolve to the Zend\Expressive\Router\Middleware\PathBasedRoutingMiddleware
+ * Should resolve to the Mezzio\Router\Middleware\PathBasedRoutingMiddleware
  * service.
  *
  * @deprecated To remove in version 4.0.0.
