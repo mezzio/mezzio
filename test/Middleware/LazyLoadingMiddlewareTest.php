@@ -1,23 +1,24 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Middleware;
+namespace MezzioTest\Middleware;
 
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
+use Mezzio\Exception\InvalidMiddlewareException;
+use Mezzio\Middleware\LazyLoadingMiddleware;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Expressive\Exception\InvalidMiddlewareException;
-use Zend\Expressive\Middleware\LazyLoadingMiddleware;
 
 class LazyLoadingMiddlewareTest extends TestCase
 {

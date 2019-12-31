@@ -1,6 +1,6 @@
 # Middleware Types
 
-Expressive allows you to compose applications out of _pipeline_ and _routed_
+Mezzio allows you to compose applications out of _pipeline_ and _routed_
 middleware.
 
 **Pipeline** middleware is middleware that defines the workflow of your
@@ -16,26 +16,26 @@ include such aspects as:
 HTTP methods. As an example, you might want middleware that only responds to
 HTTP POST requests to the path `/users`.
 
-Expressive allows you to define middleware using any of the following:
+Mezzio allows you to define middleware using any of the following:
 
 - PSR-15 middlewares - [http-interop/http-server-middleware](https://github.com/http-interop/http-server-middleware)
-  instances (starting in Expressive 3.0)
+  instances (starting in Mezzio 3.0)
 - Callable middleware that implements the http-interop/http-server-middleware signature
-  (starting in Expressive 3.0).
+  (starting in Mezzio 3.0).
 - [http-interop/http-middleware](https://github.com/http-interop/http-middleware/tree/0.4.1)
-  instances (supported in Expressive 2.X only).
+  instances (supported in Mezzio 2.X only).
 - Callable middleware that implements the http-interop/http-middleware signature
-  (supported in Expressive 2.X only).
-- Callable "double-pass" middleware (as used in Expressive 1.X, and supported in
-  Expressive 2.X only).
+  (supported in Mezzio 2.X only).
+- Callable "double-pass" middleware (as used in Mezzio 1.X, and supported in
+  Mezzio 2.X only).
 - Service names resolving to one of the above middleware types.
 - Middleware pipelines expressed as arrays of the above middleware types.
 
-## PSR-15 middleware (http-interop/http-server-middleware) (Expressive 3.0)
+## PSR-15 middleware (http-interop/http-server-middleware) (Mezzio 3.0)
 
 The http-interop/http-server-middleware project is the basis for the proposed
 PSR-15 specification, which covers HTTP Server Middleware that consumes
-[PSR-7](http://www.php-fig.org/psr/psr-7) HTTP messages. Expressive 3.0 accepts
+[PSR-7](http://www.php-fig.org/psr/psr-7) HTTP messages. Mezzio 3.0 accepts
 middleware that implements the `MiddlewareInterface`. As an example:
 
 ```php
@@ -59,10 +59,10 @@ class SomeMiddleware implements MiddlewareInterface
 
 You could also implement such middleware via an anonymous class.
 
-## Callable http-server-middleware (Expressive 3.0)
+## Callable http-server-middleware (Mezzio 3.0)
 
 Sometimes you may not want to create a class for one-off middleware. As such,
-Expressive allows you to provide a PHP callable that uses the same signature as
+Mezzio allows you to provide a PHP callable that uses the same signature as
 `Interop\Http\Server\MiddlewareInterface`:
 
 ```php
@@ -84,13 +84,13 @@ One note: the `$request` argument does not require a typehint, and examples
 throughout the manual will omit the typehint when demonstrating callable
 middleware.
 
-## http-interop/http-middleware (Expressive 2.X)
+## http-interop/http-middleware (Mezzio 2.X)
 
 The http-interop/http-middleware project is the basis for the proposed PSR-15
 specification, which covers HTTP Server Middleware that consumes
 [PSR-7](http://www.php-fig.org/psr/psr-7/) HTTP messages. The project defines two
 interfaces, `Interop\Http\ServerMiddleware\MiddlewareInterface` and 
-`Interop\Http\ServerMiddleware\DelegateInterface`. Expressive 2.0 accepts middleware
+`Interop\Http\ServerMiddleware\DelegateInterface`. Mezzio 2.0 accepts middleware
 that implements the `MiddlewareInterface`. As an example:
 
 ```php
@@ -114,10 +114,10 @@ class SomeMiddleware implements MiddlewareInterface
 If you are using PHP 7 or above, you could also implement such middleware via an
 anonymous class.
 
-## Callable http-middleware (Expressive 2.X)
+## Callable http-middleware (Mezzio 2.X)
 
 Sometimes you may not want to create a class for one-off middleware. As such,
-Expressive allows you to provide a PHP callable that uses the same signature as
+Mezzio allows you to provide a PHP callable that uses the same signature as
 `Interop\Http\ServerMiddleware\MiddlewareInterface`:
 
 ```php
@@ -139,9 +139,9 @@ One note: the `$request` argument does not require a typehint, and examples
 throughout the manual will omit the typehint when demonstrating callable
 middleware.
 
-## Double-pass middleware (Expressive 1.X and 2.X)
+## Double-pass middleware (Mezzio 1.X and 2.X)
 
-Expressive 1.X was based on Stratigility 1.X, which allowed middleware with the
+Mezzio 1.X was based on Stratigility 1.X, which allowed middleware with the
 following signature:
 
 ```php
@@ -171,30 +171,30 @@ argument, but instead create a concrete response to return, or manipulate the
 response returned by `$next`; this prevents a number of potential error
 conditions that may otherwise occur due to incomplete or mutated response state.
 
-This middleware is still supported in Expressive 2.X, but we encourage users to
+This middleware is still supported in Mezzio 2.X, but we encourage users to
 adopt http-interop/http-middleware signatures, as we will be deprecating
 double-pass middleware eventually.
 
-> This functionality has been removed in Expressive 3.0.
+> This functionality has been removed in Mezzio 3.0.
 > We encourage users to use PSR-15 middlewares.
 
 ## Service-based middleware
 
 We encourage the use of a dependency injection container for providing your
-middleware. As such, Expressive also allows you to use _service names_ for both
+middleware. As such, Mezzio also allows you to use _service names_ for both
 pipeline and routed middleware. Generally, service names will be the specific
 middleware class names, but can be any valid string that resolves to a service.
 
-When Expressive is provided a service name for middleware, it internally
-decorates the middleware in a `Zend\Expressive\Middleware\LazyLoadingMiddleware`
+When Mezzio is provided a service name for middleware, it internally
+decorates the middleware in a `Mezzio\Middleware\LazyLoadingMiddleware`
 instance, allowing it to be loaded only when dispatched.
 
 ## Middleware pipelines
 
-Expressive allows any pipeline or routed middleware to be self-contained
-[middleware pipelines](https://docs.zendframework.com/zend-stratigility/api/#middleware).
-To prevent the need for instantiating a `Zend\Stratigility\MiddlewarePipe` or
-`Zend\Expressive\Application` instance when defining the pipeline, Expressive
+Mezzio allows any pipeline or routed middleware to be self-contained
+[middleware pipelines](https://docs.laminas.dev/laminas-stratigility/api/#middleware).
+To prevent the need for instantiating a `Laminas\Stratigility\MiddlewarePipe` or
+`Mezzio\Application` instance when defining the pipeline, Mezzio
 allows you to provide an array of middleware:
 
 ```php

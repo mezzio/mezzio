@@ -1,19 +1,39 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive;
+namespace MezzioTest;
 
 use DomainException;
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 use InvalidArgumentException;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Response\EmitterInterface;
+use Laminas\Diactoros\Response\SapiEmitter;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Diactoros\ServerRequest as Request;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\Route as StratigilityRoute;
+use Mezzio\Application;
+use Mezzio\Delegate;
+use Mezzio\Emitter\EmitterStack;
+use Mezzio\Exception;
+use Mezzio\Exception\InvalidMiddlewareException;
+use Mezzio\Middleware;
+use Mezzio\Router\Exception as RouterException;
+use Mezzio\Router\Route;
+use Mezzio\Router\RouteResult;
+use Mezzio\Router\RouterInterface;
+use Mezzio\Template\TemplateRendererInterface;
 use Mockery;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
@@ -28,28 +48,9 @@ use RuntimeException;
 use Throwable;
 use TypeError;
 use UnexpectedValueException;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Response\EmitterInterface;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\ServerRequest as Request;
-use Zend\Diactoros\ServerRequestFactory;
-use Zend\Expressive\Application;
-use Zend\Expressive\Delegate;
-use Zend\Expressive\Emitter\EmitterStack;
-use Zend\Expressive\Exception;
-use Zend\Expressive\Exception\InvalidMiddlewareException;
-use Zend\Expressive\Middleware;
-use Zend\Expressive\Router\Exception as RouterException;
-use Zend\Expressive\Router\Route;
-use Zend\Expressive\Router\RouteResult;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Template\TemplateRendererInterface;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\Route as StratigilityRoute;
 
 /**
- * @covers Zend\Expressive\Application
+ * @covers Mezzio\Application
  */
 class ApplicationTest extends TestCase
 {
@@ -627,7 +628,7 @@ class ApplicationTest extends TestCase
     {
         $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
         $container = $this->mockContainerInterface();
-        $this->injectServiceInContainer($container, 'Zend\Expressive\Delegate\DefaultDelegate', $handler);
+        $this->injectServiceInContainer($container, 'Mezzio\Delegate\DefaultDelegate', $handler);
 
         $app = new Application($this->router->reveal(), $container->reveal());
 
@@ -639,7 +640,7 @@ class ApplicationTest extends TestCase
     public function testWillCreateAndConsumeNotFoundDelegateFactoryToCreateDelegateIfNoDelegateInContainer()
     {
         $container = $this->mockContainerInterface();
-        $container->has('Zend\Expressive\Delegate\DefaultDelegate')->willReturn(false);
+        $container->has('Mezzio\Delegate\DefaultDelegate')->willReturn(false);
         $container->has(TemplateRendererInterface::class)->willReturn(false);
         $app = new Application($this->router->reveal(), $container->reveal());
 
@@ -658,7 +659,7 @@ class ApplicationTest extends TestCase
     public function testWillUseConfiguredTemplateRendererWhenCreatingDelegateFromNotFoundDelegateFactory()
     {
         $container = $this->mockContainerInterface();
-        $container->has('Zend\Expressive\Delegate\DefaultDelegate')->willReturn(false);
+        $container->has('Mezzio\Delegate\DefaultDelegate')->willReturn(false);
 
         $renderer = $this->prophesize(TemplateRendererInterface::class)->reveal();
         $this->injectServiceInContainer($container, TemplateRendererInterface::class, $renderer);
