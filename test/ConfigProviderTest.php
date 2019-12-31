@@ -1,30 +1,31 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive;
+namespace MezzioTest;
 
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\Stratigility\Middleware\ErrorHandler;
+use Mezzio\Application;
+use Mezzio\ApplicationPipeline;
+use Mezzio\ConfigProvider;
+use Mezzio\Delegate\DefaultDelegate;
+use Mezzio\Middleware;
+use Mezzio\MiddlewareContainer;
+use Mezzio\MiddlewareFactory;
+use Mezzio\Router\DispatchMiddleware;
+use Mezzio\Router\PathBasedRoutingMiddleware;
+use Mezzio\ServerRequestErrorResponseGenerator;
+use Mezzio\ServerRequestFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Expressive\Application;
-use Zend\Expressive\ApplicationPipeline;
-use Zend\Expressive\ConfigProvider;
-use Zend\Expressive\Delegate\DefaultDelegate;
-use Zend\Expressive\Middleware;
-use Zend\Expressive\MiddlewareContainer;
-use Zend\Expressive\MiddlewareFactory;
-use Zend\Expressive\Router\DispatchMiddleware;
-use Zend\Expressive\Router\PathBasedRoutingMiddleware;
-use Zend\Expressive\ServerRequestErrorResponseGenerator;
-use Zend\Expressive\ServerRequestFactory;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
-use Zend\HttpHandlerRunner\RequestHandlerRunner;
-use Zend\Stratigility\Middleware\ErrorHandler;
 
 class ConfigProviderTest extends TestCase
 {

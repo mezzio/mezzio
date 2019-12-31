@@ -1,21 +1,19 @@
 #!/usr/bin/env php
 <?php // @codingStandardsIgnoreFile
 /**
- * Script for migrating configuration-driven pipelines/routes to programmatic usage.
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2016-2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Expressive;
+namespace Mezzio;
 
 if (false === ($paths = getenv('PATH'))) {
     fwrite(STDERR, "No PATH environment provided; cannot execute.\n");
-    fwrite(STDERR, "Please manually run 'composer require --dev zendframework/zend-expressive-tooling'\n");
-    fwrite(STDERR, "or 'composer remove zendframework/zend-expressive-tooling'.\n");
+    fwrite(STDERR, "Please manually run 'composer require --dev mezzio/mezzio-tooling'\n");
+    fwrite(STDERR, "or 'composer remove mezzio/mezzio-tooling'.\n");
     exit(1);
 }
 
@@ -35,8 +33,8 @@ foreach ($paths as $path) {
 
 if (! $composer) {
     fwrite(STDERR, "Unable to find composer, composer.bat, or composer.phar in your PATH.\n");
-    fwrite(STDERR, "Please manually run 'composer require --dev zendframework/zend-expressive-tooling'\n");
-    fwrite(STDERR, "or 'composer remove zendframework/zend-expressive-tooling', using the\n");
+    fwrite(STDERR, "Please manually run 'composer require --dev mezzio/mezzio-tooling'\n");
+    fwrite(STDERR, "or 'composer remove mezzio/mezzio-tooling', using the\n");
     fwrite(STDERR, "appropriate path to your composer binary.\n");
     exit(1);
 }
@@ -46,13 +44,13 @@ $remove  = false;
 
 switch (strtolower($command)) {
     case 'remove':
-        echo "Removing zend-expressive-tooling\n";
+        echo "Removing mezzio-tooling\n";
         $remove  = true;
-        $command = sprintf('%s remove --dev zendframework/zend-expressive-tooling', $composer);
+        $command = sprintf('%s remove --dev mezzio/mezzio-tooling', $composer);
         break;
     default:
-        echo "Installing zend-expressive-tooling\n";
-        $command = sprintf('%s require --dev zendframework/zend-expressive-tooling', $composer);
+        echo "Installing mezzio-tooling\n";
+        $command = sprintf('%s require --dev mezzio/mezzio-tooling', $composer);
         break;
 }
 
@@ -67,7 +65,7 @@ if ($remove) {
     exit(0);
 }
 
-$toolingPackage = sprintf('%s/vendor/zendframework/zend-expressive-tooling/composer.json', getcwd());
+$toolingPackage = sprintf('%s/vendor/mezzio/mezzio-tooling/composer.json', getcwd());
 
 if (! file_exists($toolingPackage)) {
     fwrite(STDERR, "\n\nInstalled tooling package, but unable to locate script information.\n");
