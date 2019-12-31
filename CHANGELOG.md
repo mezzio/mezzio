@@ -8,8 +8,8 @@ Initial tagged release.
 
 ### Added
 
-- [#112](https://github.com/zendframework/zend-expressive/pull/112) adds a
-  chapter to the documentation on using Aura.Di (v3beta) with zend-expressive.
+- [zendframework/zend-expressive#112](https://github.com/zendframework/zend-expressive/pull/112) adds a
+  chapter to the documentation on using Aura.Di (v3beta) with mezzio.
 
 ### Deprecated
 
@@ -21,7 +21,7 @@ Initial tagged release.
 
 ### Fixed
 
-- [#118](https://github.com/zendframework/zend-expressive/pull/118) fixes an
+- [zendframework/zend-expressive#118](https://github.com/zendframework/zend-expressive/pull/118) fixes an
   issue whereby route options specified via configuration were not being pushed
   into generated `Route` instances before being passed to the underlying router.
 

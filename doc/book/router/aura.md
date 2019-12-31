@@ -46,12 +46,12 @@ $ composer require aura/router
 
 ## Quick Start
 
-At its simplest, you can instantiate a `Zend\Expressive\Router\Aura` instance
+At its simplest, you can instantiate a `Mezzio\Router\Aura` instance
 with no arguments; it will create the underlying Aura.Router objects required
 and compose them for you:
 
 ```php
-use Zend\Expressive\Router\Aura;
+use Mezzio\Router\Aura;
 
 $router = new Aura();
 ```
@@ -60,13 +60,13 @@ $router = new Aura();
 
 If you need greater control over the Aura.Router setup and configuration, you
 can create the instances necessary and inject them into
-`Zend\Expressive\Router\Aura` during instantiation.
+`Mezzio\Router\Aura` during instantiation.
 
 ```php
 <?php
 use Aura\Router\RouterFactory;
-use Zend\Expressive\AppFactory;
-use Zend\Expressive\Router\Aura as AuraBridge;
+use Mezzio\AppFactory;
+use Mezzio\Router\Aura as AuraBridge;
 
 $auraRouter = (new RouterFactory())->newInstance();
 $auraRouter->setSecure(true);
@@ -98,8 +98,8 @@ two strategies for creating your Aura.Router implementation.
 ### Basic Router
 
 If you don't need to provide any setup or configuration, you can simply
-instantiate and return an instance of `Zend\Expressive\Router\Aura` for the
-service name `Zend\Expressive\Router\RouterInterface`.
+instantiate and return an instance of `Mezzio\Router\Aura` for the
+service name `Mezzio\Router\RouterInterface`.
 
 A factory would look like this:
 
@@ -108,7 +108,7 @@ A factory would look like this:
 namespace Application\Container;
 
 use Interop\Container\ContainerInterface;
-use Zend\Expressive\Router\Aura;
+use Mezzio\Router\Aura;
 
 class RouterFactory
 {
@@ -123,11 +123,11 @@ class RouterFactory
 }
 ```
 
-You would register this with zend-servicemanager using:
+You would register this with laminas-servicemanager using:
 
 ```php
 $container->setFactory(
-    'Zend\Expressive\Router\RouterInterface',
+    'Mezzio\Router\RouterInterface',
     'Application\Container\RouterFactory'
 );
 ```
@@ -135,16 +135,16 @@ $container->setFactory(
 And in Pimple:
 
 ```php
-$pimple['Zend\Expressive\Router\RouterInterface'] = new Application\Container\RouterFactory();
+$pimple['Mezzio\Router\RouterInterface'] = new Application\Container\RouterFactory();
 ```
 
-For zend-servicemanager, you can omit the factory entirely, and register the
+For laminas-servicemanager, you can omit the factory entirely, and register the
 class as an invokable:
 
 ```php
 $container->setInvokableClass(
-    'Zend\Expressive\Router\RouterInterface',
-    'Zend\Expressive\Router\Aura'
+    'Mezzio\Router\RouterInterface',
+    'Mezzio\Router\Aura'
 );
 ```
 
@@ -154,8 +154,8 @@ If you want to provide custom setup or configuration, you can do so. In this
 example, we will be defining two factories:
 
 - A factory to register as and generate an `Aura\Router\Router` instance.
-- A factory registered as `Zend\Expressive\Router\RouterInterface`, which
-  creates and returns a `Zend\Expressive\Router\Aura` instance composing the
+- A factory registered as `Mezzio\Router\RouterInterface`, which
+  creates and returns a `Mezzio\Router\Aura` instance composing the
   `Aura\Router\Router` instance.
 
 Sound difficult? It's not; we've essentially done it above already!
@@ -189,7 +189,7 @@ class AuraRouterFactory
 namespace Application\Container;
 
 use Interop\Container\ContainerInterface;
-use Zend\Expressive\Router\Aura as AuraBridge;
+use Mezzio\Router\Aura as AuraBridge;
 
 class RouterFactory
 {
@@ -206,11 +206,11 @@ class RouterFactory
 
 From here, you will need to register your factories with your IoC container.
 
-If you are using zend-servicemanager, this will look like:
+If you are using laminas-servicemanager, this will look like:
 
 ```php
 // Programmatically:
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 $container = new ServiceManager();
 $container->addFactory(
@@ -218,7 +218,7 @@ $container->addFactory(
     'Application\Container\AuraRouterFactory'
 );
 $container->addFactory(
-    'Zend\Expressive\Router\RouterInterface',
+    'Mezzio\Router\RouterInterface',
     'Application\Container\RouterFactory'
 );
 
@@ -226,7 +226,7 @@ $container->addFactory(
 return [
     'factories' => [
         'Aura\Router\Router' => 'Application\Container\AuraRouterFactory',
-        'Zend\Expressive\Router\RouterInterface' => 'Application\Container\RouterFactory',
+        'Mezzio\Router\RouterInterface' => 'Application\Container\RouterFactory',
     ],
 ];
 ```
@@ -240,5 +240,5 @@ use Interop\Container\Pimple\PimpleInterop as Pimple;
 
 $container = new Pimple();
 $container['Aura\Router\Router'] = new AuraRouterFactory();
-$container['Zend\Expressive\Router\RouterInterface'] = new RouterFactory();
+$container['Mezzio\Router\RouterInterface'] = new RouterFactory();
 ```

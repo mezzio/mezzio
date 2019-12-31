@@ -1,33 +1,32 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Expressive\Router;
+namespace Mezzio\Router;
 
+use Laminas\Mvc\Router\Http\Part as PartRoute;
+use Laminas\Mvc\Router\Http\TreeRouteStack;
+use Laminas\Mvc\Router\RouteMatch;
+use Laminas\Psr7Bridge\Psr7ServerRequest;
+use Mezzio\Exception;
 use Psr\Http\Message\ServerRequestInterface as PsrRequest;
-use Zend\Expressive\Exception;
-use Zend\Mvc\Router\Http\Part as PartRoute;
-use Zend\Mvc\Router\Http\TreeRouteStack;
-use Zend\Mvc\Router\RouteMatch;
-use Zend\Psr7Bridge\Psr7ServerRequest;
 
 /**
- * Router implementation that consumes zend-mvc TreeRouteStack.
+ * Router implementation that consumes laminas-mvc TreeRouteStack.
  *
- * This router implementation consumes the TreeRouteStack from zend-mvc (the
- * default router implementation in a ZF2 application). The addRoute() method
+ * This router implementation consumes the TreeRouteStack from laminas-mvc (the
+ * default router implementation in a Laminas application). The addRoute() method
  * injects segment routes into the TreeRouteStack. To manage 405 (Method Not
  * Allowed) errors, we inject a METHOD_NOT_ALLOWED_ROUTE route as a child
  * route, at a priority lower than method-specific routes. If the request
  * matches with this special route, we can send the HTTP allowed methods stored
  * for that path.
  */
-class Zf2 implements RouterInterface
+class Laminas implements RouterInterface
 {
     const METHOD_NOT_ALLOWED_ROUTE = 'method_not_allowed';
 
@@ -39,7 +38,7 @@ class Zf2 implements RouterInterface
     private $allowedMethodsByPath = [];
 
     /**
-     * Map a named route to a ZF2 route name to use for URI generation.
+     * Map a named route to a Laminas route name to use for URI generation.
      *
      * @var array
      */
@@ -48,7 +47,7 @@ class Zf2 implements RouterInterface
     /**
      * @var TreeRouteStack
      */
-    private $zf2Router;
+    private $laminasRouter;
 
     /**
      * Constructor.
@@ -63,7 +62,7 @@ class Zf2 implements RouterInterface
             $router = $this->createRouter();
         }
 
-        $this->zf2Router = $router;
+        $this->laminasRouter = $router;
     }
 
     /**
@@ -83,7 +82,7 @@ class Zf2 implements RouterInterface
 
         $allowedMethods = $route->getAllowedMethods();
         if (Route::HTTP_METHOD_ANY === $allowedMethods) {
-            $this->zf2Router->addRoute($name, [
+            $this->laminasRouter->addRoute($name, [
                 'type'    => 'segment',
                 'options' => $options,
             ]);
@@ -117,7 +116,7 @@ class Zf2 implements RouterInterface
             unset($spec['child_routes'][self::METHOD_NOT_ALLOWED_ROUTE]);
         }
 
-        $this->zf2Router->addRoute($name, $spec);
+        $this->laminasRouter->addRoute($name, $spec);
         $this->allowedMethodsByPath[$path] = $allowedMethods;
         $this->routeNameMap[$name] = sprintf('%s/%s', $name, $httpMethodRouteName);
     }
@@ -130,7 +129,7 @@ class Zf2 implements RouterInterface
      */
     public function match(PsrRequest $request)
     {
-        $match = $this->zf2Router->match(Psr7ServerRequest::toZend($request, true));
+        $match = $this->laminasRouter->match(Psr7ServerRequest::toLaminas($request, true));
 
         if (null === $match) {
             return RouteResult::fromRouteFailure();
@@ -144,7 +143,7 @@ class Zf2 implements RouterInterface
      */
     public function generateUri($name, array $substitutions = [])
     {
-        if (! $this->zf2Router->hasRoute($name)) {
+        if (! $this->laminasRouter->hasRoute($name)) {
             throw new Exception\RuntimeException(sprintf(
                 'Cannot generate URI based on route "%s"; route not found',
                 $name
@@ -158,7 +157,7 @@ class Zf2 implements RouterInterface
             'only_return_path' => true,
         ];
 
-        return $this->zf2Router->assemble($substitutions, $options);
+        return $this->laminasRouter->assemble($substitutions, $options);
     }
 
     /**
