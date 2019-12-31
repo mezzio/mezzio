@@ -1,29 +1,29 @@
-# zend-expressive
+# mezzio
 
-[![Build Status](https://secure.travis-ci.org/zendframework/zend-expressive.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-expressive)
+[![Build Status](https://travis-ci.org/mezzio/mezzio.svg?branch=master)](https://travis-ci.org/mezzio/mezzio)
 
 *Begin developing PSR-7 middleware applications in minutes!*
 
-zend-expressive builds on [zend-stratigility](https://github.com/zendframework/zend-stratigility)
+mezzio builds on [laminas-stratigility](https://github.com/laminas/laminas-stratigility)
 to provide a minimalist PSR-7 middleware framework for PHP, with the following
 features:
 
 - Routing. Choose your own router; we support:
     - [Aura.Router](https://github.com/auraphp/Aura.Router)
     - [FastRoute](https://github.com/nikic/FastRoute)
-    - [ZF2's MVC router](https://github.com/zendframework/zend-mvc)
+    - [Laminas's MVC router](https://github.com/laminas/laminas-mvc)
 - DI Containers, via [container-interop](https://github.com/container-interop/container-interop).
   Middleware matched via routing is retrieved from the composed container.
 - Optionally, templating. We support:
     - [Plates](http://platesphp.com/)
     - [Twig](http://twig.sensiolabs.org/)
-    - [ZF2's PhpRenderer](https://github.com/zendframework/zend-view)
+    - [Laminas's PhpRenderer](https://github.com/laminas/laminas-view)
 
 ## Installation
 
-We provide two ways to install Expressive, both using
+We provide two ways to install Mezzio, both using
 [Composer](https://getcomposer.org): via our
-[skeleton project and installer](https://github.com/zendframework/zend-expressive-skeleton),
+[skeleton project and installer](https://github.com/mezzio/mezzio-skeleton),
 or manually.
 
 ### Using the skeleton + installer
@@ -36,22 +36,22 @@ also provides configuration for officially supported dependencies.
 To use the skeleton, use Composer's `create-project` command:
 
 ```bash
-$ composer create-project zendframework/zend-expressive-skeleton <project dir>
+$ composer create-project mezzio/mezzio-skeleton <project dir>
 ```
 
 This will prompt you through choosing your dependencies, and then create and
 install the project in the `<project dir>` (omitting the `<project dir>` will
-create and install in a `zend-expressive-skeleton/` directory).
+create and install in a `mezzio-skeleton/` directory).
 
 ### Manual Composer installation
 
-You can install Expressive standalone using Composer:
+You can install Mezzio standalone using Composer:
 
 ```bash
-$ composer require zendframework/zend-expressive
+$ composer require mezzio/mezzio
 ```
 
-However, at this point, Expressive is not usable, as you need to supply
+However, at this point, Mezzio is not usable, as you need to supply
 minimally:
 
 - a router.
@@ -60,18 +60,18 @@ minimally:
 We currently support and provide the following routing integrations:
 
 - [Aura.Router](https://github.com/auraphp/Aura.Router):
-  `composer require zendframework/zend-expressive-aurarouter`
+  `composer require mezzio/mezzio-aurarouter`
 - [FastRoute](https://github.com/nikic/FastRoute):
-  `composer require zendframework/zend-expressive-fastroute`
-- [ZF2 MVC Router](https://github.com/zendframework/zend-mvc):
-  `composer require zendframework/zend-expressive-zendrouter`
+  `composer require mezzio/mezzio-fastroute`
+- [Laminas MVC Router](https://github.com/laminas/laminas-mvc):
+  `composer require mezzio/mezzio-laminasrouter`
 
 We recommend using a dependency injection container, and typehint against
 [container-interop](https://github.com/container-interop/container-interop). We
 can recommend the following implementations:
 
-- [zend-servicemanager](https://github.com/zendframework/zend-servicemanager):
-  `composer require zendframework/zend-servicemanager`
+- [laminas-servicemanager](https://github.com/laminas/laminas-servicemanager):
+  `composer require laminas/laminas-servicemanager`
 - [pimple-interop](https://github.com/moufmouf/pimple-interop):
   `composer require mouf/pimple-interop`
 - [Aura.Di](https://github.com/auraphp/Aura.Di):
@@ -96,7 +96,7 @@ $ php -S 0.0.0.0:8080 -t doc/html/ # then browse to http://localhost:8080/
 > this, make sure that `$HOME/.composer/vendor/bin` is on your `$PATH`.
 
 Additionally, public-facing, browseable documentation is available at
-http://zend-expressive.rtfd.org.
+http://mezzio.rtfd.org.
 
 ## Architecture
 
