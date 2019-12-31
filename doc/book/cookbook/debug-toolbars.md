@@ -1,24 +1,24 @@
-# How can I get a debug toolbar for my Expressive application?
+# How can I get a debug toolbar for my Mezzio application?
 
 Many modern frameworks and applications provide debug toolbars: in-browser
 toolbars to provide profiling information of the request executed. These can
 provide invaluable details into application objects, database queries, and more.
-As an Expressive user, how can you get similar functionality?
+As an Mezzio user, how can you get similar functionality?
 
 ## Zend Server Z-Ray
 
-[Zend Server](http://www.zend.com/en/products/zend_server) ships with a tool
-called [Z-Ray](http://www.zend.com/en/products/server/z-ray), which provides
+[Zend Server](https://www.zend.com/en/products/laminas_server) ships with a tool
+called [Z-Ray](https://www.zend.com/en/products/server/z-ray), which provides
 both a debug toolbar and debug console (for API debugging). Z-Ray is also
 currently [available as a standalone technology
-preview](http://www.zend.com/en/products/z-ray/z-ray-preview), and can be added
+preview](https://www.zend.com/en/products/z-ray/z-ray-preview), and can be added
 as an extension to an existing PHP installation.
 
 When using Zend Server or the standalone Z-Ray, you do not need to make any
 changes to your application whatsoever to benefit from it; you simply need to
 make sure Z-Ray is enabled and/or that you've setup a security token to
 selectively enable it on-demand. See the
-[Z-Ray documentation](http://files.zend.com/help/Zend-Server/content/z-ray_concept.htm)
+[Z-Ray documentation](http://files.zend.com/help/Laminas-Server/content/z-ray_concept.htm)
 for full usage details.
 
 ## bitExpert/prophiler-psr7-middleware
@@ -36,7 +36,7 @@ $ composer require bitExpert/prophiler-psr7-middleware
 
 From there, you will need to create a factory for the middleware, and add it to
 your middleware pipeline. Stephan Hochdörfer, author of the package, has written
-a [post detailing these steps](https://blog.bitexpert.de/blog/using-prophiler-with-zend-expressive/).
+a [post detailing these steps](https://blog.bitexpert.de/blog/using-prophiler-with-mezzio/).
 
 > ### Use locally!
 >

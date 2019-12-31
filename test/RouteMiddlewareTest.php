@@ -1,28 +1,27 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/mezzio/mezzio for the canonical source repository
+ * @copyright https://github.com/mezzio/mezzio/blob/master/COPYRIGHT.md
+ * @license   https://github.com/mezzio/mezzio/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Expressive;
+namespace MezzioTest;
 
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Mezzio\Application;
+use Mezzio\Exception\InvalidMiddlewareException;
+use Mezzio\Router\AuraRouter;
+use Mezzio\Router\FastRouteRouter;
+use Mezzio\Router\LaminasRouter;
+use Mezzio\Router\RouteResult;
+use Mezzio\Router\RouteResultObserverInterface;
+use Mezzio\Router\RouterInterface;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest;
-use Zend\Expressive\Application;
-use Zend\Expressive\Exception\InvalidMiddlewareException;
-use Zend\Expressive\Router\AuraRouter;
-use Zend\Expressive\Router\FastRouteRouter;
-use Zend\Expressive\Router\RouteResult;
-use Zend\Expressive\Router\RouteResultObserverInterface;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Router\ZendRouter;
 
 class RouteMiddlewareTest extends TestCase
 {
@@ -107,6 +106,7 @@ class RouteMiddlewareTest extends TestCase
 
         $this->router->match($request)->willReturn($result);
         $request = $request->withAttribute(RouteResult::class, $result);
+ $request->withAttribute(\Zend\Expressive\Router\RouteResult::class, $result);
 
         $next = function ($request, $response) {
             $this->fail('Should not enter $next');
@@ -132,6 +132,7 @@ class RouteMiddlewareTest extends TestCase
 
         $this->router->match($request)->willReturn($result);
         $request = $request->withAttribute(RouteResult::class, $result);
+ $request->withAttribute(\Zend\Expressive\Router\RouteResult::class, $result);
 
         $next = function ($request, $response) {
             $this->fail('Should not enter $next');
@@ -157,6 +158,7 @@ class RouteMiddlewareTest extends TestCase
 
         $this->router->match($request)->willReturn($result);
         $request = $request->withAttribute(RouteResult::class, $result);
+ $request->withAttribute(\Zend\Expressive\Router\RouteResult::class, $result);
 
         $next = function ($request, $response) {
             $this->fail('Should not enter $next');
@@ -182,6 +184,7 @@ class RouteMiddlewareTest extends TestCase
 
         $this->router->match($request)->willReturn($result);
         $request = $request->withAttribute(RouteResult::class, $result);
+ $request->withAttribute(\Zend\Expressive\Router\RouteResult::class, $result);
 
         // No container for this one, to ensure we marshal only a potential object instance.
         $app = new Application($this->router->reveal());
@@ -206,6 +209,7 @@ class RouteMiddlewareTest extends TestCase
 
         $this->router->match($request)->willReturn($result);
         $request = $request->withAttribute(RouteResult::class, $result);
+ $request->withAttribute(\Zend\Expressive\Router\RouteResult::class, $result);
 
         // No container for this one, to ensure we marshal only a potential object instance.
         $app = new Application($this->router->reveal());
@@ -236,6 +240,7 @@ class RouteMiddlewareTest extends TestCase
 
         $this->router->match($request)->willReturn($result);
         $request = $request->withAttribute(RouteResult::class, $result);
+ $request->withAttribute(\Zend\Expressive\Router\RouteResult::class, $result);
 
         $this->injectServiceInContainer($this->container, 'TestAsset\Middleware', $middleware);
 
@@ -259,7 +264,7 @@ class RouteMiddlewareTest extends TestCase
         return [
           'aura'       => [ AuraRouter::class ],
           'fast-route' => [ FastRouteRouter::class ],
-          'zf2'        => [ ZendRouter::class ],
+          'laminas'        => [ LaminasRouter::class ],
         ];
     }
 
@@ -504,7 +509,7 @@ class RouteMiddlewareTest extends TestCase
     {
         $app = new Application(new $adapter);
 
-        // Add a route with Zend\Expressive\Router\Route::HTTP_METHOD_ANY
+        // Add a route with Mezzio\Router\Route::HTTP_METHOD_ANY
         $app->route('/foo', function ($req, $res, $next) {
             $res->getBody()->write('Middleware');
             return $res;
