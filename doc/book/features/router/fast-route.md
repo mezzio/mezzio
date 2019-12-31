@@ -10,7 +10,7 @@ dispatcher to match incoming requests against routes.
 
 If you wish to use a different combination — e.g., to use the Group Position
 Based route matcher — you will need to create your own instances and inject them
-into the `Zend\Expressive\Router\FastRouteRouter` class, at instantiation.
+into the `Mezzio\Router\FastRouteRouter` class, at instantiation.
 
 The `FastRouteRouter` bridge class accepts two arguments at instantiation:
 
@@ -26,17 +26,17 @@ conjunction with your container instance.
 To use FastRoute, you will first need to install the FastRoute integration:
 
 ```bash
-$ composer require zendframework/zend-expressive-fastroute
+$ composer require mezzio/mezzio-fastroute
 ```
 
 ## Quick Start
 
-At its simplest, you can instantiate a `Zend\Expressive\Router\FastRouteRouter` instance
+At its simplest, you can instantiate a `Mezzio\Router\FastRouteRouter` instance
 with no arguments; it will create the underlying FastRoute objects required
 and compose them for you:
 
 ```php
-use Zend\Expressive\Router\FastRouteRouter;
+use Mezzio\Router\FastRouteRouter;
 
 $router = new FastRouteRouter();
 ```
@@ -45,11 +45,11 @@ $router = new FastRouteRouter();
 
 If you need greater control over the FastRoute setup and configuration, you
 can create the instances necessary and inject them into
-`Zend\Expressive\Router\FastRouteRouter` during instantiation.
+`Mezzio\Router\FastRouteRouter` during instantiation.
 
 To do so, you will need to setup your `RouteCollector` instance and/or
 optionally callable to return your `RegexBasedAbstract` instance manually,
-inject them in your `Zend\Expressive\Router\FastRouteRouter` instance, and inject use
+inject them in your `Mezzio\Router\FastRouteRouter` instance, and inject use
 that when creating your `Application` instance.
 
 ```php
@@ -58,8 +58,8 @@ use FastRoute\Dispatcher\GroupPosBased as FastRouteDispatcher;
 use FastRoute\RouteCollector;
 use FastRoute\RouteGenerator;
 use FastRoute\RouteParser\Std as RouteParser;
-use Zend\Expressive\AppFactory;
-use Zend\Expressive\Router\FastRouteRouter as FastRouteBridge;
+use Mezzio\AppFactory;
+use Mezzio\Router\FastRouteRouter as FastRouteBridge;
 
 $fastRoute = new RouteCollector(
     new RouteParser(),
@@ -94,8 +94,8 @@ two strategies for creating your FastRoute implementation.
 ### Basic Router
 
 If you don't need to provide any setup or configuration, you can simply
-instantiate and return an instance of `Zend\Expressive\Router\FastRouteRouter` for the
-service name `Zend\Expressive\Router\RouterInterface`.
+instantiate and return an instance of `Mezzio\Router\FastRouteRouter` for the
+service name `Mezzio\Router\RouterInterface`.
 
 A factory would look like this:
 
@@ -104,7 +104,7 @@ A factory would look like this:
 namespace App\Container;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Router\FastRouteRouter;
+use Mezzio\Router\FastRouteRouter;
 
 class RouterFactory
 {
@@ -119,11 +119,11 @@ class RouterFactory
 }
 ```
 
-You would register this with zend-servicemanager using:
+You would register this with laminas-servicemanager using:
 
 ```php
 $container->setFactory(
-    Zend\Expressive\Router\RouterInterface::class,
+    Mezzio\Router\RouterInterface::class,
     App\Container\RouterFactory::class
 );
 ```
@@ -131,16 +131,16 @@ $container->setFactory(
 And in Pimple:
 
 ```php
-$pimple[Zend\Expressive\Router\RouterInterface::class] = new App\Container\RouterFactory();
+$pimple[Mezzio\Router\RouterInterface::class] = new App\Container\RouterFactory();
 ```
 
-For zend-servicemanager, you can omit the factory entirely, and register the
+For laminas-servicemanager, you can omit the factory entirely, and register the
 class as an invokable:
 
 ```php
 $container->setInvokableClass(
-    Zend\Expressive\Router\RouterInterface::class,
-    Zend\Expressive\Router\FastRouteRouter::class
+    Mezzio\Router\RouterInterface::class,
+    Mezzio\Router\FastRouteRouter::class
 );
 ```
 
@@ -152,8 +152,8 @@ example, we will be defining three factories:
 - A factory to register as and generate a `FastRoute\RouteCollector` instance.
 - A factory to register as `FastRoute\DispatcherFactory` and return a callable
   factory that returns a `RegexBasedAbstract` instance.
-- A factory registered as `Zend\Expressive\Router\RouterInterface`, which
-  creates and returns a `Zend\Expressive\Router\FastRouteRouter` instance composing the
+- A factory registered as `Mezzio\Router\RouterInterface`, which
+  creates and returns a `Mezzio\Router\FastRouteRouter` instance composing the
   two services.
 
 Sound difficult? It's not; we've essentially done it above already!
@@ -207,7 +207,7 @@ class FastRouteDispatcherFactory
 namespace App\Container;
 
 use Psr\Container\ContainerInterface;
-use Zend\Expressive\Router\FastRouteRouter as FastRouteBridge;
+use Mezzio\Router\FastRouteRouter as FastRouteBridge;
 
 class RouterFactory
 {
@@ -227,11 +227,11 @@ class RouterFactory
 
 From here, you will need to register your factories with your IoC container.
 
-If you are using zend-servicemanager, this will look like:
+If you are using laminas-servicemanager, this will look like:
 
 ```php
 // Programmatically:
-use Zend\ServiceManager\ServiceManager;
+use Laminas\ServiceManager\ServiceManager;
 
 $container = new ServiceManager();
 $container->addFactory(
@@ -243,7 +243,7 @@ $container->addFactory(
     App\Container\FastRouteDispatcherFactory::class
 );
 $container->addFactory(
-    Zend\Expressive\Router\RouterInterface::class,
+    Mezzio\Router\RouterInterface::class,
     App\Container\RouterFactory::class
 );
 
@@ -252,7 +252,7 @@ return [
     'factories' => [
         'FastRoute\RouteCollector' => App\Container\FastRouteCollectorFactory::class,
         'FastRoute\DispatcherFactory' => App\Container\FastRouteDispatcherFactory::class,
-        Zend\Expressive\Router\RouterInterface::class => App\Container\RouterFactory::class,
+        Mezzio\Router\RouterInterface::class => App\Container\RouterFactory::class,
     ],
 ];
 ```
@@ -268,14 +268,14 @@ use Interop\Container\Pimple\PimpleInterop as Pimple;
 $container = new Pimple();
 $container[FastRoute\RouteCollector::class] = new FastRouteCollectorFactory();
 $container[FastRoute\RouteDispatcher::class] = new FastRouteDispatcherFactory();
-$container[Zend\Expressive\Router\RouterInterface::class] = new RouterFactory();
+$container[Mezzio\Router\RouterInterface::class] = new RouterFactory();
 ```
 
 ### FastRoute caching support
 
-- Since zend-expressive-fastroute 1.3.0.
+- Since mezzio-fastroute 1.3.0.
 
-Starting from version 1.3.0, zend-expressive-fastroute comes with support 
+Starting from version 1.3.0, mezzio-fastroute comes with support 
 for FastRoute native dispatch data caching.
 
 Enabling this feature requires changes to your configuration. Typically, router
@@ -302,13 +302,13 @@ return [
         'invokables' => [
             /* ... */
             // Comment out or remove the following line:
-            // Zend\Expressive\Router\RouterInterface::class => Zend\Expressive\Router\FastRouteRouter::class,
+            // Mezzio\Router\RouterInterface::class => Mezzio\Router\FastRouteRouter::class,
             /* ... */
         ],
         'factories' => [
             /* ... */
             // Add this line; the specified factory now creates the router instance:
-            Zend\Expressive\Router\RouterInterface::class => Zend\Expressive\Router\FastRouteRouterFactory::class,
+            Mezzio\Router\RouterInterface::class => Mezzio\Router\FastRouteRouterFactory::class,
             /* ... */
         ],
     ],
@@ -338,14 +338,14 @@ The FastRoute-specific caching options are as follows:
 
 - `cache_file` (string) is an optional parameter that represents the path of 
   the dispatch data cache file. It can be provided as an absolute file path or
-  as a path relative to the zend-expressive working directory. 
+  as a path relative to the mezzio working directory. 
 
   It defaults to `data/cache/fastroute.php.cache`, where `data/cache/` is the
-  cache directory defined within the zend-expressive skeleton application.  An
+  cache directory defined within the mezzio skeleton application.  An
   explicit absolute file path is recommended since the php `include` construct
   will skip searching the `include_path` and the current directory.
 
   If you choose a custom path, make sure that the directory exists and is
-  writable by the owner of the PHP process. As with any other zend-expressive
+  writable by the owner of the PHP process. As with any other mezzio
   cached configuration, you will need to purge this file in order to enable any
   newly added route when FastRoute caching is enabled.

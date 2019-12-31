@@ -1,6 +1,6 @@
 # ImplicitHeadMiddleware and ImplicitOptionsMiddleware
 
-Starting with version 2.0, Expressive offers middleware for implicitly
+Starting with version 2.0, Mezzio offers middleware for implicitly
 supporting `HEAD` and `OPTIONS` requests. The HTTP/1.1 specifications indicate
 that all server implementations _must_ support `HEAD` requests for any given
 URI, and that they _should_ support `OPTIONS` requests. To make this possible,
@@ -10,7 +10,7 @@ _explicitly_ with the method).
 
 ## ImplicitHeadMiddleware
 
-`Zend\Expressive\Middleware\ImplicitHeadMiddleware` provides support for
+`Mezzio\Middleware\ImplicitHeadMiddleware` provides support for
 handling `HEAD` requests to routed middleware when the route does not expliclity
 allow for the method. It should be registered _between_ the routing and dispatch
 middleware.
@@ -22,7 +22,7 @@ craft special headers, status code, etc.
 Register the dependency via `dependencies` configuration:
 
 ```php
-use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
+use Mezzio\Middleware\ImplicitHeadMiddleware;
 
 return [
     'dependencies' => [
@@ -48,8 +48,8 @@ $app->pipe(ImplicitHeadMiddleware::class);
 $app->pipeDispatchMiddleware();
 ```
 
-(Note: if you used the `expressive-pipeline-from-config` tool to create your
-programmatic pipeline, or if you used the Expressive 2.0 skeleton or later, this
+(Note: if you used the `mezzio-pipeline-from-config` tool to create your
+programmatic pipeline, or if you used the Mezzio 2.0 skeleton or later, this
 middleware is likely already in your pipeline, as is a dependency entry.)
 
 When in place, it will do the following:
@@ -72,7 +72,7 @@ returned response with an empty response body before returning it.
 
 ## ImplicitOptionsMiddleware
 
-`Zend\Expressive\Middleware\ImplicitOptionsMiddleware` provides support for
+`Mezzio\Middleware\ImplicitOptionsMiddleware` provides support for
 handling `OPTIONS` requests to routed middleware when the route does not
 expliclity allow for the method. Like the `ImplicitHeadMiddleware`, it should be
 registered _between_ the routing and dispatch middleware.
@@ -84,7 +84,7 @@ you need to craft special headers, status code, etc.
 Register the dependency via `dependencies` configuration:
 
 ```php
-use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
+use Mezzio\Middleware\ImplicitOptionsMiddleware;
 
 return [
     'dependencies' => [
@@ -110,8 +110,8 @@ $app->pipe(ImplicitOptionsMiddleware::class);
 $app->pipeDispatchMiddleware();
 ```
 
-(Note: if you used the `expressive-pipeline-from-config` tool to create your
-programmatic pipeline, or if you used the Expressive 2.0 skeleton or later, this
+(Note: if you used the `mezzio-pipeline-from-config` tool to create your
+programmatic pipeline, or if you used the Mezzio 2.0 skeleton or later, this
 middleware is likely already in your pipeline, as is a dependency entry.)
 
 When in place, it will do the following:
