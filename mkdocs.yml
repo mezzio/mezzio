@@ -1,13 +1,5 @@
 docs_dir: docs/book
 site_dir: docs/html
-nav:
-    - index.md
-    - Introduction: intro.md
-site_name: mezzio-authentication-laminasauthentication
-site_description: 'laminas-authentication adapter for mezzio-authentication.'
-repo_url: 'https://github.com/mezzio/mezzio-authentication-laminasauthentication'
-docs_dir: docs/book
-site_dir: docs/html
 extra:
   project: Mezzio
   project_url: 'https://docs.mezzio.dev'
