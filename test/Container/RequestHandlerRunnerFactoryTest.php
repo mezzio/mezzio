@@ -29,11 +29,11 @@ class RequestHandlerRunnerFactoryTest extends TestCase
 {
     public function testFactoryProducesRunnerUsingServicesFromContainer()
     {
-        $container = $this->prophesize(ContainerInterface::class);
-        $handler = $this->registerHandlerInContainer($container);
-        $emitter = $this->registerEmitterInContainer($container);
+        $container            = $this->prophesize(ContainerInterface::class);
+        $handler              = $this->registerHandlerInContainer($container);
+        $emitter              = $this->registerEmitterInContainer($container);
         $serverRequestFactory = $this->registerServerRequestFactoryInContainer($container);
-        $errorGenerator = $this->registerServerRequestErrorResponseGeneratorInContainer($container);
+        $errorGenerator       = $this->registerServerRequestErrorResponseGeneratorInContainer($container);
 
         $factory = new RequestHandlerRunnerFactory();
 
@@ -54,25 +54,25 @@ class RequestHandlerRunnerFactoryTest extends TestCase
         $r = new ReflectionProperty($runner, 'serverRequestErrorResponseGenerator');
         $r->setAccessible(true);
         $toTest = $r->getValue($runner);
-        $e = new RuntimeException();
+        $e      = new RuntimeException();
         $this->assertSame($errorGenerator($e), $toTest($e));
     }
 
-    public function registerHandlerInContainer($container) : RequestHandlerInterface
+    public function registerHandlerInContainer($container): RequestHandlerInterface
     {
         $app = $this->prophesize(RequestHandlerInterface::class)->reveal();
         $container->get(ApplicationPipeline::class)->willReturn($app);
         return $app;
     }
 
-    public function registerEmitterInContainer($container) : EmitterInterface
+    public function registerEmitterInContainer($container): EmitterInterface
     {
         $emitter = $this->prophesize(EmitterInterface::class)->reveal();
         $container->get(EmitterInterface::class)->willReturn($emitter);
         return $emitter;
     }
 
-    public function registerServerRequestFactoryInContainer($container) : callable
+    public function registerServerRequestFactoryInContainer($container): callable
     {
         $request = $this->prophesize(ServerRequestInterface::class)->reveal();
         $factory = function () use ($request) {
@@ -82,9 +82,9 @@ class RequestHandlerRunnerFactoryTest extends TestCase
         return $factory;
     }
 
-    public function registerServerRequestErrorResponseGeneratorInContainer($container) : callable
+    public function registerServerRequestErrorResponseGeneratorInContainer($container): callable
     {
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $response  = $this->prophesize(ResponseInterface::class)->reveal();
         $generator = $this->prophesize(ServerRequestErrorResponseGenerator::class);
         $generator->__invoke(Argument::type(Throwable::class))->willReturn($response);
         $container->get(ServerRequestErrorResponseGenerator::class)->willReturn($generator->reveal());

@@ -53,7 +53,7 @@ class ConfigProviderTest extends TestCase
 
     public function testProviderDefinesExpectedAliases()
     {
-        $config = $this->provider->getDependencies();
+        $config  = $this->provider->getDependencies();
         $aliases = $config['aliases'];
         $this->assertArrayHasKey(DEFAULT_DELEGATE, $aliases);
         $this->assertArrayHasKey(DISPATCH_MIDDLEWARE, $aliases);
@@ -65,7 +65,7 @@ class ConfigProviderTest extends TestCase
 
     public function testProviderDefinesExpectedFactoryServices()
     {
-        $config = $this->provider->getDependencies();
+        $config    = $this->provider->getDependencies();
         $factories = $config['factories'];
 
         $this->assertArrayHasKey(Application::class, $factories);
@@ -103,13 +103,13 @@ class ConfigProviderTest extends TestCase
         foreach ($json['packages'] as $package) {
             if (isset($package['extra']['laminas']['config-provider'])) {
                 $configProvider = new $package['extra']['laminas']['config-provider']();
-                $config = array_merge_recursive($config, $configProvider());
+                $config         = array_merge_recursive($config, $configProvider());
             }
         }
 
-        $routerInterface = $this->prophesize(RouterInterface::class)->reveal();
+        $routerInterface                                            = $this->prophesize(RouterInterface::class)->reveal();
         $config['dependencies']['services'][RouterInterface::class] = $routerInterface;
-        $container = $this->getContainer($config['dependencies']);
+        $container                                                  = $this->getContainer($config['dependencies']);
 
         $dependencies = $this->provider->getDependencies();
         foreach ($dependencies['factories'] as $name => $factory) {
@@ -134,7 +134,7 @@ class ConfigProviderTest extends TestCase
         }
     }
 
-    private function getContainer(array $dependencies) : ServiceManager
+    private function getContainer(array $dependencies): ServiceManager
     {
         $container = new ServiceManager();
         (new Config($dependencies))->configureServiceManager($container);

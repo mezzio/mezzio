@@ -35,7 +35,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
 
     public function setUp()
     {
-        $this->response = $this->prophesize(ResponseInterface::class);
+        $this->response        = $this->prophesize(ResponseInterface::class);
         $this->responseFactory = function () {
             return $this->response->reveal();
         };
@@ -54,7 +54,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
         $this->response->getReasonPhrase()->willReturn('Unexpected entity');
 
         $template = 'some::template';
-        $e = new RuntimeException('This is the exception message', 422);
+        $e        = new RuntimeException('This is the exception message', 422);
         $this->renderer
             ->render($template, [
                 'response' => $this->response->reveal(),

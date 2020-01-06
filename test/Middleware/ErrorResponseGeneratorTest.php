@@ -66,7 +66,7 @@ class ErrorResponseGeneratorTest extends TestCase
         $this->stream->write('An unexpected error occurred')->shouldBeCalled();
 
         $generator = new ErrorResponseGenerator();
-        $response = $generator($error, $this->request->reveal(), $initialResponse->reveal());
+        $response  = $generator($error, $this->request->reveal(), $initialResponse->reveal());
 
         $this->assertSame($response, $secondaryResponse->reveal());
     }
@@ -103,7 +103,7 @@ class ErrorResponseGeneratorTest extends TestCase
             ->shouldBeCalled();
 
         $generator = new ErrorResponseGenerator($debug = true);
-        $response = $generator($error, $this->request->reveal(), $initialResponse->reveal());
+        $response  = $generator($error, $this->request->reveal(), $initialResponse->reveal());
 
         $this->assertSame($response, $secondaryResponse->reveal());
     }
@@ -112,15 +112,14 @@ class ErrorResponseGeneratorTest extends TestCase
     {
         return [
             'default' => [null, 'error::error'],
-            'custom' => ['error::custom', 'error::custom'],
+            'custom'  => ['error::custom', 'error::custom'],
         ];
     }
 
     /**
      * @dataProvider templates
-     *
      * @param null|string $template
-     * @param string $expected
+     * @param string      $expected
      */
     public function testRendersTemplateWithoutErrorDetailsWhenRendererPresentAndNotInDebugMode($template, $expected)
     {
@@ -168,9 +167,8 @@ class ErrorResponseGeneratorTest extends TestCase
 
     /**
      * @dataProvider templates
-     *
      * @param null|string $template
-     * @param string $expected
+     * @param string      $expected
      */
     public function testRendersTemplateWithErrorDetailsWhenRendererPresentAndInDebugMode($template, $expected)
     {

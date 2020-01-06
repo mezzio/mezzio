@@ -19,7 +19,7 @@ class MissingDependencyException extends RuntimeException implements
     ContainerExceptionInterface,
     ExceptionInterface
 {
-    public static function forMiddlewareService(string $service) : self
+    public static function forMiddlewareService(string $service): self
     {
         return new self(sprintf(
             'Cannot fetch middleware service "%s"; service not registered,'

@@ -21,7 +21,7 @@ class ServerRequestFactoryFactoryTest extends TestCase
     public function testFactoryReturnsCallable()
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();
-        $factory = new ServerRequestFactoryFactory();
+        $factory   = new ServerRequestFactoryFactory();
 
         $generatedFactory = $factory($container);
 

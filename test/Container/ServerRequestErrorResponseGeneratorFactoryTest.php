@@ -67,8 +67,8 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 
     public function testFactoryCreatesGeneratorUsingConfiguredServices()
     {
-        $config = [
-            'debug' => true,
+        $config   = [
+            'debug'  => true,
             'mezzio' => [
                 'error_handler' => [
                     'template_error' => 'some::template',

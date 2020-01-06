@@ -20,7 +20,7 @@ class StreamFactoryFactoryTest extends TestCase
     public function testFactoryProducesACallableCapableOfGeneratingAStreamWhenDiactorosIsInstalled()
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();
-        $factory = new StreamFactoryFactory();
+        $factory   = new StreamFactoryFactory();
 
         $result = $factory($container);
 

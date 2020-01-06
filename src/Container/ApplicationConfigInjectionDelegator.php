@@ -24,6 +24,7 @@ use function gettype;
 use function is_array;
 use function is_int;
 use function is_object;
+use function is_string;
 use function sprintf;
 
 use const PHP_INT_MAX;
@@ -38,13 +39,13 @@ class ApplicationConfigInjectionDelegator
      *     something other than an `Application` instance, as the delegator cannot
      *     proceed with its operations.
      */
-    public function __invoke(ContainerInterface $container, string $serviceName, callable $callback) : Application
+    public function __invoke(ContainerInterface $container, string $serviceName, callable $callback): Application
     {
         $application = $callback();
         if (! $application instanceof Application) {
             throw new Exception\InvalidServiceException(sprintf(
                 'Delegator factory %s cannot operate on a %s; please map it only to the %s service',
-                __CLASS__,
+                self::class,
                 is_object($application) ? get_class($application) . ' instance' : gettype($application),
                 Application::class
             ));
@@ -115,7 +116,7 @@ class ApplicationConfigInjectionDelegator
      * a `Laminas\Stratigility\MiddlewarePipe` instance, with the middleware
      * specified piped in the order provided.
      */
-    public static function injectPipelineFromConfig(Application $application, array $config) : void
+    public static function injectPipelineFromConfig(Application $application, array $config): void
     {
         if (empty($config['middleware_pipeline'])) {
             return;
@@ -172,7 +173,7 @@ class ApplicationConfigInjectionDelegator
      *
      * @throws InvalidArgumentException
      */
-    public static function injectRoutesFromConfig(Application $application, array $config) : void
+    public static function injectRoutesFromConfig(Application $application, array $config): void
     {
         if (empty($config['routes']) || ! is_array($config['routes'])) {
             return;
@@ -230,7 +231,7 @@ class ApplicationConfigInjectionDelegator
      *
      * @throws InvalidArgumentException
      */
-    private static function createCollectionMapper() : callable
+    private static function createCollectionMapper(): callable
     {
         return function ($item) {
             if (! is_array($item) || ! array_key_exists('middleware', $item)) {
@@ -257,7 +258,7 @@ class ApplicationConfigInjectionDelegator
      * The function is useful to reduce an array of pipeline middleware to a
      * priority queue.
      */
-    private static function createPriorityQueueReducer() : callable
+    private static function createPriorityQueueReducer(): callable
     {
         // $serial is used to ensure that items of the same priority are enqueued
         // in the order in which they are inserted.

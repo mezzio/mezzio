@@ -34,7 +34,7 @@ class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
         class_exists(InvalidServiceException::class);
 
         $this->container = $this->prophesize(ContainerInterface::class)->reveal();
-        $this->factory = new StreamFactoryFactory();
+        $this->factory   = new StreamFactoryFactory();
 
         foreach (spl_autoload_functions() as $autoloader) {
             if (! is_array($autoloader)) {
@@ -43,7 +43,8 @@ class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
 
             $context = $autoloader[0];
 
-            if (! is_object($context)
+            if (
+                ! is_object($context)
                 || ! preg_match('/^Composer.*?ClassLoader$/', get_class($context))
             ) {
                 continue;

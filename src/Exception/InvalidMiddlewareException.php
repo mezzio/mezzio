@@ -28,7 +28,7 @@ class InvalidMiddlewareException extends RuntimeException implements
      * @param mixed $middleware The middleware that does not fulfill the
      *     expectations of MiddlewarePipe::pipe
      */
-    public static function forMiddleware($middleware) : self
+    public static function forMiddleware($middleware): self
     {
         return new self(sprintf(
             'Middleware "%s" is neither a string service name, a PHP callable,'
@@ -42,7 +42,7 @@ class InvalidMiddlewareException extends RuntimeException implements
     /**
      * @param mixed $service The actual service created by the container.
      */
-    public static function forMiddlewareService(string $name, $service) : self
+    public static function forMiddlewareService(string $name, $service): self
     {
         return new self(sprintf(
             'Service "%s" did not to resolve to a %s instance; resolved to "%s"',

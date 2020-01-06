@@ -23,7 +23,7 @@ use function sprintf;
  */
 class StreamFactoryFactory
 {
-    public function __invoke(ContainerInterface $container) : callable
+    public function __invoke(ContainerInterface $container): callable
     {
         if (! class_exists(Stream::class)) {
             throw new Exception\InvalidServiceException(sprintf(
@@ -37,7 +37,7 @@ class StreamFactoryFactory
             ));
         }
 
-        return function () : Stream {
+        return function (): Stream {
             return new Stream('php://temp', 'wb+');
         };
     }

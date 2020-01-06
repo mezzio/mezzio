@@ -16,7 +16,7 @@ use Psr\Container\ContainerInterface;
 
 class ErrorResponseGeneratorFactory
 {
-    public function __invoke(ContainerInterface $container) : ErrorResponseGenerator
+    public function __invoke(ContainerInterface $container): ErrorResponseGenerator
     {
         $config = $container->has('config') ? $container->get('config') : [];
 
@@ -25,7 +25,7 @@ class ErrorResponseGeneratorFactory
         $template = $config['mezzio']['error_handler']['template_error']
             ?? ErrorResponseGenerator::TEMPLATE_DEFAULT;
 
-        $layout   = $config['mezzio']['error_handler']['layout']
+        $layout = $config['mezzio']['error_handler']['layout']
             ?? ErrorResponseGenerator::LAYOUT_DEFAULT;
 
         $renderer = $container->has(TemplateRendererInterface::class)

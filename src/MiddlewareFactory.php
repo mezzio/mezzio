@@ -50,9 +50,7 @@ use function is_string;
  */
 class MiddlewareFactory
 {
-    /**
-     * @var MiddlewareContainer
-     */
+    /** @var MiddlewareContainer */
     private $container;
 
     public function __construct(MiddlewareContainer $container)
@@ -65,7 +63,7 @@ class MiddlewareFactory
      * @throws Exception\InvalidMiddlewareException if argument is not one of
      *    the specified types.
      */
-    public function prepare($middleware) : MiddlewareInterface
+    public function prepare($middleware): MiddlewareInterface
     {
         if ($middleware instanceof MiddlewareInterface) {
             return $middleware;
@@ -93,7 +91,7 @@ class MiddlewareFactory
     /**
      * Decorate callable standards-signature middleware via a CallableMiddlewareDecorator.
      */
-    public function callable(callable $middleware) : CallableMiddlewareDecorator
+    public function callable(callable $middleware): CallableMiddlewareDecorator
     {
         return new CallableMiddlewareDecorator($middleware);
     }
@@ -101,7 +99,7 @@ class MiddlewareFactory
     /**
      * Decorate a RequestHandlerInterface as middleware via RequestHandlerMiddleware.
      */
-    public function handler(RequestHandlerInterface $handler) : RequestHandlerMiddleware
+    public function handler(RequestHandlerInterface $handler): RequestHandlerMiddleware
     {
         return new RequestHandlerMiddleware($handler);
     }
@@ -109,7 +107,7 @@ class MiddlewareFactory
     /**
      * Create lazy loading middleware based on a service name.
      */
-    public function lazy(string $middleware) : Middleware\LazyLoadingMiddleware
+    public function lazy(string $middleware): Middleware\LazyLoadingMiddleware
     {
         return new Middleware\LazyLoadingMiddleware($this->container, $middleware);
     }
@@ -128,10 +126,11 @@ class MiddlewareFactory
      *
      * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface ...$middleware
      */
-    public function pipeline(...$middleware) : MiddlewarePipe
+    public function pipeline(...$middleware): MiddlewarePipe
     {
         // Allow passing arrays of middleware or individual lists of middleware
-        if (is_array($middleware[0])
+        if (
+            is_array($middleware[0])
             && count($middleware) === 1
         ) {
             $middleware = array_shift($middleware);

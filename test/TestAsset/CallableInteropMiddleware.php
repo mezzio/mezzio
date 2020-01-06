@@ -19,6 +19,6 @@ class CallableInteropMiddleware
     {
         $response = $handler->handle($request);
 
-        return $response->withHeader('X-Callable-Interop-Middleware', __CLASS__);
+        return $response->withHeader('X-Callable-Interop-Middleware', self::class);
     }
 }

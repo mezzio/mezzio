@@ -22,24 +22,16 @@ use function Laminas\Stratigility\path;
 
 class Application implements MiddlewareInterface, RequestHandlerInterface
 {
-    /**
-     * @var MiddlewareFactory
-     */
+    /** @var MiddlewareFactory */
     private $factory;
 
-    /**
-     * @var MiddlewarePipeInterface
-     */
+    /** @var MiddlewarePipeInterface */
     private $pipeline;
 
-    /**
-     * @var RouteCollector
-     */
+    /** @var RouteCollector */
     private $routes;
 
-    /**
-     * @var RequestHandlerRunner
-     */
+    /** @var RequestHandlerRunner */
     private $runner;
 
     public function __construct(
@@ -48,17 +40,17 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
         RouteCollector $routes,
         RequestHandlerRunner $runner
     ) {
-        $this->factory = $factory;
+        $this->factory  = $factory;
         $this->pipeline = $pipeline;
-        $this->routes = $routes;
-        $this->runner = $runner;
+        $this->routes   = $routes;
+        $this->runner   = $runner;
     }
 
     /**
      * Proxies to composed pipeline to handle.
      * {@inheritDocs}
      */
-    public function handle(ServerRequestInterface $request) : ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         return $this->pipeline->handle($request);
     }
@@ -67,7 +59,7 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      * Proxies to composed pipeline to process.
      * {@inheritDocs}
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return $this->pipeline->process($request, $handler);
     }
@@ -77,7 +69,7 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      *
      * Proxies to the RequestHandlerRunner::run() method.
      */
-    public function run() : void
+    public function run(): void
     {
         $this->runner->run();
     }
@@ -93,17 +85,17 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      *
      * The resulting middleware, in both cases, is piped to the pipeline.
      *
-     * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface $middlewareOrPath
+     * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface      $middlewareOrPath
      *     Either the middleware to pipe, or the path to segregate the $middleware
      *     by, via a PathMiddlewareDecorator.
      * @param null|string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
      *     If present, middleware or request handler to segregate by the path
      *     specified in $middlewareOrPath.
      */
-    public function pipe($middlewareOrPath, $middleware = null) : void
+    public function pipe($middlewareOrPath, $middleware = null): void
     {
         $middleware = $middleware ?: $middlewareOrPath;
-        $path = $middleware === $middlewareOrPath ? '/' : $middlewareOrPath;
+        $path       = $middleware === $middlewareOrPath ? '/' : $middlewareOrPath;
 
         $middleware = $path !== '/'
             ? path($path, $this->factory->prepare($middleware))
@@ -118,10 +110,10 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
      *     Middleware or request handler (or service name resolving to one of
      *     those types) to associate with route.
-     * @param null|array $methods HTTP method to accept; null indicates any.
-     * @param null|string $name The name of the route.
+     * @param null|array                                                        $methods    HTTP method to accept; null indicates any.
+     * @param null|string                                                       $name       The name of the route.
      */
-    public function route(string $path, $middleware, array $methods = null, string $name = null) : Router\Route
+    public function route(string $path, $middleware, ?array $methods = null, ?string $name = null): Router\Route
     {
         return $this->routes->route(
             $path,
@@ -135,9 +127,9 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
      *     Middleware or request handler (or service name resolving to one of
      *     those types) to associate with route.
-     * @param null|string $name The name of the route.
+     * @param null|string                                                       $name       The name of the route.
      */
-    public function get(string $path, $middleware, string $name = null) : Router\Route
+    public function get(string $path, $middleware, ?string $name = null): Router\Route
     {
         return $this->route($path, $middleware, ['GET'], $name);
     }
@@ -146,9 +138,9 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
      *     Middleware or request handler (or service name resolving to one of
      *     those types) to associate with route.
-     * @param null|string $name The name of the route.
+     * @param null|string                                                       $name       The name of the route.
      */
-    public function post(string $path, $middleware, $name = null) : Router\Route
+    public function post(string $path, $middleware, $name = null): Router\Route
     {
         return $this->route($path, $middleware, ['POST'], $name);
     }
@@ -157,9 +149,9 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
      *     Middleware or request handler (or service name resolving to one of
      *     those types) to associate with route.
-     * @param null|string $name The name of the route.
+     * @param null|string                                                       $name       The name of the route.
      */
-    public function put(string $path, $middleware, string $name = null) : Router\Route
+    public function put(string $path, $middleware, ?string $name = null): Router\Route
     {
         return $this->route($path, $middleware, ['PUT'], $name);
     }
@@ -168,9 +160,9 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
      *     Middleware or request handler (or service name resolving to one of
      *     those types) to associate with route.
-     * @param null|string $name The name of the route.
+     * @param null|string                                                       $name       The name of the route.
      */
-    public function patch(string $path, $middleware, string $name = null) : Router\Route
+    public function patch(string $path, $middleware, ?string $name = null): Router\Route
     {
         return $this->route($path, $middleware, ['PATCH'], $name);
     }
@@ -179,9 +171,9 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
      *     Middleware or request handler (or service name resolving to one of
      *     those types) to associate with route.
-     * @param null|string $name The name of the route.
+     * @param null|string                                                       $name       The name of the route.
      */
-    public function delete(string $path, $middleware, string $name = null) : Router\Route
+    public function delete(string $path, $middleware, ?string $name = null): Router\Route
     {
         return $this->route($path, $middleware, ['DELETE'], $name);
     }
@@ -190,9 +182,9 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
      *     Middleware or request handler (or service name resolving to one of
      *     those types) to associate with route.
-     * @param null|string $name The name of the route.
+     * @param null|string                                                       $name       The name of the route.
      */
-    public function any(string $path, $middleware, string $name = null) : Router\Route
+    public function any(string $path, $middleware, ?string $name = null): Router\Route
     {
         return $this->route($path, $middleware, null, $name);
     }
@@ -202,7 +194,7 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      *
      * @return Router\Route[]
      */
-    public function getRoutes() : array
+    public function getRoutes(): array
     {
         return $this->routes->getRoutes();
     }

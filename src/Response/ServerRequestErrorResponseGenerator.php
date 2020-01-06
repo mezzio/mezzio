@@ -34,19 +34,19 @@ class ServerRequestErrorResponseGenerator
     public function __construct(
         callable $responseFactory,
         bool $isDevelopmentMode = false,
-        TemplateRendererInterface $renderer = null,
+        ?TemplateRendererInterface $renderer = null,
         string $template = self::TEMPLATE_DEFAULT
     ) {
-        $this->responseFactory = function () use ($responseFactory) : ResponseInterface {
+        $this->responseFactory = function () use ($responseFactory): ResponseInterface {
             return $responseFactory();
         };
 
-        $this->debug     = $isDevelopmentMode;
-        $this->renderer  = $renderer;
-        $this->template  = $template;
+        $this->debug    = $isDevelopmentMode;
+        $this->renderer = $renderer;
+        $this->template = $template;
     }
 
-    public function __invoke(Throwable $e) : ResponseInterface
+    public function __invoke(Throwable $e): ResponseInterface
     {
         $response = ($this->responseFactory)();
         $response = $response->withStatus(Utils::getStatusCode($e, $response));

@@ -25,9 +25,9 @@ class ApplicationFactoryTest extends TestCase
     public function testFactoryProducesAnApplication()
     {
         $middlewareFactory = $this->prophesize(MiddlewareFactory::class)->reveal();
-        $pipeline = $this->prophesize(MiddlewarePipeInterface::class)->reveal();
-        $routeCollector = $this->prophesize(RouteCollector::class)->reveal();
-        $runner = $this->prophesize(RequestHandlerRunner::class)->reveal();
+        $pipeline          = $this->prophesize(MiddlewarePipeInterface::class)->reveal();
+        $routeCollector    = $this->prophesize(RouteCollector::class)->reveal();
+        $runner            = $this->prophesize(RequestHandlerRunner::class)->reveal();
 
         $container = $this->prophesize(ContainerInterface::class);
         $container->get(MiddlewareFactory::class)->willReturn($middlewareFactory);

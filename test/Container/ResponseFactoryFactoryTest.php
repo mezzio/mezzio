@@ -20,7 +20,7 @@ class ResponseFactoryFactoryTest extends TestCase
     public function testFactoryProducesACallableCapableOfGeneratingAResponseWhenDiactorosIsInstalled()
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();
-        $factory = new ResponseFactoryFactory();
+        $factory   = new ResponseFactoryFactory();
 
         $result = $factory($container);
 

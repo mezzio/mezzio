@@ -35,10 +35,10 @@ class ApplicationTest extends TestCase
 {
     public function setUp()
     {
-        $this->factory = $this->prophesize(MiddlewareFactory::class);
+        $this->factory  = $this->prophesize(MiddlewareFactory::class);
         $this->pipeline = $this->prophesize(MiddlewarePipeInterface::class);
-        $this->routes = $this->prophesize(RouteCollector::class);
-        $this->runner = $this->prophesize(RequestHandlerRunner::class);
+        $this->routes   = $this->prophesize(RouteCollector::class);
+        $this->runner   = $this->prophesize(RequestHandlerRunner::class);
 
         $this->app = new Application(
             $this->factory->reveal(),
@@ -55,7 +55,7 @@ class ApplicationTest extends TestCase
 
     public function testHandleProxiesToPipelineToHandle()
     {
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
+        $request  = $this->prophesize(ServerRequestInterface::class)->reveal();
         $response = $this->prophesize(ResponseInterface::class)->reveal();
 
         $this->pipeline->handle($request)->willReturn($response);
@@ -65,9 +65,9 @@ class ApplicationTest extends TestCase
 
     public function testProcessProxiesToPipelineToProcess()
     {
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
+        $request  = $this->prophesize(ServerRequestInterface::class)->reveal();
         $response = $this->prophesize(ResponseInterface::class)->reveal();
-        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $handler  = $this->prophesize(RequestHandlerInterface::class)->reveal();
 
         $this->pipeline->process($request, $handler)->willReturn($response);
 
@@ -80,7 +80,7 @@ class ApplicationTest extends TestCase
         $this->assertNull($this->app->run());
     }
 
-    public function validMiddleware() : iterable
+    public function validMiddleware(): iterable
     {
         // @codingStandardsIgnoreStart
         yield 'string'   => ['service'];
@@ -223,7 +223,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($route, $this->app->route('/foo', $middleware, ['GET', 'POST'], 'foo'));
     }
 
-    public function requestMethodsWithValidMiddleware() : iterable
+    public function requestMethodsWithValidMiddleware(): iterable
     {
         foreach (['get', 'post', 'put', 'patch', 'delete'] as $method) {
             foreach ($this->validMiddleware() as $key => $data) {

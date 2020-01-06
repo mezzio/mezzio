@@ -102,7 +102,6 @@ class WhoopsPageHandlerFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidEditors
-     *
      * @param mixed $editor
      */
     public function testInvalidEditorWillRaiseException($editor)

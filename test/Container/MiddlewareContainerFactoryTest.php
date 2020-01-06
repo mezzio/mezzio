@@ -20,7 +20,7 @@ class MiddlewareContainerFactoryTest extends TestCase
     public function testFactoryCreatesMiddlewareContainerUsingProvidedContainer()
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();
-        $factory = new MiddlewareContainerFactory();
+        $factory   = new MiddlewareContainerFactory();
 
         $middlewareContainer = $factory($container);
 
