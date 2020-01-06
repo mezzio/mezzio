@@ -1,3 +1,4 @@
+.phpcs-cache
 /clover.xml
 /composer.lock
 /coveralls-upload.json
