@@ -17,7 +17,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class NotFoundHandlerFactory
 {
-    public function __invoke(ContainerInterface $container): NotFoundHandler
+    public function __invoke(ContainerInterface $container) : NotFoundHandler
     {
         $config   = $container->has('config') ? $container->get('config') : [];
         $renderer = $container->has(TemplateRendererInterface::class)

@@ -57,7 +57,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
 
     public function testWritesResultsOfWhoopsExceptionsHandlingToResponse()
     {
-        $error          = new RuntimeException();
+        $error = new RuntimeException();
         $sendOutputFlag = true;
 
         $this->whoops->getHandlers()->willReturn([]);
@@ -87,7 +87,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
 
     public function testAddsRequestMetadataToWhoopsPrettyPageHandler()
     {
-        $error          = new RuntimeException('STATUS_INTERNAL_SERVER_ERROR', StatusCode::STATUS_INTERNAL_SERVER_ERROR);
+        $error = new RuntimeException('STATUS_INTERNAL_SERVER_ERROR', StatusCode::STATUS_INTERNAL_SERVER_ERROR);
         $sendOutputFlag = true;
 
         $handler = $this->prophesize(PrettyPageHandler::class);
@@ -136,7 +136,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
 
     public function testJsonContentTypeResponseWithJsonResponseHandler()
     {
-        $error      = new RuntimeException('STATUS_NOT_IMPLEMENTED', StatusCode::STATUS_NOT_IMPLEMENTED);
+        $error = new RuntimeException('STATUS_NOT_IMPLEMENTED', StatusCode::STATUS_NOT_IMPLEMENTED);
         $sendOutput = true;
 
         $handler = $this->prophesize(JsonResponseHandler::class);

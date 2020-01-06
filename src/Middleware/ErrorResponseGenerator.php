@@ -22,25 +22,25 @@ class ErrorResponseGenerator
     use ErrorResponseGeneratorTrait;
 
     public const TEMPLATE_DEFAULT = 'error::error';
-    public const LAYOUT_DEFAULT   = 'layout::default';
+    public const LAYOUT_DEFAULT = 'layout::default';
 
     public function __construct(
         bool $isDevelopmentMode = false,
-        ?TemplateRendererInterface $renderer = null,
+        TemplateRendererInterface $renderer = null,
         string $template = self::TEMPLATE_DEFAULT,
         string $layout = self::LAYOUT_DEFAULT
     ) {
-        $this->debug    = $isDevelopmentMode;
-        $this->renderer = $renderer;
-        $this->template = $template;
-        $this->layout   = $layout;
+        $this->debug     = $isDevelopmentMode;
+        $this->renderer  = $renderer;
+        $this->template  = $template;
+        $this->layout    = $layout;
     }
 
     public function __invoke(
         Throwable $e,
         ServerRequestInterface $request,
         ResponseInterface $response
-    ): ResponseInterface {
+    ) : ResponseInterface {
         $response = $response->withStatus(Utils::getStatusCode($e, $response));
 
         if ($this->renderer) {

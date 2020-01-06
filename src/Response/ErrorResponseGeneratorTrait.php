@@ -26,11 +26,15 @@ trait ErrorResponseGeneratorTrait
      */
     private $debug;
 
-    /** @var TemplateRendererInterface */
+    /**
+     * @var TemplateRendererInterface
+     */
     private $renderer;
 
-    /** @var string */
-    private $stackTraceTemplate = <<<'EOT'
+    /**
+     * @var string
+     */
+    private $stackTraceTemplate = <<< 'EOT'
 %s raised in file %s line %d:
 Message: %s
 Stack Trace:
@@ -58,7 +62,7 @@ EOT;
         array $templateData,
         bool $debug,
         ResponseInterface $response
-    ): ResponseInterface {
+    ) : ResponseInterface {
         if ($debug) {
             $templateData['error'] = $e;
         }
@@ -73,7 +77,7 @@ EOT;
         Throwable $e,
         bool $debug,
         ResponseInterface $response
-    ): ResponseInterface {
+    ) : ResponseInterface {
         $message = 'An unexpected error occurred';
 
         if ($debug) {
@@ -88,7 +92,7 @@ EOT;
     /**
      * Prepares a stack trace to display.
      */
-    private function prepareStackTrace(Throwable $e): string
+    private function prepareStackTrace(Throwable $e) : string
     {
         $message = '';
         do {

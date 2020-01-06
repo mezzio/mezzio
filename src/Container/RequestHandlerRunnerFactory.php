@@ -32,10 +32,11 @@ use Psr\Http\Message\ServerRequestInterface;
  *   callable that will return a Psr\Http\Message\ServerRequestInterface
  *   instance.
  * - Mezzio\Response\ServerRequestErrorResponseGeneratorFactory,
+ *
  */
 class RequestHandlerRunnerFactory
 {
-    public function __invoke(ContainerInterface $container): RequestHandlerRunner
+    public function __invoke(ContainerInterface $container) : RequestHandlerRunner
     {
         return new RequestHandlerRunner(
             $container->get(ApplicationPipeline::class),

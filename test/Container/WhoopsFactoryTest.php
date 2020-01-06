@@ -89,9 +89,10 @@ class WhoopsFactoryTest extends TestCase
      * @backupGlobals enabled
      * @depends       testWillInjectJsonResponseHandlerIfConfigurationExpectsIt
      * @dataProvider  provideConfig
-     * @param bool $showsTrace
-     * @param bool $isAjaxOnly
-     * @param bool $requestIsAjax
+     *
+     * @param bool  $showsTrace
+     * @param bool  $isAjaxOnly
+     * @param bool  $requestIsAjax
      */
     public function testJsonResponseHandlerCanBeConfigured($showsTrace, $isAjaxOnly, $requestIsAjax)
     {
@@ -117,8 +118,7 @@ class WhoopsFactoryTest extends TestCase
         $handler = $whoops->popHandler();
 
         // If ajax only, not ajax request and Whoops 2, it does not inject JsonResponseHandler
-        if (
-            $isAjaxOnly
+        if ($isAjaxOnly
             && ! $requestIsAjax
             && method_exists(WhoopsUtil::class, 'isAjaxRequest')
         ) {

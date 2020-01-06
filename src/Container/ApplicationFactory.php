@@ -31,7 +31,7 @@ use Psr\Container\ContainerInterface;
  */
 class ApplicationFactory
 {
-    public function __invoke(ContainerInterface $container): Application
+    public function __invoke(ContainerInterface $container) : Application
     {
         return new Application(
             $container->get(MiddlewareFactory::class),

@@ -26,7 +26,7 @@ use function substr;
 
 class ExceptionTest extends TestCase
 {
-    public function exception(): Generator
+    public function exception() : Generator
     {
         $namespace = substr(ExceptionInterface::class, 0, strrpos(ExceptionInterface::class, '\\') + 1);
 
@@ -41,13 +41,13 @@ class ExceptionTest extends TestCase
     /**
      * @dataProvider exception
      */
-    public function testExceptionIsInstanceOfExceptionInterface(string $exception): void
+    public function testExceptionIsInstanceOfExceptionInterface(string $exception) : void
     {
         $this->assertContains('Exception', $exception);
         $this->assertTrue(is_a($exception, ExceptionInterface::class, true));
     }
 
-    public function containerException(): Generator
+    public function containerException() : Generator
     {
         yield InvalidMiddlewareException::class => [InvalidMiddlewareException::class];
         yield MissingDependencyException::class => [MissingDependencyException::class];
@@ -56,7 +56,7 @@ class ExceptionTest extends TestCase
     /**
      * @dataProvider containerException
      */
-    public function testExceptionIsInstanceOfContainerExceptionInterface(string $exception): void
+    public function testExceptionIsInstanceOfContainerExceptionInterface(string $exception) : void
     {
         $this->assertTrue(is_a($exception, ContainerExceptionInterface::class, true));
     }

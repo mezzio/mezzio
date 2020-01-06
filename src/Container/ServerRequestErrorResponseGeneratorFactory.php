@@ -17,7 +17,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class ServerRequestErrorResponseGeneratorFactory
 {
-    public function __invoke(ContainerInterface $container): ServerRequestErrorResponseGenerator
+    public function __invoke(ContainerInterface $container) : ServerRequestErrorResponseGenerator
     {
         $config = $container->has('config') ? $container->get('config') : [];
         $debug  = $config['debug'] ?? false;

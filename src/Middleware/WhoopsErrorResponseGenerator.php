@@ -28,7 +28,9 @@ use function sprintf;
 
 class WhoopsErrorResponseGenerator
 {
-    /** @var Run|RunInterface */
+    /**
+     * @var Run|RunInterface
+     */
     private $whoops;
 
     /**
@@ -41,7 +43,7 @@ class WhoopsErrorResponseGenerator
         if (! ($whoops instanceof RunInterface || $whoops instanceof Run)) {
             throw new InvalidArgumentException(sprintf(
                 '%s expects a %s or %s instance; received %s',
-                static::class,
+                get_class($this),
                 Run::class,
                 RunInterface::class,
                 is_object($whoops) ? get_class($whoops) : gettype($whoops)
@@ -55,7 +57,7 @@ class WhoopsErrorResponseGenerator
         Throwable $e,
         ServerRequestInterface $request,
         ResponseInterface $response
-    ): ResponseInterface {
+    ) : ResponseInterface {
         // Walk through all handlers
         foreach ($this->whoops->getHandlers() as $handler) {
             // Add fancy data for the PrettyPageHandler
@@ -91,13 +93,13 @@ class WhoopsErrorResponseGenerator
     /**
      * Prepare the Whoops page handler with a table displaying request information
      */
-    private function prepareWhoopsHandler(ServerRequestInterface $request, PrettyPageHandler $handler): void
+    private function prepareWhoopsHandler(ServerRequestInterface $request, PrettyPageHandler $handler) : void
     {
-        $uri     = $request->getAttribute('originalUri', false) ?: $request->getUri();
+        $uri = $request->getAttribute('originalUri', false) ?: $request->getUri();
         $request = $request->getAttribute('originalRequest', false) ?: $request;
 
         $serverParams = $request->getServerParams();
-        $scriptName   = $serverParams['SCRIPT_NAME'] ?? '';
+        $scriptName = $serverParams['SCRIPT_NAME'] ?? '';
 
         $handler->addDataTable('Mezzio Application Request', [
             'HTTP Method'            => $request->getMethod(),

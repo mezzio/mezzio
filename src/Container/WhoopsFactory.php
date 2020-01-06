@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Mezzio\Container;
 
-use ArrayAccess;
 use Psr\Container\ContainerInterface;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Run as Whoops;
@@ -49,7 +48,7 @@ class WhoopsFactory
     /**
      * Create and return an instance of the Whoops runner.
      */
-    public function __invoke(ContainerInterface $container): Whoops
+    public function __invoke(ContainerInterface $container) : Whoops
     {
         $config = $container->has('config') ? $container->get('config') : [];
         $config = $config['whoops'] ?? [];
@@ -65,9 +64,11 @@ class WhoopsFactory
     /**
      * If configuration indicates a JsonResponseHandler, configure and register it.
      *
-     * @param array|ArrayAccess $config
+     * @param Whoops $whoops
+     * @param array|\ArrayAccess $config
+     * @return void
      */
-    private function registerJsonHandler(Whoops $whoops, $config): void
+    private function registerJsonHandler(Whoops $whoops, $config) : void
     {
         if (empty($config['json_exceptions']['display'])) {
             return;

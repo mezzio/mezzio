@@ -17,7 +17,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class InteropMiddleware implements MiddlewareInterface
 {
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $delegate): ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $delegate) : ResponseInterface
     {
     }
 }

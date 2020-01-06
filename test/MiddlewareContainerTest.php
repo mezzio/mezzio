@@ -24,7 +24,7 @@ class MiddlewareContainerTest extends TestCase
     public function setUp()
     {
         $this->originContainer = $this->prophesize(ContainerInterface::class);
-        $this->container       = new MiddlewareContainer($this->originContainer->reveal());
+        $this->container = new MiddlewareContainer($this->originContainer->reveal());
     }
 
     public function testHasReturnsTrueIfOriginContainerHasService()
@@ -35,8 +35,8 @@ class MiddlewareContainerTest extends TestCase
 
     public function testHasReturnsTrueIfOriginContainerDoesNotHaveServiceButClassExists()
     {
-        $this->originContainer->has(self::class)->willReturn(false);
-        $this->assertTrue($this->container->has(self::class));
+        $this->originContainer->has(__CLASS__)->willReturn(false);
+        $this->assertTrue($this->container->has(__CLASS__));
     }
 
     public function testHasReturnsFalseIfOriginContainerDoesNotHaveServiceAndClassDoesNotExist()
@@ -55,20 +55,20 @@ class MiddlewareContainerTest extends TestCase
 
     public function testGetRaisesExceptionIfServiceSpecifiedDoesNotImplementMiddlewareInterface()
     {
-        $this->originContainer->has(self::class)->willReturn(true);
-        $this->originContainer->get(self::class)->willReturn($this);
+        $this->originContainer->has(__CLASS__)->willReturn(true);
+        $this->originContainer->get(__CLASS__)->willReturn($this);
 
         $this->expectException(Exception\InvalidMiddlewareException::class);
-        $this->container->get(self::class);
+        $this->container->get(__CLASS__);
     }
 
     public function testGetRaisesExceptionIfClassSpecifiedDoesNotImplementMiddlewareInterface()
     {
-        $this->originContainer->has(self::class)->willReturn(false);
-        $this->originContainer->get(self::class)->shouldNotBeCalled();
+        $this->originContainer->has(__CLASS__)->willReturn(false);
+        $this->originContainer->get(__CLASS__)->shouldNotBeCalled();
 
         $this->expectException(Exception\InvalidMiddlewareException::class);
-        $this->container->get(self::class);
+        $this->container->get(__CLASS__);
     }
 
     public function testGetReturnsServiceFromOriginContainer()

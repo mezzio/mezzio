@@ -28,7 +28,7 @@ class NotFoundHandlerFactoryTest extends TestCase
 
     protected function setUp()
     {
-        $this->response  = $this->prophesize(ResponseInterface::class)->reveal();
+        $this->response = $this->prophesize(ResponseInterface::class)->reveal();
         $this->container = $this->prophesize(ContainerInterface::class);
         $this->container->get(ResponseInterface::class)->willReturn(function () {
             return $this->response;
@@ -65,7 +65,7 @@ class NotFoundHandlerFactoryTest extends TestCase
         $config = [
             'mezzio' => [
                 'error_handler' => [
-                    'layout'       => 'layout::error',
+                    'layout' => 'layout::error',
                     'template_404' => 'foo::bar',
                 ],
             ],

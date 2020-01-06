@@ -17,7 +17,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class ErrorHandlerFactory
 {
-    public function __invoke(ContainerInterface $container): ErrorHandler
+    public function __invoke(ContainerInterface $container) : ErrorHandler
     {
         $generator = $container->has(ErrorResponseGenerator::class)
             ? $container->get(ErrorResponseGenerator::class)

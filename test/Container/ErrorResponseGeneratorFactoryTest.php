@@ -85,7 +85,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
             'mezzio' => [
                 'error_handler' => [
                     'template_error' => 'error::custom',
-                    'layout'         => 'layout::custom',
+                    'layout' => 'layout::custom',
                 ],
             ],
         ]);

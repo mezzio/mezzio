@@ -62,20 +62,20 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     public function setUp()
     {
-        $this->container                  = $this->mockContainerInterface();
-        $this->router                     = $this->prophesize(RouterInterface::class);
-        $this->routeCollector             = new RouteCollector($this->router->reveal());
-        $this->routeMiddleware            = new RouteMiddleware($this->router->reveal());
-        $this->dispatchMiddleware         = $this->prophesize(DispatchMiddleware::class)->reveal();
+        $this->container = $this->mockContainerInterface();
+        $this->router = $this->prophesize(RouterInterface::class);
+        $this->routeCollector = new RouteCollector($this->router->reveal());
+        $this->routeMiddleware = new RouteMiddleware($this->router->reveal());
+        $this->dispatchMiddleware = $this->prophesize(DispatchMiddleware::class)->reveal();
         $this->methodNotAllowedMiddleware = $this->prophesize(MethodNotAllowedMiddleware::class)->reveal();
     }
 
     public function createApplication()
     {
         $container = new MiddlewareContainer($this->container->reveal());
-        $factory   = new MiddlewareFactory($container);
-        $pipeline  = new MiddlewarePipe();
-        $runner    = $this->prophesize(RequestHandlerRunner::class)->reveal();
+        $factory = new MiddlewareFactory($container);
+        $pipeline = new MiddlewarePipe();
+        $runner = $this->prophesize(RequestHandlerRunner::class)->reveal();
         return new Application(
             $factory,
             $pipeline,
@@ -111,15 +111,13 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
                     return false;
                 }
 
-                if (
-                    isset($spec['allowed_methods'])
+                if (isset($spec['allowed_methods'])
                     && $route->getAllowedMethods() !== $spec['allowed_methods']
                 ) {
                     return false;
                 }
 
-                if (
-                    ! isset($spec['allowed_methods'])
+                if (! isset($spec['allowed_methods'])
                     && $route->getAllowedMethods() !== Route::HTTP_METHOD_ANY
                 ) {
                     return false;
@@ -162,10 +160,10 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
     public function testInvocationAsDelegatorFactoryRaisesExceptionIfCallbackIsNotAnApplication()
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();
-        $callback  = function () {
+        $callback = function () {
             return $this;
         };
-        $factory   = new ApplicationConfigInjectionDelegator();
+        $factory = new ApplicationConfigInjectionDelegator();
         $this->expectException(InvalidServiceException::class);
         $this->expectExceptionMessage('cannot operate');
         $factory($container, Application::class, $callback);
@@ -173,6 +171,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     /**
      * @dataProvider callableMiddlewares
+     *
      * @param callable|array|string $middleware
      */
     public function testInjectRoutesFromConfigSetsUpRoutesFromConfig($middleware)
@@ -183,13 +182,13 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $config = [
             'routes' => [
                 [
-                    'path'            => '/',
-                    'middleware'      => $middleware,
+                    'path' => '/',
+                    'middleware' => $middleware,
                     'allowed_methods' => ['GET'],
                 ],
                 [
-                    'path'            => '/ping',
-                    'middleware'      => 'Ping',
+                    'path' => '/ping',
+                    'middleware' => 'Ping',
                     'allowed_methods' => ['GET'],
                 ],
             ],
@@ -236,7 +235,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $pipeline3 = [['middleware' => clone $middleware, 'priority' => -100]];
 
         $pipeline = array_merge($pipeline3, $pipeline1, $pipeline2);
-        $config   = ['middleware_pipeline' => $pipeline];
+        $config = ['middleware_pipeline' => $pipeline];
 
         $app = $this->createApplication();
 
@@ -258,7 +257,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $pipeline3 = [['middleware' => clone $middleware]];
 
         $pipeline = array_merge($pipeline3, $pipeline1, $pipeline2);
-        $config   = ['middleware_pipeline' => $pipeline];
+        $config = ['middleware_pipeline' => $pipeline];
 
         $app = $this->createApplication();
 
@@ -293,8 +292,8 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $config = [
             'routes' => [
                 [
-                    'path'            => '/',
-                    'middleware'      => new TestAsset\InteropMiddleware(),
+                    'path' => '/',
+                    'middleware' => new TestAsset\InteropMiddleware(),
                     'allowed_methods' => 'not-valid',
                 ],
             ],
@@ -312,10 +311,10 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $config = [
             'routes' => [
                 [
-                    'path'            => '/',
-                    'middleware'      => new TestAsset\InteropMiddleware(),
+                    'path' => '/',
+                    'middleware' => new TestAsset\InteropMiddleware(),
                     'allowed_methods' => ['GET'],
-                    'options'         => 'invalid',
+                    'options' => 'invalid',
                 ],
             ],
         ];
@@ -332,10 +331,10 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $config = [
             'routes' => [
                 [
-                    'path'            => '/',
-                    'middleware'      => new TestAsset\InteropMiddleware(),
+                    'path' => '/',
+                    'middleware' => new TestAsset\InteropMiddleware(),
                     'allowed_methods' => ['GET'],
-                    'options'         => [
+                    'options' => [
                         'foo' => 'bar',
                     ],
                 ],
@@ -357,9 +356,9 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $config = [
             'routes' => [
                 [
-                    'middleware'      => new TestAsset\InteropMiddleware(),
+                    'middleware' => new TestAsset\InteropMiddleware(),
                     'allowed_methods' => ['GET'],
-                    'options'         => [
+                    'options' => [
                         'foo' => 'bar',
                     ],
                 ],
@@ -378,9 +377,9 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $config = [
             'routes' => [
                 [
-                    'path'            => '/',
+                    'path' => '/',
                     'allowed_methods' => ['GET'],
-                    'options'         => [
+                    'options' => [
                         'foo' => 'bar',
                     ],
                 ],
@@ -399,7 +398,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $config = [
             'routes' => [
                 'home' => [
-                    'path'       => '/',
+                    'path' => '/',
                     'middleware' => new TestAsset\InteropMiddleware(),
                 ],
             ],
@@ -420,8 +419,8 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $config = [
             'routes' => [
                 'home' => [
-                    'name'       => 'homepage',
-                    'path'       => '/',
+                    'name' => 'homepage',
+                    'path' => '/',
                     'middleware' => new TestAsset\InteropMiddleware(),
                 ],
             ],
@@ -446,7 +445,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
                 ],
             ],
         ];
-        $app    = $this->createApplication();
+        $app = $this->createApplication();
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid pipeline specification received');
@@ -458,8 +457,8 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $config = new ArrayObject([
             'routes' => [
                 'home' => [
-                    'name'       => 'homepage',
-                    'path'       => '/',
+                    'name' => 'homepage',
+                    'path' => '/',
                     'middleware' => new TestAsset\InteropMiddleware(),
                 ],
             ],
@@ -468,7 +467,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn($config);
 
-        $delegator   = new ApplicationConfigInjectionDelegator();
+        $delegator = new ApplicationConfigInjectionDelegator();
         $application = $delegator($this->container->reveal(), '', function () {
             return $this->createApplication();
         });

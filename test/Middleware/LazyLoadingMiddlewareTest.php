@@ -48,7 +48,7 @@ class LazyLoadingMiddlewareTest extends TestCase
 
     public function testProcessesMiddlewarePulledFromContainer()
     {
-        $response   = $this->prophesize(ResponseInterface::class)->reveal();
+        $response = $this->prophesize(ResponseInterface::class)->reveal();
         $middleware = $this->prophesize(MiddlewareInterface::class);
         $middleware
             ->process(

@@ -19,7 +19,9 @@ use function class_exists;
 
 class MiddlewareContainer implements ContainerInterface
 {
-    /** @var ContainerInterface */
+    /**
+     * @var ContainerInterface
+     */
     private $container;
 
     public function __construct(ContainerInterface $container)
@@ -33,7 +35,7 @@ class MiddlewareContainer implements ContainerInterface
      *
      * @param string $service
      */
-    public function has($service): bool
+    public function has($service) : bool
     {
         if ($this->container->has($service)) {
             return true;
@@ -52,7 +54,7 @@ class MiddlewareContainer implements ContainerInterface
      * @throws Exception\InvalidMiddlewareException if the service is not
      *     an instance of MiddlewareInterface.
      */
-    public function get($service): MiddlewareInterface
+    public function get($service) : MiddlewareInterface
     {
         if (! $this->has($service)) {
             throw Exception\MissingDependencyException::forMiddlewareService($service);
@@ -62,8 +64,7 @@ class MiddlewareContainer implements ContainerInterface
             ? $this->container->get($service)
             : new $service();
 
-        if (
-            $middleware instanceof RequestHandlerInterface
+        if ($middleware instanceof RequestHandlerInterface
             && ! $middleware instanceof MiddlewareInterface
         ) {
             $middleware = new RequestHandlerMiddleware($middleware);

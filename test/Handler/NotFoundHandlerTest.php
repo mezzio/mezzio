@@ -34,8 +34,8 @@ class NotFoundHandlerTest extends TestCase
 
     public function setUp()
     {
-        $this->request         = $this->prophesize(ServerRequestInterface::class);
-        $this->response        = $this->prophesize(ResponseInterface::class);
+        $this->request  = $this->prophesize(ServerRequestInterface::class);
+        $this->response = $this->prophesize(ResponseInterface::class);
         $this->responseFactory = function () {
             return $this->response->reveal();
         };
@@ -57,7 +57,7 @@ class NotFoundHandlerTest extends TestCase
     {
         $renderer = $this->prophesize(TemplateRendererInterface::class)->reveal();
         $template = 'foo::bar';
-        $layout   = 'layout::error';
+        $layout = 'layout::error';
 
         $handler = new NotFoundHandler($this->responseFactory, $renderer, $template, $layout);
 
@@ -95,7 +95,7 @@ class NotFoundHandlerTest extends TestCase
                 NotFoundHandler::TEMPLATE_DEFAULT,
                 [
                     'request' => $request,
-                    'layout'  => NotFoundHandler::LAYOUT_DEFAULT,
+                    'layout' => NotFoundHandler::LAYOUT_DEFAULT,
                 ]
             )
             ->willReturn('CONTENT');

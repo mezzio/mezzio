@@ -28,7 +28,7 @@ use function sprintf;
  */
 class ServerRequestFactoryFactory
 {
-    public function __invoke(ContainerInterface $container): callable
+    public function __invoke(ContainerInterface $container) : callable
     {
         if (! class_exists(ServerRequestFactory::class)) {
             throw new Exception\InvalidServiceException(sprintf(
