@@ -2,7 +2,6 @@ docs_dir: docs/book
 site_dir: docs/html
 extra:
   project: Mezzio
-  project_url: 'https://docs.mezzio.dev'
   show_special_homepage: true
   current_version: v3
   versions:
