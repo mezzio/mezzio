@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -653,8 +657,7 @@ into the request as <em>attributes</em>.</p>
 <code>id</code> is the name of the dynamic segment. This means that in the middleware
 invoked for this route, you can fetch the <code>id</code> attribute to discover what was
 matched:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$id = $request-&gt;getAttribute(&#39;id&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$id = $request-&gt;getAttribute('id');</code></pre>
 <h2 id="retrieving-the-matched-route">Retrieving the matched route</h2>
 <p>When routing is successful, the routing middleware injects a
 <code>Mezzio\Router\RouteResult</code> instance as a request attribute, using that
@@ -669,28 +672,27 @@ to the following:</p>
 </ul>
 <p>As an example, you could use middleware similar to the following to return a 403
 response if routing was successful, but no <code>Authorization</code> header is present:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Diactoros\Response\EmptyResponse;</span>
-<span class=x>use Mezzio\Router\RouteResult;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Diactoros\Response\EmptyResponse;
+use Mezzio\Router\RouteResult;
 
-<span class=x>function ($request, $response, $next) use ($routesRequiringAuthorization, $validator) {</span>
-<span class=x>    if (! ($result = $request-&gt;getAttribute(RouteResult::class, false))) {</span>
-<span class=x>        // No route matched; delegate to next middleware</span>
-<span class=x>        return $next($request, $response);</span>
-<span class=x>    }</span>
+function ($request, $response, $next) use ($routesRequiringAuthorization, $validator) {
+    if (! ($result = $request-&gt;getAttribute(RouteResult::class, false))) {
+        // No route matched; delegate to next middleware
+        return $next($request, $response);
+    }
 
-<span class=x>    if (! in_array($result-&gt;getMatchedRouteName(), $routesRequiringAuthorization, true)) {</span>
-<span class=x>        // Not a route requiring authorization</span>
-<span class=x>        return $next($request, $response);</span>
-<span class=x>    }</span>
+    if (! in_array($result-&gt;getMatchedRouteName(), $routesRequiringAuthorization, true)) {
+        // Not a route requiring authorization
+        return $next($request, $response);
+    }
 
-<span class=x>    $header = $request-&gt;getHeaderLine(&#39;Authorization&#39;);</span>
-<span class=x>    if (! $validator($header)) {</span>
-<span class=x>        return new EmptyResponse(403);</span>
-<span class=x>    }</span>
+    $header = $request-&gt;getHeaderLine('Authorization');
+    if (! $validator($header)) {
+        return new EmptyResponse(403);
+    }
 
-<span class=x>    return $next($request, $response);</span>
-<span class=x>}</span>
-</pre></div></p>
+    return $next($request, $response);
+}</code></pre>
 <p>Note that the first step is to determine if we have a <code>RouteResult</code>; if we do
 not have one, we should either delegate to the next middleware, or return some
 sort of response (generally a 404). In the case of Mezzio, a later
@@ -703,8 +705,7 @@ either delegating to the underlying router implementations or providing a
 compatible implementation of its own.</p>
 <p>At it's most basic level, you call the <code>generateUri()</code> method with a route name
 and any substitutions you want to make:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$uri = $router-&gt;generateUri(&#39;book&#39;, [&#39;id&#39; =&gt; &#39;mezzio&#39;]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$uri = $router-&gt;generateUri('book', ['id' =&gt; 'mezzio']);</code></pre>
 <h2 id="supported-implementations">Supported implementations</h2>
 <p>Mezzio currently ships with adapters for the following routers:</p>
 <ul>
@@ -1175,9 +1176,10 @@ and any substitutions you want to make:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1214,7 +1216,7 @@ and any substitutions you want to make:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1223,8 +1225,8 @@ and any substitutions you want to make:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

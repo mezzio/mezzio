@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -697,10 +701,9 @@ enables optional, development-specific configuration in your application by:</p>
 </ul>
 <p>The package provides the tooling via <code>vendor/bin/laminas-development-mode</code>. If you
 are using the Mezzio skeleton, it provides aliases via Composer:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$ composer development-enable</span>
-<span class=x>$ composer development-disable</span>
-<span class=x>$ composer development-status</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$ composer development-enable
+$ composer development-disable
+$ composer development-status</code></pre>
 <p>Add settings to your <code>development.*.php.dist</code> files, and commit those files to
 your repository; always toggle out of and into development mode after making
 changes, to ensure they pick up in your development environment.</p>
@@ -709,17 +712,15 @@ changes, to ensure they pick up in your development environment.</p>
 provides the script <code>vendor/bin/mezzio</code>, which contains a number of commands
 related to migration, modules, and middleware.</p>
 <p>You can install it if it is not already present in your application:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require --dev mezzio/mezzio-tooling
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-tooling</code></pre>
 <p>Once installed, invoking the binary without arguments will give a listing of
 available tools:</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio</code></pre>
 <blockquote>
 <h4>Integration with Composer</h4>
 <p>In the skeleton application, we provide direct integration with Composer,
 allowing you to invoke the tooling using:</p>
-<pre class=codehilite><code class=language-bash>
+<pre class="codehilite"><code class="language-bash">
 $ composer mezzio
 </code></pre>
 <p>You can use either that form, or invoke the script directly as detailed above.</p>
@@ -777,8 +778,7 @@ $ composer mezzio
 </li>
 </ul>
 <p>You may obtain full help for each command by invoking:</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio <span class=nb>help</span> &lt;command&gt;
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio help &lt;command&gt;</code></pre>
 
 
 
@@ -1314,9 +1314,10 @@ $ composer mezzio
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1353,7 +1354,7 @@ $ composer mezzio
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1362,8 +1363,8 @@ $ composer mezzio
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

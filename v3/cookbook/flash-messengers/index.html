@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -705,32 +709,28 @@ have a dependency on a session library. Two such libraries are:</p>
 is a new offering from Laminas. Using it requires a session persistence
 engine as well, and Laminas provides that as well. Install the component
 using the following:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require mezzio/mezzio-flash mezzio/mezzio-session-ext
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-flash mezzio/mezzio-session-ext</code></pre>
 <p>Once installed, you will need to pipe the middleware, along with the
 mezzio-session middleware, in your pipeline. This can be done at the
 application level:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(\Mezzio\Session\SessionMiddleware::class);</span>
-<span class=x>$app-&gt;pipe(\Mezzio\Flash\FlashMessageMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(\Mezzio\Session\SessionMiddleware::class);
+$app-&gt;pipe(\Mezzio\Flash\FlashMessageMiddleware::class);</code></pre>
 <p>or within a routed middleware pipeline:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;post(&#39;/user/login&#39;, [</span>
-<span class=x>    \Mezzio\Session\SessionMiddleware::class,</span>
-<span class=x>    \Mezzio\Flash\FlashMessageMiddleware::class,</span>
-<span class=x>    LoginHandler::class,</span>
-<span class=x>]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;post('/user/login', [
+    \Mezzio\Session\SessionMiddleware::class,
+    \Mezzio\Flash\FlashMessageMiddleware::class,
+    LoginHandler::class,
+]);</code></pre>
 <p>Once this is in place, the flash message container will be registered as a
 request attribute, which you can then pull and manipulate:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$flashMessages = $request-&gt;getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);</span>
-<span class=x>// or $flashMessages = $request-&gt;getAttribute(&#39;flash&#39;);</span>
+<pre class=codehilite><code class=language-php>$flashMessages = $request-&gt;getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
+// or $flashMessages = $request-&gt;getAttribute('flash');
 
-<span class=x>// Create a flash message for the next request:</span>
-<span class=x>$flashMessages-&gt;flash($messageName, $messageValue);</span>
+// Create a flash message for the next request:
+$flashMessages-&gt;flash($messageName, $messageValue);
 
-<span class=x>// Or retrieve them:</span>
-<span class=x>$message = $flashMessages-&gt;getFlash($messageName);</span>
-</pre></div></p>
+// Or retrieve them:
+$message = $flashMessages-&gt;getFlash($messageName);</code></pre>
 <p>The component has functionality for specifying the number of hops the message
 will be valid for, as well as accessing messages created in the current request;
 <a href="https://docs.mezzio.dev/mezzio-flash/intro/">read more in the documentation</a>.</p>
@@ -738,70 +738,64 @@ will be valid for, as well as accessing messages created in the current request;
 <p>Slim's <a href="https://github.com/slimphp/Slim-Flash">Flash messages service provider</a> can be
 used in Mezzio. It uses PHP's native session support.</p>
 <p>First, you'll need to add it to your application:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require slim/flash
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require slim/flash</code></pre>
 <p>Second, create middleware that will add the flash message provider to the request:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>namespace</span> <span class=nx>App</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+namespace App;
 
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ResponseInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ServerRequestInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Server\MiddlewareInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Server\RequestHandlerInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Slim\Flash\Messages</span><span class=p>;</span>
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Flash\Messages;
 
-<span class=k>class</span> <span class=nc>SlimFlashMiddleware</span> <span class=k>implements</span> <span class=nx>MiddlewareInterface</span>
-<span class=p>{</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>process</span><span class=p>(</span><span class=nx>ServerRequestInterface</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>RequestHandlerInterface</span> <span class=nv>$handler</span><span class=p>)</span> <span class=o>:</span> <span class=nx>ResponseInterface</span>
-    <span class=p>{</span>
-        <span class=c1>// Start the session whenever we use this!</span>
-        <span class=nb>session_start</span><span class=p>();</span>
+class SlimFlashMiddleware implements MiddlewareInterface
+{
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    {
+        // Start the session whenever we use this!
+        session_start();
 
-        <span class=k>return</span> <span class=nv>$handler</span><span class=o>-&gt;</span><span class=na>handle</span><span class=p>(</span>
-            <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>withAttribute</span><span class=p>(</span><span class=s1>&#39;flash&#39;</span><span class=p>,</span> <span class=k>new</span> <span class=nx>Messages</span><span class=p>())</span>
-        <span class=p>);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+        return $handler-&gt;handle(
+            $request-&gt;withAttribute('flash', new Messages())
+        );
+    }
+}</code></pre>
 <p>Third, we will register the new middleware with our container as an invokable.
 Edit either the file <code>config/autoload/dependencies.global.php</code> or
 <code>config/autoload/middleware-pipeline.global.php</code> to add the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;invokables&#39; =&gt; [</span>
-<span class=x>            App\SlimFlashMiddleware::class =&gt; App\SlimFlashMiddleware::class,</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'dependencies' =&gt; [
+        'invokables' =&gt; [
+            App\SlimFlashMiddleware::class =&gt; App\SlimFlashMiddleware::class,
+            /* ... */
+        ],
+        /* ... */
+    ],
+];</code></pre>
 <p>Finally, let's register it with our middleware pipeline. For programmatic
 pipelines, pipe the middleware somewhere, generally before the routing middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(App\SlimFlashMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(App\SlimFlashMiddleware::class);</code></pre>
 <p>Or as part of a routed middleware pipeline:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;post(&#39;/form/handler&#39;, [</span>
-<span class=x>    App\SlimFlashMiddleware::class,</span>
-<span class=x>    FormHandlerMiddleware::class,</span>
-<span class=x>]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;post('/form/handler', [
+    App\SlimFlashMiddleware::class,
+    FormHandlerMiddleware::class,
+]);</code></pre>
 <p>If using configuration-driven pipelines, edit
 <code>config/autoload/middleware-pipeline.global.php</code> to make the following
 additions:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>        &#39;always&#39; =&gt; [</span>
-<span class=x>            &#39;middleware&#39; =&gt; [</span>
-<span class=x>                &#39;App\SlimFlashMiddleware&#39;,</span>
-<span class=x>                /* ... */</span>
-<span class=x>            ],</span>
-<span class=x>            &#39;priority&#39; =&gt; 10000,</span>
-<span class=x>        ],</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'middleware_pipeline' =&gt; [
+        'always' =&gt; [
+            'middleware' =&gt; [
+                'App\SlimFlashMiddleware',
+                /* ... */
+            ],
+            'priority' =&gt; 10000,
+        ],
+        /* ... */
+    ],
+];</code></pre>
 <blockquote>
 <h3>Where to register the flash middleware</h3>
 <p>Sessions can sometimes be expensive. As such, you may not want the flash
@@ -811,27 +805,25 @@ in the programmatic pipelines above.</p>
 </blockquote>
 <p>From here, you can add and read messages by accessing the request's flash
 attribute. As an example, middleware generating messages might read as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Http\Server\RequestHandlerInterface;</span>
-<span class=x>use Laminas\Diactoros\Response\RedirectResponse;</span>
+<pre class=codehilite><code class=language-php>use Psr\Http\Server\RequestHandlerInterface;
+use Laminas\Diactoros\Response\RedirectResponse;
 
-<span class=x>function($request, RequestHandlerInterface $handler)</span>
-<span class=x>{</span>
-<span class=x>    $flash = $request-&gt;getAttribute(&#39;flash&#39;);</span>
-<span class=x>    $flash-&gt;addMessage(&#39;message&#39;, &#39;Hello World!&#39;);</span>
+function($request, RequestHandlerInterface $handler)
+{
+    $flash = $request-&gt;getAttribute('flash');
+    $flash-&gt;addMessage('message', 'Hello World!');
 
-<span class=x>    return new RedirectResponse(&#39;/other-middleware&#39;);</span>
-<span class=x>}</span>
-</pre></div></p>
+    return new RedirectResponse('/other-middleware');
+}</code></pre>
 <p>And middleware consuming the message might read:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Http\Server\RequestHandlerInterface;</span>
+<pre class=codehilite><code class=language-php>use Psr\Http\Server\RequestHandlerInterface;
 
-<span class=x>function($request, RequestHandlerInterface $handler)</span>
-<span class=x>{</span>
-<span class=x>    $flash = $request-&gt;getAttribute(&#39;flash&#39;);</span>
-<span class=x>    $messages = $flash-&gt;getMessages();</span>
-<span class=x>    // ...</span>
-<span class=x>}</span>
-</pre></div></p>
+function($request, RequestHandlerInterface $handler)
+{
+    $flash = $request-&gt;getAttribute('flash');
+    $messages = $flash-&gt;getMessages();
+    // ...
+}</code></pre>
 <p>From there, it's a matter of providing the flash messages to your template.</p>
 
 
@@ -1368,9 +1360,10 @@ attribute. As an example, middleware generating messages might read as follows:<
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1407,7 +1400,7 @@ attribute. As an example, middleware generating messages might read as follows:<
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1416,8 +1409,8 @@ attribute. As an example, middleware generating messages might read as follows:<
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

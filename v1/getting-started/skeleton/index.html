@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -630,8 +634,7 @@ prompts you to choose a router, dependency injection container, template
 renderer, and error handler from the outset.</p>
 <h2 id="1-create-a-new-project">1. Create a new project</h2>
 <p>First, we'll create a new project, using Composer's <code>create-project</code> command:</p>
-<p> <div class=codehilite><pre><span></span>$ composer create-project mezzio/mezzio-skeleton mezzio
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer create-project mezzio/mezzio-skeleton mezzio</code></pre>
 <p>This will prompt you to choose:</p>
 <ul>
 <li>A router. We recommend using the default, FastRoute.</li>
@@ -648,8 +651,7 @@ renderer, and error handler from the outset.</p>
 when complete. You can test it out using <a href="http://php.net/manual/en/features.commandline.webserver.php">built-in web
 server</a>.</p>
 <p>From the project root directory, execute the following:</p>
-<p> <div class=codehilite><pre><span></span>$ composer serve
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer serve</code></pre>
 <p>This starts up a web server on localhost port 8080; browse to
 http://localhost:8080/ to see if your application responds correctly!</p>
 <h2 id="next-steps">Next Steps</h2>
@@ -665,56 +667,53 @@ namespace for you, and suggests placing middleware under the namespace
 <code>App\Action</code>.</p>
 <p>Let's create a "Hello" action. Place the following in
 <code>src/App/Action/HelloAction.php</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>namespace</span> <span class=nx>App\Action</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+namespace App\Action;
 
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ResponseInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ServerRequestInterface</span><span class=p>;</span>
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
-<span class=k>class</span> <span class=nc>HelloAction</span>
-<span class=p>{</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__invoke</span><span class=p>(</span><span class=nx>ServerRequestInterface</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>ResponseInterface</span> <span class=nv>$response</span><span class=p>,</span> <span class=nx>callable</span> <span class=nv>$next</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=nv>$query</span>  <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>getQueryParams</span><span class=p>();</span>
-        <span class=nv>$target</span> <span class=o>=</span> <span class=nb>isset</span><span class=p>(</span><span class=nv>$query</span><span class=p>[</span><span class=s1>&#39;target&#39;</span><span class=p>])</span> <span class=o>?</span> <span class=nv>$query</span><span class=p>[</span><span class=s1>&#39;target&#39;</span><span class=p>]</span> <span class=o>:</span> <span class=s1>&#39;World&#39;</span><span class=p>;</span>
-        <span class=nv>$target</span> <span class=o>=</span> <span class=nb>htmlspecialchars</span><span class=p>(</span><span class=nv>$target</span><span class=p>,</span> <span class=nx>ENT_HTML5</span><span class=p>,</span> <span class=s1>&#39;UTF-8&#39;</span><span class=p>);</span>
+class HelloAction
+{
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    {
+        $query  = $request-&gt;getQueryParams();
+        $target = isset($query['target']) ? $query['target'] : 'World';
+        $target = htmlspecialchars($target, ENT_HTML5, 'UTF-8');
 
-        <span class=nv>$response</span><span class=o>-&gt;</span><span class=na>getBody</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>write</span><span class=p>(</span><span class=nb>sprintf</span><span class=p>(</span>
-            <span class=s1>&#39;&lt;h1&gt;Hello, %s!&lt;/h1&gt;&#39;</span><span class=p>,</span>
-            <span class=nv>$target</span>
-        <span class=p>));</span>
-        <span class=k>return</span> <span class=nv>$response</span><span class=o>-&gt;</span><span class=na>withHeader</span><span class=p>(</span><span class=s1>&#39;Content-Type&#39;</span><span class=p>,</span> <span class=s1>&#39;text/html&#39;</span><span class=p>);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+        $response-&gt;getBody()-&gt;write(sprintf(
+            '&lt;h1&gt;Hello, %s!&lt;/h1&gt;',
+            $target
+        ));
+        return $response-&gt;withHeader('Content-Type', 'text/html');
+    }
+}</code></pre>
 <p>The above looks for a query string parameter "target", and uses its value to
 provide a message, which is then returned in an HTML response.</p>
 <p>Now we need to inform the application of this middleware, and indicate what
 path will invoke it. Open the file <code>config/autoload/routes.global.php</code>. Inside
 that file, you should have a structure similar to the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;routes&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'dependencies' =&gt; [
+        /* ... */
+    ],
+    'routes' =&gt; [
+        /* ... */
+    ],
+];</code></pre>
 <p>We're going to add an entry under <code>routes</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    /* ... */</span>
-<span class=x>    &#39;routes&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
-<span class=x>        [</span>
-<span class=x>            &#39;name&#39; =&gt; &#39;hello&#39;,</span>
-<span class=x>            &#39;path&#39; =&gt; &#39;/hello&#39;,</span>
-<span class=x>            &#39;middleware&#39; =&gt; App\Action\HelloAction::class,</span>
-<span class=x>            &#39;allowed_methods&#39; =&gt; [&#39;GET&#39;],</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    /* ... */
+    'routes' =&gt; [
+        /* ... */
+        [
+            'name' =&gt; 'hello',
+            'path' =&gt; '/hello',
+            'middleware' =&gt; App\Action\HelloAction::class,
+            'allowed_methods' =&gt; ['GET'],
+        ],
+    ],
+];</code></pre>
 <p>Once you've added the above entry, give it a try by going to each of the
 following URIs:</p>
 <ul>
@@ -730,44 +729,42 @@ templates. This particular exercise assumes you chose to use the
 register the template namespace <code>app</code> to correspond with the <code>templates/app</code>
 subdirectory. Create the file <code>templates/app/hello-world.phtml</code> with the
 following contents:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>layout</span><span class=p>(</span><span class=s1>&#39;layout::default&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;title&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Greetings&#39;</span><span class=p>])</span> <span class=cp>?&gt;</span><span class=x></span>
+<pre class=codehilite><code class=language-php>&lt;?php $this-&gt;layout('layout::default', ['title' =&gt; 'Greetings']) ?&gt;
 
-<span class=x>&lt;h2&gt;Hello, </span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>e</span><span class=p>(</span><span class=nv>$target</span><span class=p>)</span> <span class=cp>?&gt;</span><span class=x>&lt;/h2&gt;</span>
-</pre></div></p>
+&lt;h2&gt;Hello, &lt;?= $this-&gt;e($target) ?&gt;&lt;/h2&gt;</code></pre>
 <p>Now that we have a template, we need to:</p>
 <ul>
 <li>Inject a renderer into our action class.</li>
 <li>Use the renderer to render the contents.</li>
 </ul>
 <p>Replace your <code>src/App/Action/HelloAction.php</code> file with the following contents:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>namespace</span> <span class=nx>App\Action</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+namespace App\Action;
 
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ResponseInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ServerRequestInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Diactoros\Response\HtmlResponse</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Template\TemplateRendererInterface</span><span class=p>;</span>
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Laminas\Diactoros\Response\HtmlResponse;
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=k>class</span> <span class=nc>HelloAction</span>
-<span class=p>{</span>
-    <span class=k>private</span> <span class=nv>$renderer</span><span class=p>;</span>
+class HelloAction
+{
+    private $renderer;
 
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__construct</span><span class=p>(</span><span class=nx>TemplateRendererInterface</span> <span class=nv>$renderer</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>renderer</span> <span class=o>=</span> <span class=nv>$renderer</span><span class=p>;</span>
-    <span class=p>}</span>
+    public function __construct(TemplateRendererInterface $renderer)
+    {
+        $this-&gt;renderer = $renderer;
+    }
 
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__invoke</span><span class=p>(</span><span class=nx>ServerRequestInterface</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>ResponseInterface</span> <span class=nv>$response</span><span class=p>,</span> <span class=nx>callable</span> <span class=nv>$next</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=nv>$query</span>  <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>getQueryParams</span><span class=p>();</span>
-        <span class=nv>$target</span> <span class=o>=</span> <span class=nb>isset</span><span class=p>(</span><span class=nv>$query</span><span class=p>[</span><span class=s1>&#39;target&#39;</span><span class=p>])</span> <span class=o>?</span> <span class=nv>$query</span><span class=p>[</span><span class=s1>&#39;target&#39;</span><span class=p>]</span> <span class=o>:</span> <span class=s1>&#39;World&#39;</span><span class=p>;</span>
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    {
+        $query  = $request-&gt;getQueryParams();
+        $target = isset($query['target']) ? $query['target'] : 'World';
 
-        <span class=k>return</span> <span class=k>new</span> <span class=nx>HtmlResponse</span><span class=p>(</span>
-            <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>renderer</span><span class=o>-&gt;</span><span class=na>render</span><span class=p>(</span><span class=s1>&#39;app::hello-world&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;target&#39;</span> <span class=o>=&gt;</span> <span class=nv>$target</span><span class=p>])</span>
-        <span class=p>);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+        return new HtmlResponse(
+            $this-&gt;renderer-&gt;render('app::hello-world', ['target' =&gt; $target])
+        );
+    }
+}</code></pre>
 <p>The above modifies the class to accept a renderer to the constructor, and then
 calls on it to render a template. A few things to note:</p>
 <ul>
@@ -784,51 +781,48 @@ creating the <code>HelloAction</code> instance; the example assumes you used the
 selection for a dependency injection container, Laminas ServiceManager.</p>
 <p>Let's create a factory. Create the file <code>src/App/Action/HelloActionFactory.php</code> with
 the following contents:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>namespace</span> <span class=nx>App\Action</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+namespace App\Action;
 
-<span class=k>use</span> <span class=nx>Interop\Container\ContainerInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Template\TemplateRendererInterface</span><span class=p>;</span>
+use Interop\Container\ContainerInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=k>class</span> <span class=nc>HelloActionFactory</span>
-<span class=p>{</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__invoke</span><span class=p>(</span><span class=nx>ContainerInterface</span> <span class=nv>$container</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=k>new</span> <span class=nx>HelloAction</span><span class=p>(</span>
-            <span class=nv>$container</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=nx>TemplateRendererInterface</span><span class=o>::</span><span class=na>class</span><span class=p>)</span>
-        <span class=p>);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+class HelloActionFactory
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        return new HelloAction(
+            $container-&gt;get(TemplateRendererInterface::class)
+        );
+    }
+}</code></pre>
 <p>With that in place, we'll now update our configuration. Open the file
 <code>config/autoload/routes.global.php</code>; it should have a structure similar to
 the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;invokables&#39; =&gt; [</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;routes&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'dependencies' =&gt; [
+        'invokables' =&gt; [
+            /* ... */
+        ],
+    ],
+    'routes' =&gt; [
+        /* ... */
+    ],
+];</code></pre>
 <p>We're going to tell our application that we have a <em>factory</em> for our
 <code>HelloAction</code> class:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            /* ... */</span>
-<span class=x>            App\Action\HelloAction::class =&gt; App\Action\HelloActionFactory::class,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;routes&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'dependencies' =&gt; [
+        /* ... */
+        'factories' =&gt; [
+            /* ... */
+            App\Action\HelloAction::class =&gt; App\Action\HelloActionFactory::class,
+        ],
+    ],
+    'routes' =&gt; [
+        /* ... */
+    ],
+];</code></pre>
 <p>Save that file, and now re-visit the URIs:</p>
 <ul>
 <li>http://localhost:8080/hello</li>
@@ -1309,9 +1303,10 @@ Mezzio:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1348,7 +1343,7 @@ Mezzio:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1357,8 +1352,8 @@ Mezzio:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -689,58 +693,57 @@
 <p>Mezzio defines <code>Mezzio\Template\TemplateRendererInterface</code>, which can be
 injected into middleware in order to create templated response bodies. The
 interface is defined as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Mezzio\Template;</span>
+<pre class=codehilite><code class=language-php>namespace Mezzio\Template;
 
-<span class=x>interface TemplateRendererInterface</span>
-<span class=x>{</span>
-<span class=x>    public const TEMPLATE_ALL = &#39;*&#39;;</span>
+interface TemplateRendererInterface
+{
+    public const TEMPLATE_ALL = '*';
 
-<span class=x>    /**</span>
-<span class=x>     * Render a template, optionally with parameters.</span>
-<span class=x>     *</span>
-<span class=x>     * Implementations MUST support the `namespace::template` naming convention,</span>
-<span class=x>     * and allow omitting the filename extension.</span>
-<span class=x>     *</span>
-<span class=x>     * @param array|object $params</span>
-<span class=x>     */</span>
-<span class=x>    public function render(string $name, $params = []) : string;</span>
+    /**
+     * Render a template, optionally with parameters.
+     *
+     * Implementations MUST support the `namespace::template` naming convention,
+     * and allow omitting the filename extension.
+     *
+     * @param array|object $params
+     */
+    public function render(string $name, $params = []) : string;
 
-<span class=x>    /**</span>
-<span class=x>     * Add a template path to the engine.</span>
-<span class=x>     *</span>
-<span class=x>     * Adds a template path, with optional namespace the templates in that path</span>
-<span class=x>     * provide.</span>
-<span class=x>     */</span>
-<span class=x>    public function addPath(string $path, string $namespace = null) : void;</span>
+    /**
+     * Add a template path to the engine.
+     *
+     * Adds a template path, with optional namespace the templates in that path
+     * provide.
+     */
+    public function addPath(string $path, string $namespace = null) : void;
 
-<span class=x>    /**</span>
-<span class=x>     * Retrieve configured paths from the engine.</span>
-<span class=x>     *</span>
-<span class=x>     * @return TemplatePath[]</span>
-<span class=x>     */</span>
-<span class=x>    public function getPaths() : array;</span>
+    /**
+     * Retrieve configured paths from the engine.
+     *
+     * @return TemplatePath[]
+     */
+    public function getPaths() : array;
 
-<span class=x>    /**</span>
-<span class=x>     * Add a default parameter to use with a template.</span>
-<span class=x>     *</span>
-<span class=x>     * Use this method to provide a default parameter to use when a template is</span>
-<span class=x>     * rendered. The parameter may be overridden by providing it when calling</span>
-<span class=x>     * `render()`, or by calling this method again with a null value.</span>
-<span class=x>     *</span>
-<span class=x>     * The parameter will be specific to the template name provided. To make</span>
-<span class=x>     * the parameter available to any template, pass the TEMPLATE_ALL constant</span>
-<span class=x>     * for the template name.</span>
-<span class=x>     *</span>
-<span class=x>     * If the default parameter existed previously, subsequent invocations with</span>
-<span class=x>     * the same template name and parameter name will overwrite.</span>
-<span class=x>     *</span>
-<span class=x>     * @param string $templateName Name of template to which the param applies;</span>
-<span class=x>     *     use TEMPLATE_ALL to apply to all templates.</span>
-<span class=x>     * @param mixed $value</span>
-<span class=x>     */</span>
-<span class=x>    public function addDefaultParam(string $templateName, string $param, $value) : void;</span>
-<span class=x>}</span>
-</pre></div></p>
+    /**
+     * Add a default parameter to use with a template.
+     *
+     * Use this method to provide a default parameter to use when a template is
+     * rendered. The parameter may be overridden by providing it when calling
+     * `render()`, or by calling this method again with a null value.
+     *
+     * The parameter will be specific to the template name provided. To make
+     * the parameter available to any template, pass the TEMPLATE_ALL constant
+     * for the template name.
+     *
+     * If the default parameter existed previously, subsequent invocations with
+     * the same template name and parameter name will overwrite.
+     *
+     * @param string $templateName Name of template to which the param applies;
+     *     use TEMPLATE_ALL to apply to all templates.
+     * @param mixed $value
+     */
+    public function addDefaultParam(string $templateName, string $param, $value) : void;
+}</code></pre>
 <blockquote>
 <h3>Namespaces</h3>
 <p>Unfortunately, namespace syntax varies between different template engine
@@ -763,45 +766,39 @@ and allow it to use alternate template engines.</p>
 <p>Most template engines and implementations will require that you specify one or
 more paths to templates; these are then used when resolving a template name to
 the actual template. You may use the <code>addPath()</code> method to do so:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$renderer-&gt;addPath(&#39;templates&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$renderer-&gt;addPath('templates');</code></pre>
 <p>Template engines adapted for mezzio are also required to allow
 <em>namespacing</em> templates; when adding a path, you specify the template
 <em>namespace</em> that it fulfills, and the engine will only return a template from
 that path if the namespace provided matches the namespace for the path.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Resolves to a path registered with the namespace &quot;error&quot;;</span>
-<span class=x>// this example is specific to the Plates engine.</span>
-<span class=x>$content = $renderer-&gt;render(&#39;error::404&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// Resolves to a path registered with the namespace &quot;error&quot;;
+// this example is specific to the Plates engine.
+$content = $renderer-&gt;render('error::404');</code></pre>
 <p>You can provide a namespace when registering a path via an optional second
 argument:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Registers the &quot;error&quot; namespace to the path &quot;templates/error/&quot;</span>
-<span class=x>$renderer-&gt;addPath(&#39;templates/error/&#39;, &#39;error&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// Registers the &quot;error&quot; namespace to the path &quot;templates/error/&quot;
+$renderer-&gt;addPath('templates/error/', 'error');</code></pre>
 <h2 id="rendering">Rendering</h2>
 <p>To render a template, call the <code>render()</code> method. This method requires the name
 of a template as the first argument:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$content = $renderer-&gt;render(&#39;foo&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$content = $renderer-&gt;render('foo');</code></pre>
 <p>You can specify a namespaced template using the syntax <code>namespace::template</code>;
 the <code>template</code> segment of the template name may use additional directory
 separators when necessary.</p>
 <p>One key reason to use templates is to dynamically provide data to inject in the
 template. You may do so by passing either an associative array or an object as
 the second argument to <code>render()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$content = $renderer-&gt;render(&#39;message&#39;, [</span>
-<span class=x>    &#39;greeting&#39;  =&gt; &#39;Hello&#39;,</span>
-<span class=x>    &#39;recipient&#39; =&gt; &#39;World&#39;,</span>
-<span class=x>]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$content = $renderer-&gt;render('message', [
+    'greeting'  =&gt; 'Hello',
+    'recipient' =&gt; 'World',
+]);</code></pre>
 <p>It is up to the underlying template engine to determine how to perform the
 injections.</p>
 <h3>Default params</h3>
 <p>The <code>TemplateRendererInterface</code> defines the method <code>addDefaultParam()</code>. This
 method can be used to specify default parameters to use when rendering a
 template. The signature is:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function addDefaultParam($templateName, $param, $value)</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function addDefaultParam($templateName, $param, $value)</code></pre>
 <p>If you want a parameter to be used for <em>every</em> template, you can specify the
 constant <code>TemplateRendererInterface::TEMPLATE_ALL</code> for the <code>$templateName</code>
 parameter.</p>
@@ -813,17 +810,16 @@ items having precedence over earlier ones:</p>
 <li>Parameters specified when rendering.</li>
 </ul>
 <p>As an example, if we did the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$renderer-&gt;addDefaultParam($renderer::TEMPLATE_ALL, &#39;foo&#39;, &#39;bar&#39;);</span>
-<span class=x>$renderer-&gt;addDefaultParam($renderer::TEMPLATE_ALL, &#39;bar&#39;, &#39;baz&#39;);</span>
-<span class=x>$renderer-&gt;addDefaultParam($renderer::TEMPLATE_ALL, &#39;baz&#39;, &#39;bat&#39;);</span>
+<pre class=codehilite><code class=language-php>$renderer-&gt;addDefaultParam($renderer::TEMPLATE_ALL, 'foo', 'bar');
+$renderer-&gt;addDefaultParam($renderer::TEMPLATE_ALL, 'bar', 'baz');
+$renderer-&gt;addDefaultParam($renderer::TEMPLATE_ALL, 'baz', 'bat');
 
-<span class=x>$renderer-&gt;addDefaultParam(&#39;example&#39;, &#39;foo&#39;, &#39;template default foo&#39;);</span>
-<span class=x>$renderer-&gt;addDefaultParam(&#39;example&#39;, &#39;bar&#39;, &#39;template default bar&#39;);</span>
+$renderer-&gt;addDefaultParam('example', 'foo', 'template default foo');
+$renderer-&gt;addDefaultParam('example', 'bar', 'template default bar');
 
-<span class=x>$content = $renderer-&gt;render(&#39;example&#39;, [</span>
-<span class=x>    &#39;foo&#39; =&gt; &#39;override&#39;,</span>
-<span class=x>]);</span>
-</pre></div></p>
+$content = $renderer-&gt;render('example', [
+    'foo' =&gt; 'override',
+]);</code></pre>
 <p>Then we can expect the following substitutions will occur when rendering:</p>
 <ul>
 <li>References to the "foo" variable will contain "override".</li>
@@ -1375,9 +1371,10 @@ implementations support the feature.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1414,7 +1411,7 @@ implementations support the feature.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1423,8 +1420,8 @@ implementations support the feature.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -638,15 +642,13 @@ not provided will be pulled from those matched.</p>
 <h2 id="usage">Usage</h2>
 <p>When you have an instance, use either its <code>generate()</code> method, or call the
 instance as an invokable:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Using the generate() method:</span>
-<span class=x>$url = $helper-&gt;generate(&#39;resource&#39;, [&#39;id&#39; =&gt; &#39;sha1&#39;]);</span>
+<pre class=codehilite><code class=language-php>// Using the generate() method:
+$url = $helper-&gt;generate('resource', ['id' =&gt; 'sha1']);
 
-<span class=x>// is equivalent to invocation:</span>
-<span class=x>$url = $helper(&#39;resource&#39;, [&#39;id&#39; =&gt; &#39;sha1&#39;]);</span>
-</pre></div></p>
+// is equivalent to invocation:
+$url = $helper('resource', ['id' =&gt; 'sha1']);</code></pre>
 <p>The signature for both is:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function ($routeName, array $params = []) : string</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function ($routeName, array $params = []) : string</code></pre>
 <p>Where:</p>
 <ul>
 <li><code>$routeName</code> is the name of a route defined in the composed router. You may
@@ -693,33 +695,31 @@ result. The following steps should be followed to register and configure the hel
 <h3>Registering the helper service</h3>
 <p>The following examples demonstrate programmatic registration of the <code>UrlHelper</code>
 service in your selected dependency injection container.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Helper\UrlHelper;</span>
-<span class=x>use Mezzio\Helper\UrlHelperFactory;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Helper\UrlHelper;
+use Mezzio\Helper\UrlHelperFactory;
 
-<span class=x>// laminas-servicemanager:</span>
-<span class=x>$services-&gt;setFactory(UrlHelper::class, UrlHelperFactory::class);</span>
+// laminas-servicemanager:
+$services-&gt;setFactory(UrlHelper::class, UrlHelperFactory::class);
 
-<span class=x>// Pimple:</span>
-<span class=x>$pimple[UrlHelper::class] = function ($container) {</span>
-<span class=x>    $factory = new UrlHelperFactory();</span>
-<span class=x>    return $factory($container);</span>
-<span class=x>};</span>
+// Pimple:
+$pimple[UrlHelper::class] = function ($container) {
+    $factory = new UrlHelperFactory();
+    return $factory($container);
+};
 
-<span class=x>// Aura.Di:</span>
-<span class=x>$container-&gt;set(UrlHelperFactory::class, $container-&gt;lazyNew(UrlHelperFactory::class));</span>
-<span class=x>$container-&gt;set(</span>
-<span class=x>    UrlHelper::class,</span>
-<span class=x>    $container-&gt;lazyGetCall(UrlHelperFactory::class, &#39;__invoke&#39;, $container)</span>
-<span class=x>);</span>
-</pre></div></p>
+// Aura.Di:
+$container-&gt;set(UrlHelperFactory::class, $container-&gt;lazyNew(UrlHelperFactory::class));
+$container-&gt;set(
+    UrlHelper::class,
+    $container-&gt;lazyGetCall(UrlHelperFactory::class, '__invoke', $container)
+);</code></pre>
 <p>The following dependency configuration will work for all three when using the
 Mezzio skeleton:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [&#39;dependencies&#39; =&gt; [</span>
-<span class=x>    &#39;factories&#39; =&gt; [</span>
-<span class=x>        UrlHelper::class =&gt; UrlHelperFactory::class,</span>
-<span class=x>    ],</span>
-<span class=x>]]</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return ['dependencies' =&gt; [
+    'factories' =&gt; [
+        UrlHelper::class =&gt; UrlHelperFactory::class,
+    ],
+]]</code></pre>
 <blockquote>
 <h4>UrlHelperFactory requires RouterInterface</h4>
 <p>The factory requires that a service named <code>Mezzio\Router\RouterInterface</code> is present,
@@ -728,77 +728,75 @@ and will raise an exception if the service is not found.</p>
 <h3>Registering the pipeline middleware</h3>
 <p>To register the <code>UrlHelperMiddleware</code> as pipeline middleware following the
 routing middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Helper\UrlHelperMiddleware;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Helper\UrlHelperMiddleware;
 
-<span class=x>// Programmatically:</span>
-<span class=x>$app-&gt;pipeRoutingMiddleware();</span>
-<span class=x>$app-&gt;pipe(UrlHelperMiddleware::class);</span>
-<span class=x>$app-&gt;pipeDispatchMiddleware();</span>
+// Programmatically:
+$app-&gt;pipeRoutingMiddleware();
+$app-&gt;pipe(UrlHelperMiddleware::class);
+$app-&gt;pipeDispatchMiddleware();
 
-<span class=x>// Or use configuration:</span>
-<span class=x>// [</span>
-<span class=x>//     &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>//         /* ... */</span>
-<span class=x>//         Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,</span>
-<span class=x>//         [&#39;middleware&#39; =&gt; UrlHelperMiddleware::class],</span>
-<span class=x>//         Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,</span>
-<span class=x>//         /* ... */</span>
-<span class=x>//     ],</span>
-<span class=x>// ]</span>
-<span class=x>//</span>
-<span class=x>// Alternately, create a nested middleware pipeline for the routing, UrlHelper,</span>
-<span class=x>// and dispatch middleware:</span>
-<span class=x>// [</span>
-<span class=x>//     &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>//         /* ... */</span>
-<span class=x>//         &#39;routing&#39; =&gt; [</span>
-<span class=x>//             &#39;middleware&#39; =&gt; [</span>
-<span class=x>//                 Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,</span>
-<span class=x>//                 UrlHelperMiddleware::class</span>
-<span class=x>//                 Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,</span>
-<span class=x>//             ],</span>
-<span class=x>//             &#39;priority&#39; =&gt; 1,</span>
-<span class=x>//         ],</span>
-<span class=x>//         /* ... */</span>
-<span class=x>//     ],</span>
-<span class=x>// ]</span>
-</pre></div></p>
+// Or use configuration:
+// [
+//     'middleware_pipeline' =&gt; [
+//         /* ... */
+//         Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+//         ['middleware' =&gt; UrlHelperMiddleware::class],
+//         Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+//         /* ... */
+//     ],
+// ]
+//
+// Alternately, create a nested middleware pipeline for the routing, UrlHelper,
+// and dispatch middleware:
+// [
+//     'middleware_pipeline' =&gt; [
+//         /* ... */
+//         'routing' =&gt; [
+//             'middleware' =&gt; [
+//                 Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+//                 UrlHelperMiddleware::class
+//                 Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+//             ],
+//             'priority' =&gt; 1,
+//         ],
+//         /* ... */
+//     ],
+// ]</code></pre>
 <p>The following dependency configuration will work for all three when using the
 Mezzio skeleton:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            UrlHelper::class =&gt; UrlHelperFactory::class,</span>
-<span class=x>            UrlHelperMiddleware::class =&gt; UrlHelperMiddlewareFactory::class,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>        Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,</span>
-<span class=x>        [&#39;middleware&#39; =&gt; UrlHelperMiddleware::class],</span>
-<span class=x>        Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
+<pre class=codehilite><code class=language-php>return [
+    'dependencies' =&gt; [
+        'factories' =&gt; [
+            UrlHelper::class =&gt; UrlHelperFactory::class,
+            UrlHelperMiddleware::class =&gt; UrlHelperMiddlewareFactory::class,
+        ],
+    ],
+    'middleware_pipeline' =&gt; [
+        Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+        ['middleware' =&gt; UrlHelperMiddleware::class],
+        Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+    ],
+];
 
-<span class=x>// OR:</span>
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            UrlHelper::class =&gt; UrlHelperFactory::class,</span>
-<span class=x>            UrlHelperMiddleware::class =&gt; UrlHelperMiddlewareFactory::class,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>        &#39;routing&#39; =&gt; [</span>
-<span class=x>            &#39;middleware&#39; =&gt; [</span>
-<span class=x>                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,</span>
-<span class=x>                UrlHelperMiddleware::class,</span>
-<span class=x>                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,</span>
-<span class=x>            ],</span>
-<span class=x>            &#39;priority&#39; =&gt; 1,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+// OR:
+return [
+    'dependencies' =&gt; [
+        'factories' =&gt; [
+            UrlHelper::class =&gt; UrlHelperFactory::class,
+            UrlHelperMiddleware::class =&gt; UrlHelperMiddlewareFactory::class,
+        ],
+    ],
+    'middleware_pipeline' =&gt; [
+        'routing' =&gt; [
+            'middleware' =&gt; [
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                UrlHelperMiddleware::class,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+            ],
+            'priority' =&gt; 1,
+        ],
+    ],
+];</code></pre>
 <blockquote>
 <h4>Skeleton configures helpers</h4>
 <p>If you started your project using the Mezzio skeleton package, the
@@ -808,27 +806,26 @@ you, as is the <code>UrlHelperMiddleware</code> pipeline middleware.</p>
 <h2 id="using-the-helper-in-middleware">Using the helper in middleware</h2>
 <p>Compose the helper in your middleware (or elsewhere), and then use it to
 generate URI paths:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Helper\UrlHelper;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Helper\UrlHelper;
 
-<span class=x>class FooMiddleware</span>
-<span class=x>{</span>
-<span class=x>    private $helper;</span>
+class FooMiddleware
+{
+    private $helper;
 
-<span class=x>    public function __construct(UrlHelper $helper)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;helper = $helper;</span>
-<span class=x>    }</span>
+    public function __construct(UrlHelper $helper)
+    {
+        $this-&gt;helper = $helper;
+    }
 
-<span class=x>    public function __invoke($request, $response, callable $next)</span>
-<span class=x>    {</span>
-<span class=x>        $response = $response-&gt;withHeader(</span>
-<span class=x>            &#39;Link&#39;,</span>
-<span class=x>            $this-&gt;helper-&gt;generate(&#39;resource&#39;, [&#39;id&#39; =&gt; &#39;sha1&#39;])</span>
-<span class=x>        );</span>
-<span class=x>        return $next($request, $response);</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function __invoke($request, $response, callable $next)
+    {
+        $response = $response-&gt;withHeader(
+            'Link',
+            $this-&gt;helper-&gt;generate('resource', ['id' =&gt; 'sha1'])
+        );
+        return $next($request, $response);
+    }
+}</code></pre>
 <h2 id="base-path-support">Base Path support</h2>
 <p>If your application is running under a subdirectory, or if you are running
 pipeline middleware that is intercepting on a subpath, the paths generated
@@ -839,39 +836,38 @@ present, it will be prepended to the path generated by the router.</p>
 prefix in the URL; this middleware could then inject the <code>UrlHelper</code> with the
 detected language, before stripping it off the request URI instance to pass on
 to the router:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Locale;</span>
-<span class=x>use Mezzio\Helper\UrlHelper;</span>
+<pre class=codehilite><code class=language-php>use Locale;
+use Mezzio\Helper\UrlHelper;
 
-<span class=x>class LocaleMiddleware</span>
-<span class=x>{</span>
-<span class=x>    private $helper;</span>
+class LocaleMiddleware
+{
+    private $helper;
 
-<span class=x>    public function __construct(UrlHelper $helper)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;helper = $helper;</span>
-<span class=x>    }</span>
+    public function __construct(UrlHelper $helper)
+    {
+        $this-&gt;helper = $helper;
+    }
 
-<span class=x>    public function __invoke($request, $response, $next)</span>
-<span class=x>    {</span>
-<span class=x>        $uri = $request-&gt;getUri();</span>
-<span class=x>        $path = $uri-&gt;getPath();</span>
-<span class=x>        if (! preg_match(&#39;#^/(?P&lt;locale&gt;[a-z]{2,3}([-_][a-zA-Z]{2}|))/#&#39;, $path, $matches)) {</span>
-<span class=x>            return $next($request, $response);</span>
-<span class=x>        }</span>
+    public function __invoke($request, $response, $next)
+    {
+        $uri = $request-&gt;getUri();
+        $path = $uri-&gt;getPath();
+        if (! preg_match('#^/(?P&lt;locale&gt;[a-z]{2,3}([-_][a-zA-Z]{2}|))/#', $path, $matches)) {
+            return $next($request, $response);
+        }
 
-<span class=x>        $locale = $matches[&#39;locale&#39;];</span>
-<span class=x>        Locale::setDefault(Locale::canonicalize($locale));</span>
-<span class=x>        $this-&gt;helper-&gt;setBasePath($locale);</span>
+        $locale = $matches['locale'];
+        Locale::setDefault(Locale::canonicalize($locale));
+        $this-&gt;helper-&gt;setBasePath($locale);
 
-<span class=x>        return $next(</span>
-<span class=x>            $request-&gt;withUri(</span>
-<span class=x>                $uri-&gt;withPath(substr($path, (strlen($locale) + 1)))</span>
-<span class=x>            ),</span>
-<span class=x>            $response</span>
-<span class=x>        );</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+        return $next(
+            $request-&gt;withUri(
+                $uri-&gt;withPath(substr($path, (strlen($locale) + 1)))
+            ),
+            $response
+        );
+    }
+}</code></pre>
 <p>(Note: if the base path injected is not prefixed with <code>/</code>, the helper will add
 the slash.)</p>
 <p>Paths generated by the <code>UriHelper</code> from this point forward will have the
@@ -1339,9 +1335,10 @@ detected language prefix.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1378,7 +1375,7 @@ detected language prefix.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1387,8 +1384,8 @@ detected language prefix.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

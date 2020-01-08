@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -742,8 +746,7 @@ changes were made throughout Mezzio:</p>
 written, and your middleware will need to be update. We provide a tool for this
 via mezzio-tooling. Make sure that package is up-to-date (a version 1
 release should be installed), and run the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$ ./vendor/bin/mezzio migrate:interop-middleware</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$ ./vendor/bin/mezzio migrate:interop-middleware</code></pre>
 <p>This tool will locate any http-interop middleware and update it to PSR-15
 middleware.</p>
 <h2 id="new-dependencies">New dependencies</h2>
@@ -853,13 +856,12 @@ now, in order:</p>
 you continue to need double-pass middleware (e.g., defined by a third-party
 library), use <code>Laminas\Stratigility\doublePassMiddleware()</code> to decorate it prior to
 piping or routing to it:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Diactoros\Response;</span>
-<span class=x>use function Laminas\Stratigility\doublePassMiddleware;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Diactoros\Response;
+use function Laminas\Stratigility\doublePassMiddleware;
 
-<span class=x>$app-&gt;pipe(doublePassMiddleware($someDoublePassMiddleware, new Response()));</span>
+$app-&gt;pipe(doublePassMiddleware($someDoublePassMiddleware, new Response()));
 
-<span class=x>$app-&gt;get(&#39;/foo&#39;, doublePassMiddleware($someDoublePassMiddleware, new Response()));</span>
-</pre></div></p>
+$app-&gt;get('/foo', doublePassMiddleware($someDoublePassMiddleware, new Response()));</code></pre>
 <p>Additionally, the following methods were <strong>removed</strong>:</p>
 <ul>
 <li><code>pipeRoutingMiddleware()</code>: use <code>pipe(\Mezzio\Router\Middleware\RouteMiddleware::class)</code>
@@ -947,11 +949,9 @@ upgrade it to version 3.</p>
 in your latest changes (assuming you are using version control), or have a
 backup of your existing code.</p>
 <p>Install the migration tooling using the following command:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require --dev mezzio/mezzio-migration
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-migration</code></pre>
 <p>Once installed, run the following command to migrate your application:</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio-migration migrate
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-migration migrate</code></pre>
 <p>This package does the following:</p>
 <ul>
 <li>Uninstalls all current dependencies (by removing the <code>vendor/</code> directory).</li>
@@ -1546,9 +1546,10 @@ this document to determine what else you may need to change.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1585,7 +1586,7 @@ this document to determine what else you may need to change.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1594,8 +1595,8 @@ this document to determine what else you may need to change.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

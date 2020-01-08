@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -694,10 +698,9 @@ enables optional, development-specific configuration in your application by:</p>
 </ul>
 <p>The package provides the tooling via <code>vendor/bin/laminas-development-mode</code>. If you
 are using the Mezzio skeleton, it provides aliases via Composer:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$ composer development-enable</span>
-<span class=x>$ composer development-disable</span>
-<span class=x>$ composer development-status</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$ composer development-enable
+$ composer development-disable
+$ composer development-status</code></pre>
 <p>Add settings to your <code>development.*.php.dist</code> files, and commit those files to
 your repository; always toggle out of and into development mode after making
 changes, to ensure they pick up in your development environment.</p>
@@ -706,17 +709,14 @@ changes, to ensure they pick up in your development environment.</p>
 provides the script <code>vendor/bin/mezzio</code>, which contains a number of commands
 related to migration, modules, and middleware.</p>
 <p>You can install it if it is not already present in your application:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require --dev mezzio/mezzio-tooling
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-tooling</code></pre>
 <p>If you installed the Mezzio skeleton prior to version 2.0.2, you will want
 to update the tooling to get the latest release, which contains the <code>mezzio</code>
 binary, as follows:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require --dev <span class=s2>&quot;mezzio/mezzio-tooling:^0.4.1&quot;</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require --dev &quot;mezzio/mezzio-tooling:^0.4.1&quot;</code></pre>
 <p>Once installed, invoking the binary without arguments will give a listing of
 available tools:</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio</code></pre>
 <p>Commands supported include:</p>
 <ul>
 <li>
@@ -761,8 +761,7 @@ available tools:</p>
 </li>
 </ul>
 <p>You may obtain full help for each command by invoking:</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio <span class=nb>help</span> &lt;command&gt;
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio help &lt;command&gt;</code></pre>
 <h2 id="modules">Modules</h2>
 <ul>
 <li>Deprecated since mezzio-tooling 0.4.0; see the <a href="#mezzio-command-line-tool">Mezzio CLI tool
@@ -774,15 +773,13 @@ register, and deregister modules, assuming you are using a <a href="../../featur
 layout</a>.</p>
 <p>For instance, if you wish to create a new module for managing users, you might
 execute the following:</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio-module create User
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-module create User</code></pre>
 <p>Which would create the following tree:</p>
-<p> <div class=codehilite><pre><span></span>src/
+<pre class=codehilite><code class=language-text>src/
   User/
     src/
       ConfigProvider.php
-    templates/
-</pre></div></p>
+    templates/</code></pre>
 <p>It would also create an autoloading rule within your <code>composer.json</code> for the
 <code>User</code> namespace, pointing it at the <code>src/User/src/</code> tree (and updating the
 autoloader in the process), and register the new module's <code>ConfigProvider</code>
@@ -793,11 +790,9 @@ within your <code>config/config.php</code>.</p>
 <li>Add an entry for the module's <code>ConfigProvider</code> class to your
   <code>config/config.php</code>, if possible.</li>
 </ul>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio-module register Account
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-module register Account</code></pre>
 <p>The <code>deregister</code> command does the opposite of <code>register</code>.</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio-module deregister Account
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-module deregister Account</code></pre>
 <h2 id="migrate-to-programmatic-pipelines">Migrate to programmatic pipelines</h2>
 <ul>
 <li>Deprecated since mezzio-tooling 0.4.0; see the <a href="#mezzio-command-line-tool">Mezzio CLI tool
@@ -817,11 +812,9 @@ a tool that will read their application configuration and generate:</p>
 </ul>
 <p>To use this feature, you will need to first install
 mezzio/mezzio-tooling:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require --dev mezzio/mezzio-tooling
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-tooling</code></pre>
 <p>Invoke it as follows:</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio-pipeline-from-config generate
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-pipeline-from-config generate</code></pre>
 <p>The tool will notify you of any errors, including whether or not it found (and
 skipped) Stratigility v1-style "error middleware".</p>
 <h2 id="detect-usage-of-legacy-getoriginal-calls">Detect usage of legacy getOriginal*() calls</h2>
@@ -852,10 +845,9 @@ decorates double-pass middleware using a wrapper that composes a response, the
 instance.) This should be registered as the outermost middleware layer.
 Middleware that needs access to these instances can then use the following
 syntax to retrieve them:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$originalRequest = $request-&gt;getAttribute(&#39;originalRequest&#39;, $request);</span>
-<span class=x>$originalUri = $request-&gt;getAttribute(&#39;originalUri&#39;, $request-&gt;getUri();</span>
-<span class=x>$originalResponse = $request-&gt;getAttribute(&#39;originalResponse&#39;) ?: new Response();</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$originalRequest = $request-&gt;getAttribute('originalRequest', $request);
+$originalUri = $request-&gt;getAttribute('originalUri', $request-&gt;getUri();
+$originalResponse = $request-&gt;getAttribute('originalResponse') ?: new Response();</code></pre>
 <blockquote>
 <h3>Original response is not trustworthy</h3>
 <p>As noted above, the "original response" will likely be injected with the
@@ -866,11 +858,9 @@ or creating a new instance on-the-fly.</p>
 <p>To aid you in migrating your existing code to use the new <code>getAttribute()</code>
 syntax, mezzio/mezzio-tooling provides a binary,
 <code>vendor/bin/mezzio-migrate-original-messages</code>. First, install that package:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require --dev mezzio/mezzio-tooling
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-tooling</code></pre>
 <p>Then invoke it as follows:</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio-migrate-original-messages scan
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-migrate-original-messages scan</code></pre>
 <p>This script will update any <code>getOriginalRequest()</code> and <code>getOriginalUri()</code> calls,
 and notify you of any <code>getOriginalResponse()</code> calls, providing you with details
 on how to correct those manually.</p>
@@ -900,11 +890,9 @@ features</a>. However, you may find that:</p>
 <p>To help you identify such instances, mezzio/mezzio-tooling
 provides the script <code>vendor/bin/mezzio-scan-for-error-middleware</code>. First,
 install that package:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require --dev mezzio/mezzio-tooling
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-tooling</code></pre>
 <p>Then invoke it as follows:</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio-scan-for-error-middleware scan
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-scan-for-error-middleware scan</code></pre>
 <p>The script will notify you of any places where it finds either use case, and
 provide feedback on how to update your application.</p>
 
@@ -1415,9 +1403,10 @@ provide feedback on how to update your application.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1454,7 +1443,7 @@ provide feedback on how to update your application.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1463,8 +1452,8 @@ provide feedback on how to update your application.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

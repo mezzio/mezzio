@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -690,11 +694,10 @@ a <code>Laminas\Stratigility\Middleware\HostMiddlewareDecorator</code> instance.
 the string name of a host, and the middleware that should only trigger when that
 host is matched in the request.</p>
 <p>As a simple example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// in config/pipeline.php:</span>
-<span class=x>use function Laminas\Stratigility\host;</span>
+<pre class=codehilite><code class=language-php>// in config/pipeline.php:
+use function Laminas\Stratigility\host;
 
-<span class=x>$app-&gt;pipe(host(&#39;admin.example.org&#39;, $adminMiddleware));</span>
-</pre></div></p>
+$app-&gt;pipe(host('admin.example.org', $adminMiddleware));</code></pre>
 <p>However, you'll note that the above uses an already instantiated middleware
 instance; how can you lazy-load a named service instead?</p>
 <h2 id="lazy-loading-host-segregated-middleware">Lazy-loading host-segregated middleware</h2>
@@ -707,29 +710,26 @@ arguments:</p>
 </ul>
 <p>We can use the second of these to help us. We will use the <code>lazy()</code> method to
 specify a middleware service name to lazy-load:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(host(&#39;admin.example.org&#39;, $factory-&gt;lazy(AdminMiddleware::class)));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(host('admin.example.org', $factory-&gt;lazy(AdminMiddleware::class)));</code></pre>
 <p>What about specifying a pipeline of middleware? For that, we can use the
 <code>pipeline()</code> method of the factory:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(host(&#39;admin.example.org&#39;, $factory-&gt;pipeline(</span>
-<span class=x>    SessionMiddleware::class,</span>
-<span class=x>    AuthenticationMiddleware::class,</span>
-<span class=x>    AuthorizationMiddleware::class,</span>
-<span class=x>    AdminHandler::class</span>
-<span class=x>)));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(host('admin.example.org', $factory-&gt;pipeline(
+    SessionMiddleware::class,
+    AuthenticationMiddleware::class,
+    AuthorizationMiddleware::class,
+    AdminHandler::class
+)));</code></pre>
 <p>Alternately, either of the above examples could use the <code>prepare()</code> method:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// lazy example:</span>
-<span class=x>$app-&gt;pipe(host(&#39;admin.example.org&#39;, $factory-&gt;prepare(AdminMiddleware::class)));</span>
+<pre class=codehilite><code class=language-php>// lazy example:
+$app-&gt;pipe(host('admin.example.org', $factory-&gt;prepare(AdminMiddleware::class)));
 
-<span class=x>// pipeline example:</span>
-<span class=x>$app-&gt;pipe(host(&#39;admin.example.org&#39;, $factory-&gt;prepare([</span>
-<span class=x>    SessionMiddleware::class,</span>
-<span class=x>    AuthenticationMiddleware::class,</span>
-<span class=x>    AuthorizationMiddleware::class,</span>
-<span class=x>    AdminHandler::class,</span>
-<span class=x>])));</span>
-</pre></div></p>
+// pipeline example:
+$app-&gt;pipe(host('admin.example.org', $factory-&gt;prepare([
+    SessionMiddleware::class,
+    AuthenticationMiddleware::class,
+    AuthorizationMiddleware::class,
+    AdminHandler::class,
+])));</code></pre>
 <blockquote>
 <p>For more information on the <code>MiddlewareFactory</code>, <a href="../../features/container/middleware-factory/">read its documentation</a>.</p>
 </blockquote>
@@ -1268,9 +1268,10 @@ specify a middleware service name to lazy-load:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1307,7 +1308,7 @@ specify a middleware service name to lazy-load:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1316,8 +1317,8 @@ specify a middleware service name to lazy-load:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

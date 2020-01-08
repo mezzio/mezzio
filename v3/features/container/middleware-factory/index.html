@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -709,92 +713,86 @@ inconvenience to the user and lead to an explosion in code verbosity.</p>
 and the various methods it exposes for piping and routing middleware. If we made
 each of these strictly typed, users would be forced to write code that looks
 like the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Application;</span>
-<span class=x>use Mezzio\Middleware\LazyLoadingMiddleware;</span>
-<span class=x>use Laminas\Stratigility\MiddlewarePipe;</span>
+<pre class=codehilite><code class=language-php>use Psr\Container\ContainerInterface;
+use Mezzio\Application;
+use Mezzio\Middleware\LazyLoadingMiddleware;
+use Laminas\Stratigility\MiddlewarePipe;
 
-<span class=x>use function Laminas\Stratigility\middleware;</span>
-<span class=x>use function Laminas\Stratigility\path;</span>
+use function Laminas\Stratigility\middleware;
+use function Laminas\Stratigility\path;
 
-<span class=x>return function (Application $app, ContainerInterface $container) : void {</span>
-<span class=x>    $app-&gt;pipe(path(</span>
-<span class=x>        &#39;/foo&#39;,</span>
-<span class=x>        new LazyLoadingMiddleware(App\FooMiddleware::class, $container)</span>
-<span class=x>    ));</span>
+return function (Application $app, ContainerInterface $container) : void {
+    $app-&gt;pipe(path(
+        '/foo',
+        new LazyLoadingMiddleware(App\FooMiddleware::class, $container)
+    ));
 
-<span class=x>    $app-&gt;pipe(middleware(function ($request, $handler) {</span>
-<span class=x>        // ...</span>
-<span class=x>    }));</span>
+    $app-&gt;pipe(middleware(function ($request, $handler) {
+        // ...
+    }));
 
-<span class=x>    $booksPipeline = new MiddlewarePipe();</span>
-<span class=x>    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(</span>
-<span class=x>        Mezzio\ProblemDetails\ProblemDetailsMiddleware::class,</span>
-<span class=x>        $container</span>
-<span class=x>    ));</span>
-<span class=x>    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(</span>
-<span class=x>        App\SessionMiddleware::class,</span>
-<span class=x>        $container</span>
-<span class=x>    ));</span>
-<span class=x>    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(</span>
-<span class=x>        App\AuthenticationMiddleware::class,</span>
-<span class=x>        $container</span>
-<span class=x>    ));</span>
-<span class=x>    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(</span>
-<span class=x>        App\AuthorizationMiddleware::class,</span>
-<span class=x>        $container</span>
-<span class=x>    ));</span>
-<span class=x>    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(</span>
-<span class=x>        Mezzio\Helper\BodyParams\BodyParamsMiddleware::class</span>
-<span class=x>        $container</span>
-<span class=x>    ));</span>
-<span class=x>    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(</span>
-<span class=x>        App\ValidationMiddleware::class</span>
-<span class=x>        $container</span>
-<span class=x>    ));</span>
-<span class=x>    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(</span>
-<span class=x>        App\Handler\CreateBookHandler::class</span>
-<span class=x>        $container</span>
-<span class=x>    ));</span>
-<span class=x>    $app-&gt;post(&#39;/books/{id:\d+}&#39;, $booksPipeline);</span>
-<span class=x>};</span>
-</pre></div></p>
+    $booksPipeline = new MiddlewarePipe();
+    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(
+        Mezzio\ProblemDetails\ProblemDetailsMiddleware::class,
+        $container
+    ));
+    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(
+        App\SessionMiddleware::class,
+        $container
+    ));
+    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(
+        App\AuthenticationMiddleware::class,
+        $container
+    ));
+    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(
+        App\AuthorizationMiddleware::class,
+        $container
+    ));
+    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(
+        Mezzio\Helper\BodyParams\BodyParamsMiddleware::class
+        $container
+    ));
+    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(
+        App\ValidationMiddleware::class
+        $container
+    ));
+    $booksPipeline-&gt;pipe(new LazyLoadingMiddleware(
+        App\Handler\CreateBookHandler::class
+        $container
+    ));
+    $app-&gt;post('/books/{id:\d+}', $booksPipeline);
+};</code></pre>
 <p>Additionally, this would pose an enormous burden when migrating to version 3.</p>
 <p>For these reasons, we developed the class <code>Mezzio\MiddlewareFactory</code>.
 It composes a <a href="../middleware-container/">MiddlewareContainer</a> in order to back
 the following operations.</p>
 <h2 id="callable">callable</h2>
-<p> <div class=codehilite><pre><span></span><span class=x>$middleware = $factory-&gt;callable(function ($request, $handler) {</span>
-<span class=x>});</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$middleware = $factory-&gt;callable(function ($request, $handler) {
+});</code></pre>
 <p>This method takes a callable middleware, and decorates it as a
 <code>Laminas\Stratigility\Middleware\CallableMiddlewareDecorator</code> instance.</p>
 <h2 id="handler">handler</h2>
-<p> <div class=codehilite><pre><span></span><span class=x>$middleware = $factory-&gt;handler($requestHandler);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$middleware = $factory-&gt;handler($requestHandler);</code></pre>
 <p>This method takes a PSR-15 request handler instance and decorates it as a
 <code>Laminas\Stratigility\Middleware\RequestHandlerMiddleware</code> instance.</p>
 <h2 id="lazy">lazy</h2>
-<p> <div class=codehilite><pre><span></span><span class=x>$middleware = $factory-&gt;lazy(App\Middleware\FooMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$middleware = $factory-&gt;lazy(App\Middleware\FooMiddleware::class);</code></pre>
 <p>This method decorates the service name using
 <code>Mezzio\Middlware\LazyLoadingMiddleware</code>, passing the composed
 <code>MiddlewareContainer</code> to the instance during instantiation.</p>
 <h2 id="pipeline">pipeline</h2>
-<p> <div class=codehilite><pre><span></span><span class=x>$pipeline = $factory-&gt;pipeline(</span>
-<span class=x>    $middlewareInstance,</span>
-<span class=x>    &#39;MiddlewareServiceName&#39;,</span>
-<span class=x>    function ($request, $handler) {</span>
-<span class=x>    },</span>
-<span class=x>    $requestHandlerInstance</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pipeline = $factory-&gt;pipeline(
+    $middlewareInstance,
+    'MiddlewareServiceName',
+    function ($request, $handler) {
+    },
+    $requestHandlerInstance
+);</code></pre>
 <p>Creates and returns a <code>Laminas\Stratigility\MiddlewarePipe</code>, after passing each
 argument to <code>prepare()</code> first.</p>
 <p>(You may pass an array of values instead of individual arguments as well.)</p>
 <h2 id="prepare">prepare</h2>
-<p> <div class=codehilite><pre><span></span><span class=x>$middleware = $factory-&gt;prepare($middleware);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$middleware = $factory-&gt;prepare($middleware);</code></pre>
 <p>Inspects the provided middleware argument, with the following behavior:</p>
 <ul>
 <li><code>MiddlewareInterface</code> instances are returned verbatim.</li>
@@ -806,41 +804,39 @@ argument to <code>prepare()</code> first.</p>
 <h2 id="usage-in-bootstrapping">Usage in bootstrapping</h2>
 <p>The skeleton defines two files <code>config/pipeline.php</code> and <code>config/routes.php</code>.
 These are expected to return a callable with the following signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Application;</span>
-<span class=x>use Mezzio\MiddlewareFactory;</span>
+<pre class=codehilite><code class=language-php>use Psr\Container\ContainerInterface;
+use Mezzio\Application;
+use Mezzio\MiddlewareFactory;
 
-<span class=x>return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {</span>
-<span class=x>};</span>
-</pre></div></p>
+return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
+};</code></pre>
 <p>Note that the <code>MiddlewareFactory</code> is passed to these callables; this gives you
 the ability to use it for more complex piping and routing needs, including
 creating nested pipelines.</p>
 <p>As an example, we'll rewrite our initial example to use the <code>MiddlewareFactory</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Application;</span>
-<span class=x>use Mezzio\MiddlewareFactory;</span>
+<pre class=codehilite><code class=language-php>use Psr\Container\ContainerInterface;
+use Mezzio\Application;
+use Mezzio\MiddlewareFactory;
 
-<span class=x>use function Laminas\Stratigility\path;</span>
+use function Laminas\Stratigility\path;
 
-<span class=x>return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {</span>
-<span class=x>    $app-&gt;pipe(path(&#39;/foo&#39;, $factory-&gt;prepare(App\FooMiddleware::class)));</span>
+return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
+    $app-&gt;pipe(path('/foo', $factory-&gt;prepare(App\FooMiddleware::class)));
 
-<span class=x>    $app-&gt;pipe($factory-&gt;prepare(function ($request, $handler) {</span>
-<span class=x>        // ...</span>
-<span class=x>    }));</span>
+    $app-&gt;pipe($factory-&gt;prepare(function ($request, $handler) {
+        // ...
+    }));
 
-<span class=x>    $app-&gt;post(&#39;/books/{id:\d+}&#39;, $factory-&gt;pipeline(</span>
-<span class=x>        ProblemDetailsMiddleware::class,</span>
-<span class=x>        App\SessionMiddleware::class,</span>
-<span class=x>        App\AuthenticationMiddleware::class,</span>
-<span class=x>        App\AuthorizationMiddleware::class,</span>
-<span class=x>        Mezzio\Helper\BodyParams\BodyParamsMiddleware::class,</span>
-<span class=x>        App\ValidationMiddleware::class,</span>
-<span class=x>        App\Handler\CreateBookHandler::class</span>
-<span class=x>    ));</span>
-<span class=x>};</span>
-</pre></div></p>
+    $app-&gt;post('/books/{id:\d+}', $factory-&gt;pipeline(
+        ProblemDetailsMiddleware::class,
+        App\SessionMiddleware::class,
+        App\AuthenticationMiddleware::class,
+        App\AuthorizationMiddleware::class,
+        Mezzio\Helper\BodyParams\BodyParamsMiddleware::class,
+        App\ValidationMiddleware::class,
+        App\Handler\CreateBookHandler::class
+    ));
+};</code></pre>
 <blockquote>
 <h4>Further simplifications</h4>
 <p>Internally, <code>Application</code>'s <code>pipe()</code> and various routing methods make use of
@@ -1383,9 +1379,10 @@ in the above example; it is used for illustrative purposes only.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1422,7 +1419,7 @@ in the above example; it is used for illustrative purposes only.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1431,8 +1428,8 @@ in the above example; it is used for illustrative purposes only.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

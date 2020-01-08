@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -709,39 +713,36 @@ provides:</p>
 <code>PhpRenderer</code> via <code>Mezzio\LaminasView\LaminasViewRenderer</code>.</p>
 <h2 id="installing-laminas-view">Installing laminas-view</h2>
 <p>To use the laminas-view wrapper, you must first install the laminas-view integration:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require mezzio/mezzio-laminasviewrenderer
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-laminasviewrenderer</code></pre>
 <h2 id="using-the-wrapper">Using the wrapper</h2>
 <p>If instantiated without arguments, <code>Mezzio\LaminasView\LaminasViewRenderer</code> will create
 an instance of the <code>PhpRenderer</code>, which it will then proxy to.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\LaminasView\LaminasViewRenderer;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\LaminasView\LaminasViewRenderer;
 
-<span class=x>$renderer = new LaminasViewRenderer();</span>
-</pre></div></p>
+$renderer = new LaminasViewRenderer();</code></pre>
 <p>Alternately, you can instantiate and configure the engine yourself, and pass it
 to the <code>Mezzio\LaminasView\LaminasViewRenderer</code> constructor:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\LaminasView\LaminasViewRenderer;</span>
-<span class=x>use Laminas\View\Renderer\PhpRenderer;</span>
-<span class=x>use Laminas\View\Resolver;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\LaminasView\LaminasViewRenderer;
+use Laminas\View\Renderer\PhpRenderer;
+use Laminas\View\Resolver;
 
-<span class=x>// Create the engine instance:</span>
-<span class=x>$renderer = new PhpRenderer();</span>
+// Create the engine instance:
+$renderer = new PhpRenderer();
 
-<span class=x>// Configure it:</span>
-<span class=x>$resolver = new Resolver\AggregateResolver();</span>
-<span class=x>$resolver-&gt;attach(</span>
-<span class=x>    new Resolver\TemplateMapResolver(include &#39;config/templates.php&#39;),</span>
-<span class=x>    100</span>
-<span class=x>);</span>
-<span class=x>$resolver-&gt;attach(</span>
-<span class=x>    (new Resolver\TemplatePathStack())</span>
-<span class=x>    -&gt;setPaths(include &#39;config/template_paths.php&#39;)</span>
-<span class=x>);</span>
-<span class=x>$renderer-&gt;setResolver($resolver);</span>
+// Configure it:
+$resolver = new Resolver\AggregateResolver();
+$resolver-&gt;attach(
+    new Resolver\TemplateMapResolver(include 'config/templates.php'),
+    100
+);
+$resolver-&gt;attach(
+    (new Resolver\TemplatePathStack())
+    -&gt;setPaths(include 'config/template_paths.php')
+);
+$renderer-&gt;setResolver($resolver);
 
-<span class=x>// Inject:</span>
-<span class=x>$renderer = new LaminasViewRenderer($renderer);</span>
-</pre></div></p>
+// Inject:
+$renderer = new LaminasViewRenderer($renderer);</code></pre>
 <blockquote>
 <h3>Namespaced path resolving</h3>
 <p>Mezzio defines a custom laminas-view resolver,
@@ -781,46 +782,42 @@ render in order to provide content within the selected layout.</p>
   so will disable the layout.</li>
 </ul>
 <h3>Layout name passed to constructor</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\LaminasView\LaminasViewRenderer;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\LaminasView\LaminasViewRenderer;
 
-<span class=x>// Create the engine instance with a layout name:</span>
-<span class=x>$renderer = new LaminasViewRenderer(null, &#39;layout::layout&#39;);</span>
-</pre></div></p>
+// Create the engine instance with a layout name:
+$renderer = new LaminasViewRenderer(null, 'layout::layout');</code></pre>
 <h3>Layout view model passed to constructor</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\LaminasView\LaminasViewRenderer;</span>
-<span class=x>use Laminas\View\Model\ViewModel;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\LaminasView\LaminasViewRenderer;
+use Laminas\View\Model\ViewModel;
 
-<span class=x>// Create the layout view model:</span>
-<span class=x>$layout = new ViewModel([</span>
-<span class=x>    &#39;encoding&#39; =&gt; &#39;utf-8&#39;,</span>
-<span class=x>    &#39;cssPath&#39;  =&gt; &#39;/css/prod/&#39;,</span>
-<span class=x>]);</span>
-<span class=x>$layout-&gt;setTemplate(&#39;layout::layout&#39;);</span>
+// Create the layout view model:
+$layout = new ViewModel([
+    'encoding' =&gt; 'utf-8',
+    'cssPath'  =&gt; '/css/prod/',
+]);
+$layout-&gt;setTemplate('layout::layout');
 
-<span class=x>// Create the engine instance with the layout:</span>
-<span class=x>$renderer = new LaminasViewRenderer(null, $layout);</span>
-</pre></div></p>
+// Create the engine instance with the layout:
+$renderer = new LaminasViewRenderer(null, $layout);</code></pre>
 <h3>Provide a layout name when rendering</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>$content = $renderer-&gt;render(&#39;blog/entry&#39;, [</span>
-<span class=x>    &#39;layout&#39; =&gt; &#39;layout::blog&#39;,</span>
-<span class=x>    &#39;entry&#39;  =&gt; $entry,</span>
-<span class=x>]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$content = $renderer-&gt;render('blog/entry', [
+    'layout' =&gt; 'layout::blog',
+    'entry'  =&gt; $entry,
+]);</code></pre>
 <h3>Provide a layout view model when rendering</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\View\Model\ViewModel;</span>
+<pre class=codehilite><code class=language-php>use Laminas\View\Model\ViewModel;
 
-<span class=x>// Create the layout view model:</span>
-<span class=x>$layout = new ViewModel([</span>
-<span class=x>    &#39;encoding&#39; =&gt; &#39;utf-8&#39;,</span>
-<span class=x>    &#39;cssPath&#39;  =&gt; &#39;/css/blog/&#39;,</span>
-<span class=x>]);</span>
-<span class=x>$layout-&gt;setTemplate(&#39;layout::layout&#39;);</span>
+// Create the layout view model:
+$layout = new ViewModel([
+    'encoding' =&gt; 'utf-8',
+    'cssPath'  =&gt; '/css/blog/',
+]);
+$layout-&gt;setTemplate('layout::layout');
 
-<span class=x>$content = $renderer-&gt;render(&#39;blog/entry&#39;, [</span>
-<span class=x>    &#39;layout&#39; =&gt; $layout,</span>
-<span class=x>    &#39;entry&#39;  =&gt; $entry,</span>
-<span class=x>]);</span>
-</pre></div></p>
+$content = $renderer-&gt;render('blog/entry', [
+    'layout' =&gt; $layout,
+    'entry'  =&gt; $entry,
+]);</code></pre>
 <h2 id="helpers">Helpers</h2>
 <p>Mezzio provides overrides of specific view helpers in order to better
 integrate with <a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a>. These include:</p>
@@ -1381,9 +1378,10 @@ integrate with <a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a>. These inc
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1420,7 +1418,7 @@ integrate with <a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a>. These inc
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1429,8 +1427,8 @@ integrate with <a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a>. These inc
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -679,30 +683,27 @@ it provides:</p>
 <code>Mezzio\Plates\PlatesRenderer</code>.</p>
 <h2 id="installing-plates">Installing Plates</h2>
 <p>To use the Plates wrapper, you must install the Plates integration:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require mezzio/mezzio-platesrenderer
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-platesrenderer</code></pre>
 <h2 id="using-the-wrapper">Using the wrapper</h2>
 <p>If instantiated without arguments, <code>Mezzio\Plates\PlatesRenderer</code> will create
 an instance of the Plates engine, which it will then proxy to.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Plates\PlatesRenderer;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Plates\PlatesRenderer;
 
-<span class=x>$renderer = new PlatesRenderer();</span>
-</pre></div></p>
+$renderer = new PlatesRenderer();</code></pre>
 <p>Alternately, you can instantiate and configure the engine yourself, and pass it
 to the <code>Mezzio\Plates\PlatesRenderer</code> constructor:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use League\Plates\Engine as PlatesEngine;</span>
-<span class=x>use Mezzio\Plates\PlatesRenderer;</span>
+<pre class=codehilite><code class=language-php>use League\Plates\Engine as PlatesEngine;
+use Mezzio\Plates\PlatesRenderer;
 
-<span class=x>// Create the engine instance:</span>
-<span class=x>$plates = new PlatesEngine();</span>
+// Create the engine instance:
+$plates = new PlatesEngine();
 
-<span class=x>// Configure it:</span>
-<span class=x>$plates-&gt;addFolder(&#39;error&#39;, &#39;templates/error/&#39;);</span>
-<span class=x>$plates-&gt;loadExtension(new CustomExtension();</span>
+// Configure it:
+$plates-&gt;addFolder('error', 'templates/error/');
+$plates-&gt;loadExtension(new CustomExtension();
 
-<span class=x>// Inject:</span>
-<span class=x>$renderer = new PlatesRenderer($plates);</span>
-</pre></div></p>
+// Inject:
+$renderer = new PlatesRenderer($plates);</code></pre>
 
 
 
@@ -1211,9 +1212,10 @@ to the <code>Mezzio\Plates\PlatesRenderer</code> constructor:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1250,7 +1252,7 @@ to the <code>Mezzio\Plates\PlatesRenderer</code> constructor:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1259,8 +1261,8 @@ to the <code>Mezzio\Plates\PlatesRenderer</code> constructor:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

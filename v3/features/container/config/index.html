@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -724,35 +728,34 @@ implementations.</p>
 <h2 id="the-format">The format</h2>
 <p>Container configuration is provided within the <code>dependencies</code> key of
 configuration. That key is structured as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;services&#39; =&gt; [</span>
-<span class=x>            // name =&gt; instance pairs</span>
-<span class=x>            &#39;config&#39; =&gt; $config,</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;aliases&#39; =&gt; [</span>
-<span class=x>            // alias =&gt; target pairs</span>
-<span class=x>            &#39;page-handler&#39; =&gt; SomePageHandler::class,</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            // service =&gt; factory pairs</span>
-<span class=x>            SomePageHandler::class =&gt; SomePageHandlerFactory::class,</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;invokables&#39; =&gt; [</span>
-<span class=x>            // service =&gt; instantiable class pairs</span>
-<span class=x>            SomeInstantiableClass::class =&gt; SomeInstantiableClass::class,</span>
-<span class=x>            &#39;an-alias-for&#39; =&gt; SomeInstantiableClass::class,</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;delegators&#39; =&gt; [</span>
-<span class=x>            // service =&gt; array of delegator factory pairs</span>
-<span class=x>            SomeInstantiableClass::class =&gt; [</span>
-<span class=x>                InjectListenersDelegator::class,</span>
-<span class=x>                InjectLoggerDelegator::class,</span>
-<span class=x>            ],</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'dependencies' =&gt; [
+        'services' =&gt; [
+            // name =&gt; instance pairs
+            'config' =&gt; $config,
+        ],
+        'aliases' =&gt; [
+            // alias =&gt; target pairs
+            'page-handler' =&gt; SomePageHandler::class,
+        ],
+        'factories' =&gt; [
+            // service =&gt; factory pairs
+            SomePageHandler::class =&gt; SomePageHandlerFactory::class,
+        ],
+        'invokables' =&gt; [
+            // service =&gt; instantiable class pairs
+            SomeInstantiableClass::class =&gt; SomeInstantiableClass::class,
+            'an-alias-for' =&gt; SomeInstantiableClass::class,
+        ],
+        'delegators' =&gt; [
+            // service =&gt; array of delegator factory pairs
+            SomeInstantiableClass::class =&gt; [
+                InjectListenersDelegator::class,
+                InjectLoggerDelegator::class,
+            ],
+        ],
+    ],
+];</code></pre>
 <h2 id="services">Services</h2>
 <p><em>Services</em> are actual instances you want to retrieve later from the container.
 These are generally provided at initial creation; the <code>config</code> service is
@@ -762,10 +765,9 @@ initial instance.</p>
 <h2 id="aliases">Aliases</h2>
 <p><em>Aliases</em> map a service <em>alias</em> to another service, and are provided as
 key/value pairs. As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&#39;aliases&#39; =&gt; [</span>
-<span class=x>    &#39;Mezzio\Delegate\DefaultDelegate&#39; =&gt; \Mezzio\Handler\NotFoundHandler::class,</span>
-<span class=x>],</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>'aliases' =&gt; [
+    'Mezzio\Delegate\DefaultDelegate' =&gt; \Mezzio\Handler\NotFoundHandler::class,
+],</code></pre>
 <p>In this case, if the service named "Mezzio\Delegate\DefaultDelegate"
 is requested, the container should resolve that to the service
 <code>Mezzio\Handler\NotFoundHandler</code> and return that instead.</p>
@@ -801,46 +803,43 @@ dependencies of the class being created and returned. Additionally, containers
 SHOULD pass the service name requested as the second argument; factories can
 determine whether that argument is necessary.</p>
 <p>A typical factory will generally ignore the second argument:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Template\TemplateRendererInterface;</span>
+<pre class=codehilite><code class=language-php>use Psr\Container\ContainerInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=x>class SomePageHandlerFactory</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        return new SomePageHandler(</span>
-<span class=x>            $container-&gt;get(TemplateRendererInterface::class)</span>
-<span class=x>        );</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class SomePageHandlerFactory
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        return new SomePageHandler(
+            $container-&gt;get(TemplateRendererInterface::class)
+        );
+    }
+}</code></pre>
 <p>You can, however, re-use a factory for multiple services by accepting the second
 argument and varying creation based on it:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Template\TemplateRendererInterface;</span>
+<pre class=codehilite><code class=language-php>use Psr\Container\ContainerInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=x>class PageFactory</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke(ContainerInterface $container, string $serviceName)</span>
-<span class=x>    {</span>
-<span class=x>        $name = strtolower($serviceName);</span>
-<span class=x>        return new PageHandler(</span>
-<span class=x>            $container-&gt;get(TemplateRendererInterface::class),</span>
-<span class=x>            $name</span>
-<span class=x>        );</span>
-<span class=x>    };</span>
-<span class=x>}</span>
-</pre></div></p>
+class PageFactory
+{
+    public function __invoke(ContainerInterface $container, string $serviceName)
+    {
+        $name = strtolower($serviceName);
+        return new PageHandler(
+            $container-&gt;get(TemplateRendererInterface::class),
+            $name
+        );
+    };
+}</code></pre>
 <p>The above could be mapped for several services:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            &#39;hello-world&#39; =&gt; PageFactory::class,</span>
-<span class=x>            &#39;about&#39;       =&gt; PageFactory::class,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'dependencies' =&gt; [
+        'factories' =&gt; [
+            'hello-world' =&gt; PageFactory::class,
+            'about'       =&gt; PageFactory::class,
+        ],
+    ],
+];</code></pre>
 <p>In general, services should be cached by the container after initial creation;
 factories should only be called once for any given service name.</p>
 <h2 id="invokables">Invokables</h2>
@@ -853,12 +852,11 @@ the class name to instantiate, and, generally, these are the same values.</p>
 containers MUST treat the service name as an alias to the final class name, and
 allow retrieving the service by EITHER the alias OR the class name.</p>
 <p>As an example, given the following configuration:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&#39;dependencies&#39; =&gt; [</span>
-<span class=x>    &#39;invokables&#39; =&gt; [</span>
-<span class=x>        &#39;HelloWorld&#39; =&gt; PageAction::class,</span>
-<span class=x>    ],</span>
-<span class=x>],</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>'dependencies' =&gt; [
+    'invokables' =&gt; [
+        'HelloWorld' =&gt; PageAction::class,
+    ],
+],</code></pre>
 <p>the container should allow retrieval of both the services "HelloWorld" as well
 as the "PageAction" class.</p>
 <h2 id="delegator-factories">Delegator Factories</h2>
@@ -866,14 +864,13 @@ as the "PageAction" class.</p>
 a service before returning it from the container. They are covered in detail <a href="../delegator-factories/">in
 another chapter</a>, and delegator factories have the
 following signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Container\ContainerInterface;</span>
+<pre class=codehilite><code class=language-php>use Psr\Container\ContainerInterface;
 
-<span class=x>function (</span>
-<span class=x>    ContainerInterface $container,</span>
-<span class=x>    string $serviceName,</span>
-<span class=x>    callable $callback</span>
-<span class=x>)</span>
-</pre></div></p>
+function (
+    ContainerInterface $container,
+    string $serviceName,
+    callable $callback
+)</code></pre>
 <p>Configuration for delegator factories is using the "delegators" sub-key of the
 "dependencies" configuration. Each entry is a service name pointing to an
 <em>array</em> of delegator factories.</p>
@@ -1452,9 +1449,10 @@ container configuration.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1491,7 +1489,7 @@ container configuration.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1500,8 +1498,8 @@ container configuration.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

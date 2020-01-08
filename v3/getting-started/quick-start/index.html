@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -706,8 +710,7 @@ prompts you to choose a router, dependency injection container, template
 renderer, and error handler from the outset.</p>
 <h2 id="create-a-new-project">Create a new project</h2>
 <p>First, we'll create a new project, using Composer's <code>create-project</code> command:</p>
-<p> <div class=codehilite><pre><span></span>$ composer create-project mezzio/mezzio-skeleton mezzio
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer create-project mezzio/mezzio-skeleton mezzio</code></pre>
 <p>This will prompt you to choose:</p>
 <ul>
 <li>
@@ -739,8 +742,7 @@ renderer, and error handler from the outset.</p>
 when complete. You can test it out using <a href="http://php.net/manual/en/features.commandline.webserver.php">built-in web
 server</a>.</p>
 <p>From the project root directory, execute the following:</p>
-<p> <div class=codehilite><pre><span></span>$ composer run --timeout<span class=o>=</span><span class=m>0</span> serve
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer run --timeout=0 serve</code></pre>
 <p>This starts up a web server on localhost port 8080; browse to
 http://localhost:8080/ to see if your application responds correctly!</p>
 <blockquote>
@@ -754,7 +756,7 @@ be done by using <code>composer run</code> to execute the <code>serve</code> scr
 will be used, and it will run until you cancel the process (usually via
 <code>Ctrl-C</code>). Alternately, you can specify a finite timeout; as an example,
 the following will extend the timeout to a full day:</p>
-<pre class=codehilite><code class=language-bash>
+<pre class="codehilite"><code class="language-bash">
 $ composer run --timeout=86400 serve
 </code></pre>
 </blockquote>
@@ -763,10 +765,9 @@ $ composer run --timeout=86400 serve
 <h3>Development Mode</h3>
 <p><a href="https://github.com/laminas/laminas-development-mode">laminas-development-mode</a> allows
 you to enable and disable development mode from your cli.</p>
-<p> <div class=codehilite><pre><span></span>$ composer development-enable  <span class=c1># enable development mode</span>
-$ composer development-disable <span class=c1># disable development mode</span>
-$ composer development-status  <span class=c1># show development status</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer development-enable  # enable development mode
+$ composer development-disable # disable development mode
+$ composer development-status  # show development status</code></pre>
 <p>The development configuration is set in <code>config/autoload/development.local.php.dist</code>.
 It also allows you to specify configuration and modules that should only be enabled
 when in development, and not when in production.</p>
@@ -774,15 +775,13 @@ when in development, and not when in production.</p>
 <p>Production settings are the default, which means enabling the configuration cache.
 However, it must be easy for developers to clear the configuration cache. That's
 what this command does.</p>
-<p> <div class=codehilite><pre><span></span>$ composer clear-config-cache
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer clear-config-cache</code></pre>
 <h3>Testing Your Code</h3>
 <p><a href="https://phpunit.de">PHPUnit</a> and
 <a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> are now
 installed by default. To execute tests and detect coding standards violations,
 run the following command:</p>
-<p> <div class=codehilite><pre><span></span>$ composer check
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer check</code></pre>
 <h3>Security Advisories</h3>
 <p>We have included the <a href="https://github.com/Roave/SecurityAdvisories">security-advisories</a>
 package to notify you about installed dependencies with known security
@@ -792,8 +791,7 @@ documented security issues.</p>
 <h3>Tooling integration</h3>
 <p>The skeleton ships with <a href="https://github.com/mezzio/mezzio-tooling">mezzio-tooling</a>
 by default, and integrates with it by exposing it via composer:</p>
-<p> <div class=codehilite><pre><span></span>$ composer mezzio
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer mezzio</code></pre>
 <p>The tooling provides a number of commands; see the <a href="../../reference/cli-tooling/">CLI tooling
 chapter</a> for more details.</p>
 <h2 id="modules">Modules</h2>
@@ -825,28 +823,27 @@ configuration caching.</p>
 <p>As an example, your <code>config/config.php</code> file might read as follows in order to
 aggregate configuration from development mode settings, application
 configuration, and theoretical <code>User</code>, <code>Blog</code>, and <code>App</code> modules:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span> <span class=c1>// config/config.php</span>
+<pre class=codehilite><code class=language-php>&lt;?php // config/config.php
 
-<span class=nv>$aggregator</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ConfigAggregator</span><span class=p>([</span>
-    <span class=c1>// Module configuration</span>
-    <span class=nx>App\ConfigProvider</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
-    <span class=nx>BlogModule\ConfigProvider</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
-    <span class=nx>UserModule\ConfigProvider</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+$aggregator = new ConfigAggregator([
+    // Module configuration
+    App\ConfigProvider::class,
+    BlogModule\ConfigProvider::class,
+    UserModule\ConfigProvider::class,
 
-    <span class=c1>// Load application config in a pre-defined order in such a way that local settings</span>
-    <span class=c1>// overwrite global settings. (Loaded as first to last):</span>
-    <span class=c1>//   - `global.php`</span>
-    <span class=c1>//   - `*.global.php`</span>
-    <span class=c1>//   - `local.php`</span>
-    <span class=c1>//   - `*.local.php`</span>
-    <span class=k>new</span> <span class=nx>PhpFileProvider</span><span class=p>(</span><span class=s1>&#39;config/autoload/{{,*.}global,{,*.}local}.php&#39;</span><span class=p>),</span>
+    // Load application config in a pre-defined order in such a way that local settings
+    // overwrite global settings. (Loaded as first to last):
+    //   - `global.php`
+    //   - `*.global.php`
+    //   - `local.php`
+    //   - `*.local.php`
+    new PhpFileProvider('config/autoload/{{,*.}global,{,*.}local}.php'),
 
-    <span class=c1>// Load development config if it exists</span>
-    <span class=k>new</span> <span class=nx>PhpFileProvider</span><span class=p>(</span><span class=s1>&#39;config/development.config.php&#39;</span><span class=p>),</span>
-<span class=p>],</span> <span class=s1>&#39;data/config-cache.php&#39;</span><span class=p>);</span>
+    // Load development config if it exists
+    new PhpFileProvider('config/development.config.php'),
+], 'data/config-cache.php');
 
-<span class=k>return</span> <span class=nv>$aggregator</span><span class=o>-&gt;</span><span class=na>getMergedConfig</span><span class=p>();</span>
-</pre></div></p>
+return $aggregator-&gt;getMergedConfig();</code></pre>
 <p>The configuration is merged in the same order as it is passed, with later entries
 having precedence.</p>
 <h3>Config Providers</h3>
@@ -857,63 +854,62 @@ generator) to be merged.</p>
 <p>Libraries or modules can have configuration providers that provide default values
 for a library or module. For the <code>UserModule\ConfigProvider</code> class loaded in the
 <code>ConfigAggregator</code> above, the <code>ConfigProvider</code> might look like this:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<pre class=codehilite><code class=language-php>&lt;?php
 
-<span class=k>namespace</span> <span class=nx>UserModule</span><span class=p>;</span>
+namespace UserModule;
 
-<span class=k>class</span> <span class=nc>ConfigProvider</span>
-<span class=p>{</span>
-    <span class=sd>/**</span>
-<span class=sd>     * Returns the configuration array</span>
-<span class=sd>     *</span>
-<span class=sd>     * To add some sort of a structure, each section is defined in a separate</span>
-<span class=sd>     * method which returns an array with its configuration.</span>
-<span class=sd>     *</span>
-<span class=sd>     * @return array</span>
-<span class=sd>     */</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__invoke</span><span class=p>()</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=p>[</span>
-            <span class=s1>&#39;dependencies&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>getDependencies</span><span class=p>(),</span>
-            <span class=s1>&#39;users&#39;</span>        <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>getConfig</span><span class=p>(),</span>
-        <span class=p>];</span>
-    <span class=p>}</span>
+class ConfigProvider
+{
+    /**
+     * Returns the configuration array
+     *
+     * To add some sort of a structure, each section is defined in a separate
+     * method which returns an array with its configuration.
+     *
+     * @return array
+     */
+    public function __invoke()
+    {
+        return [
+            'dependencies' =&gt; $this-&gt;getDependencies(),
+            'users'        =&gt; $this-&gt;getConfig(),
+        ];
+    }
 
-    <span class=sd>/**</span>
-<span class=sd>     * Returns the container dependencies</span>
-<span class=sd>     *</span>
-<span class=sd>     * @return array</span>
-<span class=sd>     */</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>getDependencies</span><span class=p>()</span> <span class=o>:</span> <span class=k>array</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=p>[</span>
-            <span class=s1>&#39;factories&#39;</span>  <span class=o>=&gt;</span> <span class=p>[</span>
-                <span class=nx>Action\LoginAction</span><span class=o>::</span><span class=na>class</span> <span class=o>=&gt;</span>
-                    <span class=nx>Factory\Action\LoginActionFactory</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
+    /**
+     * Returns the container dependencies
+     *
+     * @return array
+     */
+    public function getDependencies() : array
+    {
+        return [
+            'factories'  =&gt; [
+                Action\LoginAction::class =&gt;
+                    Factory\Action\LoginActionFactory::class,
 
-                <span class=nx>Middleware\AuthenticationMiddleware</span><span class=o>::</span><span class=na>class</span> <span class=o>=&gt;</span>
-                    <span class=nx>Factory\Middleware\AuthenticationMiddlewareFactory</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
-            <span class=p>],</span>
-        <span class=p>];</span>
-    <span class=p>}</span>
+                Middleware\AuthenticationMiddleware::class =&gt;
+                    Factory\Middleware\AuthenticationMiddlewareFactory::class,
+            ],
+        ];
+    }
 
-    <span class=sd>/**</span>
-<span class=sd>     * Returns the default module configuration</span>
-<span class=sd>     *</span>
-<span class=sd>     * @return array</span>
-<span class=sd>     */</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>getConfig</span><span class=p>()</span> <span class=o>:</span> <span class=k>array</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=p>[</span>
-            <span class=s1>&#39;paths&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
-                <span class=s1>&#39;enable_registration&#39;</span> <span class=o>=&gt;</span> <span class=k>true</span><span class=p>,</span>
-                <span class=s1>&#39;enable_username&#39;</span>     <span class=o>=&gt;</span> <span class=k>false</span><span class=p>,</span>
-                <span class=s1>&#39;enable_display_name&#39;</span> <span class=o>=&gt;</span> <span class=k>true</span><span class=p>,</span>
-            <span class=p>],</span>
-        <span class=p>];</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+    /**
+     * Returns the default module configuration
+     *
+     * @return array
+     */
+    public function getConfig() : array
+    {
+        return [
+            'paths' =&gt; [
+                'enable_registration' =&gt; true,
+                'enable_username'     =&gt; false,
+                'enable_display_name' =&gt; true,
+            ],
+        ];
+    }
+}</code></pre>
 <h3>mezzio module commands</h3>
 <p>To aid in the creation, registration, and deregistration of modules in your
 application, you can use the CLI tooling provided by default. All commands are
@@ -942,14 +938,12 @@ In this section, we'll demonstrate setting up a basic pipeline that includes
 error handling, segregated applications, routing, middleware dispatch, and more.</p>
 <p>The error handler should be the first (most outer) middleware to catch all
 exceptions.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(ErrorHandler::class);</span>
-<span class=x>$app-&gt;pipe(ServerUrlMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(ErrorHandler::class);
+$app-&gt;pipe(ServerUrlMiddleware::class);</code></pre>
 <p>After the <code>ErrorHandler</code> you can pipe more middleware that you want to execute
 on every request, such as bootstrapping, pre-conditions, and modifications to
 outgoing responses:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(ServerUrlMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(ServerUrlMiddleware::class);</code></pre>
 <p>Piped middleware may be callables, middleware instances, or service names.
 Middleware may also be passed as an array; each item in the array must resolve
 to middleware eventually (i.e., callable or service name); underneath,
@@ -958,13 +952,11 @@ middleware listed piped to it.</p>
 <p>Middleware can be attached to specific paths, allowing you to mix and match
 applications under a common domain. The handlers in each middleware attached
 this way will see a URI with the <strong>MATCHED PATH SEGMENT REMOVED!!!</strong></p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(&#39;/api&#39;, $apiMiddleware);</span>
-<span class=x>$app-&gt;pipe(&#39;/docs&#39;, $apiDocMiddleware);</span>
-<span class=x>$app-&gt;pipe(&#39;/files&#39;, $filesMiddleware);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe('/api', $apiMiddleware);
+$app-&gt;pipe('/docs', $apiDocMiddleware);
+$app-&gt;pipe('/files', $filesMiddleware);</code></pre>
 <p>Next, you should register the routing middleware in the middleware pipeline:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(RouteMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(RouteMiddleware::class);</code></pre>
 <p>Add more middleware that needs to introspect the routing results; this might
 include:</p>
 <ul>
@@ -976,96 +968,87 @@ include:</p>
 <li>route-based validation</li>
 <li>etc.</li>
 </ul>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(ImplicitHeadMiddleware::class);</span>
-<span class=x>$app-&gt;pipe(ImplicitOptionsMiddleware::class);</span>
-<span class=x>$app-&gt;pipe(MethodNotAllowedMiddleware::class);</span>
-<span class=x>$app-&gt;pipe(UrlHelperMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(ImplicitHeadMiddleware::class);
+$app-&gt;pipe(ImplicitOptionsMiddleware::class);
+$app-&gt;pipe(MethodNotAllowedMiddleware::class);
+$app-&gt;pipe(UrlHelperMiddleware::class);</code></pre>
 <p>Next, register the dispatch middleware in the middleware pipeline:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(DispatchMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(DispatchMiddleware::class);</code></pre>
 <p>At this point, if no response is return by any middleware, we need to provide a
 way of notifying the user of this; by default, we use the <code>NotFoundHandler</code>, but
 you can provide any other fallback middleware you wish:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(NotFoundHandler::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(NotFoundHandler::class);</code></pre>
 <p>The <code>public/index.php</code> file will <code>require</code> the <code>config/pipeline.php</code> file, and
 <em>invoke</em> the returned result. When it invokes it, it passes the application
 instance, a <code>Mezzio\MiddlewareFactory</code> instance, and the PSR-11
 container you are using.</p>
 <p>The full example then looks something like this:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// In config/pipeline.php:</span>
+<pre class=codehilite><code class=language-php>// In config/pipeline.php:
 
-<span class=x>use Psr\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Application;</span>
-<span class=x>use Mezzio\MiddlewareFactory;</span>
-<span class=x>use Mezzio\Helper\ServerUrlMiddleware;</span>
-<span class=x>use Mezzio\Helper\UrlHelperMiddleware;</span>
-<span class=x>use Mezzio\Middleware\NotFoundHandler;</span>
-<span class=x>use Mezzio\Router\Middleware\DispatchMiddleware;</span>
-<span class=x>use Mezzio\Router\Middleware\ImplicitHeadMiddleware;</span>
-<span class=x>use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;</span>
-<span class=x>use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;</span>
-<span class=x>use Mezzio\Router\Middleware\RouteMiddleware;</span>
-<span class=x>use Laminas\Stratigility\Middleware\ErrorHandler;</span>
+use Psr\Container\ContainerInterface;
+use Mezzio\Application;
+use Mezzio\MiddlewareFactory;
+use Mezzio\Helper\ServerUrlMiddleware;
+use Mezzio\Helper\UrlHelperMiddleware;
+use Mezzio\Middleware\NotFoundHandler;
+use Mezzio\Router\Middleware\DispatchMiddleware;
+use Mezzio\Router\Middleware\ImplicitHeadMiddleware;
+use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
+use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
+use Mezzio\Router\Middleware\RouteMiddleware;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
-<span class=x>return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {</span>
-<span class=x>    $app-&gt;pipe(ErrorHandler::class);</span>
-<span class=x>    $app-&gt;pipe(ServerUrlMiddleware::class);</span>
+return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
+    $app-&gt;pipe(ErrorHandler::class);
+    $app-&gt;pipe(ServerUrlMiddleware::class);
 
-<span class=x>    // These assume that the variables listed are defined in this scope:</span>
-<span class=x>    $app-&gt;pipe(&#39;/api&#39;, $apiMiddleware);</span>
-<span class=x>    $app-&gt;pipe(&#39;/docs&#39;, $apiDocMiddleware);</span>
-<span class=x>    $app-&gt;pipe(&#39;/files&#39;, $filesMiddleware);</span>
+    // These assume that the variables listed are defined in this scope:
+    $app-&gt;pipe('/api', $apiMiddleware);
+    $app-&gt;pipe('/docs', $apiDocMiddleware);
+    $app-&gt;pipe('/files', $filesMiddleware);
 
-<span class=x>    $app-&gt;pipe(RouteMiddleware::class);</span>
-<span class=x>    $app-&gt;pipe(ImplicitHeadMiddleware::class);</span>
-<span class=x>    $app-&gt;pipe(ImplicitOptionsMiddleware::class);</span>
-<span class=x>    $app-&gt;pipe(MethodNotAllowedMiddleware::class);</span>
-<span class=x>    $app-&gt;pipe(UrlHelperMiddleware::class);</span>
-<span class=x>    $app-&gt;pipe(DispatchMiddleware::class);</span>
+    $app-&gt;pipe(RouteMiddleware::class);
+    $app-&gt;pipe(ImplicitHeadMiddleware::class);
+    $app-&gt;pipe(ImplicitOptionsMiddleware::class);
+    $app-&gt;pipe(MethodNotAllowedMiddleware::class);
+    $app-&gt;pipe(UrlHelperMiddleware::class);
+    $app-&gt;pipe(DispatchMiddleware::class);
 
-<span class=x>    $app-&gt;pipe(NotFoundHandler::class);</span>
-<span class=x>};</span>
-</pre></div></p>
+    $app-&gt;pipe(NotFoundHandler::class);
+};</code></pre>
 <h3>Routing</h3>
 <p><a href="../../features/router/piping/#routing">Routing</a> is an additional feature
 provided by Mezzio. Routing is setup in <code>config/routes.php</code>.</p>
 <p>You can setup routes with a single request method:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;get(&#39;/&#39;, App\Action\HomePageAction::class, &#39;home&#39;);</span>
-<span class=x>$app-&gt;post(&#39;/album&#39;, App\Action\AlbumCreateAction::class, &#39;album.create&#39;);</span>
-<span class=x>$app-&gt;put(&#39;/album/:id&#39;, App\Action\AlbumUpdateAction::class, &#39;album.put&#39;);</span>
-<span class=x>$app-&gt;patch(&#39;/album/:id&#39;, App\Action\AlbumUpdateAction::class, &#39;album.patch&#39;);</span>
-<span class=x>$app-&gt;delete(&#39;/album/:id&#39;, App\Action\AlbumDeleteAction::class, &#39;album.delete&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;get('/', App\Action\HomePageAction::class, 'home');
+$app-&gt;post('/album', App\Action\AlbumCreateAction::class, 'album.create');
+$app-&gt;put('/album/:id', App\Action\AlbumUpdateAction::class, 'album.put');
+$app-&gt;patch('/album/:id', App\Action\AlbumUpdateAction::class, 'album.patch');
+$app-&gt;delete('/album/:id', App\Action\AlbumDeleteAction::class, 'album.delete');</code></pre>
 <p>Or with multiple request methods:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;route(&#39;/contact&#39;, App\Action\ContactAction::class, [&#39;GET&#39;, &#39;POST&#39;, ...], &#39;contact&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;route('/contact', App\Action\ContactAction::class, ['GET', 'POST', ...], 'contact');</code></pre>
 <p>Or handling all request methods:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;any(&#39;/contact&#39;, App\Action\ContactAction::class)-&gt;setName(&#39;contact&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;any('/contact', App\Action\ContactAction::class)-&gt;setName('contact');</code></pre>
 <p>Alternately, to be explicit, the above could be written as:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;route(</span>
-<span class=x>  &#39;/contact&#39;,</span>
-<span class=x>  App\Action\ContactAction::class,</span>
-<span class=x>  Mezzio\Router\Route::HTTP_METHOD_ANY,</span>
-<span class=x>  &#39;contact&#39;</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;route(
+  '/contact',
+  App\Action\ContactAction::class,
+  Mezzio\Router\Route::HTTP_METHOD_ANY,
+  'contact'
+);</code></pre>
 <p>We recommend a single middleware class per combination of route and request
 method.</p>
 <p>Similar to the <code>config/pipeline.php</code> file, the <code>config/routes.php</code> file is
 expected to return a callable:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// In config/routes.php:</span>
+<pre class=codehilite><code class=language-php>// In config/routes.php:
 
-<span class=x>use Psr\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Application;</span>
-<span class=x>use Mezzio\MiddlewareFactory;</span>
+use Psr\Container\ContainerInterface;
+use Mezzio\Application;
+use Mezzio\MiddlewareFactory;
 
-<span class=x>return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {</span>
-<span class=x>    $app-&gt;get(&#39;/books&#39;, \App\Handler\ListBooksHandler::class, &#39;books&#39;);</span>
-<span class=x>};</span>
-</pre></div></p>
+return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container) : void {
+    $app-&gt;get('/books', \App\Handler\ListBooksHandler::class, 'books');
+};</code></pre>
 <h2 id="next-steps">Next Steps</h2>
 <p>The skeleton provides a default structure for templates, if you choose to use them.
 Let's see how you can create your first vanilla middleware, and templated middleware.</p>
@@ -1085,28 +1068,23 @@ anywhere within it.</p>
 <p>We'll create a simple middleware here that will run on every request, and alter
 the response to add a header.</p>
 <p>We can use our tooling to create the middleware file:</p>
-<p> <div class=codehilite><pre><span></span>$ composer mezzio middleware:create <span class=s2>&quot;App\XClacksOverheadMiddleware&quot;</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer mezzio middleware:create &quot;App\XClacksOverheadMiddleware&quot;</code></pre>
 <p>This command will create a PSR-15 middleware implementation, a factory for it,
 and register the two in the application's container configuration. It tells you
 the location of both files.</p>
 <p>Now let's edit the middleware class file. Replace the contents of the
 <code>process()</code> method with:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$response = $handler-&gt;handle($request);</span>
-<span class=x>return $response-&gt;withHeader(&#39;X-Clacks-Overhead&#39;, &#39;GNU Terry Pratchett&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$response = $handler-&gt;handle($request);
+return $response-&gt;withHeader('X-Clacks-Overhead', 'GNU Terry Pratchett');</code></pre>
 <p>Now that we've created our middleware, we still have to tell the pipeline about
 it. Open the file <code>config/pipeline.php</code> file, and find the line that read:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(ErrorHandler::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(ErrorHandler::class);</code></pre>
 <p>Add the following line after it:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(App\XClacksOverheadMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(App\XClacksOverheadMiddleware::class);</code></pre>
 <p>If you browse to the home page (or any other page, for that matter) and
 introspect the headers returned with the response using your browser's
 development tools, you'll now see the following entry:</p>
-<p> <div class=codehilite><pre><span></span><span class=err>X-Clacks-Overhead: GNU Terry Pratchett</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-http>X-Clacks-Overhead: GNU Terry Pratchett</code></pre>
 <p>You've created your first middleware!</p>
 <h3>Creating request handlers</h3>
 <p>You may route to either middleware or request handlers. In this section, we'll
@@ -1122,8 +1100,7 @@ to request handlers</em>.</p>
 handlers under the namespace <code>App\Handler</code>.</p>
 <p>Let's create a "Hello" request handler. We can use our tooling to create the
 file:</p>
-<p> <div class=codehilite><pre><span></span>$ composer mezzio handler:create <span class=s2>&quot;App\Handler\HelloHandler&quot;</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer mezzio handler:create &quot;App\Handler\HelloHandler&quot;</code></pre>
 <p>The command will tell you the location in the filesystem in which it created the
 new class; it will also create a factory for you, and register that factory with
 the container! Additionally, if you have a template renderer in place, it will
@@ -1131,13 +1108,12 @@ create a template file for you. make a note of the locations of both the class
 file and template file.</p>
 <p>Open the class file, and now let's edit the <code>handle()</code> contents to read as
 follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$target = $request-&gt;getQueryParams()[&#39;target&#39;] ?? &#39;World&#39;;</span>
-<span class=x>$target = htmlspecialchars($target, ENT_HTML5, &#39;UTF-8&#39;);</span>
-<span class=x>return new HtmlResponse($this-&gt;renderer-&gt;render(</span>
-<span class=x>    &#39;app::hello&#39;,</span>
-<span class=x>    [&#39;target&#39; =&gt; $target]</span>
-<span class=x>));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$target = $request-&gt;getQueryParams()['target'] ?? 'World';
+$target = htmlspecialchars($target, ENT_HTML5, 'UTF-8');
+return new HtmlResponse($this-&gt;renderer-&gt;render(
+    'app::hello',
+    ['target' =&gt; $target]
+));</code></pre>
 <blockquote>
 <h4>Templateless handler</h4>
 <p>If you did not select a template engine when creating your application, the
@@ -1148,7 +1124,7 @@ contents of your <code>handle()</code> method will be empty to begin.</p>
   statements at the top of the file.</li>
 <li>Alter the response creation to read:</li>
 </ul>
-<pre class=codehilite><code class=language-php>
+<pre class="codehilite"><code class="language-php">
 return new HtmlResponse(sprintf(
     '&lt;h1&gt;Hello %s&lt;/h1&gt;',
     $target
@@ -1185,8 +1161,7 @@ response.</p>
 know how to get to it. Let's fix that.</p>
 <p>Open the file <code>config/routes.php</code>, and add the following at the bottom of
 the function it exposes:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;get(&#39;/hello&#39;, App\Handler\HelloHandler::class, &#39;hello&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;get('/hello', App\Handler\HelloHandler::class, 'hello');</code></pre>
 <p>Once you've completed the above, give it a try by going to each of the
 following URIs:</p>
 <ul>
@@ -1739,9 +1714,10 @@ Mezzio:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1778,7 +1754,7 @@ Mezzio:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1787,8 +1763,8 @@ Mezzio:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

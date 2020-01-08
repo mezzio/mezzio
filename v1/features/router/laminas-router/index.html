@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -641,11 +645,10 @@ priority to enable us to distinguish between failure to match the path and
 failure to match the HTTP method.</p>
 <p>If you instantiate it with no arguments, it will create an empty
 <code>TreeRouteStack</code>. Thus, the simplest way to start with this router is:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\AppFactory;</span>
-<span class=x>use Mezzio\Router\LaminasRouter;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\AppFactory;
+use Mezzio\Router\LaminasRouter;
 
-<span class=x>$app = AppFactory::create(null, new LaminasRouter());</span>
-</pre></div></p>
+$app = AppFactory::create(null, new LaminasRouter());</code></pre>
 <p>The <code>TreeRouteStack</code> offers some unique features:</p>
 <ul>
 <li>Route "prototypes". These are essentially like child routes that must <em>also</em>
@@ -663,34 +666,31 @@ programmatically, or via a factory to use in conjunction with your container
 instance.</p>
 <h2 id="installing-the-laminas-router">Installing the Laminas Router</h2>
 <p>To use the Laminas router, you will need to install the laminas-mvc router integration:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require mezzio/mezzio-laminasrouter
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-laminasrouter</code></pre>
 <h2 id="quick-start">Quick Start</h2>
 <p>At its simplest, you can instantiate a <code>Mezzio\Router\LaminasRouter</code> instance
 with no arguments; it will create the underlying laminas-mvc routing objects
 required and compose them for you:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Router\LaminasRouter;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Router\LaminasRouter;
 
-<span class=x>$router = new LaminasRouter();</span>
-</pre></div></p>
+$router = new LaminasRouter();</code></pre>
 <h2 id="programmatic-creation">Programmatic Creation</h2>
 <p>If you need greater control over the laminas-mvc router setup and configuration,
 you can create the instances necessary and inject them into
 <code>Mezzio\Router\LaminasRouter</code> during instantiation.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\AppFactory;</span>
-<span class=x>use Mezzio\Router\LaminasRouter;</span>
-<span class=x>use Laminas\Mvc\Router\Http\TreeRouteStack;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\AppFactory;
+use Mezzio\Router\LaminasRouter;
+use Laminas\Mvc\Router\Http\TreeRouteStack;
 
-<span class=x>$laminasRouter = new TreeRouteStack();</span>
-<span class=x>$laminasRouter-&gt;addPrototypes(/* ... */);</span>
-<span class=x>$laminasRouter-&gt;setBaseUrl(/* ... */);</span>
+$laminasRouter = new TreeRouteStack();
+$laminasRouter-&gt;addPrototypes(/* ... */);
+$laminasRouter-&gt;setBaseUrl(/* ... */);
 
-<span class=x>$router = new LaminasRouter($laminasRouter);</span>
+$router = new LaminasRouter($laminasRouter);
 
-<span class=x>// First argument is the container to use, if not using the default;</span>
-<span class=x>// second is the router.</span>
-<span class=x>$app = AppFactory::create(null, $router);</span>
-</pre></div></p>
+// First argument is the container to use, if not using the default;
+// second is the router.
+$app = AppFactory::create(null, $router);</code></pre>
 <blockquote>
 <h3>Piping the route middleware</h3>
 <p>As a reminder, you will need to ensure that middleware is piped in the order
@@ -708,40 +708,36 @@ two strategies for creating your laminas-mvc router implementation.</p>
 instantiate and return an instance of <code>Mezzio\Router\LaminasRouter</code> for the
 service name <code>Mezzio\Router\RouterInterface</code>.</p>
 <p>A factory would look like this:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// in src/Application/Container/RouterFactory.php</span>
-<span class=x>namespace Application\Container;</span>
+<pre class=codehilite><code class=language-php>// in src/Application/Container/RouterFactory.php
+namespace Application\Container;
 
-<span class=x>use Interop\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Router\LaminasRouter;</span>
+use Interop\Container\ContainerInterface;
+use Mezzio\Router\LaminasRouter;
 
-<span class=x>class RouterFactory</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * @param ContainerInterface $container</span>
-<span class=x>     * @return LaminasRouter</span>
-<span class=x>     */</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        return new LaminasRouter();</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class RouterFactory
+{
+    /**
+     * @param ContainerInterface $container
+     * @return LaminasRouter
+     */
+    public function __invoke(ContainerInterface $container)
+    {
+        return new LaminasRouter();
+    }
+}</code></pre>
 <p>You would register this with laminas-servicemanager using:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$container-&gt;setFactory(</span>
-<span class=x>    &#39;Mezzio\Router\RouterInterface&#39;,</span>
-<span class=x>    &#39;Application\Container\RouterFactory&#39;</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$container-&gt;setFactory(
+    'Mezzio\Router\RouterInterface',
+    'Application\Container\RouterFactory'
+);</code></pre>
 <p>And in Pimple:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$pimple[&#39;Mezzio\Router\RouterInterface&#39;] = new Application\Container\RouterFactory();</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pimple['Mezzio\Router\RouterInterface'] = new Application\Container\RouterFactory();</code></pre>
 <p>For laminas-servicemanager, you can omit the factory entirely, and register the
 class as an invokable:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$container-&gt;setInvokableClass(</span>
-<span class=x>    &#39;Mezzio\Router\RouterInterface&#39;,</span>
-<span class=x>    &#39;Mezzio\Router\LaminasRouter&#39;</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$container-&gt;setInvokableClass(
+    'Mezzio\Router\RouterInterface',
+    'Mezzio\Router\LaminasRouter'
+);</code></pre>
 <h3>Advanced Configuration</h3>
 <p>If you want to provide custom setup or configuration, you can do so. In this
 example, we will be defining two factories:</p>
@@ -753,78 +749,75 @@ example, we will be defining two factories:</p>
   <code>Laminas\Mvc\Router\Http\TreeRouteStack</code> instance.</li>
 </ul>
 <p>Sound difficult? It's not; we've essentially done it above already!</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// in src/Application/Container/TreeRouteStackFactory.php:</span>
-<span class=x>namespace Application\Container;</span>
+<pre class=codehilite><code class=language-php>// in src/Application/Container/TreeRouteStackFactory.php:
+namespace Application\Container;
 
-<span class=x>use Interop\Container\ContainerInterface;</span>
-<span class=x>use Laminas\Http\Mvc\Router\TreeRouteStack;</span>
+use Interop\Container\ContainerInterface;
+use Laminas\Http\Mvc\Router\TreeRouteStack;
 
-<span class=x>class TreeRouteStackFactory</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * @param ContainerInterface $container</span>
-<span class=x>     * @return TreeRouteStack</span>
-<span class=x>     */</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        $router = new TreeRouteStack();</span>
-<span class=x>        $router-&gt;addPrototypes(/* ... */);</span>
-<span class=x>        $router-&gt;setBaseUrl(/* ... */);</span>
+class TreeRouteStackFactory
+{
+    /**
+     * @param ContainerInterface $container
+     * @return TreeRouteStack
+     */
+    public function __invoke(ContainerInterface $container)
+    {
+        $router = new TreeRouteStack();
+        $router-&gt;addPrototypes(/* ... */);
+        $router-&gt;setBaseUrl(/* ... */);
 
-<span class=x>        return $router;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
+        return $router;
+    }
+}
 
-<span class=x>// in src/Application/Container/RouterFactory.php</span>
-<span class=x>namespace Application\Container;</span>
+// in src/Application/Container/RouterFactory.php
+namespace Application\Container;
 
-<span class=x>use Interop\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Router\LaminasRouter;</span>
+use Interop\Container\ContainerInterface;
+use Mezzio\Router\LaminasRouter;
 
-<span class=x>class RouterFactory</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * @param ContainerInterface $container</span>
-<span class=x>     * @return LaminasRouter</span>
-<span class=x>     */</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        return new LaminasRouter($container-&gt;get(&#39;Laminas\Mvc\Router\Http\TreeRouteStack&#39;));</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class RouterFactory
+{
+    /**
+     * @param ContainerInterface $container
+     * @return LaminasRouter
+     */
+    public function __invoke(ContainerInterface $container)
+    {
+        return new LaminasRouter($container-&gt;get('Laminas\Mvc\Router\Http\TreeRouteStack'));
+    }
+}</code></pre>
 <p>From here, you will need to register your factories with your IoC container.</p>
 <p>If you are using laminas-servicemanager, this will look like:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Programmatically:</span>
-<span class=x>use Laminas\ServiceManager\ServiceManager;</span>
+<pre class=codehilite><code class=language-php>// Programmatically:
+use Laminas\ServiceManager\ServiceManager;
 
-<span class=x>$container = new ServiceManager();</span>
-<span class=x>$container-&gt;addFactory(</span>
-<span class=x>    &#39;Laminas\Mvc\Router\Http\TreeRouteStack&#39;,</span>
-<span class=x>    &#39;Application\Container\TreeRouteStackFactory&#39;</span>
-<span class=x>);</span>
-<span class=x>$container-&gt;addFactory(</span>
-<span class=x>    &#39;Mezzio\Router\RouterInterface&#39;,</span>
-<span class=x>    &#39;Application\Container\RouterFactory&#39;</span>
-<span class=x>);</span>
+$container = new ServiceManager();
+$container-&gt;addFactory(
+    'Laminas\Mvc\Router\Http\TreeRouteStack',
+    'Application\Container\TreeRouteStackFactory'
+);
+$container-&gt;addFactory(
+    'Mezzio\Router\RouterInterface',
+    'Application\Container\RouterFactory'
+);
 
-<span class=x>// Alternately, via configuration:</span>
-<span class=x>return [</span>
-<span class=x>    &#39;factories&#39; =&gt; [</span>
-<span class=x>        &#39;Laminas\Mvc\Router\Http\TreeRouteStack&#39; =&gt; &#39;Application\Container\TreeRouteStackFactory&#39;,</span>
-<span class=x>        &#39;Mezzio\Router\RouterInterface&#39; =&gt; &#39;Application\Container\RouterFactory&#39;,</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+// Alternately, via configuration:
+return [
+    'factories' =&gt; [
+        'Laminas\Mvc\Router\Http\TreeRouteStack' =&gt; 'Application\Container\TreeRouteStackFactory',
+        'Mezzio\Router\RouterInterface' =&gt; 'Application\Container\RouterFactory',
+    ],
+];</code></pre>
 <p>For Pimple, configuration looks like:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Application\Container\TreeRouteStackFactory;</span>
-<span class=x>use Application\Container\LaminasRouterFactory;</span>
-<span class=x>use Interop\Container\Pimple\PimpleInterop;</span>
+<pre class=codehilite><code class=language-php>use Application\Container\TreeRouteStackFactory;
+use Application\Container\LaminasRouterFactory;
+use Interop\Container\Pimple\PimpleInterop;
 
-<span class=x>$container = new PimpleInterop();</span>
-<span class=x>$container[&#39;Laminas\Mvc\Router\Http\TreeRouteStackFactory&#39;] = new TreeRouteStackFactory();</span>
-<span class=x>$container[&#39;Mezzio\Router\RouterInterface&#39;] = new RouterFactory();</span>
-</pre></div></p>
+$container = new PimpleInterop();
+$container['Laminas\Mvc\Router\Http\TreeRouteStackFactory'] = new TreeRouteStackFactory();
+$container['Mezzio\Router\RouterInterface'] = new RouterFactory();</code></pre>
 
 
 
@@ -1288,9 +1281,10 @@ example, we will be defining two factories:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1327,7 +1321,7 @@ example, we will be defining two factories:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1336,8 +1330,8 @@ example, we will be defining two factories:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

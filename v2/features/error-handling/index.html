@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -671,8 +675,7 @@
 <p>We recommend that your code raise exceptions for conditions where it cannot
 gracefully recover. Additionally, we recommend that you have a reasonable PHP
 <code>error_reporting</code> setting that includes warnings and fatal errors:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>error_reporting(E_ALL &amp; ~E_USER_DEPRECATED &amp; ~E_DEPRECATED &amp; ~E_STRICT &amp; ~E_NOTICE);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>error_reporting(E_ALL &amp; ~E_USER_DEPRECATED &amp; ~E_DEPRECATED &amp; ~E_STRICT &amp; ~E_NOTICE);</code></pre>
 <p>If you follow these guidelines, you can then write or use middleware that does
 the following:</p>
 <ul>
@@ -680,37 +683,35 @@ the following:</p>
 <li>wraps execution of the delegate (<code>$delegate-&gt;process()</code>) with a try/catch block.</li>
 </ul>
 <p>As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function ($request, DelegateInterface $delegate)</span>
-<span class=x>{</span>
-<span class=x>    set_error_handler(function ($errno, $errstr, $errfile, $errline) {</span>
-<span class=x>        if (! (error_reporting() &amp; $errno)) {</span>
-<span class=x>            // Error is not in mask</span>
-<span class=x>            return;</span>
-<span class=x>        }</span>
-<span class=x>        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);</span>
-<span class=x>    });</span>
+<pre class=codehilite><code class=language-php>function ($request, DelegateInterface $delegate)
+{
+    set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+        if (! (error_reporting() &amp; $errno)) {
+            // Error is not in mask
+            return;
+        }
+        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+    });
 
-<span class=x>    try {</span>
-<span class=x>        $response = $delegate-&gt;process($request);</span>
-<span class=x>        return $response;</span>
-<span class=x>    } catch (Throwable $e) {</span>
-<span class=x>    } catch (Exception $e) {</span>
-<span class=x>    }</span>
+    try {
+        $response = $delegate-&gt;process($request);
+        return $response;
+    } catch (Throwable $e) {
+    } catch (Exception $e) {
+    }
 
-<span class=x>    restore_error_handler();</span>
+    restore_error_handler();
 
-<span class=x>    $response = new TextResponse(sprintf(</span>
-<span class=x>        &quot;[%d] %s\n\n%s&quot;,</span>
-<span class=x>        $e-&gt;getCode(),</span>
-<span class=x>        $e-&gt;getMessage(),</span>
-<span class=x>        $e-&gt;getTraceAsString()</span>
-<span class=x>    ), 500);</span>
-<span class=x>}</span>
-</pre></div></p>
+    $response = new TextResponse(sprintf(
+        &quot;[%d] %s\n\n%s&quot;,
+        $e-&gt;getCode(),
+        $e-&gt;getMessage(),
+        $e-&gt;getTraceAsString()
+    ), 500);
+}</code></pre>
 <p>You would then pipe this as the outermost (or close to outermost) layer of your
 application:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe($errorMiddleware);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe($errorMiddleware);</code></pre>
 <p>So that you do not need to do this, we provide an error handler for you, via
 laminas-stratigility: <code>Laminas\Stratigility\Middleware\ErrorHandler</code>.</p>
 <p>This implementation allows you to both:</p>
@@ -744,19 +745,18 @@ generating the instance; it should be mapped to the service
 </ul>
 <p>Map the service <code>Mezzio\Middleware\ErrorResponseGenerator</code> to one of
 these two factories in your configuration:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Container;</span>
-<span class=x>use Mezzio\Middleware;</span>
-<span class=x>use Laminas\Stratigility\Middleware\ErrorHandler;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Container;
+use Mezzio\Middleware;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            ErrorHandler::class =&gt; Container\ErrorHandlerFactory::class,</span>
-<span class=x>            Middleware\ErrorResponseGenerator::class =&gt; Container\ErrorResponseGeneratorFactory::class,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'dependencies' =&gt; [
+        'factories' =&gt; [
+            ErrorHandler::class =&gt; Container\ErrorHandlerFactory::class,
+            Middleware\ErrorResponseGenerator::class =&gt; Container\ErrorResponseGeneratorFactory::class,
+        ],
+    ],
+];</code></pre>
 <blockquote>
 <h3>Use development mode configuration to enable whoops</h3>
 <p>You can specify the above in one of your <code>config/autoload/*.global.php</code> files,
@@ -765,7 +765,7 @@ to ensure you have a production-capable error response generator.</p>
 in your application (which is provided by default in the skeleton
 application), you can toggle usage of whoops by adding configuration to the file
 <code>config/autoload/development.local.php.dist</code>:</p>
-<pre class=codehilite><code class=language-php>
+<pre class="codehilite"><code class="language-php">
 use Mezzio\Container;
 use Mezzio\Middleware;
 
@@ -788,101 +788,96 @@ want to enable whoops.</p>
 features such as logging. <code>Laminas\Stratigility\Middleware\ErrorHandler</code> provides
 the ability to do so via its <code>attachListener()</code> method.</p>
 <p>This method accepts a callable with the following signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function (</span>
-<span class=x>    Throwable|Exception $error,</span>
-<span class=x>    ServerRequestInterface $request,</span>
-<span class=x>    ResponseInterface $response</span>
-<span class=x>) : void</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function (
+    Throwable|Exception $error,
+    ServerRequestInterface $request,
+    ResponseInterface $response
+) : void</code></pre>
 <p>The response provided is the response returned by your error response generator,
 allowing the listener the ability to introspect the generated response as well.</p>
 <p>As an example, you could create a logging listener as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Acme;</span>
+<pre class=codehilite><code class=language-php>namespace Acme;
 
-<span class=x>use Exception;</span>
-<span class=x>use Psr\Log\LoggerInterface;</span>
-<span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Throwable;</span>
+use Exception;
+use Psr\Log\LoggerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 
-<span class=x>class LoggingErrorListener</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * Log format for messages:</span>
-<span class=x>     *</span>
-<span class=x>     * STATUS [METHOD] path: message</span>
-<span class=x>     */</span>
-<span class=x>    const LOG_FORMAT = &#39;%d [%s] %s: %s&#39;;</span>
+class LoggingErrorListener
+{
+    /**
+     * Log format for messages:
+     *
+     * STATUS [METHOD] path: message
+     */
+    const LOG_FORMAT = '%d [%s] %s: %s';
 
-<span class=x>    private $logger;</span>
+    private $logger;
 
-<span class=x>    public function __construct(LoggerInterface $logger)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;logger = $logger;</span>
-<span class=x>    }</span>
+    public function __construct(LoggerInterface $logger)
+    {
+        $this-&gt;logger = $logger;
+    }
 
-<span class=x>    public function __invoke($error, ServerRequestInterface $request, ResponseInterface $response)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;logger-&gt;error(sprintf(</span>
-<span class=x>            self::LOG_FORMAT,</span>
-<span class=x>            $response-&gt;getStatusCode(),</span>
-<span class=x>            $request-&gt;getMethod(),</span>
-<span class=x>            (string) $request-&gt;getUri(),</span>
-<span class=x>            $error-&gt;getMessage()</span>
-<span class=x>        ));</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function __invoke($error, ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $this-&gt;logger-&gt;error(sprintf(
+            self::LOG_FORMAT,
+            $response-&gt;getStatusCode(),
+            $request-&gt;getMethod(),
+            (string) $request-&gt;getUri(),
+            $error-&gt;getMessage()
+        ));
+    }
+}</code></pre>
 <p>You could then use a <a href="../container/delegator-factories/">delegator factory</a> to
 create your logger listener and attach it to your error handler:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Acme;</span>
+<pre class=codehilite><code class=language-php>namespace Acme;
 
-<span class=x>use Psr\Container\ContainerInterface;</span>
-<span class=x>use Psr\Log\LoggerInterface;</span>
-<span class=x>use Laminas\Stratigility\Middleware\ErrorHandler;</span>
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
-<span class=x>class LoggingErrorListenerDelegatorFactory</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * @param ContainerInterface $container</span>
-<span class=x>     * @param string $name</span>
-<span class=x>     * @param callable $callback</span>
-<span class=x>     * @return ErrorHandler</span>
-<span class=x>     */</span>
-<span class=x>    public function __invoke(ContainerInterface $container, $name, callable $callback)</span>
-<span class=x>    {</span>
-<span class=x>        $listener = new LoggingErrorListener($container-&gt;get(LoggerInterface::class));</span>
-<span class=x>        $errorHandler = $callback();</span>
-<span class=x>        $errorHandler-&gt;attachListener($listener);</span>
-<span class=x>        return $errorHandler;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class LoggingErrorListenerDelegatorFactory
+{
+    /**
+     * @param ContainerInterface $container
+     * @param string $name
+     * @param callable $callback
+     * @return ErrorHandler
+     */
+    public function __invoke(ContainerInterface $container, $name, callable $callback)
+    {
+        $listener = new LoggingErrorListener($container-&gt;get(LoggerInterface::class));
+        $errorHandler = $callback();
+        $errorHandler-&gt;attachListener($listener);
+        return $errorHandler;
+    }
+}</code></pre>
 <h2 id="handling-more-specific-error-types">Handling more specific error types</h2>
 <p>You could also write more specific error handlers. As an example, you might want
 to catch <code>UnauthorizedException</code> instances specifically, and display a login
 page:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function ($request, DelegateInterface $delegate) use ($renderer)</span>
-<span class=x>{</span>
-<span class=x>    try {</span>
-<span class=x>        $response = $delegate-&gt;process($request);</span>
-<span class=x>        return $response;</span>
-<span class=x>    } catch (UnauthorizedException $e) {</span>
-<span class=x>    }</span>
+<pre class=codehilite><code class=language-php>function ($request, DelegateInterface $delegate) use ($renderer)
+{
+    try {
+        $response = $delegate-&gt;process($request);
+        return $response;
+    } catch (UnauthorizedException $e) {
+    }
 
-<span class=x>    return new HtmlResponse(</span>
-<span class=x>        $renderer-&gt;render(&#39;error::unauthorized&#39;),</span>
-<span class=x>        401</span>
-<span class=x>    );</span>
-<span class=x>}</span>
-</pre></div></p>
+    return new HtmlResponse(
+        $renderer-&gt;render('error::unauthorized'),
+        401
+    );
+}</code></pre>
 <p>You could then push this into a middleware pipe only when it's needed:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;get(&#39;/dashboard&#39;, [</span>
-<span class=x>    $unauthorizedHandlerMiddleware,</span>
-<span class=x>    $middlewareThatChecksForAuthorization,</span>
-<span class=x>    $middlewareBehindAuthorizationWall,</span>
-<span class=x>], &#39;dashboard&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;get('/dashboard', [
+    $unauthorizedHandlerMiddleware,
+    $middlewareThatChecksForAuthorization,
+    $middlewareBehindAuthorizationWall,
+], 'dashboard');</code></pre>
 <h2 id="default-delegates">Default delegates</h2>
 <p><code>Mezzio\Application</code> manages an internal middleware pipeline; when you
 call <code>$delegate-&gt;process()</code>, <code>Application</code> is popping off the next middleware in
@@ -901,20 +896,19 @@ optionally using a composed template renderer to do so.</p>
 creating an instance, and this should be mapped to the
 <code>Mezzio\Delegate\NotFoundDelegate</code> service, and aliased to the
 <code>Mezzio\Delegate\DefaultDelegate</code> service:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Container;</span>
-<span class=x>use Mezzio\Delegate;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Container;
+use Mezzio\Delegate;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;aliases&#39; =&gt; [</span>
-<span class=x>            &#39;Mezzio\Delegate\DefaultDelegate&#39; =&gt; Delegate\NotFoundDelegate::class,</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            Delegate\NotFoundDelegate::class =&gt; Container\NotFoundDelegateFactory::class,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'dependencies' =&gt; [
+        'aliases' =&gt; [
+            'Mezzio\Delegate\DefaultDelegate' =&gt; Delegate\NotFoundDelegate::class,
+        ],
+        'factories' =&gt; [
+            Delegate\NotFoundDelegate::class =&gt; Container\NotFoundDelegateFactory::class,
+        ],
+    ],
+];</code></pre>
 <p>The factory will consume the following services:</p>
 <ul>
 <li>
@@ -946,25 +940,23 @@ condition.</p>
 with an accompanying <code>Mezzio\Container\NotFoundHandlerFactory</code>. This
 middleware composes and proxies to the <code>NotFoundDelegate</code> detailed in the
 previous section, and, as such, requires that that service be present.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Container;</span>
-<span class=x>use Mezzio\Delegate;</span>
-<span class=x>use Mezzio\Middleware;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Container;
+use Mezzio\Delegate;
+use Mezzio\Middleware;
 
-<span class=x>return [</span>
-<span class=x>    &#39;factories&#39; =&gt; [</span>
-<span class=x>        Delegate\NotFoundDelegate::class =&gt; Container\NotFoundDelegateFactory::class,</span>
-<span class=x>        Middleware\NotFoundHandler::class =&gt; Container\NotFoundHandlerFactory::class,</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'factories' =&gt; [
+        Delegate\NotFoundDelegate::class =&gt; Container\NotFoundDelegateFactory::class,
+        Middleware\NotFoundHandler::class =&gt; Container\NotFoundHandlerFactory::class,
+    ],
+];</code></pre>
 <p>When registered, you should then pipe it as the innermost layer of your
 application:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// A basic application:</span>
-<span class=x>$app-&gt;pipe(ErrorHandler::class);</span>
-<span class=x>$app-&gt;pipeRoutingMiddleware();</span>
-<span class=x>$app-&gt;pipeDispatchMiddleware();</span>
-<span class=x>$app-&gt;pipe(NotFoundHandler::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// A basic application:
+$app-&gt;pipe(ErrorHandler::class);
+$app-&gt;pipeRoutingMiddleware();
+$app-&gt;pipeDispatchMiddleware();
+$app-&gt;pipe(NotFoundHandler::class);</code></pre>
 
 
 
@@ -1473,9 +1465,10 @@ application:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1512,7 +1505,7 @@ application:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1521,8 +1514,8 @@ application:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

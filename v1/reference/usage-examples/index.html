@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -626,15 +630,14 @@
 <p>Below are several usage examples, covering a variety of ways of creating and
 managing an application.</p>
 <p>In all examples, the assumption is the following directory structure:</p>
-<p> <div class=codehilite><pre><span></span>.
+<pre class=codehilite><code>.
 ├── config
 ├── data
 ├── composer.json
 ├── public
 │   └── index.php
 ├── src
-└── vendor
-</pre></div></p>
+└── vendor</code></pre>
 <p>We assume also that:</p>
 <ul>
 <li>You have installed mezzio per the <a href="../../#installation">installation instructions</a>.</li>
@@ -645,18 +648,18 @@ managing an application.</p>
 <blockquote>
 <h3>Using the built-in web server</h3>
 <p>You can use the built-in web server to run the examples. Run:</p>
-<pre class=codehilite><code class=language-bash>
+<pre class="codehilite"><code class="language-bash">
 $ php -S 0.0.0.0:8080 -t public
 </code></pre>
 <p>from the application root to start up a web server running on port 8080, and
 then browse to http://localhost:8080/. If you used the Mezzio installer,
 the following is equivalent:</p>
-<pre class=codehilite><code class=language-bash>
+<pre class="codehilite"><code class="language-bash">
 $ composer serve
 </code></pre>
 <h3>Setting up autoloading for the Application namespace</h3>
 <p>In your <code>composer.json</code> file, place the following:</p>
-<pre class=codehilite><code class=language-javascript>
+<pre class="codehilite"><code class="language-javascript">
 &quot;autoload&quot;: {
     &quot;psr-4&quot;: {
         &quot;Application\\&quot;: &quot;src/&quot;
@@ -664,7 +667,7 @@ $ composer serve
 },
 </code></pre>
 <p>Once done, run:</p>
-<pre class=codehilite><code class=language-bash>
+<pre class="codehilite"><code class="language-bash">
 $ composer dump-autoload
 </code></pre>
 </blockquote>
@@ -690,70 +693,68 @@ methods:</p>
 specify additional options to associate with the route (e.g., for specifying
 criteria, default values to match, etc.).</p>
 <p>As examples:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// GET</span>
-<span class=x>// This demonstrates passing a callable middleware (assuming $helloWorld is</span>
-<span class=x>// callable).</span>
-<span class=x>$app-&gt;get(&#39;/&#39;, $helloWorld);</span>
+<pre class=codehilite><code class=language-php>// GET
+// This demonstrates passing a callable middleware (assuming $helloWorld is
+// callable).
+$app-&gt;get('/', $helloWorld);
 
-<span class=x>// POST</span>
-<span class=x>// This example specifies the middleware as a service name instead of as a</span>
-<span class=x>// callable.</span>
-<span class=x>$app-&gt;post(&#39;/trackback&#39;, &#39;TrackBack&#39;);</span>
+// POST
+// This example specifies the middleware as a service name instead of as a
+// callable.
+$app-&gt;post('/trackback', 'TrackBack');
 
-<span class=x>// PUT</span>
-<span class=x>// This example shows operating on the returned route. In this case, it&#39;s adding</span>
-<span class=x>// regex tokens to restrict what values for {id} will match. (The tokens feature</span>
-<span class=x>// is specific to Aura.Router.)</span>
-<span class=x>$app-&gt;put(&#39;/post/{id}&#39;, &#39;ReplacePost&#39;)</span>
-<span class=x>    -&gt;setOptions([</span>
-<span class=x>        &#39;tokens&#39; =&gt; [ &#39;id&#39; =&gt; &#39;\d+&#39; ],</span>
-<span class=x>    ]);</span>
+// PUT
+// This example shows operating on the returned route. In this case, it's adding
+// regex tokens to restrict what values for {id} will match. (The tokens feature
+// is specific to Aura.Router.)
+$app-&gt;put('/post/{id}', 'ReplacePost')
+    -&gt;setOptions([
+        'tokens' =&gt; [ 'id' =&gt; '\d+' ],
+    ]);
 
-<span class=x>// PATCH</span>
-<span class=x>// This example builds on the one above. Mezzio allows you to specify</span>
-<span class=x>// the same path for a route matching on a different HTTP method, and</span>
-<span class=x>// corresponding to different middleware.</span>
-<span class=x>$app-&gt;patch(&#39;/post/{id}&#39;, &#39;UpdatePost&#39;)</span>
-<span class=x>    -&gt;setOptions([</span>
-<span class=x>        &#39;tokens&#39; =&gt; [ &#39;id&#39; =&gt; &#39;\d+&#39; ],</span>
-<span class=x>    ]);</span>
+// PATCH
+// This example builds on the one above. Mezzio allows you to specify
+// the same path for a route matching on a different HTTP method, and
+// corresponding to different middleware.
+$app-&gt;patch('/post/{id}', 'UpdatePost')
+    -&gt;setOptions([
+        'tokens' =&gt; [ 'id' =&gt; '\d+' ],
+    ]);
 
-<span class=x>// DELETE</span>
-<span class=x>$app-&gt;delete(&#39;/post/{id}&#39;, &#39;DeletePost&#39;)</span>
-<span class=x>    -&gt;setOptions([</span>
-<span class=x>        &#39;tokens&#39; =&gt; [ &#39;id&#39; =&gt; &#39;\d+&#39; ],</span>
-<span class=x>    ]);</span>
+// DELETE
+$app-&gt;delete('/post/{id}', 'DeletePost')
+    -&gt;setOptions([
+        'tokens' =&gt; [ 'id' =&gt; '\d+' ],
+    ]);
 
-<span class=x>// Matching ALL HTTP methods</span>
-<span class=x>// If the underlying router supports matching any HTTP method, the following</span>
-<span class=x>// will do so. Note: FastRoute *requires* you to specify the HTTP methods</span>
-<span class=x>// allowed explicitly, and does not support wildcard routes. As such, the</span>
-<span class=x>// following example maps to the combination of HEAD, OPTIONS, GET, POST, PATCH,</span>
-<span class=x>// PUT, TRACE, and DELETE.</span>
-<span class=x>// Just like the previous examples, it returns a Route instance that you can</span>
-<span class=x>// further manipulate.</span>
-<span class=x>$app-&gt;route(&#39;/post/{id}&#39;, &#39;HandlePost&#39;)</span>
-<span class=x>    -&gt;setOptions([</span>
-<span class=x>        &#39;tokens&#39; =&gt; [ &#39;id&#39; =&gt; &#39;\d+&#39; ],</span>
-<span class=x>    ]);</span>
+// Matching ALL HTTP methods
+// If the underlying router supports matching any HTTP method, the following
+// will do so. Note: FastRoute *requires* you to specify the HTTP methods
+// allowed explicitly, and does not support wildcard routes. As such, the
+// following example maps to the combination of HEAD, OPTIONS, GET, POST, PATCH,
+// PUT, TRACE, and DELETE.
+// Just like the previous examples, it returns a Route instance that you can
+// further manipulate.
+$app-&gt;route('/post/{id}', 'HandlePost')
+    -&gt;setOptions([
+        'tokens' =&gt; [ 'id' =&gt; '\d+' ],
+    ]);
 
-<span class=x>// Matching multiple HTTP methods</span>
-<span class=x>// You can pass an array of HTTP methods as a third argument to route(); in such</span>
-<span class=x>// cases, routing will match if any of the specified HTTP methods are provided.</span>
-<span class=x>$app-&gt;route(&#39;/post&#39;, &#39;HandlePostCollection&#39;, [&#39;GET&#39;, &#39;POST&#39;]);</span>
+// Matching multiple HTTP methods
+// You can pass an array of HTTP methods as a third argument to route(); in such
+// cases, routing will match if any of the specified HTTP methods are provided.
+$app-&gt;route('/post', 'HandlePostCollection', ['GET', 'POST']);
 
-<span class=x>// Matching NO HTTP methods</span>
-<span class=x>// Pass an empty array to the HTTP methods. HEAD and OPTIONS will still be</span>
-<span class=x>// honored. (In FastRoute, GET is also honored.)</span>
-<span class=x>$app-&gt;route(&#39;/post&#39;, &#39;WillThisHandlePost&#39;, []);</span>
-</pre></div></p>
+// Matching NO HTTP methods
+// Pass an empty array to the HTTP methods. HEAD and OPTIONS will still be
+// honored. (In FastRoute, GET is also honored.)
+$app-&gt;route('/post', 'WillThisHandlePost', []);</code></pre>
 <p>Finally, if desired, you can create a <code>Mezzio\Router\Route</code> instance
 manually and pass it to <code>route()</code> as the sole argument:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$route = new Route(&#39;/post&#39;, &#39;HandlePost&#39;, [&#39;GET&#39;, &#39;POST&#39;]);</span>
-<span class=x>$route-&gt;setOptions($options);</span>
+<pre class=codehilite><code class=language-php>$route = new Route('/post', 'HandlePost', ['GET', 'POST']);
+$route-&gt;setOptions($options);
 
-<span class=x>$app-&gt;route($route);</span>
-</pre></div></p>
+$app-&gt;route($route);</code></pre>
 <h2 id="hello-world-using-a-container">Hello World using a Container</h2>
 <p>Mezzio works with <a href="https://github.com/container-interop/container-interop">container-interop</a>,
 though it's an optional feature. By default, if you use the <code>AppFactory</code>, it
@@ -761,48 +762,45 @@ will use <a href="https://github.com/laminas/laminas-servicemanager">laminas-ser
 <p>In the following example, we'll populate the container with our middleware, and
 the application will pull it from there when matched.</p>
 <p>Edit your <code>public/index.php</code> to read as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Diactoros\Response\JsonResponse;</span>
-<span class=x>use Mezzio\AppFactory;</span>
-<span class=x>use Laminas\ServiceManager\ServiceManager;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Diactoros\Response\JsonResponse;
+use Mezzio\AppFactory;
+use Laminas\ServiceManager\ServiceManager;
 
-<span class=x>require __DIR__ . &#39;/../vendor/autoload.php&#39;;</span>
+require __DIR__ . '/../vendor/autoload.php';
 
-<span class=x>$container = new ServiceManager();</span>
+$container = new ServiceManager();
 
-<span class=x>$container-&gt;setFactory(&#39;HelloWorld&#39;, function ($container) {</span>
-<span class=x>    return function ($req, $res, $next) {</span>
-<span class=x>        $res-&gt;getBody()-&gt;write(&#39;Hello, world!&#39;);</span>
-<span class=x>        return $res;</span>
-<span class=x>    };</span>
-<span class=x>});</span>
+$container-&gt;setFactory('HelloWorld', function ($container) {
+    return function ($req, $res, $next) {
+        $res-&gt;getBody()-&gt;write('Hello, world!');
+        return $res;
+    };
+});
 
-<span class=x>$container-&gt;setFactory(&#39;Ping&#39;, function ($container) {</span>
-<span class=x>    return function ($req, $res, $next) {</span>
-<span class=x>        return new JsonResponse([&#39;ack&#39; =&gt; time()]);</span>
-<span class=x>    };</span>
-<span class=x>});</span>
+$container-&gt;setFactory('Ping', function ($container) {
+    return function ($req, $res, $next) {
+        return new JsonResponse(['ack' =&gt; time()]);
+    };
+});
 
-<span class=x>$app = AppFactory::create($container);</span>
-<span class=x>$app-&gt;get(&#39;/&#39;, &#39;HelloWorld&#39;);</span>
-<span class=x>$app-&gt;get(&#39;/ping&#39;, &#39;Ping&#39;);</span>
+$app = AppFactory::create($container);
+$app-&gt;get('/', 'HelloWorld');
+$app-&gt;get('/ping', 'Ping');
 
-<span class=x>$app-&gt;pipeRoutingMiddleware();</span>
-<span class=x>$app-&gt;pipeDispatchMiddleware();</span>
+$app-&gt;pipeRoutingMiddleware();
+$app-&gt;pipeDispatchMiddleware();
 
-<span class=x>$app-&gt;run();</span>
-</pre></div></p>
+$app-&gt;run();</code></pre>
 <p>In the example above, we pass our container to <code>AppFactory</code>. We could have also
 done this instead:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app = AppFactory::create();</span>
-<span class=x>$container = $app-&gt;getContainer();</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app = AppFactory::create();
+$container = $app-&gt;getContainer();</code></pre>
 <p>and then added our service definitions. We recommend passing the container to
 the factory instead; if we ever change which container we use by default, your
 code might not work!</p>
 <p>The following two lines are the ones of interest:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;get(&#39;/&#39;, &#39;HelloWorld&#39;);</span>
-<span class=x>$app-&gt;get(&#39;/ping&#39;, &#39;Ping&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;get('/', 'HelloWorld');
+$app-&gt;get('/ping', 'Ping');</code></pre>
 <p>These map the two paths to <em>service names</em> instead of callables. When routing
 matches a path, it does the following:</p>
 <ul>
@@ -818,16 +816,15 @@ matches a path, it does the following:</p>
 continue to work.</p>
 <p>One other approach you could take would be to define the application itself in
 the container, and then pull it from there:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$container-&gt;setFactory(&#39;Mezzio\Application&#39;, function ($container) {</span>
-<span class=x>    $app = AppFactory::create($container);</span>
-<span class=x>    $app-&gt;get(&#39;/&#39;, &#39;HelloWorld&#39;);</span>
-<span class=x>    $app-&gt;get(&#39;/ping&#39;, &#39;Ping&#39;);</span>
-<span class=x>    return $app;</span>
-<span class=x>});</span>
+<pre class=codehilite><code class=language-php>$container-&gt;setFactory('Mezzio\Application', function ($container) {
+    $app = AppFactory::create($container);
+    $app-&gt;get('/', 'HelloWorld');
+    $app-&gt;get('/ping', 'Ping');
+    return $app;
+});
 
-<span class=x>$app = $container-&gt;get(&#39;Mezzio\Application&#39;);</span>
-<span class=x>$app-&gt;run();</span>
-</pre></div></p>
+$app = $container-&gt;get('Mezzio\Application');
+$app-&gt;run();</code></pre>
 <p>This is a nice way to encapsulate the application creation. You could then
 potentially move all service configuration to another file! (We already
 <a href="../../features/container/factories/#applicationfactory">document an ApplicationFactory for exactly this scenario.</a>)</p>
@@ -846,120 +843,111 @@ repository, and also provides a mechanism for slip-streaming in
 configuration based on our environment (you might use different settings in
 development than in production, after all!).</p>
 <p>First, install laminas-config and laminas-stdlib:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require laminas/laminas-config laminas/laminas-stdlib
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require laminas/laminas-config laminas/laminas-stdlib</code></pre>
 <p>Now we can start creating our configuration files and container factories.</p>
 <p>In <code>config/config.php</code>, place the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<pre class=codehilite><code class=language-php>&lt;?php
 
-<span class=k>use</span> <span class=nx>Laminas\Stdlib\ArrayUtils</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Stdlib\Glob</span><span class=p>;</span>
+use Laminas\Stdlib\ArrayUtils;
+use Laminas\Stdlib\Glob;
 
-<span class=nv>$config</span> <span class=o>=</span> <span class=p>[];</span>
-<span class=c1>// Load configuration from autoload path</span>
-<span class=k>foreach</span> <span class=p>(</span><span class=nx>Glob</span><span class=o>::</span><span class=na>glob</span><span class=p>(</span><span class=s1>&#39;config/autoload/{{,*.}global,{,*.}local}.php&#39;</span><span class=p>,</span> <span class=nx>Glob</span><span class=o>::</span><span class=na>GLOB_BRACE</span><span class=p>)</span> <span class=k>as</span> <span class=nv>$file</span><span class=p>)</span> <span class=p>{</span>
-    <span class=nv>$config</span> <span class=o>=</span> <span class=nx>ArrayUtils</span><span class=o>::</span><span class=na>merge</span><span class=p>(</span><span class=nv>$config</span><span class=p>,</span> <span class=k>include</span> <span class=nv>$file</span><span class=p>);</span>
-<span class=p>}</span>
+$config = [];
+// Load configuration from autoload path
+foreach (Glob::glob('config/autoload/{{,*.}global,{,*.}local}.php', Glob::GLOB_BRACE) as $file) {
+    $config = ArrayUtils::merge($config, include $file);
+}
 
-<span class=c1>// Return an ArrayObject so we can inject the config as a service in Aura.Di</span>
-<span class=c1>// and still use array checks like ``is_array``.</span>
-<span class=k>return</span> <span class=k>new</span> <span class=nx>ArrayObject</span><span class=p>(</span><span class=nv>$config</span><span class=p>,</span> <span class=nx>ArrayObject</span><span class=o>::</span><span class=na>ARRAY_AS_PROPS</span><span class=p>);</span>
-</pre></div></p>
+// Return an ArrayObject so we can inject the config as a service in Aura.Di
+// and still use array checks like ``is_array``.
+return new ArrayObject($config, ArrayObject::ARRAY_AS_PROPS);</code></pre>
 <p>In <code>config/container.php</code>, place the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<pre class=codehilite><code class=language-php>&lt;?php
 
-<span class=k>use</span> <span class=nx>Laminas\ServiceManager\Config</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\ServiceManager\ServiceManager</span><span class=p>;</span>
+use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\ServiceManager;
 
-<span class=c1>// Load configuration</span>
-<span class=nv>$config</span> <span class=o>=</span> <span class=k>require</span> <span class=no>__DIR__</span><span class=o>.</span><span class=s1>&#39;/config.php&#39;</span><span class=p>;</span>
+// Load configuration
+$config = require __DIR__.'/config.php';
 
-<span class=c1>// Build container</span>
-<span class=nv>$container</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ServiceManager</span><span class=p>();</span>
-<span class=p>(</span><span class=k>new</span> <span class=nx>Config</span><span class=p>(</span><span class=nv>$config</span><span class=p>[</span><span class=s1>&#39;dependencies&#39;</span><span class=p>]))</span><span class=o>-&gt;</span><span class=na>configureServiceManager</span><span class=p>(</span><span class=nv>$container</span><span class=p>);</span>
+// Build container
+$container = new ServiceManager();
+(new Config($config['dependencies']))-&gt;configureServiceManager($container);
 
-<span class=c1>// Inject config</span>
-<span class=nv>$container</span><span class=o>-&gt;</span><span class=na>setService</span><span class=p>(</span><span class=s1>&#39;config&#39;</span><span class=p>,</span> <span class=nv>$config</span><span class=p>);</span>
+// Inject config
+$container-&gt;setService('config', $config);
 
-<span class=k>return</span> <span class=nv>$container</span><span class=p>;</span>
-</pre></div></p>
+return $container;</code></pre>
 <p>In <code>config/autoload/dependencies.global.php</code>, place the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<pre class=codehilite><code class=language-php>&lt;?php
 
-<span class=k>use</span> <span class=nx>Laminas\ServiceManager\Factory\InvokableFactory</span><span class=p>;</span>
+use Laminas\ServiceManager\Factory\InvokableFactory;
 
-<span class=k>return</span> <span class=p>[</span>
-    <span class=s1>&#39;dependencies&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
-        <span class=s1>&#39;invokables&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
-            <span class=nx>\Application\HelloWorldAction</span><span class=o>::</span><span class=na>class</span> <span class=o>=&gt;</span> <span class=nx>InvokableFactory</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
-            <span class=nx>\Application\PingAction</span><span class=o>::</span><span class=na>class</span> <span class=o>=&gt;</span> <span class=nx>InvokableFactory</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
-        <span class=p>],</span>
-        <span class=s1>&#39;factories&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
-            <span class=nx>\Mezzio\Application</span><span class=o>::</span><span class=na>class</span> <span class=o>=&gt;</span> <span class=nx>\Mezzio\Container\ApplicationFactory</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
-        <span class=p>],</span>
-    <span class=p>]</span>
-<span class=p>];</span>
-</pre></div></p>
+return [
+    'dependencies' =&gt; [
+        'invokables' =&gt; [
+            \Application\HelloWorldAction::class =&gt; InvokableFactory::class,
+            \Application\PingAction::class =&gt; InvokableFactory::class,
+        ],
+        'factories' =&gt; [
+            \Mezzio\Application::class =&gt; \Mezzio\Container\ApplicationFactory::class,
+        ],
+    ]
+];</code></pre>
 <p>In <code>config/autoload/routes.global.php</code>, place the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<pre class=codehilite><code class=language-php>&lt;?php
 
-<span class=k>return</span> <span class=p>[</span>
-    <span class=s1>&#39;routes&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
-        <span class=p>[</span>
-            <span class=s1>&#39;path&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;/&#39;</span><span class=p>,</span>
-            <span class=s1>&#39;middleware&#39;</span> <span class=o>=&gt;</span> <span class=nx>\Application\HelloWorldAction</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
-            <span class=s1>&#39;allowed_methods&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span> <span class=s1>&#39;GET&#39;</span> <span class=p>],</span>
-        <span class=p>],</span>
-        <span class=p>[</span>
-            <span class=s1>&#39;path&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;/ping&#39;</span><span class=p>,</span>
-            <span class=s1>&#39;middleware&#39;</span> <span class=o>=&gt;</span> <span class=nx>\Application\PingAction</span><span class=o>::</span><span class=na>class</span><span class=p>,</span>
-            <span class=s1>&#39;allowed_methods&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span> <span class=s1>&#39;GET&#39;</span> <span class=p>],</span>
-        <span class=p>],</span>
-    <span class=p>],</span>
-<span class=p>];</span>
-</pre></div></p>
+return [
+    'routes' =&gt; [
+        [
+            'path' =&gt; '/',
+            'middleware' =&gt; \Application\HelloWorldAction::class,
+            'allowed_methods' =&gt; [ 'GET' ],
+        ],
+        [
+            'path' =&gt; '/ping',
+            'middleware' =&gt; \Application\PingAction::class,
+            'allowed_methods' =&gt; [ 'GET' ],
+        ],
+    ],
+];</code></pre>
 <p>In <code>src/Application/HelloWorld.php</code>, place the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>namespace</span> <span class=nx>Application</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+namespace Application;
 
-<span class=k>class</span> <span class=nc>HelloWorld</span>
-<span class=p>{</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__invoke</span><span class=p>(</span><span class=nv>$req</span><span class=p>,</span> <span class=nv>$res</span><span class=p>,</span> <span class=nv>$next</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=nv>$res</span><span class=o>-&gt;</span><span class=na>getBody</span><span class=p>()</span><span class=o>-&gt;</span><span class=na>write</span><span class=p>(</span><span class=s1>&#39;Hello, world!&#39;</span><span class=p>);</span>
-        <span class=k>return</span> <span class=nv>$res</span><span class=p>;</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+class HelloWorld
+{
+    public function __invoke($req, $res, $next)
+    {
+        $res-&gt;getBody()-&gt;write('Hello, world!');
+        return $res;
+    }
+}</code></pre>
 <p>In <code>src/Application/Ping.php</code>, place the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>namespace</span> <span class=nx>Application</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+namespace Application;
 
-<span class=k>use</span> <span class=nx>Laminas\Diactoros\Response\JsonResponse</span><span class=p>;</span>
+use Laminas\Diactoros\Response\JsonResponse;
 
-<span class=k>class</span> <span class=nc>Ping</span>
-<span class=p>{</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__invoke</span><span class=p>(</span><span class=nv>$req</span><span class=p>,</span> <span class=nv>$res</span><span class=p>,</span> <span class=nv>$next</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=k>new</span> <span class=nx>JsonResponse</span><span class=p>([</span><span class=s1>&#39;ack&#39;</span> <span class=o>=&gt;</span> <span class=nb>time</span><span class=p>()]);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+class Ping
+{
+    public function __invoke($req, $res, $next)
+    {
+        return new JsonResponse(['ack' =&gt; time()]);
+    }
+}</code></pre>
 <p>After that’s done run:</p>
-<p> <div class=codehilite><pre><span></span>composer dump-autoload
-</pre></div></p>
+<pre class=codehilite><code>composer dump-autoload</code></pre>
 <p>Finally, in <code>public/index.php</code>, place the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=c1>// Change to the project root, to simplify resolving paths</span>
-<span class=nb>chdir</span><span class=p>(</span><span class=nb>dirname</span><span class=p>(</span><span class=no>__DIR__</span><span class=p>));</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+// Change to the project root, to simplify resolving paths
+chdir(dirname(__DIR__));
 
-<span class=c1>// Setup autoloading</span>
-<span class=k>require</span> <span class=s1>&#39;vendor/autoload.php&#39;</span><span class=p>;</span>
+// Setup autoloading
+require 'vendor/autoload.php';
 
-<span class=nv>$container</span> <span class=o>=</span> <span class=k>include</span> <span class=s1>&#39;config/services.php&#39;</span><span class=p>;</span>
-<span class=nv>$app</span>       <span class=o>=</span> <span class=nv>$container</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=nx>Mezzio\Application</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
-<span class=nv>$app</span><span class=o>-&gt;</span><span class=na>run</span><span class=p>();</span>
-</pre></div></p>
+$container = include 'config/services.php';
+$app       = $container-&gt;get(Mezzio\Application::class);
+$app-&gt;run();</code></pre>
 <p>Notice that our index file now doesn't have any code related to setting up the
 application any longer! All it does is setup autoloading, retrieve our service
 container, pull the application from it, and run it. Our choices for container,
@@ -974,54 +962,50 @@ together.</p>
 <p>Fortunately, you can mix the two. Building on the example above, we'll add a new
 route and middleware. Between pulling the application from the container and
 calling <code>$app-&gt;run()</code>, add the following in your <code>public/index.php</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;post(&#39;/post&#39;, function ($req, $res, $next) {</span>
-<span class=x>    $res-&gt;getBody()-&gt;write(&#39;IN POST!&#39;);</span>
-<span class=x>    return $res;</span>
-<span class=x>});</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;post('/post', function ($req, $res, $next) {
+    $res-&gt;getBody()-&gt;write('IN POST!');
+    return $res;
+});</code></pre>
 <p>Note that we're using <code>post()</code> here; that means you'll have to use cURL, HTTPie,
 Postman, or some other tool to test making a POST request to the path:</p>
-<p> <div class=codehilite><pre><span></span>$ curl -X POST http://localhost:8080/post
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ curl -X POST http://localhost:8080/post</code></pre>
 <p>You should see <code>IN POST!</code> for the response!</p>
 <p>Using this approach, you can build re-usable applications that are
 container-driven, and add one-off routes and middleware as needed.</p>
 <h3>Using the container to register middleware</h3>
 <p>If you use a container to fetch your application instance, you have an
 additional option for specifying middleware for the pipeline: configuration:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>return</span> <span class=p>[</span>
-    <span class=s1>&#39;routes&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
-        <span class=p>[</span>
-            <span class=s1>&#39;path&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;/path/to/match&#39;</span><span class=p>,</span>
-            <span class=s1>&#39;middleware&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;Middleware Service Name or Callable&#39;</span><span class=p>,</span>
-            <span class=s1>&#39;allowed_methods&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span> <span class=s1>&#39;GET&#39;</span><span class=p>,</span> <span class=s1>&#39;POST&#39;</span><span class=p>,</span> <span class=s1>&#39;PATCH&#39;</span> <span class=p>],</span>
-            <span class=s1>&#39;options&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
-                <span class=s1>&#39;stuff&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;to&#39;</span><span class=p>,</span>
-                <span class=s1>&#39;pass&#39;</span>  <span class=o>=&gt;</span> <span class=s1>&#39;to&#39;</span><span class=p>,</span>
-                <span class=s1>&#39;the&#39;</span>   <span class=o>=&gt;</span> <span class=s1>&#39;underlying router&#39;</span><span class=p>,</span>
-            <span class=p>],</span>
-        <span class=p>],</span>
-        <span class=c1>// etc.</span>
-    <span class=p>],</span>
-    <span class=s1>&#39;middleware_pipeline&#39;</span> <span class=o>=&gt;</span> <span class=p>[</span>
-        <span class=c1>// See specification below</span>
-    <span class=p>],</span>
-<span class=p>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>&lt;?php
+return [
+    'routes' =&gt; [
+        [
+            'path' =&gt; '/path/to/match',
+            'middleware' =&gt; 'Middleware Service Name or Callable',
+            'allowed_methods' =&gt; [ 'GET', 'POST', 'PATCH' ],
+            'options' =&gt; [
+                'stuff' =&gt; 'to',
+                'pass'  =&gt; 'to',
+                'the'   =&gt; 'underlying router',
+            ],
+        ],
+        // etc.
+    ],
+    'middleware_pipeline' =&gt; [
+        // See specification below
+    ],
+];</code></pre>
 <p>The key to note is <code>middleware_pipeline</code>, which is an array of middlewares to
 register in the pipeline; each will each be <code>pipe()</code>'d to the Application in the
 order specified.</p>
 <p>Each middleware specified must be in the following form:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>[</span>
-<span class=x>    // required:</span>
-<span class=x>    &#39;middleware&#39; =&gt; &#39;Name of middleware service, or a callable&#39;,</span>
-<span class=x>    // optional:</span>
-<span class=x>    &#39;path&#39;  =&gt; &#39;/path/to/match&#39;,</span>
-<span class=x>    &#39;error&#39; =&gt; true,</span>
-<span class=x>    &#39;priority&#39; =&gt; 1, // Integer</span>
-<span class=x>]</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>[
+    // required:
+    'middleware' =&gt; 'Name of middleware service, or a callable',
+    // optional:
+    'path'  =&gt; '/path/to/match',
+    'error' =&gt; true,
+    'priority' =&gt; 1, // Integer
+]</code></pre>
 <p>Priority should be an integer, and follows the semantics of
 <a href="http://php.net/SplPriorityQueue">SplPriorityQueue</a>: higher numbers indicate
 higher priority (top of the queue; executed earliest), while lower numbers
@@ -1042,15 +1026,14 @@ the factory and expanded:</p>
   dispatch middleware.</li>
 </ul>
 <p>As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>        [ /* ... */ ],</span>
-<span class=x>        Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,</span>
-<span class=x>        Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,</span>
-<span class=x>        [ /* ... */ ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'middleware_pipeline' =&gt; [
+        [ /* ... */ ],
+        Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+        Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+        [ /* ... */ ],
+    ],
+];</code></pre>
 <blockquote>
 <h4>Place routing middleware correctly</h4>
 <p>If you are defining routes <em>and</em> defining other middleware for the pipeline,
@@ -1074,21 +1057,20 @@ you can specify an array of such values; these will be composed in a single
 <code>Laminas\Stratigility\MiddlewarePipe</code> instance, allowing layering of middleware.
 In fact, you can specify the various <code>ApplicationFactory::*_MIDDLEWARE</code>
 constants in such arrays as well:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>        [ /* ... */ ],</span>
-<span class=x>        &#39;routing&#39; =&gt; [</span>
-<span class=x>            &#39;middleware&#39; =&gt; [</span>
-<span class=x>                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,</span>
-<span class=x>                /* ... middleware that introspects routing results ... */</span>
-<span class=x>                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,</span>
-<span class=x>            ],</span>
-<span class=x>            &#39;priority&#39; =&gt; 1,</span>
-<span class=x>        ],</span>
-<span class=x>        [ /* ... */ ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'middleware_pipeline' =&gt; [
+        [ /* ... */ ],
+        'routing' =&gt; [
+            'middleware' =&gt; [
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                /* ... middleware that introspects routing results ... */
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+            ],
+            'priority' =&gt; 1,
+        ],
+        [ /* ... */ ],
+    ],
+];</code></pre>
 <blockquote>
 <h4>Pipeline keys are ignored</h4>
 <p>Keys in a <code>middleware_pipeline</code> specification are ignored. However, they can
@@ -1108,7 +1090,7 @@ this is done to ensure that lazy-loading of error middleware works as expected.<
 <h4>Lazy-loaded Middleware</h4>
 <p>One feature of the <code>middleware_pipeline</code> is that any middleware service pulled
 from the container is actually wrapped in a closure:</p>
-<pre class=codehilite><code class=language-php>
+<pre class="codehilite"><code class="language-php">
 function ($request, $response, $next = null) use ($container, $middleware) {
     $invokable = $container-&gt;get($middleware);
     if (! is_callable($invokable)) {
@@ -1123,7 +1105,7 @@ function ($request, $response, $next = null) use ($container, $middleware) {
 <p>If the <code>error</code> flag is specified and is truthy, the closure looks like this
 instead, to ensure the middleware is treated by Stratigility as error
 middleware:</p>
-<pre class=codehilite><code class=language-php>
+<pre class="codehilite"><code class="language-php">
 function ($error, $request, $response, $next) use ($container, $middleware) {
     $invokable = $container-&gt;get($middleware);
     if (! is_callable($invokable)) {
@@ -1147,29 +1129,27 @@ middleware, allowing you to do exactly that if desired.</p>
 <p>In the following example, we'll assume that <code>$api</code> and <code>$blog</code> are
 <code>Mezzio\Application</code> instances, and compose them into a
 <code>Laminas\Stratigility\MiddlewarePipe</code>.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Diactoros\Server;</span>
-<span class=x>use Laminas\Diactoros\ServerRequestFactory;</span>
-<span class=x>use Laminas\Stratigility\MiddlewarePipe;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Diactoros\Server;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Stratigility\MiddlewarePipe;
 
-<span class=x>require __DIR__ . &#39;/../vendor/autoload.php&#39;;</span>
+require __DIR__ . '/../vendor/autoload.php';
 
-<span class=x>$app = new MiddlewarePipe();</span>
-<span class=x>$app-&gt;pipe(&#39;/blog&#39;, $blog);</span>
-<span class=x>$app-&gt;pipe(&#39;/api&#39;, $api);</span>
+$app = new MiddlewarePipe();
+$app-&gt;pipe('/blog', $blog);
+$app-&gt;pipe('/api', $api);
 
-<span class=x>$server = Server::createServerFromRequest(</span>
-<span class=x>    $app,</span>
-<span class=x>    ServerRequestFactory::fromGlobals()</span>
-<span class=x>);</span>
-<span class=x>$server-&gt;listen();</span>
-</pre></div></p>
+$server = Server::createServerFromRequest(
+    $app,
+    ServerRequestFactory::fromGlobals()
+);
+$server-&gt;listen();</code></pre>
 <p>You could also compose them in an <code>Application</code> instance, and utilize <code>run()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app = AppFactory::create();</span>
-<span class=x>$app-&gt;pipe(&#39;/blog&#39;, $blog);</span>
-<span class=x>$app-&gt;pipe(&#39;/api&#39;, $api);</span>
+<pre class=codehilite><code class=language-php>$app = AppFactory::create();
+$app-&gt;pipe('/blog', $blog);
+$app-&gt;pipe('/api', $api);
 
-<span class=x>$app-&gt;run();</span>
-</pre></div></p>
+$app-&gt;run();</code></pre>
 <p>This approach allows you to develop discrete applications and compose them
 together to create a website.</p>
 
@@ -1635,9 +1615,10 @@ together to create a website.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1674,7 +1655,7 @@ together to create a website.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1683,8 +1664,8 @@ together to create a website.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

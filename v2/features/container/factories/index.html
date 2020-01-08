@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -885,13 +889,12 @@ order to seed the <code>Application</code> instance:</p>
   constant).</li>
 </ul>
 <p>As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&#39;debug&#39; =&gt; true,</span>
-<span class=x>&#39;mezzio&#39; =&gt; [</span>
-<span class=x>    &#39;error_handler&#39; =&gt; [</span>
-<span class=x>        &#39;template_error&#39; =&gt; &#39;name of error template&#39;,</span>
-<span class=x>    ],</span>
-<span class=x>],</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>'debug' =&gt; true,
+'mezzio' =&gt; [
+    'error_handler' =&gt; [
+        'template_error' =&gt; 'name of error template',
+    ],
+],</code></pre>
 <h2 id="notfounddelegatefactory">NotFoundDelegateFactory</h2>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Delegate\NotFoundDelegate</code></li>
@@ -913,12 +916,11 @@ order to seed the <code>Application</code> instance:</p>
   <code>Mezzio\Delegate\NotFoundDelegate::TEMPLATE_DEFAULT</code> constant).</li>
 </ul>
 <p>As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&#39;mezzio&#39; =&gt; [</span>
-<span class=x>    &#39;error_handler&#39; =&gt; [</span>
-<span class=x>        &#39;template_404&#39; =&gt; &#39;name of 404 template&#39;,</span>
-<span class=x>    ],</span>
-<span class=x>],</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>'mezzio' =&gt; [
+    'error_handler' =&gt; [
+        'template_404' =&gt; 'name of 404 template',
+    ],
+],</code></pre>
 <h2 id="notfoundhandlerfactory">NotFoundHandlerFactory</h2>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Middleware\NotFoundHandler</code></li>
@@ -952,14 +954,13 @@ properly with <code>Mezzio\Application</code>; this includes disabling immediate
 write-to-output, disabling immediate quit, etc. The <code>PrettyPageHandler</code> returned
 for the <code>Mezzio\WhoopsPageHandler</code> service will be injected.</p>
 <p>It consumes the following <code>config</code> structure:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&#39;whoops&#39; =&gt; [</span>
-<span class=x>    &#39;json_exceptions&#39; =&gt; [</span>
-<span class=x>        &#39;display&#39;    =&gt; true,</span>
-<span class=x>        &#39;show_trace&#39; =&gt; true,</span>
-<span class=x>        &#39;ajax_only&#39;  =&gt; true,</span>
-<span class=x>    ],</span>
-<span class=x>],</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>'whoops' =&gt; [
+    'json_exceptions' =&gt; [
+        'display'    =&gt; true,
+        'show_trace' =&gt; true,
+        'ajax_only'  =&gt; true,
+    ],
+],</code></pre>
 <p>If no <code>whoops</code> top-level key is present in the configuration, a default instance
 with no <code>JsonResponseHandler</code> composed will be created.</p>
 <h2 id="whoopspagehandlerfactory">WhoopsPageHandlerFactory</h2>
@@ -975,10 +976,9 @@ with no <code>JsonResponseHandler</code> composed will be created.</p>
 </li>
 </ul>
 <p>It consumes the following <code>config</code> structure:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&#39;whoops&#39; =&gt; [</span>
-<span class=x>    &#39;editor&#39; =&gt; &#39;editor name, editor service name, or callable&#39;,</span>
-<span class=x>],</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>'whoops' =&gt; [
+    'editor' =&gt; 'editor name, editor service name, or callable',
+],</code></pre>
 <p>The <code>editor</code> value must be a known editor name (see the Whoops documentation for
 pre-configured editor types), a callable, or a service name to use.</p>
 <h2 id="platesrendererfactory">PlatesRendererFactory</h2>
@@ -995,16 +995,15 @@ pre-configured editor types), a callable, or a service name to use.</p>
 </li>
 </ul>
 <p>It consumes the following <code>config</code> structure:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&#39;templates&#39; =&gt; [</span>
-<span class=x>    &#39;extension&#39; =&gt; &#39;file extension used by templates; defaults to html&#39;,</span>
-<span class=x>    &#39;paths&#39; =&gt; [</span>
-<span class=x>        // namespace / path pairs</span>
-<span class=x>        //</span>
-<span class=x>        // Numeric namespaces imply the default/main namespace. Paths may be</span>
-<span class=x>        // strings or arrays of string paths to associate with the namespace.</span>
-<span class=x>    ],</span>
-<span class=x>]</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>'templates' =&gt; [
+    'extension' =&gt; 'file extension used by templates; defaults to html',
+    'paths' =&gt; [
+        // namespace / path pairs
+        //
+        // Numeric namespaces imply the default/main namespace. Paths may be
+        // strings or arrays of string paths to associate with the namespace.
+    ],
+]</code></pre>
 <p>One note: Due to a limitation in the Plates engine, you can only map one path
 per namespace when using Plates.</p>
 <h2 id="twigrendererfactory">TwigRendererFactory</h2>
@@ -1025,20 +1024,19 @@ per namespace when using Plates.</p>
 </li>
 </ul>
 <p>It consumes the following <code>config</code> structure:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&#39;debug&#39; =&gt; boolean,</span>
-<span class=x>&#39;templates&#39; =&gt; [</span>
-<span class=x>    &#39;cache_dir&#39; =&gt; &#39;path to cached templates&#39;,</span>
-<span class=x>    &#39;assets_url&#39; =&gt; &#39;base URL for assets&#39;,</span>
-<span class=x>    &#39;assets_version&#39; =&gt; &#39;base version for assets&#39;,</span>
-<span class=x>    &#39;extension&#39; =&gt; &#39;file extension used by templates; defaults to html.twig&#39;,</span>
-<span class=x>    &#39;paths&#39; =&gt; [</span>
-<span class=x>        // namespace / path pairs</span>
-<span class=x>        //</span>
-<span class=x>        // Numeric namespaces imply the default/main namespace. Paths may be</span>
-<span class=x>        // strings or arrays of string paths to associate with the namespace.</span>
-<span class=x>    ],</span>
-<span class=x>]</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>'debug' =&gt; boolean,
+'templates' =&gt; [
+    'cache_dir' =&gt; 'path to cached templates',
+    'assets_url' =&gt; 'base URL for assets',
+    'assets_version' =&gt; 'base version for assets',
+    'extension' =&gt; 'file extension used by templates; defaults to html.twig',
+    'paths' =&gt; [
+        // namespace / path pairs
+        //
+        // Numeric namespaces imply the default/main namespace. Paths may be
+        // strings or arrays of string paths to associate with the namespace.
+    ],
+]</code></pre>
 <p>When <code>debug</code> is true, it disables caching, enables debug mode, enables strict
 variables, and enables auto reloading. The <code>assets_*</code> values are used to seed
 the <code>TwigExtension</code> instance (assuming the router was found).</p>
@@ -1063,19 +1061,18 @@ the <code>TwigExtension</code> instance (assuming the router was found).</p>
 </li>
 </ul>
 <p>It consumes the following <code>config</code> structure:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&#39;templates&#39; =&gt; [</span>
-<span class=x>    &#39;layout&#39; =&gt; &#39;name of layout view to use, if any&#39;,</span>
-<span class=x>    &#39;map&#39;    =&gt; [</span>
-<span class=x>        // template =&gt; filename pairs</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;paths&#39;  =&gt; [</span>
-<span class=x>        // namespace / path pairs</span>
-<span class=x>        //</span>
-<span class=x>        // Numeric namespaces imply the default/main namespace. Paths may be</span>
-<span class=x>        // strings or arrays of string paths to associate with the namespace.</span>
-<span class=x>    ],</span>
-<span class=x>]</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>'templates' =&gt; [
+    'layout' =&gt; 'name of layout view to use, if any',
+    'map'    =&gt; [
+        // template =&gt; filename pairs
+    ],
+    'paths'  =&gt; [
+        // namespace / path pairs
+        //
+        // Numeric namespaces imply the default/main namespace. Paths may be
+        // strings or arrays of string paths to associate with the namespace.
+    ],
+]</code></pre>
 <p>When creating the <code>PhpRenderer</code> instance, it will inject it with a
 <code>Laminas\View\HelperPluginManager</code> instance (either pulled from the container, or
 instantiated directly). It injects the helper plugin manager with custom url and
@@ -1589,9 +1586,10 @@ serverurl helpers, <code>Mezzio\LaminasView\UrlHelper</code> and
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1628,7 +1626,7 @@ serverurl helpers, <code>Mezzio\LaminasView\UrlHelper</code> and
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1637,8 +1635,8 @@ serverurl helpers, <code>Mezzio\LaminasView\UrlHelper</code> and
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

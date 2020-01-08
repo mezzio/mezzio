@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -643,23 +647,21 @@ provide its own services (with factories), default configuration, and routes.</p
 a lightweight library that aggregates and merges configuration, optionally caching it.</p>
 <h2 id="install-the-configuration-manager">Install the configuration manager</h2>
 <p>The configuration manager is available in Packagist:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require mtymek/mezzio-config-manager
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require mtymek/mezzio-config-manager</code></pre>
 <h2 id="generate-your-config">Generate your config</h2>
 <p>The default Mezzio skeleton installs a <code>config/config.php</code> file, which
 aggregates all configuration. When using the configuration manager, you will
 need to replace the contents of that file with the following code:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<pre class=codehilite><code class=language-php>&lt;?php
 
-<span class=k>use</span> <span class=nx>Mezzio\ConfigManager\ConfigManager</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\ConfigManager\PhpFileProvider</span><span class=p>;</span>
+use Mezzio\ConfigManager\ConfigManager;
+use Mezzio\ConfigManager\PhpFileProvider;
 
-<span class=nv>$configManager</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ConfigManager</span><span class=p>([</span>
-    <span class=k>new</span> <span class=nx>PhpFileProvider</span><span class=p>(</span><span class=s1>&#39;config/autoload/{{,*.}global,{,*.}local}.php&#39;</span><span class=p>),</span>
-<span class=p>]);</span>
+$configManager = new ConfigManager([
+    new PhpFileProvider('config/autoload/{{,*.}global,{,*.}local}.php'),
+]);
 
-<span class=k>return</span> <span class=k>new</span> <span class=nx>ArrayObject</span><span class=p>(</span><span class=nv>$configManager</span><span class=o>-&gt;</span><span class=na>getMergedConfig</span><span class=p>());</span>
-</pre></div></p>
+return new ArrayObject($configManager-&gt;getMergedConfig());</code></pre>
 <p>If you open your application in a browser, it should still work in exactly the
 same way as it was before. Now you can start adding your modules.</p>
 <h2 id="first-module">First module</h2>
@@ -668,40 +670,38 @@ module; its only requirement is to expose default configuration using a "config
 provider", which is simply an invokable class that returns a configuration
 array.</p>
 <p>For instance, this is how your module could provide its own routes:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace MyModule;</span>
+<pre class=codehilite><code class=language-php>namespace MyModule;
 
-<span class=x>class ModuleConfig</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke()</span>
-<span class=x>    {</span>
-<span class=x>        return [</span>
-<span class=x>            &#39;routes&#39; =&gt; [</span>
-<span class=x>                [</span>
-<span class=x>                    &#39;name&#39; =&gt; &#39;api.list-transactions&#39;,</span>
-<span class=x>                    &#39;path&#39; =&gt; &#39;/api/transactions&#39;,</span>
-<span class=x>                    &#39;middleware&#39; =&gt; App\Action\ListTransactionsAction::class,</span>
-<span class=x>                    &#39;allowed_methods&#39; =&gt; [&#39;GET&#39;],</span>
-<span class=x>                ],</span>
-<span class=x>                [</span>
-<span class=x>                    &#39;name&#39; =&gt; &#39;api.refund-transaction&#39;,</span>
-<span class=x>                    &#39;path&#39; =&gt; &#39;/api/refund&#39;,</span>
-<span class=x>                    &#39;middleware&#39; =&gt; App\Action\RefundAction::class,</span>
-<span class=x>                    &#39;allowed_methods&#39; =&gt; [&#39;POST&#39;],</span>
-<span class=x>                ],</span>
-<span class=x>            ],</span>
-<span class=x>        ];</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class ModuleConfig
+{
+    public function __invoke()
+    {
+        return [
+            'routes' =&gt; [
+                [
+                    'name' =&gt; 'api.list-transactions',
+                    'path' =&gt; '/api/transactions',
+                    'middleware' =&gt; App\Action\ListTransactionsAction::class,
+                    'allowed_methods' =&gt; ['GET'],
+                ],
+                [
+                    'name' =&gt; 'api.refund-transaction',
+                    'path' =&gt; '/api/refund',
+                    'middleware' =&gt; App\Action\RefundAction::class,
+                    'allowed_methods' =&gt; ['POST'],
+                ],
+            ],
+        ];
+    }
+}</code></pre>
 <h2 id="enabling-the-module">Enabling the module</h2>
 <p>Finally, you can enable your module by adding a reference to your config class
 within the arguments of the <code>ConfigManager</code> constructor in the <code>config/config.php</code>
 file:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$configManager = new ConfigManager([</span>
-<span class=x>    MyModule\ModuleConfig::class,</span>
-<span class=x>    new PhpFileProvider(&#39;config/autoload/{{,*.}global,{,*.}local}.php&#39;),</span>
-<span class=x>]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$configManager = new ConfigManager([
+    MyModule\ModuleConfig::class,
+    new PhpFileProvider('config/autoload/{{,*.}global,{,*.}local}.php'),
+]);</code></pre>
 <h2 id="caching-configuration">Caching configuration</h2>
 <p>In order to provide configuration caching, two things must occur:</p>
 <ul>
@@ -720,29 +720,27 @@ them in two locations:</p>
   appropriate to the current environment. In development, for instance, this
   would be <code>false</code>.</li>
 </ul>
-<p> <div class=codehilite><pre><span></span><span class=x>// config/autoload/global.php</span>
+<pre class=codehilite><code class=language-php>// config/autoload/global.php
 
-<span class=x>return [</span>
-<span class=x>    &#39;config_cache_enabled&#39; =&gt; true,</span>
-<span class=x>    /* ... */</span>
-<span class=x>];</span>
+return [
+    'config_cache_enabled' =&gt; true,
+    /* ... */
+];
 
-<span class=x>// config/autoload/local.php</span>
+// config/autoload/local.php
 
-<span class=x>return [</span>
-<span class=x>    &#39;config_cache_enabled&#39; =&gt; false, // &lt;- development!</span>
-<span class=x>    /* ... */</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'config_cache_enabled' =&gt; false, // &lt;- development!
+    /* ... */
+];</code></pre>
 <p>You would then alter your <code>config/config.php</code> file to add the second argument.
 The following example builds on the previous, and demonstrates having the
 <code>AppConfig</code> entry enabled. The configuration will be cached to
 <code>data/config-cache.php</code> in the application root:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$configManager = new ConfigManager([</span>
-<span class=x>    App\AppConfig::class,</span>
-<span class=x>    new PhpFileProvider(&#39;config/autoload/{{,*.}global,{,*.}local}.php&#39;),</span>
-<span class=x>], &#39;data/config-cache.php&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$configManager = new ConfigManager([
+    App\AppConfig::class,
+    new PhpFileProvider('config/autoload/{{,*.}global,{,*.}local}.php'),
+], 'data/config-cache.php');</code></pre>
 <p>When the configuration cache path is present, if the <code>config_cache_enabled</code> flag
 is enabled, then configuration will be read from the cached configuration,
 instead of parsing and merging the various configuration sources.</p>
@@ -1220,9 +1218,10 @@ instead of parsing and merging the various configuration sources.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1259,7 +1258,7 @@ instead of parsing and merging the various configuration sources.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1268,8 +1267,8 @@ instead of parsing and merging the various configuration sources.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

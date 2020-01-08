@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -649,16 +653,14 @@ into the <code>Mezzio\Router\FastRouteRouter</code> class, at instantiation.</p>
 conjunction with your container instance.</p>
 <h2 id="installing-fastroute">Installing FastRoute</h2>
 <p>To use FastRoute, you will first need to install the FastRoute integration:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require mezzio/mezzio-fastroute
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-fastroute</code></pre>
 <h2 id="quick-start">Quick Start</h2>
 <p>At its simplest, you can instantiate a <code>Mezzio\Router\FastRouteRouter</code> instance
 with no arguments; it will create the underlying FastRoute objects required
 and compose them for you:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Router\FastRouteRouter;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Router\FastRouteRouter;
 
-<span class=x>$router = new FastRouteRouter();</span>
-</pre></div></p>
+$router = new FastRouteRouter();</code></pre>
 <h2 id="programmatic-creation">Programmatic Creation</h2>
 <p>If you need greater control over the FastRoute setup and configuration, you
 can create the instances necessary and inject them into
@@ -667,30 +669,29 @@ can create the instances necessary and inject them into
 optionally callable to return your <code>RegexBasedAbstract</code> instance manually,
 inject them in your <code>Mezzio\Router\FastRouteRouter</code> instance, and inject use
 that when creating your <code>Application</code> instance.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>FastRoute</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>FastRoute\Dispatcher\GroupPosBased</span> <span class=k>as</span> <span class=nx>FastRouteDispatcher</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>FastRoute\RouteCollector</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>FastRoute\RouteGenerator</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>FastRoute\RouteParser\Std</span> <span class=k>as</span> <span class=nx>RouteParser</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\AppFactory</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Router\FastRouteRouter</span> <span class=k>as</span> <span class=nx>FastRouteBridge</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use FastRoute;
+use FastRoute\Dispatcher\GroupPosBased as FastRouteDispatcher;
+use FastRoute\RouteCollector;
+use FastRoute\RouteGenerator;
+use FastRoute\RouteParser\Std as RouteParser;
+use Mezzio\AppFactory;
+use Mezzio\Router\FastRouteRouter as FastRouteBridge;
 
-<span class=nv>$fastRoute</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>RouteCollector</span><span class=p>(</span>
-    <span class=k>new</span> <span class=nx>RouteParser</span><span class=p>(),</span>
-    <span class=k>new</span> <span class=nx>RouteGenerator</span><span class=p>()</span>
-<span class=p>);</span>
-<span class=nv>$getDispatcher</span> <span class=o>=</span> <span class=k>function</span> <span class=p>(</span><span class=nv>$data</span><span class=p>)</span> <span class=p>{</span>
-    <span class=k>return</span> <span class=k>new</span> <span class=nx>FastRouteDispatcher</span><span class=p>(</span><span class=nv>$data</span><span class=p>);</span>
-<span class=p>};</span>
+$fastRoute = new RouteCollector(
+    new RouteParser(),
+    new RouteGenerator()
+);
+$getDispatcher = function ($data) {
+    return new FastRouteDispatcher($data);
+};
 
 
-<span class=nv>$router</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>FastRouteBridge</span><span class=p>(</span><span class=nv>$fastRoute</span><span class=p>,</span> <span class=nv>$getDispatcher</span><span class=p>);</span>
+$router = new FastRouteBridge($fastRoute, $getDispatcher);
 
-<span class=c1>// First argument is the container to use, if not using the default;</span>
-<span class=c1>// second is the router.</span>
-<span class=nv>$app</span> <span class=o>=</span> <span class=nx>AppFactory</span><span class=o>::</span><span class=na>create</span><span class=p>(</span><span class=k>null</span><span class=p>,</span> <span class=nv>$router</span><span class=p>);</span>
-</pre></div></p>
+// First argument is the container to use, if not using the default;
+// second is the router.
+$app = AppFactory::create(null, $router);</code></pre>
 <blockquote>
 <h3>Piping the route middleware</h3>
 <p>As a reminder, you will need to ensure that middleware is piped in the order
@@ -708,40 +709,36 @@ two strategies for creating your FastRoute implementation.</p>
 instantiate and return an instance of <code>Mezzio\Router\FastRouteRouter</code> for the
 service name <code>Mezzio\Router\RouterInterface</code>.</p>
 <p>A factory would look like this:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// in src/Application/Container/RouterFactory.php</span>
-<span class=x>namespace Application\Container;</span>
+<pre class=codehilite><code class=language-php>// in src/Application/Container/RouterFactory.php
+namespace Application\Container;
 
-<span class=x>use Interop\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Router\FastRouteRouter;</span>
+use Interop\Container\ContainerInterface;
+use Mezzio\Router\FastRouteRouter;
 
-<span class=x>class RouterFactory</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * @param ContainerInterface $container</span>
-<span class=x>     * @return FastRouteRouter</span>
-<span class=x>     */</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        return new FastRouteRouter();</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class RouterFactory
+{
+    /**
+     * @param ContainerInterface $container
+     * @return FastRouteRouter
+     */
+    public function __invoke(ContainerInterface $container)
+    {
+        return new FastRouteRouter();
+    }
+}</code></pre>
 <p>You would register this with laminas-servicemanager using:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$container-&gt;setFactory(</span>
-<span class=x>    &#39;Mezzio\Router\RouterInterface&#39;,</span>
-<span class=x>    &#39;Application\Container\RouterFactory&#39;</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$container-&gt;setFactory(
+    'Mezzio\Router\RouterInterface',
+    'Application\Container\RouterFactory'
+);</code></pre>
 <p>And in Pimple:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$pimple[&#39;Mezzio\Router\RouterInterface&#39;] = new Application\Container\RouterFactory();</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pimple['Mezzio\Router\RouterInterface'] = new Application\Container\RouterFactory();</code></pre>
 <p>For laminas-servicemanager, you can omit the factory entirely, and register the
 class as an invokable:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$container-&gt;setInvokableClass(</span>
-<span class=x>    &#39;Mezzio\Router\RouterInterface&#39;,</span>
-<span class=x>    &#39;Mezzio\Router\FastRouteRouter&#39;</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$container-&gt;setInvokableClass(
+    'Mezzio\Router\RouterInterface',
+    'Mezzio\Router\FastRouteRouter'
+);</code></pre>
 <h3>Advanced Configuration</h3>
 <p>If you want to provide custom setup or configuration, you can do so. In this
 example, we will be defining three factories:</p>
@@ -754,110 +751,107 @@ example, we will be defining three factories:</p>
   two services.</li>
 </ul>
 <p>Sound difficult? It's not; we've essentially done it above already!</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=c1>// in src/Application/Container/FastRouteCollectorFactory.php:</span>
-<span class=k>namespace</span> <span class=nx>Application\Container</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+// in src/Application/Container/FastRouteCollectorFactory.php:
+namespace Application\Container;
 
-<span class=k>use</span> <span class=nx>FastRoute\RouteCollector</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>FastRoute\RouteGenerator</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>FastRoute\RouteParser\Std</span> <span class=k>as</span> <span class=nx>RouteParser</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Interop\Container\ContainerInterface</span><span class=p>;</span>
+use FastRoute\RouteCollector;
+use FastRoute\RouteGenerator;
+use FastRoute\RouteParser\Std as RouteParser;
+use Interop\Container\ContainerInterface;
 
-<span class=k>class</span> <span class=nc>FastRouteCollectorFactory</span>
-<span class=p>{</span>
-    <span class=sd>/**</span>
-<span class=sd>     * @param ContainerInterface $container</span>
-<span class=sd>     * @return RouteCollector</span>
-<span class=sd>     */</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__invoke</span><span class=p>(</span><span class=nx>ContainerInterface</span> <span class=nv>$container</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=k>new</span> <span class=nx>RouteCollector</span><span class=p>(</span>
-            <span class=k>new</span> <span class=nx>RouteParser</span><span class=p>(),</span>
-            <span class=k>new</span> <span class=nx>RouteGenerator</span><span class=p>()</span>
-        <span class=p>);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
+class FastRouteCollectorFactory
+{
+    /**
+     * @param ContainerInterface $container
+     * @return RouteCollector
+     */
+    public function __invoke(ContainerInterface $container)
+    {
+        return new RouteCollector(
+            new RouteParser(),
+            new RouteGenerator()
+        );
+    }
+}
 
-<span class=c1>// in src/Application/Container/FastRouteDispatcherFactory:</span>
-<span class=k>namespace</span> <span class=nx>Application\Container</span><span class=p>;</span>
+// in src/Application/Container/FastRouteDispatcherFactory:
+namespace Application\Container;
 
-<span class=k>use</span> <span class=nx>FastRoute\Dispatcher\GroupPosBased</span> <span class=k>as</span> <span class=nx>FastRouteDispatcher</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Interop\Container\ContainerInterface</span><span class=p>;</span>
+use FastRoute\Dispatcher\GroupPosBased as FastRouteDispatcher;
+use Interop\Container\ContainerInterface;
 
-<span class=k>class</span> <span class=nc>FastRouteDispatcherFactory</span>
-<span class=p>{</span>
-    <span class=sd>/**</span>
-<span class=sd>     * @param ContainerInterface $container</span>
-<span class=sd>     * @return callable</span>
-<span class=sd>     */</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__invoke</span><span class=p>(</span><span class=nx>ContainerInterface</span> <span class=nv>$container</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=k>function</span> <span class=p>(</span><span class=nv>$data</span><span class=p>)</span> <span class=p>{</span>
-            <span class=k>return</span> <span class=k>new</span> <span class=nx>FastRouteDispatcher</span><span class=p>(</span><span class=nv>$data</span><span class=p>);</span>
-        <span class=p>};</span>
-    <span class=p>}</span>
-<span class=p>}</span>
+class FastRouteDispatcherFactory
+{
+    /**
+     * @param ContainerInterface $container
+     * @return callable
+     */
+    public function __invoke(ContainerInterface $container)
+    {
+        return function ($data) {
+            return new FastRouteDispatcher($data);
+        };
+    }
+}
 
-<span class=c1>// in src/Application/Container/RouterFactory.php</span>
-<span class=k>namespace</span> <span class=nx>Application\Container</span><span class=p>;</span>
+// in src/Application/Container/RouterFactory.php
+namespace Application\Container;
 
-<span class=k>use</span> <span class=nx>Interop\Container\ContainerInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Router\FastRouteRouter</span> <span class=k>as</span> <span class=nx>FastRouteBridge</span><span class=p>;</span>
+use Interop\Container\ContainerInterface;
+use Mezzio\Router\FastRouteRouter as FastRouteBridge;
 
-<span class=k>class</span> <span class=nc>RouterFactory</span>
-<span class=p>{</span>
-    <span class=sd>/**</span>
-<span class=sd>     * @param ContainerInterface $container</span>
-<span class=sd>     * @return FastRouteBridge</span>
-<span class=sd>     */</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__invoke</span><span class=p>(</span><span class=nx>ContainerInterface</span> <span class=nv>$container</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=k>new</span> <span class=nx>FastRouteBridge</span><span class=p>(</span>
-            <span class=nv>$container</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;FastRoute\RouteCollector&#39;</span><span class=p>),</span>
-            <span class=nv>$container</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;FastRoute\DispatcherFactory&#39;</span><span class=p>),</span>
-        <span class=p>);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+class RouterFactory
+{
+    /**
+     * @param ContainerInterface $container
+     * @return FastRouteBridge
+     */
+    public function __invoke(ContainerInterface $container)
+    {
+        return new FastRouteBridge(
+            $container-&gt;get('FastRoute\RouteCollector'),
+            $container-&gt;get('FastRoute\DispatcherFactory'),
+        );
+    }
+}</code></pre>
 <p>From here, you will need to register your factories with your IoC container.</p>
 <p>If you are using laminas-servicemanager, this will look like:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Programmatically:</span>
-<span class=x>use Laminas\ServiceManager\ServiceManager;</span>
+<pre class=codehilite><code class=language-php>// Programmatically:
+use Laminas\ServiceManager\ServiceManager;
 
-<span class=x>$container = new ServiceManager();</span>
-<span class=x>$container-&gt;addFactory(</span>
-<span class=x>    &#39;FastRoute\RouteCollector&#39;,</span>
-<span class=x>    &#39;Application\Container\FastRouteCollectorFactory&#39;</span>
-<span class=x>);</span>
-<span class=x>$container-&gt;addFactory(</span>
-<span class=x>    &#39;FastRoute\DispatcherFactory&#39;,</span>
-<span class=x>    &#39;Application\Container\FastRouteDispatcherFactory&#39;</span>
-<span class=x>);</span>
-<span class=x>$container-&gt;addFactory(</span>
-<span class=x>    &#39;Mezzio\Router\RouterInterface&#39;,</span>
-<span class=x>    &#39;Application\Container\RouterFactory&#39;</span>
-<span class=x>);</span>
+$container = new ServiceManager();
+$container-&gt;addFactory(
+    'FastRoute\RouteCollector',
+    'Application\Container\FastRouteCollectorFactory'
+);
+$container-&gt;addFactory(
+    'FastRoute\DispatcherFactory',
+    'Application\Container\FastRouteDispatcherFactory'
+);
+$container-&gt;addFactory(
+    'Mezzio\Router\RouterInterface',
+    'Application\Container\RouterFactory'
+);
 
-<span class=x>// Alternately, via configuration:</span>
-<span class=x>return [</span>
-<span class=x>    &#39;factories&#39; =&gt; [</span>
-<span class=x>        &#39;FastRoute\RouteCollector&#39; =&gt; &#39;Application\Container\FastRouteCollectorFactory&#39;,</span>
-<span class=x>        &#39;FastRoute\DispatcherFactory&#39; =&gt; &#39;Application\Container\FastRouteDispatcherFactory&#39;,</span>
-<span class=x>        &#39;Mezzio\Router\RouterInterface&#39; =&gt; &#39;Application\Container\RouterFactory&#39;,</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+// Alternately, via configuration:
+return [
+    'factories' =&gt; [
+        'FastRoute\RouteCollector' =&gt; 'Application\Container\FastRouteCollectorFactory',
+        'FastRoute\DispatcherFactory' =&gt; 'Application\Container\FastRouteDispatcherFactory',
+        'Mezzio\Router\RouterInterface' =&gt; 'Application\Container\RouterFactory',
+    ],
+];</code></pre>
 <p>For Pimple, configuration looks like:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Application\Container\FastRouteCollectorFactory;</span>
-<span class=x>use Application\Container\FastRouteDispatcherFactory;</span>
-<span class=x>use Application\Container\RouterFactory;</span>
-<span class=x>use Interop\Container\Pimple\PimpleInterop as Pimple;</span>
+<pre class=codehilite><code class=language-php>use Application\Container\FastRouteCollectorFactory;
+use Application\Container\FastRouteDispatcherFactory;
+use Application\Container\RouterFactory;
+use Interop\Container\Pimple\PimpleInterop as Pimple;
 
-<span class=x>$container = new Pimple();</span>
-<span class=x>$container[&#39;FastRoute\RouteCollector&#39;] = new FastRouteCollectorFactory();</span>
-<span class=x>$container[&#39;FastRoute\RouteDispatcher&#39;] = new FastRouteDispatcherFactory();</span>
-<span class=x>$container[&#39;Mezzio\Router\RouterInterface&#39;] = new RouterFactory();</span>
-</pre></div></p>
+$container = new Pimple();
+$container['FastRoute\RouteCollector'] = new FastRouteCollectorFactory();
+$container['FastRoute\RouteDispatcher'] = new FastRouteDispatcherFactory();
+$container['Mezzio\Router\RouterInterface'] = new RouterFactory();</code></pre>
 <h3>FastRoute caching support</h3>
 <ul>
 <li>Since mezzio-fastroute 1.3.0.</li>
@@ -880,38 +874,37 @@ reference that file when indicating configuration changes.</p>
 </li>
 </ul>
 <p>As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// File config/autoload/routes.global.php</span>
+<pre class=codehilite><code class=language-php>// File config/autoload/routes.global.php
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        //..</span>
-<span class=x>        &#39;invokables&#39; =&gt; [</span>
-<span class=x>            /* ... */</span>
-<span class=x>            // Comment out or remove the following line:</span>
-<span class=x>            // Mezzio\Router\RouterInterface::class =&gt; Mezzio\Router\FastRouteRouter::class,</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            /* ... */</span>
-<span class=x>            // Add this line; the specified factory now creates the router instance:</span>
-<span class=x>            Mezzio\Router\RouterInterface::class =&gt; Mezzio\Router\FastRouteRouterFactory::class,</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
+return [
+    'dependencies' =&gt; [
+        //..
+        'invokables' =&gt; [
+            /* ... */
+            // Comment out or remove the following line:
+            // Mezzio\Router\RouterInterface::class =&gt; Mezzio\Router\FastRouteRouter::class,
+            /* ... */
+        ],
+        'factories' =&gt; [
+            /* ... */
+            // Add this line; the specified factory now creates the router instance:
+            Mezzio\Router\RouterInterface::class =&gt; Mezzio\Router\FastRouteRouterFactory::class,
+            /* ... */
+        ],
+    ],
 
-<span class=x>    // Add the following to enable caching support:</span>
-<span class=x>    &#39;router&#39; =&gt; [</span>
-<span class=x>        &#39;fastroute&#39; =&gt; [</span>
-<span class=x>             // Enable caching support:</span>
-<span class=x>            &#39;cache_enabled&#39; =&gt; true,</span>
-<span class=x>             // Optional (but recommended) cache file path:</span>
-<span class=x>            &#39;cache_file&#39;    =&gt; &#39;data/cache/fastroute.php.cache&#39;,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
+    // Add the following to enable caching support:
+    'router' =&gt; [
+        'fastroute' =&gt; [
+             // Enable caching support:
+            'cache_enabled' =&gt; true,
+             // Optional (but recommended) cache file path:
+            'cache_file'    =&gt; 'data/cache/fastroute.php.cache',
+        ],
+    ],
 
-<span class=x>    &#39;routes&#39; =&gt; [ /* ... */ ],</span>
-<span class=x>]</span>
-</pre></div></p>
+    'routes' =&gt; [ /* ... */ ],
+]</code></pre>
 <p>The FastRoute-specific caching options are as follows:</p>
 <ul>
 <li>
@@ -1399,9 +1392,10 @@ reference that file when indicating configuration changes.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1438,7 +1432,7 @@ reference that file when indicating configuration changes.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1447,8 +1441,8 @@ reference that file when indicating configuration changes.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

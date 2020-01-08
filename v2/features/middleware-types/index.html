@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -703,63 +707,60 @@ Server Middleware that consumes <a href="http://www.php-fig.org/psr/psr-7/">PSR-
 messages. The project defines two interfaces, <code>Interop\Http\ServerMiddleware\MiddlewareInterface</code>
 and <code>Interop\Http\ServerMiddleware\DelegateInterface</code>. Mezzio accepts
 middleware that implements the <code>MiddlewareInterface</code>. As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Interop\Http\ServerMiddleware\DelegateInterface;</span>
-<span class=x>use Interop\Http\ServerMiddleware\MiddlewareInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
+<pre class=codehilite><code class=language-php>use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
-<span class=x>class SomeMiddleware implements MiddlewareInterface</span>
-<span class=x>{</span>
-<span class=x>    public function process(ServerRequestInterface $request, DelegateInterface $delegate)</span>
-<span class=x>    {</span>
-<span class=x>        // do something and return a response, or</span>
-<span class=x>        // delegate to another handler capable of</span>
-<span class=x>        // returning a response via:</span>
-<span class=x>        //</span>
-<span class=x>        // return $delegate-&gt;process($request);</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class SomeMiddleware implements MiddlewareInterface
+{
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    {
+        // do something and return a response, or
+        // delegate to another handler capable of
+        // returning a response via:
+        //
+        // return $delegate-&gt;process($request);
+    }
+}</code></pre>
 <p>If you are using PHP 7 or above, you could also implement such middleware via an
 anonymous class.</p>
 <h2 id="callable-http-middleware">Callable http-middleware</h2>
 <p>Sometimes you may not want to create a class for one-off middleware. As such,
 Mezzio allows you to provide a PHP callable that uses the same signature as
 <code>Interop\Http\ServerMiddleware\MiddlewareInterface</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Interop\Http\ServerMiddleware\DelegateInterface;</span>
-<span class=x>use Interop\Http\ServerMiddleware\MiddlewareInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
+<pre class=codehilite><code class=language-php>use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
-<span class=x>function (ServerRequestInterface $request, DelegateInterface $delegate)</span>
-<span class=x>{</span>
-<span class=x>    // do something and return a response, or</span>
-<span class=x>    // delegate to another handler capable of</span>
-<span class=x>    // returning a response via:</span>
-<span class=x>    //</span>
-<span class=x>    // return $delegate-&gt;process($request);</span>
-<span class=x>}</span>
-</pre></div></p>
+function (ServerRequestInterface $request, DelegateInterface $delegate)
+{
+    // do something and return a response, or
+    // delegate to another handler capable of
+    // returning a response via:
+    //
+    // return $delegate-&gt;process($request);
+}</code></pre>
 <p>One note: the <code>$request</code> argument does not require a typehint, and examples
 throughout the manual will omit the typehint when demonstrating callable
 middleware.</p>
 <h2 id="double-pass-middleware">Double-pass middleware</h2>
 <p>Mezzio 1.X was based on Stratigility 1.X, which allowed middleware with the
 following signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ResponseInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ServerRequestInterface</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
-<span class=k>function</span><span class=p>(</span>
-    <span class=nx>ServerRequestInterface</span> <span class=nv>$request</span><span class=p>,</span>
-    <span class=nx>ResponseInterface</span> <span class=nv>$response</span><span class=p>,</span>
-    <span class=nx>callable</span> <span class=nv>$next</span>
-<span class=p>)</span> <span class=p>{</span>
-    <span class=c1>// Process the request and return a response,</span>
-    <span class=c1>// or delegate to another process to handle</span>
-    <span class=c1>// the request via:</span>
-    <span class=c1>//</span>
-    <span class=c1>// return $next($request, $response);</span>
-<span class=p>}</span>
-</pre></div></p>
+function(
+    ServerRequestInterface $request,
+    ResponseInterface $response,
+    callable $next
+) {
+    // Process the request and return a response,
+    // or delegate to another process to handle
+    // the request via:
+    //
+    // return $next($request, $response);
+}</code></pre>
 <p>This middleware is called "double-pass" due to the fact that it requires both
 the request and response arguments.</p>
 <p>In such middleware, no typehints are <em>required</em>, but they are <em>encouraged</em>.
@@ -784,18 +785,17 @@ instance, allowing it to be loaded only when dispatched.</p>
 To prevent the need for instantiating a <code>Laminas\Stratigility\MiddlewarePipe</code> or
 <code>Mezzio\Application</code> instance when defining the pipeline, Mezzio
 allows you to provide an array of middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Pipeline middleware:</span>
-<span class=x>$app-&gt;pipe([</span>
-<span class=x>    FirstMiddleware::class,</span>
-<span class=x>    SecondMiddleware::class,</span>
-<span class=x>]);</span>
+<pre class=codehilite><code class=language-php>// Pipeline middleware:
+$app-&gt;pipe([
+    FirstMiddleware::class,
+    SecondMiddleware::class,
+]);
 
-<span class=x>// Routed middleware:</span>
-<span class=x>$app-&gt;get([</span>
-<span class=x>    FirstMiddleware::class,</span>
-<span class=x>    SecondMiddleware::class,</span>
-<span class=x>]);</span>
-</pre></div></p>
+// Routed middleware:
+$app-&gt;get([
+    FirstMiddleware::class,
+    SecondMiddleware::class,
+]);</code></pre>
 <p>The values in these arrays may be any valid middleware type as defined in this
 chapter.</p>
 
@@ -1306,9 +1306,10 @@ chapter.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1345,7 +1346,7 @@ chapter.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1354,8 +1355,8 @@ chapter.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -679,66 +683,63 @@ to add a locale parameter to each route that requires localization.</p>
 of two lowercase alphabetical characters.</p>
 <h3>Dependency configuration</h3>
 <p>The examples assume the following middleware dependency configuration:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Application\Action;</span>
+<pre class=codehilite><code class=language-php>use Application\Action;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            Action\HomePageAction::class    =&gt; Action\HomePageFactory::class,</span>
-<span class=x>            Action\ContactPageAction::class =&gt; Action\ContactPageFactory::class,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'dependencies' =&gt; [
+        'factories' =&gt; [
+            Action\HomePageAction::class    =&gt; Action\HomePageFactory::class,
+            Action\ContactPageAction::class =&gt; Action\ContactPageFactory::class,
+        ],
+    ],
+];</code></pre>
 <h3>Programmatic routes</h3>
 <p>The following describes routing configuration for use when using a
 programmatic application.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Application\Action\ContactPageAction;</span>
-<span class=x>use Application\Action\HomePageAction;</span>
+<pre class=codehilite><code class=language-php>use Application\Action\ContactPageAction;
+use Application\Action\HomePageAction;
 
-<span class=x>$localeOptions = [&#39;locale&#39; =&gt; &#39;[a-z]{2,3}([-_][a-zA-Z]{2}|)&#39;];</span>
+$localeOptions = ['locale' =&gt; '[a-z]{2,3}([-_][a-zA-Z]{2}|)'];
 
-<span class=x>$app-&gt;get(&#39;/:locale&#39;, HomePageAction::class, &#39;home&#39;)</span>
-<span class=x>    -&gt;setOptions($localeOptions);</span>
-<span class=x>$app-&gt;get(&#39;/:locale/contact&#39;, ContactPageAction::class, &#39;contact&#39;)</span>
-<span class=x>    -&gt;setOptions($localeOptions);</span>
-</pre></div></p>
+$app-&gt;get('/:locale', HomePageAction::class, 'home')
+    -&gt;setOptions($localeOptions);
+$app-&gt;get('/:locale/contact', ContactPageAction::class, 'contact')
+    -&gt;setOptions($localeOptions);</code></pre>
 <h3>Configuration-based routes</h3>
 <p>The following describes routing configuration for use when using a
 configuration-driven application.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;routes&#39; =&gt; [</span>
-<span class=x>        [</span>
-<span class=x>            &#39;name&#39; =&gt; &#39;home&#39;,</span>
-<span class=x>            &#39;path&#39; =&gt; &#39;/:locale&#39;,</span>
-<span class=x>            &#39;middleware&#39; =&gt; Application\Action\HomePageAction::class,</span>
-<span class=x>            &#39;allowed_methods&#39; =&gt; [&#39;GET&#39;],</span>
-<span class=x>            &#39;options&#39;         =&gt; [</span>
-<span class=x>                &#39;constraints&#39; =&gt; [</span>
-<span class=x>                    &#39;locale&#39; =&gt; &#39;[a-z]{2,3}([-_][a-zA-Z]{2}|)&#39;,</span>
-<span class=x>                ],</span>
-<span class=x>            ],</span>
-<span class=x>        ],</span>
-<span class=x>        [</span>
-<span class=x>            &#39;name&#39; =&gt; &#39;contact&#39;,</span>
-<span class=x>            &#39;path&#39; =&gt; &#39;/:locale/contact&#39;,</span>
-<span class=x>            &#39;middleware&#39; =&gt; Application\Action\ContactPageAction::class,</span>
-<span class=x>            &#39;allowed_methods&#39; =&gt; [&#39;GET&#39;],</span>
-<span class=x>            &#39;options&#39;         =&gt; [</span>
-<span class=x>                &#39;constraints&#39; =&gt; [</span>
-<span class=x>                    &#39;locale&#39; =&gt; &#39;[a-z]{2,3}([-_][a-zA-Z]{2}|)&#39;,</span>
-<span class=x>                ],</span>
-<span class=x>            ],</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'routes' =&gt; [
+        [
+            'name' =&gt; 'home',
+            'path' =&gt; '/:locale',
+            'middleware' =&gt; Application\Action\HomePageAction::class,
+            'allowed_methods' =&gt; ['GET'],
+            'options'         =&gt; [
+                'constraints' =&gt; [
+                    'locale' =&gt; '[a-z]{2,3}([-_][a-zA-Z]{2}|)',
+                ],
+            ],
+        ],
+        [
+            'name' =&gt; 'contact',
+            'path' =&gt; '/:locale/contact',
+            'middleware' =&gt; Application\Action\ContactPageAction::class,
+            'allowed_methods' =&gt; ['GET'],
+            'options'         =&gt; [
+                'constraints' =&gt; [
+                    'locale' =&gt; '[a-z]{2,3}([-_][a-zA-Z]{2}|)',
+                ],
+            ],
+        ],
+    ],
+];</code></pre>
 <blockquote>
 <h3>Note: Routing may differ based on router</h3>
 <p>The routing examples in this recipe use syntax for the laminas-mvc router, and,
 as such, may not work in your application.</p>
 <p>For Aura.Router, the 'home' route as listed above would read:</p>
-<pre class=codehilite><code class=language-php>
+<pre class="codehilite"><code class="language-php">
 [
     'name' =&gt; 'home',
     'path' =&gt; '/{locale}',
@@ -754,7 +755,7 @@ as such, may not work in your application.</p>
 ]
 </code></pre>
 <p>For FastRoute:</p>
-<pre class=codehilite><code class=language-php>
+<pre class="codehilite"><code class="language-php">
 [
     'name' =&gt; 'home',
     'path' =&gt; '/{locale:[a-z]{2,3}([-_][a-zA-Z]{2}|)}',
@@ -770,34 +771,33 @@ simply cut-and-paste them without modification.</p>
 you need to implement localization middleware that acts on the route result, and
 registered in the pipeline immediately following the routing middleware.</p>
 <p>Such a <code>LocalizationMiddleware</code> class could look similar to this:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<pre class=codehilite><code class=language-php>&lt;?php
 
-<span class=k>namespace</span> <span class=nx>Application\I18n</span><span class=p>;</span>
+namespace Application\I18n;
 
-<span class=k>use</span> <span class=nx>Interop\Http\ServerMiddleware\DelegateInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Interop\Http\ServerMiddleware\MiddlewareInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Locale</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ServerRequestInterface</span><span class=p>;</span>
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Locale;
+use Psr\Http\Message\ServerRequestInterface;
 
-<span class=k>class</span> <span class=nc>LocalizationMiddleware</span> <span class=k>implements</span> <span class=nx>MiddlewareInterface</span>
-<span class=p>{</span>
-    <span class=k>const</span> <span class=no>LOCALIZATION_ATTRIBUTE</span> <span class=o>=</span> <span class=s1>&#39;locale&#39;</span><span class=p>;</span>
+class LocalizationMiddleware implements MiddlewareInterface
+{
+    const LOCALIZATION_ATTRIBUTE = 'locale';
 
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>process</span><span class=p>(</span><span class=nx>ServerRequestInterface</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>DelegateInterface</span> <span class=nv>$delegate</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=c1>// Get locale from route, fallback to the user&#39;s browser preference</span>
-        <span class=nv>$locale</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>getAttribute</span><span class=p>(</span>
-            <span class=s1>&#39;locale&#39;</span><span class=p>,</span>
-            <span class=nx>Locale</span><span class=o>::</span><span class=na>acceptFromHttp</span><span class=p>(</span>
-                <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>getServerParams</span><span class=p>()[</span><span class=s1>&#39;HTTP_ACCEPT_LANGUAGE&#39;</span><span class=p>]</span> <span class=o>??</span> <span class=s1>&#39;en_US&#39;</span>
-            <span class=p>)</span>
-        <span class=p>);</span>
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    {
+        // Get locale from route, fallback to the user's browser preference
+        $locale = $request-&gt;getAttribute(
+            'locale',
+            Locale::acceptFromHttp(
+                $request-&gt;getServerParams()['HTTP_ACCEPT_LANGUAGE'] ?? 'en_US'
+            )
+        );
 
-        <span class=c1>// Store the locale as a request attribute</span>
-        <span class=k>return</span> <span class=nv>$delegate</span><span class=o>-&gt;</span><span class=na>process</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>withAttribute</span><span class=p>(</span><span class=nx>self</span><span class=o>::</span><span class=na>LOCALIZATION_ATTRIBUTE</span><span class=p>,</span> <span class=nv>$locale</span><span class=p>));</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+        // Store the locale as a request attribute
+        return $delegate-&gt;process($request-&gt;withAttribute(self::LOCALIZATION_ATTRIBUTE, $locale));
+    }
+}</code></pre>
 <blockquote>
 <h3>Locale::setDefault is unsafe</h3>
 <p>Do not use <code>Locale::setDefault($locale)</code> to set a global static locale.
@@ -808,43 +808,40 @@ specific to each process.</p>
 </blockquote>
 <p>Register this new middleware in either <code>config/autoload/middleware-pipeline.global.php</code>
 or <code>config/autoload/dependencies.global.php</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;invokables&#39; =&gt; [</span>
-<span class=x>            LocalizationMiddleware::class =&gt; LocalizationMiddleware::class,</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'dependencies' =&gt; [
+        'invokables' =&gt; [
+            LocalizationMiddleware::class =&gt; LocalizationMiddleware::class,
+            /* ... */
+        ],
+        /* ... */
+    ],
+];</code></pre>
 <p>If using a programmatic pipeline, pipe it immediately after your routing middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Application\I18n\LocalizationMiddleware;</span>
+<pre class=codehilite><code class=language-php>use Application\I18n\LocalizationMiddleware;
 
-<span class=x>/* ... */</span>
-<span class=x>$app-&gt;pipeRoutingMiddleware();</span>
-<span class=x>$app-&gt;pipe(LocalizationMiddleware::class);</span>
-<span class=x>/* ... */</span>
-</pre></div></p>
+/* ... */
+$app-&gt;pipeRoutingMiddleware();
+$app-&gt;pipe(LocalizationMiddleware::class);
+/* ... */</code></pre>
 <p>If using a configuration-driven application, register it within your
 <code>config/autoload/middleware-pipeline.global.php</code> file, injecting it
 into the pipeline following the routing middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
-<span class=x>        [</span>
-<span class=x>            &#39;middleware&#39; =&gt; [</span>
-<span class=x>                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,</span>
-<span class=x>                Helper\UrlHelperMiddleware::class,</span>
-<span class=x>                LocalizationMiddleware::class,</span>
-<span class=x>                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,</span>
-<span class=x>            ],</span>
-<span class=x>            &#39;priority&#39; =&gt; 1,</span>
-<span class=x>        ],</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'middleware_pipeline' =&gt; [
+        /* ... */
+        [
+            'middleware' =&gt; [
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Helper\UrlHelperMiddleware::class,
+                LocalizationMiddleware::class,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+            ],
+            'priority' =&gt; 1,
+        ],
+        /* ... */
+    ],
+];</code></pre>
 
 
 
@@ -1353,9 +1350,10 @@ into the pipeline following the routing middleware:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1392,7 +1390,7 @@ into the pipeline following the routing middleware:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1401,8 +1399,8 @@ into the pipeline following the routing middleware:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

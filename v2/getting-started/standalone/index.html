@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -688,14 +692,12 @@ constructing <code>Mezzio\Application</code> manually, or using a
 </blockquote>
 <h2 id="1-create-a-new-project-directory">1. Create a new project directory</h2>
 <p>First, let's create a new project directory and enter it:</p>
-<p> <div class=codehilite><pre><span></span>$ mkdir mezzio
-$ <span class=nb>cd</span> mezzio
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ mkdir mezzio
+$ cd mezzio</code></pre>
 <h2 id="2-install-mezzio">2. Install Mezzio</h2>
 <p>If you haven't already, <a href="https://getcomposer.org">install Composer</a>. Once you
 have, we can install Mezzio, along with a router and a container:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require mezzio/mezzio mezzio/mezzio-fastroute laminas/laminas-servicemanager
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio mezzio/mezzio-fastroute laminas/laminas-servicemanager</code></pre>
 <blockquote>
 <h3>Routers</h3>
 <p>Mezzio needs a routing implementation in order to create routed
@@ -712,31 +714,29 @@ supporting <a href="https://github.com/php-fig/container">PSR-11 Container</a>.<
 <p>You'll need a directory from which to serve your application, and for security
 reasons, it's a good idea to keep it separate from your source code. We'll
 create a <code>public/</code> directory for this:</p>
-<p> <div class=codehilite><pre><span></span>$ mkdir public
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ mkdir public</code></pre>
 <h2 id="4-create-your-bootstrap-script">4. Create your bootstrap script</h2>
 <p>Next, we'll create a bootstrap script. Such scripts typically setup the
 environment, setup the application, and invoke it. This needs to be in our web
 root, and we want it to intercept any incoming request; as such, we'll use
 <code>public/index.php</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Interop\Http\ServerMiddleware\DelegateInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Diactoros\Response\TextResponse</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\AppFactory</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Laminas\Diactoros\Response\TextResponse;
+use Mezzio\AppFactory;
 
-<span class=nb>chdir</span><span class=p>(</span><span class=nb>dirname</span><span class=p>(</span><span class=no>__DIR__</span><span class=p>));</span>
-<span class=k>require</span> <span class=s1>&#39;vendor/autoload.php&#39;</span><span class=p>;</span>
+chdir(dirname(__DIR__));
+require 'vendor/autoload.php';
 
-<span class=nv>$app</span> <span class=o>=</span> <span class=nx>AppFactory</span><span class=o>::</span><span class=na>create</span><span class=p>();</span>
+$app = AppFactory::create();
 
-<span class=nv>$app</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=k>function</span> <span class=p>(</span><span class=nv>$request</span><span class=p>,</span> <span class=nx>DelegateInterface</span> <span class=nv>$delegate</span><span class=p>)</span> <span class=p>{</span>
-    <span class=k>return</span> <span class=k>new</span> <span class=nx>TextResponse</span><span class=p>(</span><span class=s1>&#39;Hello, world!&#39;</span><span class=p>);</span>
-<span class=p>});</span>
+$app-&gt;get('/', function ($request, DelegateInterface $delegate) {
+    return new TextResponse('Hello, world!');
+});
 
-<span class=nv>$app</span><span class=o>-&gt;</span><span class=na>pipeRoutingMiddleware</span><span class=p>();</span>
-<span class=nv>$app</span><span class=o>-&gt;</span><span class=na>pipeDispatchMiddleware</span><span class=p>();</span>
-<span class=nv>$app</span><span class=o>-&gt;</span><span class=na>run</span><span class=p>();</span>
-</pre></div></p>
+$app-&gt;pipeRoutingMiddleware();
+$app-&gt;pipeDispatchMiddleware();
+$app-&gt;run();</code></pre>
 <blockquote>
 <h3>Rewriting URLs</h3>
 <p>Many web servers will not rewrite URLs to the bootstrap script by default. If
@@ -745,7 +745,7 @@ your bootstrap is invoked for unknown URLs. We'll cover that in a later
 chapter.</p>
 <h3>Routing and dispatching</h3>
 <p>Note the lines from the above:</p>
-<pre class=codehilite><code class=language-php>
+<pre class="codehilite"><code class="language-php">
 $app-&gt;pipeRoutingMiddleware();
 $app-&gt;pipeDispatchMiddleware();
 </code></pre>
@@ -759,21 +759,20 @@ situation, which means they must be piped manually.</p>
 <p>Since we're just testing out the basic functionality of our application, we'll
 use PHP's <a href="http://php.net/manual/en/features.commandline.webserver.php">built-in web server</a>.</p>
 <p>From the project root directory, execute the following:</p>
-<p> <div class=codehilite><pre><span></span>$ php -S <span class=m>0</span>.0.0.0:8080 -t public/
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ php -S 0.0.0.0:8080 -t public/</code></pre>
 <p>This starts up a web server on localhost port 8080; browse to
 http://localhost:8080/ to see if your application responds correctly!</p>
 <blockquote>
 <h3>Tip: Serve via Composer</h3>
 <p>To simplify starting up a local web server, try adding the following to your
 <code>composer.json</code>:</p>
-<pre class=codehilite><code class=language-json>
+<pre class="codehilite"><code class="language-json">
 &quot;scripts&quot;: {
     &quot;serve&quot;: &quot;php -S 0.0.0.0:8080 -t public/&quot;
 }
 </code></pre>
 <p>Once you've added that, you can fire up the web server using:</p>
-<pre class=codehilite><code class=language-bash>
+<pre class="codehilite"><code class="language-bash">
 $ composer serve
 </code></pre>
 <h3>Setting a timeout</h3>
@@ -786,7 +785,7 @@ be done by using <code>composer run</code> to execute the <code>serve</code> scr
 will be used, and it will run until you cancel the process (usually via
 <code>Ctrl-C</code>). Alternately, you can specify a finite timeout; as an example,
 the following will extend the timeout to a full day:</p>
-<pre class=codehilite><code class=language-bash>
+<pre class="codehilite"><code class="language-bash">
 $ composer run --timeout=86400 serve
 </code></pre>
 </blockquote>
@@ -1309,9 +1308,10 @@ a single route. From here, you may want to read up on:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1348,7 +1348,7 @@ a single route. From here, you may want to read up on:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1357,8 +1357,8 @@ a single route. From here, you may want to read up on:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -690,12 +694,11 @@ a Composer plugin will add entries for their <code>ConfigProvider</code> classes
 <p>If for some reason you are not prompted, or chose "no" when answering the
 prompts, you can add them manually. Add the following entries in the array used
 to create your <code>ConfigAggregator</code> instance within <code>config/config.php</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>    \Laminas\Form\ConfigProvider::class,</span>
-<span class=x>    \Laminas\InputFilter\ConfigProvider::class,</span>
-<span class=x>    \Laminas\Filter\ConfigProvider::class,</span>
-<span class=x>    \Laminas\Validator\ConfigProvider::class,</span>
-<span class=x>    \Laminas\Hydrator\ConfigProvider::class,</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>    \Laminas\Form\ConfigProvider::class,
+    \Laminas\InputFilter\ConfigProvider::class,
+    \Laminas\Filter\ConfigProvider::class,
+    \Laminas\Validator\ConfigProvider::class,
+    \Laminas\Hydrator\ConfigProvider::class,</code></pre>
 <p>If you installed Mezzio via the skeleton, the service
 <code>Laminas\View\HelperPluginManager</code> is registered for you, and represents the helper
 plugin manager injected into the <code>PhpRenderer</code> instance. This instance gets its
@@ -717,32 +720,29 @@ and the Mezzio skeleton registers it be default. The simplest solution for
 adding other helpers is to replace it with your own. In your own factory, you
 will <em>also</em> configure the plugin manager with the configuration from the
 laminas-form component (or whichever other components you wish to use).</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Your\Application;</span>
+<pre class=codehilite><code class=language-php>namespace Your\Application;
 
-<span class=x>use Psr\Container\ContainerInterface;</span>
-<span class=x>use Laminas\ServiceManager\Config;</span>
-<span class=x>use Laminas\View\HelperPluginManager;</span>
+use Psr\Container\ContainerInterface;
+use Laminas\ServiceManager\Config;
+use Laminas\View\HelperPluginManager;
 
-<span class=x>class HelperPluginManagerFactory</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        $manager = new HelperPluginManager($container);</span>
+class HelperPluginManagerFactory
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        $manager = new HelperPluginManager($container);
 
-<span class=x>        $config = $container-&gt;has(&#39;config&#39;) ? $container-&gt;get(&#39;config&#39;) : [];</span>
-<span class=x>        $config = isset($config[&#39;view_helpers&#39;]) ? $config[&#39;view_helpers&#39;] : [];</span>
-<span class=x>        (new Config($config))-&gt;configureServiceManager($manager);</span>
+        $config = $container-&gt;has('config') ? $container-&gt;get('config') : [];
+        $config = isset($config['view_helpers']) ? $config['view_helpers'] : [];
+        (new Config($config))-&gt;configureServiceManager($manager);
 
-<span class=x>        return $manager;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+        return $manager;
+    }
+}</code></pre>
 <p>In your <code>config/autoload/templates.global.php</code> file, change the line that reads:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>Laminas\View\HelperPluginManager::class =&gt; Mezzio\LaminasView\HelperPluginManagerFactory::class,</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>Laminas\View\HelperPluginManager::class =&gt; Mezzio\LaminasView\HelperPluginManagerFactory::class,</code></pre>
 <p>to instead read as:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>Laminas\View\HelperPluginManager::class =&gt; Your\Application\HelperPluginManagerFactory::class,</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>Laminas\View\HelperPluginManager::class =&gt; Your\Application\HelperPluginManagerFactory::class,</code></pre>
 <p>This approach will work for any of the various containers supported.</p>
 <h2 id="delegator-factoriesservice-extension">Delegator factories/service extension</h2>
 <p><a href="https://docs.laminas.dev/laminas-servicemanager/delegators/">Delegator factories</a>
@@ -753,67 +753,65 @@ replacing it. We'll demonstrate this for laminas-servicemanager and Pimple; at t
 time of writing, we're unaware of a mechanism for doing so in Aura.Di.</p>
 <h3>laminas-servicemanager</h3>
 <p>You'll first need to create a delegator factory:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Your\Application;</span>
+<pre class=codehilite><code class=language-php>namespace Your\Application;
 
-<span class=x>use Psr\Container\ContainerInterface;</span>
-<span class=x>use Laminas\ServiceManager\Config;</span>
-<span class=x>use Laminas\ServiceManager\DelegatorFactoryInterface;</span>
-<span class=x>use Laminas\ServiceManager\ServiceLocatorInterface;</span>
+use Psr\Container\ContainerInterface;
+use Laminas\ServiceManager\Config;
+use Laminas\ServiceManager\DelegatorFactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
 
-<span class=x>class FormHelpersDelegatorFactory</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * laminas-servicemanager v3 support</span>
-<span class=x>     */</span>
-<span class=x>    public function __invoke(</span>
-<span class=x>        ContainerInterface $container,</span>
-<span class=x>        $name,</span>
-<span class=x>        callable $callback,</span>
-<span class=x>        array $options = null</span>
-<span class=x>    ) {</span>
-<span class=x>        $helpers = $callback();</span>
+class FormHelpersDelegatorFactory
+{
+    /**
+     * laminas-servicemanager v3 support
+     */
+    public function __invoke(
+        ContainerInterface $container,
+        $name,
+        callable $callback,
+        array $options = null
+    ) {
+        $helpers = $callback();
 
-<span class=x>        $config = $container-&gt;has(&#39;config&#39;) ? $container-&gt;get(&#39;config&#39;) : [];</span>
-<span class=x>        $config = new Config($config[&#39;view_helpers&#39;]);</span>
-<span class=x>        $config-&gt;configureServiceManager($helpers);</span>
-<span class=x>        return $helpers;</span>
-<span class=x>    }</span>
+        $config = $container-&gt;has('config') ? $container-&gt;get('config') : [];
+        $config = new Config($config['view_helpers']);
+        $config-&gt;configureServiceManager($helpers);
+        return $helpers;
+    }
 
-<span class=x>    /**</span>
-<span class=x>     * laminas-servicemanager v2 support</span>
-<span class=x>     */</span>
-<span class=x>    public function createDelegatorWithName(</span>
-<span class=x>        ServiceLocatorInterface $container,</span>
-<span class=x>        $name,</span>
-<span class=x>        $requestedName,</span>
-<span class=x>        $callback</span>
-<span class=x>    ) {</span>
-<span class=x>        return $this($container, $name, $callback);</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    /**
+     * laminas-servicemanager v2 support
+     */
+    public function createDelegatorWithName(
+        ServiceLocatorInterface $container,
+        $name,
+        $requestedName,
+        $callback
+    ) {
+        return $this($container, $name, $callback);
+    }
+}</code></pre>
 <p>The above creates an instance of <code>Laminas\ServiceManager\Config</code>, uses it to
 configure the already created <code>Laminas\View\HelperPluginManager</code> instance, and then
 returns the plugin manager instance.</p>
 <p>From here, you'll add a <code>delegators</code> configuration key in your
 <code>config/autoload/templates.global.php</code> file:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;delegators&#39; =&gt; [</span>
-<span class=x>            Laminas\View\HelperPluginManager::class =&gt; [</span>
-<span class=x>                Your\Application\FormHelpersDelegatorFactory::class,</span>
-<span class=x>            ],</span>
-<span class=x>        ],</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;templates&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;view_helpers&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'dependencies' =&gt; [
+        'delegators' =&gt; [
+            Laminas\View\HelperPluginManager::class =&gt; [
+                Your\Application\FormHelpersDelegatorFactory::class,
+            ],
+        ],
+        /* ... */
+    ],
+    'templates' =&gt; [
+        /* ... */
+    ],
+    'view_helpers' =&gt; [
+        /* ... */
+    ],
+];</code></pre>
 <p>Note: delegator factories are keyed by the service they modify, and the value is
 an <em>array</em> of delegator factories, to allow multiple such factories to be in
 use.</p>
@@ -822,109 +820,103 @@ use.</p>
 you'll need to edit the main container configuration file,
 <code>config/container.php</code>. Place the following anywhere after the factories and
 invokables are defined:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// The following assumes you&#39;ve added the following import statements to</span>
-<span class=x>// the start of the file:</span>
-<span class=x>// use Laminas\ServiceManager\Config as ServiceConfig;</span>
-<span class=x>// use Laminas\View\HelperPluginManager;</span>
-<span class=x>$container[HelperPluginManager::class] = $container-&gt;extend(</span>
-<span class=x>    HelperPluginManager::class,</span>
-<span class=x>    function ($helpers, $container) {</span>
-<span class=x>        $config = isset($container[&#39;config&#39;]) ? $container[&#39;config&#39;] : [];</span>
-<span class=x>        $config = new ServiceConfig($config[&#39;view_helpers&#39;]);</span>
-<span class=x>        $config-&gt;configureServiceManager($helpers);</span>
-<span class=x>        return $helpers;</span>
-<span class=x>    }</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// The following assumes you've added the following import statements to
+// the start of the file:
+// use Laminas\ServiceManager\Config as ServiceConfig;
+// use Laminas\View\HelperPluginManager;
+$container[HelperPluginManager::class] = $container-&gt;extend(
+    HelperPluginManager::class,
+    function ($helpers, $container) {
+        $config = isset($container['config']) ? $container['config'] : [];
+        $config = new ServiceConfig($config['view_helpers']);
+        $config-&gt;configureServiceManager($helpers);
+        return $helpers;
+    }
+);</code></pre>
 <h2 id="pipeline-middleware">Pipeline middleware</h2>
 <p>Another option is to use pipeline middleware. This approach will
 require that the middleware execute on every request, which introduces (very
 slight) performance overhead. However, it's a portable method that works
 regardless of the container implementation you choose.</p>
 <p>First, define the middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Your\Application</span>
+<pre class=codehilite><code class=language-php>namespace Your\Application
 
-<span class=x>use Interop\Http\ServerMiddleware\DelegateInterface;</span>
-<span class=x>use Interop\Http\ServerMiddleware\MiddlewareInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Laminas\Form\View\HelperConfig as FormHelperConfig;</span>
-<span class=x>use Laminas\View\HelperPluginManager;</span>
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Laminas\Form\View\HelperConfig as FormHelperConfig;
+use Laminas\View\HelperPluginManager;
 
-<span class=x>class FormHelpersMiddleware implements MiddlewareInterface</span>
-<span class=x>{</span>
-<span class=x>    private $helpers;</span>
+class FormHelpersMiddleware implements MiddlewareInterface
+{
+    private $helpers;
 
-<span class=x>    public function __construct(HelperPluginManager $helpers)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;helpers = $helpers;</span>
-<span class=x>    }</span>
+    public function __construct(HelperPluginManager $helpers)
+    {
+        $this-&gt;helpers = $helpers;
+    }
 
-<span class=x>    public function process(ServerRequestInterface $request, DelegateInterface $delegate)</span>
-<span class=x>    {</span>
-<span class=x>        $config = new FormHelperConfig();</span>
-<span class=x>        $config-&gt;configureServiceManager($this-&gt;helpers);</span>
-<span class=x>        return $delegate-&gt;process($request);</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    {
+        $config = new FormHelperConfig();
+        $config-&gt;configureServiceManager($this-&gt;helpers);
+        return $delegate-&gt;process($request);
+    }
+}</code></pre>
 <p>You'll also need a factory for the middleware, to ensure it receives the
 <code>HelperPluginManager</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Your\Application</span>
+<pre class=codehilite><code class=language-php>namespace Your\Application
 
-<span class=x>use Laminas\View\HelperPluginManager;</span>
+use Laminas\View\HelperPluginManager;
 
-<span class=x>class FormHelpersMiddlewareFactory</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke($container)</span>
-<span class=x>    {</span>
-<span class=x>        return new FormHelpersMiddleware(</span>
-<span class=x>            $container-&gt;get(HelperPluginManager::class)</span>
-<span class=x>        );</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class FormHelpersMiddlewareFactory
+{
+    public function __invoke($container)
+    {
+        return new FormHelpersMiddleware(
+            $container-&gt;get(HelperPluginManager::class)
+        );
+    }
+}</code></pre>
 <p>Next, register the middleware with its factory in one of
 <code>config/autoload/middleware-pipeline.global.php</code> or
 <code>config/autoload/dependencies.global.php</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            Your\Application\FormHelpersMiddleware::class =&gt; Your\Application\FormHelpersMiddlewareFactory::class</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'dependencies' =&gt; [
+        'factories' =&gt; [
+            Your\Application\FormHelpersMiddleware::class =&gt; Your\Application\FormHelpersMiddlewareFactory::class
+            /* ... */
+        ],
+        /* ... */
+    ],
+];</code></pre>
 <p>If using programmatic pipelines, pipe the middleware in an appropriate location
 in your pipeline:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(FormHelpersMiddleware::class);</span>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(FormHelpersMiddleware::class);
 
-<span class=x>// or, perhaps, in a route-specific middleware pipeline:</span>
-<span class=x>$app-&gt;post(&#39;/register&#39;, [</span>
-<span class=x>    FormHelpersMiddleware::class,</span>
-<span class=x>    RegisterMiddleware::class,</span>
-<span class=x>], &#39;register&#39;);</span>
-</pre></div></p>
+// or, perhaps, in a route-specific middleware pipeline:
+$app-&gt;post('/register', [
+    FormHelpersMiddleware::class,
+    RegisterMiddleware::class,
+], 'register');</code></pre>
 <p>If using configuration-driven pipelines or routing:</p>
-<p> <div class=codehilite><pre><span></span>// Via the middleware pipeline:
-&#39;middleware_pipeline&#39; =&gt; [
-    [&#39;middleware&#39; =&gt; Your\Application\FormHelpersMiddleware::class, &#39;priority&#39; =&gt; 1000],
+<pre class=codehilite><code>// Via the middleware pipeline:
+'middleware_pipeline' =&gt; [
+    ['middleware' =&gt; Your\Application\FormHelpersMiddleware::class, 'priority' =&gt; 1000],
 ],
 
 // Or via routes:
-&#39;routes&#39; =&gt; [
+'routes' =&gt; [
     [
-        &#39;name&#39;            =&gt; &#39;register&#39;,
-        &#39;path&#39;            =&gt; &#39;/register&#39;,
-        &#39;middleware&#39;      =&gt; [
+        'name'            =&gt; 'register',
+        'path'            =&gt; '/register',
+        'middleware'      =&gt; [
             FormHelpersMiddleware::class,
             RegisterMiddleware::class,
         ],
-        &#39;allowed_methods&#39; =&gt; [&#39;POST&#39;],
+        'allowed_methods' =&gt; ['POST'],
     ]
-]
-</pre></div></p>
+]</code></pre>
 <p>At that point, you're all set!</p>
 <h2 id="registering-more-helpers">Registering more helpers</h2>
 <p>What if you need to register helpers from multiple components?</p>
@@ -1443,9 +1435,10 @@ in your pipeline:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1482,7 +1475,7 @@ in your pipeline:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1491,8 +1484,8 @@ in your pipeline:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

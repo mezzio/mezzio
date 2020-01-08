@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -680,45 +684,43 @@ responses. To do this, you will:</p>
 <p>We encourage the use of dependency injection. As such, we recommend writing your
 middleware to accept the <code>TemplateRendererInterface</code> via either the constructor or a
 setter. As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Acme\Blog;</span>
+<pre class=codehilite><code class=language-php>namespace Acme\Blog;
 
-<span class=x>use Interop\Http\ServerMiddleware\DelegateInterface;</span>
-<span class=x>use Interop\Http\ServerMiddleware\MiddlewareInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Mezzio\Template\TemplateRendererInterface;</span>
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=x>class EntryMiddleware implements MiddlewareInterface</span>
-<span class=x>{</span>
-<span class=x>    private $templateRenderer;</span>
+class EntryMiddleware implements MiddlewareInterface
+{
+    private $templateRenderer;
 
-<span class=x>    public function __construct(TemplateRendererInterface $renderer)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;templateRenderer = $renderer;</span>
-<span class=x>    }</span>
+    public function __construct(TemplateRendererInterface $renderer)
+    {
+        $this-&gt;templateRenderer = $renderer;
+    }
 
-<span class=x>    public function process(ServerRequestInterface $request, DelegateInterface $delegate)</span>
-<span class=x>    {</span>
-<span class=x>        // ...</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    {
+        // ...
+    }
+}</code></pre>
 <p>This will necessitate having a factory for your middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Acme\Blog\Container;</span>
+<pre class=codehilite><code class=language-php>namespace Acme\Blog\Container;
 
-<span class=x>use Acme\Blog\EntryMiddleware;</span>
-<span class=x>use Psr\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Template\TemplateRendererInterface;</span>
+use Acme\Blog\EntryMiddleware;
+use Psr\Container\ContainerInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=x>class EntryMiddlewareFactory</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        return new EntryMiddleware(</span>
-<span class=x>            $container-&gt;get(TemplateRendererInterface::class)</span>
-<span class=x>        );</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class EntryMiddlewareFactory
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        return new EntryMiddleware(
+            $container-&gt;get(TemplateRendererInterface::class)
+        );
+    }
+}</code></pre>
 <p>And, of course, you'll need to tell your container to use the factory; see the
 <a href="../../container/intro/">container documentation</a> for more information on how you
 might accomplish that.</p>
@@ -726,34 +728,33 @@ might accomplish that.</p>
 <p>Now that we have the templating engine injected into our middleware, we can
 consume it. Most often, we will want to render a template, optionally with
 substitutions to pass to it. This will typically look like the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Acme\Blog;</span>
+<pre class=codehilite><code class=language-php>namespace Acme\Blog;
 
-<span class=x>use Interop\Http\ServerMiddleware\DelegateInterface;</span>
-<span class=x>use Interop\Http\ServerMiddleware\MiddlewareInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Laminas\Diactoros\Response\HtmlResponse;</span>
-<span class=x>use Mezzio\Template\TemplateRendererInterface;</span>
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Laminas\Diactoros\Response\HtmlResponse;
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=x>class EntryMiddleware implements MiddlewareInterface</span>
-<span class=x>{</span>
-<span class=x>    private $templateRenderer;</span>
+class EntryMiddleware implements MiddlewareInterface
+{
+    private $templateRenderer;
 
-<span class=x>    public function __construct(TemplateRendererInterface $renderer)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;templateRenderer = $renderer;</span>
-<span class=x>    }</span>
+    public function __construct(TemplateRendererInterface $renderer)
+    {
+        $this-&gt;templateRenderer = $renderer;
+    }
 
-<span class=x>    public function process(ServerRequestInterface $request, DelegateInterface $delegate)</span>
-<span class=x>    {</span>
-<span class=x>        // do some work...</span>
-<span class=x>        return new HtmlResponse(</span>
-<span class=x>            $this-&gt;templateRenderer-&gt;render(&#39;blog::entry&#39;, [</span>
-<span class=x>                &#39;entry&#39; =&gt; $entry,</span>
-<span class=x>            ])</span>
-<span class=x>        );</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    {
+        // do some work...
+        return new HtmlResponse(
+            $this-&gt;templateRenderer-&gt;render('blog::entry', [
+                'entry' =&gt; $entry,
+            ])
+        );
+    }
+}</code></pre>
 
 
 
@@ -1262,9 +1263,10 @@ substitutions to pass to it. This will typically look like the following:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1301,7 +1303,7 @@ substitutions to pass to it. This will typically look like the following:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1310,8 +1312,8 @@ substitutions to pass to it. This will typically look like the following:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -673,94 +677,91 @@ data contains an attribute containing data passed by outer middleware.</p>
 request attribute to nested middleware. We use the fully qualified class name
 for the attribute name to ensure uniqueness, but you can name it anything you
 want.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace App\Middleware;</span>
+<pre class=codehilite><code class=language-php>namespace App\Middleware;
 
-<span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Psr\Http\Server\MiddlewareInterface;</span>
-<span class=x>use Psr\Http\Server\RequestHandlerInterface;</span>
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-<span class=x>class PassingDataMiddleware implements MiddlewareInterface</span>
-<span class=x>{</span>
-<span class=x>    // ...</span>
+class PassingDataMiddleware implements MiddlewareInterface
+{
+    // ...
 
-<span class=x>    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface</span>
-<span class=x>    {</span>
-<span class=x>        // Step 1: Do something first</span>
-<span class=x>        $data = [</span>
-<span class=x>            &#39;foo&#39; =&gt; &#39;bar&#39;,</span>
-<span class=x>        ];</span>
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    {
+        // Step 1: Do something first
+        $data = [
+            'foo' =&gt; 'bar',
+        ];
 
-<span class=x>        // Step 2: Inject data into the request, call the next middleware and wait for the response</span>
-<span class=x>        $response = $handler-&gt;handle($request-&gt;withAttribute(self::class, $data));</span>
+        // Step 2: Inject data into the request, call the next middleware and wait for the response
+        $response = $handler-&gt;handle($request-&gt;withAttribute(self::class, $data));
 
-<span class=x>        // Step 3: Optionally, do something (with the response) before returning the response</span>
+        // Step 3: Optionally, do something (with the response) before returning the response
 
-<span class=x>        // Step 4: Return the response</span>
-<span class=x>        return $response;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+        // Step 4: Return the response
+        return $response;
+    }
+}</code></pre>
 <p>Later, <code>ReceivingDataMiddleware</code> grabs the data and processes it:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace App\Middleware;</span>
+<pre class=codehilite><code class=language-php>namespace App\Middleware;
 
-<span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Psr\Http\Server\MiddlewareInterface;</span>
-<span class=x>use Psr\Http\Server\RequestHandlerInterface;</span>
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-<span class=x>class ReceivingDataMiddleware implements MiddlewareInterface</span>
-<span class=x>{</span>
-<span class=x>    // ...</span>
+class ReceivingDataMiddleware implements MiddlewareInterface
+{
+    // ...
 
-<span class=x>    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface</span>
-<span class=x>    {</span>
-<span class=x>        // Step 1: Grab the data from the request and use it</span>
-<span class=x>        $data = $request-&gt;getAttribute(PassingDataMiddleware::class);</span>
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    {
+        // Step 1: Grab the data from the request and use it
+        $data = $request-&gt;getAttribute(PassingDataMiddleware::class);
 
-<span class=x>        // Step 2: Call the next middleware and wait for the response</span>
-<span class=x>        $response = $handler-&gt;handle($request);</span>
+        // Step 2: Call the next middleware and wait for the response
+        $response = $handler-&gt;handle($request);
 
-<span class=x>        // Step 3: Optionally, do something (with the response) before returning the response</span>
+        // Step 3: Optionally, do something (with the response) before returning the response
 
-<span class=x>        // Step 4: Return the response</span>
-<span class=x>        return $response;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+        // Step 4: Return the response
+        return $response;
+    }
+}</code></pre>
 <p>Of course, you could also use the data in routed middleware, which is usually at
 the innermost layer of your application. The <code>ExampleHandler</code> below takes that
 information and passes it to the template renderer to create an <code>HtmlResponse</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace App\Handler;</span>
+<pre class=codehilite><code class=language-php>namespace App\Handler;
 
-<span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Psr\Http\Server\MiddlewareInterface;</span>
-<span class=x>use Psr\Http\Server\RequestHandlerInterface;</span>
-<span class=x>use Laminas\Diactoros\Response\HtmlResponse;</span>
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Laminas\Diactoros\Response\HtmlResponse;
 
-<span class=x>class ExampleHandler implements RequestHandlerInterface</span>
-<span class=x>{</span>
-<span class=x>    // ...</span>
+class ExampleHandler implements RequestHandlerInterface
+{
+    // ...
 
-<span class=x>    public function handle(ServerRequestInterface $request) : ResponseInterface</span>
-<span class=x>    {</span>
-<span class=x>        // Step 1: Grab the data from the request</span>
-<span class=x>        $data = $request-&gt;getAttribute(PassingDataMiddleware::class);</span>
-<span class=x>        $id = $request-&gt;getAttribute(&#39;id&#39;);</span>
+    public function handle(ServerRequestInterface $request) : ResponseInterface
+    {
+        // Step 1: Grab the data from the request
+        $data = $request-&gt;getAttribute(PassingDataMiddleware::class);
+        $id = $request-&gt;getAttribute('id');
 
-<span class=x>        // Step 2: Do some more stuff</span>
+        // Step 2: Do some more stuff
 
-<span class=x>        // Step 3: Return a Response</span>
-<span class=x>        return new HtmlResponse(</span>
-<span class=x>            $this-&gt;templateRenderer-&gt;render(&#39;blog::entry&#39;, [</span>
-<span class=x>                &#39;data&#39; =&gt; $data,</span>
-<span class=x>                &#39;id&#39; =&gt; $id,</span>
-<span class=x>            ])</span>
-<span class=x>        );</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+        // Step 3: Return a Response
+        return new HtmlResponse(
+            $this-&gt;templateRenderer-&gt;render('blog::entry', [
+                'data' =&gt; $data,
+                'id' =&gt; $id,
+            ])
+        );
+    }
+}</code></pre>
 
 
 
@@ -1296,9 +1297,10 @@ information and passes it to the template renderer to create an <code>HtmlRespon
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1335,7 +1337,7 @@ information and passes it to the template renderer to create an <code>HtmlRespon
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1344,8 +1346,8 @@ information and passes it to the template renderer to create an <code>HtmlRespon
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -701,20 +705,18 @@ for full usage details.</p>
 provides a PSR-15 middleware wrapper around <a href="https://github.com/maximebf/php-debugbar">maximebf/php-debugbar</a>,
 a popular framework-agnostic debug bar for PHP projects.</p>
 <p>First, install the middleware in your application:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require php-middleware/php-debug-bar
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require php-middleware/php-debug-bar</code></pre>
 <p>This package supplies a config provider, which could be added to your
 <code>config/config.php</code> when using laminas-config-aggregator or
 mezzio-config-manager. However, because it should only be enabled in
 development, we recommend creating a "local" configuration file (e.g.,
 <code>config/autoload/php-debugbar.local.php</code>) when you need to enable it, with the
 following contents:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>PhpMiddleware\PhpDebugBar\ConfigProvider</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use PhpMiddleware\PhpDebugBar\ConfigProvider;
 
-<span class=nv>$provider</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ConfigProvider</span><span class=p>();</span>
-<span class=k>return</span> <span class=nv>$provider</span><span class=p>();</span>
-</pre></div></p>
+$provider = new ConfigProvider();
+return $provider();</code></pre>
 <blockquote>
 <h3>Use locally!</h3>
 <p>Remember to enable <code>PhpMiddleware\PhpDebugBar\ConfigProvider</code> only in your
@@ -1255,9 +1257,10 @@ development environments!</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1294,7 +1297,7 @@ development environments!</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1303,8 +1306,8 @@ development environments!</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

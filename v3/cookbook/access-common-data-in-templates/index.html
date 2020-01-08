@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -673,85 +677,81 @@ can you make such data available to all templates?</p>
 on the template renderer's <code>addDefaultParam()</code> method.</p>
 <p>Foolowing is an example that injects the current user, the matched route name,
 and all flash messages via a single middleware.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// In src/App/Middleware/TemplateDefaultsMiddleware.php (flat structure), or</span>
-<span class=x>// in src/App/src/Middleware/TemplateDefaultsMiddleware.php (modular structure):</span>
-<span class=cp>&lt;?php</span>
+<pre class=codehilite><code class=language-php>// In src/App/Middleware/TemplateDefaultsMiddleware.php (flat structure), or
+// in src/App/src/Middleware/TemplateDefaultsMiddleware.php (modular structure):
+&lt;?php
 
-<span class=k>declare</span><span class=p>(</span><span class=nx>strict_types</span><span class=o>=</span><span class=mi>1</span><span class=p>);</span>
+declare(strict_types=1);
 
-<span class=k>namespace</span> <span class=nx>App\Middleware</span><span class=p>;</span>
+namespace App\Middleware;
 
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ResponseInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ServerRequestInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Server\MiddlewareInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Server\RequestHandlerInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Router\RouteResult</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Session\Authentication\UserInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Flash\FlashMessagesInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Flash\FlashMessageMiddleware</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Template\TemplateRendererInterface</span><span class=p>;</span>
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Mezzio\Router\RouteResult;
+use Mezzio\Session\Authentication\UserInterface;
+use Mezzio\Flash\FlashMessagesInterface;
+use Mezzio\Flash\FlashMessageMiddleware;
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=k>class</span> <span class=nc>TemplateDefaultsMiddleware</span> <span class=k>implements</span> <span class=nx>MiddlewareInterface</span>
-<span class=p>{</span>
-    <span class=sd>/** @var TemplateRendererInterface */</span>
-    <span class=k>private</span> <span class=nv>$templateRenderer</span><span class=p>;</span>
+class TemplateDefaultsMiddleware implements MiddlewareInterface
+{
+    /** @var TemplateRendererInterface */
+    private $templateRenderer;
 
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__construct</span><span class=p>(</span><span class=nx>TemplateRendererInterface</span> <span class=nv>$templateRenderer</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>templateRenderer</span> <span class=o>=</span> <span class=nv>$templateRenderer</span><span class=p>;</span>
-    <span class=p>}</span>
+    public function __construct(TemplateRendererInterface $templateRenderer)
+    {
+        $this-&gt;templateRenderer = $templateRenderer;
+    }
 
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>process</span><span class=p>(</span><span class=nx>ServerRequestInterface</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>RequestHandlerInterface</span> <span class=nv>$handler</span><span class=p>)</span> <span class=o>:</span> <span class=nx>ResponseInterface</span>
-    <span class=p>{</span>
-        <span class=c1>// Inject the current user, or null if there isn&#39;t one.</span>
-        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>templateRenderer</span><span class=o>-&gt;</span><span class=na>addDefaultParam</span><span class=p>(</span>
-            <span class=nx>TemplateRendererInterface</span><span class=o>::</span><span class=na>TEMPLATE_ALL</span><span class=p>,</span>
-            <span class=s1>&#39;security&#39;</span><span class=p>,</span> <span class=c1>// This is named security so it will not interfere with your user admin pages</span>
-            <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>getAttribute</span><span class=p>(</span><span class=nx>UserInterface</span><span class=o>::</span><span class=na>class</span><span class=p>)</span>
-        <span class=p>);</span>
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    {
+        // Inject the current user, or null if there isn't one.
+        $this-&gt;templateRenderer-&gt;addDefaultParam(
+            TemplateRendererInterface::TEMPLATE_ALL,
+            'security', // This is named security so it will not interfere with your user admin pages
+            $request-&gt;getAttribute(UserInterface::class)
+        );
 
-        <span class=c1>// Inject the currently matched route name.</span>
-        <span class=nv>$routeResult</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>getAttribute</span><span class=p>(</span><span class=nx>RouteResult</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
-        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>templateRenderer</span><span class=o>-&gt;</span><span class=na>addDefaultParam</span><span class=p>(</span>
-            <span class=nx>TemplateRendererInterface</span><span class=o>::</span><span class=na>TEMPLATE_ALL</span><span class=p>,</span>
-            <span class=s1>&#39;matchedRouteName&#39;</span><span class=p>,</span>
-            <span class=nv>$routeResult</span> <span class=o>?</span> <span class=nv>$routeResult</span><span class=o>-&gt;</span><span class=na>getMatchedRouteName</span><span class=p>()</span> <span class=o>:</span> <span class=k>null</span>
-        <span class=p>);</span>
+        // Inject the currently matched route name.
+        $routeResult = $request-&gt;getAttribute(RouteResult::class);
+        $this-&gt;templateRenderer-&gt;addDefaultParam(
+            TemplateRendererInterface::TEMPLATE_ALL,
+            'matchedRouteName',
+            $routeResult ? $routeResult-&gt;getMatchedRouteName() : null
+        );
 
-        <span class=c1>// Inject all flash messages</span>
-        <span class=sd>/** @var FlashMessagesInterface $flashMessages */</span>
-        <span class=nv>$flashMessages</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>getAttribute</span><span class=p>(</span><span class=nx>FlashMessageMiddleware</span><span class=o>::</span><span class=na>FLASH_ATTRIBUTE</span><span class=p>);</span>
-        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>templateRenderer</span><span class=o>-&gt;</span><span class=na>addDefaultParam</span><span class=p>(</span>
-            <span class=nx>TemplateRendererInterface</span><span class=o>::</span><span class=na>TEMPLATE_ALL</span><span class=p>,</span>
-            <span class=s1>&#39;notifications&#39;</span><span class=p>,</span>
-            <span class=nv>$flashMessages</span> <span class=o>?</span> <span class=nv>$flashMessages</span><span class=o>-&gt;</span><span class=na>getFlashes</span><span class=p>()</span> <span class=o>:</span> <span class=p>[]</span>
-        <span class=p>);</span>
+        // Inject all flash messages
+        /** @var FlashMessagesInterface $flashMessages */
+        $flashMessages = $request-&gt;getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
+        $this-&gt;templateRenderer-&gt;addDefaultParam(
+            TemplateRendererInterface::TEMPLATE_ALL,
+            'notifications',
+            $flashMessages ? $flashMessages-&gt;getFlashes() : []
+        );
 
-        <span class=c1>// Inject any other data you always need in all your templates...</span>
+        // Inject any other data you always need in all your templates...
 
-        <span class=k>return</span> <span class=nv>$handler</span><span class=o>-&gt;</span><span class=na>handle</span><span class=p>(</span><span class=nv>$request</span><span class=p>);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+        return $handler-&gt;handle($request);
+    }
+}</code></pre>
 <p>Next you need to create a factory for this middleware and register it with the
 DI container; <a href="../../reference/cli-tooling/">mezzio-tooling</a> provides
 functionality for doing so:</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio factory:create <span class=s2>&quot;App\Middleware\TemplateDefaultsMiddleware&quot;</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio factory:create &quot;App\Middleware\TemplateDefaultsMiddleware&quot;</code></pre>
 <p>Once the factory is created, you can add this to any route that may generate a
 template:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// In config/routes.php:</span>
-<span class=x>$app-&gt;get(&#39;/some/resource/{id}&#39;, [</span>
-<span class=x>    App\Middleware\TemplateDefaultsMiddleware::class,</span>
-<span class=x>    SomeResourceHandler::class,</span>
-<span class=x>]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// In config/routes.php:
+$app-&gt;get('/some/resource/{id}', [
+    App\Middleware\TemplateDefaultsMiddleware::class,
+    SomeResourceHandler::class,
+]);</code></pre>
 <p>Alternately, if you want it to apply to any handler, place it in your
 application pipeline immediately before the <code>DispatchMiddleware</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// In config/pipeline.php:</span>
-<span class=x>$app-&gt;pipe(App\Middleware\TemplateDefaultsMiddleware::class);</span>
-<span class=x>$app-&gt;pipe(DispatchMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// In config/pipeline.php:
+$app-&gt;pipe(App\Middleware\TemplateDefaultsMiddleware::class);
+$app-&gt;pipe(DispatchMiddleware::class);</code></pre>
 <blockquote>
 <p>Be aware, however, that if authentication is performed in per-handler
 pipelines, you will need to use the first approach to ensure that the
@@ -1292,9 +1292,10 @@ authenticated user has been discovered.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1331,7 +1332,7 @@ authenticated user has been discovered.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1340,8 +1341,8 @@ authenticated user has been discovered.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

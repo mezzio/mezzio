@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -696,32 +700,29 @@ It features:</p>
 as of version 3.2. To use Pimple as a dependency injection container, we
 recommend using <a href="https://github.com/laminas/laminas-pimple-config">laminas/laminas-pimple-config</a>,
 which helps you to configure the PSR-11 container. First install the package:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require laminas/laminas-pimple-config
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require laminas/laminas-pimple-config</code></pre>
 <p>Now, create the file <code>config/container.php</code> with the following contents:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\Pimple\Config\Config</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Pimple\Config\ContainerFactory</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\Pimple\Config\Config;
+use Laminas\Pimple\Config\ContainerFactory;
 
-<span class=nv>$config</span>  <span class=o>=</span> <span class=k>require</span> <span class=no>__DIR__</span> <span class=o>.</span> <span class=s1>&#39;/config.php&#39;</span><span class=p>;</span>
-<span class=nv>$factory</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ContainerFactory</span><span class=p>();</span>
+$config  = require __DIR__ . '/config.php';
+$factory = new ContainerFactory();
 
-<span class=k>return</span> <span class=nv>$factory</span><span class=p>(</span><span class=k>new</span> <span class=nx>Config</span><span class=p>(</span><span class=nv>$config</span><span class=p>));</span>
-</pre></div></p>
+return $factory(new Config($config));</code></pre>
 <p>For more information, please see the
 <a href="https://github.com/laminas/laminas-pimple-config/blob/master/README.md">laminas-pimple-config documentation</a>.</p>
 <p>Your bootstrap (typically <code>public/index.php</code>) will then look like this:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>chdir(dirname(__DIR__));</span>
-<span class=x>require &#39;vendor/autoload.php&#39;;</span>
+<pre class=codehilite><code class=language-php>chdir(dirname(__DIR__));
+require 'vendor/autoload.php';
 
-<span class=x>$container = require &#39;config/container.php&#39;;</span>
-<span class=x>$app = $container-&gt;get(Mezzio\Application::class);</span>
+$container = require 'config/container.php';
+$app = $container-&gt;get(Mezzio\Application::class);
 
-<span class=x>require &#39;config/pipeline.php&#39;;</span>
-<span class=x>require &#39;config/routes.php&#39;;</span>
+require 'config/pipeline.php';
+require 'config/routes.php';
 
-<span class=x>$app-&gt;run();</span>
-</pre></div></p>
+$app-&gt;run();</code></pre>
 
 
 
@@ -1257,9 +1258,10 @@ which helps you to configure the PSR-11 container. First install the package:</p
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1296,7 +1298,7 @@ which helps you to configure the PSR-11 container. First install the package:</p
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1305,8 +1307,8 @@ which helps you to configure the PSR-11 container. First install the package:</p
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -628,61 +632,60 @@ dynamic routing capabilities to middleware. The interface serves as an
 abstraction to allow routers with varying capabilities to be used with an
 application.</p>
 <p>The interface is defined as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Mezzio\Router;</span>
+<pre class=codehilite><code class=language-php>namespace Mezzio\Router;
 
-<span class=x>use Psr\Http\Message\ServerRequestInterface as Request;</span>
+use Psr\Http\Message\ServerRequestInterface as Request;
 
-<span class=x>interface RouterInterface</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * Add a route.</span>
-<span class=x>     *</span>
-<span class=x>     * This method adds a route against which the underlying implementation may</span>
-<span class=x>     * match. Implementations MUST aggregate route instances, but MUST NOT use</span>
-<span class=x>     * the details to inject the underlying router until `match()` and/or</span>
-<span class=x>     * `generateUri()` is called.  This is required to allow consumers to</span>
-<span class=x>     * modify route instances before matching (e.g., to provide route options,</span>
-<span class=x>     * inject a name, etc.).</span>
-<span class=x>     *</span>
-<span class=x>     * The method MUST raise Exception\RuntimeException if called after either `match()`</span>
-<span class=x>     * or `generateUri()` have already been called, to ensure integrity of the</span>
-<span class=x>     * router between invocations of either of those methods.</span>
-<span class=x>     *</span>
-<span class=x>     * @param Route $route</span>
-<span class=x>     * @throws Exception\RuntimeException when called after match() or</span>
-<span class=x>     *     generateUri() have been called.</span>
-<span class=x>     */</span>
-<span class=x>    public function addRoute(Route $route);</span>
+interface RouterInterface
+{
+    /**
+     * Add a route.
+     *
+     * This method adds a route against which the underlying implementation may
+     * match. Implementations MUST aggregate route instances, but MUST NOT use
+     * the details to inject the underlying router until `match()` and/or
+     * `generateUri()` is called.  This is required to allow consumers to
+     * modify route instances before matching (e.g., to provide route options,
+     * inject a name, etc.).
+     *
+     * The method MUST raise Exception\RuntimeException if called after either `match()`
+     * or `generateUri()` have already been called, to ensure integrity of the
+     * router between invocations of either of those methods.
+     *
+     * @param Route $route
+     * @throws Exception\RuntimeException when called after match() or
+     *     generateUri() have been called.
+     */
+    public function addRoute(Route $route);
 
-<span class=x>    /**</span>
-<span class=x>     * Match a request against the known routes.</span>
-<span class=x>     *</span>
-<span class=x>     * Implementations will aggregate required information from the provided</span>
-<span class=x>     * request instance, and pass them to the underlying router implementation;</span>
-<span class=x>     * when done, they will then marshal a `RouteResult` instance indicating</span>
-<span class=x>     * the results of the matching operation and return it to the caller.</span>
-<span class=x>     *</span>
-<span class=x>     * @param  Request $request</span>
-<span class=x>     * @return RouteResult</span>
-<span class=x>     */</span>
-<span class=x>    public function match(Request $request);</span>
+    /**
+     * Match a request against the known routes.
+     *
+     * Implementations will aggregate required information from the provided
+     * request instance, and pass them to the underlying router implementation;
+     * when done, they will then marshal a `RouteResult` instance indicating
+     * the results of the matching operation and return it to the caller.
+     *
+     * @param  Request $request
+     * @return RouteResult
+     */
+    public function match(Request $request);
 
-<span class=x>    /**</span>
-<span class=x>     * Generate a URI from the named route.</span>
-<span class=x>     *</span>
-<span class=x>     * Takes the named route and any substitutions, and attempts to generate a</span>
-<span class=x>     * URI from it.</span>
-<span class=x>     *</span>
-<span class=x>     * @see https://github.com/auraphp/Aura.Router#generating-a-route-path</span>
-<span class=x>     * @see https://docs.laminas.dev/laminas.mvc.routing.html</span>
-<span class=x>     * @param string $name</span>
-<span class=x>     * @param array $substitutions</span>
-<span class=x>     * @return string</span>
-<span class=x>     * @throws Exception\RuntimeException if unable to generate the given URI.</span>
-<span class=x>     */</span>
-<span class=x>    public function generateUri($name, array $substitutions = []);</span>
-<span class=x>}</span>
-</pre></div></p>
+    /**
+     * Generate a URI from the named route.
+     *
+     * Takes the named route and any substitutions, and attempts to generate a
+     * URI from it.
+     *
+     * @see https://github.com/auraphp/Aura.Router#generating-a-route-path
+     * @see https://docs.laminas.dev/laminas.mvc.routing.html
+     * @param string $name
+     * @param array $substitutions
+     * @return string
+     * @throws Exception\RuntimeException if unable to generate the given URI.
+     */
+    public function generateUri($name, array $substitutions = []);
+}</code></pre>
 <p>Developers may create and use their own implementations. We recommend
 registering your implementation as the service
 <code>Mezzio\Router\RouterInterface</code> in your container to ensure other
@@ -701,70 +704,69 @@ following information:</p>
 <li>Optionally, a name by which to reference the route.</li>
 </ul>
 <p>The <code>Route</code> class has the following signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Mezzio\Router;</span>
+<pre class=codehilite><code class=language-php>namespace Mezzio\Router;
 
-<span class=x>class Route</span>
-<span class=x>{</span>
-<span class=x>    const HTTP_METHOD_ANY = 0xff;</span>
-<span class=x>    const HTTP_METHOD_SEPARATOR = &#39;:&#39;;</span>
+class Route
+{
+    const HTTP_METHOD_ANY = 0xff;
+    const HTTP_METHOD_SEPARATOR = ':';
 
-<span class=x>    /**</span>
-<span class=x>     * @param string $path Path to match.</span>
-<span class=x>     * @param string|callable $middleware Middleware to use when this route is matched.</span>
-<span class=x>     * @param int|array Allowed HTTP methods; defaults to HTTP_METHOD_ANY.</span>
-<span class=x>     * @param string|null $name the route name</span>
-<span class=x>     * @throws Exception\InvalidArgumentException for invalid path type.</span>
-<span class=x>     * @throws Exception\InvalidArgumentException for invalid middleware type.</span>
-<span class=x>     * @throws Exception\InvalidArgumentException for any invalid HTTP method names.</span>
-<span class=x>     */</span>
-<span class=x>    public function __construct($path, $middleware, $methods = self::HTTP_METHOD_ANY, $name = null);</span>
+    /**
+     * @param string $path Path to match.
+     * @param string|callable $middleware Middleware to use when this route is matched.
+     * @param int|array Allowed HTTP methods; defaults to HTTP_METHOD_ANY.
+     * @param string|null $name the route name
+     * @throws Exception\InvalidArgumentException for invalid path type.
+     * @throws Exception\InvalidArgumentException for invalid middleware type.
+     * @throws Exception\InvalidArgumentException for any invalid HTTP method names.
+     */
+    public function __construct($path, $middleware, $methods = self::HTTP_METHOD_ANY, $name = null);
 
-<span class=x>    /**</span>
-<span class=x>     * @return string</span>
-<span class=x>     */</span>
-<span class=x>    public function getPath();</span>
+    /**
+     * @return string
+     */
+    public function getPath();
 
-<span class=x>    /**</span>
-<span class=x>     * Set the route name.</span>
-<span class=x>     *</span>
-<span class=x>     * @param string $name</span>
-<span class=x>     */</span>
-<span class=x>    public function setName($name);</span>
+    /**
+     * Set the route name.
+     *
+     * @param string $name
+     */
+    public function setName($name);
 
-<span class=x>    /**</span>
-<span class=x>     * @return string</span>
-<span class=x>     */</span>
-<span class=x>    public function getName();</span>
+    /**
+     * @return string
+     */
+    public function getName();
 
-<span class=x>    /**</span>
-<span class=x>     * @return string|callable</span>
-<span class=x>     */</span>
-<span class=x>    public function getMiddleware();</span>
+    /**
+     * @return string|callable
+     */
+    public function getMiddleware();
 
-<span class=x>    /**</span>
-<span class=x>     * @return int|string[] Returns HTTP_METHOD_ANY or array of allowed methods.</span>
-<span class=x>     */</span>
-<span class=x>    public function getAllowedMethods();</span>
+    /**
+     * @return int|string[] Returns HTTP_METHOD_ANY or array of allowed methods.
+     */
+    public function getAllowedMethods();
 
-<span class=x>    /**</span>
-<span class=x>     * Indicate whether the specified method is allowed by the route.</span>
-<span class=x>     *</span>
-<span class=x>     * @param string $method HTTP method to test.</span>
-<span class=x>     * @return bool</span>
-<span class=x>     */</span>
-<span class=x>    public function allowsMethod($method);</span>
+    /**
+     * Indicate whether the specified method is allowed by the route.
+     *
+     * @param string $method HTTP method to test.
+     * @return bool
+     */
+    public function allowsMethod($method);
 
-<span class=x>    /**</span>
-<span class=x>     * @param array $options</span>
-<span class=x>     */</span>
-<span class=x>    public function setOptions(array $options);</span>
+    /**
+     * @param array $options
+     */
+    public function setOptions(array $options);
 
-<span class=x>    /**</span>
-<span class=x>     * @return array</span>
-<span class=x>     */</span>
-<span class=x>    public function getOptions();</span>
-<span class=x>}</span>
-</pre></div></p>
+    /**
+     * @return array
+     */
+    public function getOptions();
+}</code></pre>
 <p>Typically, developers will use <code>Mezzio\Application::route()</code> (or one of
 the HTTP-specific routing methods) to create routes, and will not need to
 interact with <code>Route</code> instances. However, that method can <em>also</em> accept <code>Route</code>
@@ -784,85 +786,84 @@ failure was due to inability to match, or usage of a disallowed HTTP method; in
 the former case, it proceeds to the next middleware in the stack, and in the
 latter, returns a 405 response.</p>
 <p>The <code>RouteResult</code> signature is as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Mezzio\Router;</span>
+<pre class=codehilite><code class=language-php>namespace Mezzio\Router;
 
-<span class=x>class RouteResult</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * Create an instance representing a route success.</span>
-<span class=x>     *</span>
-<span class=x>     * @param string $name Name of matched route.</span>
-<span class=x>     * @param callable|string $middleware Middleware associated with the</span>
-<span class=x>     *     matched route.</span>
-<span class=x>     * @param array $params Parameters associated with the matched route.</span>
-<span class=x>     * @return static</span>
-<span class=x>     */</span>
-<span class=x>    public static function fromRouteMatch($name, $middleware, array $params);</span>
+class RouteResult
+{
+    /**
+     * Create an instance representing a route success.
+     *
+     * @param string $name Name of matched route.
+     * @param callable|string $middleware Middleware associated with the
+     *     matched route.
+     * @param array $params Parameters associated with the matched route.
+     * @return static
+     */
+    public static function fromRouteMatch($name, $middleware, array $params);
 
-<span class=x>    /**</span>
-<span class=x>     * Create an instance representing a route failure.</span>
-<span class=x>     *</span>
-<span class=x>     * @param null|int|array $methods HTTP methods allowed for the current URI, if any</span>
-<span class=x>     * @return static</span>
-<span class=x>     */</span>
-<span class=x>    public static function fromRouteFailure($methods = null);</span>
+    /**
+     * Create an instance representing a route failure.
+     *
+     * @param null|int|array $methods HTTP methods allowed for the current URI, if any
+     * @return static
+     */
+    public static function fromRouteFailure($methods = null);
 
-<span class=x>    /**</span>
-<span class=x>     * Does the result represent successful routing?</span>
-<span class=x>     *</span>
-<span class=x>     * @return bool</span>
-<span class=x>     */</span>
-<span class=x>    public function isSuccess();</span>
+    /**
+     * Does the result represent successful routing?
+     *
+     * @return bool
+     */
+    public function isSuccess();
 
-<span class=x>    /**</span>
-<span class=x>     * Retrieve the matched route name, if possible.</span>
-<span class=x>     *</span>
-<span class=x>     * If this result represents a failure, return false; otherwise, return the</span>
-<span class=x>     * matched route name.</span>
-<span class=x>     *</span>
-<span class=x>     * @return string</span>
-<span class=x>     */</span>
-<span class=x>    public function getMatchedRouteName();</span>
+    /**
+     * Retrieve the matched route name, if possible.
+     *
+     * If this result represents a failure, return false; otherwise, return the
+     * matched route name.
+     *
+     * @return string
+     */
+    public function getMatchedRouteName();
 
-<span class=x>    /**</span>
-<span class=x>     * Retrieve the matched middleware, if possible.</span>
-<span class=x>     *</span>
-<span class=x>     * @return false|callable|string Returns false if the result represents a</span>
-<span class=x>     *     failure; otherwise, a callable or a string service name.</span>
-<span class=x>     */</span>
-<span class=x>    public function getMatchedMiddleware();</span>
+    /**
+     * Retrieve the matched middleware, if possible.
+     *
+     * @return false|callable|string Returns false if the result represents a
+     *     failure; otherwise, a callable or a string service name.
+     */
+    public function getMatchedMiddleware();
 
-<span class=x>    /**</span>
-<span class=x>     * Returns the matched params.</span>
-<span class=x>     *</span>
-<span class=x>     * Guaranteed to return an array, even if it is simply empty.</span>
-<span class=x>     *</span>
-<span class=x>     * @return array</span>
-<span class=x>     */</span>
-<span class=x>    public function getMatchedParams();</span>
+    /**
+     * Returns the matched params.
+     *
+     * Guaranteed to return an array, even if it is simply empty.
+     *
+     * @return array
+     */
+    public function getMatchedParams();
 
-<span class=x>    /**</span>
-<span class=x>     * Is this a routing failure result?</span>
-<span class=x>     *</span>
-<span class=x>     * @return bool</span>
-<span class=x>     */</span>
-<span class=x>    public function isFailure();</span>
+    /**
+     * Is this a routing failure result?
+     *
+     * @return bool
+     */
+    public function isFailure();
 
-<span class=x>    /**</span>
-<span class=x>     * Does the result represent failure to route due to HTTP method?</span>
-<span class=x>     *</span>
-<span class=x>     * @return bool</span>
-<span class=x>     */</span>
-<span class=x>    public function isMethodFailure();</span>
+    /**
+     * Does the result represent failure to route due to HTTP method?
+     *
+     * @return bool
+     */
+    public function isMethodFailure();
 
-<span class=x>    /**</span>
-<span class=x>     * Retrieve the allowed methods for the route failure.</span>
-<span class=x>     *</span>
-<span class=x>     * @return string[] HTTP methods allowed</span>
-<span class=x>     */</span>
-<span class=x>    public function getAllowedMethods();</span>
-<span class=x>}</span>
-</pre></div></p>
+    /**
+     * Retrieve the allowed methods for the route failure.
+     *
+     * @return string[] HTTP methods allowed
+     */
+    public function getAllowedMethods();
+}</code></pre>
 <p>Typically, only those implementing routers will interact with this class.</p>
 
 
@@ -1327,9 +1328,10 @@ latter, returns a 405 response.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1366,7 +1368,7 @@ latter, returns a 405 response.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1375,8 +1377,8 @@ latter, returns a 405 response.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

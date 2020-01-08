@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -688,22 +692,20 @@ constructor, and provides the following methods:</p>
 <p>These methods allow you to add routes to the underlying router. The last five
 all reference the HTTP method the generated route will answer to, and each have
 the same signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function {method}(</span>
-<span class=x>    string $path,</span>
-<span class=x>    Psr\Http\Server\MiddlewareInterface $middleware,</span>
-<span class=x>    string $name = null</span>
-<span class=x>) : Mezzio\Router\Route</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function {method}(
+    string $path,
+    Psr\Http\Server\MiddlewareInterface $middleware,
+    string $name = null
+) : Mezzio\Router\Route</code></pre>
 <p>The <code>any()</code> method has the same signature, but indicates that it will answer to
 <em>any</em> HTTP method.</p>
 <p>Finally, <code>route()</code> has the following signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function route(</span>
-<span class=x>    string $path,</span>
-<span class=x>    Psr\Http\Server\MiddlewareInterface $middleware,</span>
-<span class=x>    array $methods = null,</span>
-<span class=x>    string $name = null</span>
-<span class=x>) : Mezzio\Router\Route</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function route(
+    string $path,
+    Psr\Http\Server\MiddlewareInterface $middleware,
+    array $methods = null,
+    string $name = null
+) : Mezzio\Router\Route</code></pre>
 <p>A <code>null</code> value for the <code>$methods</code> indicates any HTTP method is allowed.</p>
 <p><code>Mezzio\Application</code> composes an instance of this class
 and proxies to it when any of the above methods are called.
@@ -1244,9 +1246,10 @@ same router instance, allowing it to honor the definitions created.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1283,7 +1286,7 @@ same router instance, allowing it to honor the definitions created.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1292,8 +1295,8 @@ same router instance, allowing it to honor the definitions created.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

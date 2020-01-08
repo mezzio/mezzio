@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -705,32 +709,29 @@ as a standalone component by SensioLabs. It provides:</p>
 <code>Mezzio\Twig\TwigRenderer</code>.</p>
 <h2 id="installing-twig">Installing Twig</h2>
 <p>To use the Twig wrapper, you must first install the Twig integration:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require mezzio/mezzio-twigrenderer
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-twigrenderer</code></pre>
 <h2 id="using-the-wrapper">Using the wrapper</h2>
 <p>If instantiated without arguments, <code>Mezzio\Twig\TwigRenderer</code> will create
 an instance of the Twig engine, which it will then proxy to.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Twig\TwigRenderer;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Twig\TwigRenderer;
 
-<span class=x>$renderer = new TwigRenderer();</span>
-</pre></div></p>
+$renderer = new TwigRenderer();</code></pre>
 <p>Alternately, you can instantiate and configure the engine yourself, and pass it
 to the <code>Mezzio\Twig\TwigRenderer</code> constructor:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Twig_Environment;</span>
-<span class=x>use Twig_Loader_Array;</span>
-<span class=x>use Mezzio\Twig\TwigRenderer;</span>
+<pre class=codehilite><code class=language-php>use Twig_Environment;
+use Twig_Loader_Array;
+use Mezzio\Twig\TwigRenderer;
 
-<span class=x>// Create the engine instance:</span>
-<span class=x>$loader = new Twig_Loader_Array(include &#39;config/templates.php&#39;);</span>
-<span class=x>$twig = new Twig_Environment($loader);</span>
+// Create the engine instance:
+$loader = new Twig_Loader_Array(include 'config/templates.php');
+$twig = new Twig_Environment($loader);
 
-<span class=x>// Configure it:</span>
-<span class=x>$twig-&gt;addExtension(new CustomExtension());</span>
-<span class=x>$twig-&gt;loadExtension(new CustomExtension();</span>
+// Configure it:
+$twig-&gt;addExtension(new CustomExtension());
+$twig-&gt;loadExtension(new CustomExtension();
 
-<span class=x>// Inject:</span>
-<span class=x>$renderer = new TwigRenderer($twig);</span>
-</pre></div></p>
+// Inject:
+$renderer = new TwigRenderer($twig);</code></pre>
 <h2 id="included-extensions-and-functions">Included extensions and functions</h2>
 <p>The included Twig extension adds support for url generation. The extension is
 automatically activated if the <a href="../../helpers/url-helper/">UrlHelper</a> and
@@ -772,37 +773,36 @@ container.</p>
 <h2 id="configuration">Configuration</h2>
 <p>The following details configuration specific to Twig, as consumed by the
 <code>TwigRendererFactory</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;templates&#39; =&gt; [</span>
-<span class=x>        &#39;extension&#39; =&gt; &#39;file extension used by templates; defaults to html.twig&#39;,</span>
-<span class=x>        &#39;paths&#39; =&gt; [</span>
-<span class=x>            // namespace / path pairs</span>
-<span class=x>            //</span>
-<span class=x>            // Numeric namespaces imply the default/main namespace. Paths may be</span>
-<span class=x>            // strings or arrays of string paths to associate with the namespace.</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;twig&#39; =&gt; [</span>
-<span class=x>        &#39;autoescape&#39; =&gt; &#39;html&#39;, // Auto-escaping strategy [html|js|css|url|false]</span>
-<span class=x>        &#39;cache_dir&#39; =&gt; &#39;path to cached templates&#39;,</span>
-<span class=x>        &#39;assets_url&#39; =&gt; &#39;base URL for assets&#39;,</span>
-<span class=x>        &#39;assets_version&#39; =&gt; &#39;base version for assets&#39;,</span>
-<span class=x>        &#39;extensions&#39; =&gt; [</span>
-<span class=x>            // extension service names or instances</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;globals&#39; =&gt; [</span>
-<span class=x>            // Global variables passed to twig templates</span>
-<span class=x>            &#39;ga_tracking&#39; =&gt; &#39;UA-XXXXX-X&#39;</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;optimizations&#39; =&gt; -1, // -1: Enable all (default), 0: disable optimizations</span>
-<span class=x>        &#39;runtime_loaders&#39; =&gt; [</span>
-<span class=x>            // runtime loader names or instances</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;timezone&#39; =&gt; &#39;default timezone identifier, e.g. America/New_York&#39;,</span>
-<span class=x>        &#39;auto_reload&#39; =&gt; true, // Recompile the template whenever the source code changes</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'templates' =&gt; [
+        'extension' =&gt; 'file extension used by templates; defaults to html.twig',
+        'paths' =&gt; [
+            // namespace / path pairs
+            //
+            // Numeric namespaces imply the default/main namespace. Paths may be
+            // strings or arrays of string paths to associate with the namespace.
+        ],
+    ],
+    'twig' =&gt; [
+        'autoescape' =&gt; 'html', // Auto-escaping strategy [html|js|css|url|false]
+        'cache_dir' =&gt; 'path to cached templates',
+        'assets_url' =&gt; 'base URL for assets',
+        'assets_version' =&gt; 'base version for assets',
+        'extensions' =&gt; [
+            // extension service names or instances
+        ],
+        'globals' =&gt; [
+            // Global variables passed to twig templates
+            'ga_tracking' =&gt; 'UA-XXXXX-X'
+        ],
+        'optimizations' =&gt; -1, // -1: Enable all (default), 0: disable optimizations
+        'runtime_loaders' =&gt; [
+            // runtime loader names or instances
+        ],
+        'timezone' =&gt; 'default timezone identifier, e.g. America/New_York',
+        'auto_reload' =&gt; true, // Recompile the template whenever the source code changes
+    ],
+];</code></pre>
 <p>When specifying the <code>twig.extensions</code> values, always use fully qualified class
 names or actual extension instances to ensure compatibility with any version of
 Twig used. Version 2 of Twig <em>requires</em> that a fully qualified class name is
@@ -1342,9 +1342,10 @@ used, and not a short-name alias.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1381,7 +1382,7 @@ used, and not a short-name alias.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1390,8 +1391,8 @@ used, and not a short-name alias.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

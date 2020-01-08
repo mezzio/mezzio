@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -725,48 +729,44 @@ available starting with version 1.0.3.</p>
 <p>We recommend adding the <code>OriginalMessages</code> middleware as the outermost (first)
 middleware in your pipeline. Using configuration-driven middleware, that would
 look like this:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// config/autoload/middleware-pipeline.global.php</span>
-<span class=x>/* ... */</span>
-<span class=x>use Mezzio\Helper;</span>
-<span class=x>use Laminas\Stratigility\Middleware\OriginalMessages;</span>
+<pre class=codehilite><code class=language-php>// config/autoload/middleware-pipeline.global.php
+/* ... */
+use Mezzio\Helper;
+use Laminas\Stratigility\Middleware\OriginalMessages;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;invokables&#39; =&gt; [</span>
-<span class=x>            OriginalMessages::class =&gt; OriginalMessages::class,</span>
-<span class=x>        ],</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>        &#39;always&#39; =&gt; [</span>
-<span class=x>            &#39;middleware&#39; =&gt; [</span>
-<span class=x>                OriginalMessages::class, // &lt;----- Add this entry</span>
-<span class=x>                Helper\ServerUrlMiddleware::class,</span>
-<span class=x>                /* ... */</span>
-<span class=x>            ],</span>
-<span class=x>            &#39;priority&#39; =&gt; 10000,</span>
-<span class=x>        ],</span>
+return [
+    'dependencies' =&gt; [
+        'invokables' =&gt; [
+            OriginalMessages::class =&gt; OriginalMessages::class,
+        ],
+        /* ... */
+    ],
+    'middleware_pipeline' =&gt; [
+        'always' =&gt; [
+            'middleware' =&gt; [
+                OriginalMessages::class, // &lt;----- Add this entry
+                Helper\ServerUrlMiddleware::class,
+                /* ... */
+            ],
+            'priority' =&gt; 10000,
+        ],
 
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+        /* ... */
+    ],
+];</code></pre>
 <p>If you are <a href="https://mwop.net/blog/2016-05-16-programmatic-mezzio.html">programmatically creating your pipeline</a>,
 use the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(OriginalMessages::class);</span>
-<span class=x>/* all other middleware */</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(OriginalMessages::class);
+/* all other middleware */</code></pre>
 <h3>Identifying and fixing getOriginal calls</h3>
 <p>To help you identify and update calls in your own code to the <code>getOriginal*()</code>
 methods, we provide a tool via the <a href="https://github.com/mezzio/mezzio-tooling">mezzio/mezzio-tooling</a>
 package, <code>vendor/bin/mezzio-migrate-original-messages</code>.</p>
 <p>First, install the tooling package; since the tooling it provides is only
 useful during development, install it as a development requirement:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require --dev mezzio/mezzio-tooling
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-tooling</code></pre>
 <p>Once installed,  you can execute the tool using:</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio-migrate-original-messages
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-migrate-original-messages</code></pre>
 <p>Passing the arguments <code>help</code>, <code>--help</code>, or <code>-h</code> will provide usage information;
 in most cases, it will assume sane defaults in order to run its scans.</p>
 <p>The tool updates calls to <code>getOriginalRequest()</code> and <code>getOriginalUri()</code> to
@@ -812,14 +812,13 @@ pipelines and routing</em>.</p>
 </li>
 </ul>
 <p>As an example pipeline:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(OriginalMessages::class);</span>
-<span class=x>$app-&gt;pipe(Helper\ServerUrlMiddleware::class);</span>
-<span class=x>$app-&gt;pipe(ErrorHandler::class);</span>
-<span class=x>$app-&gt;pipeRoutingMiddleware();</span>
-<span class=x>$app-&gt;pipe(Helper\UrlHelperMiddleware::class);</span>
-<span class=x>$app-&gt;pipeDispatchMiddleware();</span>
-<span class=x>$app-&gt;pipe(NotFoundHandler::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(OriginalMessages::class);
+$app-&gt;pipe(Helper\ServerUrlMiddleware::class);
+$app-&gt;pipe(ErrorHandler::class);
+$app-&gt;pipeRoutingMiddleware();
+$app-&gt;pipe(Helper\UrlHelperMiddleware::class);
+$app-&gt;pipeDispatchMiddleware();
+$app-&gt;pipe(NotFoundHandler::class);</code></pre>
 <p>Mezzio also provides methods for specifying routed middleware. These
 include:</p>
 <ul>
@@ -832,16 +831,14 @@ include:</p>
 </ul>
 <p>Each returns a <code>Mezzio\Router\Route</code> instance; this is useful if you
 wish to provide additional options to your route:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;get(&#39;/api/ping&#39;, Ping::class)</span>
-<span class=x>    -&gt;setOptions([</span>
-<span class=x>        &#39;timestamp&#39; =&gt; date(),</span>
-<span class=x>    ]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;get('/api/ping', Ping::class)
+    -&gt;setOptions([
+        'timestamp' =&gt; date(),
+    ]);</code></pre>
 <p>As an example, the default routes defined in the skeleton application can be
 written as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;get(&#39;/&#39;, \App\Action\HomePageAction::class, &#39;home&#39;);</span>
-<span class=x>$app-&gt;get(&#39;/api/ping&#39;, \App\Action\PingAction::class, &#39;api.ping&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;get('/', \App\Action\HomePageAction::class, 'home');
+$app-&gt;get('/api/ping', \App\Action\PingAction::class, 'api.ping');</code></pre>
 <p>We recommend rewriting your middleware pipeline and routing configuration into
 programmatic/declarative statements. Specifically:</p>
 <ul>
@@ -907,12 +904,11 @@ in a try/catch block, and provides a flag for disabling that behavior entirely,
 <code>raise_throwables</code>.</p>
 <p>Starting in Mezzio 1.1, you can set the <code>raise_throwables</code> flag in your
 configuration:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;mezzio&#39; =&gt; [</span>
-<span class=x>        &#39;raise_throwables&#39; =&gt; true,</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'mezzio' =&gt; [
+        'raise_throwables' =&gt; true,
+    ],
+];</code></pre>
 <p>When enabled, the internal dispatcher will no longer catch exceptions.</p>
 <p>This both allows you to, and <em>requires</em> you to, write your own error handling
 middleware. This will require two things:</p>
@@ -927,27 +923,26 @@ middleware. This will require two things:</p>
 <p>The below sections detail approaches to each.</p>
 <h3>Error handling middleware</h3>
 <p>Error handling middleware generally will look something like this:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function (</span>
-<span class=x>    ServerRequestInterface $request,</span>
-<span class=x>    ResponseInterface $response,</span>
-<span class=x>    callable $next</span>
-<span class=x>) {</span>
-<span class=x>    try {</span>
-<span class=x>        $response = $next($request, $response);</span>
-<span class=x>        return $response;</span>
-<span class=x>    } catch (\Throwable $exception) {</span>
-<span class=x>        // caught PHP 7 throwable</span>
-<span class=x>    } catch (\Exception $exception) {</span>
-<span class=x>        // caught PHP 5 exception</span>
-<span class=x>    }</span>
+<pre class=codehilite><code class=language-php>function (
+    ServerRequestInterface $request,
+    ResponseInterface $response,
+    callable $next
+) {
+    try {
+        $response = $next($request, $response);
+        return $response;
+    } catch (\Throwable $exception) {
+        // caught PHP 7 throwable
+    } catch (\Exception $exception) {
+        // caught PHP 5 exception
+    }
 
-<span class=x>    // ...</span>
-<span class=x>    // do something with $exception and generate a response</span>
-<span class=x>    // ...</span>
+    // ...
+    // do something with $exception and generate a response
+    // ...
 
-<span class=x>    return $response;</span>
-<span class=x>}</span>
-</pre></div></p>
+    return $response;
+}</code></pre>
 <p>Stratigility 1.3 provides such an implementation via its
 <code>Laminas\Stratigility\Middleware\ErrorHandler</code>. In addition to the try/catch block,
 it also sets up a PHP error handler that will catch any PHP error types in the
@@ -956,197 +951,188 @@ type <code>ErrorException</code> with the PHP error details.</p>
 <p>Stratigility's <code>ErrorHandler</code> allows injection of an "error response generator",
 which allows you to alter how the error response is generated based on the
 current environment. Error response generators are callables with the signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function (</span>
-<span class=x>    Throwable|Exception $e,</span>
-<span class=x>    ServerRequestInterface $request,</span>
-<span class=x>    ResponseInterface $response</span>
-<span class=x>) : ResponseInterface</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function (
+    Throwable|Exception $e,
+    ServerRequestInterface $request,
+    ResponseInterface $response
+) : ResponseInterface</code></pre>
 <p>We recommend using the Stratigility <code>ErrorHandler</code> and writing and attaching a
 custom error response generator. As a simple example, the following details a
 generator that will use a template to display an error page:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Acme;</span>
+<pre class=codehilite><code class=language-php>namespace Acme;
 
-<span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Mezzio\Template\TemplateRendererInterface;</span>
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=x>class TemplatedErrorResponseGenerator</span>
-<span class=x>{</span>
-<span class=x>    const TEMPLATE_DEFAULT = &#39;error::error&#39;;</span>
+class TemplatedErrorResponseGenerator
+{
+    const TEMPLATE_DEFAULT = 'error::error';
 
-<span class=x>    private $renderer;</span>
+    private $renderer;
 
-<span class=x>    private $template;</span>
+    private $template;
 
-<span class=x>    public function __construct(</span>
-<span class=x>        TemplateRendererInterface $renderer,</span>
-<span class=x>        $template = TEMPLATE_DEFAULT</span>
-<span class=x>    ) {</span>
-<span class=x>        $this-&gt;renderer = $renderer;</span>
-<span class=x>        $this-&gt;template = $template;</span>
-<span class=x>    }</span>
+    public function __construct(
+        TemplateRendererInterface $renderer,
+        $template = TEMPLATE_DEFAULT
+    ) {
+        $this-&gt;renderer = $renderer;
+        $this-&gt;template = $template;
+    }
 
-<span class=x>    public function __invoke(</span>
-<span class=x>        $e,</span>
-<span class=x>        ServerRequestInterface $request,</span>
-<span class=x>        ResponseInterface $response</span>
-<span class=x>    ) {</span>
-<span class=x>        $response-&gt;write($this-&gt;renderer-&gt;render($this-&gt;template, [</span>
-<span class=x>            &#39;exception&#39; =&gt; $e,</span>
-<span class=x>            &#39;request&#39;   =&gt; $request,</span>
-<span class=x>        ]));</span>
-<span class=x>        return $response;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function __invoke(
+        $e,
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ) {
+        $response-&gt;write($this-&gt;renderer-&gt;render($this-&gt;template, [
+            'exception' =&gt; $e,
+            'request'   =&gt; $request,
+        ]));
+        return $response;
+    }
+}</code></pre>
 <p>You might then create a factory for generating the <code>ErrorHandler</code> and attaching
 this response generator as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Acme\Container;</span>
+<pre class=codehilite><code class=language-php>namespace Acme\Container;
 
-<span class=x>use Acme\TemplatedErrorResponseGenerator;</span>
-<span class=x>use Interop\Container\ContainerInterface;</span>
-<span class=x>use Laminas\Diactoros\Response;</span>
-<span class=x>use Mezzio\Template\TemplateRendererInterface;</span>
-<span class=x>use Laminas\Stratigility\Middleware\ErrorHandler;</span>
+use Acme\TemplatedErrorResponseGenerator;
+use Interop\Container\ContainerInterface;
+use Laminas\Diactoros\Response;
+use Mezzio\Template\TemplateRendererInterface;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
-<span class=x>class ErrorHandlerFactory</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        $generator = new TemplatedErrorResponseGenerator(</span>
-<span class=x>            $container-&gt;get(TemplateRendererInterface::class)</span>
-<span class=x>        );</span>
+class ErrorHandlerFactory
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        $generator = new TemplatedErrorResponseGenerator(
+            $container-&gt;get(TemplateRendererInterface::class)
+        );
 
-<span class=x>        return new ErrorHandler(new Response(), $generator);</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+        return new ErrorHandler(new Response(), $generator);
+    }
+}</code></pre>
 <p>Once that is created you can tell your middleware configuration about it:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// in config/autoload/middleware-pipeline.global.php</span>
-<span class=x>use Acme\Container\ErrorHandlerFactory;</span>
-<span class=x>use Laminas\Stratigility\Middleware\ErrorHandler;</span>
+<pre class=codehilite><code class=language-php>// in config/autoload/middleware-pipeline.global.php
+use Acme\Container\ErrorHandlerFactory;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            ErrorHandler::class =&gt; ErrorHandlerFactory::class,</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>        &#39;always&#39; =&gt; [</span>
-<span class=x>            &#39;middleware&#39; =&gt; [</span>
-<span class=x>                ErrorHandler::class,</span>
-<span class=x>                /* ... */</span>
-<span class=x>            ],</span>
-<span class=x>            &#39;priority&#39; =&gt; 10000,</span>
-<span class=x>        ],</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'dependencies' =&gt; [
+        /* ... */
+        'factories' =&gt; [
+            ErrorHandler::class =&gt; ErrorHandlerFactory::class,
+            /* ... */
+        ],
+        /* ... */
+    ],
+    'middleware_pipeline' =&gt; [
+        'always' =&gt; [
+            'middleware' =&gt; [
+                ErrorHandler::class,
+                /* ... */
+            ],
+            'priority' =&gt; 10000,
+        ],
+        /* ... */
+    ],
+];</code></pre>
 <p>Alternately, if using a programmatic pipeline, as detailed in the previous
 section, you can use the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Stratigility\Middleware\ErrorHandler;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Stratigility\Middleware\ErrorHandler;
 
-<span class=x>$app-&gt;pipe(ErrorHandler::class);</span>
-<span class=x>// add all other middleware after it</span>
-</pre></div></p>
+$app-&gt;pipe(ErrorHandler::class);
+// add all other middleware after it</code></pre>
 <h3>Not Found middleware</h3>
 <p>At the innermost layer of your application, you need middleware guaranteed to
 return a response; typically, this indicates a failure to route the request,
 and, as such, an HTTP 404 response.  <code>Laminas\Stratigility\Middleware\NotFoundHandler</code>
 provides an implementation, but is written such that the response body remains
 empty. As such, you might write a custom, templated handler:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Acme;</span>
+<pre class=codehilite><code class=language-php>namespace Acme;
 
-<span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Laminas\Diactoros\Response;</span>
-<span class=x>use Mezzio\Template\TemplateRendererInterface;</span>
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Laminas\Diactoros\Response;
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=x>class TemplatedNotFoundHandler</span>
-<span class=x>{</span>
-<span class=x>    const TEMPLATE_DEFAULT = &#39;error::404&#39;;</span>
+class TemplatedNotFoundHandler
+{
+    const TEMPLATE_DEFAULT = 'error::404';
 
-<span class=x>    private $renderer;</span>
+    private $renderer;
 
-<span class=x>    private $template;</span>
+    private $template;
 
-<span class=x>    public function __construct(</span>
-<span class=x>        TemplateRendererInterface $renderer,</span>
-<span class=x>        $template = self::TEMPLATE_DEFAULT</span>
-<span class=x>    ) {</span>
-<span class=x>        $this-&gt;renderer = $renderer;</span>
-<span class=x>        $this-&gt;template = $template;</span>
-<span class=x>    }</span>
+    public function __construct(
+        TemplateRendererInterface $renderer,
+        $template = self::TEMPLATE_DEFAULT
+    ) {
+        $this-&gt;renderer = $renderer;
+        $this-&gt;template = $template;
+    }
 
-<span class=x>    public function __invoke(</span>
-<span class=x>        ServerRequestInterface $request,</span>
-<span class=x>        ResponseInterface $response,</span>
-<span class=x>        callable $next</span>
-<span class=x>    ) {</span>
-<span class=x>        $response = new Response();</span>
-<span class=x>        $response-&gt;write($this-&gt;renderer-&gt;render($this-&gt;template));</span>
-<span class=x>        return $response-&gt;withStatus(404);</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function __invoke(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        callable $next
+    ) {
+        $response = new Response();
+        $response-&gt;write($this-&gt;renderer-&gt;render($this-&gt;template));
+        return $response-&gt;withStatus(404);
+    }
+}</code></pre>
 <p>Similar to the discussion of the <code>ErrorHandler</code> above, we'll create a factory
 for this:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Acme\Container;</span>
+<pre class=codehilite><code class=language-php>namespace Acme\Container;
 
-<span class=x>use Acme\TemplatedNotFoundHandler;</span>
-<span class=x>use Interop\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Template\TemplateRendererInterface;</span>
+use Acme\TemplatedNotFoundHandler;
+use Interop\Container\ContainerInterface;
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=x>class TemplatedNotFoundHandlerFactory</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        return new TemplatedNotFoundHandler(</span>
-<span class=x>            $container-&gt;get(TemplateRendererInterface::class)</span>
-<span class=x>        );</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class TemplatedNotFoundHandlerFactory
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        return new TemplatedNotFoundHandler(
+            $container-&gt;get(TemplateRendererInterface::class)
+        );
+    }
+}</code></pre>
 <p>We can then register it in our pipeline:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// in config/autoload/middleware-pipeline.global.php</span>
-<span class=x>use Acme\Container\NotFoundHandlerFactory;</span>
-<span class=x>use Acme\TemplatedNotFoundHandler;</span>
+<pre class=codehilite><code class=language-php>// in config/autoload/middleware-pipeline.global.php
+use Acme\Container\NotFoundHandlerFactory;
+use Acme\TemplatedNotFoundHandler;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            TemplatedNotFoundHandler::class =&gt; TemplatedNotFoundHandlerFactory::class,</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
+return [
+    'dependencies' =&gt; [
+        /* ... */
+        'factories' =&gt; [
+            TemplatedNotFoundHandler::class =&gt; TemplatedNotFoundHandlerFactory::class,
+            /* ... */
+        ],
+        /* ... */
+    ],
+    'middleware_pipeline' =&gt; [
+        /* ... */
 
-<span class=x>        // After &#39;routing&#39;, but before &#39;error&#39;;</span>
-<span class=x>        // alternately as last item in &#39;routing&#39; middleware list.</span>
-<span class=x>        &#39;not-found&#39; =&gt; [</span>
-<span class=x>            &#39;middleware&#39; =&gt; TemplatedNotFoundHandler::class,</span>
-<span class=x>            &#39;priority&#39; =&gt; 0,</span>
-<span class=x>        ],</span>
+        // After 'routing', but before 'error';
+        // alternately as last item in 'routing' middleware list.
+        'not-found' =&gt; [
+            'middleware' =&gt; TemplatedNotFoundHandler::class,
+            'priority' =&gt; 0,
+        ],
 
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+        /* ... */
+    ],
+];</code></pre>
 <p>If you are using programmatic pipelines, as described in the previous section:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Acme\TemplatedNotFoundHandler;</span>
+<pre class=codehilite><code class=language-php>use Acme\TemplatedNotFoundHandler;
 
-<span class=x>// all other pipeline directives, and then:</span>
-<span class=x>$app-&gt;pipe(TemplatedNotFoundHandler::class);</span>
-</pre></div></p>
+// all other pipeline directives, and then:
+$app-&gt;pipe(TemplatedNotFoundHandler::class);</code></pre>
 <h3>Detecting error middleware usage</h3>
 <p>If you use the new error handling paradigm, we recommend that you also audit
 your application for legacy Stratigility error middleware, as well as invocation
@@ -1154,8 +1140,7 @@ of error middleware. To do this, we provide a tool via the
 <a href="https://github.com/mezzio/mezzio-tooling">mezzio/mezzio-tooling</a>
 package, <code>vendor/bin/mezzio-scan-for-error-middleware</code>.</p>
 <p>First, install the tooling as a development requirement:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require --dev mezzio/mezzio-tooling
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-tooling</code></pre>
 <p>The tool will scan the <code>src/</code> directory by default, but allows you to scan other
 directories via the <code>--dir</code> flag. It will detect and report files with any of
 the following:</p>
@@ -1165,10 +1150,9 @@ the following:</p>
 <li>Methods accepting <code>$next</code> that invoke it with an error argument.</li>
 </ul>
 <p>As an example running it:</p>
-<p> <div class=codehilite><pre><span></span>$ ./vendor/bin/mezzio-scan-for-error-middleware scan
-<span class=c1># or, with a directory argument:</span>
-$ ./vendor/bin/mezzio-scan-for-error-middleware scan --dir ./lib
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-scan-for-error-middleware scan
+# or, with a directory argument:
+$ ./vendor/bin/mezzio-scan-for-error-middleware scan --dir ./lib</code></pre>
 <p>You may also call the tool using its <code>help</code> command, or either of the <code>--help</code>
 or <code>-h</code> flags to get full usage information.</p>
 <p>Use this tool to identify potential problem areas in your application, and
@@ -1181,94 +1165,88 @@ handling</a> &mdash; might look like the following examples.</p>
 <p>First, we'll tell Mezzio to use programmatic pipelines, and to enable the
 new error handling (by telling it to "raise throwables", instead of catching
 them):</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// In config/autoload/mezzio.global.php:</span>
-<span class=x>return [</span>
-<span class=x>    /* ... */</span>
-<span class=x>    &#39;mezzio&#39; =&gt; [</span>
-<span class=x>        &#39;programmatic_pipeline&#39; =&gt; true,</span>
-<span class=x>        &#39;raise_throwables&#39; =&gt; true,</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// In config/autoload/mezzio.global.php:
+return [
+    /* ... */
+    'mezzio' =&gt; [
+        'programmatic_pipeline' =&gt; true,
+        'raise_throwables' =&gt; true,
+        /* ... */
+    ],
+];</code></pre>
 <p>Next, we'll update <code>config/autoload/middleware-pipeline.global.php</code> to list only
 dependencies:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Acme\Container;</span>
-<span class=x>use Acme\TemplatedNotFoundHandler;</span>
-<span class=x>use Mezzio\Container\ApplicationFactory;</span>
-<span class=x>use Mezzio\Helper;</span>
-<span class=x>use Laminas\Stratigility\Middleware\ErrorHandler;</span>
-<span class=x>use Laminas\Stratigility\Middleware\OriginalMessages;</span>
+<pre class=codehilite><code class=language-php>use Acme\Container;
+use Acme\TemplatedNotFoundHandler;
+use Mezzio\Container\ApplicationFactory;
+use Mezzio\Helper;
+use Laminas\Stratigility\Middleware\ErrorHandler;
+use Laminas\Stratigility\Middleware\OriginalMessages;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;invokables&#39; =&gt; [</span>
-<span class=x>            OriginalMessages::class =&gt; OriginalMesssages::class,</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            ErrorHandler::class =&gt; Container\ErrorHandlerFactory::class,</span>
-<span class=x>            Helper\ServerUrlMiddleware::class =&gt; Helper\ServerUrlMiddlewareFactory::class,</span>
-<span class=x>            Helper\UrlHelperMiddleware::class =&gt; Helper\UrlHelperMiddlewareFactory::class,</span>
-<span class=x>            TemplatedNotFoundHandler::class =&gt; Container\TemplatedNotFoundHandlerFactory::class,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'dependencies' =&gt; [
+        'invokables' =&gt; [
+            OriginalMessages::class =&gt; OriginalMesssages::class,
+        ],
+        'factories' =&gt; [
+            ErrorHandler::class =&gt; Container\ErrorHandlerFactory::class,
+            Helper\ServerUrlMiddleware::class =&gt; Helper\ServerUrlMiddlewareFactory::class,
+            Helper\UrlHelperMiddleware::class =&gt; Helper\UrlHelperMiddlewareFactory::class,
+            TemplatedNotFoundHandler::class =&gt; Container\TemplatedNotFoundHandlerFactory::class,
+        ],
+    ],
+];</code></pre>
 <p>We'll also update <code>config/autoload/routes.global.php</code> to only list dependencies;
 in the following example, we list only the middleware shipped by default with
 the skeleton application:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use App\Action;</span>
-<span class=x>use Mezzio\Router\FastRouteRouter;</span>
-<span class=x>use Mezzio\Router\RouterInterface;</span>
+<pre class=codehilite><code class=language-php>use App\Action;
+use Mezzio\Router\FastRouteRouter;
+use Mezzio\Router\RouterInterface;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;invokables&#39; =&gt; [</span>
-<span class=x>            RouterInterface::class =&gt; FastRouteRouter::class,</span>
-<span class=x>            Action\PingAction::class =&gt; Action\PingAction::class,</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            Action\HomePageAction::class =&gt; Action\HomePageFactory::class,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'dependencies' =&gt; [
+        'invokables' =&gt; [
+            RouterInterface::class =&gt; FastRouteRouter::class,
+            Action\PingAction::class =&gt; Action\PingAction::class,
+        ],
+        'factories' =&gt; [
+            Action\HomePageAction::class =&gt; Action\HomePageFactory::class,
+        ],
+    ],
+];</code></pre>
 <p>To create our pipeline, we will create the file <code>config/pipeline.php</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Acme\TemplatedNotFoundHandler;</span>
-<span class=x>use Mezzio\Container\ApplicationFactory;</span>
-<span class=x>use Mezzio\Helper;</span>
-<span class=x>use Laminas\Stratigility\Middleware\ErrorHandler;</span>
-<span class=x>use Laminas\Stratigility\Middleware\OriginalMessages;</span>
+<pre class=codehilite><code class=language-php>use Acme\TemplatedNotFoundHandler;
+use Mezzio\Container\ApplicationFactory;
+use Mezzio\Helper;
+use Laminas\Stratigility\Middleware\ErrorHandler;
+use Laminas\Stratigility\Middleware\OriginalMessages;
 
-<span class=x>$app-&gt;pipe(OriginalMessages::class);</span>
-<span class=x>$app-&gt;pipe(ErrorHandler::class);</span>
-<span class=x>$app-&gt;pipe(Helper\ServerUrlMiddleware::class);</span>
-<span class=x>$app-&gt;pipe([</span>
-<span class=x>    ApplicationFactory::ROUTING_MIDDLEWARE,</span>
-<span class=x>    Helper\UrlHelperMiddleware::class,</span>
-<span class=x>    ApplicationFactory::DISPATCH_MIDDLEWARE,</span>
-<span class=x>]);</span>
-<span class=x>$app-&gt;pipe(TemplatedNotFoundHandler::class);</span>
-</pre></div></p>
+$app-&gt;pipe(OriginalMessages::class);
+$app-&gt;pipe(ErrorHandler::class);
+$app-&gt;pipe(Helper\ServerUrlMiddleware::class);
+$app-&gt;pipe([
+    ApplicationFactory::ROUTING_MIDDLEWARE,
+    Helper\UrlHelperMiddleware::class,
+    ApplicationFactory::DISPATCH_MIDDLEWARE,
+]);
+$app-&gt;pipe(TemplatedNotFoundHandler::class);</code></pre>
 <p>Note that you can use <em>arrays</em> of middleware just like you did in the
 configuration; this allows you to separate middleware into logical groups if
 desired!</p>
 <p>To provide our routed middleware, we will create the file
 <code>config/pipeline.php</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use App\Action;</span>
+<pre class=codehilite><code class=language-php>use App\Action;
 
-<span class=x>$app-&gt;get(&#39;/&#39;, Action\HomePageAction::class, &#39;home&#39;);</span>
-<span class=x>$app-&gt;get(&#39;/api/ping&#39;, Action\PingAction::class, &#39;api.ping&#39;);</span>
-</pre></div></p>
+$app-&gt;get('/', Action\HomePageAction::class, 'home');
+$app-&gt;get('/api/ping', Action\PingAction::class, 'api.ping');</code></pre>
 <p>The above exercises the various routing methods of the <code>Application</code> class.</p>
 <p>Finally, we will need to update our <code>public/index.php</code>, to tell it to require
 our new pipeline and routing files; we'll do that between retrieving the
 application from the container, and running the application:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app = $container-&gt;get(\Mezzio\Application::class);</span>
-<span class=x>require &#39;config/pipeline.php&#39;;</span>
-<span class=x>require &#39;config/routes.php&#39;;</span>
-<span class=x>$app-&gt;run();</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app = $container-&gt;get(\Mezzio\Application::class);
+require 'config/pipeline.php';
+require 'config/routes.php';
+$app-&gt;run();</code></pre>
 <p>With these changes in place, your application should continue to run as it did
 previously!</p>
 <h2 id="looking-forward">Looking forward</h2>
@@ -1741,9 +1719,10 @@ order to make your application forwards-compatible.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1780,7 +1759,7 @@ order to make your application forwards-compatible.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1789,8 +1768,8 @@ order to make your application forwards-compatible.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

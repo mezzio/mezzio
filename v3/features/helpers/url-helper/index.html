@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -702,21 +706,19 @@ not provided will be pulled from those matched.</p>
 <h2 id="usage">Usage</h2>
 <p>When you have an instance, use either its <code>generate()</code> method, or call the
 instance as an invokable:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Using the generate() method:</span>
-<span class=x>$url = $helper-&gt;generate(&#39;resource&#39;, [&#39;id&#39; =&gt; &#39;sha1&#39;]);</span>
+<pre class=codehilite><code class=language-php>// Using the generate() method:
+$url = $helper-&gt;generate('resource', ['id' =&gt; 'sha1']);
 
-<span class=x>// is equivalent to invocation:</span>
-<span class=x>$url = $helper(&#39;resource&#39;, [&#39;id&#39; =&gt; &#39;sha1&#39;]);</span>
-</pre></div></p>
+// is equivalent to invocation:
+$url = $helper('resource', ['id' =&gt; 'sha1']);</code></pre>
 <p>The signature for both is:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function (</span>
-<span class=x>    $routeName,</span>
-<span class=x>    array $routeParams = [],</span>
-<span class=x>    $queryParams = [],</span>
-<span class=x>    $fragmentIdentifier = null,</span>
-<span class=x>    array $options = []</span>
-<span class=x>) : string</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function (
+    $routeName,
+    array $routeParams = [],
+    $queryParams = [],
+    $fragmentIdentifier = null,
+    array $options = []
+) : string</code></pre>
 <p>Where:</p>
 <ul>
 <li><code>$routeName</code> is the name of a route defined in the composed router. You may
@@ -779,14 +781,13 @@ accepted the route name and route parameters.</p>
 <p>For the <code>UrlHelper</code> to work, you must first register the <code>UrlHelperMiddleware</code>
 as pipeline middleware following the routing middleware, and before the dispatch
 middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Helper\UrlHelperMiddleware;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Helper\UrlHelperMiddleware;
 
-<span class=x>// Programmatically:</span>
-<span class=x>$app-&gt;pipe(RouteMiddleware::class);</span>
-<span class=x>// ...</span>
-<span class=x>$app-&gt;pipe(UrlHelperMiddleware::class);</span>
-<span class=x>$app-&gt;pipe(DispatchMiddleware::class);</span>
-</pre></div></p>
+// Programmatically:
+$app-&gt;pipe(RouteMiddleware::class);
+// ...
+$app-&gt;pipe(UrlHelperMiddleware::class);
+$app-&gt;pipe(DispatchMiddleware::class);</code></pre>
 <blockquote>
 <h4>Skeleton configures helpers</h4>
 <p>If you started your project using the Mezzio skeleton package, the
@@ -796,32 +797,31 @@ you, as is the <code>UrlHelperMiddleware</code> pipeline middleware.</p>
 <h2 id="using-the-helper-in-middleware">Using the helper in middleware</h2>
 <p>Compose the helper in your middleware (or elsewhere), and then use it to
 generate URI paths:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ResponseInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ServerRequestInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Server\MiddlewareInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Server\RequestHandlerInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Helper\UrlHelper</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Mezzio\Helper\UrlHelper;
 
-<span class=k>class</span> <span class=nc>FooMiddleware</span> <span class=k>implements</span> <span class=nx>MiddlewareInterface</span>
-<span class=p>{</span>
-    <span class=k>private</span> <span class=nv>$helper</span><span class=p>;</span>
+class FooMiddleware implements MiddlewareInterface
+{
+    private $helper;
 
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__construct</span><span class=p>(</span><span class=nx>UrlHelper</span> <span class=nv>$helper</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>helper</span> <span class=o>=</span> <span class=nv>$helper</span><span class=p>;</span>
-    <span class=p>}</span>
+    public function __construct(UrlHelper $helper)
+    {
+        $this-&gt;helper = $helper;
+    }
 
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>process</span><span class=p>(</span><span class=nx>ServerRequestInterface</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>RequestHandlerInterface</span> <span class=nv>$handler</span><span class=p>)</span> <span class=o>:</span> <span class=nx>ResponseInterface</span>
-    <span class=p>{</span>
-        <span class=nv>$response</span> <span class=o>=</span> <span class=nv>$handler</span><span class=o>-&gt;</span><span class=na>handle</span><span class=p>(</span><span class=nv>$request</span><span class=p>);</span>
-        <span class=k>return</span> <span class=nv>$response</span><span class=o>-&gt;</span><span class=na>withHeader</span><span class=p>(</span>
-            <span class=s1>&#39;Link&#39;</span><span class=p>,</span>
-            <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>helper</span><span class=o>-&gt;</span><span class=na>generate</span><span class=p>(</span><span class=s1>&#39;resource&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;id&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;sha1&#39;</span><span class=p>])</span>
-        <span class=p>);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    {
+        $response = $handler-&gt;handle($request);
+        return $response-&gt;withHeader(
+            'Link',
+            $this-&gt;helper-&gt;generate('resource', ['id' =&gt; 'sha1'])
+        );
+    }
+}</code></pre>
 <h2 id="base-path-support">Base Path support</h2>
 <p>If your application is running under a subdirectory, or if you are running
 pipeline middleware that is intercepting on a subpath, the paths generated
@@ -832,40 +832,39 @@ present, it will be prepended to the path generated by the router.</p>
 prefix in the URL; this middleware could then inject the <code>UrlHelper</code> with the
 detected language, before stripping it off the request URI instance to pass on
 to the router:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ResponseInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ServerRequestInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Server\MiddlewareInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Server\RequestHandlerInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Helper\UrlHelper</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Mezzio\Helper\UrlHelper;
 
-<span class=k>class</span> <span class=nc>LocaleMiddleware</span> <span class=k>implements</span> <span class=nx>MiddlewareInterface</span>
-<span class=p>{</span>
-    <span class=k>private</span> <span class=nv>$helper</span><span class=p>;</span>
+class LocaleMiddleware implements MiddlewareInterface
+{
+    private $helper;
 
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__construct</span><span class=p>(</span><span class=nx>UrlHelper</span> <span class=nv>$helper</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>helper</span> <span class=o>=</span> <span class=nv>$helper</span><span class=p>;</span>
-    <span class=p>}</span>
+    public function __construct(UrlHelper $helper)
+    {
+        $this-&gt;helper = $helper;
+    }
 
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>process</span><span class=p>(</span><span class=nx>ServerRequestInterface</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>RequestHandlerInterface</span> <span class=nv>$handler</span><span class=p>)</span> <span class=o>:</span> <span class=nx>ResponseInterface</span>
-    <span class=p>{</span>
-        <span class=nv>$uri</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>getUri</span><span class=p>();</span>
-        <span class=nv>$path</span> <span class=o>=</span> <span class=nv>$uri</span><span class=o>-&gt;</span><span class=na>getPath</span><span class=p>();</span>
-        <span class=k>if</span> <span class=p>(</span><span class=o>!</span> <span class=nb>preg_match</span><span class=p>(</span><span class=s1>&#39;#^/(?P&lt;locale&gt;[a-z]{2,3}([-_][a-zA-Z]{2}|))/#&#39;</span><span class=p>,</span> <span class=nv>$path</span><span class=p>,</span> <span class=nv>$matches</span><span class=p>))</span> <span class=p>{</span>
-            <span class=k>return</span> <span class=nv>$handler</span><span class=o>-&gt;</span><span class=na>handle</span><span class=p>(</span><span class=nv>$request</span><span class=p>);</span>
-        <span class=p>}</span>
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    {
+        $uri = $request-&gt;getUri();
+        $path = $uri-&gt;getPath();
+        if (! preg_match('#^/(?P&lt;locale&gt;[a-z]{2,3}([-_][a-zA-Z]{2}|))/#', $path, $matches)) {
+            return $handler-&gt;handle($request);
+        }
 
-        <span class=nv>$locale</span> <span class=o>=</span> <span class=nv>$matches</span><span class=p>[</span><span class=s1>&#39;locale&#39;</span><span class=p>];</span>
-        <span class=nx>Locale</span><span class=o>::</span><span class=na>setDefault</span><span class=p>(</span><span class=nx>Locale</span><span class=o>::</span><span class=na>canonicalize</span><span class=p>(</span><span class=nv>$locale</span><span class=p>));</span>
-        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>helper</span><span class=o>-&gt;</span><span class=na>setBasePath</span><span class=p>(</span><span class=nv>$locale</span><span class=p>);</span>
+        $locale = $matches['locale'];
+        Locale::setDefault(Locale::canonicalize($locale));
+        $this-&gt;helper-&gt;setBasePath($locale);
 
-        <span class=k>return</span> <span class=nv>$handler</span><span class=o>-&gt;</span><span class=na>handle</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>withUri</span><span class=p>(</span>
-            <span class=nv>$uri</span><span class=o>-&gt;</span><span class=na>withPath</span><span class=p>(</span><span class=nb>substr</span><span class=p>(</span><span class=nv>$path</span><span class=p>,</span> <span class=nb>strlen</span><span class=p>(</span><span class=nv>$locale</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>))</span>
-        <span class=p>));</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+        return $handler-&gt;handle($request-&gt;withUri(
+            $uri-&gt;withPath(substr($path, strlen($locale) + 1))
+        ));
+    }
+}</code></pre>
 <p>(Note: if the base path injected is not prefixed with <code>/</code>, the helper will add
 the slash.)</p>
 <p>Paths generated by the <code>UriHelper</code> from this point forward will have the
@@ -891,51 +890,48 @@ behavior:</p>
 <p>As an example, let us consider a module named <code>Auth</code> where we want to define a
 path-segregated middleware pipeline that has its own router and route
 middleware. We might define its dependency configuration as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Auth;</span>
+<pre class=codehilite><code class=language-php>namespace Auth;
 
-<span class=x>use Mezzio\Helper\UrlHelperFactory;</span>
-<span class=x>use Mezzio\Helper\UrlHelperMiddlewareFactory;</span>
-<span class=x>use Mezzio\Router\FastRouteRouter;</span>
-<span class=x>use Mezzio\Router\Middleware\RouteMiddlewareFactory;</span>
+use Mezzio\Helper\UrlHelperFactory;
+use Mezzio\Helper\UrlHelperMiddlewareFactory;
+use Mezzio\Router\FastRouteRouter;
+use Mezzio\Router\Middleware\RouteMiddlewareFactory;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>          &#39;factories&#39; =&gt; [</span>
-<span class=x>              // module-specific class name =&gt; factory</span>
-<span class=x>              Router::class                 =&gt; FastRouteRouterFactory::class,</span>
-<span class=x>              RouteMiddleware::class        =&gt; new RouteMiddlewareFactory(Router::class),</span>
-<span class=x>              UrlHelper::class              =&gt; new UrlHelperFactory(&#39;/auth&#39;, Router::class),</span>
-<span class=x>              UrlHelperMiddleware::class    =&gt; new UrlHelperMiddlewareFactory(UrlHelper::class),</span>
-<span class=x>          ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'dependencies' =&gt; [
+          'factories' =&gt; [
+              // module-specific class name =&gt; factory
+              Router::class                 =&gt; FastRouteRouterFactory::class,
+              RouteMiddleware::class        =&gt; new RouteMiddlewareFactory(Router::class),
+              UrlHelper::class              =&gt; new UrlHelperFactory('/auth', Router::class),
+              UrlHelperMiddleware::class    =&gt; new UrlHelperMiddlewareFactory(UrlHelper::class),
+          ],
+    ],
+];</code></pre>
 <p>We could then create a path-segregated pipeline like the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(&#39;/auth&#39;, [</span>
-<span class=x>    \Auth\RouteMiddleware::class,     // module-specific routing middleware!</span>
-<span class=x>    ImplicitHeadMiddleware::class,</span>
-<span class=x>    ImplicitOptionsMiddleware::class,</span>
-<span class=x>    MethodNotAllowedMiddleware::class,</span>
-<span class=x>    \Auth\UrlHelperMiddleware::class, // module-specific URL helper middleware!</span>
-<span class=x>    DispatchMiddleware::class,</span>
-<span class=x>]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe('/auth', [
+    \Auth\RouteMiddleware::class,     // module-specific routing middleware!
+    ImplicitHeadMiddleware::class,
+    ImplicitOptionsMiddleware::class,
+    MethodNotAllowedMiddleware::class,
+    \Auth\UrlHelperMiddleware::class, // module-specific URL helper middleware!
+    DispatchMiddleware::class,
+]);</code></pre>
 <p>Any handlers that the module-specific router routes to can then also compose the
 same <code>UrlHelper</code> instance via their factories:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Auth;</span>
+<pre class=codehilite><code class=language-php>namespace Auth;
 
-<span class=x>use Psr\Container\ContainerInterface;</span>
+use Psr\Container\ContainerInterface;
 
-<span class=x>class SomeHandlerFactory</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke(ContainerInterface $container) : SomeHandler</span>
-<span class=x>    {</span>
-<span class=x>        return new SomeHandler(</span>
-<span class=x>            $container-&gt;get(UrlHelper::class) // module-specific URL helper!</span>
-<span class=x>        );</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class SomeHandlerFactory
+{
+    public function __invoke(ContainerInterface $container) : SomeHandler
+    {
+        return new SomeHandler(
+            $container-&gt;get(UrlHelper::class) // module-specific URL helper!
+        );
+    }
+}</code></pre>
 <p>This instance will then be properly configured to generate links using the
 module-specific router.</p>
 
@@ -1473,9 +1469,10 @@ module-specific router.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1512,7 +1509,7 @@ module-specific router.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1521,8 +1518,8 @@ module-specific router.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

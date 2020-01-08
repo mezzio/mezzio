@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -651,21 +655,20 @@ likely interact with at some point or another.</p>
 <h3>Constructor</h3>
 <p>If you wish to manually instantiate the <code>Application</code> instance, it has the
 following constructor:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>/**</span>
-<span class=x> * @param Mezzio\Router\RouterInterface $router</span>
-<span class=x> * @param null|Interop\Container\ContainerInterface $container IoC container from which to pull services, if any.</span>
-<span class=x> * @param null|callable $finalHandler Final handler to use when $out is not</span>
-<span class=x> *     provided on invocation.</span>
-<span class=x> * @param null|Laminas\Diactoros\Response\EmitterInterface $emitter Emitter to use when `run()` is</span>
-<span class=x> *     invoked.</span>
-<span class=x> */</span>
-<span class=x>public function __construct(</span>
-<span class=x>    Mezzio\Router\RouterInterface $router,</span>
-<span class=x>    Interop\Container\ContainerInterface $container = null,</span>
-<span class=x>    callable $finalHandler = null,</span>
-<span class=x>    Laminas\Diactoros\Response\EmitterInterface $emitter = null</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>/**
+ * @param Mezzio\Router\RouterInterface $router
+ * @param null|Interop\Container\ContainerInterface $container IoC container from which to pull services, if any.
+ * @param null|callable $finalHandler Final handler to use when $out is not
+ *     provided on invocation.
+ * @param null|Laminas\Diactoros\Response\EmitterInterface $emitter Emitter to use when `run()` is
+ *     invoked.
+ */
+public function __construct(
+    Mezzio\Router\RouterInterface $router,
+    Interop\Container\ContainerInterface $container = null,
+    callable $finalHandler = null,
+    Laminas\Diactoros\Response\EmitterInterface $emitter = null
+);</code></pre>
 <p>If no container is provided at instantiation, then all routed and piped
 middleware <strong>must</strong> be provided as callables.</p>
 <h3>AppFactory</h3>
@@ -673,11 +676,10 @@ middleware <strong>must</strong> be provided as callables.</p>
 <code>Application</code> instance; it makes the assumption that you will use defaults in
 most situations, and likely only change which container and/or router you wish
 to use. It has the following signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>AppFactory::create(</span>
-<span class=x>    Interop\Container\ContainerInterface $container = null,</span>
-<span class=x>    Mezzio\Router\RouterInterface $router = null</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>AppFactory::create(
+    Interop\Container\ContainerInterface $container = null,
+    Mezzio\Router\RouterInterface $router = null
+);</code></pre>
 <p>When no container or router are provided, it defaults to:</p>
 <ul>
 <li>laminas-servicemanager for the container.</li>
@@ -696,13 +698,12 @@ the primary features of mezzio.</p>
 can use the following methods to provide routable middleware:</p>
 <h3>route()</h3>
 <p><code>route()</code> has the following signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function route(</span>
-<span class=x>    $pathOrRoute,</span>
-<span class=x>    $middleware = null,</span>
-<span class=x>    array $methods = null,</span>
-<span class=x>    $name = null</span>
-<span class=x>) : Mezzio\Router\Route</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function route(
+    $pathOrRoute,
+    $middleware = null,
+    array $methods = null,
+    $name = null
+) : Mezzio\Router\Route</code></pre>
 <p>where:</p>
 <ul>
 <li><code>$pathOrRoute</code> may be either a string path to match, or a
@@ -725,12 +726,11 @@ multiple HTTP request methods.</p>
 <h3>get(), post(), put(), patch(), delete(), any()</h3>
 <p>Each of the methods <code>get()</code>, <code>post()</code>, <code>put()</code>, <code>patch()</code>, <code>delete()</code>, and <code>any()</code>
 proxies to <code>route()</code> and has the signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function (</span>
-<span class=x>    $pathOrRoute,</span>
-<span class=x>    $middleware = null,</span>
-<span class=x>    $name = null</span>
-<span class=x>) : Mezzio\Router\Route</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function (
+    $pathOrRoute,
+    $middleware = null,
+    $name = null
+) : Mezzio\Router\Route</code></pre>
 <p>Essentially, each calls <code>route()</code> and specifies an array consisting solely of
 the corresponding HTTP method for the <code>$methods</code> argument.</p>
 <h3>Piping</h3>
@@ -740,8 +740,7 @@ and, more specifically, its <code>MiddlewarePipe</code> definition, you can also
 should execute on each request, defining error handlers, and/or segregating
 applications by subpath.</p>
 <p>The signature of <code>pipe()</code> is:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function pipe($pathOrMiddleware, $middleware = null)</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function pipe($pathOrMiddleware, $middleware = null)</code></pre>
 <p>where:</p>
 <ul>
 <li><code>$pathOrMiddleware</code> is either a string URI path (for path segregation), a
@@ -761,13 +760,11 @@ middleware only when it is invoked. Internally, it wraps the call to fetch and
 dispatch the middleware inside a closure.</p>
 <p>Additionally, we define a new method, <code>pipeErrorHandler()</code>, with the following
 signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function pipeErrorHandler($pathOrMiddleware, $middleware = null)</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function pipeErrorHandler($pathOrMiddleware, $middleware = null)</code></pre>
 <p>It acts just like <code>pipe()</code> except when the middleware specified is a service
 name; in that particular case, when it wraps the middleware in a closure, it
 uses the error handler signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function ($error, ServerRequestInterface $request, ResponseInterface $response, callable $next);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function ($error, ServerRequestInterface $request, ResponseInterface $response, callable $next);</code></pre>
 <p>Read the section on <a href="../router/piping/">piping vs routing</a> for more information.</p>
 <h3>Registering routing and dispatch middleware</h3>
 <p>Routing is accomplished via a dedicated middleware method,
@@ -776,9 +773,8 @@ has a corresponding instance middleware method, <code>Application::dispatchMiddl
 Each can be piped/registered with other middleware platforms if desired.</p>
 <p>These methods <strong>MUST</strong> be piped to the application so that the application will
 route and dispatch routed middleware. This is done using the following methods:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipeRoutingMiddleware();</span>
-<span class=x>$app-&gt;pipeDispatchMiddleware();</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipeRoutingMiddleware();
+$app-&gt;pipeDispatchMiddleware();</code></pre>
 <p>See the section on <a href="../router/piping/">piping</a> to see how you can register
 non-routed middleware and create layered middleware applications.</p>
 <h2 id="retrieving-dependencies">Retrieving dependencies</h2>
@@ -800,11 +796,10 @@ methods for retrieving them. They include:</p>
 <p>When the application is completely setup, you can execute it with the <code>run()</code>
 method. The method may be called with no arguments, but has the following
 signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function run(</span>
-<span class=x>    ServerRequestInterface $request = null,</span>
-<span class=x>    ResponseInterface $response = null</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function run(
+    ServerRequestInterface $request = null,
+    ResponseInterface $response = null
+);</code></pre>
 
 
 
@@ -1268,9 +1263,10 @@ signature:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1307,7 +1303,7 @@ signature:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1316,8 +1312,8 @@ signature:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -706,30 +710,27 @@ it provides:</p>
 <code>Mezzio\Plates\PlatesRenderer</code>.</p>
 <h2 id="installing-plates">Installing Plates</h2>
 <p>To use the Plates wrapper, you must install the Plates integration:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require mezzio/mezzio-platesrenderer
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-platesrenderer</code></pre>
 <h2 id="using-the-wrapper">Using the wrapper</h2>
 <p>If instantiated without arguments, <code>Mezzio\Plates\PlatesRenderer</code> will create
 an instance of the Plates engine, which it will then proxy to.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Plates\PlatesRenderer;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Plates\PlatesRenderer;
 
-<span class=x>$renderer = new PlatesRenderer();</span>
-</pre></div></p>
+$renderer = new PlatesRenderer();</code></pre>
 <p>Alternately, you can instantiate and configure the engine yourself, and pass it
 to the <code>Mezzio\Plates\PlatesRenderer</code> constructor:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use League\Plates\Engine as PlatesEngine;</span>
-<span class=x>use Mezzio\Plates\PlatesRenderer;</span>
+<pre class=codehilite><code class=language-php>use League\Plates\Engine as PlatesEngine;
+use Mezzio\Plates\PlatesRenderer;
 
-<span class=x>// Create the engine instance:</span>
-<span class=x>$plates = new PlatesEngine();</span>
+// Create the engine instance:
+$plates = new PlatesEngine();
 
-<span class=x>// Configure it:</span>
-<span class=x>$plates-&gt;addFolder(&#39;error&#39;, &#39;templates/error/&#39;);</span>
-<span class=x>$plates-&gt;loadExtension(new CustomExtension());</span>
+// Configure it:
+$plates-&gt;addFolder('error', 'templates/error/');
+$plates-&gt;loadExtension(new CustomExtension());
 
-<span class=x>// Inject:</span>
-<span class=x>$renderer = new PlatesRenderer($plates);</span>
-</pre></div></p>
+// Inject:
+$renderer = new PlatesRenderer($plates);</code></pre>
 <h2 id="configuration-and-factory">Configuration and Factory</h2>
 <p>mezzio-platesrenderer ships with the factory
 <code>Mezzio\Plates\PlatesRendererFactory</code>, which will both create the
@@ -738,23 +739,22 @@ Plates engine instance, and the <code>PlatesRenderer</code> instance. If you are
 this will be automatically wired for you during installation.</p>
 <p>The factory looks for the following configuration in the <code>config</code> service, using
 any it finds:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// In config/autoload/templates.global.php:</span>
+<pre class=codehilite><code class=language-php>// In config/autoload/templates.global.php:
 
-<span class=x>return [</span>
-<span class=x>    &#39;plates&#39; =&gt; [</span>
-<span class=x>        &#39;extensions&#39; =&gt; [</span>
-<span class=x>            // string service names or class names of Plates extensions</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;templates&#39; =&gt; [</span>
-<span class=x>        &#39;extension&#39; =&gt; &#39;phtml&#39;, // change this if you use a different file</span>
-<span class=x>                                // extension for templates</span>
-<span class=x>        &#39;paths&#39; =&gt; [</span>
-<span class=x>            // namespace =&gt; [paths] pairs</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'plates' =&gt; [
+        'extensions' =&gt; [
+            // string service names or class names of Plates extensions
+        ],
+    ],
+    'templates' =&gt; [
+        'extension' =&gt; 'phtml', // change this if you use a different file
+                                // extension for templates
+        'paths' =&gt; [
+            // namespace =&gt; [paths] pairs
+        ],
+    ],
+];</code></pre>
 <p>The factory will also inject two extensions by default,
 <code>Mezzio\Plates\Extension\UrlExtension</code> and
 <code>Mezzio\Plates\Extension\EscaperExtension</code>, both listed in more detail
@@ -765,64 +765,59 @@ below.</p>
 <p><code>Mezzio\Plates\Extension\UrlExtension</code> composes each of the
 <a href="../../helpers/url-helper/">UrlHelper</a> and <a href="../helpers/server-url-helper">ServerUrlHelper</a>,
 and provides the following template methods:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function url(</span>
-<span class=x>   string $routeName = null,</span>
-<span class=x>   array $routeParams = [],</span>
-<span class=x>   array $queryParams = [],</span>
-<span class=x>   ?string $fragmentIdentifier = null,</span>
-<span class=x>   array $options = []</span>
-<span class=x>) : string;</span>
+<pre class=codehilite><code class=language-php>public function url(
+   string $routeName = null,
+   array $routeParams = [],
+   array $queryParams = [],
+   ?string $fragmentIdentifier = null,
+   array $options = []
+) : string;
 
-<span class=x>public function serverurl(string $path = null) : string;</span>
+public function serverurl(string $path = null) : string;
 
-<span class=x>// Since mezzio-platesrender 2.1.0:</span>
-<span class=x>public function route() : ?Mezzio\Router\RouteResult</span>
-</pre></div></p>
+// Since mezzio-platesrender 2.1.0:
+public function route() : ?Mezzio\Router\RouteResult</code></pre>
 <p>As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&lt;a href=&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>(</span><span class=s1>&#39;blog&#39;</span><span class=p>,</span> <span class=p>[</span><span class=s1>&#39;stub&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>stub</span><span class=p>])</span> <span class=cp>?&gt;</span><span class=x>&quot;&gt;A blog post on this&lt;/a&gt;</span>
+<pre class=codehilite><code class=language-php>&lt;a href=&quot;&lt;?= $this-&gt;url('blog', ['stub' =&gt; $this-&gt;stub]) ?&gt;&quot;&gt;A blog post on this&lt;/a&gt;
 
-<span class=cp>&lt;?php</span>
-<span class=nv>$routing</span>        <span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>route</span><span class=p>();</span>
-<span class=nv>$routingIsValid</span> <span class=o>=</span> <span class=nv>$routing</span> <span class=o>&amp;&amp;</span> <span class=nv>$routing</span><span class=o>-&gt;</span><span class=na>isSuccess</span><span class=p>();</span>
-<span class=nv>$route</span>       <span class=o>=</span> <span class=nv>$routingIsValid</span> <span class=o>?</span> <span class=nv>$routing</span><span class=o>-&gt;</span><span class=na>getMatchedRouteName</span><span class=p>()</span> <span class=o>:</span> <span class=s1>&#39;blog&#39;</span><span class=p>;</span>
-<span class=nv>$routeParams</span> <span class=o>=</span> <span class=nv>$routingIsValid</span> <span class=o>?</span> <span class=nv>$routing</span><span class=o>-&gt;</span><span class=na>getMatchedParams</span><span class=p>()</span> <span class=o>:</span> <span class=p>[];</span>
-<span class=cp>?&gt;</span><span class=x></span>
-<span class=x>&lt;a href=&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>(</span><span class=nv>$route</span><span class=p>,</span> <span class=nv>$routeParams</span><span class=p>)</span> <span class=cp>?&gt;</span><span class=x>&quot;&gt;For more information&lt;/a&gt;</span>
-</pre></div></p>
+&lt;?php
+$routing        = $this-&gt;route();
+$routingIsValid = $routing &amp;&amp; $routing-&gt;isSuccess();
+$route       = $routingIsValid ? $routing-&gt;getMatchedRouteName() : 'blog';
+$routeParams = $routingIsValid ? $routing-&gt;getMatchedParams() : [];
+?&gt;
+&lt;a href=&quot;&lt;?= $this-&gt;url($route, $routeParams) ?&gt;&quot;&gt;For more information&lt;/a&gt;</code></pre>
 <h3>EscaperExtension</h3>
 <p><code>Mezzio\Plates\Extension\EscaperExtension</code> proxies to functionality
 provided in the <a href="https://docs.laminas.dev/laminas-escaper/">laminas-escaper</a>
 package. It looks for the following configuration in the <code>config</code> service:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// In config/autoload/templates.global.php:</span>
+<pre class=codehilite><code class=language-php>// In config/autoload/templates.global.php:
 
-<span class=x>return [</span>
-<span class=x>    &#39;plates&#39; =&gt; [</span>
-<span class=x>        &#39;encoding&#39; =&gt; ?string, // character encoding of generated content</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'plates' =&gt; [
+        'encoding' =&gt; ?string, // character encoding of generated content
+    ],
+];</code></pre>
 <p>By default it assumes UTF-8 for the encoding.</p>
 <p>The extension registers the following template methods:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function escapeHtml(string $html) : string;</span>
-<span class=x>public function escapeHtmlAttr(string $attribute) : string;</span>
-<span class=x>public function escapeJs(string $js) : string;</span>
-<span class=x>public function escapeCss(string $css) : string;</span>
-<span class=x>public function escapeUrl(string $url) : string;</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function escapeHtml(string $html) : string;
+public function escapeHtmlAttr(string $attribute) : string;
+public function escapeJs(string $js) : string;
+public function escapeCss(string $css) : string;
+public function escapeUrl(string $url) : string;</code></pre>
 <p>As examples:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&lt;html&gt;</span>
-<span class=x>  &lt;head&gt;</span>
-<span class=x>    &lt;meta name=&quot;author&quot; content=&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>escapeHtmlAttr</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>author</span><span class=p>)</span> <span class=cp>?&gt;</span><span class=x>&quot;&gt;</span>
-<span class=x>    &lt;link rel=&quot;alternative&quot; href=&quot;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>escapeUrl</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>alternative</span><span class=p>)</span> <span class=cp>?&gt;</span><span class=x>&quot;&gt;</span>
-<span class=x>    &lt;style&gt;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>escapeCss</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>styles</span><span class=p>)</span> <span class=cp>?&gt;</span><span class=x>&lt;/style&gt;</span>
-<span class=x>    &lt;script&gt;</span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>escapeJs</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>script</span><span class=p>)</span> <span class=cp>?&gt;</span><span class=x>&lt;/script&gt;</span>
-<span class=x>  &lt;/head&gt;</span>
+<pre class=codehilite><code class=language-php>&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta name=&quot;author&quot; content=&quot;&lt;?= $this-&gt;escapeHtmlAttr($this-&gt;author) ?&gt;&quot;&gt;
+    &lt;link rel=&quot;alternative&quot; href=&quot;&lt;?= $this-&gt;escapeUrl($this-&gt;alternative) ?&gt;&quot;&gt;
+    &lt;style&gt;&lt;?= $this-&gt;escapeCss($this-&gt;styles) ?&gt;&lt;/style&gt;
+    &lt;script&gt;&lt;?= $this-&gt;escapeJs($this-&gt;script) ?&gt;&lt;/script&gt;
+  &lt;/head&gt;
 
-<span class=x>  &lt;body&gt;</span>
-<span class=x>    </span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>escapeHtml</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>content</span><span class=p>)</span> <span class=cp>?&gt;</span><span class=x></span>
-<span class=x>  &lt;/body&gt;</span>
-<span class=x>&lt;/html&gt;</span>
-</pre></div></p>
+  &lt;body&gt;
+    &lt;?= $this-&gt;escapeHtml($this-&gt;content) ?&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
 
 
 
@@ -1358,9 +1353,10 @@ package. It looks for the following configuration in the <code>config</code> ser
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1397,7 +1393,7 @@ package. It looks for the following configuration in the <code>config</code> ser
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1406,8 +1402,8 @@ package. It looks for the following configuration in the <code>config</code> ser
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

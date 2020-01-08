@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -662,37 +666,34 @@ programmatically, or via a factory to use in conjunction with your container
 instance.</p>
 <h2 id="installing-aurarouter">Installing Aura.Router</h2>
 <p>To use Aura.Router, you will first need to install the Aura.Router integration:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require mezzio/mezzio-aurarouter
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-aurarouter</code></pre>
 <h2 id="quick-start">Quick Start</h2>
 <p>At its simplest, you can instantiate a <code>Mezzio\Router\AuraRouter</code> instance
 with no arguments; it will create the underlying Aura.Router objects required
 and compose them for you:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Router\AuraRouter;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Router\AuraRouter;
 
-<span class=x>$router = new AuraRouter();</span>
-</pre></div></p>
+$router = new AuraRouter();</code></pre>
 <h2 id="programmatic-creation">Programmatic Creation</h2>
 <p>If you need greater control over the Aura.Router setup and configuration, you
 can create the instances necessary and inject them into
 <code>Mezzio\Router\AuraRouter</code> during instantiation.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Aura\Router\RouterFactory</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\AppFactory</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Router\AuraRouter</span> <span class=k>as</span> <span class=nx>AuraBridge</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Aura\Router\RouterFactory;
+use Mezzio\AppFactory;
+use Mezzio\Router\AuraRouter as AuraBridge;
 
-<span class=nv>$auraRouter</span> <span class=o>=</span> <span class=p>(</span><span class=k>new</span> <span class=nx>RouterFactory</span><span class=p>())</span><span class=o>-&gt;</span><span class=na>newInstance</span><span class=p>();</span>
-<span class=nv>$auraRouter</span><span class=o>-&gt;</span><span class=na>setSecure</span><span class=p>(</span><span class=k>true</span><span class=p>);</span>
-<span class=nv>$auraRouter</span><span class=o>-&gt;</span><span class=na>addValues</span><span class=p>([</span>
-    <span class=s1>&#39;mediatype&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;application/xhtml+xml&#39;</span><span class=p>,</span>
-<span class=p>]);</span>
+$auraRouter = (new RouterFactory())-&gt;newInstance();
+$auraRouter-&gt;setSecure(true);
+$auraRouter-&gt;addValues([
+    'mediatype' =&gt; 'application/xhtml+xml',
+]);
 
-<span class=nv>$router</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>AuraBridge</span><span class=p>(</span><span class=nv>$auraRouter</span><span class=p>);</span>
+$router = new AuraBridge($auraRouter);
 
-<span class=c1>// First argument is the container to use, if not using the default;</span>
-<span class=c1>// second is the router.</span>
-<span class=nv>$app</span> <span class=o>=</span> <span class=nx>AppFactory</span><span class=o>::</span><span class=na>create</span><span class=p>(</span><span class=k>null</span><span class=p>,</span> <span class=nv>$router</span><span class=p>);</span>
-</pre></div></p>
+// First argument is the container to use, if not using the default;
+// second is the router.
+$app = AppFactory::create(null, $router);</code></pre>
 <blockquote>
 <h3>Piping the route middleware</h3>
 <p>As a reminder, you will need to ensure that middleware is piped in the order
@@ -710,40 +711,36 @@ two strategies for creating your Aura.Router implementation.</p>
 instantiate and return an instance of <code>Mezzio\Router\AuraRouter</code> for the
 service name <code>Mezzio\Router\RouterInterface</code>.</p>
 <p>A factory would look like this:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// in src/Application/Container/RouterFactory.php</span>
-<span class=x>namespace Application\Container;</span>
+<pre class=codehilite><code class=language-php>// in src/Application/Container/RouterFactory.php
+namespace Application\Container;
 
-<span class=x>use Interop\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Router\AuraRouter;</span>
+use Interop\Container\ContainerInterface;
+use Mezzio\Router\AuraRouter;
 
-<span class=x>class RouterFactory</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * @param ContainerInterface $container</span>
-<span class=x>     * @return AuraRouter</span>
-<span class=x>     */</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        return new AuraRouter();</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class RouterFactory
+{
+    /**
+     * @param ContainerInterface $container
+     * @return AuraRouter
+     */
+    public function __invoke(ContainerInterface $container)
+    {
+        return new AuraRouter();
+    }
+}</code></pre>
 <p>You would register this with laminas-servicemanager using:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$container-&gt;setFactory(</span>
-<span class=x>    &#39;Mezzio\Router\RouterInterface&#39;,</span>
-<span class=x>    &#39;Application\Container\RouterFactory&#39;</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$container-&gt;setFactory(
+    'Mezzio\Router\RouterInterface',
+    'Application\Container\RouterFactory'
+);</code></pre>
 <p>And in Pimple:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$pimple[&#39;Mezzio\Router\RouterInterface&#39;] = new Application\Container\RouterFactory();</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pimple['Mezzio\Router\RouterInterface'] = new Application\Container\RouterFactory();</code></pre>
 <p>For laminas-servicemanager, you can omit the factory entirely, and register the
 class as an invokable:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$container-&gt;setInvokableClass(</span>
-<span class=x>    &#39;Mezzio\Router\RouterInterface&#39;,</span>
-<span class=x>    &#39;Mezzio\Router\AuraRouter&#39;</span>
-<span class=x>);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$container-&gt;setInvokableClass(
+    'Mezzio\Router\RouterInterface',
+    'Mezzio\Router\AuraRouter'
+);</code></pre>
 <h3>Advanced Configuration</h3>
 <p>If you want to provide custom setup or configuration, you can do so. In this
 example, we will be defining two factories:</p>
@@ -754,80 +751,77 @@ example, we will be defining two factories:</p>
   <code>Aura\Router\Router</code> instance.</li>
 </ul>
 <p>Sound difficult? It's not; we've essentially done it above already!</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// in src/Application/Container/AuraRouterFactory.php:</span>
-<span class=x>namespace Application\Container;</span>
+<pre class=codehilite><code class=language-php>// in src/Application/Container/AuraRouterFactory.php:
+namespace Application\Container;
 
-<span class=x>use Aura\Router\RouterFactory;</span>
-<span class=x>use Interop\Container\ContainerInterface;</span>
+use Aura\Router\RouterFactory;
+use Interop\Container\ContainerInterface;
 
-<span class=x>class AuraRouterFactory</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * @param ContainerInterface $container</span>
-<span class=x>     * @return \Aura\Router\Router</span>
-<span class=x>     */</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        $router = (new RouterFactory())-&gt;newInstance();</span>
-<span class=x>        $router-&gt;setSecure(true);</span>
-<span class=x>        $router-&gt;addValues([</span>
-<span class=x>            &#39;mediatype&#39; =&gt; &#39;application/xhtml+xml&#39;,</span>
-<span class=x>        ]);</span>
+class AuraRouterFactory
+{
+    /**
+     * @param ContainerInterface $container
+     * @return \Aura\Router\Router
+     */
+    public function __invoke(ContainerInterface $container)
+    {
+        $router = (new RouterFactory())-&gt;newInstance();
+        $router-&gt;setSecure(true);
+        $router-&gt;addValues([
+            'mediatype' =&gt; 'application/xhtml+xml',
+        ]);
 
-<span class=x>        return $router;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
+        return $router;
+    }
+}
 
-<span class=x>// in src/Application/Container/RouterFactory.php</span>
-<span class=x>namespace Application\Container;</span>
+// in src/Application/Container/RouterFactory.php
+namespace Application\Container;
 
-<span class=x>use Interop\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Router\AuraRouter as AuraBridge;</span>
+use Interop\Container\ContainerInterface;
+use Mezzio\Router\AuraRouter as AuraBridge;
 
-<span class=x>class RouterFactory</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * @param ContainerInterface $container</span>
-<span class=x>     * @return AuraBridge</span>
-<span class=x>     */</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        return new AuraBridge($container-&gt;get(&#39;Aura\Router\Router&#39;));</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class RouterFactory
+{
+    /**
+     * @param ContainerInterface $container
+     * @return AuraBridge
+     */
+    public function __invoke(ContainerInterface $container)
+    {
+        return new AuraBridge($container-&gt;get('Aura\Router\Router'));
+    }
+}</code></pre>
 <p>From here, you will need to register your factories with your IoC container.</p>
 <p>If you are using laminas-servicemanager, this will look like:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Programmatically:</span>
-<span class=x>use Laminas\ServiceManager\ServiceManager;</span>
+<pre class=codehilite><code class=language-php>// Programmatically:
+use Laminas\ServiceManager\ServiceManager;
 
-<span class=x>$container = new ServiceManager();</span>
-<span class=x>$container-&gt;addFactory(</span>
-<span class=x>    &#39;Aura\Router\Router&#39;,</span>
-<span class=x>    &#39;Application\Container\AuraRouterFactory&#39;</span>
-<span class=x>);</span>
-<span class=x>$container-&gt;addFactory(</span>
-<span class=x>    &#39;Mezzio\Router\RouterInterface&#39;,</span>
-<span class=x>    &#39;Application\Container\RouterFactory&#39;</span>
-<span class=x>);</span>
+$container = new ServiceManager();
+$container-&gt;addFactory(
+    'Aura\Router\Router',
+    'Application\Container\AuraRouterFactory'
+);
+$container-&gt;addFactory(
+    'Mezzio\Router\RouterInterface',
+    'Application\Container\RouterFactory'
+);
 
-<span class=x>// Alternately, via configuration:</span>
-<span class=x>return [</span>
-<span class=x>    &#39;factories&#39; =&gt; [</span>
-<span class=x>        &#39;Aura\Router\Router&#39; =&gt; &#39;Application\Container\AuraRouterFactory&#39;,</span>
-<span class=x>        &#39;Mezzio\Router\RouterInterface&#39; =&gt; &#39;Application\Container\RouterFactory&#39;,</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+// Alternately, via configuration:
+return [
+    'factories' =&gt; [
+        'Aura\Router\Router' =&gt; 'Application\Container\AuraRouterFactory',
+        'Mezzio\Router\RouterInterface' =&gt; 'Application\Container\RouterFactory',
+    ],
+];</code></pre>
 <p>For Pimple, configuration looks like:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Application\Container\AuraRouterFactory;</span>
-<span class=x>use Application\Container\RouterFactory;</span>
-<span class=x>use Interop\Container\Pimple\PimpleInterop as Pimple;</span>
+<pre class=codehilite><code class=language-php>use Application\Container\AuraRouterFactory;
+use Application\Container\RouterFactory;
+use Interop\Container\Pimple\PimpleInterop as Pimple;
 
-<span class=x>$container = new Pimple();</span>
-<span class=x>$container[&#39;Aura\Router\Router&#39;] = new AuraRouterFactory();</span>
-<span class=x>$container[&#39;Mezzio\Router\RouterInterface&#39;] = new RouterFactory();</span>
-</pre></div></p>
+$container = new Pimple();
+$container['Aura\Router\Router'] = new AuraRouterFactory();
+$container['Mezzio\Router\RouterInterface'] = new RouterFactory();</code></pre>
 
 
 
@@ -1291,9 +1285,10 @@ example, we will be defining two factories:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1330,7 +1325,7 @@ example, we will be defining two factories:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1339,8 +1334,8 @@ example, we will be defining two factories:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

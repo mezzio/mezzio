@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -705,121 +709,116 @@ from the request URI's path. If it doesn't find one, it sets a default.</p>
 <li>amends the request with a truncated path (removing the locale segment).</li>
 <li>adds the locale segment as the base path of the <code>UrlHelper</code>.</li>
 </ul>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>namespace</span> <span class=nx>App\I18n</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+namespace App\I18n;
 
-<span class=k>use</span> <span class=nx>Locale</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ResponseInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ServerRequestInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Server\MiddlewareInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Server\RequestHandlerInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Helper\UrlHelper</span><span class=p>;</span>
+use Locale;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Mezzio\Helper\UrlHelper;
 
-<span class=k>class</span> <span class=nc>SetLocaleMiddleware</span> <span class=k>implements</span> <span class=nx>MiddlewareInterface</span>
-<span class=p>{</span>
-    <span class=k>private</span> <span class=nv>$helper</span><span class=p>;</span>
+class SetLocaleMiddleware implements MiddlewareInterface
+{
+    private $helper;
 
-    <span class=k>private</span> <span class=nv>$defaultLocale</span><span class=p>;</span>
-    <span class=k>private</span> <span class=nv>$fallbackLocale</span> <span class=o>=</span> <span class=s1>&#39;en_US&#39;</span><span class=p>;</span>
+    private $defaultLocale;
+    private $fallbackLocale = 'en_US';
 
-    <span class=k>const</span> <span class=no>REGEX_LOCALE</span> <span class=o>=</span> <span class=s1>&#39;#^/(?P&lt;locale&gt;[a-z]{2,3}|[a-z]{2}[-_][a-zA-Z]{2})(?:/|$)#&#39;</span><span class=p>;</span>
+    const REGEX_LOCALE = '#^/(?P&lt;locale&gt;[a-z]{2,3}|[a-z]{2}[-_][a-zA-Z]{2})(?:/|$)#';
 
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__construct</span><span class=p>(</span><span class=nx>UrlHelper</span> <span class=nv>$helper</span><span class=p>,</span> <span class=nx>string</span> <span class=nv>$defaultLocale</span> <span class=o>=</span> <span class=k>null</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>helper</span> <span class=o>=</span> <span class=nv>$helper</span><span class=p>;</span>
-        <span class=k>if</span> <span class=p>(</span><span class=nv>$defaultLocale</span><span class=p>)</span> <span class=p>{</span>
-            <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>defaultLocale</span> <span class=o>=</span> <span class=nv>$defaultLocale</span><span class=p>;</span>
-        <span class=p>}</span>
-    <span class=p>}</span>
+    public function __construct(UrlHelper $helper, string $defaultLocale = null)
+    {
+        $this-&gt;helper = $helper;
+        if ($defaultLocale) {
+            $this-&gt;defaultLocale = $defaultLocale;
+        }
+    }
 
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>process</span><span class=p>(</span><span class=nx>ServerRequestInterface</span> <span class=nv>$request</span><span class=p>,</span> <span class=nx>RequestHandlerInterface</span> <span class=nv>$handler</span><span class=p>)</span> <span class=o>:</span> <span class=nx>ResponseInterface</span>
-    <span class=p>{</span>
-        <span class=nv>$uri</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>getUri</span><span class=p>();</span>
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    {
+        $uri = $request-&gt;getUri();
 
-        <span class=nv>$path</span> <span class=o>=</span> <span class=nv>$uri</span><span class=o>-&gt;</span><span class=na>getPath</span><span class=p>();</span>
+        $path = $uri-&gt;getPath();
 
-        <span class=k>if</span> <span class=p>(</span><span class=o>!</span> <span class=nb>preg_match</span><span class=p>(</span><span class=nx>self</span><span class=o>::</span><span class=na>REGEX_LOCALE</span><span class=p>,</span> <span class=nv>$path</span><span class=p>,</span> <span class=nv>$matches</span><span class=p>))</span> <span class=p>{</span>
-            <span class=nx>Locale</span><span class=o>::</span><span class=na>setDefault</span><span class=p>(</span><span class=nv>$this</span><span class=o>-&gt;</span><span class=na>defaultLocale</span> <span class=o>?:</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>fallbackLocale</span><span class=p>);</span>
-            <span class=k>return</span> <span class=nv>$handler</span><span class=o>-&gt;</span><span class=na>handle</span><span class=p>(</span><span class=nv>$request</span><span class=p>);</span>
-        <span class=p>}</span>
+        if (! preg_match(self::REGEX_LOCALE, $path, $matches)) {
+            Locale::setDefault($this-&gt;defaultLocale ?: $this-&gt;fallbackLocale);
+            return $handler-&gt;handle($request);
+        }
 
-        <span class=nv>$locale</span> <span class=o>=</span> <span class=nv>$matches</span><span class=p>[</span><span class=s1>&#39;locale&#39;</span><span class=p>];</span>
-        <span class=nx>Locale</span><span class=o>::</span><span class=na>setDefault</span><span class=p>(</span><span class=nx>Locale</span><span class=o>::</span><span class=na>canonicalize</span><span class=p>(</span><span class=nv>$locale</span><span class=p>));</span>
-        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>helper</span><span class=o>-&gt;</span><span class=na>setBasePath</span><span class=p>(</span><span class=nv>$locale</span><span class=p>);</span>
+        $locale = $matches['locale'];
+        Locale::setDefault(Locale::canonicalize($locale));
+        $this-&gt;helper-&gt;setBasePath($locale);
 
-        <span class=nv>$path</span> <span class=o>=</span> <span class=nb>substr</span><span class=p>(</span><span class=nv>$path</span><span class=p>,</span> <span class=nb>strlen</span><span class=p>(</span><span class=nv>$locale</span><span class=p>)</span> <span class=o>+</span> <span class=mi>1</span><span class=p>);</span>
+        $path = substr($path, strlen($locale) + 1);
 
-        <span class=k>return</span> <span class=nv>$handler</span><span class=o>-&gt;</span><span class=na>handle</span><span class=p>(</span><span class=nv>$request</span><span class=o>-&gt;</span><span class=na>withUri</span><span class=p>(</span>
-            <span class=nv>$uri</span><span class=o>-&gt;</span><span class=na>withPath</span><span class=p>(</span><span class=nv>$path</span> <span class=o>?:</span> <span class=s1>&#39;/&#39;</span><span class=p>)</span>
-        <span class=p>));</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+        return $handler-&gt;handle($request-&gt;withUri(
+            $uri-&gt;withPath($path ?: '/')
+        ));
+    }
+}</code></pre>
 <p>Then you will need a factory for the <code>SetLocaleMiddleware</code> to inject the
 <code>UrlHelper</code> instance.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>namespace</span> <span class=nx>App\I18n</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+namespace App\I18n;
 
-<span class=k>use</span> <span class=nx>Psr\Container\ContainerInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Helper\UrlHelper</span><span class=p>;</span>
+use Psr\Container\ContainerInterface;
+use Mezzio\Helper\UrlHelper;
 
-<span class=sd>/**</span>
-<span class=sd> * Configuration for setting a default locale should look like the following:</span>
-<span class=sd> *</span>
-<span class=sd> * &lt;code&gt;</span>
-<span class=sd> * &#39;i18n&#39; =&gt; [</span>
-<span class=sd> *     &#39;default_locale&#39; =&gt; &#39;de_DE&#39;,</span>
-<span class=sd> * ]</span>
-<span class=sd> * &lt;/code&gt;</span>
-<span class=sd> */</span>
-<span class=k>class</span> <span class=nc>SetLocaleMiddlewareFactory</span>
-<span class=p>{</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__invoke</span><span class=p>(</span><span class=nx>ContainerInterface</span> <span class=nv>$container</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=nv>$config</span> <span class=o>=</span> <span class=nv>$container</span><span class=o>-&gt;</span><span class=na>has</span><span class=p>(</span><span class=s1>&#39;config&#39;</span><span class=p>)</span> <span class=o>?</span> <span class=nv>$container</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;config&#39;</span><span class=p>)</span> <span class=o>:</span> <span class=p>[];</span>
+/**
+ * Configuration for setting a default locale should look like the following:
+ *
+ * &lt;code&gt;
+ * 'i18n' =&gt; [
+ *     'default_locale' =&gt; 'de_DE',
+ * ]
+ * &lt;/code&gt;
+ */
+class SetLocaleMiddlewareFactory
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        $config = $container-&gt;has('config') ? $container-&gt;get('config') : [];
 
-        <span class=k>return</span> <span class=k>new</span> <span class=nx>SetLocaleMiddleware</span><span class=p>(</span>
-            <span class=nv>$container</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=nx>UrlHelper</span><span class=o>::</span><span class=na>class</span><span class=p>),</span>
-            <span class=nv>$config</span><span class=p>[</span><span class=s1>&#39;i18n&#39;</span><span class=p>][</span><span class=s1>&#39;default_locale&#39;</span><span class=p>]</span> <span class=o>??</span> <span class=k>null</span>
-        <span class=p>);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+        return new SetLocaleMiddleware(
+            $container-&gt;get(UrlHelper::class),
+            $config['i18n']['default_locale'] ?? null
+        );
+    }
+}</code></pre>
 <p>Next, map the middleware to its factory in either
 <code>/config/autoload/dependencies.global.php</code> or
 <code>/config/autoload/middleware-pipeline.global.php</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use App\I18n\SetLocaleMiddleware;</span>
-<span class=x>use App\I18n\SetLocaleMiddlewareFactory;</span>
+<pre class=codehilite><code class=language-php>use App\I18n\SetLocaleMiddleware;
+use App\I18n\SetLocaleMiddlewareFactory;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        /* ... */</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            SetLocaleMiddleware::class =&gt; SetLocaleMiddlewareFactory::class,</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'dependencies' =&gt; [
+        /* ... */
+        'factories' =&gt; [
+            SetLocaleMiddleware::class =&gt; SetLocaleMiddlewareFactory::class,
+            /* ... */
+        ],
+    ],
+];</code></pre>
 <p>Finally, you will need to configure your middleware pipeline to ensure this
 middleware is executed on every request.</p>
 <p>Pipe the middleware early in your application, before routing is performed:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use App\I18n\SetLocaleMiddleware;</span>
+<pre class=codehilite><code class=language-php>use App\I18n\SetLocaleMiddleware;
 
-<span class=x>/* ... */</span>
-<span class=x>$app-&gt;pipe(SetLocaleMiddleware::class);</span>
-<span class=x>/* ... */</span>
-<span class=x>$app-&gt;pipe(RouteMiddleware::class);</span>
-<span class=x>/* ... */</span>
-<span class=x>$app-&gt;pipe(DispatchMiddleware::class);</span>
-<span class=x>/* ... */</span>
-</pre></div></p>
+/* ... */
+$app-&gt;pipe(SetLocaleMiddleware::class);
+/* ... */
+$app-&gt;pipe(RouteMiddleware::class);
+/* ... */
+$app-&gt;pipe(DispatchMiddleware::class);
+/* ... */</code></pre>
 <h2 id="url-generation-in-the-view">Url generation in the view</h2>
 <p>Since the <code>UrlHelper</code> has the locale set as a base path, you don't need
 to worry about generating URLs within your view. Just use the helper to
 generate a URL and it will do the rest.</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?</span><span class=o>=</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>url</span><span class=p>(</span><span class=s1>&#39;your-route&#39;</span><span class=p>)</span> <span class=cp>?&gt;</span><span class=x></span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>&lt;?= $this-&gt;url('your-route') ?&gt;</code></pre>
 <blockquote>
 <h3>Helpers differ between template renderers</h3>
 <p>The above example is specific to laminas-view; syntax will differ for
@@ -829,52 +828,50 @@ Twig and Plates.</p>
 <p>If you want to add the locale parameter when creating URIs within your
 request handlers, you just need to inject the <code>UrlHelper</code> into your
 handler and use it for URL generation:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>namespace</span> <span class=nx>App\Handler</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+namespace App\Handler;
 
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ResponseInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Message\ServerRequestInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Http\Server\RequestHandlerInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Diactoros\Response\RedirectResponse</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Helper\UrlHelper</span><span class=p>;</span>
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Laminas\Diactoros\Response\RedirectResponse;
+use Mezzio\Helper\UrlHelper;
 
-<span class=k>class</span> <span class=nc>RedirectHandler</span> <span class=k>implements</span> <span class=nx>RequestHandlerInterface</span>
-<span class=p>{</span>
-    <span class=k>private</span> <span class=nv>$helper</span><span class=p>;</span>
+class RedirectHandler implements RequestHandlerInterface
+{
+    private $helper;
 
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__construct</span><span class=p>(</span><span class=nx>UrlHelper</span> <span class=nv>$helper</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>helper</span> <span class=o>=</span> <span class=nv>$helper</span><span class=p>;</span>
-    <span class=p>}</span>
+    public function __construct(UrlHelper $helper)
+    {
+        $this-&gt;helper = $helper;
+    }
 
-    <span class=k>public</span> <span class=k>function</span> <span class=nf>handle</span><span class=p>(</span><span class=nx>ServerRequestInterface</span> <span class=nv>$request</span><span class=p>)</span> <span class=o>:</span> <span class=nx>ResponseInterface</span>
-    <span class=p>{</span>
-        <span class=nv>$routeParams</span> <span class=o>=</span> <span class=p>[</span> <span class=cm>/* ... */</span> <span class=p>];</span>
+    public function handle(ServerRequestInterface $request) : ResponseInterface
+    {
+        $routeParams = [ /* ... */ ];
 
-        <span class=k>return</span> <span class=k>new</span> <span class=nx>RedirectResponse</span><span class=p>(</span>
-            <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>helper</span><span class=o>-&gt;</span><span class=na>generate</span><span class=p>(</span><span class=s1>&#39;your-route&#39;</span><span class=p>,</span> <span class=nv>$routeParams</span><span class=p>)</span>
-        <span class=p>);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+        return new RedirectResponse(
+            $this-&gt;helper-&gt;generate('your-route', $routeParams)
+        );
+    }
+}</code></pre>
 <p>Injecting the <code>UrlHelper</code> into your request handler will also require that the
 handler have a factory that manages the injection. As an example, the following
 would work for the above middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace App\Handler;</span>
+<pre class=codehilite><code class=language-php>namespace App\Handler;
 
-<span class=x>use Psr\Container\ContainerInterface;</span>
-<span class=x>use Mezzio\Helper\UrlHelper;</span>
+use Psr\Container\ContainerInterface;
+use Mezzio\Helper\UrlHelper;
 
-<span class=x>class RedirectHandlerFactory</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        return new RedirectHandler(</span>
-<span class=x>            $container-&gt;get(UrlHelper::class)</span>
-<span class=x>        );</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class RedirectHandlerFactory
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        return new RedirectHandler(
+            $container-&gt;get(UrlHelper::class)
+        );
+    }
+}</code></pre>
 
 
 
@@ -1410,9 +1407,10 @@ would work for the above middleware:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1449,7 +1447,7 @@ would work for the above middleware:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1458,8 +1456,8 @@ would work for the above middleware:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

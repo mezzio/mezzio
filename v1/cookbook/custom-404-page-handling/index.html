@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -635,17 +639,16 @@ was able to complete the request.</p>
 </ul>
 <h2 id="calling-next-with-an-error-condition">Calling next with an error condition</h2>
 <p>In the first approach, the <code>NotFound</code> middleware can be as simple as this:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Application;</span>
+<pre class=codehilite><code class=language-php>namespace Application;
 
-<span class=x>class NotFound</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke($req, $res, $next)</span>
-<span class=x>    {</span>
-<span class=x>        // Other things can be done here; e.g., logging</span>
-<span class=x>        return $next($req, $res-&gt;withStatus(404), &#39;Page Not Found&#39;);</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+class NotFound
+{
+    public function __invoke($req, $res, $next)
+    {
+        // Other things can be done here; e.g., logging
+        return $next($req, $res-&gt;withStatus(404), 'Page Not Found');
+    }
+}</code></pre>
 <p>This example uses the third, optional argument to <code>$next()</code>, which is an error
 condition. Internally, the final handler will typically see this, and return an
 error page of some sort. Since we set the response status, and it's an error
@@ -657,29 +660,28 @@ template if you choose this approach.</p>
 <p>In the second approach, the <code>NotFound</code> middleware will return a full response.
 In our example here, we will render a specific template, and use this to seed
 and return a response.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Application;</span>
+<pre class=codehilite><code class=language-php>namespace Application;
 
-<span class=x>use Mezzio\Template\TemplateRendererInterface;</span>
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=x>class NotFound</span>
-<span class=x>{</span>
-<span class=x>    private $renderer;</span>
+class NotFound
+{
+    private $renderer;
 
-<span class=x>    public function __construct(TemplateRendererInterface $renderer)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;renderer = $renderer;</span>
-<span class=x>    }</span>
+    public function __construct(TemplateRendererInterface $renderer)
+    {
+        $this-&gt;renderer = $renderer;
+    }
 
-<span class=x>    public function __invoke($req, $res, $next)</span>
-<span class=x>    {</span>
-<span class=x>        // other things can be done here; e.g., logging</span>
-<span class=x>        // Now set the response status and write to the body</span>
-<span class=x>        $response = $res-&gt;withStatus(404);</span>
-<span class=x>        $response-&gt;getBody()-&gt;write($this-&gt;renderer-&gt;render(&#39;error::not-found&#39;));</span>
-<span class=x>        return $response;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function __invoke($req, $res, $next)
+    {
+        // other things can be done here; e.g., logging
+        // Now set the response status and write to the body
+        $response = $res-&gt;withStatus(404);
+        $response-&gt;getBody()-&gt;write($this-&gt;renderer-&gt;render('error::not-found'));
+        return $response;
+    }
+}</code></pre>
 <p>This approach allows you to have an application-specific workflow for 404 errors
 that does not rely on the final handler.</p>
 <h2 id="registering-custom-404-handlers">Registering custom 404 handlers</h2>
@@ -692,29 +694,27 @@ routed, and thus needs to be piped to the application instance. You can do this
 via either configuration, or manually.</p>
 <p>To do this via configuration, add an entry under the <code>middleware_pipeline</code>
 configuration, after the dispatch middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>&#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>    /* ... */</span>
-<span class=x>    &#39;routing&#39; =&gt; [</span>
-<span class=x>        &#39;middleware&#39; =&gt; [</span>
-<span class=x>            Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,</span>
-<span class=x>            Mezzio\Helper\UrlHelperMiddleware::class,</span>
-<span class=x>            Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;priority&#39; =&gt; 1,</span>
-<span class=x>    ],</span>
-<span class=x>    [</span>
-<span class=x>        &#39;middleware&#39; =&gt; &#39;Application\NotFound&#39;,</span>
-<span class=x>        &#39;priority&#39; =&gt; -1,</span>
-<span class=x>    ],</span>
-<span class=x>    /* ... */</span>
-<span class=x>],</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>'middleware_pipeline' =&gt; [
+    /* ... */
+    'routing' =&gt; [
+        'middleware' =&gt; [
+            Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+            Mezzio\Helper\UrlHelperMiddleware::class,
+            Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+        ],
+        'priority' =&gt; 1,
+    ],
+    [
+        'middleware' =&gt; 'Application\NotFound',
+        'priority' =&gt; -1,
+    ],
+    /* ... */
+],</code></pre>
 <p>The above example assumes you are using the <code>ApplicationFactory</code> and/or the
 Mezzio skeleton to manage your application instantiation and configuration.</p>
 <p>To manually add the middleware, you will need to pipe it to the application
 instance:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe($container-&gt;get(&#39;Application\NotFound&#39;));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe($container-&gt;get('Application\NotFound'));</code></pre>
 <p>This must be done <em>after</em>:</p>
 <ul>
 <li>calling <code>$app-&gt;pipeDispatchMiddleware()</code>, <strong>OR</strong></li>
@@ -1186,9 +1186,10 @@ middleware, as you only want it to execute if no routed middleware was selected.
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1225,7 +1226,7 @@ middleware, as you only want it to execute if no routed middleware was selected.
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1234,8 +1235,8 @@ middleware, as you only want it to execute if no routed middleware was selected.
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

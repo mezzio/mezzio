@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -681,76 +685,73 @@ features:</p>
 <a href="https://www.php-fig.org/psr/psr-11/">PSR-11 Container</a>; as
 such, you need to install the <code>xtreamwayz/pimple-container-interop</code> project,
 which provides a PSR-11 container wrapper around Pimple v3:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require xtreamwayz/pimple-container-interop
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require xtreamwayz/pimple-container-interop</code></pre>
 <h2 id="configuring-pimple">Configuring Pimple</h2>
 <p>To configure Pimple, instantiate it, and then add the factories desired. We
 recommend doing this in a dedicated script that returns the Pimple instance; in
 this example, we'll have that in <code>config/container.php</code>.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Xtreamwayz\Pimple\Container as Pimple;</span>
-<span class=x>use Mezzio\Container;</span>
-<span class=x>use Mezzio\Plates\PlatesRenderer;</span>
-<span class=x>use Mezzio\Router;</span>
-<span class=x>use Mezzio\Template\TemplateRendererInterface;</span>
+<pre class=codehilite><code class=language-php>use Xtreamwayz\Pimple\Container as Pimple;
+use Mezzio\Container;
+use Mezzio\Plates\PlatesRenderer;
+use Mezzio\Router;
+use Mezzio\Template\TemplateRendererInterface;
 
-<span class=x>$container = new Pimple();</span>
+$container = new Pimple();
 
-<span class=x>// Application and configuration</span>
-<span class=x>$container[&#39;config&#39;] = include &#39;config/config.php&#39;;</span>
-<span class=x>$container[&#39;Mezzio\Application&#39;] = new Container\ApplicationFactory;</span>
+// Application and configuration
+$container['config'] = include 'config/config.php';
+$container['Mezzio\Application'] = new Container\ApplicationFactory;
 
-<span class=x>// Routing</span>
-<span class=x>// In most cases, you can instantiate the router you want to use without using a</span>
-<span class=x>// factory:</span>
-<span class=x>$container[&#39;Mezzio\Router\RouterInterface&#39;] = function ($container) {</span>
-<span class=x>    return new Router\Aura();</span>
-<span class=x>};</span>
+// Routing
+// In most cases, you can instantiate the router you want to use without using a
+// factory:
+$container['Mezzio\Router\RouterInterface'] = function ($container) {
+    return new Router\Aura();
+};
 
-<span class=x>// We&#39;ll provide a default delegate:</span>
-<span class=x>$delegateFactory = new Container\NotFoundDelegateFactory();</span>
-<span class=x>$container[&#39;Mezzio\Delegate\DefaultDelegate&#39;] = $delegateFactory;</span>
-<span class=x>$container[Mezzio\Delegate\NotFoundDelegate::class] = $delegateFactory;</span>
+// We'll provide a default delegate:
+$delegateFactory = new Container\NotFoundDelegateFactory();
+$container['Mezzio\Delegate\DefaultDelegate'] = $delegateFactory;
+$container[Mezzio\Delegate\NotFoundDelegate::class] = $delegateFactory;
 
-<span class=x>// We&#39;ll provide a not found handler:</span>
-<span class=x>$container[Mezzio\Middleware\NotFoundHandler::class] = new Container\NotFoundHandlerFactory();</span>
+// We'll provide a not found handler:
+$container[Mezzio\Middleware\NotFoundHandler::class] = new Container\NotFoundHandlerFactory();
 
-<span class=x>// Templating</span>
-<span class=x>// In most cases, you can instantiate the template renderer you want to use</span>
-<span class=x>// without using a factory:</span>
-<span class=x>$container[TemplateRendererInterface::class] = function ($container) {</span>
-<span class=x>    return new PlatesRenderer();</span>
-<span class=x>};</span>
+// Templating
+// In most cases, you can instantiate the template renderer you want to use
+// without using a factory:
+$container[TemplateRendererInterface::class] = function ($container) {
+    return new PlatesRenderer();
+};
 
-<span class=x>// These next two can be added in any environment; they won&#39;t be used unless</span>
-<span class=x>// you add the WhoopsErrorResponseGenerator as the ErrorResponseGenerator</span>
-<span class=x>// implementation</span>
-<span class=x>$container[&#39;Mezzio\Whoops&#39;] = new Container\WhoopsFactory();</span>
-<span class=x>$container[&#39;Mezzio\WhoopsPageHandler&#39;] = new Container\WhoopsPageHandlerFactory();</span>
+// These next two can be added in any environment; they won't be used unless
+// you add the WhoopsErrorResponseGenerator as the ErrorResponseGenerator
+// implementation
+$container['Mezzio\Whoops'] = new Container\WhoopsFactory();
+$container['Mezzio\WhoopsPageHandler'] = new Container\WhoopsPageHandlerFactory();
 
-<span class=x>// Error Handling</span>
+// Error Handling
 
-<span class=x>// - In all environments:</span>
-<span class=x>$container[&#39;Mezzio\Middleware\ErrorHandler&#39;] = new Container\ErrorHandlerFactory();</span>
+// - In all environments:
+$container['Mezzio\Middleware\ErrorHandler'] = new Container\ErrorHandlerFactory();
 
-<span class=x>// If in development:</span>
-<span class=x>$container[Mezzio\Middleware\ErrorResponseGenerator::class] = new Container\WhoopsErrorResponseGeneratorFactory();</span>
+// If in development:
+$container[Mezzio\Middleware\ErrorResponseGenerator::class] = new Container\WhoopsErrorResponseGeneratorFactory();
 
-<span class=x>// If in production:</span>
-<span class=x>$container[Mezzio\Middleware\ErrorResponseGenerator::class] = new Container\ErrorResponseGeneratorFactory();</span>
+// If in production:
+$container[Mezzio\Middleware\ErrorResponseGenerator::class] = new Container\ErrorResponseGeneratorFactory();
 
-<span class=x>return $container;</span>
-</pre></div></p>
+return $container;</code></pre>
 <p>Your bootstrap (typically <code>public/index.php</code>) will then look like this:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>chdir(dirname(__DIR__));</span>
-<span class=x>$container = require &#39;config/container.php&#39;;</span>
-<span class=x>$app = $container-&gt;get(Mezzio\Application::class);</span>
+<pre class=codehilite><code class=language-php>chdir(dirname(__DIR__));
+$container = require 'config/container.php';
+$app = $container-&gt;get(Mezzio\Application::class);
 
-<span class=x>require &#39;config/pipeline.php&#39;;</span>
-<span class=x>require &#39;config/routes.php&#39;;</span>
+require 'config/pipeline.php';
+require 'config/routes.php';
 
-<span class=x>// All versions:</span>
-<span class=x>$app-&gt;run();</span>
-</pre></div></p>
+// All versions:
+$app-&gt;run();</code></pre>
 <blockquote>
 <h3>Environments</h3>
 <p>In the example above, we provide two alternate definitions for the
@@ -1267,9 +1268,10 @@ environment variable.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1306,7 +1308,7 @@ environment variable.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1315,8 +1317,8 @@ environment variable.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

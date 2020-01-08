@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -711,13 +715,12 @@ likely interact with at some point or another.</p>
 <h3>Constructor</h3>
 <p>If you wish to manually instantiate the <code>Application</code> instance, it has the
 following constructor:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function __construct(</span>
-<span class=x>    Mezzio\MiddlewareFactory $factory,</span>
-<span class=x>    Laminas\Stratigility\MiddlewarePipeInterface $pipeline,</span>
-<span class=x>    Mezzio\Router\RouteCollector $routes,</span>
-<span class=x>    Laminas\HttpHandlerRunner\RequestHandlerRunner $runner</span>
-<span class=x>) {</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function __construct(
+    Mezzio\MiddlewareFactory $factory,
+    Laminas\Stratigility\MiddlewarePipeInterface $pipeline,
+    Mezzio\Router\RouteCollector $routes,
+    Laminas\HttpHandlerRunner\RequestHandlerRunner $runner
+) {</code></pre>
 <h3>Container factory</h3>
 <p>We also provide a factory that can be consumed by a <a href="https://www.php-fig.org/psr/psr-11/">PSR-11</a>
 dependency injection container; see the <a href="../container/factories/">container factories documentation</a>
@@ -730,13 +733,12 @@ the primary features of mezzio.</p>
 can use the following <code>Application</code> methods to provide routable middleware:</p>
 <h3>route()</h3>
 <p><code>route()</code> has the following signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function route(</span>
-<span class=x>    string $path,</span>
-<span class=x>    $middleware,</span>
-<span class=x>    array $methods = null,</span>
-<span class=x>    string $name = null</span>
-<span class=x>) : Mezzio\Router\Route</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function route(
+    string $path,
+    $middleware,
+    array $methods = null,
+    string $name = null
+) : Mezzio\Router\Route</code></pre>
 <p>where:</p>
 <ul>
 <li><code>$path</code> must be a string path to match.</li>
@@ -759,12 +761,11 @@ multiple HTTP request methods.</p>
 <h3>get(), post(), put(), patch(), delete(), any()</h3>
 <p>Each of the methods <code>get()</code>, <code>post()</code>, <code>put()</code>, <code>patch()</code>, <code>delete()</code>, and <code>any()</code>
 proxies to <code>route()</code> and has the signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function (</span>
-<span class=x>    string $path,</span>
-<span class=x>    $middleware,</span>
-<span class=x>    string $name = null</span>
-<span class=x>) : Mezzio\Router\Route</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function (
+    string $path,
+    $middleware,
+    string $name = null
+) : Mezzio\Router\Route</code></pre>
 <p>Essentially, each calls <code>route()</code> and specifies an array consisting solely of
 the corresponding HTTP method for the <code>$methods</code> argument.</p>
 <h3>Piping</h3>
@@ -774,8 +775,7 @@ and, more specifically, its <code>MiddlewarePipe</code> definition, you can also
 should execute on each request, defining error handlers, and/or segregating
 applications by subpath.</p>
 <p>The signature of <code>pipe()</code> is:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function pipe($middlewareOrPath, $middleware = null)</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function pipe($middlewareOrPath, $middleware = null)</code></pre>
 <p>where:</p>
 <ul>
 <li><code>$middlewareOrPath</code> is either a string URI path (for path segregation), PSR-15
@@ -800,14 +800,12 @@ call to fetch and dispatch the middleware inside a
 <h3>Registering routing and dispatch middleware</h3>
 <p>Routing and dispatch middleware must be piped to the application like any other
 middleware. You can do so using the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(Mezzio\Router\Middleware\RouteMiddleware::class);</span>
-<span class=x>$app-&gt;pipe(Mezzio\Router\Middleware\DispatchMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(Mezzio\Router\Middleware\RouteMiddleware::class);
+$app-&gt;pipe(Mezzio\Router\Middleware\DispatchMiddleware::class);</code></pre>
 <p>We recommend piping the following middleware between the two as well:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(Mezzio\Router\Middleware\ImplicitHeadMiddleware::class);</span>
-<span class=x>$app-&gt;pipe(Mezzio\Router\Middleware\ImplicitOptionsMiddleware::class);</span>
-<span class=x>$app-&gt;pipe(Mezzio\Router\Middleware\MethodNotAllowedMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(Mezzio\Router\Middleware\ImplicitHeadMiddleware::class);
+$app-&gt;pipe(Mezzio\Router\Middleware\ImplicitOptionsMiddleware::class);
+$app-&gt;pipe(Mezzio\Router\Middleware\MethodNotAllowedMiddleware::class);</code></pre>
 <p>These allow your application to return:</p>
 <ul>
 <li><code>HEAD</code> requests for handlers that do not specifically allow <code>HEAD</code>; these will
@@ -1361,9 +1359,10 @@ pipeline, and then emit the response returned.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1400,7 +1399,7 @@ pipeline, and then emit the response returned.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1409,8 +1408,8 @@ pipeline, and then emit the response returned.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

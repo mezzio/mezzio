@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -685,71 +689,67 @@ grow with your accepted content types.</p>
 </ul>
 <h2 id="registering-the-middleware">Registering the middleware</h2>
 <p>You can register it programmatically:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(BodyParamsMiddleware::class);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(BodyParamsMiddleware::class);</code></pre>
 <p>Alternately, register it via configuration, if using configuration-based applications:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// config/autoload/middleware-pipeline.global.php</span>
-<span class=x>use Mezzio\Helper;</span>
+<pre class=codehilite><code class=language-php>// config/autoload/middleware-pipeline.global.php
+use Mezzio\Helper;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;invokables&#39; =&gt; [</span>
-<span class=x>            Helper\BodyParams\BodyParamsMiddleware::class =&gt; Helper\BodyParams\BodyParamsMiddleware::class,</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>        [&#39;middleware&#39; =&gt; Helper\BodyParams\BodyParamsMiddleware::class, &#39;priority&#39; =&gt; 100],</span>
-<span class=x>        /* ... */</span>
-<span class=x>        &#39;routing&#39; =&gt; [</span>
-<span class=x>            &#39;middleware&#39; =&gt; [</span>
-<span class=x>                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,</span>
-<span class=x>                Helper\UrlHelperMiddleware::class,</span>
-<span class=x>                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,</span>
-<span class=x>            ],</span>
-<span class=x>            &#39;priority&#39; =&gt; 1,</span>
-<span class=x>        ],</span>
-<span class=x>        /* ... */</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'dependencies' =&gt; [
+        'invokables' =&gt; [
+            Helper\BodyParams\BodyParamsMiddleware::class =&gt; Helper\BodyParams\BodyParamsMiddleware::class,
+            /* ... */
+        ],
+        'factories' =&gt; [
+            /* ... */
+        ],
+    ],
+    'middleware_pipeline' =&gt; [
+        ['middleware' =&gt; Helper\BodyParams\BodyParamsMiddleware::class, 'priority' =&gt; 100],
+        /* ... */
+        'routing' =&gt; [
+            'middleware' =&gt; [
+                Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+                Helper\UrlHelperMiddleware::class,
+                Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+            ],
+            'priority' =&gt; 1,
+        ],
+        /* ... */
+    ],
+];</code></pre>
 <p>Since body parsing does not necessarily need to happen for every request, you
 can also choose to incorporate it in route-specific middleware pipelines:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;post(&#39;/login&#39;, [</span>
-<span class=x>    BodyParamsMiddleware::class,</span>
-<span class=x>    LoginMiddleware::class,</span>
-<span class=x>]);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;post('/login', [
+    BodyParamsMiddleware::class,
+    LoginMiddleware::class,
+]);</code></pre>
 <p>If using a configuration-based application:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// config/autoload/routes.global.php</span>
-<span class=x>use Mezzio\Helper\BodyParams\BodyParamsMiddleware;</span>
+<pre class=codehilite><code class=language-php>// config/autoload/routes.global.php
+use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;invokables&#39; =&gt; [</span>
-<span class=x>            Helper\BodyParams\BodyParamsMiddleware::class =&gt; Helper\BodyParams\BodyParamsMiddleware::class,</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;routes&#39; =&gt; [</span>
-<span class=x>        [</span>
-<span class=x>            &#39;name&#39; =&gt; &#39;contact:process&#39;,</span>
-<span class=x>            &#39;path&#39; =&gt; &#39;/contact/process&#39;,</span>
-<span class=x>            &#39;middleware&#39; =&gt; [</span>
-<span class=x>                BodyParamsMiddleware::class,</span>
-<span class=x>                Contact\Process::class,</span>
-<span class=x>            ],</span>
-<span class=x>            &#39;allowed_methods&#39; =&gt; [&#39;POST&#39;],</span>
-<span class=x>        ]</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'dependencies' =&gt; [
+        'invokables' =&gt; [
+            Helper\BodyParams\BodyParamsMiddleware::class =&gt; Helper\BodyParams\BodyParamsMiddleware::class,
+            /* ... */
+        ],
+        'factories' =&gt; [
+            /* ... */
+        ],
+    ],
+    'routes' =&gt; [
+        [
+            'name' =&gt; 'contact:process',
+            'path' =&gt; '/contact/process',
+            'middleware' =&gt; [
+                BodyParamsMiddleware::class,
+                Contact\Process::class,
+            ],
+            'allowed_methods' =&gt; ['POST'],
+        ]
+    ],
+];</code></pre>
 <p>Using route-based middleware pipelines has the advantage of ensuring that the
 body parsing middleware only executes for routes that require the processing.
 While the middleware has some checks to ensure it only triggers for HTTP
@@ -759,66 +759,63 @@ can accomplish that.</p>
 <h2 id="strategies">Strategies</h2>
 <p>If you want to intercept and parse other payload types, you can add <em>strategies</em>
 to the middleware. Strategies implement <code>Mezzio\Helper\BodyParams\StrategyInterface</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Mezzio\Helper\BodyParams;</span>
+<pre class=codehilite><code class=language-php>namespace Mezzio\Helper\BodyParams;
 
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
+use Psr\Http\Message\ServerRequestInterface;
 
-<span class=x>interface StrategyInterface</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * Match the content type to the strategy criteria.</span>
-<span class=x>     *</span>
-<span class=x>     * @param string $contentType</span>
-<span class=x>     * @return bool Whether or not the strategy matches.</span>
-<span class=x>     */</span>
-<span class=x>    public function match($contentType);</span>
+interface StrategyInterface
+{
+    /**
+     * Match the content type to the strategy criteria.
+     *
+     * @param string $contentType
+     * @return bool Whether or not the strategy matches.
+     */
+    public function match($contentType);
 
-<span class=x>    /**</span>
-<span class=x>     * Parse the body content and return a new response.</span>
-<span class=x>     *</span>
-<span class=x>     * @param ServerRequestInterface $request</span>
-<span class=x>     * @return ServerRequestInterface</span>
-<span class=x>     */</span>
-<span class=x>    public function parse(ServerRequestInterface $request);</span>
-<span class=x>}</span>
-</pre></div></p>
+    /**
+     * Parse the body content and return a new response.
+     *
+     * @param ServerRequestInterface $request
+     * @return ServerRequestInterface
+     */
+    public function parse(ServerRequestInterface $request);
+}</code></pre>
 <p>You then register them with the middleware using the <code>addStrategy()</code> method:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$bodyParams-&gt;addStrategy(new MyCustomBodyParamsStrategy());</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$bodyParams-&gt;addStrategy(new MyCustomBodyParamsStrategy());</code></pre>
 <p>To automate the registration, we recommend writing a factory for the
 <code>BodyParamsMiddleware</code>, and replacing the <code>invokables</code> registration with a
 registration in the <code>factories</code> section of the <code>middleware-pipeline.config.php</code>
 file:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Helper\BodyParams\BodyParamsMiddleware;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 
-<span class=x>class MyCustomBodyParamsStrategyFactory</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke($container)</span>
-<span class=x>    {</span>
-<span class=x>        $bodyParams = new BodyParamsMiddleware();</span>
-<span class=x>        $bodyParams-&gt;addStrategy(new MyCustomBodyParamsStrategy());</span>
-<span class=x>        return $bodyParams;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
+class MyCustomBodyParamsStrategyFactory
+{
+    public function __invoke($container)
+    {
+        $bodyParams = new BodyParamsMiddleware();
+        $bodyParams-&gt;addStrategy(new MyCustomBodyParamsStrategy());
+        return $bodyParams;
+    }
+}
 
-<span class=x>// In config/autoload/middleware-pipeline.config.php:</span>
-<span class=x>use Mezzio\Helper;</span>
+// In config/autoload/middleware-pipeline.config.php:
+use Mezzio\Helper;
 
-<span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;invokables&#39; =&gt; [</span>
-<span class=x>            // Remove this line:</span>
-<span class=x>            Helper\BodyParams\BodyParamsMiddleware::class =&gt; Helper\BodyParams\BodyParamsMiddleware::class,</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            // Add this line:</span>
-<span class=x>            Helper\BodyParams\BodyParamsMiddleware::class =&gt; MyCustomBodyParamsStrategyFactory::class,</span>
-<span class=x>            /* ... */</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'dependencies' =&gt; [
+        'invokables' =&gt; [
+            // Remove this line:
+            Helper\BodyParams\BodyParamsMiddleware::class =&gt; Helper\BodyParams\BodyParamsMiddleware::class,
+            /* ... */
+        ],
+        'factories' =&gt; [
+            // Add this line:
+            Helper\BodyParams\BodyParamsMiddleware::class =&gt; MyCustomBodyParamsStrategyFactory::class,
+            /* ... */
+        ],
+    ],
+];</code></pre>
 <h2 id="removing-the-default-strategies">Removing the default strategies</h2>
 <p>By default, <code>BodyParamsMiddleware</code> composes the following strategies:</p>
 <ul>
@@ -831,8 +828,7 @@ operate in the order they do to ensure the most common content type &mdash;
 delegates parsing to the first match.</p>
 <p>If you do not want to use these default strategies, you can clear them from the
 middleware using <code>clearStrategies()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$bodyParamsMiddleware-&gt;clearStrategies();</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$bodyParamsMiddleware-&gt;clearStrategies();</code></pre>
 <p>Note: if you do this, <strong>all</strong> strategies will be removed! As such, we recommend
 doing this only immediately before registering any custom strategies you might
 be using.</p>
@@ -1344,9 +1340,10 @@ be using.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1383,7 +1380,7 @@ be using.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1392,8 +1389,8 @@ be using.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

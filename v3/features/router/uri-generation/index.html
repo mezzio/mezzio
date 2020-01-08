@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -727,16 +731,14 @@ the name:</p>
 <p>Clearly, this can become difficult to remember. As such, Mezzio offers the
 ability to specify a custom string for the route name as an additional, optional
 argument to any of the above:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;route(&#39;/foo&#39;, $middleware, &#39;foo&#39;); // &#39;foo&#39;</span>
-<span class=x>$app-&gt;get(&#39;/foo/:id&#39;, $middleware, &#39;foo-item&#39;); // &#39;foo-item&#39;</span>
-<span class=x>$app-&gt;route(&#39;/foo&#39;, $middleware, [&#39;GET&#39;, &#39;POST&#39;], &#39;foo-collection&#39;); // &#39;foo-collection&#39;</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;route('/foo', $middleware, 'foo'); // 'foo'
+$app-&gt;get('/foo/:id', $middleware, 'foo-item'); // 'foo-item'
+$app-&gt;route('/foo', $middleware, ['GET', 'POST'], 'foo-collection'); // 'foo-collection'</code></pre>
 <p>As noted above, these methods also return <code>Route</code> instances, allowing you to
 set the name after-the-fact; this is particularly useful with the <code>route()</code>
 method, where you may want to omit the HTTP methods if any HTTP method is
 allowed:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;route(&#39;/foo&#39;, $middleware)-&gt;setName(&#39;foo&#39;); // &#39;foo&#39;</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;route('/foo', $middleware)-&gt;setName('foo'); // 'foo'</code></pre>
 <p>We recommend that if you plan on generating URIs for given routes, you provide a
 custom name.</p>
 <blockquote>
@@ -744,7 +746,7 @@ custom name.</p>
 <p>In order for the URI generation functionality to work, routes must be uniquely
 named. This can be tricky when you use the same route path for multiple
 routes:</p>
-<pre class=codehilite><code class=language-php>
+<pre class="codehilite"><code class="language-php">
 $app-&gt;get('/books', ListBooksHandler::class, 'books');
 $app-&gt;post('/books', CreateBookHandler::class, 'books'); // oops!
 </code></pre>
@@ -752,7 +754,7 @@ $app-&gt;post('/books', CreateBookHandler::class, 'books'); // oops!
 then have multiple names capable of generating the same URI.</p>
 <p>Since URIs do not have a concept of HTTP method built in, we recommend naming
 either the route matching <code>GET</code> or the first route in the sequence:</p>
-<pre class=codehilite><code class=language-php>
+<pre class="codehilite"><code class="language-php">
 $app-&gt;get('/books', ListBooksHandler::class, 'books');
 $app-&gt;post('/books', CreateBookHandler::class); // no name
 </code></pre>
@@ -760,8 +762,7 @@ $app-&gt;post('/books', CreateBookHandler::class); // no name
 <h2 id="generating-uris">Generating URIs</h2>
 <p>Once you know the name of a URI you wish to generate, you can do so from the
 router instance:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$uri = $router-&gt;generateUri(&#39;foo-item&#39;, [&#39;id&#39; =&gt; &#39;bar&#39;]); // &quot;/foo/bar&quot;</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$uri = $router-&gt;generateUri('foo-item', ['id' =&gt; 'bar']); // &quot;/foo/bar&quot;</code></pre>
 <p>You can omit the second argument if no substitutions are necessary.</p>
 <blockquote>
 <h3>Compose the router</h3>
@@ -1305,9 +1306,10 @@ requires the URI generation facility. Inject the
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1344,7 +1346,7 @@ requires the URI generation facility. Inject the
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1353,8 +1355,8 @@ requires the URI generation facility. Inject the
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

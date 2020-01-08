@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -739,7 +743,7 @@ array.</p>
 structure, and that the module contain a <code>src/</code> directory at the minimum, along
 with directories for other module-specific content, such as templates, tests, and
 assets:</p>
-<p> <div class=codehilite><pre><span></span>src/
+<pre class=codehilite><code class=language-text>src/
   Acme/
     src/
       ConfigProvider.php
@@ -754,16 +758,14 @@ assets:</p>
       Helper/
         AuthorizationHelperTest.php
       Middleware/
-        VerifyUserTest.php
-</pre></div></p>
+        VerifyUserTest.php</code></pre>
 <p>If you use the above structure, you would then add an entry in your
 <code>composer.json</code> file to provide autoloading:</p>
-<p> <div class=codehilite><pre><span></span><span class=s2>&quot;autoload&quot;</span><span class=err>:</span> <span class=p>{</span>
-    <span class=nt>&quot;psr-4&quot;</span><span class=p>:</span> <span class=p>{</span>
-        <span class=nt>&quot;Acme\\&quot;</span><span class=p>:</span> <span class=s2>&quot;src/Acme/src/&quot;</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-json>&quot;autoload&quot;: {
+    &quot;psr-4&quot;: {
+        &quot;Acme\\&quot;: &quot;src/Acme/src/&quot;
+    }
+}</code></pre>
 <p>Don't forget to execute <code>composer dump-autoload</code> after making the change!</p>
 <h2 id="creating-and-enabling-a-module">Creating and enabling a module</h2>
 <p>The only <em>requirement</em> for creating a module is that you define a "config
@@ -771,44 +773,42 @@ provider", which is simply an invokable class that returns a configuration
 array.</p>
 <p>Generally, a config provider will return dependency information, and
 module-specific configuration:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Acme;</span>
+<pre class=codehilite><code class=language-php>namespace Acme;
 
-<span class=x>class ConfigProvider</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke()</span>
-<span class=x>    {</span>
-<span class=x>        return [</span>
-<span class=x>            &#39;dependencies&#39; =&gt; $this-&gt;getDependencies(),</span>
-<span class=x>            &#39;acme&#39; =&gt; [</span>
-<span class=x>                &#39;some-setting&#39; =&gt; &#39;default value&#39;,</span>
-<span class=x>            ],</span>
-<span class=x>            &#39;templates&#39; =&gt; [</span>
-<span class=x>                &#39;paths&#39; =&gt; [</span>
-<span class=x>                    &#39;acme&#39; =&gt; [__DIR__ . &#39;/../templates&#39;],</span>
-<span class=x>                ],</span>
-<span class=x>            ]</span>
-<span class=x>        ];</span>
-<span class=x>    }</span>
+class ConfigProvider
+{
+    public function __invoke()
+    {
+        return [
+            'dependencies' =&gt; $this-&gt;getDependencies(),
+            'acme' =&gt; [
+                'some-setting' =&gt; 'default value',
+            ],
+            'templates' =&gt; [
+                'paths' =&gt; [
+                    'acme' =&gt; [__DIR__ . '/../templates'],
+                ],
+            ]
+        ];
+    }
 
-<span class=x>    public function getDependencies()</span>
-<span class=x>    {</span>
-<span class=x>        return [</span>
-<span class=x>            &#39;invokables&#39; =&gt; [</span>
-<span class=x>                Helper\AuthorizationHelper::class =&gt; Helper\AuthorizationHelper::class,</span>
-<span class=x>            ],</span>
-<span class=x>            &#39;factories&#39; =&gt; [</span>
-<span class=x>                Middleware\VerifyUser::class =&gt; Container\VerifyUserFactory::class,</span>
-<span class=x>            ],</span>
-<span class=x>        ];</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function getDependencies()
+    {
+        return [
+            'invokables' =&gt; [
+                Helper\AuthorizationHelper::class =&gt; Helper\AuthorizationHelper::class,
+            ],
+            'factories' =&gt; [
+                Middleware\VerifyUser::class =&gt; Container\VerifyUserFactory::class,
+            ],
+        ];
+    }
+}</code></pre>
 <p>You would then add the config provider to the top (or towards the top) of your
 <code>config/config.php</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$aggregator = new ConfigAggregator([</span>
-<span class=x>    Acme\ConfigProvider::class,</span>
-<span class=x>    /* ... */</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$aggregator = new ConfigAggregator([
+    Acme\ConfigProvider::class,
+    /* ... */</code></pre>
 <p>This approach allows your <code>config/autoload/*</code> files to take precedence over the
 module configuration, allowing you to override the values.</p>
 <h2 id="caching-configuration">Caching configuration</h2>
@@ -829,29 +829,27 @@ them in two locations:</p>
   appropriate to the current environment. In development, for instance, this
   would be <code>false</code>.</li>
 </ul>
-<p> <div class=codehilite><pre><span></span><span class=x>// config/autoload/global.php</span>
+<pre class=codehilite><code class=language-php>// config/autoload/global.php
 
-<span class=x>return [</span>
-<span class=x>    &#39;config_cache_enabled&#39; =&gt; true,</span>
-<span class=x>    /* ... */</span>
-<span class=x>];</span>
+return [
+    'config_cache_enabled' =&gt; true,
+    /* ... */
+];
 
-<span class=x>// config/autoload/local.php</span>
+// config/autoload/local.php
 
-<span class=x>return [</span>
-<span class=x>    &#39;config_cache_enabled&#39; =&gt; false, // &lt;- development!</span>
-<span class=x>    /* ... */</span>
-<span class=x>];</span>
-</pre></div></p>
+return [
+    'config_cache_enabled' =&gt; false, // &lt;- development!
+    /* ... */
+];</code></pre>
 <p>You would then alter your <code>config/config.php</code> file to add the second argument.
 The following example builds on the previous, and demonstrates having the
 <code>AppConfig</code> entry enabled. The configuration will be cached to
 <code>data/config-cache.php</code> in the application root:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$configManager = new ConfigManager([</span>
-<span class=x>    App\AppConfig::class,</span>
-<span class=x>    new PhpFileProvider(&#39;config/autoload/{{,*.}global,{,*.}local}.php&#39;),</span>
-<span class=x>], &#39;data/config-cache.php&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$configManager = new ConfigManager([
+    App\AppConfig::class,
+    new PhpFileProvider('config/autoload/{{,*.}global,{,*.}local}.php'),
+], 'data/config-cache.php');</code></pre>
 <p>When the configuration cache path is present, if the <code>config_cache_enabled</code> flag
 is enabled, then configuration will be read from the cached configuration,
 instead of parsing and merging the various configuration sources.</p>
@@ -859,8 +857,7 @@ instead of parsing and merging the various configuration sources.</p>
 <p>The skeleton ships with mezzio-tooling by default, which allows you
 to execute the following command in order to create a module skeleton, add and
 enable autoloading rules for it, and register it with your application:</p>
-<p> <div class=codehilite><pre><span></span>$ composer mezzio module:create <span class=o>{</span>ModuleName<span class=o>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer mezzio module:create {ModuleName}</code></pre>
 <p>We recommend using this tool when creating new modules.</p>
 <h2 id="final-notes">Final notes</h2>
 <p>This approach may look simple, but it is flexible and powerful:</p>
@@ -1408,9 +1405,10 @@ documentation</a>.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1447,7 +1445,7 @@ documentation</a>.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1456,8 +1454,8 @@ documentation</a>.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

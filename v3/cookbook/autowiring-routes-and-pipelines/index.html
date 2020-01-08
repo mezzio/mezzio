@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -703,56 +707,54 @@ which can be used as a delegator factory for the <code>Mezzio\Application</code>
 class in order to automate piping of pipeline middleware and routing to request
 handlers and middleware.</p>
 <p>The delegator factory looks for configuration that looks like the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>        [</span>
-<span class=x>            // required:</span>
-<span class=x>            &#39;middleware&#39; =&gt; &#39;Middleware service or pipeline&#39;,</span>
-<span class=x>            // optional:</span>
-<span class=x>            &#39;path&#39;  =&gt; &#39;/path/to/match&#39;, // for path-segregated middleware</span>
-<span class=x>            &#39;priority&#39; =&gt; 1,             // integer; to ensure specific order</span>
-<span class=x>        ]</span>
-<span class=x>    ],</span>
-<span class=x>    &#39;routes&#39; =&gt; [</span>
-<span class=x>        [</span>
-<span class=x>            &#39;path&#39; =&gt; &#39;/path/to/match&#39;,</span>
-<span class=x>            &#39;middleware&#39; =&gt; &#39;Middleware service or pipeline&#39;,</span>
-<span class=x>            &#39;allowed_methods&#39; =&gt; [&#39;GET&#39;, &#39;POST&#39;, &#39;PATCH&#39;],</span>
-<span class=x>            &#39;name&#39; =&gt; &#39;route.name&#39;,</span>
-<span class=x>            &#39;options&#39; =&gt; [</span>
-<span class=x>                &#39;stuff&#39; =&gt; &#39;to&#39;,</span>
-<span class=x>                &#39;pass&#39;  =&gt; &#39;to&#39;,</span>
-<span class=x>                &#39;the&#39;   =&gt; &#39;underlying router&#39;,</span>
-<span class=x>            ],</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;another.route.name&#39; =&gt; [</span>
-<span class=x>            &#39;path&#39; =&gt; &#39;/another/path/to/match&#39;,</span>
-<span class=x>            &#39;middleware&#39; =&gt; &#39;Middleware service or pipeline&#39;,</span>
-<span class=x>            &#39;allowed_methods&#39; =&gt; [&#39;GET&#39;, &#39;POST&#39;],</span>
-<span class=x>            &#39;options&#39; =&gt; [</span>
-<span class=x>                &#39;more&#39;    =&gt; &#39;router&#39;,</span>
-<span class=x>                &#39;options&#39; =&gt; &#39;here&#39;,</span>
-<span class=x>            ],</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'middleware_pipeline' =&gt; [
+        [
+            // required:
+            'middleware' =&gt; 'Middleware service or pipeline',
+            // optional:
+            'path'  =&gt; '/path/to/match', // for path-segregated middleware
+            'priority' =&gt; 1,             // integer; to ensure specific order
+        ]
+    ],
+    'routes' =&gt; [
+        [
+            'path' =&gt; '/path/to/match',
+            'middleware' =&gt; 'Middleware service or pipeline',
+            'allowed_methods' =&gt; ['GET', 'POST', 'PATCH'],
+            'name' =&gt; 'route.name',
+            'options' =&gt; [
+                'stuff' =&gt; 'to',
+                'pass'  =&gt; 'to',
+                'the'   =&gt; 'underlying router',
+            ],
+        ],
+        'another.route.name' =&gt; [
+            'path' =&gt; '/another/path/to/match',
+            'middleware' =&gt; 'Middleware service or pipeline',
+            'allowed_methods' =&gt; ['GET', 'POST'],
+            'options' =&gt; [
+                'more'    =&gt; 'router',
+                'options' =&gt; 'here',
+            ],
+        ],
+    ],
+];</code></pre>
 <p>This configuration may be placed at the application level, in a file under
 <code>config/autoload/</code>, or within a module's <code>ConfigProvider</code> class. For details on
 what values are accepted, see below.</p>
 <p>In order to enable the delegator factory, you will need to define the following
 service configuration somewhere, either at the application level in a
 <code>config/autoload/</code> file, or within a module-specific <code>ConfigProvider</code> class:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;delegators&#39; =&gt; [</span>
-<span class=x>            \Mezzio\Application::class =&gt; [</span>
-<span class=x>                \Mezzio\Container\ApplicationConfigInjectionDelegator::class,</span>
-<span class=x>            ],</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'dependencies' =&gt; [
+        'delegators' =&gt; [
+            \Mezzio\Application::class =&gt; [
+                \Mezzio\Container\ApplicationConfigInjectionDelegator::class,
+            ],
+        ],
+    ],
+];</code></pre>
 <h3>Pipeline middleware</h3>
 <p>Pipeline middleware are each described as an associative array, with the
 following keys:</p>
@@ -798,52 +800,51 @@ Unlike the above solution, the solution we will outline here will exercise the
 <code>Mezzio\Application</code> API in order to populate it.</p>
 <p>First, we'll create the class <code>App\Factory\PipelineAndRoutesDelegator</code>, with
 the following contents:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
+<pre class=codehilite><code class=language-php>&lt;?php
 
-<span class=k>namespace</span> <span class=nx>App\Factory</span><span class=p>;</span>
+namespace App\Factory;
 
-<span class=k>use</span> <span class=nx>App\Handler</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Psr\Container\ContainerInterface</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Application</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Handler\NotFoundHandler</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Helper\ServerUrlMiddleware</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Helper\UrlHelperMiddleware</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Router\Middleware\DispatchMiddleware</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Router\Middleware\ImplicitHeadMiddleware</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Router\Middleware\ImplicitOptionsMiddleware</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Router\Middleware\MethodNotAllowedMiddleware</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Mezzio\Router\Middleware\RouteMiddleware</span><span class=p>;</span>
-<span class=k>use</span> <span class=nx>Laminas\Stratigility\Middleware\ErrorHandler</span><span class=p>;</span>
+use App\Handler;
+use Psr\Container\ContainerInterface;
+use Mezzio\Application;
+use Mezzio\Handler\NotFoundHandler;
+use Mezzio\Helper\ServerUrlMiddleware;
+use Mezzio\Helper\UrlHelperMiddleware;
+use Mezzio\Router\Middleware\DispatchMiddleware;
+use Mezzio\Router\Middleware\ImplicitHeadMiddleware;
+use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
+use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
+use Mezzio\Router\Middleware\RouteMiddleware;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
-<span class=k>class</span> <span class=nc>PipelineAndRoutesDelegator</span>
-<span class=p>{</span>
-    <span class=k>public</span> <span class=k>function</span> <span class=fm>__invoke</span><span class=p>(</span>
-        <span class=nx>ContainerInterface</span> <span class=nv>$container</span><span class=p>,</span>
-        <span class=nx>string</span> <span class=nv>$serviceName</span><span class=p>,</span>
-        <span class=nx>callable</span> <span class=nv>$callback</span>
-    <span class=p>)</span> <span class=o>:</span> <span class=nx>Application</span> <span class=p>{</span>
-        <span class=sd>/** @var $app Application */</span>
-        <span class=nv>$app</span> <span class=o>=</span> <span class=nv>$callback</span><span class=p>();</span>
+class PipelineAndRoutesDelegator
+{
+    public function __invoke(
+        ContainerInterface $container,
+        string $serviceName,
+        callable $callback
+    ) : Application {
+        /** @var $app Application */
+        $app = $callback();
 
-        <span class=c1>// Setup pipeline:</span>
-        <span class=nv>$app</span><span class=o>-&gt;</span><span class=na>pipe</span><span class=p>(</span><span class=nx>ErrorHandler</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
-        <span class=nv>$app</span><span class=o>-&gt;</span><span class=na>pipe</span><span class=p>(</span><span class=nx>ServerUrlMiddleware</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
-        <span class=nv>$app</span><span class=o>-&gt;</span><span class=na>pipe</span><span class=p>(</span><span class=nx>RouteMiddleware</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
-        <span class=nv>$app</span><span class=o>-&gt;</span><span class=na>pipe</span><span class=p>(</span><span class=nx>ImplicitHeadMiddleware</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
-        <span class=nv>$app</span><span class=o>-&gt;</span><span class=na>pipe</span><span class=p>(</span><span class=nx>ImplicitOptionsMiddleware</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
-        <span class=nv>$app</span><span class=o>-&gt;</span><span class=na>pipe</span><span class=p>(</span><span class=nx>MethodNotAllowedMiddleware</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
-        <span class=nv>$app</span><span class=o>-&gt;</span><span class=na>pipe</span><span class=p>(</span><span class=nx>UrlHelperMiddleware</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
-        <span class=nv>$app</span><span class=o>-&gt;</span><span class=na>pipe</span><span class=p>(</span><span class=nx>DispatchMiddleware</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
-        <span class=nv>$app</span><span class=o>-&gt;</span><span class=na>pipe</span><span class=p>(</span><span class=nx>NotFoundHandler</span><span class=o>::</span><span class=na>class</span><span class=p>);</span>
+        // Setup pipeline:
+        $app-&gt;pipe(ErrorHandler::class);
+        $app-&gt;pipe(ServerUrlMiddleware::class);
+        $app-&gt;pipe(RouteMiddleware::class);
+        $app-&gt;pipe(ImplicitHeadMiddleware::class);
+        $app-&gt;pipe(ImplicitOptionsMiddleware::class);
+        $app-&gt;pipe(MethodNotAllowedMiddleware::class);
+        $app-&gt;pipe(UrlHelperMiddleware::class);
+        $app-&gt;pipe(DispatchMiddleware::class);
+        $app-&gt;pipe(NotFoundHandler::class);
 
-        <span class=c1>// Setup routes:</span>
-        <span class=nv>$app</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=nx>Handler\HomePageHandler</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;home&#39;</span><span class=p>);</span>
-        <span class=nv>$app</span><span class=o>-&gt;</span><span class=na>get</span><span class=p>(</span><span class=s1>&#39;/api/ping&#39;</span><span class=p>,</span> <span class=nx>Handler\PingHandler</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;api.ping&#39;</span><span class=p>);</span>
+        // Setup routes:
+        $app-&gt;get('/', Handler\HomePageHandler::class, 'home');
+        $app-&gt;get('/api/ping', Handler\PingHandler::class, 'api.ping');
 
-        <span class=k>return</span> <span class=nv>$app</span><span class=p>;</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</pre></div></p>
+        return $app;
+    }
+}</code></pre>
 <blockquote>
 <h3>Where to put the factory</h3>
 <p>You will place the factory class in one of the following locations:</p>
@@ -856,18 +857,17 @@ the following contents:</p>
 </blockquote>
 <p>Once you've created this, edit the class <code>App\ConfigProvider</code>; in it, we'll
 update the <code>getDependencies()</code> method to add the delegator factory:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function getDependencies()</span>
-<span class=x>{</span>
-<span class=x>    return [</span>
-<span class=x>        /* . . . */</span>
-<span class=x>        &#39;delegators&#39; =&gt; [</span>
-<span class=x>            \Mezzio\Application::class =&gt; [</span>
-<span class=x>                Factory\PipelineAndRoutesDelegator::class,</span>
-<span class=x>            ],</span>
-<span class=x>        ],</span>
-<span class=x>    ];</span>
-<span class=x>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function getDependencies()
+{
+    return [
+        /* . . . */
+        'delegators' =&gt; [
+            \Mezzio\Application::class =&gt; [
+                Factory\PipelineAndRoutesDelegator::class,
+            ],
+        ],
+    ];
+}</code></pre>
 <blockquote>
 <h3>Where is the ConfigProvider class?</h3>
 <p>The <code>ConfigProvider</code> class is in one of the following locations:</p>
@@ -1493,9 +1493,10 @@ delegator factory by wiring it into their own configuration.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1532,7 +1533,7 @@ delegator factory by wiring it into their own configuration.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1541,8 +1542,8 @@ delegator factory by wiring it into their own configuration.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

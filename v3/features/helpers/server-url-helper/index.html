@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -697,20 +701,17 @@ generate a fully qualified URI.</p>
 <h2 id="usage">Usage</h2>
 <p>When you have an instance, use either its <code>generate()</code> method, or call the
 instance as an invokable:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Using the generate() method:</span>
-<span class=x>$url = $helper-&gt;generate(&#39;/foo&#39;);</span>
+<pre class=codehilite><code class=language-php>// Using the generate() method:
+$url = $helper-&gt;generate('/foo');
 
-<span class=x>// is equivalent to invocation:</span>
-<span class=x>$url = $helper(&#39;/foo&#39;);</span>
-</pre></div></p>
+// is equivalent to invocation:
+$url = $helper('/foo');</code></pre>
 <p>The helper is particularly useful when used in conjunction with the
 <a href="../url-helper/">UrlHelper</a>, as you can then create fully qualified URIs for use
 with headers, API hypermedia links, etc.:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$url = $serverUrl($url(&#39;resource&#39;, [&#39;id&#39; =&gt; &#39;sha1&#39;]));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$url = $serverUrl($url('resource', ['id' =&gt; 'sha1']));</code></pre>
 <p>The signature for the ServerUrlHelper <code>generate()</code> and <code>__invoke()</code> methods is:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function ($path = null) : string</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function ($path = null) : string</code></pre>
 <p>Where:</p>
 <ul>
 <li><code>$path</code>, when provided, can be a string path to use to generate a URI.</li>
@@ -722,14 +723,13 @@ with headers, API hypermedia links, etc.:</p>
 instance, and, when invoked, injects it with the URI instance.</p>
 <p>As such, you will need to register the <code>ServerUrlMiddleware</code> as pipeline
 middleware, anytime before the routing middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Mezzio\Helper\ServerUrlMiddleware;</span>
+<pre class=codehilite><code class=language-php>use Mezzio\Helper\ServerUrlMiddleware;
 
-<span class=x>// Programmatically:</span>
-<span class=x>$app-&gt;pipe(ServerUrlMiddleware::class);</span>
-<span class=x>$app-&gt;pipe(RouteMiddleware::class);</span>
-<span class=x>// ...</span>
-<span class=x>$app-&gt;pipe(DispatchMiddleware::class);</span>
-</pre></div></p>
+// Programmatically:
+$app-&gt;pipe(ServerUrlMiddleware::class);
+$app-&gt;pipe(RouteMiddleware::class);
+// ...
+$app-&gt;pipe(DispatchMiddleware::class);</code></pre>
 <blockquote>
 <h3>Skeleton configures helpers</h3>
 <p>If you started your project using the Mezzio skeleton package, the
@@ -739,32 +739,31 @@ for you, as is the <code>ServerUrlMiddleware</code> pipeline middleware.</p>
 <h2 id="using-the-helper-in-middleware">Using the helper in middleware</h2>
 <p>Compose the helper in your middleware (or elsewhere), and then use it to
 generate URI paths:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Psr\Http\Server\MiddlewareInterfacel</span>
-<span class=x>use Psr\Http\Server\RequestHandlerInterface;</span>
-<span class=x>use Mezzio\Helper\ServerUrlHelper;</span>
+<pre class=codehilite><code class=language-php>use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterfacel
+use Psr\Http\Server\RequestHandlerInterface;
+use Mezzio\Helper\ServerUrlHelper;
 
-<span class=x>class FooMiddleware implements MiddlewareInterface</span>
-<span class=x>{</span>
-<span class=x>    private $helper;</span>
+class FooMiddleware implements MiddlewareInterface
+{
+    private $helper;
 
-<span class=x>    public function __construct(ServerUrlHelper $helper)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;helper = $helper;</span>
-<span class=x>    }</span>
+    public function __construct(ServerUrlHelper $helper)
+    {
+        $this-&gt;helper = $helper;
+    }
 
-<span class=x>    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface</span>
-<span class=x>    {</span>
-<span class=x>        $response = $handler-&gt;handle($request);</span>
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    {
+        $response = $handler-&gt;handle($request);
 
-<span class=x>        return $response-&gt;withHeader(</span>
-<span class=x>            &#39;Link&#39;,</span>
-<span class=x>            $this-&gt;helper-&gt;generate() . &#39;; rel=&quot;self&quot;&#39;</span>
-<span class=x>        );</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+        return $response-&gt;withHeader(
+            'Link',
+            $this-&gt;helper-&gt;generate() . '; rel=&quot;self&quot;'
+        );
+    }
+}</code></pre>
 
 
 
@@ -1300,9 +1299,10 @@ generate URI paths:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1339,7 +1339,7 @@ generate URI paths:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1348,8 +1348,8 @@ generate URI paths:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

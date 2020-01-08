@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -640,28 +644,27 @@ middleware's context.</p>
 <h2 id="resolving-to-a-middlewarepipe">Resolving to a MiddlewarePipe</h2>
 <p>You can do this programmatically within a container factory, assuming you are
 using a container that supports factories.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Interop\Container\ContainerInterface;</span>
-<span class=x>use Laminas\Stratigility\MiddlewarePipe;</span>
+<pre class=codehilite><code class=language-php>use Interop\Container\ContainerInterface;
+use Laminas\Stratigility\MiddlewarePipe;
 
-<span class=x>class ApiResourcePipelineFactory</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke(ContainerInterface $container)</span>
-<span class=x>    {</span>
-<span class=x>        $pipeline = new MiddlewarePipe();</span>
+class ApiResourcePipelineFactory
+{
+    public function __invoke(ContainerInterface $container)
+    {
+        $pipeline = new MiddlewarePipe();
 
-<span class=x>        // These correspond to the bullet points above</span>
-<span class=x>        $pipeline-&gt;pipe($container-&gt;get(&#39;AuthenticationMiddleware&#39;));</span>
-<span class=x>        $pipeline-&gt;pipe($container-&gt;get(&#39;AuthorizationMiddleware&#39;));</span>
-<span class=x>        $pipeline-&gt;pipe($container-&gt;get(&#39;BodyParsingMiddleware&#39;));</span>
-<span class=x>        $pipeline-&gt;pipe($container-&gt;get(&#39;ValidationMiddleware&#39;));</span>
+        // These correspond to the bullet points above
+        $pipeline-&gt;pipe($container-&gt;get('AuthenticationMiddleware'));
+        $pipeline-&gt;pipe($container-&gt;get('AuthorizationMiddleware'));
+        $pipeline-&gt;pipe($container-&gt;get('BodyParsingMiddleware'));
+        $pipeline-&gt;pipe($container-&gt;get('ValidationMiddleware'));
 
-<span class=x>        // This is the actual middleware you&#39;re routing to.</span>
-<span class=x>        $pipeline-&gt;pipe($container-&gt;get(&#39;ApiResource&#39;));</span>
+        // This is the actual middleware you're routing to.
+        $pipeline-&gt;pipe($container-&gt;get('ApiResource'));
 
-<span class=x>        return $pipeline;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+        return $pipeline;
+    }
+}</code></pre>
 <p>This gives you full control over the creation of the pipeline. You would,
 however, need to ensure that you map the middleware to the pipeline factory when
 setting up your container configuration.</p>
@@ -669,67 +672,65 @@ setting up your container configuration.</p>
 Delegator factories allow you to decorate the primary factory used to create the
 middleware in order to change the instance or return an alternate instance. In
 this case, we'd do the latter. The following is an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Interop\Container\ContainerInterface;</span>
-<span class=x>use Laminas\ServiceManager\DelegatorFactoryInterface;</span>
-<span class=x>use Laminas\ServiceManager\ServiceLocatorInterface;</span>
-<span class=x>use Laminas\Stratigility\MiddlewarePipe;</span>
+<pre class=codehilite><code class=language-php>use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\DelegatorFactoryInterface;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\Stratigility\MiddlewarePipe;
 
-<span class=x>class ApiResourcePipelineDelegatorFactory implements DelegatorFactoryInterface</span>
-<span class=x>{</span>
-<span class=x>    /**</span>
-<span class=x>     * laminas-servicemanager v3 support</span>
-<span class=x>     */</span>
-<span class=x>    public function __invoke(</span>
-<span class=x>        ContainerInterface $container,</span>
-<span class=x>        $name,</span>
-<span class=x>        callable $callback,</span>
-<span class=x>        array $options = null</span>
-<span class=x>    ) {</span>
-<span class=x>        $pipeline = new MiddlewarePipe();</span>
+class ApiResourcePipelineDelegatorFactory implements DelegatorFactoryInterface
+{
+    /**
+     * laminas-servicemanager v3 support
+     */
+    public function __invoke(
+        ContainerInterface $container,
+        $name,
+        callable $callback,
+        array $options = null
+    ) {
+        $pipeline = new MiddlewarePipe();
 
-<span class=x>        // These correspond to the bullet points above</span>
-<span class=x>        $pipeline-&gt;pipe($container-&gt;get(&#39;AuthenticationMiddleware&#39;));</span>
-<span class=x>        $pipeline-&gt;pipe($container-&gt;get(&#39;AuthorizationMiddleware&#39;));</span>
-<span class=x>        $pipeline-&gt;pipe($container-&gt;get(&#39;BodyParsingMiddleware&#39;));</span>
-<span class=x>        $pipeline-&gt;pipe($container-&gt;get(&#39;ValidationMiddleware&#39;));</span>
+        // These correspond to the bullet points above
+        $pipeline-&gt;pipe($container-&gt;get('AuthenticationMiddleware'));
+        $pipeline-&gt;pipe($container-&gt;get('AuthorizationMiddleware'));
+        $pipeline-&gt;pipe($container-&gt;get('BodyParsingMiddleware'));
+        $pipeline-&gt;pipe($container-&gt;get('ValidationMiddleware'));
 
-<span class=x>        // This is the actual middleware you&#39;re routing to.</span>
-<span class=x>        $pipeline-&gt;pipe($callback());</span>
+        // This is the actual middleware you're routing to.
+        $pipeline-&gt;pipe($callback());
 
-<span class=x>        return $pipeline;</span>
-<span class=x>    }</span>
+        return $pipeline;
+    }
 
-<span class=x>    /**</span>
-<span class=x>     * laminas-servicemanager v2 support</span>
-<span class=x>     */</span>
-<span class=x>    public function createDelegatorWithName(</span>
-<span class=x>        ServiceLocatorInterface $container,</span>
-<span class=x>        $name,</span>
-<span class=x>        $requestedName,</span>
-<span class=x>        $callback</span>
-<span class=x>    ) {</span>
-<span class=x>        return $this($container, $name, $callback);</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    /**
+     * laminas-servicemanager v2 support
+     */
+    public function createDelegatorWithName(
+        ServiceLocatorInterface $container,
+        $name,
+        $requestedName,
+        $callback
+    ) {
+        return $this($container, $name, $callback);
+    }
+}</code></pre>
 <p>When configuring the container, you'd do something like the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;dependencies&#39; =&gt; [</span>
-<span class=x>        &#39;factories&#39; =&gt; [</span>
-<span class=x>            &#39;AuthenticationMiddleware&#39; =&gt; &#39;...&#39;,</span>
-<span class=x>            &#39;AuthorizationMiddleware&#39; =&gt; &#39;...&#39;,</span>
-<span class=x>            &#39;BodyParsingMiddleware&#39; =&gt; &#39;...&#39;,</span>
-<span class=x>            &#39;ValidationMiddleware&#39; =&gt; &#39;...&#39;,</span>
-<span class=x>            &#39;ApiResourceMiddleware&#39; =&gt; &#39;...&#39;,</span>
-<span class=x>        ],</span>
-<span class=x>        &#39;delegators&#39; =&gt; [</span>
-<span class=x>            &#39;ApiResourceMiddleware&#39; =&gt; [</span>
-<span class=x>                &#39;ApiResourcePipelineDelegatorFactory&#39;,</span>
-<span class=x>            ],</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'dependencies' =&gt; [
+        'factories' =&gt; [
+            'AuthenticationMiddleware' =&gt; '...',
+            'AuthorizationMiddleware' =&gt; '...',
+            'BodyParsingMiddleware' =&gt; '...',
+            'ValidationMiddleware' =&gt; '...',
+            'ApiResourceMiddleware' =&gt; '...',
+        ],
+        'delegators' =&gt; [
+            'ApiResourceMiddleware' =&gt; [
+                'ApiResourcePipelineDelegatorFactory',
+            ],
+        ],
+    ],
+];</code></pre>
 <p>This approach allows you to cleanly separate the factory for your middleware
 from the pipeline you want to compose it in, and allows you to re-use the
 pipeline creation across multiple middleware if desired.</p>
@@ -737,32 +738,30 @@ pipeline creation across multiple middleware if desired.</p>
 <p>If you'd rather not create a factory for each such middleware, the other option
 is to use arrays of middlewares in your configuration or when routing manually.</p>
 <p>Via configuration looks like this:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;routes&#39; =&gt; [</span>
-<span class=x>        [</span>
-<span class=x>            &#39;name&#39; =&gt; &#39;api-resource&#39;,</span>
-<span class=x>            &#39;path&#39; =&gt; &#39;/api/resource[/{id:[a-f0-9]{32}}]&#39;,</span>
-<span class=x>            &#39;allowed_methods&#39; =&gt; [&#39;GET&#39;, &#39;POST&#39;, &#39;PATCH&#39;, &#39;DELETE&#39;],</span>
-<span class=x>            &#39;middleware&#39; =&gt; [</span>
-<span class=x>                &#39;AuthenticationMiddleware&#39;,</span>
-<span class=x>                &#39;AuthorizationMiddleware&#39;,</span>
-<span class=x>                &#39;BodyParsingMiddleware&#39;,</span>
-<span class=x>                &#39;ValidationMiddleware&#39;,</span>
-<span class=x>                &#39;ApiResourceMiddleware&#39;,</span>
-<span class=x>            ],</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'routes' =&gt; [
+        [
+            'name' =&gt; 'api-resource',
+            'path' =&gt; '/api/resource[/{id:[a-f0-9]{32}}]',
+            'allowed_methods' =&gt; ['GET', 'POST', 'PATCH', 'DELETE'],
+            'middleware' =&gt; [
+                'AuthenticationMiddleware',
+                'AuthorizationMiddleware',
+                'BodyParsingMiddleware',
+                'ValidationMiddleware',
+                'ApiResourceMiddleware',
+            ],
+        ],
+    ],
+];</code></pre>
 <p>Manual routing looks like this:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;route(&#39;/api/resource[/{id:[a-f0-9]{32}}]&#39;, [</span>
-<span class=x>    &#39;AuthenticationMiddleware&#39;,</span>
-<span class=x>    &#39;AuthorizationMiddleware&#39;,</span>
-<span class=x>    &#39;BodyParsingMiddleware&#39;,</span>
-<span class=x>    &#39;ValidationMiddleware&#39;,</span>
-<span class=x>    &#39;ApiResourceMiddleware&#39;,</span>
-<span class=x>], [&#39;GET&#39;, &#39;POST&#39;, &#39;PATCH&#39;, &#39;DELETE&#39;], &#39;api-resource&#39;);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;route('/api/resource[/{id:[a-f0-9]{32}}]', [
+    'AuthenticationMiddleware',
+    'AuthorizationMiddleware',
+    'BodyParsingMiddleware',
+    'ValidationMiddleware',
+    'ApiResourceMiddleware',
+], ['GET', 'POST', 'PATCH', 'DELETE'], 'api-resource');</code></pre>
 <p>When either of these approaches are used, the individual middleware listed
 <strong>MUST</strong> be one of the following:</p>
 <ul>
@@ -776,21 +775,20 @@ middleware pipeline.</p>
 <h2 id="what-about-pipeline-middleware-configuration">What about pipeline middleware configuration?</h2>
 <p>What if you want to do this with your pipeline middleware configuration? The
 answer is that the syntax is exactly the same!</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return [</span>
-<span class=x>    &#39;middleware_pipeline&#39; =&gt; [</span>
-<span class=x>        &#39;api&#39; =&gt; [</span>
-<span class=x>            &#39;path&#39; =&gt; &#39;/api&#39;,</span>
-<span class=x>            &#39;middleware&#39; =&gt; [</span>
-<span class=x>                &#39;AuthenticationMiddleware&#39;,</span>
-<span class=x>                &#39;AuthorizationMiddleware&#39;,</span>
-<span class=x>                &#39;BodyParsingMiddleware&#39;,</span>
-<span class=x>                &#39;ValidationMiddleware&#39;,</span>
-<span class=x>            ],</span>
-<span class=x>            &#39;priority&#39; =&gt; 100,</span>
-<span class=x>        ],</span>
-<span class=x>    ],</span>
-<span class=x>];</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return [
+    'middleware_pipeline' =&gt; [
+        'api' =&gt; [
+            'path' =&gt; '/api',
+            'middleware' =&gt; [
+                'AuthenticationMiddleware',
+                'AuthorizationMiddleware',
+                'BodyParsingMiddleware',
+                'ValidationMiddleware',
+            ],
+            'priority' =&gt; 100,
+        ],
+    ],
+];</code></pre>
 
 
 
@@ -1254,9 +1252,10 @@ answer is that the syntax is exactly the same!</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1293,7 +1292,7 @@ answer is that the syntax is exactly the same!</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1302,8 +1301,8 @@ answer is that the syntax is exactly the same!</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

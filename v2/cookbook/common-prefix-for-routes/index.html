@@ -21,7 +21,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -37,13 +37,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -647,15 +651,14 @@
     <h1 id="how-can-i-prepend-a-common-path-to-all-my-routes">How can I prepend a common path to all my routes?</h1>
 <p>You may have multiple middleware in your project, each providing their own
 functionality:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$middleware1 = new UserMiddleware();</span>
-<span class=x>$middleware2 = new ProjectMiddleware();</span>
+<pre class=codehilite><code class=language-php>$middleware1 = new UserMiddleware();
+$middleware2 = new ProjectMiddleware();
 
-<span class=x>$app = AppFactory::create();</span>
-<span class=x>$app-&gt;pipe($middleware1);</span>
-<span class=x>$app-&gt;pipe($middleware2);</span>
+$app = AppFactory::create();
+$app-&gt;pipe($middleware1);
+$app-&gt;pipe($middleware2);
 
-<span class=x>$app-&gt;run();</span>
-</pre></div></p>
+$app-&gt;run();</code></pre>
 <p>Let's assume the above represents an API.</p>
 <p>As your application progresses, you may have a mixture of different content, and now want to have
 the above segregated under the path <code>/api</code>.</p>
@@ -666,18 +669,17 @@ the above segregated under the path <code>/api</code>.</p>
 <li>Create a new application.</li>
 <li>Pipe the previous application to the new one, under the path <code>/api</code>.</li>
 </ul>
-<p> <div class=codehilite><pre><span></span><span class=x>$middleware1 = new UserMiddleware();</span>
-<span class=x>$middleware2 = new ProjectMiddleware();</span>
+<pre class=codehilite><code class=language-php>$middleware1 = new UserMiddleware();
+$middleware2 = new ProjectMiddleware();
 
-<span class=x>$api = AppFactory::create();</span>
-<span class=x>$api-&gt;pipe($middleware1);</span>
-<span class=x>$api-&gt;pipe($middleware2);</span>
+$api = AppFactory::create();
+$api-&gt;pipe($middleware1);
+$api-&gt;pipe($middleware2);
 
-<span class=x>$app = AppFactory::create();</span>
-<span class=x>$app-&gt;pipe(&#39;/api&#39;, $api);</span>
+$app = AppFactory::create();
+$app-&gt;pipe('/api', $api);
 
-<span class=x>$app-&gt;run();</span>
-</pre></div></p>
+$app-&gt;run();</code></pre>
 <p>The above works, because every <code>Application</code> instance is itself middleware, and, more specifically,
 an instance of <a href="https://github.com/laminas/laminas-stratigility/blob/master/doc/book/middleware.md">Stratigility's <code>MiddlewarePipe</code></a>,
 which provides the ability to compose middleware.</p>
@@ -1189,9 +1191,10 @@ which provides the ability to compose middleware.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -1228,7 +1231,7 @@ which provides the ability to compose middleware.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/mezzio/mezzio//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -1237,8 +1240,8 @@ which provides the ability to compose middleware.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/mezzio/mezzio//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>
