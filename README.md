@@ -1,6 +1,6 @@
 # mezzio
 
-[![Build Status](https://travis-ci.org/mezzio/mezzio.svg?branch=master)](https://travis-ci.org/mezzio/mezzio)
+[![Build Status](https://travis-ci.com/mezzio/mezzio.svg?branch=master)](https://travis-ci.com/mezzio/mezzio)
 [![Coverage Status](https://coveralls.io/repos/github/mezzio/mezzio/badge.svg?branch=master)](https://coveralls.io/github/mezzio/mezzio?branch=master)
 
 *Develop PSR-7 middleware applications in minutes!*
