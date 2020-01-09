@@ -534,45 +534,38 @@
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v2
             
-            <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu">
+        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
             
                 
-                    <li class="dropdown-menu__item">
-                        <a href="../../../..">
-                            
-                                v3 (latest)
-                            
-                        </a>
-                    </li>
-                
-            
-                
-                    <li class="dropdown-menu__item dropdown-menu__item--selected">
-                        <a href="../../../">
-                            
-                                v2
-                            
-                        </a>
-                    </li>
+                    <a href="../../../.." class="dropdown-item">
+                        
+                            v3 (latest)
+                        
+                    </a>
                 
             
                 
-                    <li class="dropdown-menu__item">
-                        <a href="../../../../v1/">
-                            
-                                v1
-                            
-                        </a>
-                    </li>
+                    <a href="../../../" class="dropdown-item active">
+                        
+                            v2
+                        
+                    </a>
                 
             
-        </ul>
+                
+                    <a href="../../../../v1/" class="dropdown-item">
+                        
+                            v1
+                        
+                    </a>
+                
+            
+        </div>
     </div>
 </div>
 
