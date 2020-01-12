@@ -115,9 +115,9 @@ public function __invoke($request, $response, $next)
 
 From there, it's a matter of providing the flash messages to your template.
 
-## damess/mezzio-session-middleware and Aura.Session
+## damess/expressive-session-middleware and Aura.Session
 
-[damess/mezzio-session-middleware](https://github.com/dannym87/mezzio-session-middleware)
+[damess/mezzio-session-middleware](https://github.com/dannym87/expressive-session-middleware)
 provides middleware for initializing an
 [Aura.Session](https://github.com/auraphp/Aura.Session) instance; Aura.Session
 provides flash messaging capabilities as part of its featureset.

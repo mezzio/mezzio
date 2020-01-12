@@ -42,5 +42,5 @@ $app->run();
 ```
 
 The above works, because every `Application` instance is itself middleware, and, more specifically,
-an instance of [Stratigility's `MiddlewarePipe`](https://github.com/laminas/laminas-stratigility/blob/master/doc/book/middleware.md),
+an instance of [Stratigility's `MiddlewarePipe`](https://docs.laminas.dev/laminas-stratigility/v1/middleware/),
 which provides the ability to compose middleware.

@@ -1,7 +1,7 @@
 # Applications
 
 In mezzio, you define a `Mezzio\Application` instance and
-execute it. The `Application` instance is itself [middleware](https://github.com/laminas/laminas-stratigility/blob/master/doc/book/middleware.md)
+execute it. The `Application` instance is itself [middleware](https://docs.laminas.dev/laminas-stratigility/v1/middleware/)
 that composes:
 
 - a [router](router/intro.md), for dynamically routing requests to middleware.
@@ -9,7 +9,7 @@ that composes:
   middleware to dispatch.
 - a [final handler](error-handling.md), for handling error conditions raised by
   the application.
-- an [emitter](https://github.com/laminas/laminas-diactoros/blob/master/doc/book/emitting-responses.md),
+- an [emitter](https://docs.laminas.dev/laminas-diactoros/v1/emitting-responses/),
   for emitting the response when application execution is complete.
 
 You can define the `Application` instance in several ways:
@@ -213,7 +213,7 @@ methods for retrieving them. They include:
 - `getContainer()`: returns the composed [container-interop](https://github.com/container-interop/container-interop)
   instance (used to retrieve routed middleware).
 - `getEmitter()`: returns the composed
-  [emitter](https://github.com/laminas/laminas-diactoros/blob/master/doc/book/emitting-responses.md),
+  [emitter](https://docs.laminas.dev/laminas-diactoros/v1/emitting-responses/),
   typically a `Mezzio\Emitter\EmitterStack` instance.
 - `getFinalHandler(ResponseInterface $response = null)`: retrieves the final
   handler instance. This is middleware with the signature `function ($request,
