@@ -22,5 +22,5 @@ return [
 The last is the one you want. In this, you can define service mappings,
 including aliases, invokables, factories, and abstract factories to define how
 helpers are named and created.
-[See the laminas-view custom helpers documentation](https://docs.laminas.dev/laminas.view.helpers.advanced-usage.html#laminas-view-helpers-advanced-usage)
+[See the laminas-view custom helpers documentation](https://docs.laminas.dev/laminas-view/helpers/advanced-usage/)
 for information on how to populate this configuration.

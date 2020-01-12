@@ -1,7 +1,7 @@
 # Overview
 
 Mezzio allows you to write [PSR-7](http://www.php-fig.org/psr/psr-7/)
-[middleware](https://github.com/laminas/laminas-stratigility/blob/master/doc/book/middleware.md)
+[middleware](https://docs.laminas.dev/laminas-stratigility/v1/middleware/)
 applications for the web.
 
 PSR-7 is a standard defining HTTP message interfaces; these are the incoming
@@ -69,7 +69,7 @@ features it provides include:
 
 Below is a diagram detailing the workflow used by Mezzio.
 
-![Mezzio Architectural Flow](../images/architecture.png)
+![Mezzio Architectural Flow](../../images/architecture.png)
 
 The `Application` acts as an "onion"; in the diagram above, the top is the
 outer-most layer of the onion, while the bottom is the inner-most.

@@ -1,7 +1,7 @@
 # Error Handling
 
 Mezzio provides error handling out of the box, via laminas-stratigility's [FinalHandler
-implementation](https://github.com/laminas/laminas-stratigility/blob/master/doc/book/api.md#finalhandler).
+implementation](https://docs.laminas.dev/laminas-stratigility/v1/api/#finalhandler).
 This pseudo-middleware is executed in the following conditions:
 
 - If the middleware stack is exhausted, and no middleware has returned a response.
