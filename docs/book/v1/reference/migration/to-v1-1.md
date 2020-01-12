@@ -111,7 +111,7 @@ return [
 ];
 ```
 
-If you are [programmatically creating your pipeline](https://mwop.net/blog/2016-05-16-programmatic-mezzio.html),
+If you are [programmatically creating your pipeline](https://mwop.net/blog/2016-05-16-programmatic-expressive.html),
 use the following:
 
 ```php

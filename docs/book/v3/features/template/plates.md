@@ -90,7 +90,7 @@ mezzio-plates provides the following extensions.
 ### UrlExtension
 
 `Mezzio\Plates\Extension\UrlExtension` composes each of the
-[UrlHelper](../helpers/url-helper.md) and [ServerUrlHelper](../helpers/server-url-helper),
+[UrlHelper](../helpers/url-helper.md) and [ServerUrlHelper](../helpers/server-url-helper.md),
 and provides the following template methods:
 
 ```php

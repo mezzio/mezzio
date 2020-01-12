@@ -14,7 +14,7 @@ framework for PHP, with the following features:
 - Optionally, templating. We support:
     - [Plates](http://platesphp.com/)
     - [Twig](http://twig.sensiolabs.org/)
-    - [Laminas's PhpRenderer](https://docs.laminaseframework..com/laminas-view/)
+    - [Laminas's PhpRenderer](https://docs.laminas.dev/laminas-view/)
 - Error handling. Create templated error pages, or use tools like
   [whoops](https://github.com/filp/whoops) for debugging purposes.
 - Nested middleware applications. Write an application, and compose it later

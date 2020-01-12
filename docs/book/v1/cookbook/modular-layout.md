@@ -10,7 +10,7 @@ doesn't affect performance, and offers extensive flexibility: each module can
 provide its own services (with factories), default configuration, and routes.
 
 This cookbook will show how to organize modules using
-[mtymek/mezzio-config-manager](https://github.com/mtymek/mezzio-config-manager),
+[mtymek/mezzio-config-manager](https://github.com/mtymek/expressive-config-manager),
 a lightweight library that aggregates and merges configuration, optionally caching it.
 
 ## Install the configuration manager
@@ -154,4 +154,4 @@ This approach may look simple, but it is flexible and powerful:
 - If cached config is found, `ConfigManager` does not iterate over provider list.
 
 For more details, please refer to the
-[Config Manager Documentation](https://github.com/mtymek/mezzio-config-manager#mezzio-configuration-manager).
+[Config Manager Documentation](https://github.com/mtymek/expressive-config-manager#expressive-configuration-manager).

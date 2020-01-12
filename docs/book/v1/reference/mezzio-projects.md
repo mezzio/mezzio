@@ -6,13 +6,12 @@ mezzio.
 
 ## Sample Code & Tutorials
 
-- Mezzio Tutorial (WIP) - [*source*](https://github.com/RalfEggert/mezzio-tutorial)
-- [AstroSplash](http://www.sitepoint.com/build-nasa-photo-gallery-mezzio/) - [*source*](https://github.com/AndrewCarterUK/AstroSplash)
+- Expressive Tutorial (WIP) - [*source*](https://github.com/RalfEggert/zend-expressive-tutorial)
+- [AstroSplash](http://www.sitepoint.com/build-nasa-photo-gallery-zend-expressive/) - [*source*](https://github.com/AndrewCarterUK/AstroSplash)
 - [php-ddd-cargo-sample](https://codeliner.github.io/php-ddd-cargo-sample/) - [*source*](https://github.com/codeliner/php-ddd-cargo-sample)
 
 ## Personal Sites
 
 - [mwop.net](https://mwop.net/) - [*source*](https://github.com/weierophinney/mwop.net)
-- [xtreamwayz.com](https://xtreamwayz.com/) - [*source*](https://github.com/xtreamwayz/xtreamwayz.com)
-- [alejandrocelaya.com](http://www.alejandrocelaya.com/) - [*source*](https://github.com/acelaya/website-mezzio)
+- [alejandrocelaya.com](http://www.alejandrocelaya.com/) - [*source*](https://github.com/acelaya/alejandrocelaya.com)
 - [zimuel.it](http://www.zimuel.it) - [*source*](https://github.com/ezimuel/zimuel.it)
