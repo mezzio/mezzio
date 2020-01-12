@@ -674,7 +674,7 @@ $app-&gt;pipe('/api', $api);
 
 $app-&gt;run();</code></pre>
 <p>The above works, because every <code>Application</code> instance is itself middleware, and, more specifically,
-an instance of <a href="https://github.com/laminas/laminas-stratigility/blob/master/doc/book/middleware.md">Stratigility's <code>MiddlewarePipe</code></a>,
+an instance of <a href="https://docs.laminas.dev/laminas-stratigility/v1/middleware/">Stratigility's <code>MiddlewarePipe</code></a>,
 which provides the ability to compose middleware.</p>
 
 

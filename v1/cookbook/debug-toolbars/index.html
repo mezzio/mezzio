@@ -621,7 +621,7 @@ toolbars to provide profiling information of the request executed. These can
 provide invaluable details into application objects, database queries, and more.
 As an Mezzio user, how can you get similar functionality?</p>
 <h2 id="zend-server-z-ray">Zend Server Z-Ray</h2>
-<p><a href="https://www.zend.com/en/products/laminas_server">Zend Server</a> ships with a tool
+<p><a href="https://www.zend.com/products/zend-server">Zend Server</a> ships with a tool
 called <a href="https://www.zend.com/en/products/server/z-ray">Z-Ray</a>, which provides
 both a debug toolbar and debug console (for API debugging). Z-Ray is also
 currently <a href="https://www.zend.com/en/products/z-ray/z-ray-preview">available as a standalone technology
@@ -631,7 +631,7 @@ as an extension to an existing PHP installation.</p>
 changes to your application whatsoever to benefit from it; you simply need to
 make sure Z-Ray is enabled and/or that you've setup a security token to
 selectively enable it on-demand. See the
-<a href="http://files.zend.com/help/Laminas-Server/content/z-ray_concept.htm">Z-Ray documentation</a>
+<a href="http://files.zend.com/help/Zend-Server/content/z-ray_concept.htm">Z-Ray documentation</a>
 for full usage details.</p>
 <h2 id="bitexpertprophiler-psr7-middleware">bitExpert/prophiler-psr7-middleware</h2>
 <p>Another option is bitExpert's <a href="https://github.com/bitExpert/prophiler-psr7-middleware">prophiler-psr7-middleware</a>.
@@ -642,7 +642,7 @@ wraps this in PSR-7 middleware to make consumption in those paradigms trivial.</
 <pre class=codehilite><code class=language-bash>$ composer require bitExpert/prophiler-psr7-middleware</code></pre>
 <p>From there, you will need to create a factory for the middleware, and add it to
 your middleware pipeline. Stephan Hochdörfer, author of the package, has written
-a <a href="https://blog.bitexpert.de/blog/using-prophiler-with-mezzio/">post detailing these steps</a>.</p>
+a <a href="https://blog.bitexpert.de/blog/prophiler-psr-7-middleware/">post detailing these steps</a>.</p>
 <blockquote>
 <h3>Use locally!</h3>
 <p>One minor change we recommend over the directions Stephan provides is that you

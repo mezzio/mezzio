@@ -621,7 +621,7 @@
 
     <h1 id="applications">Applications</h1>
 <p>In mezzio, you define a <code>Mezzio\Application</code> instance and
-execute it. The <code>Application</code> instance is itself <a href="https://github.com/laminas/laminas-stratigility/blob/master/doc/book/middleware.md">middleware</a>
+execute it. The <code>Application</code> instance is itself <a href="https://docs.laminas.dev/laminas-stratigility/v1/middleware/">middleware</a>
 that composes:</p>
 <ul>
 <li>a <a href="../router/intro/">router</a>, for dynamically routing requests to middleware.</li>
@@ -629,7 +629,7 @@ that composes:</p>
   middleware to dispatch.</li>
 <li>a <a href="../error-handling/">final handler</a>, for handling error conditions raised by
   the application.</li>
-<li>an <a href="https://github.com/laminas/laminas-diactoros/blob/master/doc/book/emitting-responses.md">emitter</a>,
+<li>an <a href="https://docs.laminas.dev/laminas-diactoros/v1/emitting-responses/">emitter</a>,
   for emitting the response when application execution is complete.</li>
 </ul>
 <p>You can define the <code>Application</code> instance in several ways:</p>
@@ -778,7 +778,7 @@ methods for retrieving them. They include:</p>
 <li><code>getContainer()</code>: returns the composed <a href="https://github.com/container-interop/container-interop">container-interop</a>
   instance (used to retrieve routed middleware).</li>
 <li><code>getEmitter()</code>: returns the composed
-  <a href="https://github.com/laminas/laminas-diactoros/blob/master/doc/book/emitting-responses.md">emitter</a>,
+  <a href="https://docs.laminas.dev/laminas-diactoros/v1/emitting-responses/">emitter</a>,
   typically a <code>Mezzio\Emitter\EmitterStack</code> instance.</li>
 <li><code>getFinalHandler(ResponseInterface $response = null)</code>: retrieves the final
   handler instance. This is middleware with the signature <code>function ($request,

@@ -613,7 +613,7 @@
 
     <h1 id="overview">Overview</h1>
 <p>Mezzio allows you to write <a href="http://www.php-fig.org/psr/psr-7/">PSR-7</a>
-<a href="https://github.com/laminas/laminas-stratigility/blob/master/doc/book/middleware.md">middleware</a>
+<a href="https://docs.laminas.dev/laminas-stratigility/v1/middleware/">middleware</a>
 applications for the web.</p>
 <p>PSR-7 is a standard defining HTTP message interfaces; these are the incoming
 request and outgoing response for your application. By using PSR-7, we ensure
@@ -672,7 +672,7 @@ features it provides include:</p>
   error handler for production, and a Whoops-based error handler for development.</p>
 <h2 id="flow-overview">Flow Overview</h2>
 <p>Below is a diagram detailing the workflow used by Mezzio.</p>
-<p><img alt="Mezzio Architectural Flow" src="../images/architecture.png" class="img-responsive"/></p>
+<p><img alt="Mezzio Architectural Flow" src="../../../images/architecture.png" class="img-responsive"/></p>
 <p>The <code>Application</code> acts as an "onion"; in the diagram above, the top is the
 outer-most layer of the onion, while the bottom is the inner-most.</p>
 <p>The <code>Application</code> dispatches each middleware. Each middleware accepts a
