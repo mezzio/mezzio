@@ -13,7 +13,7 @@ decisions need be made up front; developers know where new code goes, and how it
 will wire into the overall application.
 
 Additionally, a number of training courses exist, including [offerings by
-Laminas](https://www.zend.com/en/services/training/api-tools-fundamentals-i), allowing you
+Zend](https://www.zend.com/training/zf-fundamentals), allowing you
 or your team to fully learn the framework and take advantage of all its features.
 
 Finally, laminas-mvc has a lively [module ecosystem](https://packagist.org/search/?q=laminas),

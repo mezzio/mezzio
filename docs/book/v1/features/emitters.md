@@ -4,7 +4,7 @@ To simplify the usage of Mezzio, we added the `run()` method, which handles
 the incoming request, and emits a response.
 
 The latter aspect, emitting the response, is the responsibility of an
-[emitter](https://github.com/laminas/laminas-diactoros/blob/master/doc/book/emitting-responses.md).
+[emitter](https://docs.laminas.dev/laminas-diactoros/v1/emitting-responses/).
 An emitter accepts a response instance, and then does something with it, usually
 sending the response back to a browser.
 

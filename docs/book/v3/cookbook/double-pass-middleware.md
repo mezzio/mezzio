@@ -165,7 +165,7 @@ awareness of double-pass middleware, and have it auto-decorate them for you.
 
 A contributor has created such a library:
 
-- https://github.com/Moln/mezzio-callable-middleware-compat
+- https://github.com/Moln/expressive-callable-middleware-compat
 
 You can install it using `composer require moln/mezzio-callable-middleware-compat`.
 Once installed, add its `Moln\MezzioCallableCompat\ConfigProvider` as an

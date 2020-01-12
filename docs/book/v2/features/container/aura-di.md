@@ -23,7 +23,7 @@ $ composer require aura/di
 ## Configuration
 
 Aura.Di can help you to organize your code better with
-[ContainerConfig classes](http://auraphp.com/packages/Aura.Di/config.html) and
+[ContainerConfig classes](http://auraphp.com/packages/4.x/Di/config.html) and
 [two step configuration](http://auraphp.com/blog/2014/04/07/two-stage-config/).
 In this example, we'll put that in `config/container.php`:
 

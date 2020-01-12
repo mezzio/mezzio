@@ -97,4 +97,4 @@ Mezzio currently ships with adapters for the following routers:
 
 - [Aura.Router](aura.md)
 - [FastRoute](fast-route.md)
-- [laminas-mvc Router](laminas.md)
+- [laminas-mvc Router](laminas-router.md)
