@@ -16,7 +16,7 @@ and adds the following behavior:
     - will instantiate a class directly if the service does not exist, but is a
       class that exists.
     - decorate PSR-15 `RequestHandlerInterface` implementations using
-      `Laminas\Stratigiliity\RequestHandlerMiddleware`.
+      `Laminas\Stratigility\RequestHandlerMiddleware`.
     - raise an exception if the instance to return is not a PSR-15
       `MiddlewareInterface` implementation.
 
