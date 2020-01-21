@@ -284,7 +284,7 @@ $app->post('/register', [
 
 If using configuration-driven pipelines or routing:
 
-```
+```php
 // Via the middleware pipeline:
 'middleware_pipeline' => [
     ['middleware' => Your\Application\FormHelpersMiddleware::class, 'priority' => 1000],
