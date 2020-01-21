@@ -897,7 +897,7 @@ $app-&gt;post('/register', [
     RegisterMiddleware::class,
 ], 'register');</code></pre>
 <p>If using configuration-driven pipelines or routing:</p>
-<pre class=codehilite><code>// Via the middleware pipeline:
+<pre class=codehilite><code class=language-php>// Via the middleware pipeline:
 'middleware_pipeline' =&gt; [
     ['middleware' =&gt; Your\Application\FormHelpersMiddleware::class, 'priority' =&gt; 1000],
 ],
