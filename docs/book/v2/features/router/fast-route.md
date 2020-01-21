@@ -293,7 +293,7 @@ The changes required are:
 
 As an example:
 
-``` php
+```php
 // File config/autoload/routes.global.php
 
 return [
