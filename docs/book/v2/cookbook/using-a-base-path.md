@@ -3,7 +3,7 @@
 In some environments, your application may be running in a subdirectory of your
 web root. For example:
 
-```
+```text
 var/
 |- www/
 |  |- wordpress/
