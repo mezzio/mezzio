@@ -5,7 +5,7 @@ managing an application.
 
 In all examples, the assumption is the following directory structure:
 
-```
+```text
 .
 ├── config
 ├── data
@@ -388,8 +388,8 @@ class Ping
 
 After that’s done run:
 
-```
-composer dump-autoload
+```bash
+$ composer dump-autoload
 ```
 
 Finally, in `public/index.php`, place the following:
