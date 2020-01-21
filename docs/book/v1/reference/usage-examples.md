@@ -5,7 +5,7 @@ managing an application.
 
 In all examples, the assumption is the following directory structure:
 
-```
+```text
 .
 ├── config
 ├── data
