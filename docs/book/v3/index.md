@@ -1,4 +1,4 @@
-# Mezzio: PSR-15 Middleware in Minutes
+# Introduction
 
 Mezzio builds on [Stratigility](https://docs.laminas.dev/laminas-stratigility/)
 to provide a minimalist [PSR-15](http://www.php-fig.org/psr/psr-15/) middleware
