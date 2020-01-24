@@ -11,6 +11,7 @@ extra:
 nav:
     - Home: index.md
     - v3:
+      - Introduction: v3/index.md
       - 'Getting Started':
           - 'Overview and Features': v3/getting-started/features.md
           - 'Quick Start': v3/getting-started/quick-start.md
