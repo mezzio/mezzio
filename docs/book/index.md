@@ -88,9 +88,7 @@ your project!
 
 ![Mezzio Installer](images/installer.png)
 
-<a href="/v3/getting-started/quick-start/" class="btn btn-lg btn-primary">
-    Learn more
-</a>
+[Learn more](v3/getting-started/quick-start.md)
 
 ## Applications, Simplified
 
@@ -114,9 +112,7 @@ And add it to an application:
 $app->get('/path', $pathMiddleware);
 ```
 
-<a href="/v3/features/application/" class="btn btn-lg btn-primary">
-    Learn more
-</a>
+[Learn more](v3/features/application.md)
 
 ## Learn more
 
