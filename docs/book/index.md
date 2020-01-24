@@ -87,9 +87,8 @@ Our unique installer allows you to select <em>your</em> choices when starting
 your project!
 
 ![Mezzio Installer](images/installer.png)
-{: .center-block }
 
-[Learn More](v3/getting-started/quick-start.md){: .btn .btn-lg .btn-primary}
+[Learn more](v3/getting-started/quick-start.md)
 
 ## Applications, Simplified
 
@@ -113,7 +112,7 @@ And add it to an application:
 $app->get('/path', $pathMiddleware);
 ```
 
-[Learn More](v3/features/application.md){: .btn .btn-lg .btn-primary}
+[Learn more](v3/features/application.md)
 
 ## Learn more
 
