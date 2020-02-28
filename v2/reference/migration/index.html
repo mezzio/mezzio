@@ -12,15 +12,17 @@
     <title>To version 2 - Mezzio - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
+    
         <link href="../../../css/mezzio.css" rel="stylesheet">
+    
 </head>
-<body id="page-top" class="mezzio">
+<body id="page-top" class="mezzio" data-spy="scroll" data-target=".toc" data-offset="20">
 
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
         
-        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+        <a class="logo-link navbar-brand" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
             <img src="https://docs.laminas.dev/img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
@@ -518,7 +520,7 @@
         <div class="row">
 
             
-            <div class="col-6 offset-md-2">
+            <div class="col-8">
                 <h1 class="header__title">
                     Mezzio
 
@@ -585,7 +587,7 @@
     
     <div class="container">
         <div class="row">
-            <div class="col-md-2 col-sm-12">
+            <div class="col-md-9 col-sm-12 content" role="main">
                 
                 
                     
@@ -598,63 +600,63 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#signature-changes" class="toc__link">Signature changes</a>
+                        <a href="#signature-changes" class="toc__link nav-link">Signature changes</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#removed-functionality" class="toc__link">Removed functionality</a>
+                        <a href="#removed-functionality" class="toc__link nav-link">Removed functionality</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#deprecated-functionality" class="toc__link">Deprecated functionality</a>
+                        <a href="#deprecated-functionality" class="toc__link nav-link">Deprecated functionality</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#psr-11-support" class="toc__link">PSR-11 support</a>
+                        <a href="#psr-11-support" class="toc__link nav-link">PSR-11 support</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#http-interop" class="toc__link">http-interop</a>
+                        <a href="#http-interop" class="toc__link nav-link">http-interop</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#original-messages" class="toc__link">Original messages</a>
+                        <a href="#original-messages" class="toc__link nav-link">Original messages</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#error-handling" class="toc__link">Error handling</a>
+                        <a href="#error-handling" class="toc__link nav-link">Error handling</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#final-handlers-become-default-delegates" class="toc__link">Final handlers become default delegates</a>
+                        <a href="#final-handlers-become-default-delegates" class="toc__link nav-link">Final handlers become default delegates</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#programmatic-middleware-pipelines" class="toc__link">Programmatic middleware pipelines</a>
+                        <a href="#programmatic-middleware-pipelines" class="toc__link nav-link">Programmatic middleware pipelines</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#handling-head-and-options-requests" class="toc__link">Handling HEAD and OPTIONS requests</a>
+                        <a href="#handling-head-and-options-requests" class="toc__link nav-link">Handling HEAD and OPTIONS requests</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#router-interface-changes" class="toc__link">Router interface changes</a>
+                        <a href="#router-interface-changes" class="toc__link nav-link">Router interface changes</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#url-helper-changes" class="toc__link">URL helper changes</a>
+                        <a href="#url-helper-changes" class="toc__link nav-link">URL helper changes</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#laminas-view-renderer-changes" class="toc__link">laminas-view renderer changes</a>
+                        <a href="#laminas-view-renderer-changes" class="toc__link nav-link">laminas-view renderer changes</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#twig-renderer-changes" class="toc__link">Twig renderer changes</a>
+                        <a href="#twig-renderer-changes" class="toc__link nav-link">Twig renderer changes</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#adopting-a-modular-architecture" class="toc__link">Adopting a modular architecture</a>
+                        <a href="#adopting-a-modular-architecture" class="toc__link nav-link">Adopting a modular architecture</a>
                     </li>
                 
             </ul>
@@ -662,8 +664,7 @@
     
 
                 
-            </div>
-            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+
                 
                     <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -2038,7 +2039,7 @@ see if there are additional paths you were globbing previously.</p>
         </div>
 
         <div class="row">
-            <div class="col-md-10 offset-md-2">
+            <div class="col-md-12">
                 <h5>Laminas</h5>
                 <ul>
                     <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
@@ -2050,7 +2051,7 @@ see if there are additional paths you were globbing previously.</p>
         </div>
 
         <div class="row">
-            <div class="col-md-10 offset-md-2"> 
+            <div class="col-md-12">
                 <div class="row">
 
                     
@@ -2108,7 +2109,9 @@ see if there are additional paths you were globbing previously.</p>
             siteName = 'Mezzio';
     </script>
     <script src="https://docs.laminas.dev/js/scripts.js"></script>
+    
         <script src="../../../search/main.js"></script>
+    
 
     
     <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
