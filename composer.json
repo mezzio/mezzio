@@ -104,6 +104,6 @@
         "license-check": "docheader check src/ test/"
     },
     "replace": {
-        "zendframework/zend-expressive": "self.version"
+        "zendframework/zend-expressive": "^3.2.1"
     }
 }
