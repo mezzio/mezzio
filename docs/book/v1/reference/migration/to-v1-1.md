@@ -638,10 +638,9 @@ dependencies:
 ```php
 use Acme\Container;
 use Acme\TemplatedNotFoundHandler;
-use Mezzio\Container\ApplicationFactory;
-use Mezzio\Helper;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Stratigility\Middleware\OriginalMessages;
+use Mezzio\Helper;
 
 return [
     'dependencies' => [
@@ -684,10 +683,10 @@ To create our pipeline, we will create the file `config/pipeline.php`:
 
 ```php
 use Acme\TemplatedNotFoundHandler;
-use Mezzio\Container\ApplicationFactory;
-use Mezzio\Helper;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Stratigility\Middleware\OriginalMessages;
+use Mezzio\Container\ApplicationFactory;
+use Mezzio\Helper;
 
 $app->pipe(OriginalMessages::class);
 $app->pipe(ErrorHandler::class);

@@ -27,14 +27,15 @@ If it does find one, it uses the value to setup the locale. It also:
 
 ```php
 <?php
+
 namespace App\I18n;
 
 use Locale;
+use Mezzio\Helper\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Mezzio\Helper\UrlHelper;
 
 class SetLocaleMiddleware implements MiddlewareInterface
 {
@@ -82,10 +83,11 @@ Then you will need a factory for the `SetLocaleMiddleware` to inject the
 
 ```php
 <?php
+
 namespace App\I18n;
 
-use Psr\Container\ContainerInterface;
 use Mezzio\Helper\UrlHelper;
+use Psr\Container\ContainerInterface;
 
 /**
  * Configuration for setting a default locale should look like the following:
@@ -169,13 +171,14 @@ handler and use it for URL generation:
 
 ```php
 <?php
+
 namespace App\Handler;
 
+use Laminas\Diactoros\Response\RedirectResponse;
+use Mezzio\Helper\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\Diactoros\Response\RedirectResponse;
-use Mezzio\Helper\UrlHelper;
 
 class RedirectHandler implements RequestHandlerInterface
 {

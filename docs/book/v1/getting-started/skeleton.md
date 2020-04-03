@@ -60,6 +60,7 @@ Let's create a "Hello" action. Place the following in
 
 ```php
 <?php
+
 namespace App\Action;
 
 use Psr\Http\Message\ResponseInterface;
@@ -151,12 +152,13 @@ Replace your `src/App/Action/HelloAction.php` file with the following contents:
 
 ```php
 <?php
+
 namespace App\Action;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class HelloAction
 {
@@ -200,6 +202,7 @@ the following contents:
 
 ```php
 <?php
+
 namespace App\Action;
 
 use Interop\Container\ContainerInterface;

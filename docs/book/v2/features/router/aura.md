@@ -9,7 +9,7 @@ configuration is to provide default specifications:
   ```php
   // Parameters named "id" will only match digits by default:
   $router->addTokens([
-    'id' => '\d+',
+      'id' => '\d+',
   ]);
   ```
 
@@ -19,7 +19,7 @@ configuration is to provide default specifications:
   // mediatype defaults to "application/xhtml+xml" and will be available in all
   // requests:
   $router->addValues([
-    'mediatype' => 'application/xhtml+xml',
+      'mediatype' => 'application/xhtml+xml',
   ]);
   ```
 
@@ -64,6 +64,7 @@ can create the instances necessary and inject them into
 
 ```php
 <?php
+
 use Aura\Router\RouterFactory;
 use Mezzio\AppFactory;
 use Mezzio\Router\AuraRouter as AuraBridge;

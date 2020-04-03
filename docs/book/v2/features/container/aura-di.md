@@ -29,6 +29,7 @@ In this example, we'll put that in `config/container.php`:
 
 ```php
 <?php
+
 use Aura\Di\ContainerBuilder;
 
 $containerBuilder = new ContainerBuilder();
@@ -44,6 +45,7 @@ The bare minimum `ContainerConfig` code needed to make mezzio work is:
 
 ```php
 <?php
+
 // In src/Config/Common.php:
 namespace Application\Config;
 
@@ -77,10 +79,10 @@ class Common extends ContainerConfig
         );
         $di->params[AuraRouter::class]['router'] = $di->lazyNew(Router::class);
         $di->set(RouterInterface::class, $di->lazyNew(AuraRouter::class));
-        $di->set(Container\NotFoundDelegateFactory::class, $di->lazyNew(MezzioContainer\NotFoundDelegateFactory::class));
+        $di->set(MezzioContainer\NotFoundDelegateFactory::class, $di->lazyNew(MezzioContainer\NotFoundDelegateFactory::class));
         $di->set(Delegate\NotFoundDelegate::class, $di->lazyGetCall(MezzioContainer\NotFoundDelegateFactory::class, '__invoke', $di));
         $di->set('Mezzio\Delegate\DefaultDelegate', $di->lazyGetCall(MezzioContainer\NotFoundDelegateFactory::class, '__invoke', $di));
-        $di->set(Container\ApplicationFactory::class, $di->lazyNew(MezzioContainer\ApplicationFactory::class));
+        $di->set(MezzioContainer\ApplicationFactory::class, $di->lazyNew(MezzioContainer\ApplicationFactory::class));
         $di->set(Application::class, $di->lazyGetCall(MezzioContainer\ApplicationFactory::class, '__invoke', $di));
 
         // Not Found handler
@@ -106,7 +108,7 @@ class Common extends ContainerConfig
         $di->set(Middleware\ErrorResponseGenerator::class, $di->lazyGetCall(MezzioContainer\WhoopsErrorResponseGeneratorFactory::class, '__invoke', $di));
 
         // If in production:
-        // $di->set(Middleware\ErrorResponseGenerator::class, $di->lazyGetCall(Container\ErrorResponseGeneratorFactory::class, '__invoke', $di));
+        // $di->set(Middleware\ErrorResponseGenerator::class, $di->lazyGetCall(MezzioContainer\ErrorResponseGeneratorFactory::class, '__invoke', $di));
     }
 
     public function modify(Container $di)

@@ -61,15 +61,16 @@ We might then implement `Album\Action\AlbumPage` as follows:
 
 ```php
 <?php
+
 namespace Album\Action;
 
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class AlbumPage implements MiddlewareInterface
 {
@@ -128,13 +129,14 @@ a generic implementation, via an `AbstractPage` class:
 
 ```php
 <?php
+
 namespace App\Action;
 
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\EmptyResponse;
+use Psr\Http\Message\ServerRequestInterface;
 
 abstract class AbstractPage implements MiddlewareInterface
 {

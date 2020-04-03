@@ -86,9 +86,9 @@ Map the service `Mezzio\Middleware\ErrorResponseGenerator` to one of
 these two factories in your configuration:
 
 ```php
+use Laminas\Stratigility\Middleware\ErrorHandler;
 use Mezzio\Container;
 use Mezzio\Middleware;
-use Laminas\Stratigility\Middleware\ErrorHandler;
 
 return [
     'dependencies' => [

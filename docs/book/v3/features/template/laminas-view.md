@@ -33,9 +33,9 @@ Alternately, you can instantiate and configure the engine yourself, and pass it
 to the `Mezzio\LaminasView\LaminasViewRenderer` constructor:
 
 ```php
-use Mezzio\LaminasView\LaminasViewRenderer;
 use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Resolver;
+use Mezzio\LaminasView\LaminasViewRenderer;
 
 // Create the engine instance:
 $renderer = new PhpRenderer();
@@ -108,8 +108,8 @@ $renderer = new LaminasViewRenderer(null, 'layout::layout');
 ### Layout view model passed to constructor
 
 ```php
-use Mezzio\LaminasView\LaminasViewRenderer;
 use Laminas\View\Model\ViewModel;
+use Mezzio\LaminasView\LaminasViewRenderer;
 
 // Create the layout view model:
 $layout = new ViewModel([

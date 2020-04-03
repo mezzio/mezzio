@@ -93,12 +93,12 @@ that contains an instance of that class.
 Within middleware that responds on that path, you can then do the following:
 
 ```php
+use Mezzio\Helper\Template\TemplateVariableContainer;
+use Mezzio\Router\RouteResult;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Mezzio\Helper\Template\TemplateVariableContainer;
-use Mezzio\Router\RouteResult;
 
 class InjectUserAndRouteVariablesMiddleware implements MiddlewareInterface
 {
