@@ -801,37 +801,34 @@ automatically activated if the <a href="../../helpers/url-helper/">UrlHelper</a>
 container.</p>
 <p>The following template functions are exposed:</p>
 <ul>
-<li><code>path</code>: Render the relative path for a given route and parameters. If there
-  is no route, it returns the current path.</li>
-</ul>
-<pre class="highlight"><code class="language-twig">{{ path('article_show', {'id': '3'}) }}
-Generates: /article/3</code></pre>
-
-<ul>
-<li><code>url</code>: Render the absolute url for a given route with its route parameters,
+<li>
+<p><code>path</code>: Render the relative path for a given route and parameters. If there
+  is no route, it returns the current path.
+  <pre class="highlight"><code class="language-twig">{{ path('article_show', {'id': '3'}) }}
+Generates: /article/3</code></pre></p>
+</li>
+<li>
+<p><code>url</code>: Render the absolute url for a given route with its route parameters,
   query string arguments, and fragment. If there is no route, it returns the
-  current url.</li>
-</ul>
-<pre class="highlight"><code class="language-twig">{{ url('article_show', {'id': '3'}, {'foo': 'bar'}, 'fragment') }}
-Generates: http://example.com/article/3?foo=bar#fragment</code></pre>
-
-<ul>
-<li><code>absolute_url</code>: Render the absolute url from a given path. If the path is
-  empty, it returns the current url.</li>
-</ul>
-<pre class="highlight"><code class="language-twig">{{ absolute_url('path/to/something') }}
-Generates: http://example.com/path/to/something</code></pre>
-
-<ul>
-<li><code>asset</code> Render an (optionally versioned) asset url.</li>
-</ul>
-<pre class="highlight"><code class="language-twig">{{ asset('path/to/asset/name.ext', version=3) }}
+  current url.
+  <pre class="highlight"><code class="language-twig">{{ url('article_show', {'id': '3'}, {'foo': 'bar'}, 'fragment') }}
+Generates: http://example.com/article/3?foo=bar#fragment</code></pre></p>
+</li>
+<li>
+<p><code>absolute_url</code>: Render the absolute url from a given path. If the path is
+  empty, it returns the current url.
+  <pre class="highlight"><code class="language-twig">{{ absolute_url('path/to/something') }}
+Generates: http://example.com/path/to/something</code></pre></p>
+</li>
+<li>
+<p><code>asset</code> Render an (optionally versioned) asset url.
+  <pre class="highlight"><code class="language-twig">{{ asset('path/to/asset/name.ext', version=3) }}
 Generates: path/to/asset/name.ext?v=3</code></pre>
-
-<p>To get the absolute url for an asset:</p>
-<pre class="highlight"><code class="language-twig">{{ absolute_url(asset('path/to/asset/name.ext', version=3)) }}
-Generates: http://example.com/path/to/asset/name.ext?v=3</code></pre>
-
+  To get the absolute url for an asset:
+  <pre class="highlight"><code class="language-twig">{{ absolute_url(asset('path/to/asset/name.ext', version=3)) }}
+Generates: http://example.com/path/to/asset/name.ext?v=3</code></pre></p>
+</li>
+</ul>
 <h2 id="configuration">Configuration</h2>
 <p>The following details configuration specific to Twig, as consumed by the
 <code>TwigRendererFactory</code>:</p>

@@ -761,27 +761,26 @@
 methods for further configuring the router instance. One of the more useful
 configuration is to provide default specifications:</p>
 <ul>
-<li>A regular expression that applies the same for a given routing match:</li>
-</ul>
-<pre class="highlight"><code class="language-php">// Parameters named "id" will only match digits by default:
+<li>
+<p>A regular expression that applies the same for a given routing match:
+  <pre class="highlight"><code class="language-php">// Parameters named "id" will only match digits by default:
 $router-&gt;addTokens([
     'id' =&gt; '\d+',
-]);</code></pre>
-
-<ul>
-<li>A default parameter and/or its default value to always provide:</li>
-</ul>
-<pre class="highlight"><code class="language-php">// mediatype defaults to "application/xhtml+xml" and will be available in all
+]);</code></pre></p>
+</li>
+<li>
+<p>A default parameter and/or its default value to always provide:
+  <pre class="highlight"><code class="language-php">// mediatype defaults to "application/xhtml+xml" and will be available in all
 // requests:
 $router-&gt;addValues([
     'mediatype' =&gt; 'application/xhtml+xml',
-]);</code></pre>
-
-<ul>
-<li>Only match if secure (i.e., under HTTPS):</li>
+]);</code></pre></p>
+</li>
+<li>
+<p>Only match if secure (i.e., under HTTPS):
+  <pre class="highlight"><code class="language-php">$router-&gt;setSecure(true);</code></pre></p>
+</li>
 </ul>
-<pre class="highlight"><code class="language-php">$router-&gt;setSecure(true);</code></pre>
-
 <p>In order to specify these, you need access to the underlying Aura.Router
 instance, however, and the <code>RouterInterface</code> does not provide an accessor!</p>
 <p>The answer, then, is to use dependency injection. This can be done in two ways:

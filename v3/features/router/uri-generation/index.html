@@ -758,35 +758,32 @@ during URI generation as a third argument.</p>
 <p>By default, routes use a combination of the path and HTTP methods supported as
 the name:</p>
 <ul>
-<li>If you call <code>route()</code> with no HTTP methods, the name is the literal path with
-  no changes.</li>
-</ul>
-<pre class="highlight"><code class="language-php">$app-&gt;route('/foo', $middleware); // "foo"</code></pre>
-
-<ul>
-<li>If you call <code>get()</code>, <code>post()</code>, <code>put()</code>, <code>patch()</code>, or <code>delete()</code>, the name
+<li>
+<p>If you call <code>route()</code> with no HTTP methods, the name is the literal path with
+  no changes.
+  <pre class="highlight"><code class="language-php">$app-&gt;route('/foo', $middleware); // "foo"</code></pre></p>
+</li>
+<li>
+<p>If you call <code>get()</code>, <code>post()</code>, <code>put()</code>, <code>patch()</code>, or <code>delete()</code>, the name
   will be the literal path, followed by a caret (<code>^</code>), followed by the
-  uppercase HTTP method name:</li>
-</ul>
-<pre class="highlight"><code class="language-php">$app-&gt;get('/foo', $middleware); // "foo^GET"</code></pre>
-
-<p>Alternately, these methods return a <code>Route</code> instance, and you can set the
-  name on it:</p>
-<pre class="highlight"><code class="language-php">$app-&gt;get('/foo', $middleware)-&gt;setName('foo'); // "foo"</code></pre>
-
-<ul>
-<li>If you call <code>route()</code> and specify a list of HTTP methods accepted, the name
+  uppercase HTTP method name:
+  <pre class="highlight"><code class="language-php">$app-&gt;get('/foo', $middleware); // "foo^GET"</code></pre>
+  Alternately, these methods return a <code>Route</code> instance, and you can set the
+  name on it:
+  <pre class="highlight"><code class="language-php">$app-&gt;get('/foo', $middleware)-&gt;setName('foo'); // "foo"</code></pre></p>
+</li>
+<li>
+<p>If you call <code>route()</code> and specify a list of HTTP methods accepted, the name
   will be the literal path, followed by a caret (<code>^</code>), followed by a colon
   (<code>:</code>)-separated list of the uppercase HTTP method names, in the order in which
-  they were added.</li>
+  they were added.
+  <pre class="highlight"><code class="language-php">$app-&gt;route('/foo', $middleware, ['GET', 'POST']); // "foo^GET:POST"</code></pre>
+  Like the HTTP-specific methods, <code>route()</code> also returns a <code>Route</code> instance,
+  and you can set the name on it:
+  <pre class="highlight"><code class="language-php">$route = $app-&gt;route('/foo', $middleware, ['GET', 'POST']); // "foo^GET:POST"
+$route-&gt;setName('foo'); // "foo"</code></pre></p>
+</li>
 </ul>
-<pre class="highlight"><code class="language-php">$app-&gt;route('/foo', $middleware, ['GET', 'POST']); // "foo^GET:POST"</code></pre>
-
-<p>Like the HTTP-specific methods, <code>route()</code> also returns a <code>Route</code> instance,
-  and you can set the name on it:</p>
-<pre class="highlight"><code class="language-php">$route = $app-&gt;route('/foo', $middleware, ['GET', 'POST']); // "foo^GET:POST"
-$route-&gt;setName('foo'); // "foo"</code></pre>
-
 <p>Clearly, this can become difficult to remember. As such, Mezzio offers the
 ability to specify a custom string for the route name as an additional, optional
 argument to any of the above:</p>
