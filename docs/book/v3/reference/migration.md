@@ -148,6 +148,7 @@ piping or routing to it:
 
 ```php
 use Laminas\Diactoros\Response;
+
 use function Laminas\Stratigility\doublePassMiddleware;
 
 $app->pipe(doublePassMiddleware($someDoublePassMiddleware, new Response()));

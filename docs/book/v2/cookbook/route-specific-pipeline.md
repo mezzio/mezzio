@@ -25,8 +25,8 @@ You can do this programmatically within a container factory, assuming you are
 using a container that supports factories.
 
 ```php
-use Psr\Container\ContainerInterface;
 use Laminas\Stratigility\MiddlewarePipe;
+use Psr\Container\ContainerInterface;
 
 class ApiResourcePipelineFactory
 {
@@ -58,10 +58,10 @@ middleware in order to change the instance or return an alternate instance. In
 this case, we'd do the latter. The following is an example:
 
 ```php
-use Psr\Container\ContainerInterface;
 use Laminas\ServiceManager\DelegatorFactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Stratigility\MiddlewarePipe;
+use Psr\Container\ContainerInterface;
 
 class ApiResourcePipelineDelegatorFactory implements DelegatorFactoryInterface
 {

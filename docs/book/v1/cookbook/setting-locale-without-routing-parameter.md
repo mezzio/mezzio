@@ -98,7 +98,7 @@ return [
                 Application\I18n\SetLocaleMiddlewareFactory::class,
             /* ... */
         ],
-    ]
+    ],
 
     'middleware_pipeline' => [
         [

@@ -118,11 +118,13 @@ The following dependency configuration will work for all three when using the
 Mezzio skeleton:
 
 ```php
-return ['dependencies' => [
-    'factories' => [
-        UrlHelper::class => UrlHelperFactory::class,
+return [
+    'dependencies' => [
+        'factories' => [
+            UrlHelper::class => UrlHelperFactory::class,
+        ],
     ],
-]]
+];
 ```
 
 > #### UrlHelperFactory requires RouterInterface

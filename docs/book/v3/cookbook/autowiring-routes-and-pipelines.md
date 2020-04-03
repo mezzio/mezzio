@@ -26,7 +26,7 @@ return [
             // optional:
             'path'  => '/path/to/match', // for path-segregated middleware
             'priority' => 1,             // integer; to ensure specific order
-        ]
+        ],
     ],
     'routes' => [
         [
@@ -129,7 +129,7 @@ the following contents:
 namespace App\Factory;
 
 use App\Handler;
-use Psr\Container\ContainerInterface;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 use Mezzio\Application;
 use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Helper\ServerUrlMiddleware;
@@ -139,7 +139,7 @@ use Mezzio\Router\Middleware\ImplicitHeadMiddleware;
 use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
 use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
-use Laminas\Stratigility\Middleware\ErrorHandler;
+use Psr\Container\ContainerInterface;
 
 class PipelineAndRoutesDelegator
 {

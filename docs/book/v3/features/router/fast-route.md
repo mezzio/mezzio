@@ -46,6 +46,7 @@ The factories might look like the following:
 
 ```php
 <?php
+
 // in src/App/Container/FastRouteCollectorFactory.php:
 namespace App\Container;
 
@@ -92,8 +93,8 @@ class FastRouteDispatcherFactory
 // in src/App/Container/RouterFactory.php
 namespace App\Container;
 
-use Psr\Container\ContainerInterface;
 use Mezzio\Router\FastRouteRouter as FastRouteBridge;
+use Psr\Container\ContainerInterface;
 
 class RouterFactory
 {
@@ -175,7 +176,7 @@ return [
     ],
 
     'routes' => [ /* ... */ ],
-]
+];
 ```
 
 The FastRoute-specific caching options are as follows:

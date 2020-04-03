@@ -62,6 +62,7 @@ root, and we want it to intercept any incoming request; as such, we'll use
 
 ```php
 <?php
+
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Laminas\Diactoros\Response\TextResponse;
 use Mezzio\AppFactory;

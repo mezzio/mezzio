@@ -95,6 +95,7 @@ Such a `LocalizationMiddleware` class could look similar to this:
 
 ```php
 <?php
+
 namespace App\I18n;
 
 use Locale;
