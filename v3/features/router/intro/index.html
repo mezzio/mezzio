@@ -804,9 +804,9 @@ to the following:</p>
 </ul>
 <p>As an example, you could use middleware similar to the following to return a 403
 response if routing was successful, but no <code>Authorization</code> header is present:</p>
-<pre class="highlight"><code class="language-php">use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\Diactoros\Response\EmptyResponse;
+<pre class="highlight"><code class="language-php">use Laminas\Diactoros\Response\EmptyResponse;
 use Mezzio\Router\RouteResult;
+use Psr\Http\Server\RequestHandlerInterface;
 
 function ($request, RequestHandlerInterface $handler) use ($routesRequiringAuthorization, $validator) {
     if (! ($result = $request-&gt;getAttribute(RouteResult::class, false))) {

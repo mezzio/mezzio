@@ -917,6 +917,7 @@ you continue to need double-pass middleware (e.g., defined by a third-party
 library), use <code>Laminas\Stratigility\doublePassMiddleware()</code> to decorate it prior to
 piping or routing to it:</p>
 <pre class="highlight"><code class="language-php">use Laminas\Diactoros\Response;
+
 use function Laminas\Stratigility\doublePassMiddleware;
 
 $app-&gt;pipe(doublePassMiddleware($someDoublePassMiddleware, new Response()));

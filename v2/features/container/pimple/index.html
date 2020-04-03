@@ -744,11 +744,11 @@ which provides a PSR-11 container wrapper around Pimple v3:</p>
 <p>To configure Pimple, instantiate it, and then add the factories desired. We
 recommend doing this in a dedicated script that returns the Pimple instance; in
 this example, we'll have that in <code>config/container.php</code>.</p>
-<pre class="highlight"><code class="language-php">use Xtreamwayz\Pimple\Container as Pimple;
-use Mezzio\Container;
+<pre class="highlight"><code class="language-php">use Mezzio\Container;
 use Mezzio\Plates\PlatesRenderer;
 use Mezzio\Router;
 use Mezzio\Template\TemplateRendererInterface;
+use Xtreamwayz\Pimple\Container as Pimple;
 
 $container = new Pimple();
 

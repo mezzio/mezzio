@@ -1067,10 +1067,10 @@ $app-&gt;delete('/album/:id', App\Action\AlbumDeleteAction::class, 'album.delete
 
 <p>Alternately, to be explicit, the above could be written as:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;route(
-  '/contact',
-  App\Action\ContactAction::class,
-  Mezzio\Router\Route::HTTP_METHOD_ANY,
-  'contact'
+    '/contact',
+    App\Action\ContactAction::class,
+    Mezzio\Router\Route::HTTP_METHOD_ANY,
+    'contact'
 );</code></pre>
 
 <p>We recommend a single middleware class per combination of route and request
@@ -1119,12 +1119,13 @@ under the namespace <code>App\Action</code>.</p>
 <p>Let's create a "Hello" action. Place the following in
 <code>src/App/Action/HelloAction.php</code>:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace App\Action;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
+use Psr\Http\Message\ServerRequestInterface;
 
 class HelloAction implements MiddlewareInterface
 {
@@ -1192,13 +1193,14 @@ following contents:</p>
 </ul>
 <p>Replace your <code>src/App/Action/HelloAction.php</code> file with the following contents:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace App\Action;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class HelloAction implements MiddlewareInterface
 {

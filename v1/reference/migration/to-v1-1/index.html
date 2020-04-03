@@ -1252,10 +1252,9 @@ return [
 dependencies:</p>
 <pre class="highlight"><code class="language-php">use Acme\Container;
 use Acme\TemplatedNotFoundHandler;
-use Mezzio\Container\ApplicationFactory;
-use Mezzio\Helper;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Stratigility\Middleware\OriginalMessages;
+use Mezzio\Helper;
 
 return [
     'dependencies' =&gt; [
@@ -1292,10 +1291,10 @@ return [
 
 <p>To create our pipeline, we will create the file <code>config/pipeline.php</code>:</p>
 <pre class="highlight"><code class="language-php">use Acme\TemplatedNotFoundHandler;
-use Mezzio\Container\ApplicationFactory;
-use Mezzio\Helper;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Stratigility\Middleware\OriginalMessages;
+use Mezzio\Container\ApplicationFactory;
+use Mezzio\Helper;
 
 $app-&gt;pipe(OriginalMessages::class);
 $app-&gt;pipe(ErrorHandler::class);

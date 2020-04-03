@@ -837,11 +837,13 @@ $container-&gt;set(
 
 <p>The following dependency configuration will work for all three when using the
 Mezzio skeleton:</p>
-<pre class="highlight"><code class="language-php">return ['dependencies' =&gt; [
-    'factories' =&gt; [
-        UrlHelper::class =&gt; UrlHelperFactory::class,
+<pre class="highlight"><code class="language-php">return [
+    'dependencies' =&gt; [
+        'factories' =&gt; [
+            UrlHelper::class =&gt; UrlHelperFactory::class,
+        ],
     ],
-]]</code></pre>
+];</code></pre>
 
 <blockquote>
 <h4>UrlHelperFactory requires RouterInterface</h4>

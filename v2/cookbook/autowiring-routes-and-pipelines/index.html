@@ -757,14 +757,14 @@ the following contents:</p>
 namespace App\Factory;
 
 use App\Action;
-use Psr\Container\ContainerInterface;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 use Mezzio\Application;
 use Mezzio\Helper\ServerUrlMiddleware;
 use Mezzio\Helper\UrlHelperMiddleware;
 use Mezzio\Middleware\ImplicitHeadMiddleware;
 use Mezzio\Middleware\ImplicitOptionsMiddleware;
 use Mezzio\Middleware\NotFoundHandler;
-use Laminas\Stratigility\Middleware\ErrorHandler;
+use Psr\Container\ContainerInterface;
 
 class PipelineAndRoutesDelegator
 {

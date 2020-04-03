@@ -1108,10 +1108,10 @@ $app-&gt;delete('/album/:id', App\Action\AlbumDeleteAction::class, 'album.delete
 
 <p>Alternately, to be explicit, the above could be written as:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;route(
-  '/contact',
-  App\Action\ContactAction::class,
-  Mezzio\Router\Route::HTTP_METHOD_ANY,
-  'contact'
+    '/contact',
+    App\Action\ContactAction::class,
+    Mezzio\Router\Route::HTTP_METHOD_ANY,
+    'contact'
 );</code></pre>
 
 <p>We recommend a single middleware class per combination of route and request

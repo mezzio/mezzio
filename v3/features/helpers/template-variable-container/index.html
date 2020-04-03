@@ -831,12 +831,12 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 now have a <code>Mezzio\Helper\Template\TemplateVariableContainer</code> attribute
 that contains an instance of that class.</p>
 <p>Within middleware that responds on that path, you can then do the following:</p>
-<pre class="highlight"><code class="language-php">use Psr\Http\Message\ResponseInterface;
+<pre class="highlight"><code class="language-php">use Mezzio\Helper\Template\TemplateVariableContainer;
+use Mezzio\Router\RouteResult;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Mezzio\Helper\Template\TemplateVariableContainer;
-use Mezzio\Router\RouteResult;
 
 class InjectUserAndRouteVariablesMiddleware implements MiddlewareInterface
 {

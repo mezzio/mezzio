@@ -725,6 +725,7 @@ environment, setup the application, and invoke it. This needs to be in our web
 root, and we want it to intercept any incoming request; as such, we'll use
 <code>public/index.php</code>:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 use Mezzio\AppFactory;
 
 chdir(dirname(__DIR__));

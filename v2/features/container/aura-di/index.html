@@ -746,6 +746,7 @@ injection container with the following features:</p>
 <a href="http://auraphp.com/blog/2014/04/07/two-stage-config/">two step configuration</a>.
 In this example, we'll put that in <code>config/container.php</code>:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 use Aura\Di\ContainerBuilder;
 
 $containerBuilder = new ContainerBuilder();
@@ -758,6 +759,7 @@ return $containerBuilder-&gt;newConfiguredInstance([
 
 <p>The bare minimum <code>ContainerConfig</code> code needed to make mezzio work is:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 // In src/Config/Common.php:
 namespace Application\Config;
 
@@ -791,10 +793,10 @@ class Common extends ContainerConfig
         );
         $di-&gt;params[AuraRouter::class]['router'] = $di-&gt;lazyNew(Router::class);
         $di-&gt;set(RouterInterface::class, $di-&gt;lazyNew(AuraRouter::class));
-        $di-&gt;set(Container\NotFoundDelegateFactory::class, $di-&gt;lazyNew(MezzioContainer\NotFoundDelegateFactory::class));
+        $di-&gt;set(MezzioContainer\NotFoundDelegateFactory::class, $di-&gt;lazyNew(MezzioContainer\NotFoundDelegateFactory::class));
         $di-&gt;set(Delegate\NotFoundDelegate::class, $di-&gt;lazyGetCall(MezzioContainer\NotFoundDelegateFactory::class, '__invoke', $di));
         $di-&gt;set('Mezzio\Delegate\DefaultDelegate', $di-&gt;lazyGetCall(MezzioContainer\NotFoundDelegateFactory::class, '__invoke', $di));
-        $di-&gt;set(Container\ApplicationFactory::class, $di-&gt;lazyNew(MezzioContainer\ApplicationFactory::class));
+        $di-&gt;set(MezzioContainer\ApplicationFactory::class, $di-&gt;lazyNew(MezzioContainer\ApplicationFactory::class));
         $di-&gt;set(Application::class, $di-&gt;lazyGetCall(MezzioContainer\ApplicationFactory::class, '__invoke', $di));
 
         // Not Found handler
@@ -820,7 +822,7 @@ class Common extends ContainerConfig
         $di-&gt;set(Middleware\ErrorResponseGenerator::class, $di-&gt;lazyGetCall(MezzioContainer\WhoopsErrorResponseGeneratorFactory::class, '__invoke', $di));
 
         // If in production:
-        // $di-&gt;set(Middleware\ErrorResponseGenerator::class, $di-&gt;lazyGetCall(Container\ErrorResponseGeneratorFactory::class, '__invoke', $di));
+        // $di-&gt;set(Middleware\ErrorResponseGenerator::class, $di-&gt;lazyGetCall(MezzioContainer\ErrorResponseGeneratorFactory::class, '__invoke', $di));
     }
 
     public function modify(Container $di)

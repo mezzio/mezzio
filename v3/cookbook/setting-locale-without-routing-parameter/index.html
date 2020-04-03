@@ -769,14 +769,15 @@ from the request URI's path. If it doesn't find one, it sets a default.</p>
 <li>adds the locale segment as the base path of the <code>UrlHelper</code>.</li>
 </ul>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace App\I18n;
 
 use Locale;
+use Mezzio\Helper\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Mezzio\Helper\UrlHelper;
 
 class SetLocaleMiddleware implements MiddlewareInterface
 {
@@ -821,10 +822,11 @@ class SetLocaleMiddleware implements MiddlewareInterface
 <p>Then you will need a factory for the <code>SetLocaleMiddleware</code> to inject the
 <code>UrlHelper</code> instance.</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace App\I18n;
 
-use Psr\Container\ContainerInterface;
 use Mezzio\Helper\UrlHelper;
+use Psr\Container\ContainerInterface;
 
 /**
  * Configuration for setting a default locale should look like the following:
@@ -893,13 +895,14 @@ Twig and Plates.</p>
 request handlers, you just need to inject the <code>UrlHelper</code> into your
 handler and use it for URL generation:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace App\Handler;
 
+use Laminas\Diactoros\Response\RedirectResponse;
+use Mezzio\Helper\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Laminas\Diactoros\Response\RedirectResponse;
-use Mezzio\Helper\UrlHelper;
 
 class RedirectHandler implements RequestHandlerInterface
 {

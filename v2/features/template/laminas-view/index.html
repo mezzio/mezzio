@@ -758,9 +758,9 @@ $renderer = new LaminasViewRenderer();</code></pre>
 
 <p>Alternately, you can instantiate and configure the engine yourself, and pass it
 to the <code>Mezzio\LaminasView\LaminasViewRenderer</code> constructor:</p>
-<pre class="highlight"><code class="language-php">use Mezzio\LaminasView\LaminasViewRenderer;
-use Laminas\View\Renderer\PhpRenderer;
+<pre class="highlight"><code class="language-php">use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Resolver;
+use Mezzio\LaminasView\LaminasViewRenderer;
 
 // Create the engine instance:
 $renderer = new PhpRenderer();
@@ -825,8 +825,8 @@ render in order to provide content within the selected layout.</p>
 $renderer = new LaminasViewRenderer(null, 'layout::layout');</code></pre>
 
 <h3>Layout view model passed to constructor</h3>
-<pre class="highlight"><code class="language-php">use Mezzio\LaminasView\LaminasViewRenderer;
-use Laminas\View\Model\ViewModel;
+<pre class="highlight"><code class="language-php">use Laminas\View\Model\ViewModel;
+use Mezzio\LaminasView\LaminasViewRenderer;
 
 // Create the layout view model:
 $layout = new ViewModel([

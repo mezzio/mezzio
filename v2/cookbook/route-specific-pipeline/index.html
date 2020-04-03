@@ -742,8 +742,8 @@ middleware's context.</p>
 <h2 id="resolving-to-a-middlewarepipe">Resolving to a MiddlewarePipe</h2>
 <p>You can do this programmatically within a container factory, assuming you are
 using a container that supports factories.</p>
-<pre class="highlight"><code class="language-php">use Psr\Container\ContainerInterface;
-use Laminas\Stratigility\MiddlewarePipe;
+<pre class="highlight"><code class="language-php">use Laminas\Stratigility\MiddlewarePipe;
+use Psr\Container\ContainerInterface;
 
 class ApiResourcePipelineFactory
 {
@@ -771,10 +771,10 @@ setting up your container configuration.</p>
 Delegator factories allow you to decorate the primary factory used to create the
 middleware in order to change the instance or return an alternate instance. In
 this case, we'd do the latter. The following is an example:</p>
-<pre class="highlight"><code class="language-php">use Psr\Container\ContainerInterface;
-use Laminas\ServiceManager\DelegatorFactoryInterface;
+<pre class="highlight"><code class="language-php">use Laminas\ServiceManager\DelegatorFactoryInterface;
 use Laminas\ServiceManager\ServiceLocatorInterface;
 use Laminas\Stratigility\MiddlewarePipe;
+use Psr\Container\ContainerInterface;
 
 class ApiResourcePipelineDelegatorFactory implements DelegatorFactoryInterface
 {

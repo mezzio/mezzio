@@ -723,6 +723,7 @@ namespace for you, and suggests placing middleware under the namespace
 <p>Let's create a "Hello" action. Place the following in
 <code>src/App/Action/HelloAction.php</code>:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace App\Action;
 
 use Psr\Http\Message\ResponseInterface;
@@ -798,12 +799,13 @@ following contents:</p>
 </ul>
 <p>Replace your <code>src/App/Action/HelloAction.php</code> file with the following contents:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace App\Action;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class HelloAction
 {
@@ -842,6 +844,7 @@ selection for a dependency injection container, Laminas ServiceManager.</p>
 <p>Let's create a factory. Create the file <code>src/App/Action/HelloActionFactory.php</code> with
 the following contents:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace App\Action;
 
 use Interop\Container\ContainerInterface;

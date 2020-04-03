@@ -744,11 +744,11 @@ the whoops output. As such, it is a good choice for use in development.</p>
 <p>Then you will need to provide the error handler a whoops runtime instance, as well as a
 <code>Whoops\Handler\PrettyPageHandler</code> instance. You can also optionally provide a <code>TemplateRendererInterface</code>
 instance and template names, just as you would for a <code>TemplatedErrorHandler</code>.</p>
-<pre class="highlight"><code class="language-php">use Whoops\Handler\PrettyPageHandler;
-use Whoops\Run as Whoops;
-use Mezzio\Application;
+<pre class="highlight"><code class="language-php">use Mezzio\Application;
 use Mezzio\Plates\PlatesRenderer;
 use Mezzio\WhoopsErrorHandler;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run as Whoops;
 
 $handler = new PrettyPageHandler();
 

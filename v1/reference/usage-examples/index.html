@@ -815,8 +815,8 @@ will use <a href="https://github.com/laminas/laminas-servicemanager">laminas-ser
 the application will pull it from there when matched.</p>
 <p>Edit your <code>public/index.php</code> to read as follows:</p>
 <pre class="highlight"><code class="language-php">use Laminas\Diactoros\Response\JsonResponse;
-use Mezzio\AppFactory;
 use Laminas\ServiceManager\ServiceManager;
+use Mezzio\AppFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -950,7 +950,7 @@ return [
         'factories' =&gt; [
             \Mezzio\Application::class =&gt; \Mezzio\Container\ApplicationFactory::class,
         ],
-    ]
+    ],
 ];</code></pre>
 
 <p>In <code>config/autoload/routes.global.php</code>, place the following:</p>
@@ -973,6 +973,7 @@ return [
 
 <p>In <code>src/Application/HelloWorld.php</code>, place the following:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace Application;
 
 class HelloWorld
@@ -986,6 +987,7 @@ class HelloWorld
 
 <p>In <code>src/Application/Ping.php</code>, place the following:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace Application;
 
 use Laminas\Diactoros\Response\JsonResponse;
@@ -1003,6 +1005,7 @@ class Ping
 
 <p>Finally, in <code>public/index.php</code>, place the following:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 // Change to the project root, to simplify resolving paths
 chdir(dirname(__DIR__));
 
@@ -1043,6 +1046,7 @@ container-driven, and add one-off routes and middleware as needed.</p>
 <p>If you use a container to fetch your application instance, you have an
 additional option for specifying middleware for the pipeline: configuration:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 return [
     'routes' =&gt; [
         [

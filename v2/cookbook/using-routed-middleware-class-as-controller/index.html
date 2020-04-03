@@ -754,15 +754,16 @@ implementation.</p>
 </blockquote>
 <p>We might then implement <code>Album\Action\AlbumPage</code> as follows:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace Album\Action;
 
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class AlbumPage implements MiddlewareInterface
 {
@@ -817,13 +818,14 @@ if desired, even have common internal methods each can utilize.</p>
 implementation every time I want to accomplish a similar workflow. Let's create
 a generic implementation, via an <code>AbstractPage</code> class:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace App\Action;
 
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\EmptyResponse;
+use Psr\Http\Message\ServerRequestInterface;
 
 abstract class AbstractPage implements MiddlewareInterface
 {

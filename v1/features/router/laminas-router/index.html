@@ -734,9 +734,9 @@ $router = new LaminasRouter();</code></pre>
 <p>If you need greater control over the laminas-mvc router setup and configuration,
 you can create the instances necessary and inject them into
 <code>Mezzio\Router\LaminasRouter</code> during instantiation.</p>
-<pre class="highlight"><code class="language-php">use Mezzio\AppFactory;
+<pre class="highlight"><code class="language-php">use Laminas\Mvc\Router\Http\TreeRouteStack;
+use Mezzio\AppFactory;
 use Mezzio\Router\LaminasRouter;
-use Laminas\Mvc\Router\Http\TreeRouteStack;
 
 $laminasRouter = new TreeRouteStack();
 $laminasRouter-&gt;addPrototypes(/* ... */);

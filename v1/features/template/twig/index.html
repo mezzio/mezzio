@@ -709,9 +709,9 @@ $renderer = new TwigRenderer();</code></pre>
 
 <p>Alternately, you can instantiate and configure the engine yourself, and pass it
 to the <code>Mezzio\Twig\TwigRenderer</code> constructor:</p>
-<pre class="highlight"><code class="language-php">use Twig_Environment;
+<pre class="highlight"><code class="language-php">use Mezzio\Twig\TwigRenderer;
+use Twig_Environment;
 use Twig_Loader_Array;
-use Mezzio\Twig\TwigRenderer;
 
 // Create the engine instance:
 $loader = new Twig_Loader_Array(include 'config/templates.php');

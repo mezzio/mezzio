@@ -821,9 +821,9 @@ generating the instance; it should be mapped to the service
 </ul>
 <p>Map the service <code>Mezzio\Middleware\ErrorResponseGenerator</code> to one of
 these two factories in your configuration:</p>
-<pre class="highlight"><code class="language-php">use Mezzio\Container;
+<pre class="highlight"><code class="language-php">use Laminas\Stratigility\Middleware\ErrorHandler;
+use Mezzio\Container;
 use Mezzio\Middleware;
-use Laminas\Stratigility\Middleware\ErrorHandler;
 
 return [
     'dependencies' =&gt; [

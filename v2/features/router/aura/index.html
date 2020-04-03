@@ -740,7 +740,7 @@ configuration is to provide default specifications:</p>
 </ul>
 <pre class="highlight"><code class="language-php">// Parameters named "id" will only match digits by default:
 $router-&gt;addTokens([
-  'id' =&gt; '\d+',
+    'id' =&gt; '\d+',
 ]);</code></pre>
 
 <ul>
@@ -749,7 +749,7 @@ $router-&gt;addTokens([
 <pre class="highlight"><code class="language-php">// mediatype defaults to "application/xhtml+xml" and will be available in all
 // requests:
 $router-&gt;addValues([
-  'mediatype' =&gt; 'application/xhtml+xml',
+    'mediatype' =&gt; 'application/xhtml+xml',
 ]);</code></pre>
 
 <ul>
@@ -779,6 +779,7 @@ $router = new AuraRouter();</code></pre>
 can create the instances necessary and inject them into
 <code>Mezzio\Router\AuraRouter</code> during instantiation.</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 use Aura\Router\RouterFactory;
 use Mezzio\AppFactory;
 use Mezzio\Router\AuraRouter as AuraBridge;

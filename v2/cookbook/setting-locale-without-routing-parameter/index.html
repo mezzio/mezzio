@@ -744,13 +744,14 @@ from the request URI's path. If if doesn't find one, it sets a default.</p>
 <li>adds the locale segment as the base path of the <code>UrlHelper</code>.</li>
 </ul>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace Application\I18n;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Locale;
-use Psr\Http\Message\ServerRequestInterface;
 use Mezzio\Helper\UrlHelper;
+use Psr\Http\Message\ServerRequestInterface;
 
 class SetLocaleMiddleware implements MiddlewareInterface
 {
@@ -785,10 +786,11 @@ class SetLocaleMiddleware implements MiddlewareInterface
 <p>Then you will need a factory for the <code>SetLocaleMiddleware</code> to inject the
 <code>UrlHelper</code> instance.</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace Application\I18n;
 
-use Psr\Container\ContainerInterface;
 use Mezzio\Helper\UrlHelper;
+use Psr\Container\ContainerInterface;
 
 class SetLocaleMiddlewareFactory
 {
@@ -873,13 +875,14 @@ Twig and Plates.</p>
 action middleware, you just need to inject the <code>UrlHelper</code> into your
 middleware and use it for URL generation:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
+
 namespace Application\Action;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Mezzio\Helper\UrlHelper;
+use Psr\Http\Message\ServerRequestInterface;
 
 class RedirectAction implements MiddlewareInterface
 {
