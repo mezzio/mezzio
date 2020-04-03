@@ -805,7 +805,8 @@ changes were made throughout Mezzio:</p>
 written, and your middleware will need to be update. We provide a tool for this
 via mezzio-tooling. Make sure that package is up-to-date (a version 1
 release should be installed), and run the following:</p>
-<pre class=codehilite><code class=language-php>$ ./vendor/bin/mezzio migrate:interop-middleware</code></pre>
+<pre class="highlight"><code class="language-php">$ ./vendor/bin/mezzio migrate:interop-middleware</code></pre>
+
 <p>This tool will locate any http-interop middleware and update it to PSR-15
 middleware.</p>
 <h2 id="new-dependencies">New dependencies</h2>
@@ -915,12 +916,13 @@ now, in order:</p>
 you continue to need double-pass middleware (e.g., defined by a third-party
 library), use <code>Laminas\Stratigility\doublePassMiddleware()</code> to decorate it prior to
 piping or routing to it:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Diactoros\Response;
+<pre class="highlight"><code class="language-php">use Laminas\Diactoros\Response;
 use function Laminas\Stratigility\doublePassMiddleware;
 
 $app-&gt;pipe(doublePassMiddleware($someDoublePassMiddleware, new Response()));
 
 $app-&gt;get('/foo', doublePassMiddleware($someDoublePassMiddleware, new Response()));</code></pre>
+
 <p>Additionally, the following methods were <strong>removed</strong>:</p>
 <ul>
 <li><code>pipeRoutingMiddleware()</code>: use <code>pipe(\Mezzio\Router\Middleware\RouteMiddleware::class)</code>
@@ -1008,9 +1010,11 @@ upgrade it to version 3.</p>
 in your latest changes (assuming you are using version control), or have a
 backup of your existing code.</p>
 <p>Install the migration tooling using the following command:</p>
-<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-migration</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require --dev mezzio/mezzio-migration</code></pre>
+
 <p>Once installed, run the following command to migrate your application:</p>
-<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-migration migrate</code></pre>
+<pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio-migration migrate</code></pre>
+
 <p>This package does the following:</p>
 <ul>
 <li>Uninstalls all current dependencies (by removing the <code>vendor/</code> directory).</li>

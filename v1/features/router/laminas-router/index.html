@@ -698,10 +698,11 @@ priority to enable us to distinguish between failure to match the path and
 failure to match the HTTP method.</p>
 <p>If you instantiate it with no arguments, it will create an empty
 <code>TreeRouteStack</code>. Thus, the simplest way to start with this router is:</p>
-<pre class=codehilite><code class=language-php>use Mezzio\AppFactory;
+<pre class="highlight"><code class="language-php">use Mezzio\AppFactory;
 use Mezzio\Router\LaminasRouter;
 
 $app = AppFactory::create(null, new LaminasRouter());</code></pre>
+
 <p>The <code>TreeRouteStack</code> offers some unique features:</p>
 <ul>
 <li>Route "prototypes". These are essentially like child routes that must <em>also</em>
@@ -719,19 +720,21 @@ programmatically, or via a factory to use in conjunction with your container
 instance.</p>
 <h2 id="installing-the-laminas-router">Installing the Laminas Router</h2>
 <p>To use the Laminas router, you will need to install the laminas-mvc router integration:</p>
-<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-laminasrouter</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require mezzio/mezzio-laminasrouter</code></pre>
+
 <h2 id="quick-start">Quick Start</h2>
 <p>At its simplest, you can instantiate a <code>Mezzio\Router\LaminasRouter</code> instance
 with no arguments; it will create the underlying laminas-mvc routing objects
 required and compose them for you:</p>
-<pre class=codehilite><code class=language-php>use Mezzio\Router\LaminasRouter;
+<pre class="highlight"><code class="language-php">use Mezzio\Router\LaminasRouter;
 
 $router = new LaminasRouter();</code></pre>
+
 <h2 id="programmatic-creation">Programmatic Creation</h2>
 <p>If you need greater control over the laminas-mvc router setup and configuration,
 you can create the instances necessary and inject them into
 <code>Mezzio\Router\LaminasRouter</code> during instantiation.</p>
-<pre class=codehilite><code class=language-php>use Mezzio\AppFactory;
+<pre class="highlight"><code class="language-php">use Mezzio\AppFactory;
 use Mezzio\Router\LaminasRouter;
 use Laminas\Mvc\Router\Http\TreeRouteStack;
 
@@ -744,6 +747,7 @@ $router = new LaminasRouter($laminasRouter);
 // First argument is the container to use, if not using the default;
 // second is the router.
 $app = AppFactory::create(null, $router);</code></pre>
+
 <blockquote>
 <h3>Piping the route middleware</h3>
 <p>As a reminder, you will need to ensure that middleware is piped in the order
@@ -761,7 +765,7 @@ two strategies for creating your laminas-mvc router implementation.</p>
 instantiate and return an instance of <code>Mezzio\Router\LaminasRouter</code> for the
 service name <code>Mezzio\Router\RouterInterface</code>.</p>
 <p>A factory would look like this:</p>
-<pre class=codehilite><code class=language-php>// in src/Application/Container/RouterFactory.php
+<pre class="highlight"><code class="language-php">// in src/Application/Container/RouterFactory.php
 namespace Application\Container;
 
 use Interop\Container\ContainerInterface;
@@ -778,19 +782,23 @@ class RouterFactory
         return new LaminasRouter();
     }
 }</code></pre>
+
 <p>You would register this with laminas-servicemanager using:</p>
-<pre class=codehilite><code class=language-php>$container-&gt;setFactory(
+<pre class="highlight"><code class="language-php">$container-&gt;setFactory(
     'Mezzio\Router\RouterInterface',
     'Application\Container\RouterFactory'
 );</code></pre>
+
 <p>And in Pimple:</p>
-<pre class=codehilite><code class=language-php>$pimple['Mezzio\Router\RouterInterface'] = new Application\Container\RouterFactory();</code></pre>
+<pre class="highlight"><code class="language-php">$pimple['Mezzio\Router\RouterInterface'] = new Application\Container\RouterFactory();</code></pre>
+
 <p>For laminas-servicemanager, you can omit the factory entirely, and register the
 class as an invokable:</p>
-<pre class=codehilite><code class=language-php>$container-&gt;setInvokableClass(
+<pre class="highlight"><code class="language-php">$container-&gt;setInvokableClass(
     'Mezzio\Router\RouterInterface',
     'Mezzio\Router\LaminasRouter'
 );</code></pre>
+
 <h3>Advanced Configuration</h3>
 <p>If you want to provide custom setup or configuration, you can do so. In this
 example, we will be defining two factories:</p>
@@ -802,7 +810,7 @@ example, we will be defining two factories:</p>
   <code>Laminas\Mvc\Router\Http\TreeRouteStack</code> instance.</li>
 </ul>
 <p>Sound difficult? It's not; we've essentially done it above already!</p>
-<pre class=codehilite><code class=language-php>// in src/Application/Container/TreeRouteStackFactory.php:
+<pre class="highlight"><code class="language-php">// in src/Application/Container/TreeRouteStackFactory.php:
 namespace Application\Container;
 
 use Interop\Container\ContainerInterface;
@@ -841,9 +849,10 @@ class RouterFactory
         return new LaminasRouter($container-&gt;get('Laminas\Mvc\Router\Http\TreeRouteStack'));
     }
 }</code></pre>
+
 <p>From here, you will need to register your factories with your IoC container.</p>
 <p>If you are using laminas-servicemanager, this will look like:</p>
-<pre class=codehilite><code class=language-php>// Programmatically:
+<pre class="highlight"><code class="language-php">// Programmatically:
 use Laminas\ServiceManager\ServiceManager;
 
 $container = new ServiceManager();
@@ -863,8 +872,9 @@ return [
         'Mezzio\Router\RouterInterface' =&gt; 'Application\Container\RouterFactory',
     ],
 ];</code></pre>
+
 <p>For Pimple, configuration looks like:</p>
-<pre class=codehilite><code class=language-php>use Application\Container\TreeRouteStackFactory;
+<pre class="highlight"><code class="language-php">use Application\Container\TreeRouteStackFactory;
 use Application\Container\LaminasRouterFactory;
 use Interop\Container\Pimple\PimpleInterop;
 

@@ -738,25 +738,25 @@ configuration is to provide default specifications:</p>
 <ul>
 <li>A regular expression that applies the same for a given routing match:</li>
 </ul>
-<p><code>php
-  // Parameters named "id" will only match digits by default:
-  $router-&gt;addTokens([
-    'id' =&gt; '\d+',
-  ]);</code></p>
+<pre class="highlight"><code class="language-php">// Parameters named "id" will only match digits by default:
+$router-&gt;addTokens([
+  'id' =&gt; '\d+',
+]);</code></pre>
+
 <ul>
 <li>A default parameter and/or its default value to always provide:</li>
 </ul>
-<p><code>php
-  // mediatype defaults to "application/xhtml+xml" and will be available in all
-  // requests:
-  $router-&gt;addValues([
-    'mediatype' =&gt; 'application/xhtml+xml',
-  ]);</code></p>
+<pre class="highlight"><code class="language-php">// mediatype defaults to "application/xhtml+xml" and will be available in all
+// requests:
+$router-&gt;addValues([
+  'mediatype' =&gt; 'application/xhtml+xml',
+]);</code></pre>
+
 <ul>
 <li>Only match if secure (i.e., under HTTPS):</li>
 </ul>
-<p><code>php
-  $router-&gt;setSecure(true);</code></p>
+<pre class="highlight"><code class="language-php">$router-&gt;setSecure(true);</code></pre>
+
 <p>In order to specify these, you need access to the underlying Aura.Router
 instance, however, and the <code>RouterInterface</code> does not provide an accessor!</p>
 <p>The answer, then, is to use dependency injection. This can be done in two ways:
@@ -764,19 +764,21 @@ programmatically, or via a factory to use in conjunction with your container
 instance.</p>
 <h2 id="installing-aurarouter">Installing Aura.Router</h2>
 <p>To use Aura.Router, you will first need to install the Aura.Router integration:</p>
-<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-aurarouter</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require mezzio/mezzio-aurarouter</code></pre>
+
 <h2 id="quick-start">Quick Start</h2>
 <p>At its simplest, you can instantiate a <code>Mezzio\Router\AuraRouter</code> instance
 with no arguments; it will create the underlying Aura.Router objects required
 and compose them for you:</p>
-<pre class=codehilite><code class=language-php>use Mezzio\Router\AuraRouter;
+<pre class="highlight"><code class="language-php">use Mezzio\Router\AuraRouter;
 
 $router = new AuraRouter();</code></pre>
+
 <h2 id="programmatic-creation">Programmatic Creation</h2>
 <p>If you need greater control over the Aura.Router setup and configuration, you
 can create the instances necessary and inject them into
 <code>Mezzio\Router\AuraRouter</code> during instantiation.</p>
-<pre class=codehilite><code class=language-php>&lt;?php
+<pre class="highlight"><code class="language-php">&lt;?php
 use Aura\Router\RouterFactory;
 use Mezzio\AppFactory;
 use Mezzio\Router\AuraRouter as AuraBridge;
@@ -792,6 +794,7 @@ $router = new AuraBridge($auraRouter);
 // First argument is the container to use, if not using the default;
 // second is the router.
 $app = AppFactory::create(null, $router);</code></pre>
+
 <blockquote>
 <h3>Piping the route middleware</h3>
 <p>As a reminder, you will need to ensure that middleware is piped in the order
@@ -809,7 +812,7 @@ two strategies for creating your Aura.Router implementation.</p>
 instantiate and return an instance of <code>Mezzio\Router\AuraRouter</code> for the
 service name <code>Mezzio\Router\RouterInterface</code>.</p>
 <p>A factory would look like this:</p>
-<pre class=codehilite><code class=language-php>// in src/Application/Container/RouterFactory.php
+<pre class="highlight"><code class="language-php">// in src/Application/Container/RouterFactory.php
 namespace Application\Container;
 
 use Psr\Container\ContainerInterface;
@@ -826,19 +829,23 @@ class RouterFactory
         return new AuraRouter();
     }
 }</code></pre>
+
 <p>You would register this with laminas-servicemanager using:</p>
-<pre class=codehilite><code class=language-php>$container-&gt;setFactory(
+<pre class="highlight"><code class="language-php">$container-&gt;setFactory(
     Mezzio\Router\RouterInterface::class,
     Application\Container\RouterFactory::class
 );</code></pre>
+
 <p>And in Pimple:</p>
-<pre class=codehilite><code class=language-php>$pimple[Mezzio\Router\RouterInterface::class] = new Application\Container\RouterFactory();</code></pre>
+<pre class="highlight"><code class="language-php">$pimple[Mezzio\Router\RouterInterface::class] = new Application\Container\RouterFactory();</code></pre>
+
 <p>For laminas-servicemanager, you can omit the factory entirely, and register the
 class as an invokable:</p>
-<pre class=codehilite><code class=language-php>$container-&gt;setInvokableClass(
+<pre class="highlight"><code class="language-php">$container-&gt;setInvokableClass(
     Mezzio\Router\RouterInterface::class,
     Mezzio\Router\AuraRouter::class
 );</code></pre>
+
 <h3>Advanced Configuration</h3>
 <p>If you want to provide custom setup or configuration, you can do so. In this
 example, we will be defining two factories:</p>
@@ -849,7 +856,7 @@ example, we will be defining two factories:</p>
   <code>Aura\Router\Router</code> instance.</li>
 </ul>
 <p>Sound difficult? It's not; we've essentially done it above already!</p>
-<pre class=codehilite><code class=language-php>// in src/Application/Container/AuraRouterFactory.php:
+<pre class="highlight"><code class="language-php">// in src/Application/Container/AuraRouterFactory.php:
 namespace Application\Container;
 
 use Aura\Router\RouterFactory;
@@ -890,9 +897,10 @@ class RouterFactory
         return new AuraBridge($container-&gt;get('Aura\Router\Router'));
     }
 }</code></pre>
+
 <p>From here, you will need to register your factories with your IoC container.</p>
 <p>If you are using laminas-servicemanager, this will look like:</p>
-<pre class=codehilite><code class=language-php>// Programmatically:
+<pre class="highlight"><code class="language-php">// Programmatically:
 use Laminas\ServiceManager\ServiceManager;
 
 $container = new ServiceManager();
@@ -912,8 +920,9 @@ return [
         Mezzio\Router\RouterInterface::class =&gt; 'Application\Container\RouterFactory::class,
     ],
 ];</code></pre>
+
 <p>For Pimple, configuration looks like:</p>
-<pre class=codehilite><code class=language-php>use Application\Container\AuraRouterFactory;
+<pre class="highlight"><code class="language-php">use Application\Container\AuraRouterFactory;
 use Application\Container\RouterFactory;
 use Interop\Container\Pimple\PimpleInterop as Pimple;
 

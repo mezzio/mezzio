@@ -752,7 +752,7 @@ both <em>pipe</em> middleware as well as <em>route</em> middleware.</p>
 application, and provide it via a delegator factory instead.</p>
 <p>First, we'll create the class <code>App\Factory\PipelineAndRoutesDelegator</code>, with
 the following contents:</p>
-<pre class=codehilite><code class=language-php>&lt;?php
+<pre class="highlight"><code class="language-php">&lt;?php
 
 namespace App\Factory;
 
@@ -796,6 +796,7 @@ class PipelineAndRoutesDelegator
         return $app;
     }
 }</code></pre>
+
 <blockquote>
 <h3>Where to put the factory</h3>
 <p>You will place the factory class in one of the following locations:</p>
@@ -808,7 +809,7 @@ class PipelineAndRoutesDelegator
 </blockquote>
 <p>Once you've created this, edit the class <code>App\ConfigProvider</code>; in it, we'll
 update the <code>getDependencies()</code> method to add the delegator factory:</p>
-<pre class=codehilite><code class=language-php>public function getDependencies()
+<pre class="highlight"><code class="language-php">public function getDependencies()
 {
     return [
         /* . . . */
@@ -819,6 +820,7 @@ update the <code>getDependencies()</code> method to add the delegator factory:</
         ],
     ];
 }</code></pre>
+
 <blockquote>
 <h3>Where is the ConfigProvider class?</h3>
 <p>The <code>ConfigProvider</code> class is in one of the following locations:</p>
@@ -840,11 +842,11 @@ order to shape initialization of a service. As such, they are assigned as an
 <li><code>config/routes.php</code></li>
 <li>The following lines from <code>public/index.php</code>:</li>
 </ul>
-<p><code>php
-  // Import programmatic/declarative middleware pipeline and routing
-  // configuration statements
-  require 'config/pipeline.php';
-  require 'config/routes.php';</code></p>
+<pre class="highlight"><code class="language-php">// Import programmatic/declarative middleware pipeline and routing
+// configuration statements
+require 'config/pipeline.php';
+require 'config/routes.php';</code></pre>
+
 <p>If you reload your application at this point, you should see that everything
 continues to work as expected!</p>
 <h2 id="caution-pipelines">Caution: pipelines</h2>
@@ -927,7 +929,7 @@ define configuration that is then used to call <code>pipe()</code> or the variou
 methods of <code>Mezzio\Application</code>. This is particularly useful for
 injecting <em>routes</em>.</p>
 <p>The format of routes configuration is as follows:</p>
-<pre class=codehilite><code class=language-php>return [
+<pre class="highlight"><code class="language-php">return [
     'routes' =&gt; [
         [
             'path' =&gt; '/path/to/match',
@@ -942,6 +944,7 @@ injecting <em>routes</em>.</p>
         // etc.
     ],
 ];</code></pre>
+
 <p>All your various modules could provide route configuration, and you could then
 use a single delegator to add all of them at once.</p>
 

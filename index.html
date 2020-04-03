@@ -798,7 +798,8 @@
 
 <h2 id="get-started-now">Get Started Now!</h2>
 <p>Installation is only a <a href="https://getcomposer.org">Composer</a> command away!</p>
-<pre class=codehilite><code class=language-bash>$ composer create-project mezzio/mezzio-skeleton mezzio</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer create-project mezzio/mezzio-skeleton mezzio</code></pre>
+
 <p>Mezzio provides interfaces for routing and templating, letting <em>you</em>
 choose what to use, and how you want to implement it.</p>
 <p>Our unique installer allows you to select <em>your</em> choices when starting
@@ -807,7 +808,7 @@ your project!</p>
 <p><a href="v3/getting-started/quick-start/">Learn more</a></p>
 <h2 id="applications-simplified">Applications, Simplified</h2>
 <p>Write middleware:</p>
-<pre class=codehilite><code class=language-php>$pathMiddleware = function (
+<pre class="highlight"><code class="language-php">$pathMiddleware = function (
     ServerRequestInterface $request,
     RequestHandlerInterface $handler
 ) {
@@ -816,8 +817,10 @@ your project!</p>
 
     return new TextResponse('You visited ' . $path, 200, ['X-Path' =&gt; $path]);
 };</code></pre>
+
 <p>And add it to an application:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;get('/path', $pathMiddleware);</code></pre>
+<pre class="highlight"><code class="language-php">$app-&gt;get('/path', $pathMiddleware);</code></pre>
+
 <p><a href="v3/features/application/">Learn more</a></p>
 <h2 id="learn-more">Learn more</h2>
 <ul>
@@ -1473,5 +1476,5 @@ your project!</p>
 
 <!--
 MkDocs version : 1.1
-Build Date UTC : 2020-03-28 15:56:08
+Build Date UTC : 2020-04-03 15:52:47
 -->

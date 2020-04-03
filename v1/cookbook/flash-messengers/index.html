@@ -694,10 +694,11 @@ damess/mezzio-session-middleware.</p>
 <p>Slim's <a href="https://github.com/slimphp/Slim-Flash">Flash messages service provider</a> can be
 used in Mezzio. It uses PHP's native session support.</p>
 <p>First, you'll need to add it to your application:</p>
-<pre class=codehilite><code class=language-bash>$ composer require slim/flash</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require slim/flash</code></pre>
+
 <p>Once you have, you'll need to create a factory to return middleware that will
 add the flash message provider to the request:</p>
-<pre class=codehilite><code class=language-php>namespace App;
+<pre class="highlight"><code class="language-php">namespace App;
 
 use Slim\Flash\Messages;
 
@@ -716,9 +717,10 @@ class SlimFlashMiddlewareFactory
         };
     }
 }</code></pre>
+
 <p>Now, let's register it with our middleware pipeline. In
 <code>config/autoload/middleware-pipeline.global.php</code>, make the following additions:</p>
-<pre class=codehilite><code class=language-php>return [
+<pre class="highlight"><code class="language-php">return [
     'dependencies' =&gt; [
         'factories' =&gt; [
             'App\SlimFlashMiddleware' =&gt; App\SlimFlashMiddlewareFactory::class,
@@ -737,6 +739,7 @@ class SlimFlashMiddlewareFactory
         /* ... */
     ],
 ];</code></pre>
+
 <blockquote>
 <h3>Where to register the flash middleware</h3>
 <p>Sessions can sometimes be expensive. As such, you may not want the flash
@@ -745,7 +748,7 @@ middleware as part of a route-specific pipeline instead.</p>
 </blockquote>
 <p>From here, you can add and read messages by accessing the request's flash
 attribute. As an example, middleware generating messages might read as follows:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Diactoros\Response\RedirectResponse;
+<pre class="highlight"><code class="language-php">use Laminas\Diactoros\Response\RedirectResponse;
 
 public function __invoke($request, $response, $next)
 {
@@ -754,13 +757,15 @@ public function __invoke($request, $response, $next)
 
     return new RedirectResponse('/other-middleware');
 }</code></pre>
+
 <p>And middleware consuming the message might read:</p>
-<pre class=codehilite><code class=language-php>public function __invoke($request, $response, $next)
+<pre class="highlight"><code class="language-php">public function __invoke($request, $response, $next)
 {
     $flash = $request-&gt;getAttribute('flash');
     $messages = $flash-&gt;getMessages();
     // ...
 }</code></pre>
+
 <p>From there, it's a matter of providing the flash messages to your template.</p>
 <h2 id="damessexpressive-session-middleware-and-aurasession">damess/expressive-session-middleware and Aura.Session</h2>
 <p><a href="https://github.com/dannym87/expressive-session-middleware">damess/mezzio-session-middleware</a>
@@ -768,9 +773,10 @@ provides middleware for initializing an
 <a href="https://github.com/auraphp/Aura.Session">Aura.Session</a> instance; Aura.Session
 provides flash messaging capabilities as part of its featureset.</p>
 <p>Install it via Composer:</p>
-<pre class=codehilite><code class=language-bash>$ composer require damess/mezzio-session-middleware</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require damess/mezzio-session-middleware</code></pre>
+
 <p>In <code>config/autoload/dependencies.global.php</code>, add an entry for Aura.Session:</p>
-<pre class=codehilite><code class=language-php>return [
+<pre class="highlight"><code class="language-php">return [
     'dependencies' =&gt; [
         'factories' =&gt; [
             Aura\Session\Session::class =&gt; DaMess\Factory\AuraSessionFactory::class,
@@ -779,9 +785,10 @@ provides flash messaging capabilities as part of its featureset.</p>
         /* ... */
     ],
 ];</code></pre>
+
 <p>In <code>config/autoload/middleware-pipeline.global.php</code>, add a factory entry for the
 <code>damess/mezzio-session-middleware</code>, and add it to the middleware pipeline:</p>
-<pre class=codehilite><code class=language-php>return [
+<pre class="highlight"><code class="language-php">return [
     'dependencies' =&gt; [
         'factories' =&gt; [
             DaMess\Http\SessionMiddleware::class =&gt; DaMess\Factory\SessionMiddlewareFactory::class,
@@ -800,6 +807,7 @@ provides flash messaging capabilities as part of its featureset.</p>
         /* ... */
     ],
 ];</code></pre>
+
 <blockquote>
 <h3>Where to register the session middleware</h3>
 <p>Sessions can sometimes be expensive. As such, you may not want the session
@@ -809,12 +817,13 @@ middleware as part of a route-specific pipeline instead.</p>
 <p>Once enabled, the <code>SessionMiddleware</code> will inject the Aura.Session instance into
 the request as the <code>session</code> attribute; you can thus retrieve it within
 middleware using the following:</p>
-<pre class=codehilite><code class=language-php>$session = $request-&gt;getAttribute('session');</code></pre>
+<pre class="highlight"><code class="language-php">$session = $request-&gt;getAttribute('session');</code></pre>
+
 <p>To create and consume flash messages, use Aura.Session's
 <a href="https://github.com/auraphp/Aura.Session#flash-values">flash values</a>. As
 an example, the middleware that is processing a POST request might set a flash
 message:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Diactoros\Response\RedirectResponse;
+<pre class="highlight"><code class="language-php">use Laminas\Diactoros\Response\RedirectResponse;
 
 public function __invoke($request, $response, $next)
 {
@@ -824,15 +833,17 @@ public function __invoke($request, $response, $next)
 
     return new RedirectResponse('/other-middleware');
 }</code></pre>
+
 <p>Another middleware, to which the original middleware redirects, might look like
 this:</p>
-<pre class=codehilite><code class=language-php>public function __invoke($request, $response, $next)
+<pre class="highlight"><code class="language-php">public function __invoke($request, $response, $next)
 {
     $session = $request-&gt;getAttribute('session');
     $message = $session-&gt;getSegment(__NAMESPACE__)
                        -&gt;getFlash('message');
     // ...
 }</code></pre>
+
 <p>From there, it's a matter of providing the flash messages to your template.</p>
 
 

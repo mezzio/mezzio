@@ -756,11 +756,12 @@ a Composer plugin will add entries for their <code>ConfigProvider</code> classes
 <p>If for some reason you are not prompted, or chose "no" when answering the
 prompts, you can add them manually. Add the following entries in the array used
 to create your <code>ConfigAggregator</code> instance within <code>config/config.php</code>:</p>
-<pre class=codehilite><code class=language-php>    \Laminas\Form\ConfigProvider::class,
+<pre class="highlight"><code class="language-php">    \Laminas\Form\ConfigProvider::class,
     \Laminas\InputFilter\ConfigProvider::class,
     \Laminas\Filter\ConfigProvider::class,
     \Laminas\Validator\ConfigProvider::class,
     \Laminas\Hydrator\ConfigProvider::class,</code></pre>
+
 <p>If you installed Mezzio via the skeleton, the service
 <code>Laminas\View\HelperPluginManager</code> is registered for you, and represents the helper
 plugin manager injected into the <code>PhpRenderer</code> instance. This instance gets its

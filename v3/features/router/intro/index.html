@@ -782,7 +782,8 @@ into the request as <em>attributes</em>.</p>
 <code>id</code> is the name of the dynamic segment. This means that in the middleware
 invoked for this route, you can fetch the <code>id</code> attribute to discover what was
 matched:</p>
-<pre class=codehilite><code class=language-php>$id = $request-&gt;getAttribute('id');</code></pre>
+<pre class="highlight"><code class="language-php">$id = $request-&gt;getAttribute('id');</code></pre>
+
 <h2 id="retrieving-the-matched-route">Retrieving the matched route</h2>
 <p>When routing is complete, the routing middleware injects a
 <code>Mezzio\Router\RouteResult</code> instance as a request attribute, using that
@@ -803,7 +804,7 @@ to the following:</p>
 </ul>
 <p>As an example, you could use middleware similar to the following to return a 403
 response if routing was successful, but no <code>Authorization</code> header is present:</p>
-<pre class=codehilite><code class=language-php>use Psr\Http\Server\RequestHandlerInterface;
+<pre class="highlight"><code class="language-php">use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Mezzio\Router\RouteResult;
 
@@ -825,6 +826,7 @@ function ($request, RequestHandlerInterface $handler) use ($routesRequiringAutho
 
     return $handler-&gt;handle($request);
 }</code></pre>
+
 <p>Note that the first step is to determine if we have a <code>RouteResult</code>; if we do
 not have one, we should either delegate to the next middleware, or return some
 sort of response (generally a 404). In the case of Mezzio, a later
@@ -837,15 +839,17 @@ either delegating to the underlying router implementations or providing a
 compatible implementation of its own.</p>
 <p>At it's most basic level, you call the <code>generateUri()</code> method with a route name
 and any substitutions you want to make:</p>
-<pre class=codehilite><code class=language-php>$uri = $router-&gt;generateUri('book', ['id' =&gt; 'mezzio']);</code></pre>
+<pre class="highlight"><code class="language-php">$uri = $router-&gt;generateUri('book', ['id' =&gt; 'mezzio']);</code></pre>
+
 <p>Some routers may support providing <em>options</em> during URI generation. Starting in
 mezzio-router 2.0, which ships with Mezzio starting with version
 2.0, you may also pass a third argument to <code>generateUri()</code>, an array of router
 options:</p>
-<pre class=codehilite><code class=language-php>$uri = $router-&gt;generateUri('book', ['id' =&gt; 'mezzio'], [
+<pre class="highlight"><code class="language-php">$uri = $router-&gt;generateUri('book', ['id' =&gt; 'mezzio'], [
     'translator'  =&gt; $translator,
     'text_domain' =&gt; $currentLocale,
 ]);</code></pre>
+
 <h2 id="supported-implementations">Supported implementations</h2>
 <p>Mezzio currently ships with adapters for the following routers:</p>
 <ul>

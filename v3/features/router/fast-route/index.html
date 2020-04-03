@@ -764,7 +764,8 @@ into the <code>Mezzio\Router\FastRouteRouter</code> class, at instantiation.</p>
 conjunction with your container instance.</p>
 <h2 id="installing-fastroute">Installing FastRoute</h2>
 <p>To use FastRoute, you will first need to install the FastRoute integration:</p>
-<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-fastroute</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require mezzio/mezzio-fastroute</code></pre>
+
 <p>The package provides a factory for the router, and wires it to your container by
 default. This will serve the majority of use cases.</p>
 <p>If you want to provide custom setup or configuration, you can do so. In this
@@ -778,7 +779,7 @@ example, we will be defining three factories:</p>
   composing the two services.</li>
 </ul>
 <p>The factories might look like the following:</p>
-<pre class=codehilite><code class=language-php>&lt;?php
+<pre class="highlight"><code class="language-php">&lt;?php
 // in src/App/Container/FastRouteCollectorFactory.php:
 namespace App\Container;
 
@@ -842,8 +843,9 @@ class RouterFactory
         );
     }
 }</code></pre>
+
 <p>From here, you will need to register your factories with your IoC container.</p>
-<pre class=codehilite><code class=language-php>// in a config/autoload/ file, or within a ConfigProvider class:
+<pre class="highlight"><code class="language-php">// in a config/autoload/ file, or within a ConfigProvider class:
 return [
     'factories' =&gt; [
         \FastRoute\RouteCollector::class =&gt; \App\Container\FastRouteCollectorFactory::class,
@@ -851,6 +853,7 @@ return [
         \Mezzio\Router\RouterInterface::class =&gt; \App\Container\RouterFactory::class,
     ],
 ];</code></pre>
+
 <h3>FastRoute caching support</h3>
 <p>mezzio-fastroute comes with support for FastRoute native dispatch data
 caching.</p>
@@ -870,7 +873,7 @@ reference that file when indicating configuration changes.</p>
 </li>
 </ul>
 <p>As an example:</p>
-<pre class=codehilite><code class=language-php>// File config/autoload/routes.global.php
+<pre class="highlight"><code class="language-php">// File config/autoload/routes.global.php
 
 return [
     'dependencies' =&gt; [
@@ -901,6 +904,7 @@ return [
 
     'routes' =&gt; [ /* ... */ ],
 ]</code></pre>
+
 <p>The FastRoute-specific caching options are as follows:</p>
 <ul>
 <li>

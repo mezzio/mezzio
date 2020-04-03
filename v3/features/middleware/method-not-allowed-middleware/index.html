@@ -754,12 +754,13 @@ mezzio-router package.</p>
 <p>Pipe the middleware after the routing middleware; if using one or more of the
 <a href="../implicit-methods-middleware/">implicit methods middleware</a>, this middleware
 <strong>must</strong> be piped after them, as it will respond for <em>any</em> HTTP method!</p>
-<pre class=codehilite><code class=language-php>$app-&gt;pipe(RouteMiddleware::class);
+<pre class="highlight"><code class="language-php">$app-&gt;pipe(RouteMiddleware::class);
 $app-&gt;pipe(ImplicitHeadMiddleware::class);
 $app-&gt;pipe(ImplicitOptionsMiddleware::class);
 $app-&gt;pipe(MethodNotAllowedMiddleware::class);
 // ...
 $app-&gt;pipe(DispatchMiddleware::class);</code></pre>
+
 <p>(Note: if you used the Mezzio skeleton, this middleware is likely already in
 your pipeline.)</p>
 

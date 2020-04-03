@@ -739,25 +739,25 @@ order to seed the <code>Application</code> instance:</p>
 <ul>
 <li><code>middleware_pipeline</code> can be used to seed the middleware pipeline:</li>
 </ul>
-<p><code>php
-  'middleware_pipeline' =&gt; [
-      // An array of middleware to register.
-      [ /* ... */ ],
-      Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
-      Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
-      [ /* ... */ ],
-  ],</code></p>
+<pre class="highlight"><code class="language-php">'middleware_pipeline' =&gt; [
+    // An array of middleware to register.
+    [ /* ... */ ],
+    Mezzio\Container\ApplicationFactory::ROUTING_MIDDLEWARE,
+    Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
+    [ /* ... */ ],
+],</code></pre>
+
 <p>Each item of the array, other than the entries for routing and dispatch
   middleware, must be an array itself, with the following structure:</p>
-<p><code>php
-  [
-      // required:
-      'middleware' =&gt; 'Name of middleware service, or a callable',
-      // optional:
-      'path'  =&gt; '/path/to/match',
-      'error' =&gt; true,
-      'priority' =&gt; 1, // Integer
-  ],</code></p>
+<pre class="highlight"><code class="language-php">[
+    // required:
+    'middleware' =&gt; 'Name of middleware service, or a callable',
+    // optional:
+    'path'  =&gt; '/path/to/match',
+    'error' =&gt; true,
+    'priority' =&gt; 1, // Integer
+],</code></pre>
+
 <p>The <code>middleware</code> key itself is the middleware to execute, and must be a
   callable or the name of another defined service. If the <code>path</code> key is present,
   that key will be used to segregate the middleware to a specific matched path
@@ -778,20 +778,20 @@ order to seed the <code>Application</code> instance:</p>
 <li><code>routes</code> is used to define routed middleware. The value must be an array,
   consisting of arrays defining each middleware:</li>
 </ul>
-<p><code>php
-  'routes' =&gt; [
-      [
-          'path' =&gt; '/path/to/match',
-          'middleware' =&gt; 'Middleware Service Name or Callable',
-          'allowed_methods' =&gt; [ 'GET', 'POST', 'PATCH' ],
-          'options' =&gt; [
-              'stuff' =&gt; 'to',
-              'pass'  =&gt; 'to',
-              'the'   =&gt; 'underlying router',
-          ],
-      ],
-      // etc.
-  ],</code></p>
+<pre class="highlight"><code class="language-php">'routes' =&gt; [
+    [
+        'path' =&gt; '/path/to/match',
+        'middleware' =&gt; 'Middleware Service Name or Callable',
+        'allowed_methods' =&gt; [ 'GET', 'POST', 'PATCH' ],
+        'options' =&gt; [
+            'stuff' =&gt; 'to',
+            'pass'  =&gt; 'to',
+            'the'   =&gt; 'underlying router',
+        ],
+    ],
+    // etc.
+],</code></pre>
+
 <p>Each route <em>requires</em>:</p>
 <pre class="codehilite"><code>- `path`: the path to match. Format will be based on the router you choose for
   your project.
@@ -829,12 +829,13 @@ order to seed the <code>Application</code> instance:</p>
 <p>When the <code>config</code> service is present, the factory can utilize the
 <code>mezzio</code> top-level key, with the <code>error_handler</code> second-level key, to
 seed the <code>Templated</code> instance:</p>
-<pre class=codehilite><code class=language-php>'mezzio' =&gt; [
+<pre class="highlight"><code class="language-php">'mezzio' =&gt; [
     'error_handler' =&gt; [
         'template_404'   =&gt; 'name of 404 template',
         'template_error' =&gt; 'name of error template',
     ],
 ],</code></pre>
+
 <h2 id="whoopserrorhandlerfactory">WhoopsErrorHandlerFactory</h2>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\TemplatedErrorHandler</code></li>
@@ -875,13 +876,14 @@ properly with <code>Mezzio\Application</code>; this includes disabling immediate
 write-to-output, disabling immediate quit, etc. The <code>PrettyPageHandler</code> returned
 for the <code>Mezzio\WhoopsPageHandler</code> service will be injected.</p>
 <p>It consumes the following <code>config</code> structure:</p>
-<pre class=codehilite><code class=language-php>'whoops' =&gt; [
+<pre class="highlight"><code class="language-php">'whoops' =&gt; [
     'json_exceptions' =&gt; [
         'display'    =&gt; true,
         'show_trace' =&gt; true,
         'ajax_only'  =&gt; true,
     ],
 ],</code></pre>
+
 <p>If no <code>whoops</code> top-level key is present in the configuration, a default instance
 with no <code>JsonResponseHandler</code> composed will be created.</p>
 <h2 id="whoopspagehandlerfactory">WhoopsPageHandlerFactory</h2>
@@ -897,9 +899,10 @@ with no <code>JsonResponseHandler</code> composed will be created.</p>
 </li>
 </ul>
 <p>It consumes the following <code>config</code> structure:</p>
-<pre class=codehilite><code class=language-php>'whoops' =&gt; [
+<pre class="highlight"><code class="language-php">'whoops' =&gt; [
     'editor' =&gt; 'editor name, editor service name, or callable',
 ],</code></pre>
+
 <p>The <code>editor</code> value must be a known editor name (see the Whoops documentation for
 pre-configured editor types), a callable, or a service name to use.</p>
 <h2 id="platesrendererfactory">PlatesRendererFactory</h2>
@@ -916,7 +919,7 @@ pre-configured editor types), a callable, or a service name to use.</p>
 </li>
 </ul>
 <p>It consumes the following <code>config</code> structure:</p>
-<pre class=codehilite><code class=language-php>'templates' =&gt; [
+<pre class="highlight"><code class="language-php">'templates' =&gt; [
     'extension' =&gt; 'file extension used by templates; defaults to html',
     'paths' =&gt; [
         // namespace / path pairs
@@ -925,6 +928,7 @@ pre-configured editor types), a callable, or a service name to use.</p>
         // strings or arrays of string paths to associate with the namespace.
     ],
 ]</code></pre>
+
 <p>One note: Due to a limitation in the Plates engine, you can only map one path
 per namespace when using Plates.</p>
 <h2 id="twigrendererfactory">TwigRendererFactory</h2>
@@ -945,7 +949,7 @@ per namespace when using Plates.</p>
 </li>
 </ul>
 <p>It consumes the following <code>config</code> structure:</p>
-<pre class=codehilite><code class=language-php>'debug' =&gt; boolean,
+<pre class="highlight"><code class="language-php">'debug' =&gt; boolean,
 'templates' =&gt; [
     'cache_dir' =&gt; 'path to cached templates',
     'assets_url' =&gt; 'base URL for assets',
@@ -958,6 +962,7 @@ per namespace when using Plates.</p>
         // strings or arrays of string paths to associate with the namespace.
     ],
 ]</code></pre>
+
 <p>When <code>debug</code> is true, it disables caching, enables debug mode, enables strict
 variables, and enables auto reloading. The <code>assets_*</code> values are used to seed
 the <code>TwigExtension</code> instance (assuming the router was found).</p>
@@ -982,7 +987,7 @@ the <code>TwigExtension</code> instance (assuming the router was found).</p>
 </li>
 </ul>
 <p>It consumes the following <code>config</code> structure:</p>
-<pre class=codehilite><code class=language-php>'templates' =&gt; [
+<pre class="highlight"><code class="language-php">'templates' =&gt; [
     'layout' =&gt; 'name of layout view to use, if any',
     'map'    =&gt; [
         // template =&gt; filename pairs
@@ -994,6 +999,7 @@ the <code>TwigExtension</code> instance (assuming the router was found).</p>
         // strings or arrays of string paths to associate with the namespace.
     ],
 ]</code></pre>
+
 <p>When creating the <code>PhpRenderer</code> instance, it will inject it with a
 <code>Laminas\View\HelperPluginManager</code> instance (either pulled from the container, or
 instantiated directly). It injects the helper plugin manager with custom url and

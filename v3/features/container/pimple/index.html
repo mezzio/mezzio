@@ -759,9 +759,10 @@ It features:</p>
 as of version 3.2. To use Pimple as a dependency injection container, we
 recommend using <a href="https://github.com/laminas/laminas-pimple-config">laminas/laminas-pimple-config</a>,
 which helps you to configure the PSR-11 container. First install the package:</p>
-<pre class=codehilite><code class=language-bash>$ composer require laminas/laminas-pimple-config</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-pimple-config</code></pre>
+
 <p>Now, create the file <code>config/container.php</code> with the following contents:</p>
-<pre class=codehilite><code class=language-php>&lt;?php
+<pre class="highlight"><code class="language-php">&lt;?php
 use Laminas\Pimple\Config\Config;
 use Laminas\Pimple\Config\ContainerFactory;
 
@@ -769,10 +770,11 @@ $config  = require __DIR__ . '/config.php';
 $factory = new ContainerFactory();
 
 return $factory(new Config($config));</code></pre>
+
 <p>For more information, please see the
 <a href="https://github.com/laminas/laminas-pimple-config/blob/master/README.md">laminas-pimple-config documentation</a>.</p>
 <p>Your bootstrap (typically <code>public/index.php</code>) will then look like this:</p>
-<pre class=codehilite><code class=language-php>chdir(dirname(__DIR__));
+<pre class="highlight"><code class="language-php">chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
 $container = require 'config/container.php';

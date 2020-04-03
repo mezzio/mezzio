@@ -674,7 +674,7 @@ all three of the above?</p>
 <p>In the following example, we'll use an <code>action</code> routing parameter which our
 middleware class will use in order to determine which internal method to invoke.</p>
 <p>Consider the following route configuration:</p>
-<pre class=codehilite><code class=language-php>return [
+<p><pre class="highlight"><code class="language-php">return [
     /* ... */
     'routes' =&gt; [
         /* ... */
@@ -687,7 +687,7 @@ middleware class will use in order to determine which internal method to invoke.
         /* ... */
     ],
 ];</code></pre>
-<p>The above defines a route that will match any of the following:</p>
+The above defines a route that will match any of the following:</p>
 <ul>
 <li><code>/album</code></li>
 <li><code>/album/add</code></li>
@@ -702,7 +702,7 @@ definition may differ. The above example uses the default <code>FastRoute</code>
 implementation.</p>
 </blockquote>
 <p>We might then implement <code>Album\Action\AlbumPage</code> as follows:</p>
-<pre class=codehilite><code class=language-php>namespace Album\Action;
+<pre class="highlight"><code class="language-php">namespace Album\Action;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -767,12 +767,13 @@ class AlbumPage
         );
     }
 }</code></pre>
+
 <p>This allows us to have the same dependencies for a set of related actions, and,
 if desired, even have common internal methods each can utilize.</p>
 <p>This approach is reasonable, but requires that I create a similar <code>__invoke()</code>
 implementation every time I want to accomplish a similar workflow. Let's create
 a generic implementation, via an <code>AbstractPage</code> class:</p>
-<pre class=codehilite><code class=language-php>namespace App\Action;
+<pre class="highlight"><code class="language-php">namespace App\Action;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -793,6 +794,7 @@ abstract class AbstractPage
         return $this-&gt;$action($request, $response, $next);
     }
 }</code></pre>
+
 <p>The above abstract class pulls the <code>action</code> attribute on invocation, and
 concatenates it with the word <code>Action</code>. It then uses this value to determine if
 a corresponding method exists in the current class, and, if so, calls it with
@@ -801,15 +803,14 @@ the arguments it received; otherwise, it returns a 404 response.</p>
 <h3>Invoking the error stack</h3>
 <p>Instead of returning a 404 response, you could also invoke <code>$next()</code> with an
 error:</p>
-<pre class="codehilite"><code class="language-php">
-return $next($request, $response, new NotFoundError());
-</code></pre>
+<pre class="highlight"><code class="language-php">return $next($request, $response, new NotFoundError());</code></pre>
+
 <p>This will then invoke the first error handler middleware capable of handling
 the error.</p>
 </blockquote>
 <p>Our original <code>AlbumPage</code> implementation could then be modified to extend
 <code>AbstractPage</code>:</p>
-<pre class=codehilite><code class=language-php>namespace Album\Action;
+<pre class="highlight"><code class="language-php">namespace Album\Action;
 
 use App\Action\AbstractPage;
 use Psr\Http\Message\ResponseInterface;
@@ -830,12 +831,12 @@ class AlbumPage extends AbstractPage
     public function addAction( /* ... */ ) { /* ... */ }
     public function editAction( /* ... */ ) { /* ... */ }
 }</code></pre>
+
 <blockquote>
 <h3>Or use a trait</h3>
 <p>As an alternative to an abstract class, you could define the <code>__invoke()</code>
 logic in a trait, which you then compose into your middleware:</p>
-<pre class="codehilite"><code class="language-php">
-namespace App\Action;
+<pre class="highlight"><code class="language-php">namespace App\Action;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -855,11 +856,10 @@ trait ActionBasedInvocation
 
         return $this-&gt;$action($request, $response, $next);
     }
-}
-</code></pre>
+}</code></pre>
+
 <p>You would then compose it into a class as follows:</p>
-<pre class="codehilite"><code class="language-php">
-namespace Album\Action;
+<pre class="highlight"><code class="language-php">namespace Album\Action;
 
 use App\Action\ActionBasedInvocation;
 use Psr\Http\Message\ResponseInterface;
@@ -881,8 +881,8 @@ class AlbumPage
     public function indexAction( /* ... */ ) { /* ... */ }
     public function addAction( /* ... */ ) { /* ... */ }
     public function editAction( /* ... */ ) { /* ... */ }
-}
-</code></pre>
+}</code></pre>
+
 </blockquote>
 
 

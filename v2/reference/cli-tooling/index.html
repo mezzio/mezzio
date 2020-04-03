@@ -751,9 +751,10 @@ enables optional, development-specific configuration in your application by:</p>
 </ul>
 <p>The package provides the tooling via <code>vendor/bin/laminas-development-mode</code>. If you
 are using the Mezzio skeleton, it provides aliases via Composer:</p>
-<pre class=codehilite><code class=language-php>$ composer development-enable
+<pre class="highlight"><code class="language-php">$ composer development-enable
 $ composer development-disable
 $ composer development-status</code></pre>
+
 <p>Add settings to your <code>development.*.php.dist</code> files, and commit those files to
 your repository; always toggle out of and into development mode after making
 changes, to ensure they pick up in your development environment.</p>
@@ -762,14 +763,17 @@ changes, to ensure they pick up in your development environment.</p>
 provides the script <code>vendor/bin/mezzio</code>, which contains a number of commands
 related to migration, modules, and middleware.</p>
 <p>You can install it if it is not already present in your application:</p>
-<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-tooling</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require --dev mezzio/mezzio-tooling</code></pre>
+
 <p>If you installed the Mezzio skeleton prior to version 2.0.2, you will want
 to update the tooling to get the latest release, which contains the <code>mezzio</code>
 binary, as follows:</p>
-<pre class=codehilite><code class=language-bash>$ composer require --dev &quot;mezzio/mezzio-tooling:^0.4.1&quot;</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require --dev "mezzio/mezzio-tooling:^0.4.1"</code></pre>
+
 <p>Once installed, invoking the binary without arguments will give a listing of
 available tools:</p>
-<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio</code></pre>
+<pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio</code></pre>
+
 <p>Commands supported include:</p>
 <ul>
 <li>
@@ -814,7 +818,8 @@ available tools:</p>
 </li>
 </ul>
 <p>You may obtain full help for each command by invoking:</p>
-<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio help &lt;command&gt;</code></pre>
+<pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio help &lt;command&gt;</code></pre>
+
 <h2 id="modules">Modules</h2>
 <ul>
 <li>Deprecated since mezzio-tooling 0.4.0; see the <a href="#mezzio-command-line-tool">Mezzio CLI tool
@@ -826,13 +831,15 @@ register, and deregister modules, assuming you are using a <a href="../../featur
 layout</a>.</p>
 <p>For instance, if you wish to create a new module for managing users, you might
 execute the following:</p>
-<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-module create User</code></pre>
+<pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio-module create User</code></pre>
+
 <p>Which would create the following tree:</p>
-<pre class=codehilite><code class=language-text>src/
+<pre class="highlight"><code class="language-text">src/
   User/
     src/
       ConfigProvider.php
     templates/</code></pre>
+
 <p>It would also create an autoloading rule within your <code>composer.json</code> for the
 <code>User</code> namespace, pointing it at the <code>src/User/src/</code> tree (and updating the
 autoloader in the process), and register the new module's <code>ConfigProvider</code>
@@ -843,9 +850,11 @@ within your <code>config/config.php</code>.</p>
 <li>Add an entry for the module's <code>ConfigProvider</code> class to your
   <code>config/config.php</code>, if possible.</li>
 </ul>
-<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-module register Account</code></pre>
+<pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio-module register Account</code></pre>
+
 <p>The <code>deregister</code> command does the opposite of <code>register</code>.</p>
-<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-module deregister Account</code></pre>
+<pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio-module deregister Account</code></pre>
+
 <h2 id="migrate-to-programmatic-pipelines">Migrate to programmatic pipelines</h2>
 <ul>
 <li>Deprecated since mezzio-tooling 0.4.0; see the <a href="#mezzio-command-line-tool">Mezzio CLI tool
@@ -865,9 +874,11 @@ a tool that will read their application configuration and generate:</p>
 </ul>
 <p>To use this feature, you will need to first install
 mezzio/mezzio-tooling:</p>
-<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-tooling</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require --dev mezzio/mezzio-tooling</code></pre>
+
 <p>Invoke it as follows:</p>
-<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-pipeline-from-config generate</code></pre>
+<pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio-pipeline-from-config generate</code></pre>
+
 <p>The tool will notify you of any errors, including whether or not it found (and
 skipped) Stratigility v1-style "error middleware".</p>
 <h2 id="detect-usage-of-legacy-getoriginal-calls">Detect usage of legacy getOriginal*() calls</h2>
@@ -898,9 +909,10 @@ decorates double-pass middleware using a wrapper that composes a response, the
 instance.) This should be registered as the outermost middleware layer.
 Middleware that needs access to these instances can then use the following
 syntax to retrieve them:</p>
-<pre class=codehilite><code class=language-php>$originalRequest = $request-&gt;getAttribute('originalRequest', $request);
+<pre class="highlight"><code class="language-php">$originalRequest = $request-&gt;getAttribute('originalRequest', $request);
 $originalUri = $request-&gt;getAttribute('originalUri', $request-&gt;getUri();
 $originalResponse = $request-&gt;getAttribute('originalResponse') ?: new Response();</code></pre>
+
 <blockquote>
 <h3>Original response is not trustworthy</h3>
 <p>As noted above, the "original response" will likely be injected with the
@@ -911,9 +923,11 @@ or creating a new instance on-the-fly.</p>
 <p>To aid you in migrating your existing code to use the new <code>getAttribute()</code>
 syntax, mezzio/mezzio-tooling provides a binary,
 <code>vendor/bin/mezzio-migrate-original-messages</code>. First, install that package:</p>
-<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-tooling</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require --dev mezzio/mezzio-tooling</code></pre>
+
 <p>Then invoke it as follows:</p>
-<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-migrate-original-messages scan</code></pre>
+<pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio-migrate-original-messages scan</code></pre>
+
 <p>This script will update any <code>getOriginalRequest()</code> and <code>getOriginalUri()</code> calls,
 and notify you of any <code>getOriginalResponse()</code> calls, providing you with details
 on how to correct those manually.</p>
@@ -943,9 +957,11 @@ features</a>. However, you may find that:</p>
 <p>To help you identify such instances, mezzio/mezzio-tooling
 provides the script <code>vendor/bin/mezzio-scan-for-error-middleware</code>. First,
 install that package:</p>
-<pre class=codehilite><code class=language-bash>$ composer require --dev mezzio/mezzio-tooling</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require --dev mezzio/mezzio-tooling</code></pre>
+
 <p>Then invoke it as follows:</p>
-<pre class=codehilite><code class=language-bash>$ ./vendor/bin/mezzio-scan-for-error-middleware scan</code></pre>
+<pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio-scan-for-error-middleware scan</code></pre>
+
 <p>The script will notify you of any places where it finds either use case, and
 provide feedback on how to update your application.</p>
 

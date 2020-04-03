@@ -761,8 +761,9 @@ configuration, including dependency information. We suggest you add these to
 your application's configuration. Add the following two lines in your
 <code>config/config.php</code> file, inside the array passed to the <code>ConfigAggregator</code>
 constructor:</p>
-<pre class=codehilite><code class=language-php>\Mezzio\ConfigProvider::class,
+<pre class="highlight"><code class="language-php">\Mezzio\ConfigProvider::class,
 \Mezzio\Router\ConfigProvider::class,</code></pre>
+
 <blockquote>
 <p>The command <code>./vendor/bin/mezzio migrate:mezzio-v2.2</code> will do this for
 you.</p>
@@ -770,12 +771,14 @@ you.</p>
 <h2 id="routing-and-dispatch-middleware">Routing and dispatch middleware</h2>
 <p>In previous releases of Mezzio, you would route your routing and dispatch
 middleware using the following dedicated methods:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;pipeRoutingMiddleware();
+<pre class="highlight"><code class="language-php">$app-&gt;pipeRoutingMiddleware();
 $app-&gt;pipeDispatchMiddleware();</code></pre>
+
 <p>These methods are now <em>deprecated</em>, and will be removed in version 3.0.</p>
 <p>Instead, you should use <code>pipe()</code> with the following services:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;pipe(\Mezzio\Router\Middleware\RouteMiddleware::class);
+<pre class="highlight"><code class="language-php">$app-&gt;pipe(\Mezzio\Router\Middleware\RouteMiddleware::class);
 $app-&gt;pipe(\Mezzio\Router\Middleware\DispatchMiddleware::class);</code></pre>
+
 <blockquote>
 <p>The command <code>./vendor/bin/mezzio migrate:mezzio-v2.2</code> will do this for
 you.</p>
@@ -786,17 +789,18 @@ time!</p>
 <p>If you are using configuration-driven routes, you are likely using the constants
 <code>Mezzio\Application::ROUTING_MIDDLEWARE</code> and <code>DISPATCH_MIDDLEWARE</code> to
 indicate the routing and dispatch middleware, as follows:</p>
-<pre class=codehilite><code class=language-php>'middleware_pipeline' =&gt; [
+<pre class="highlight"><code class="language-php">'middleware_pipeline' =&gt; [
     Application::ROUTING_MIDDLEWARE,
     Application::DISPATCH_MIDDLEWARE,
 ],</code></pre>
+
 <p>In the above section, we detailed deprecation of the methods
 <code>pipeRoutingMiddleware()</code> and <code>pipeDispatchMiddleware()</code>; the constants above
 are the configuration equivalent of calling these methods, and are similarly
 deprecated.</p>
 <p>Change these entries to use the same syntax as other pipeline middleware, and
 have the <code>middleware</code> key indicate the appropriate middleware class as follows:</p>
-<pre class=codehilite><code class=language-php>'middleware_pipeline' =&gt; [
+<pre class="highlight"><code class="language-php">'middleware_pipeline' =&gt; [
     [
         'middleware' =&gt; \Mezzio\Router\Middleware\RouteMiddleware::class,
     ],
@@ -804,16 +808,19 @@ have the <code>middleware</code> key indicate the appropriate middleware class a
         'middleware' =&gt; \Mezzio\Router\Middleware\DispatchMiddleware::class,
     ],
 ],</code></pre>
+
 <h2 id="implicit-head-and-options-middleware">Implicit HEAD and OPTIONS middleware</h2>
 <p>These middleware have moved to the mezzio-router package. While they
 still exist within the mezzio package, we have added deprecation
 notices indicating their removal in v3. As such, update either of the following
 statements, if they exist in your application:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;pipe(\Mezzio\Middleware\ImplicitHeadMiddleware::class);
+<pre class="highlight"><code class="language-php">$app-&gt;pipe(\Mezzio\Middleware\ImplicitHeadMiddleware::class);
 $app-&gt;pipe(\Mezzio\Middleware\ImplicitOptionsMiddleware::class);</code></pre>
+
 <p>to:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;pipe(\Mezzio\Router\Middleware\ImplicitHeadMiddleware::class);
+<pre class="highlight"><code class="language-php">$app-&gt;pipe(\Mezzio\Router\Middleware\ImplicitHeadMiddleware::class);
 $app-&gt;pipe(\Mezzio\Router\Middleware\ImplicitOptionsMiddleware::class);</code></pre>
+
 <blockquote>
 <p>The command <code>./vendor/bin/mezzio migrate:mezzio-v2.2</code> will do this for
 you.</p>
@@ -850,11 +857,12 @@ a response, but otherwise use the return value.</p>
 mapping has precedence by placing it in a <code>config/autoload/</code> configuration file.</p>
 <h2 id="double-pass-middleware">Double-Pass middleware</h2>
 <p><em>Double-pass middleware</em> refers to middleware that has the following signature:</p>
-<pre class=codehilite><code class=language-php>function (
+<pre class="highlight"><code class="language-php">function (
     ServerReqeustInterface $request,
     ResponseInterface $response,
     callable $next
 ) : ResponseInterface</code></pre>
+
 <p>where <code>$next</code> will receive <em>both</em> a request <em>and</em> a response instance (this
 latter is the origin of the "double-pass" phrasing).</p>
 <p>Such middleware was used in v1 releases of Mezzio, and we have continued to
@@ -867,7 +875,7 @@ arguments, and decorates it to be used as http-interop middleware. (In version
 3, it will decorate it as PSR-15 middleware.)</p>
 <p>The laminas-stratigility package provides a convenience function,
 <code>Laminas\Stratigility\doublePassMiddleware()</code>, to simplify this for you:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Diactoros\Response;
+<pre class="highlight"><code class="language-php">use Laminas\Diactoros\Response;
 use function Laminas\Stratigility\doublePassMiddleware;
 
 // Piping:
@@ -875,6 +883,7 @@ $app-&gt;pipe(doublePassMiddleware($someMiddleware, new Response()));
 
 // Routing:
 $app-&gt;get('/foo', doublePassMiddleware($someMiddleware, new Response()));</code></pre>
+
 <h2 id="other-deprecations">Other deprecations</h2>
 <p>The following classes, traits, and instance methods were deprecated, and will be
 removed in version 3:</p>
@@ -958,19 +967,21 @@ services two purposes:</p>
 </ul>
 <p>To enable the delegator as a delegator factory, add the following configuration
 to a <code>config/autoload/</code> configuration file, or a configuration provider class:</p>
-<pre class=codehilite><code class=language-php>'dependencies' =&gt; [
+<pre class="highlight"><code class="language-php">'dependencies' =&gt; [
     'delegators' =&gt; [
         \Mezzio\Application::class =&gt; [
             \Mezzio\Container\ApplicationConfigInjectionDelegator::class,
         ],
     ],
 ],</code></pre>
+
 <p>To manually inject an <code>Application</code> instance, you can do the following:</p>
-<pre class=codehilite><code class=language-php>use Mezzio\Container\ApplicationConfigInjectionDelegator;
+<pre class="highlight"><code class="language-php">use Mezzio\Container\ApplicationConfigInjectionDelegator;
 
 // assuming $config is the application configuration:
 ApplicationConfigInjectionDelegator::injectPipelineFromConfig($app, $config);
 ApplicationConfigInjectionDelegator::injectRoutesFromConfig($app, $config);</code></pre>
+
 <p>These changes will be forwards-compatible with version 3.</p>
 
 

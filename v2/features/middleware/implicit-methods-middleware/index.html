@@ -749,11 +749,12 @@ middleware.</p>
 <p>To use it, it must first be registered with your container. The easiest way to
 do that is to register the mezzio-router <code>ConfigProvider</code> in your
 <code>config/config.php</code>:</p>
-<pre class=codehilite><code class=language-php>$aggregator = new ConfigAggregator([
+<pre class="highlight"><code class="language-php">$aggregator = new ConfigAggregator([
     \Mezzio\Router\ConfigProvider::class,</code></pre>
+
 <p>Alternately, add the following dependency configuration in one of your
 <code>config/autoload/</code> configuration files or a <code>ConfigProvider</code> class:</p>
-<pre class=codehilite><code class=language-php>use Mezzio\Router\Middleware\ImplicitHeadMiddleware;
+<pre class="highlight"><code class="language-php">use Mezzio\Router\Middleware\ImplicitHeadMiddleware;
 use Mezzio\Router\Middleware\ImplicitHeadMiddlewareFactory;
 
 'dependencies' =&gt; [
@@ -761,12 +762,14 @@ use Mezzio\Router\Middleware\ImplicitHeadMiddlewareFactory;
         ImplicitHeadMiddleware::class =&gt; ImplicitHeadMiddlewareFactory::class,
     ],
 ],</code></pre>
+
 <p>Within your application pipeline, add the middleware between the routing and
 dispatch middleware:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;pipeRoutingMiddleware();
+<pre class="highlight"><code class="language-php">$app-&gt;pipeRoutingMiddleware();
 $app-&gt;pipe(ImplicitHeadMiddleware::class);
 // ...
 $app-&gt;pipeDispatchMiddleware();</code></pre>
+
 <p>(Note: if you used the <code>mezzio-pipeline-from-config</code> tool to create your
 programmatic pipeline, or if you used the Mezzio skeleton, this middleware
 is likely already in your pipeline, as is a dependency entry.)</p>
@@ -802,11 +805,12 @@ registered <em>between</em> the routing and dispatch middleware.</p>
 <p>To use it, it must first be registered with your container. The easiest way to
 do that is to register the mezzio-router <code>ConfigProvider</code> in your
 <code>config/config.php</code>:</p>
-<pre class=codehilite><code class=language-php>$aggregator = new ConfigAggregator([
+<pre class="highlight"><code class="language-php">$aggregator = new ConfigAggregator([
     \Mezzio\Router\ConfigProvider::class,</code></pre>
+
 <p>Alternately, add the following dependency configuration in one of your
 <code>config/autoload/</code> configuration files or a <code>ConfigProvider</code> class:</p>
-<pre class=codehilite><code class=language-php>use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
+<pre class="highlight"><code class="language-php">use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
 use Mezzio\Router\Middleware\ImplicitOptionsMiddlewareFactory;
 
 'dependencies' =&gt; [
@@ -814,12 +818,14 @@ use Mezzio\Router\Middleware\ImplicitOptionsMiddlewareFactory;
         ImplicitOptionsMiddleware::class =&gt; ImplicitOptionsMiddlewareFactory::class,
     ],
 ],</code></pre>
+
 <p>Within your application pipeline, add the middleware between the routing and
 dispatch middleware:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;pipeRoutingMiddleware();
+<pre class="highlight"><code class="language-php">$app-&gt;pipeRoutingMiddleware();
 $app-&gt;pipe(ImplicitOptionsMiddleware::class);
 // ...
 $app-&gt;pipeDispatchMiddleware();</code></pre>
+
 <p>(Note: if you used the <code>mezzio-pipeline-from-config</code> tool to create your
 programmatic pipeline, or if you used the Mezzio skeleton, this middleware
 is likely already in your pipeline, as is a dependency entry.)</p>

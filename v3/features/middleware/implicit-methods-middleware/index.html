@@ -770,10 +770,11 @@ status code, you will need to provide your own factory.</p>
 </blockquote>
 <p>Within your application pipeline, add the middleware between the routing and
 dispatch middleware, generally immediately following the routing middleware:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;pipe(RouteMiddleware::class);
+<pre class="highlight"><code class="language-php">$app-&gt;pipe(RouteMiddleware::class);
 $app-&gt;pipe(ImplicitHeadMiddleware::class);
 // ...
 $app-&gt;pipe(DispatchMiddleware::class);</code></pre>
+
 <p>(Note: if you used the Mezzio skeleton, this middleware is likely already in
 your pipeline.)</p>
 <p>When in place, it will do the following:</p>
@@ -810,10 +811,11 @@ status code, you will need to provide your own factory.</p>
 <p>Within your application pipeline, add the middleware between the routing and
 dispatch middleware, generally immediately following the routing middleware or
 <code>ImplicitHeadMiddleware</code>:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;pipe(RouteMiddleware::class);
+<pre class="highlight"><code class="language-php">$app-&gt;pipe(RouteMiddleware::class);
 $app-&gt;pipe(ImplicitOptionsMiddleware::class);
 // ...
 $app-&gt;pipe(DispatchMiddleware::class);</code></pre>
+
 <p>(Note: if you used the Mezzio skeleton, this middleware is likely already in
 your pipeline.)</p>
 <p>When in place, it will do the following:</p>

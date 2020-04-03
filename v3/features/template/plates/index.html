@@ -769,16 +769,18 @@ it provides:</p>
 <code>Mezzio\Plates\PlatesRenderer</code>.</p>
 <h2 id="installing-plates">Installing Plates</h2>
 <p>To use the Plates wrapper, you must install the Plates integration:</p>
-<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-platesrenderer</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require mezzio/mezzio-platesrenderer</code></pre>
+
 <h2 id="using-the-wrapper">Using the wrapper</h2>
 <p>If instantiated without arguments, <code>Mezzio\Plates\PlatesRenderer</code> will create
 an instance of the Plates engine, which it will then proxy to.</p>
-<pre class=codehilite><code class=language-php>use Mezzio\Plates\PlatesRenderer;
+<pre class="highlight"><code class="language-php">use Mezzio\Plates\PlatesRenderer;
 
 $renderer = new PlatesRenderer();</code></pre>
+
 <p>Alternately, you can instantiate and configure the engine yourself, and pass it
 to the <code>Mezzio\Plates\PlatesRenderer</code> constructor:</p>
-<pre class=codehilite><code class=language-php>use League\Plates\Engine as PlatesEngine;
+<pre class="highlight"><code class="language-php">use League\Plates\Engine as PlatesEngine;
 use Mezzio\Plates\PlatesRenderer;
 
 // Create the engine instance:
@@ -790,6 +792,7 @@ $plates-&gt;loadExtension(new CustomExtension());
 
 // Inject:
 $renderer = new PlatesRenderer($plates);</code></pre>
+
 <h2 id="configuration-and-factory">Configuration and Factory</h2>
 <p>mezzio-platesrenderer ships with the factory
 <code>Mezzio\Plates\PlatesRendererFactory</code>, which will both create the
@@ -798,7 +801,7 @@ Plates engine instance, and the <code>PlatesRenderer</code> instance. If you are
 this will be automatically wired for you during installation.</p>
 <p>The factory looks for the following configuration in the <code>config</code> service, using
 any it finds:</p>
-<pre class=codehilite><code class=language-php>// In config/autoload/templates.global.php:
+<pre class="highlight"><code class="language-php">// In config/autoload/templates.global.php:
 
 return [
     'plates' =&gt; [
@@ -814,6 +817,7 @@ return [
         ],
     ],
 ];</code></pre>
+
 <p>The factory will also inject two extensions by default,
 <code>Mezzio\Plates\Extension\UrlExtension</code> and
 <code>Mezzio\Plates\Extension\EscaperExtension</code>, both listed in more detail
@@ -824,7 +828,7 @@ below.</p>
 <p><code>Mezzio\Plates\Extension\UrlExtension</code> composes each of the
 <a href="../../helpers/url-helper/">UrlHelper</a> and <a href="../../helpers/server-url-helper/">ServerUrlHelper</a>,
 and provides the following template methods:</p>
-<pre class=codehilite><code class=language-php>public function url(
+<pre class="highlight"><code class="language-php">public function url(
    string $routeName = null,
    array $routeParams = [],
    array $queryParams = [],
@@ -836,8 +840,9 @@ public function serverurl(string $path = null) : string;
 
 // Since mezzio-platesrender 2.1.0:
 public function route() : ?Mezzio\Router\RouteResult</code></pre>
+
 <p>As an example:</p>
-<pre class=codehilite><code class=language-php>&lt;a href=&quot;&lt;?= $this-&gt;url('blog', ['stub' =&gt; $this-&gt;stub]) ?&gt;&quot;&gt;A blog post on this&lt;/a&gt;
+<pre class="highlight"><code class="language-php">&lt;a href="&lt;?= $this-&gt;url('blog', ['stub' =&gt; $this-&gt;stub]) ?&gt;"&gt;A blog post on this&lt;/a&gt;
 
 &lt;?php
 $routing        = $this-&gt;route();
@@ -845,30 +850,33 @@ $routingIsValid = $routing &amp;&amp; $routing-&gt;isSuccess();
 $route       = $routingIsValid ? $routing-&gt;getMatchedRouteName() : 'blog';
 $routeParams = $routingIsValid ? $routing-&gt;getMatchedParams() : [];
 ?&gt;
-&lt;a href=&quot;&lt;?= $this-&gt;url($route, $routeParams) ?&gt;&quot;&gt;For more information&lt;/a&gt;</code></pre>
+&lt;a href="&lt;?= $this-&gt;url($route, $routeParams) ?&gt;"&gt;For more information&lt;/a&gt;</code></pre>
+
 <h3>EscaperExtension</h3>
 <p><code>Mezzio\Plates\Extension\EscaperExtension</code> proxies to functionality
 provided in the <a href="https://docs.laminas.dev/laminas-escaper/">laminas-escaper</a>
 package. It looks for the following configuration in the <code>config</code> service:</p>
-<pre class=codehilite><code class=language-php>// In config/autoload/templates.global.php:
+<pre class="highlight"><code class="language-php">// In config/autoload/templates.global.php:
 
 return [
     'plates' =&gt; [
         'encoding' =&gt; ?string, // character encoding of generated content
     ],
 ];</code></pre>
+
 <p>By default it assumes UTF-8 for the encoding.</p>
 <p>The extension registers the following template methods:</p>
-<pre class=codehilite><code class=language-php>public function escapeHtml(string $html) : string;
+<pre class="highlight"><code class="language-php">public function escapeHtml(string $html) : string;
 public function escapeHtmlAttr(string $attribute) : string;
 public function escapeJs(string $js) : string;
 public function escapeCss(string $css) : string;
 public function escapeUrl(string $url) : string;</code></pre>
+
 <p>As examples:</p>
-<pre class=codehilite><code class=language-php>&lt;html&gt;
+<pre class="highlight"><code class="language-php">&lt;html&gt;
   &lt;head&gt;
-    &lt;meta name=&quot;author&quot; content=&quot;&lt;?= $this-&gt;escapeHtmlAttr($this-&gt;author) ?&gt;&quot;&gt;
-    &lt;link rel=&quot;alternative&quot; href=&quot;&lt;?= $this-&gt;escapeUrl($this-&gt;alternative) ?&gt;&quot;&gt;
+    &lt;meta name="author" content="&lt;?= $this-&gt;escapeHtmlAttr($this-&gt;author) ?&gt;"&gt;
+    &lt;link rel="alternative" href="&lt;?= $this-&gt;escapeUrl($this-&gt;alternative) ?&gt;"&gt;
     &lt;style&gt;&lt;?= $this-&gt;escapeCss($this-&gt;styles) ?&gt;&lt;/style&gt;
     &lt;script&gt;&lt;?= $this-&gt;escapeJs($this-&gt;script) ?&gt;&lt;/script&gt;
   &lt;/head&gt;

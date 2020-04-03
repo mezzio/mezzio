@@ -728,7 +728,8 @@
 <p>We recommend that your code raise exceptions for conditions where it cannot
 gracefully recover. Additionally, we recommend that you have a reasonable PHP
 <code>error_reporting</code> setting that includes warnings and fatal errors:</p>
-<pre class=codehilite><code class=language-php>error_reporting(E_ALL &amp; ~E_USER_DEPRECATED &amp; ~E_DEPRECATED &amp; ~E_STRICT &amp; ~E_NOTICE);</code></pre>
+<pre class="highlight"><code class="language-php">error_reporting(E_ALL &amp; ~E_USER_DEPRECATED &amp; ~E_DEPRECATED &amp; ~E_STRICT &amp; ~E_NOTICE);</code></pre>
+
 <p>If you follow these guidelines, you can then write or use middleware that does
 the following:</p>
 <ul>
@@ -736,7 +737,7 @@ the following:</p>
 <li>wraps execution of the delegate (<code>$delegate-&gt;process()</code>) with a try/catch block.</li>
 </ul>
 <p>As an example:</p>
-<pre class=codehilite><code class=language-php>function ($request, DelegateInterface $delegate)
+<pre class="highlight"><code class="language-php">function ($request, DelegateInterface $delegate)
 {
     set_error_handler(function ($errno, $errstr, $errfile, $errline) {
         if (! (error_reporting() &amp; $errno)) {
@@ -756,15 +757,17 @@ the following:</p>
     restore_error_handler();
 
     $response = new TextResponse(sprintf(
-        &quot;[%d] %s\n\n%s&quot;,
+        "[%d] %s\n\n%s",
         $e-&gt;getCode(),
         $e-&gt;getMessage(),
         $e-&gt;getTraceAsString()
     ), 500);
 }</code></pre>
+
 <p>You would then pipe this as the outermost (or close to outermost) layer of your
 application:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;pipe($errorMiddleware);</code></pre>
+<pre class="highlight"><code class="language-php">$app-&gt;pipe($errorMiddleware);</code></pre>
+
 <p>So that you do not need to do this, we provide an error handler for you, via
 laminas-stratigility: <code>Laminas\Stratigility\Middleware\ErrorHandler</code>.</p>
 <p>This implementation allows you to both:</p>
@@ -798,7 +801,7 @@ generating the instance; it should be mapped to the service
 </ul>
 <p>Map the service <code>Mezzio\Middleware\ErrorResponseGenerator</code> to one of
 these two factories in your configuration:</p>
-<pre class=codehilite><code class=language-php>use Mezzio\Container;
+<pre class="highlight"><code class="language-php">use Mezzio\Container;
 use Mezzio\Middleware;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 
@@ -810,6 +813,7 @@ return [
         ],
     ],
 ];</code></pre>
+
 <blockquote>
 <h3>Use development mode configuration to enable whoops</h3>
 <p>You can specify the above in one of your <code>config/autoload/*.global.php</code> files,
@@ -818,8 +822,7 @@ to ensure you have a production-capable error response generator.</p>
 in your application (which is provided by default in the skeleton
 application), you can toggle usage of whoops by adding configuration to the file
 <code>config/autoload/development.local.php.dist</code>:</p>
-<pre class="codehilite"><code class="language-php">
-use Mezzio\Container;
+<pre class="highlight"><code class="language-php">use Mezzio\Container;
 use Mezzio\Middleware;
 
 return [
@@ -828,8 +831,8 @@ return [
             Middleware\WhoopsErrorResponseGenerator::class =&gt; Container\WhoopsErrorResponseGeneratorFactory::class,
         ],
     ],
-];
-</code></pre>
+];</code></pre>
+
 <p>When you enable development mode, whoops will then be enabled; when you
 disable development mode, you'll be using your production generator.</p>
 <p>If you are not using laminas-development-mode, you can define a
@@ -841,15 +844,16 @@ want to enable whoops.</p>
 features such as logging. <code>Laminas\Stratigility\Middleware\ErrorHandler</code> provides
 the ability to do so via its <code>attachListener()</code> method.</p>
 <p>This method accepts a callable with the following signature:</p>
-<pre class=codehilite><code class=language-php>function (
+<pre class="highlight"><code class="language-php">function (
     Throwable|Exception $error,
     ServerRequestInterface $request,
     ResponseInterface $response
 ) : void</code></pre>
+
 <p>The response provided is the response returned by your error response generator,
 allowing the listener the ability to introspect the generated response as well.</p>
 <p>As an example, you could create a logging listener as follows:</p>
-<pre class=codehilite><code class=language-php>namespace Acme;
+<pre class="highlight"><code class="language-php">namespace Acme;
 
 use Exception;
 use Psr\Log\LoggerInterface;
@@ -884,9 +888,10 @@ class LoggingErrorListener
         ));
     }
 }</code></pre>
+
 <p>You could then use a <a href="../container/delegator-factories/">delegator factory</a> to
 create your logger listener and attach it to your error handler:</p>
-<pre class=codehilite><code class=language-php>namespace Acme;
+<pre class="highlight"><code class="language-php">namespace Acme;
 
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -908,11 +913,12 @@ class LoggingErrorListenerDelegatorFactory
         return $errorHandler;
     }
 }</code></pre>
+
 <h2 id="handling-more-specific-error-types">Handling more specific error types</h2>
 <p>You could also write more specific error handlers. As an example, you might want
 to catch <code>UnauthorizedException</code> instances specifically, and display a login
 page:</p>
-<pre class=codehilite><code class=language-php>function ($request, DelegateInterface $delegate) use ($renderer)
+<pre class="highlight"><code class="language-php">function ($request, DelegateInterface $delegate) use ($renderer)
 {
     try {
         $response = $delegate-&gt;process($request);
@@ -925,12 +931,14 @@ page:</p>
         401
     );
 }</code></pre>
+
 <p>You could then push this into a middleware pipe only when it's needed:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;get('/dashboard', [
+<pre class="highlight"><code class="language-php">$app-&gt;get('/dashboard', [
     $unauthorizedHandlerMiddleware,
     $middlewareThatChecksForAuthorization,
     $middlewareBehindAuthorizationWall,
 ], 'dashboard');</code></pre>
+
 <h2 id="default-delegates">Default delegates</h2>
 <p><code>Mezzio\Application</code> manages an internal middleware pipeline; when you
 call <code>$delegate-&gt;process()</code>, <code>Application</code> is popping off the next middleware in
@@ -949,7 +957,7 @@ optionally using a composed template renderer to do so.</p>
 creating an instance, and this should be mapped to the
 <code>Mezzio\Delegate\NotFoundDelegate</code> service, and aliased to the
 <code>Mezzio\Delegate\DefaultDelegate</code> service:</p>
-<pre class=codehilite><code class=language-php>use Mezzio\Container;
+<pre class="highlight"><code class="language-php">use Mezzio\Container;
 use Mezzio\Delegate;
 
 return [
@@ -962,6 +970,7 @@ return [
         ],
     ],
 ];</code></pre>
+
 <p>The factory will consume the following services:</p>
 <ul>
 <li>
@@ -993,7 +1002,7 @@ condition.</p>
 with an accompanying <code>Mezzio\Container\NotFoundHandlerFactory</code>. This
 middleware composes and proxies to the <code>NotFoundDelegate</code> detailed in the
 previous section, and, as such, requires that that service be present.</p>
-<pre class=codehilite><code class=language-php>use Mezzio\Container;
+<pre class="highlight"><code class="language-php">use Mezzio\Container;
 use Mezzio\Delegate;
 use Mezzio\Middleware;
 
@@ -1003,9 +1012,10 @@ return [
         Middleware\NotFoundHandler::class =&gt; Container\NotFoundHandlerFactory::class,
     ],
 ];</code></pre>
+
 <p>When registered, you should then pipe it as the innermost layer of your
 application:</p>
-<pre class=codehilite><code class=language-php>// A basic application:
+<pre class="highlight"><code class="language-php">// A basic application:
 $app-&gt;pipe(ErrorHandler::class);
 $app-&gt;pipeRoutingMiddleware();
 $app-&gt;pipeDispatchMiddleware();

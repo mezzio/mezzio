@@ -699,7 +699,8 @@ This package wraps <a href="https://github.com/fabfuel/prophiler">fabfuel/prophi
 which provides a PHP-based profiling tool and toolbar; the bitExpert package
 wraps this in PSR-7 middleware to make consumption in those paradigms trivial.</p>
 <p>To add the toolbar middleware to your application, use composer:</p>
-<pre class=codehilite><code class=language-bash>$ composer require bitExpert/prophiler-psr7-middleware</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require bitExpert/prophiler-psr7-middleware</code></pre>
+
 <p>From there, you will need to create a factory for the middleware, and add it to
 your middleware pipeline. Stephan Hochdörfer, author of the package, has written
 a <a href="https://blog.bitexpert.de/blog/prophiler-psr-7-middleware/">post detailing these steps</a>.</p>
@@ -717,27 +718,28 @@ information!</p>
 provides a PSR-7 middleware wrapper around <a href="https://github.com/maximebf/php-debugbar">maximebf/php-debugbar</a>,
 a popular framework-agnostic debug bar for PHP projects.</p>
 <p>First, install the middleware in your application:</p>
-<pre class=codehilite><code class=language-bash>$ composer require php-middleware/php-debug-bar</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require php-middleware/php-debug-bar</code></pre>
+
 <p>This package provides a config provider. You can add it to your application in
 one of two ways:</p>
 <ul>
 <li>If you are using the <a href="../modular-layout/">ConfigManager</a>, add an entry for it:</li>
 </ul>
-<p><code>php
-  $configManager = new Mezzio\ConfigManager\ConfigManager([
-      PhpMiddleware\PhpDebugBar\ConfigProvider::class,
-      new Mezzio\ConfigManager\PhpFileProvider('config/autoload/{{,*.}global,{,*.}local}.php'),
-  ]);</code></p>
+<pre class="highlight"><code class="language-php">$configManager = new Mezzio\ConfigManager\ConfigManager([
+    PhpMiddleware\PhpDebugBar\ConfigProvider::class,
+    new Mezzio\ConfigManager\PhpFileProvider('config/autoload/{{,*.}global,{,*.}local}.php'),
+]);</code></pre>
+
 <ul>
 <li>If you are not using the ConfigManager, create a new configuration file,
   <code>config/autoload/php-debugbar.global.php</code>, with the following contents:</li>
 </ul>
-<p>```php
-  &lt;?php
-  use PhpMiddleware\PhpDebugBar\ConfigProvider;</p>
-<p>$provider = new ConfigProvider();
-  return $provider();
-  ```</p>
+<pre class="highlight"><code class="language-php">&lt;?php
+use PhpMiddleware\PhpDebugBar\ConfigProvider;
+
+$provider = new ConfigProvider();
+return $provider();</code></pre>
+
 <blockquote>
 <h3>Use locally!</h3>
 <p>Remember to enable <code>PhpMiddleware\PhpDebugBar\ConfigProvider</code> only in your

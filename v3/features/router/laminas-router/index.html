@@ -775,7 +775,8 @@ programmatically, or via a factory to use in conjunction with your container
 instance.</p>
 <h2 id="installing-the-laminas-router">Installing the Laminas Router</h2>
 <p>To use the Laminas router, you will need to install the laminas-mvc router integration:</p>
-<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-laminasrouter</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require mezzio/mezzio-laminasrouter</code></pre>
+
 <p>The package provides both a factory for the router, and a <code>ConfigProvider</code> that
 wires the router with your application.</p>
 <h2 id="advanced-configuration">Advanced configuration</h2>
@@ -789,7 +790,7 @@ example, we will be defining two factories:</p>
   <code>Laminas\Mvc\Router\Http\TreeRouteStack</code> instance.</li>
 </ul>
 <p>The factories might look like the following:</p>
-<pre class=codehilite><code class=language-php>// in src/App/Container/TreeRouteStackFactory.php:
+<pre class="highlight"><code class="language-php">// in src/App/Container/TreeRouteStackFactory.php:
 namespace App\Container;
 
 use Psr\Container\ContainerInterface;
@@ -828,8 +829,9 @@ class RouterFactory
         return new LaminasRouter($container-&gt;get(Laminas\Mvc\Router\Http\TreeRouteStack::class));
     }
 }</code></pre>
+
 <p>From here, you will need to register your factories with your IoC container.</p>
-<pre class=codehilite><code class=language-php>// in a config/autoload/ file, or within a ConfigProvider class:
+<pre class="highlight"><code class="language-php">// in a config/autoload/ file, or within a ConfigProvider class:
 return [
     'factories' =&gt; [
         \Laminas\Router\Http\TreeRouteStack::class =&gt; App\Container\TreeRouteStackFactory::class,

@@ -743,16 +743,18 @@ as a standalone component by SensioLabs. It provides:</p>
 <code>Mezzio\Twig\TwigRenderer</code>.</p>
 <h2 id="installing-twig">Installing Twig</h2>
 <p>To use the Twig wrapper, you must first install the Twig integration:</p>
-<pre class=codehilite><code class=language-bash>$ composer require mezzio/mezzio-twigrenderer</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require mezzio/mezzio-twigrenderer</code></pre>
+
 <h2 id="using-the-wrapper">Using the wrapper</h2>
 <p>If instantiated without arguments, <code>Mezzio\Twig\TwigRenderer</code> will create
 an instance of the Twig engine, which it will then proxy to.</p>
-<pre class=codehilite><code class=language-php>use Mezzio\Twig\TwigRenderer;
+<pre class="highlight"><code class="language-php">use Mezzio\Twig\TwigRenderer;
 
 $renderer = new TwigRenderer();</code></pre>
+
 <p>Alternately, you can instantiate and configure the engine yourself, and pass it
 to the <code>Mezzio\Twig\TwigRenderer</code> constructor:</p>
-<pre class=codehilite><code class=language-php>use Twig_Environment;
+<pre class="highlight"><code class="language-php">use Twig_Environment;
 use Twig_Loader_Array;
 use Mezzio\Twig\TwigRenderer;
 
@@ -766,6 +768,7 @@ $twig-&gt;loadExtension(new CustomExtension();
 
 // Inject:
 $renderer = new TwigRenderer($twig);</code></pre>
+
 <h2 id="included-extensions-and-functions">Included extensions and functions</h2>
 <p>The included Twig extension adds support for url generation. The extension is
 automatically activated if the <a href="../../helpers/url-helper/">UrlHelper</a> and
@@ -776,38 +779,38 @@ container.</p>
 <li><code>path</code>: Render the relative path for a given route and parameters. If there
   is no route, it returns the current path.</li>
 </ul>
-<p><code>twig
-  {{ path('article_show', {'id': '3'}) }}
-  Generates: /article/3</code></p>
+<pre class="highlight"><code class="language-twig">{{ path('article_show', {'id': '3'}) }}
+Generates: /article/3</code></pre>
+
 <ul>
 <li><code>url</code>: Render the absolute url for a given route with its route parameters,
   query string arguments, and fragment. If there is no route, it returns the
   current url.</li>
 </ul>
-<p><code>twig
-  {{ url('article_show', {'id': '3'}, {'foo': 'bar'}, 'fragment') }}
-  Generates: http://example.com/article/3?foo=bar#fragment</code></p>
+<pre class="highlight"><code class="language-twig">{{ url('article_show', {'id': '3'}, {'foo': 'bar'}, 'fragment') }}
+Generates: http://example.com/article/3?foo=bar#fragment</code></pre>
+
 <ul>
 <li><code>absolute_url</code>: Render the absolute url from a given path. If the path is
   empty, it returns the current url.</li>
 </ul>
-<p><code>twig
-  {{ absolute_url('path/to/something') }}
-  Generates: http://example.com/path/to/something</code></p>
+<pre class="highlight"><code class="language-twig">{{ absolute_url('path/to/something') }}
+Generates: http://example.com/path/to/something</code></pre>
+
 <ul>
 <li><code>asset</code> Render an (optionally versioned) asset url.</li>
 </ul>
-<p><code>twig
-  {{ asset('path/to/asset/name.ext', version=3) }}
-  Generates: path/to/asset/name.ext?v=3</code></p>
+<pre class="highlight"><code class="language-twig">{{ asset('path/to/asset/name.ext', version=3) }}
+Generates: path/to/asset/name.ext?v=3</code></pre>
+
 <p>To get the absolute url for an asset:</p>
-<p><code>twig
-  {{ absolute_url(asset('path/to/asset/name.ext', version=3)) }}
-  Generates: http://example.com/path/to/asset/name.ext?v=3</code></p>
+<pre class="highlight"><code class="language-twig">{{ absolute_url(asset('path/to/asset/name.ext', version=3)) }}
+Generates: http://example.com/path/to/asset/name.ext?v=3</code></pre>
+
 <h2 id="configuration">Configuration</h2>
 <p>The following details configuration specific to Twig, as consumed by the
 <code>TwigRendererFactory</code>:</p>
-<pre class=codehilite><code class=language-php>return [
+<pre class="highlight"><code class="language-php">return [
     'templates' =&gt; [
         'extension' =&gt; 'file extension used by templates; defaults to html.twig',
         'paths' =&gt; [
@@ -830,6 +833,7 @@ container.</p>
         ],
     ],
 ];</code></pre>
+
 <p>When specifying the <code>twig.extensions</code> values, always use fully qualified class
 names or actual extension instances to ensure compatibility with any version of
 Twig used. Version 2 of Twig <em>requires</em> that a fully qualified class name is
