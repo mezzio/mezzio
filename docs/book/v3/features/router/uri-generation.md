@@ -13,7 +13,6 @@ the name:
 
 - If you call `route()` with no HTTP methods, the name is the literal path with
   no changes.
-
   ```php
   $app->route('/foo', $middleware); // "foo"
   ```
@@ -21,14 +20,11 @@ the name:
 - If you call `get()`, `post()`, `put()`, `patch()`, or `delete()`, the name
   will be the literal path, followed by a caret (`^`), followed by the
   uppercase HTTP method name:
-
   ```php
   $app->get('/foo', $middleware); // "foo^GET"
   ```
-
   Alternately, these methods return a `Route` instance, and you can set the
   name on it:
-
   ```php
   $app->get('/foo', $middleware)->setName('foo'); // "foo"
   ```
@@ -37,14 +33,11 @@ the name:
   will be the literal path, followed by a caret (`^`), followed by a colon
   (`:`)-separated list of the uppercase HTTP method names, in the order in which
   they were added.
-
   ```php
   $app->route('/foo', $middleware, ['GET', 'POST']); // "foo^GET:POST"
   ```
-
   Like the HTTP-specific methods, `route()` also returns a `Route` instance,
   and you can set the name on it:
-
   ```php
   $route = $app->route('/foo', $middleware, ['GET', 'POST']); // "foo^GET:POST"
   $route->setName('foo'); // "foo"
