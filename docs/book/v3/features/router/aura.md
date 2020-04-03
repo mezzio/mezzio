@@ -5,7 +5,6 @@ methods for further configuring the router instance. One of the more useful
 configuration is to provide default specifications:
 
 - A regular expression that applies the same for a given routing match:
-
   ```php
   // Parameters named "id" will only match digits by default:
   $router->addTokens([
@@ -14,7 +13,6 @@ configuration is to provide default specifications:
   ```
 
 - A default parameter and/or its default value to always provide:
-
   ```php
   // mediatype defaults to "application/xhtml+xml" and will be available in all
   // requests:
@@ -24,7 +22,6 @@ configuration is to provide default specifications:
   ```
 
 - Only match if secure (i.e., under HTTPS):
-
   ```php
   $router->setSecure(true);
   ```
