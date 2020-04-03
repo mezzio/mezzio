@@ -25,6 +25,7 @@ Now, create the file `config/container.php` with the following contents:
 
 ```php
 <?php
+
 use Laminas\Pimple\Config\Config;
 use Laminas\Pimple\Config\ContainerFactory;
 

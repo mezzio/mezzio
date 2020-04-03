@@ -119,12 +119,11 @@ Compose the helper in your middleware (or elsewhere), and then use it to
 generate URI paths:
 
 ```php
-<?php
+use Mezzio\Helper\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Mezzio\Helper\UrlHelper;
 
 class FooMiddleware implements MiddlewareInterface
 {
@@ -160,12 +159,11 @@ detected language, before stripping it off the request URI instance to pass on
 to the router:
 
 ```php
-<?php
+use Mezzio\Helper\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Mezzio\Helper\UrlHelper;
 
 class LocaleMiddleware implements MiddlewareInterface
 {
@@ -235,13 +233,13 @@ use Mezzio\Router\Middleware\RouteMiddlewareFactory;
 
 return [
     'dependencies' => [
-          'factories' => [
-              // module-specific class name => factory
-              Router::class                 => FastRouteRouterFactory::class,
-              RouteMiddleware::class        => new RouteMiddlewareFactory(Router::class),
-              UrlHelper::class              => new UrlHelperFactory('/auth', Router::class),
-              UrlHelperMiddleware::class    => new UrlHelperMiddlewareFactory(UrlHelper::class),
-          ],
+        'factories' => [
+            // module-specific class name => factory
+            Router::class                 => FastRouteRouterFactory::class,
+            RouteMiddleware::class        => new RouteMiddlewareFactory(Router::class),
+            UrlHelper::class              => new UrlHelperFactory('/auth', Router::class),
+            UrlHelperMiddleware::class    => new UrlHelperMiddlewareFactory(UrlHelper::class),
+        ],
     ],
 ];
 ```

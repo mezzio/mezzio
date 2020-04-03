@@ -29,6 +29,7 @@ contents:
 
 ```php
 <?php
+
 use Laminas\AuraDi\Config\Config;
 use Laminas\AuraDi\Config\ContainerFactory;
 

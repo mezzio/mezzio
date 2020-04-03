@@ -235,7 +235,7 @@ return [
                 Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
             ],
             'priority' => 1,
-        ]
+        ],
 
         // The following is an entry for the dispatch middleware:
 
@@ -328,7 +328,7 @@ return [
             'priority' => -1000,
         ],
     ],
-]
+];
 ```
 
 Note in the above example the various groupings. By grouping middleware by

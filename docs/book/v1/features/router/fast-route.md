@@ -54,6 +54,7 @@ that when creating your `Application` instance.
 
 ```php
 <?php
+
 use FastRoute;
 use FastRoute\Dispatcher\GroupPosBased as FastRouteDispatcher;
 use FastRoute\RouteCollector;
@@ -161,6 +162,7 @@ Sound difficult? It's not; we've essentially done it above already!
 
 ```php
 <?php
+
 // in src/Application/Container/FastRouteCollectorFactory.php:
 namespace Application\Container;
 
@@ -325,7 +327,7 @@ return [
     ],
 
     'routes' => [ /* ... */ ],
-]
+];
 ```
 
 The FastRoute-specific caching options are as follows:

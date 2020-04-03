@@ -29,6 +29,7 @@ In this example, we'll put that in `config/services.php`:
 
 ```php
 <?php
+
 use Aura\Di\ContainerBuilder;
 
 $containerBuilder = new ContainerBuilder();
@@ -44,6 +45,7 @@ The bare minimum `ContainerConfig` code needed to make mezzio work is:
 
 ```php
 <?php
+
 // In src/Config/Common.php:
 namespace Application\Config;
 
@@ -55,7 +57,7 @@ use Aura\Router\RouteFactory;
 use Aura\Router\Router;
 use Laminas\Escaper\Escaper;
 use Mezzio\Application;
-use Mezzio\Container;
+use Mezzio\Container as MezzioContainer;
 use Mezzio\Plates\PlatesRenderer;
 use Mezzio\Router\AuraRouter;
 use Mezzio\Router\Route;
@@ -75,8 +77,8 @@ class Common extends ContainerConfig
         );
         $di->params[AuraRouter::class]['router'] = $di->lazyNew(Router::class);
         $di->set(RouterInterface::class, $di->lazyNew(AuraRouter::class));
-        $di->set(Container\ApplicationFactory::class, $di->lazyNew(Container\ApplicationFactory::class));
-        $di->set(Application::class, $di->lazyGetCall(Container\ApplicationFactory::class, '__invoke', $di));
+        $di->set(MezzioContainer\ApplicationFactory::class, $di->lazyNew(MezzioContainer\ApplicationFactory::class));
+        $di->set(Application::class, $di->lazyGetCall(MezzioContainer\ApplicationFactory::class, '__invoke', $di));
 
         // Templating
         // In most cases, you can instantiate the template renderer you want to use
@@ -85,19 +87,19 @@ class Common extends ContainerConfig
 
         // These next two can be added in any environment; they won't be used unless
         // you add the WhoopsErrorHandler as the FinalHandler implementation:
-        $di->set(Container\WhoopsFactory::class, $di->lazyNew(Container\WhoopsFactory::class));
-        $di->set('Mezzio\Whoops', $di->lazyGetCall(Container\WhoopsFactory::class, '__invoke', $di));
-        $di->set(Container\WhoopsPageHandlerFactory::class, $di->lazyNew(Container\WhoopsPageHandlerFactory::class));
-        $di->set('Mezzio\WhoopsPageHandler', $di->lazyGetCall(Container\WhoopsPageHandlerFactory::class, '__invoke', $di));
+        $di->set(MezzioContainer\WhoopsFactory::class, $di->lazyNew(MezzioContainer\WhoopsFactory::class));
+        $di->set('Mezzio\Whoops', $di->lazyGetCall(MezzioContainer\WhoopsFactory::class, '__invoke', $di));
+        $di->set(MezzioContainer\WhoopsPageHandlerFactory::class, $di->lazyNew(MezzioContainer\WhoopsPageHandlerFactory::class));
+        $di->set('Mezzio\WhoopsPageHandler', $di->lazyGetCall(MezzioContainer\WhoopsPageHandlerFactory::class, '__invoke', $di));
 
         // Error Handling
 
         // If in development:
-        $di->set(Container\WhoopsErrorHandlerFactory::class, $di->lazyNew(Container\WhoopsErrorHandlerFactory::class));
-        $di->set('Mezzio\FinalHandler', $di->lazyGetCall(Container\WhoopsErrorHandlerFactory::class, '__invoke', $di));
+        $di->set(MezzioContainer\WhoopsErrorHandlerFactory::class, $di->lazyNew(MezzioContainer\WhoopsErrorHandlerFactory::class));
+        $di->set('Mezzio\FinalHandler', $di->lazyGetCall(MezzioContainer\WhoopsErrorHandlerFactory::class, '__invoke', $di));
 
         // If in production:
-        // $di->set('Mezzio\FinalHandler', $di->lazyGetCall(Container\TemplatedErrorHandlerFactory::class, '__invoke', $di));
+        // $di->set('Mezzio\FinalHandler', $di->lazyGetCall(MezzioContainer\TemplatedErrorHandlerFactory::class, '__invoke', $di));
     }
 
     public function modify(Container $di)

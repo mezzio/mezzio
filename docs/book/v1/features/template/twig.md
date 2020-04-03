@@ -33,9 +33,9 @@ Alternately, you can instantiate and configure the engine yourself, and pass it
 to the `Mezzio\Twig\TwigRenderer` constructor:
 
 ```php
+use Mezzio\Twig\TwigRenderer;
 use Twig_Environment;
 use Twig_Loader_Array;
-use Mezzio\Twig\TwigRenderer;
 
 // Create the engine instance:
 $loader = new Twig_Loader_Array(include 'config/templates.php');

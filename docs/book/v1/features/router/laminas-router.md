@@ -65,9 +65,9 @@ you can create the instances necessary and inject them into
 `Mezzio\Router\LaminasRouter` during instantiation.
 
 ```php
+use Laminas\Mvc\Router\Http\TreeRouteStack;
 use Mezzio\AppFactory;
 use Mezzio\Router\LaminasRouter;
-use Laminas\Mvc\Router\Http\TreeRouteStack;
 
 $laminasRouter = new TreeRouteStack();
 $laminasRouter->addPrototypes(/* ... */);

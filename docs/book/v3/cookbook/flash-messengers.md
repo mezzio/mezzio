@@ -85,6 +85,7 @@ Second, create middleware that will add the flash message provider to the reques
 
 ```php
 <?php
+
 namespace App;
 
 use Psr\Http\Message\ResponseInterface;

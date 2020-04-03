@@ -85,11 +85,11 @@ Then you will need to provide the error handler a whoops runtime instance, as we
 instance and template names, just as you would for a `TemplatedErrorHandler`.
 
 ```php
-use Whoops\Handler\PrettyPageHandler;
-use Whoops\Run as Whoops;
 use Mezzio\Application;
 use Mezzio\Plates\PlatesRenderer;
 use Mezzio\WhoopsErrorHandler;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run as Whoops;
 
 $handler = new PrettyPageHandler();
 

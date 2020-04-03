@@ -300,7 +300,7 @@ If using configuration-driven pipelines or routing:
             RegisterMiddleware::class,
         ],
         'allowed_methods' => ['POST'],
-    ]
+    ],
 ]
 ```
 

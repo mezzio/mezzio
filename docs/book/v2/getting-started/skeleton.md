@@ -417,10 +417,10 @@ Alternately, to be explicit, the above could be written as:
 
 ```php
 $app->route(
-  '/contact',
-  App\Action\ContactAction::class,
-  Mezzio\Router\Route::HTTP_METHOD_ANY,
-  'contact'
+    '/contact',
+    App\Action\ContactAction::class,
+    Mezzio\Router\Route::HTTP_METHOD_ANY,
+    'contact'
 );
 ```
 
@@ -483,12 +483,13 @@ Let's create a "Hello" action. Place the following in
 
 ```php
 <?php
+
 namespace App\Action;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
+use Psr\Http\Message\ServerRequestInterface;
 
 class HelloAction implements MiddlewareInterface
 {
@@ -572,13 +573,14 @@ Replace your `src/App/Action/HelloAction.php` file with the following contents:
 
 ```php
 <?php
+
 namespace App\Action;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Mezzio\Template\TemplateRendererInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class HelloAction implements MiddlewareInterface
 {

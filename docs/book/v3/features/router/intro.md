@@ -56,9 +56,9 @@ As an example, you could use middleware similar to the following to return a 403
 response if routing was successful, but no `Authorization` header is present:
 
 ```php
-use Psr\Http\Server\RequestHandlerInterface;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Mezzio\Router\RouteResult;
+use Psr\Http\Server\RequestHandlerInterface;
 
 function ($request, RequestHandlerInterface $handler) use ($routesRequiringAuthorization, $validator) {
     if (! ($result = $request->getAttribute(RouteResult::class, false))) {
