@@ -67,6 +67,7 @@ substitutions to pass to it. This will typically look like the following:
 
 ```php
 <?php
+
 namespace Acme\Blog;
 
 use Laminas\Diactoros\Response\HtmlResponse;

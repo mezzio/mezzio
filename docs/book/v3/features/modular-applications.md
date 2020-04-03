@@ -107,7 +107,7 @@ class ConfigProvider
                 'paths' => [
                     'acme' => [__DIR__ . '/../templates'],
                 ],
-            ]
+            ],
         ];
     }
 

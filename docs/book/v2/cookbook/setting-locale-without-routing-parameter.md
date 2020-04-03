@@ -27,13 +27,14 @@ If it does find one, it uses the value to setup the locale. It also:
 
 ```php
 <?php
+
 namespace Application\I18n;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Locale;
-use Psr\Http\Message\ServerRequestInterface;
 use Mezzio\Helper\UrlHelper;
+use Psr\Http\Message\ServerRequestInterface;
 
 class SetLocaleMiddleware implements MiddlewareInterface
 {
@@ -71,10 +72,11 @@ Then you will need a factory for the `SetLocaleMiddleware` to inject the
 
 ```php
 <?php
+
 namespace Application\I18n;
 
-use Psr\Container\ContainerInterface;
 use Mezzio\Helper\UrlHelper;
+use Psr\Container\ContainerInterface;
 
 class SetLocaleMiddlewareFactory
 {
@@ -177,13 +179,14 @@ middleware and use it for URL generation:
 
 ```php
 <?php
+
 namespace Application\Action;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Mezzio\Helper\UrlHelper;
+use Psr\Http\Message\ServerRequestInterface;
 
 class RedirectAction implements MiddlewareInterface
 {

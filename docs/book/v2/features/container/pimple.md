@@ -28,11 +28,11 @@ recommend doing this in a dedicated script that returns the Pimple instance; in
 this example, we'll have that in `config/container.php`.
 
 ```php
-use Xtreamwayz\Pimple\Container as Pimple;
 use Mezzio\Container;
 use Mezzio\Plates\PlatesRenderer;
 use Mezzio\Router;
 use Mezzio\Template\TemplateRendererInterface;
+use Xtreamwayz\Pimple\Container as Pimple;
 
 $container = new Pimple();
 

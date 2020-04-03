@@ -68,6 +68,7 @@ following contents:
 
 ```php
 <?php
+
 use PhpMiddleware\PhpDebugBar\ConfigProvider;
 
 $provider = new ConfigProvider();

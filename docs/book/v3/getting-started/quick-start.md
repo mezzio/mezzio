@@ -436,10 +436,10 @@ Alternately, to be explicit, the above could be written as:
 
 ```php
 $app->route(
-  '/contact',
-  App\Action\ContactAction::class,
-  Mezzio\Router\Route::HTTP_METHOD_ANY,
-  'contact'
+    '/contact',
+    App\Action\ContactAction::class,
+    Mezzio\Router\Route::HTTP_METHOD_ANY,
+    'contact'
 );
 ```
 

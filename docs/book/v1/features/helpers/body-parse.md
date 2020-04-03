@@ -83,7 +83,7 @@ return [
                 Contact\Process::class,
             ],
             'allowed_methods' => ['POST'],
-        ]
+        ],
     ],
 ];
 ```

@@ -15,6 +15,7 @@ with the contents:
 
 ```php
 <?php
+
 use Laminas\Form\ConfigProvider;
 
 $provider = new ConfigProvider();

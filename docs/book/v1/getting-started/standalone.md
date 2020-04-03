@@ -55,6 +55,7 @@ root, and we want it to intercept any incoming request; as such, we'll use
 
 ```php
 <?php
+
 use Mezzio\AppFactory;
 
 chdir(dirname(__DIR__));

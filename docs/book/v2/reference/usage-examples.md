@@ -332,7 +332,7 @@ return [
         'factories' => [
             \Mezzio\Application::class => \Mezzio\Container\ApplicationFactory::class,
         ],
-    ]
+    ],
 ];
 ```
 
@@ -361,6 +361,7 @@ In `src/Application/HelloWorld.php`, place the following:
 
 ```php
 <?php
+
 namespace Application;
 
 class HelloWorld
@@ -377,6 +378,7 @@ In `src/Application/Ping.php`, place the following:
 
 ```php
 <?php
+
 namespace Application;
 
 use Laminas\Diactoros\Response\JsonResponse;
@@ -400,6 +402,7 @@ Finally, in `public/index.php`, place the following:
 
 ```php
 <?php
+
 // Change to the project root, to simplify resolving paths
 chdir(dirname(__DIR__));
 
@@ -455,6 +458,7 @@ additional option for specifying middleware for the pipeline: configuration:
 
 ```php
 <?php
+
 return [
     'routes' => [
         [
