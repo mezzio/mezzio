@@ -65,7 +65,7 @@
     },
     "suggest": {
         "filp/whoops": "^2.1 to use the Whoops error handler",
-        "laminas/laminas-auradi-config": "^1.0 to use Aura.Di dependency injection container",
+        "laminas/laminas-auradi-config": "^2.0 to use Aura.Di dependency injection container",
         "laminas/laminas-pimple-config": "^1.0 to use Pimple for dependency injection container",
         "laminas/laminas-servicemanager": "^3.3 to use laminas-servicemanager for dependency injection",
         "mezzio/mezzio-helpers": "^3.0 for its UrlHelper, ServerUrlHelper, and BodyParseMiddleware",
