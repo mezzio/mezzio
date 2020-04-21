@@ -43,30 +43,38 @@ following contents:
 ```php
 <?php
 
+use DebugBar\DataCollector\ConfigCollector;
+use DebugBar\DebugBar;
+use DebugBar\JavascriptRenderer;
+use PhpMiddleware\PhpDebugBar\ConfigCollectorFactory;
 use PhpMiddleware\PhpDebugBar\ConfigProvider;
+use PhpMiddleware\PhpDebugBar\JavascriptRendererFactory;
+use PhpMiddleware\PhpDebugBar\PhpDebugBarMiddleware;
+use PhpMiddleware\PhpDebugBar\PhpDebugBarMiddlewareFactory;
+use PhpMiddleware\PhpDebugBar\StandardDebugBarFactory;
 use Psr\Container\ContainerInterface;
 
 return array_merge(ConfigProvider::getConfig(), [
     'dependencies' => [
         'factories' => [
-            \PhpMiddleware\PhpDebugBar\PhpDebugBarMiddleware::class => \PhpMiddleware\PhpDebugBar\PhpDebugBarMiddlewareFactory::class,
-            \DebugBar\DataCollector\ConfigCollector::class => \PhpMiddleware\PhpDebugBar\ConfigCollectorFactory::class,
-            \PhpMiddleware\PhpDebugBar\ConfigProvider::class => function(ContainerInterface $container) {
+            PhpDebugBarMiddleware::class => PhpDebugBarMiddlewareFactory::class,
+            ConfigCollector::class => ConfigCollectorFactory::class,
+            ConfigProvider::class => function(ContainerInterface $container) {
                 return $container->get('config');
             },
-            \DebugBar\DebugBar::class => \PhpMiddleware\PhpDebugBar\StandardDebugBarFactory::class,
-            \DebugBar\JavascriptRenderer::class => \PhpMiddleware\PhpDebugBar\JavascriptRendererFactory::class,
+            DebugBar::class => StandardDebugBarFactory::class,
+            JavascriptRenderer::class => JavascriptRendererFactory::class,
         ]
     ]
 ]);
 ```
 
-In addition, ensure these interfaces are registered as aliases in your container. For example, with Laminas Diactoros:
+In addition, ensure the [PSR-15 HTTP message factory interfaces](https://www.php-fig.org/psr/psr-15/) are registered in your container. For example, when using [Diactoros](https://docs.laminas.dev/laminas-diactoros) as your [PSR-7 HTTP message interfaces](https://www.php-fig.org/psr/psr-7) implementation, you can define the following:
 
 ```php
 return [
     'dependencies' => [
-        'aliases' => [
+        'invokables' => [
             Psr\Http\Message\ResponseFactoryInterface::class => Laminas\Diactoros\ResponseFactory::class,
             Psr\Http\Message\StreamFactoryInterface::class => Laminas\Diactoros\StreamFactory::class
         ],
@@ -74,14 +82,14 @@ return [
 ];
 ```
 
-Finally, add the `PhpDebugBarMiddleware` class to the pipeline in `config/pipeline.php` after the `ErrorHandler` class:
+Finally, add the `PhpDebugBarMiddleware` class to the pipeline in `config/pipeline.php` after piping the `ErrorHandler` class:
 ```php
-if (!empty($container->get('config')['debug'])) {
+if (! empty($container->get('config')['debug'])) {
     $app->pipe(PhpDebugBarMiddleware::class);
 }
 ```
 
-## Usage in a Request Handler
+### Usage in a Request Handler
 Using the debug bar in a request handler, e.g `src/App/Handler/HomePageHandler.php`:
 
 ```php
