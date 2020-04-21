@@ -117,7 +117,7 @@ class HomePageHandler implements RequestHandlerInterface
     
     public function handle(ServerRequestInterface $request) : ResponseInterface
     {
-        $this->debugBar["messages"]->addMessage("Hello World!");
+        $this->debugBar['messages']->addMessage('Hello World!');
         return new HtmlResponse($this->template->render('user::home-page'));
     }
 }
