@@ -44,12 +44,79 @@ following contents:
 <?php
 
 use PhpMiddleware\PhpDebugBar\ConfigProvider;
+use Psr\Container\ContainerInterface;
 
-$provider = new ConfigProvider();
-return $provider();
+return array_merge(ConfigProvider::getConfig(), [
+    'dependencies' => [
+        'factories' => [
+            \PhpMiddleware\PhpDebugBar\PhpDebugBarMiddleware::class => \PhpMiddleware\PhpDebugBar\PhpDebugBarMiddlewareFactory::class,
+            \DebugBar\DataCollector\ConfigCollector::class => \PhpMiddleware\PhpDebugBar\ConfigCollectorFactory::class,
+            \PhpMiddleware\PhpDebugBar\ConfigProvider::class => function(ContainerInterface $container) {
+                return $container->get('config');
+            },
+            \DebugBar\DebugBar::class => \PhpMiddleware\PhpDebugBar\StandardDebugBarFactory::class,
+            \DebugBar\JavascriptRenderer::class => \PhpMiddleware\PhpDebugBar\JavascriptRendererFactory::class,
+        ]
+    ]
+]);
+```
+
+In addition, ensure these interfaces are registered as aliases in your container. For example, with Laminas Diactoros:
+
+```php
+return [
+    'dependencies' => [
+        'aliases' => [
+            Psr\Http\Message\ResponseFactoryInterface::class => Laminas\Diactoros\ResponseFactory::class,
+            Psr\Http\Message\StreamFactoryInterface::class => Laminas\Diactoros\StreamFactory::class
+        ],
+        ...
+];
+```
+
+Finally, add the `PhpDebugBarMiddleware` class to the pipeline in `config/pipeline.php` after the `ErrorHandler` class:
+```php
+if (!empty($container->get('config')['debug'])) {
+    $app->pipe(PhpDebugBarMiddleware::class);
+}
+```
+
+## Usage in a Request Handler
+Using the debug bar in a request handler, e.g `src/App/Handler/HomePageHandler.php`:
+
+```php
+namespace App\Handler;
+
+use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Mezzio\Template\TemplateRendererInterface;
+use Laminas\Diactoros\Response\HtmlResponse;
+use DebugBar\DebugBar;
+
+class HomePageHandler implements RequestHandlerInterface
+{
+    /** @var TemplateRendererInterface */
+    public $template;
+    
+    /** @var DebugBar */
+    public $debugBar;
+
+    public function __construct(TemplateRendererInterface $template, DebugBar $debugBar)
+    {
+        $this->template = $template;
+        $this->debugBar = $debugBar;
+    }
+
+    public function handle(ServerRequestInterface $request) : ResponseInterface
+    {
+        $this->debugBar["messages"]->addMessage("Hello World!");
+        return new HtmlResponse($this->template->render('user::home-page'));
+    }
+}
 ```
 
 > ### Use locally!
 >
 > Remember to enable `PhpMiddleware\PhpDebugBar\ConfigProvider` only in your
-> development environments!
+> development environments and remove references to `DebugBar` in production!
