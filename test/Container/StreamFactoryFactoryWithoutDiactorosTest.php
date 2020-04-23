@@ -19,6 +19,7 @@ use Throwable;
 use function class_exists;
 use function get_class;
 use function is_array;
+use function is_callable;
 use function is_object;
 use function preg_match;
 use function spl_autoload_functions;
@@ -38,6 +39,12 @@ class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
 
         foreach (spl_autoload_functions() as $autoloader) {
             if (! is_array($autoloader)) {
+                // disable laminas-zendframework-bridge autoloaders
+                if (is_callable($autoloader)) {
+                    $this->autoloadFunctions[] = $autoloader;
+                    spl_autoload_unregister($autoloader);
+                }
+
                 continue;
             }
 
