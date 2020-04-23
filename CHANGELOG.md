@@ -32,7 +32,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#34](https://github.com/mezzio/mezzio/pull/34) changes suggested version of laminas-auradi-config to 2.0.
 
 ### Deprecated
 
