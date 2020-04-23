@@ -13,54 +13,39 @@ namespace MezzioTest\Container;
 use Mezzio\Container\Exception\InvalidServiceException;
 use Mezzio\Container\StreamFactoryFactory;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
-use Throwable;
 
 use function class_exists;
-use function get_class;
-use function is_array;
-use function is_object;
-use function preg_match;
 use function spl_autoload_functions;
 use function spl_autoload_register;
 use function spl_autoload_unregister;
 
 class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
 {
+    /** @var ContainerInterface|ObjectProphecy */
+    private $container;
+
+    /** @var StreamFactoryFactory */
+    private $factory;
+
+    /** @var array */
     private $autoloadFunctions = [];
 
-    public function setUp()
+    protected function setUp()
     {
         class_exists(InvalidServiceException::class);
 
         $this->container = $this->prophesize(ContainerInterface::class)->reveal();
         $this->factory = new StreamFactoryFactory();
 
-        foreach (spl_autoload_functions() as $autoloader) {
-            if (! is_array($autoloader)) {
-                continue;
-            }
-
-            $context = $autoloader[0];
-
-            if (! is_object($context)
-                || ! preg_match('/^Composer.*?ClassLoader$/', get_class($context))
-            ) {
-                continue;
-            }
-
-            $this->autoloadFunctions[] = $autoloader;
-
+        $this->autoloadFunctions = spl_autoload_functions();
+        foreach ($this->autoloadFunctions as $autoloader) {
             spl_autoload_unregister($autoloader);
         }
     }
 
-    public function tearDown()
-    {
-        $this->reloadAutoloaders();
-    }
-
-    public function reloadAutoloaders()
+    private function reloadAutoloaders()
     {
         foreach ($this->autoloadFunctions as $autoloader) {
             spl_autoload_register($autoloader);
@@ -70,16 +55,13 @@ class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
 
     public function testFactoryRaisesAnExceptionIfDiactorosIsNotLoaded()
     {
-        $e = null;
+        $this->expectException(InvalidServiceException::class);
+        $this->expectExceptionMessage('laminas/laminas-diactoros');
 
         try {
             ($this->factory)($this->container);
-        } catch (Throwable $e) {
+        } finally {
+            $this->reloadAutoloaders();
         }
-
-        $this->reloadAutoloaders();
-
-        $this->assertInstanceOf(InvalidServiceException::class, $e);
-        $this->assertContains('laminas/laminas-diactoros', $e->getMessage());
     }
 }
