@@ -43,13 +43,102 @@ following contents:
 ```php
 <?php
 
+use DebugBar\DataCollector\ConfigCollector;
+use DebugBar\DebugBar;
+use DebugBar\JavascriptRenderer;
+use PhpMiddleware\PhpDebugBar\ConfigCollectorFactory;
 use PhpMiddleware\PhpDebugBar\ConfigProvider;
+use PhpMiddleware\PhpDebugBar\JavascriptRendererFactory;
+use PhpMiddleware\PhpDebugBar\PhpDebugBarMiddleware;
+use PhpMiddleware\PhpDebugBar\PhpDebugBarMiddlewareFactory;
+use PhpMiddleware\PhpDebugBar\StandardDebugBarFactory;
+use Psr\Container\ContainerInterface;
 
-$provider = new ConfigProvider();
-return $provider();
+return array_merge(ConfigProvider::getConfig(), [
+    'dependencies' => [
+        'factories' => [
+            PhpDebugBarMiddleware::class => PhpDebugBarMiddlewareFactory::class,
+            ConfigCollector::class => ConfigCollectorFactory::class,
+            ConfigProvider::class => function(ContainerInterface $container) {
+                return $container->get('config');
+            },
+            DebugBar::class => StandardDebugBarFactory::class,
+            JavascriptRenderer::class => JavascriptRendererFactory::class,
+        ]
+    ]
+]);
 ```
 
-> ### Use locally!
+In addition, ensure the [PSR-15 HTTP message factory interfaces](https://www.php-fig.org/psr/psr-15/)
+are registered in your container. For example, when using
+[Diactoros](https://docs.laminas.dev/laminas-diactoros) as your
+[PSR-7 HTTP message interfaces](https://www.php-fig.org/psr/psr-7)
+implementation, you can define the following:
+
+```php
+use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\StreamFactory;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+
+return [
+    'dependencies' => [
+        'invokables' => [
+            ResponseFactoryInterface::class => ResponseFactory::class,
+            StreamFactoryInterface::class   => StreamFactory::class
+        ],
+        // ...
+];
+```
+
+Finally, add the `PhpDebugBarMiddleware` class to the pipeline in
+`config/pipeline.php` after piping the `ErrorHandler` class:
+
+```php
+if (! empty($container->get('config')['debug'])) {
+    $app->pipe(PhpDebugBarMiddleware::class);
+}
+```
+
+### Usage in a Request Handler
+
+You can add messages to the debug bar within request handlers and middleware. As
+an example, in your `src/App/Handler/HomePageHandler.php`, you might do the
+following:
+
+```php
+namespace App\Handler;
+use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Mezzio\Template\TemplateRendererInterface;
+use Laminas\Diactoros\Response\HtmlResponse;
+use DebugBar\DebugBar;
+
+class HomePageHandler implements RequestHandlerInterface
+{
+    /** @var TemplateRendererInterface */
+    public $template;
+
+    /** @var DebugBar */
+    public $debugBar;
+
+    public function __construct(TemplateRendererInterface $template, DebugBar $debugBar)
+    {
+        $this->template = $template;
+        $this->debugBar = $debugBar;
+    }
+
+    public function handle(ServerRequestInterface $request) : ResponseInterface
+    {
+        $this->debugBar['messages']->addMessage('Hello World!');
+        return new HtmlResponse($this->template->render('user::home-page'));
+    }
+}
+```
+
+> ### Only use in development
 >
 > Remember to enable `PhpMiddleware\PhpDebugBar\ConfigProvider` only in your
-> development environments!
+> development environments, and to remove references to the `DebugBar` class in
+> production!
