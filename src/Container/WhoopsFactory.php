@@ -65,7 +65,7 @@ class WhoopsFactory
      * If configuration indicates a JsonResponseHandler, configure and register it.
      *
      * @param Whoops $whoops
-     * @param array|\ArrayAccess $config
+     * @param array<string, mixed>|\ArrayAccess<string, mixed> $config
      * @return void
      */
     private function registerJsonHandler(Whoops $whoops, $config) : void

@@ -43,7 +43,7 @@ class ErrorResponseGenerator
     ) : ResponseInterface {
         $response = $response->withStatus(Utils::getStatusCode($e, $response));
 
-        if ($this->renderer) {
+        if ($this->renderer !== null) {
             return $this->prepareTemplatedResponse(
                 $e,
                 $this->renderer,

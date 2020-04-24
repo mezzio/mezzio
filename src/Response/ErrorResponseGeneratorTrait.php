@@ -27,7 +27,7 @@ trait ErrorResponseGeneratorTrait
     private $debug;
 
     /**
-     * @var TemplateRendererInterface
+     * @var TemplateRendererInterface|null
      */
     private $renderer;
 
@@ -56,6 +56,9 @@ EOT;
      */
     private $layout;
 
+    /**
+     * @param array<string, mixed> $templateData
+     */
     private function prepareTemplatedResponse(
         Throwable $e,
         TemplateRendererInterface $renderer,

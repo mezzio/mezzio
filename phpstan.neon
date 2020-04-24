@@ -7,7 +7,7 @@ parameters:
 	ignoreErrors:
 		# Virtual classes can be safely ignored
 		- '#Class (Mezzio|Zend\\Expressive)\\ApplicationPipeline not found#'
-		# @see src/Application.php and https://github.com/zendframework/zend-expressive/pull/564
-		- '#Parameter \#1 \$path of function Laminas\\Stratigility\\path expects string, array\|callable\|Psr\\Http\\Server\\MiddlewareInterface\|Psr\\Http\\Server\\RequestHandlerInterface\|string given.#'
-		# @see src/Container/WhoopsFactory.php (mezzio supports Whoops 1.x)
-		- '#Call to an undefined method Whoops\\Handler\\JsonResponseHandler::onlyForAjaxRequests\(\).#'
+		# Mezzio supports Whoops 1.x
+		- '#Call to function method_exists\(\) with Whoops\\Handler\\JsonResponseHandler and ''contentType'' will always evaluate to true.#'
+		- '#Instanceof between \*NEVER\* and Whoops\\Run will always evaluate to false.#'
+		- '#Call to function method_exists\(\) with ''Whoops\\\\Util\\\\Misc'' and ''isAjaxRequest'' will always evaluate to true.#'

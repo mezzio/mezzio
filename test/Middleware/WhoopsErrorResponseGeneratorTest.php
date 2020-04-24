@@ -110,8 +110,8 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
         $this->whoops->writeToOutput(false)->shouldBeCalled();
         $this->whoops->writeToOutput($sendOutputFlag)->shouldBeCalled();
 
-        $this->request->getAttribute('originalUri', false)->willReturn('https://example.com/foo');
-        $this->request->getAttribute('originalRequest', false)->will([$this->request, 'reveal']);
+        $this->request->getAttribute('originalUri')->willReturn('https://example.com/foo');
+        $this->request->getAttribute('originalRequest')->will([$this->request, 'reveal']);
         $this->request->getMethod()->willReturn('POST');
         $this->request->getServerParams()->willReturn(['SCRIPT_NAME' => __FILE__]);
         $this->request->getHeaders()->willReturn([]);

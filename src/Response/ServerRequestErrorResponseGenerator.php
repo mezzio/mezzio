@@ -34,10 +34,10 @@ class ServerRequestErrorResponseGenerator
     public function __construct(
         callable $responseFactory,
         bool $isDevelopmentMode = false,
-        TemplateRendererInterface $renderer = null,
+        ?TemplateRendererInterface $renderer = null,
         string $template = self::TEMPLATE_DEFAULT
     ) {
-        $this->responseFactory = function () use ($responseFactory) : ResponseInterface {
+        $this->responseFactory = static function () use ($responseFactory) : ResponseInterface {
             return $responseFactory();
         };
 
@@ -51,7 +51,7 @@ class ServerRequestErrorResponseGenerator
         $response = ($this->responseFactory)();
         $response = $response->withStatus(Utils::getStatusCode($e, $response));
 
-        if ($this->renderer) {
+        if ($this->renderer !== null) {
             return $this->prepareTemplatedResponse(
                 $e,
                 $this->renderer,

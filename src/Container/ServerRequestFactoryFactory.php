@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Mezzio\Container;
 
+use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\ServerRequestFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -42,7 +43,7 @@ class ServerRequestFactoryFactory
             ));
         }
 
-        return function () {
+        return static function () : ServerRequest {
             return ServerRequestFactory::fromGlobals();
         };
     }

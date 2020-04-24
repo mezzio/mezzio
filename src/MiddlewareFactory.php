@@ -61,7 +61,7 @@ class MiddlewareFactory
     }
 
     /**
-     * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
+     * @param string|array<mixed>|callable|MiddlewareInterface|RequestHandlerInterface $middleware
      * @throws Exception\InvalidMiddlewareException if argument is not one of
      *    the specified types.
      */
@@ -126,7 +126,7 @@ class MiddlewareFactory
      * Each item is passed to prepare() before being passed to the
      * MiddlewarePipe instance the method returns.
      *
-     * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface ...$middleware
+     * @param string|array<mixed>|callable|MiddlewareInterface|RequestHandlerInterface ...$middleware
      */
     public function pipeline(...$middleware) : MiddlewarePipe
     {

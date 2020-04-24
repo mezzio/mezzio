@@ -40,7 +40,7 @@ class WhoopsErrorResponseGenerator
      */
     public function __construct($whoops)
     {
-        if (! ($whoops instanceof RunInterface || $whoops instanceof Run)) {
+        if (! is_object($whoops) || (! $whoops instanceof RunInterface && ! $whoops instanceof Run)) {
             throw new InvalidArgumentException(sprintf(
                 '%s expects a %s or %s instance; received %s',
                 get_class($this),
@@ -95,8 +95,8 @@ class WhoopsErrorResponseGenerator
      */
     private function prepareWhoopsHandler(ServerRequestInterface $request, PrettyPageHandler $handler) : void
     {
-        $uri = $request->getAttribute('originalUri', false) ?: $request->getUri();
-        $request = $request->getAttribute('originalRequest', false) ?: $request;
+        $uri = $request->getAttribute('originalUri') ?? $request->getUri();
+        $request = $request->getAttribute('originalRequest') ?? $request;
 
         $serverParams = $request->getServerParams();
         $scriptName = $serverParams['SCRIPT_NAME'] ?? '';

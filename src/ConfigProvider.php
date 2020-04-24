@@ -24,6 +24,9 @@ use Psr\Http\Message\StreamInterface;
  */
 class ConfigProvider
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function __invoke() : array
     {
         return [
@@ -31,6 +34,9 @@ class ConfigProvider
         ];
     }
 
+    /**
+     * @return array<string, array<string, string>>
+     */
     public function getDependencies() : array
     {
         // @codingStandardsIgnoreStart

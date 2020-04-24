@@ -114,6 +114,8 @@ class ApplicationConfigInjectionDelegator
      * the `middleware` value of a specification. Internally, this will create
      * a `Laminas\Stratigility\MiddlewarePipe` instance, with the middleware
      * specified piped in the order provided.
+     *
+     * @param array<string, mixed> $config
      */
     public static function injectPipelineFromConfig(Application $application, array $config) : void
     {
@@ -170,6 +172,7 @@ class ApplicationConfigInjectionDelegator
      * The "options" key may also be omitted, and its interpretation will be
      * dependent on the underlying router used.
      *
+     * @param array<string, mixed> $config
      * @throws InvalidArgumentException
      */
     public static function injectRoutesFromConfig(Application $application, array $config) : void

@@ -57,7 +57,7 @@ class WhoopsPageHandlerFactory
      * Inject an editor into the whoops configuration.
      *
      * @see https://github.com/filp/whoops/blob/master/docs/Open%20Files%20In%20An%20Editor.md
-     * @param array|\ArrayAccess $config
+     * @param array<string, mixed>|\ArrayAccess<string, mixed> $config
      * @throws Exception\InvalidServiceException for an invalid editor definition.
      */
     private function injectEditor(PrettyPageHandler $handler, $config, ContainerInterface $container) : void
