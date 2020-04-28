@@ -24,6 +24,9 @@ class ErrorResponseGenerator
     public const TEMPLATE_DEFAULT = 'error::error';
     public const LAYOUT_DEFAULT = 'layout::default';
 
+    /**
+     * @todo Allow nullable $layout
+     */
     public function __construct(
         bool $isDevelopmentMode = false,
         TemplateRendererInterface $renderer = null,
