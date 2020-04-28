@@ -88,4 +88,27 @@ class NotFoundHandlerFactoryTest extends TestCase
             $handler
         );
     }
+
+    public function testNullifyLayout()
+    {
+        $config = [
+            'mezzio' => [
+                'error_handler' => [
+                    'template_404' => 'foo::bar',
+                    'layout' => null,
+                ],
+            ],
+        ];
+        $this->container->has('config')->willReturn(true);
+        $this->container->get('config')->willReturn($config);
+        $this->container->has(TemplateRendererInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
+        $factory = new NotFoundHandlerFactory();
+
+        $handler = $factory($this->container->reveal());
+        // ideally we would like to keep null there,
+        // but right now NotFoundHandlerFactory does not accept null for layout
+        $this->assertAttributeSame('', 'layout', $handler);
+        $this->assertAttributeEquals('foo::bar', 'template', $handler);
+    }
 }

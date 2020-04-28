@@ -15,6 +15,8 @@ use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 
+use function array_key_exists;
+
 class NotFoundHandlerFactory
 {
     public function __invoke(ContainerInterface $container) : NotFoundHandler
@@ -25,10 +27,13 @@ class NotFoundHandlerFactory
             : ($container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)
                 ? $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)
                 : null);
-        $template = $config['mezzio']['error_handler']['template_404']
-            ?? NotFoundHandler::TEMPLATE_DEFAULT;
-        $layout   = $config['mezzio']['error_handler']['layout']
-            ?? NotFoundHandler::LAYOUT_DEFAULT;
+
+        $errorHandlerConfig = $config['mezzio']['error_handler'] ?? [];
+
+        $template = $errorHandlerConfig['template_404'] ?? NotFoundHandler::TEMPLATE_DEFAULT;
+        $layout   = array_key_exists('layout', $errorHandlerConfig)
+            ? (string) $errorHandlerConfig['layout']
+            : NotFoundHandler::LAYOUT_DEFAULT;
 
         return new NotFoundHandler(
             $container->get(ResponseInterface::class),

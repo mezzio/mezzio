@@ -100,4 +100,29 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
         $this->assertAttributeEquals('error::custom', 'template', $generator);
         $this->assertAttributeEquals('layout::custom', 'layout', $generator);
     }
+
+    public function testNullifyLayout()
+    {
+        $this->container->has('config')->willReturn(true);
+        $this->container->get('config')->willReturn([
+            'mezzio' => [
+                'error_handler' => [
+                    'template_error' => 'error::custom',
+                    'layout' => null,
+                ],
+            ],
+        ]);
+        $this->container->has(TemplateRendererInterface::class)->willReturn(false);
+        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
+        $factory = new ErrorResponseGeneratorFactory();
+
+        $generator = $factory($this->container->reveal());
+
+        $this->assertAttributeEquals(false, 'debug', $generator);
+        $this->assertAttributeEmpty('renderer', $generator);
+        $this->assertAttributeEquals('error::custom', 'template', $generator);
+        // ideally we would like to keep null there,
+        // but right now ErrorResponseGeneratorFactory does not accept null for layout
+        $this->assertAttributeSame('', 'layout', $generator);
+    }
 }
