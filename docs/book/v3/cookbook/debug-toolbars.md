@@ -69,7 +69,7 @@ return array_merge(ConfigProvider::getConfig(), [
 ]);
 ```
 
-In addition, ensure the [PSR-15 HTTP message factory interfaces](https://www.php-fig.org/psr/psr-15/)
+In addition, ensure the [PSR-17 HTTP message factory interfaces](https://www.php-fig.org/psr/psr-17/)
 are registered in your container. For example, when using
 [Diactoros](https://docs.laminas.dev/laminas-diactoros) as your
 [PSR-7 HTTP message interfaces](https://www.php-fig.org/psr/psr-7)
@@ -90,6 +90,11 @@ return [
         // ...
 ];
 ```
+
+> Starting with [Diactoros](https://docs.laminas.dev/laminas-diactoros) 2.3.0, you
+> can register the above PSR-17 services by adding an entry for
+> `\Laminas\Diactoros\ConfigProvider::class` to your `config/config.php` file,
+> if it is not added for you during installation.
 
 Finally, add the `PhpDebugBarMiddleware` class to the pipeline in
 `config/pipeline.php` after piping the `ErrorHandler` class:
