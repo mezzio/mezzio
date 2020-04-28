@@ -91,7 +91,10 @@ return [
 ];
 ```
 
-Start from [Diactoros](https://docs.laminas.dev/laminas-diactoros) `^2.3.0`, you can register above Psr-17 services by add `\Laminas\Diactoros\ConfigProvider::class` to config.
+> Starting with [Diactoros](https://docs.laminas.dev/laminas-diactoros) 2.3.0, you
+> can register the above PSR-17 services by adding an entry for
+> `\Laminas\Diactoros\ConfigProvider::class` to your `config/config.php` file,
+> if it is not added for you during installation.
 
 Finally, add the `PhpDebugBarMiddleware` class to the pipeline in
 `config/pipeline.php` after piping the `ErrorHandler` class:
