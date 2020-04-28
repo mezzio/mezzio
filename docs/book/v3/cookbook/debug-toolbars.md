@@ -69,7 +69,7 @@ return array_merge(ConfigProvider::getConfig(), [
 ]);
 ```
 
-In addition, ensure the [PSR-17 HTTP message factory interfaces](https://www.php-fig.org/psr/psr-15/)
+In addition, ensure the [PSR-17 HTTP message factory interfaces](https://www.php-fig.org/psr/psr-17/)
 are registered in your container. For example, when using
 [Diactoros](https://docs.laminas.dev/laminas-diactoros) as your
 [PSR-7 HTTP message interfaces](https://www.php-fig.org/psr/psr-7)
