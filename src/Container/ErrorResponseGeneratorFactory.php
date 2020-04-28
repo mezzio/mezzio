@@ -14,6 +14,8 @@ use Mezzio\Middleware\ErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
 
+use function array_key_exists;
+
 class ErrorResponseGeneratorFactory
 {
     public function __invoke(ContainerInterface $container) : ErrorResponseGenerator
@@ -22,11 +24,12 @@ class ErrorResponseGeneratorFactory
 
         $debug = $config['debug'] ?? false;
 
-        $template = $config['mezzio']['error_handler']['template_error']
-            ?? ErrorResponseGenerator::TEMPLATE_DEFAULT;
+        $errorHandlerConfig = $config['mezzio']['error_handler'] ?? [];
 
-        $layout   = $config['mezzio']['error_handler']['layout']
-            ?? ErrorResponseGenerator::LAYOUT_DEFAULT;
+        $template = $errorHandlerConfig['template_error'] ?? ErrorResponseGenerator::TEMPLATE_DEFAULT;
+        $layout   = array_key_exists('layout', $errorHandlerConfig)
+            ? (string) $errorHandlerConfig['layout']
+            : ErrorResponseGenerator::LAYOUT_DEFAULT;
 
         $renderer = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)

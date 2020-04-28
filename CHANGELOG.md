@@ -44,6 +44,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
+- [#39](https://github.com/mezzio/mezzio/pull/39) fixes the factories for the `NotFoundHandler` and `ErrorResponseGenerator` to cast `null` layout values from configuration to empty strings.
+
 - [zendframework/zend-expressive#663](https://github.com/zendframework/zend-expressive/pull/663) fixes parameter
   types in docblock for `Mezzio\MiddlewareFactory::pipeline()`
 

@@ -43,6 +43,9 @@ class NotFoundHandler implements RequestHandlerInterface
      */
     private $layout;
 
+    /**
+     * @todo Allow nullable $layout
+     */
     public function __construct(
         callable $responseFactory,
         TemplateRendererInterface $renderer = null,
