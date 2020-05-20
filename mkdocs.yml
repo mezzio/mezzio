@@ -253,7 +253,7 @@ nav:
             - '_migration_to_v2': reference/migration/to-v2.md
             - '_migration_from_rc5_and_earlier': reference/migration/rc-to-v1.md
             - '_migration_to_mezzio_1.1': reference/migration/to-v1-1.md
-site_name: Mezzio
+site_name: mezzio
 site_description: 'PSR-15 Middleware in Minutes'
 repo_url: 'https://github.com/mezzio/mezzio'
 extra_css:
