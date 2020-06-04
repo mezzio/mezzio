@@ -6,6 +6,9 @@ The skeleton provides a generic structure for creating your applications, and
 prompts you to choose a router, dependency injection container, template
 renderer, and error handler from the outset.
 
+Alternatively, if you don't need as much configurability, you can use the
+[simple application factory](../features/container/simple-application-factory.md).
+
 ## Create a new project
 
 First, we'll create a new project, using Composer's `create-project` command:
