@@ -25,35 +25,15 @@ use Mezzio\Router\RouteCollector;
 use Mezzio\Router\RouterInterface;
 use Psr\Container\ContainerInterface;
 
-class SimpleApplicationFactory
+class MinimalApplicationFactory
 {
     /**
-     * Create a {@see Application} instance in a simpler way by assuming defaults for most dependencies. Using
+     * Create an {@see Application} instance in a shorter way by assuming defaults for most dependencies. Using
      * this method of instantiating the application assumes:
      *
      *  - You have `laminas/diactoros` installed
      *  - You do not need the {@see SapiStreamEmitter}
      *  - Your {@see ServerRequest} comes from {@see $_SERVER}
-     *
-     * All you need to provide is:
-     *
-     *  - A container instance implementing {@see ContainerInterface}, for example Laminas ServiceManager
-     *  - A router instance implementing {@see RouterInterface}, for example FastRoute
-     *
-     * @example
-     *     $container = new \Laminas\ServiceManager\ServiceManager();
-     *     $router = new \Mezzio\Router\FastRouteRouter();
-     *     $app = \Mezzio\Container\SimpleApplicationFactory::create($container, $router);
-     *     $app->pipe(new \Mezzio\Router\Middleware\RouteMiddleware($router));
-     *     $app->pipe(new \Mezzio\Router\Middleware\DispatchMiddleware());
-     *     $app->get('/hello-world', new class implements \Psr\Http\Server\RequestHandlerInterface {
-     *         public function handle(
-     *             \Psr\Http\Message\ServerRequestInterface $request
-     *         ): \Psr\Http\Message\ResponseInterface {
-     *             return new \Laminas\Diactoros\Response\TextResponse('hello world!');
-     *         }
-     *     });
-     *     $app->run();
      */
     public static function create(
         ContainerInterface $container,

@@ -12,7 +12,7 @@ namespace MezzioTest\Container;
 
 use Laminas\Diactoros\Response\TextResponse;
 use Mezzio\Application;
-use Mezzio\Container\SimpleApplicationFactory;
+use Mezzio\Container\MinimalApplicationFactory;
 use Mezzio\Router\Route;
 use Mezzio\Router\RouterInterface;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +22,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-/** @covers \Mezzio\Container\SimpleApplicationFactory */
+/** @covers \Mezzio\Container\MinimalApplicationFactory */
 final class SimpleApplicationFactoryTest extends TestCase
 {
     public function testCreatesApplication() : void
@@ -30,7 +30,7 @@ final class SimpleApplicationFactoryTest extends TestCase
         $container = $this->prophesize(ContainerInterface::class);
         $router = $this->prophesize(RouterInterface::class);
 
-        $app = SimpleApplicationFactory::create($container->reveal(), $router->reveal());
+        $app = MinimalApplicationFactory::create($container->reveal(), $router->reveal());
 
         // Check we can perform something simple like adding a route
         $router->addRoute(Argument::type(Route::class))->shouldBeCalled();

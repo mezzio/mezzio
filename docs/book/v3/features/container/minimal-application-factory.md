@@ -1,7 +1,7 @@
-# Simple Application Factory
+# Minimal Application Factory
 
-The `SimpleApplicationFactory` allows you to create a Mezzio Application
-instance in a simple way by assuming defaults for most dependencies. Using
+The `MinimalApplicationFactory` allows you to create a Mezzio Application
+instance in shorter way by assuming defaults for most dependencies. Using
 this method of instantiating the application assumes:
 
  - You have `laminas/diactoros` installed
@@ -17,7 +17,7 @@ All you need to provide is:
 You would then pipe the `RouteMiddleware`, `DispatchMiddleware`, and any other
 middleware or request handlers that your application needs. 
  
-## A Hello World application using `SimpleApplicationFactory`
+## A Hello World application using `MinimalApplicationFactory`
 
 First you must require Laminas Diactoros, a container, and a router with
 Composer. In this example, we'll use Laminas ServiceManager and FastRoute.
@@ -33,7 +33,7 @@ Then in `public/index.php` we can create our application:
 
 use Laminas\Diactoros\Response\TextResponse;
 use Laminas\ServiceManager\ServiceManager;
-use Mezzio\Container\SimpleApplicationFactory;
+use Mezzio\Container\MinimalApplicationFactory;
 use Mezzio\Router\FastRouteRouter;
 use Mezzio\Router\Middleware\DispatchMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
@@ -43,7 +43,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 $container = new ServiceManager();
 $router = new FastRouteRouter();
-$app = SimpleApplicationFactory::create($container, $router);
+$app = MinimalApplicationFactory::create($container, $router);
 $app->pipe(new RouteMiddleware($router));
 $app->pipe(new DispatchMiddleware());
 $app->get('/hello-world', new class implements RequestHandlerInterface {
