@@ -11,8 +11,8 @@ this method of instantiating the application assumes:
 All you need to provide is:
 
  - A container instance implementing `ContainerInterface`, for example
-   Laminas ServiceManager
- - A router instance implementing `RouterInterface`, for example FastRoute
+   [laminas-servicemanager](https://docs.laminas.dev/laminas-servicemanager/)
+ - A router instance implementing `RouterInterface`, for example [FastRoute](https://docs.mezzio.dev/mezzio/v3/features/router/fast-route/)
  
 You would then pipe the `RouteMiddleware`, `DispatchMiddleware`, and any other
 middleware or request handlers that your application needs. 
