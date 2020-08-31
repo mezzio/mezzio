@@ -1,15 +1,1201 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>_features_template_laminas-view - mezzio</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+        <link href="../../../css/mezzio.css" rel="stylesheet">
 
-<head>
-    <noscript><meta http-equiv="refresh" content="0; url=/mezzio/v3/features/template/laminas-view/"></noscript>
+        <script src="../../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">mezzio</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">v3 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../v3/" class="dropdown-item">Introduction</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Getting Started</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v3/getting-started/features/" class="dropdown-item">Overview and Features</a>
+</li>
+            
+<li>
+    <a href="../../../v3/getting-started/quick-start/" class="dropdown-item">Quick Start</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Features</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v3/features/middleware-types/" class="dropdown-item">Middleware Types</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/application/" class="dropdown-item">Applications</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Containers</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v3/features/container/intro/" class="dropdown-item">Introduction</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/container/factories/" class="dropdown-item">Container Factories</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/container/delegator-factories/" class="dropdown-item">Delegator Factories</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/container/middleware-container/" class="dropdown-item">The Middleware Container</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/container/middleware-factory/" class="dropdown-item">The Middleware Factory</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/container/laminas-servicemanager/" class="dropdown-item">Using laminas-servicemanager</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/container/pimple/" class="dropdown-item">Using Pimple</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/container/aura-di/" class="dropdown-item">Using Aura.Di</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/container/config/" class="dropdown-item">Container configuration</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Routing Adapters</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v3/features/router/intro/" class="dropdown-item">Introduction</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/router/interface/" class="dropdown-item">Routing Interface</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/router/route-collector/" class="dropdown-item">The Route Collector</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/router/uri-generation/" class="dropdown-item">URI Generation</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/router/piping/" class="dropdown-item">Routing vs Piping</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/router/aura/" class="dropdown-item">Using Aura</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/router/fast-route/" class="dropdown-item">Using FastRoute</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/router/laminas-router/" class="dropdown-item">Using laminas-router</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Templating</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v3/features/template/intro/" class="dropdown-item">Introduction</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/template/interface/" class="dropdown-item">Template Renderer Interface</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/template/request-handlers/" class="dropdown-item">Templated Request Handlers</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/template/plates/" class="dropdown-item">Using Plates</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/template/twig/" class="dropdown-item">Using Twig</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/template/laminas-view/" class="dropdown-item">Using laminas-view</a>
+</li>
+    </ul>
+  </li>
+            
+<li>
+    <a href="../../../v3/features/error-handling/" class="dropdown-item">Error Handling</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/modular-applications/" class="dropdown-item">Modular Applications</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Middleware</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v3/features/middleware/routing-and-dispatch-middleware/" class="dropdown-item">Routing and Dispatch Middleware</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/middleware/implicit-methods-middleware/" class="dropdown-item">Implicit HEAD and OPTIONS Middleware</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/middleware/method-not-allowed-middleware/" class="dropdown-item">Returning Method Not Allowed</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Helpers</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v3/features/helpers/intro/" class="dropdown-item">Introduction</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/helpers/url-helper/" class="dropdown-item">UrlHelper</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/helpers/server-url-helper/" class="dropdown-item">ServerUrlHelper</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/helpers/body-parse/" class="dropdown-item">Body Parsing Middleware</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/helpers/content-length/" class="dropdown-item">Content-Length Middleware</a>
+</li>
+            
+<li>
+    <a href="../../../v3/features/helpers/template-variable-container/" class="dropdown-item">Template Variable Container</a>
+</li>
+    </ul>
+  </li>
+            
+<li>
+    <a href="../../../v3/features/emitters/" class="dropdown-item">Emitters</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Cookbook</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v3/cookbook/autowiring-routes-and-pipelines/" class="dropdown-item">Autowiring routes and pipeline middleware</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/using-a-base-path/" class="dropdown-item">Using Mezzio from a subdirectory</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/common-prefix-for-routes/" class="dropdown-item">Prepending a common path to all routes</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/passing-data-between-middleware/" class="dropdown-item">Passing data between middleware</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/path-segregated-routing/" class="dropdown-item">Path-segregated routing</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/access-common-data-in-templates/" class="dropdown-item">Provide Access to Common Data In Templates</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/route-specific-pipeline/" class="dropdown-item">Route-specific middleware pipelines</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/host-segregated-middleware/" class="dropdown-item">Segregating middleware by host</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/double-pass-middleware/" class="dropdown-item">Using double-pass middleware</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/setting-locale-depending-routing-parameter/" class="dropdown-item">Setting a locale based on a routing parameter</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/setting-locale-without-routing-parameter/" class="dropdown-item">Setting a locale without a routing parameter</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/debug-toolbars/" class="dropdown-item">Enabling debug toolbars</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/flash-messengers/" class="dropdown-item">Flash Messengers</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/using-custom-view-helpers/" class="dropdown-item">Registering custom view helpers when using laminas-view</a>
+</li>
+            
+<li>
+    <a href="../../../v3/cookbook/using-laminas-form-view-helpers/" class="dropdown-item">Using laminas-form view helpers</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Reference</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v3/why-mezzio/" class="dropdown-item">Why choose Mezzio?</a>
+</li>
+            
+<li>
+    <a href="../../../v3/reference/cli-tooling/" class="dropdown-item">CLI Tooling</a>
+</li>
+            
+<li>
+    <a href="../../../v3/reference/mezzio-projects/" class="dropdown-item">Mezzio Projects</a>
+</li>
+            
+<li>
+    <a href="../../../v3/reference/migration/" class="dropdown-item">Migration</a>
+</li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">v2 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../v2/" class="dropdown-item">Mezzio: PSR-7 Middleware in Minutes</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Getting Started</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v2/getting-started/features/" class="dropdown-item">Overview and Features</a>
+</li>
+            
+<li>
+    <a href="../../../v2/getting-started/standalone/" class="dropdown-item">Quick Start: Standalone</a>
+</li>
+            
+<li>
+    <a href="../../../v2/getting-started/skeleton/" class="dropdown-item">Quick Start: Skeleton Installer</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Features</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v2/features/middleware-types/" class="dropdown-item">Middleware Types</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/application/" class="dropdown-item">Applications</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Containers</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v2/features/container/intro/" class="dropdown-item">Introduction</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/container/factories/" class="dropdown-item">Container Factories</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/container/delegator-factories/" class="dropdown-item">Delegator Factories</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/container/laminas-servicemanager/" class="dropdown-item">Using laminas-servicemanager</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/container/pimple/" class="dropdown-item">Using Pimple</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/container/aura-di/" class="dropdown-item">Using Aura.Di</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Routing Adapters</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v2/features/router/intro/" class="dropdown-item">Introduction</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/router/interface/" class="dropdown-item">Routing Interface</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/router/uri-generation/" class="dropdown-item">URI Generation</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/router/piping/" class="dropdown-item">Routing vs Piping</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/router/aura/" class="dropdown-item">Using Aura</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/router/fast-route/" class="dropdown-item">Using FastRoute</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/router/laminas-router/" class="dropdown-item">Using the Laminas Router</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Templating</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v2/features/template/intro/" class="dropdown-item">Introduction</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/template/interface/" class="dropdown-item">Template Renderer Interface</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/template/middleware/" class="dropdown-item">Templated Middleware</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/template/plates/" class="dropdown-item">Using Plates</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/template/twig/" class="dropdown-item">Using Twig</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/template/laminas-view/" class="dropdown-item">Using laminas-view</a>
+</li>
+    </ul>
+  </li>
+            
+<li>
+    <a href="../../../v2/features/error-handling/" class="dropdown-item">Error Handling</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/modular-applications/" class="dropdown-item">Modular Applications</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Middleware</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v2/features/middleware/implicit-methods-middleware/" class="dropdown-item">Implicit HEAD and OPTIONS Middleware</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Helpers</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v2/features/helpers/intro/" class="dropdown-item">Introduction</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/helpers/url-helper/" class="dropdown-item">UrlHelper</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/helpers/server-url-helper/" class="dropdown-item">ServerUrlHelper</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/helpers/body-parse/" class="dropdown-item">Body Parsing Middleware</a>
+</li>
+            
+<li>
+    <a href="../../../v2/features/helpers/content-length/" class="dropdown-item">Content-Length Middleware</a>
+</li>
+    </ul>
+  </li>
+            
+<li>
+    <a href="../../../v2/features/emitters/" class="dropdown-item">Emitters</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Cookbook</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v2/cookbook/autowiring-routes-and-pipelines/" class="dropdown-item">Autowiring routes and pipeline middleware</a>
+</li>
+            
+<li>
+    <a href="../../../v2/cookbook/common-prefix-for-routes/" class="dropdown-item">Prepending a common path to all routes</a>
+</li>
+            
+<li>
+    <a href="../../../v2/cookbook/route-specific-pipeline/" class="dropdown-item">Route-specific middleware pipelines</a>
+</li>
+            
+<li>
+    <a href="../../../v2/cookbook/using-custom-view-helpers/" class="dropdown-item">Registering custom view helpers when using laminas-view</a>
+</li>
+            
+<li>
+    <a href="../../../v2/cookbook/using-laminas-form-view-helpers/" class="dropdown-item">Using laminas-form view helpers</a>
+</li>
+            
+<li>
+    <a href="../../../v2/cookbook/using-a-base-path/" class="dropdown-item">Using Mezzio from a subdirectory</a>
+</li>
+            
+<li>
+    <a href="../../../v2/cookbook/setting-locale-depending-routing-parameter/" class="dropdown-item">Setting a locale based on a routing parameter</a>
+</li>
+            
+<li>
+    <a href="../../../v2/cookbook/setting-locale-without-routing-parameter/" class="dropdown-item">Setting a locale without a routing parameter</a>
+</li>
+            
+<li>
+    <a href="../../../v2/cookbook/debug-toolbars/" class="dropdown-item">Enabling debug toolbars</a>
+</li>
+            
+<li>
+    <a href="../../../v2/cookbook/using-routed-middleware-class-as-controller/" class="dropdown-item">Handling multiple routes in a single class</a>
+</li>
+            
+<li>
+    <a href="../../../v2/cookbook/flash-messengers/" class="dropdown-item">Flash Messengers</a>
+</li>
+            
+<li>
+    <a href="../../../v2/cookbook/passing-data-between-middleware/" class="dropdown-item">Passing data between middleware</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Reference</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v2/why-mezzio/" class="dropdown-item">Why choose Mezzio?</a>
+</li>
+            
+<li>
+    <a href="../../../v2/reference/cli-tooling/" class="dropdown-item">CLI Tooling</a>
+</li>
+            
+<li>
+    <a href="../../../v2/reference/usage-examples/" class="dropdown-item">Examples</a>
+</li>
+            
+<li>
+    <a href="../../../v2/reference/mezzio-projects/" class="dropdown-item">Mezzio Projects</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Migration</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v2/reference/migration/" class="dropdown-item">To version 2</a>
+</li>
+            
+<li>
+    <a href="../../../v2/reference/migration-to-v2-2/" class="dropdown-item">To version 2.2</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">v1 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../v1/" class="dropdown-item">Mezzio: PSR-7 Middleware in Minutes</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Getting Started</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v1/getting-started/features/" class="dropdown-item">Overview and Features</a>
+</li>
+            
+<li>
+    <a href="../../../v1/getting-started/standalone/" class="dropdown-item">Quick Start: Standalone</a>
+</li>
+            
+<li>
+    <a href="../../../v1/getting-started/skeleton/" class="dropdown-item">Quick Start: Skeleton Installer</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Features</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v1/features/application/" class="dropdown-item">Applications</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Containers</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v1/features/container/intro/" class="dropdown-item">Introduction</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/container/factories/" class="dropdown-item">Container Factories</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/container/laminas-servicemanager/" class="dropdown-item">Using laminas-servicemanager</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/container/pimple/" class="dropdown-item">Using Pimple</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/container/aura-di/" class="dropdown-item">Using Aura.Di</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Routing Adapters</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v1/features/router/intro/" class="dropdown-item">Introduction</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/router/interface/" class="dropdown-item">Routing Interface</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/router/uri-generation/" class="dropdown-item">URI Generation</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/router/piping/" class="dropdown-item">Routing vs Piping</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/router/aura/" class="dropdown-item">Using Aura</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/router/fast-route/" class="dropdown-item">Using FastRoute</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/router/laminas-router/" class="dropdown-item">Using the Laminas Router</a>
+</li>
+    </ul>
+  </li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Templating</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v1/features/template/intro/" class="dropdown-item">Introduction</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/template/interface/" class="dropdown-item">Template Renderer Interface</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/template/middleware/" class="dropdown-item">Templated Middleware</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/template/plates/" class="dropdown-item">Using Plates</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/template/twig/" class="dropdown-item">Using Twig</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/template/laminas-view/" class="dropdown-item">Using laminas-view</a>
+</li>
+    </ul>
+  </li>
+            
+<li>
+    <a href="../../../v1/features/error-handling/" class="dropdown-item">Error Handling</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Helpers</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v1/features/helpers/intro/" class="dropdown-item">Introduction</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/helpers/url-helper/" class="dropdown-item">UrlHelper</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/helpers/server-url-helper/" class="dropdown-item">ServerUrlHelper</a>
+</li>
+            
+<li>
+    <a href="../../../v1/features/helpers/body-parse/" class="dropdown-item">Body Parsing Middleware</a>
+</li>
+    </ul>
+  </li>
+            
+<li>
+    <a href="../../../v1/features/emitters/" class="dropdown-item">Emitters</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Cookbook</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v1/cookbook/common-prefix-for-routes/" class="dropdown-item">Prepending a common path to all routes</a>
+</li>
+            
+<li>
+    <a href="../../../v1/cookbook/route-specific-pipeline/" class="dropdown-item">Route-specific middleware pipelines</a>
+</li>
+            
+<li>
+    <a href="../../../v1/cookbook/custom-404-page-handling/" class="dropdown-item">Setting custom 404 page handling</a>
+</li>
+            
+<li>
+    <a href="../../../v1/cookbook/using-custom-view-helpers/" class="dropdown-item">Registering custom view helpers when using laminas-view</a>
+</li>
+            
+<li>
+    <a href="../../../v1/cookbook/using-laminas-form-view-helpers/" class="dropdown-item">Using laminas-form view helpers</a>
+</li>
+            
+<li>
+    <a href="../../../v1/cookbook/using-a-base-path/" class="dropdown-item">Using Mezzio from a subdirectory</a>
+</li>
+            
+<li>
+    <a href="../../../v1/cookbook/modular-layout/" class="dropdown-item">Building modular applications</a>
+</li>
+            
+<li>
+    <a href="../../../v1/cookbook/setting-locale-depending-routing-parameter/" class="dropdown-item">Setting a locale based on a routing parameter</a>
+</li>
+            
+<li>
+    <a href="../../../v1/cookbook/setting-locale-without-routing-parameter/" class="dropdown-item">Setting a locale without a routing parameter</a>
+</li>
+            
+<li>
+    <a href="../../../v1/cookbook/debug-toolbars/" class="dropdown-item">Enabling debug toolbars</a>
+</li>
+            
+<li>
+    <a href="../../../v1/cookbook/using-routed-middleware-class-as-controller/" class="dropdown-item">Handling multiple routes in a single class</a>
+</li>
+            
+<li>
+    <a href="../../../v1/cookbook/flash-messengers/" class="dropdown-item">Flash Messengers</a>
+</li>
+    </ul>
+  </li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Reference</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v1/why-mezzio/" class="dropdown-item">Why choose Mezzio?</a>
+</li>
+            
+<li>
+    <a href="../../../v1/reference/usage-examples/" class="dropdown-item">Examples</a>
+</li>
+            
+<li>
+    <a href="../../../v1/reference/mezzio-projects/" class="dropdown-item">Mezzio Projects</a>
+</li>
+            
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">Migration</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="../../../v1/reference/migration/rc-to-v1/" class="dropdown-item">From RC5 and Earlier</a>
+</li>
+            
+<li>
+    <a href="../../../v1/reference/migration/to-v1-1/" class="dropdown-item">To Mezzio 1.1</a>
+</li>
+    </ul>
+  </li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">_hidden-legacy-page-links <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../getting-started/features/" class="dropdown-item">_getting_started_overview</a>
+</li>
+                                    
+<li>
+    <a href="../../../getting-started/standalone/" class="dropdown-item">_getting_started_standalone</a>
+</li>
+                                    
+<li>
+    <a href="../../../getting-started/skeleton/" class="dropdown-item">_getting_started_skeleton</a>
+</li>
+                                    
+<li>
+    <a href="../../middleware-types/" class="dropdown-item">_features_middleware_types</a>
+</li>
+                                    
+<li>
+    <a href="../../application/" class="dropdown-item">_features_application</a>
+</li>
+                                    
+<li>
+    <a href="../../container/intro/" class="dropdown-item">_features_container_intro</a>
+</li>
+                                    
+<li>
+    <a href="../../container/factories/" class="dropdown-item">_features_container_factories</a>
+</li>
+                                    
+<li>
+    <a href="../../container/delegator-factories/" class="dropdown-item">_features_container_delegator_factories</a>
+</li>
+                                    
+<li>
+    <a href="../../container/laminas-servicemanager/" class="dropdown-item">_features_container_using_laminas-servicemanager</a>
+</li>
+                                    
+<li>
+    <a href="../../container/pimple/" class="dropdown-item">_features_container_using_pimple</a>
+</li>
+                                    
+<li>
+    <a href="../../container/aura-di/" class="dropdown-item">_features_container_using_aura.di</a>
+</li>
+                                    
+<li>
+    <a href="../../router/intro/" class="dropdown-item">_features_router_introduction</a>
+</li>
+                                    
+<li>
+    <a href="../../router/interface/" class="dropdown-item">_features_router_interface</a>
+</li>
+                                    
+<li>
+    <a href="../../router/uri-generation/" class="dropdown-item">_features_router_uri_generation</a>
+</li>
+                                    
+<li>
+    <a href="../../router/piping/" class="dropdown-item">_features_router_piping</a>
+</li>
+                                    
+<li>
+    <a href="../../router/aura/" class="dropdown-item">_features_router_using_aura</a>
+</li>
+                                    
+<li>
+    <a href="../../router/fast-route/" class="dropdown-item">_features_router_using_fastroute</a>
+</li>
+                                    
+<li>
+    <a href="../../router/laminas-router/" class="dropdown-item">_features_router_using_the Laminas Router</a>
+</li>
+                                    
+<li>
+    <a href="../intro/" class="dropdown-item">_features_template_intro</a>
+</li>
+                                    
+<li>
+    <a href="../interface/" class="dropdown-item">_features_template_interface</a>
+</li>
+                                    
+<li>
+    <a href="../middleware/" class="dropdown-item">_features_template_middleware</a>
+</li>
+                                    
+<li>
+    <a href="../plates/" class="dropdown-item">_features_template_plates</a>
+</li>
+                                    
+<li>
+    <a href="../twig/" class="dropdown-item">_features_template_twig</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">_features_template_laminas-view</a>
+</li>
+                                    
+<li>
+    <a href="../../error-handling/" class="dropdown-item">_features_error_handling</a>
+</li>
+                                    
+<li>
+    <a href="../../modular-applications/" class="dropdown-item">_features_modular_applications</a>
+</li>
+                                    
+<li>
+    <a href="../../middleware/implicit-methods-middleware/" class="dropdown-item">_features_middleware_implicit_head_and_options_middleware</a>
+</li>
+                                    
+<li>
+    <a href="../../helpers/intro/" class="dropdown-item">_features_helpers_intro</a>
+</li>
+                                    
+<li>
+    <a href="../../helpers/url-helper/" class="dropdown-item">_features_helpers_urlhelper</a>
+</li>
+                                    
+<li>
+    <a href="../../helpers/server-url-helper/" class="dropdown-item">_features_helpers_serverurlhelper</a>
+</li>
+                                    
+<li>
+    <a href="../../helpers/body-parse/" class="dropdown-item">_features_helpers_body_parsing_middleware</a>
+</li>
+                                    
+<li>
+    <a href="../../helpers/content-length/" class="dropdown-item">_features_helpers_content_length_middleware</a>
+</li>
+                                    
+<li>
+    <a href="../../emitters/" class="dropdown-item">_features_emitters</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/autowiring-routes-and-pipelines/" class="dropdown-item">_cookbook_autowiring_routes_and_pipeline_middleware</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/common-prefix-for-routes/" class="dropdown-item">_cookbook_prepending_a_common_path_to_all_routes</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/route-specific-pipeline/" class="dropdown-item">_cookbook_route-specific_middleware_pipelines</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/custom-404-page-handling/" class="dropdown-item">_cookbook_setting_custom_404_page_handling</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/using-custom-view-helpers/" class="dropdown-item">_cookbook_registering_custom_view_helpers_when_using_laminas-view</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/using-laminas-form-view-helpers/" class="dropdown-item">_cookbook_using_laminas-form_view_helpers</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/using-a-base-path/" class="dropdown-item">_cookbook_using_Mezzio_from_a_subdirectory</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/modular-layout/" class="dropdown-item">_cookbook_building_modular_applications</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/setting-locale-depending-routing-parameter/" class="dropdown-item">_cookbook_setting_a_locale_based_on_a_routing_parameter</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/setting-locale-without-routing-parameter/" class="dropdown-item">_cookbook_setting_a_locale_without_a_routing_parameter</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/debug-toolbars/" class="dropdown-item">_cookbook_enabling_debug_toolbars</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/using-routed-middleware-class-as-controller/" class="dropdown-item">_cookbook_handling_multiple_routes_in_a_single_class</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/flash-messengers/" class="dropdown-item">_cookbook_flash_messengers</a>
+</li>
+                                    
+<li>
+    <a href="../../../cookbook/passing-data-between-middleware/" class="dropdown-item">_cookbook_passing_data_between_middleware</a>
+</li>
+                                    
+<li>
+    <a href="../../../why-mezzio/" class="dropdown-item">_reference_why_mezzio?</a>
+</li>
+                                    
+<li>
+    <a href="../../../reference/cli-tooling/" class="dropdown-item">_reference_cli_tooling</a>
+</li>
+                                    
+<li>
+    <a href="../../../reference/usage-examples/" class="dropdown-item">_reference_usage_examples</a>
+</li>
+                                    
+<li>
+    <a href="../../../reference/mezzio-projects/" class="dropdown-item">_reference_mezzio_Projects</a>
+</li>
+                                    
+<li>
+    <a href="../../../reference/migration/to-v2/" class="dropdown-item">_migration_to_v2</a>
+</li>
+                                    
+<li>
+    <a href="../../../reference/migration/rc-to-v1/" class="dropdown-item">_migration_from_rc5_and_earlier</a>
+</li>
+                                    
+<li>
+    <a href="../../../reference/migration/to-v1-1/" class="dropdown-item">_migration_to_mezzio_1.1</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../twig/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../error-handling/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/mezzio/mezzio/edit/master/docs/features/template/laminas-view.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<noscript><meta http-equiv="refresh" content="0; url=/mezzio/v3/features/template/laminas-view/"></noscript>
 
 <script>
   document.addEventListener("DOMContentLoaded", function (event) {
     window.location.pathname = '/mezzio/v3/features/template/laminas-view/';
   });
-</script>
-</head>
+</script></div>
+            </div>
+        </div>
 
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js" defer></script>
+        <script src="../../../search/main.js" defer></script>
 
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <div class="table-responsive"><table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
 </html>
