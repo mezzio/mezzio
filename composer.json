@@ -25,10 +25,6 @@
         "sort-packages": true
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "3.2.x-dev",
-            "dev-develop": "3.3.x-dev"
-        },
         "laminas": {
             "config-provider": "Mezzio\\ConfigProvider"
         }
