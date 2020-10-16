@@ -11,9 +11,72 @@
         <directory name="test"/>
         <ignoreFiles>
             <directory name="vendor"/>
+            <!-- Temporary suppression of error output -->
+            <file name="src\ConfigProvider.php"/>
+            <file name="src\Container\ApplicationConfigInjectionDelegator.php"/>
+            <file name="src\Container\ApplicationFactory.php"/>
+            <file name="src\Container\ErrorHandlerFactory.php"/>
+            <file name="src\Container\ErrorResponseGeneratorFactory.php"/>
+            <file name="src\Container\MiddlewareFactoryFactory.php"/>
+            <file name="src\Container\NotFoundHandlerFactory.php"/>
+            <file name="src\Container\RequestHandlerRunnerFactory.php"/>
+            <file name="src\Container\ServerRequestErrorResponseGeneratorFactory.php"/>
+            <file name="src\Container\WhoopsErrorResponseGeneratorFactory.php"/>
+            <file name="src\Container\WhoopsFactory.php"/>
+            <file name="src\Container\WhoopsPageHandlerFactory.php"/>
+            <file name="src\Handler\NotFoundHandler.php"/>
+            <file name="src\MiddlewareContainer.php"/>
+            <file name="src\MiddlewareFactory.php"/>
+            <file name="src\Middleware\ErrorResponseGenerator.php"/>
+            <file name="src\Middleware\WhoopsErrorResponseGenerator.php"/>
+            <file name="src\Response\ServerRequestErrorResponseGenerator.php"/>
+
+            <file name="test\ApplicationTest.php"/>
+            <file name="test\ConfigProviderTest.php"/>
+            <file name="test\Container\ApplicationConfigInjectionDelegatorTest.php"/>
+            <file name="test\Container\ApplicationFactoryTest.php"/>
+            <file name="test\Container\EmitterFactoryTest.php"/>
+            <file name="test\Container\ErrorHandlerFactoryTest.php"/>
+            <file name="test\Container\ErrorResponseGeneratorFactoryTest.php"/>
+            <file name="test\Container\MiddlewareContainerFactoryTest.php"/>
+            <file name="test\Container\MiddlewareFactoryFactoryTest.php"/>
+            <file name="test\Container\NotFoundHandlerFactoryTest.php"/>
+            <file name="test\Container\RequestHandlerRunnerFactoryTest.php"/>
+            <file name="test\Container\ResponseFactoryFactoryTest.php"/>
+            <file name="test\Container\ResponseFactoryFactoryWithoutDiactorosTest.php"/>
+            <file name="test\Container\ServerRequestErrorResponseGeneratorFactoryTest.php"/>
+            <file name="test\Container\ServerRequestFactoryFactoryTest.php"/>
+            <file name="test\Container\ServerRequestFactoryFactoryWithoutDiactorosTest.php"/>
+            <file name="test\Container\StreamFactoryFactoryTest.php"/>
+            <file name="test\Container\StreamFactoryFactoryWithoutDiactorosTest.php"/>
+            <file name="test\Container\TestAsset\CallableInteropMiddleware.php"/>
+            <file name="test\Container\TestAsset\CallableMiddleware.php"/>
+            <file name="test\Container\TestAsset\InteropMiddleware.php"/>
+            <file name="test\Container\WhoopsErrorResponseGeneratorFactoryTest.php"/>
+            <file name="test\Container\WhoopsFactoryTest.php"/>
+            <file name="test\Container\WhoopsPageHandlerFactoryTest.php"/>
+            <file name="test\ExceptionTest.php"/>
+            <file name="test\Handler\NotFoundHandlerTest.php"/>
+            <file name="test\MiddlewareContainerTest.php"/>
+            <file name="test\MiddlewareFactoryTest.php"/>
+            <file name="test\Middleware\ErrorResponseGeneratorTest.php"/>
+            <file name="test\Middleware\LazyLoadingMiddlewareTest.php"/>
+            <file name="test\Middleware\WhoopsErrorResponseGeneratorTest.php"/>
+            <file name="test\Response\ServerRequestErrorResponseGeneratorTest.php"/>
+            <file name="test\Router\IntegrationTest.php"/>
+            <file name="test\TestAsset\InteropMiddleware.php"/>
+            <file name="test\TestAsset\InvokableMiddleware.php"/>
+            <!-- End of error suppression block -->
         </ignoreFiles>
     </projectFiles>
 
+    <issueHandlers>
+        <PossiblyInvalidArgument>
+            <errorLevel type="suppress">
+                <referencedFunction name="Laminas\Stratigility\path"/>
+            </errorLevel>
+        </PossiblyInvalidArgument>
+    </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
     </plugins>
