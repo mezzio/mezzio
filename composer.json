@@ -51,10 +51,6 @@
         "mezzio/mezzio-fastroute": "^3.1.0",
         "mezzio/mezzio-laminasrouter": "^3.1.0",
         "mockery/mockery": "^1.0",
-        "phpstan/extension-installer": "^1.1",
-        "phpstan/phpstan": "^0.12.33",
-        "phpstan/phpstan-phpunit": "^0.12.13",
-        "phpstan/phpstan-strict-rules": "^0.12.4",
         "phpunit/phpunit": "^9.3"
     },
     "conflict": {
@@ -96,7 +92,6 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "phpstan": "phpstan analyze",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
         "license-check": "docheader check src/ test/"
