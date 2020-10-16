@@ -94,7 +94,7 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "psalm": "psalm --show-info=true",
+        "static-analysis": "psalm --shepherd --stats",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
         "license-check": "docheader check src/ test/"
