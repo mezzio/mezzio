@@ -51,7 +51,9 @@
         "mezzio/mezzio-fastroute": "^3.1.0",
         "mezzio/mezzio-laminasrouter": "^3.1.0",
         "mockery/mockery": "^1.0",
-        "phpunit/phpunit": "^9.3"
+        "phpunit/phpunit": "^9.3",
+        "psalm/plugin-phpunit": "^0.12.2",
+        "vimeo/psalm": "^3.17"
     },
     "conflict": {
         "container-interop/container-interop": "<1.2.0",
@@ -92,6 +94,7 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
+        "psalm": "psalm --show-info=true",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
         "license-check": "docheader check src/ test/"
