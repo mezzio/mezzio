@@ -1,0 +1,1833 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="3.17.2@9e526d9cb569fe4631e6a737bbb7948d05596e3f">
+  <file src="src/ConfigProvider.php">
+    <UndefinedClass occurrences="3">
+      <code>ApplicationPipeline</code>
+      <code>ApplicationPipeline</code>
+      <code>\Zend\Expressive\ApplicationPipeline</code>
+    </UndefinedClass>
+  </file>
+  <file src="src/Container/ApplicationConfigInjectionDelegator.php">
+    <MissingClosureParamType occurrences="3">
+      <code>$item</code>
+      <code>$item</code>
+      <code>$queue</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="1">
+      <code>function ($queue, $item) use (&amp;$serial) {</code>
+    </MissingClosureReturnType>
+    <MixedArgument occurrences="6">
+      <code>$config['middleware_pipeline']</code>
+      <code>$name</code>
+      <code>$path</code>
+      <code>$spec['middleware']</code>
+      <code>$spec['middleware']</code>
+      <code>$spec['path']</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>self::createPriorityQueueReducer()</code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess occurrences="5">
+      <code>$spec['allowed_methods']</code>
+      <code>$spec['middleware']</code>
+      <code>$spec['middleware']</code>
+      <code>$spec['options']</code>
+      <code>$spec['path']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="9">
+      <code>$config</code>
+      <code>$methods</code>
+      <code>$name</code>
+      <code>$options</code>
+      <code>$path</code>
+      <code>$priority</code>
+      <code>$queue</code>
+      <code>$spec</code>
+      <code>$spec</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="1">
+      <code>insert</code>
+    </MixedMethodCall>
+    <MixedOperand occurrences="1">
+      <code>$serial</code>
+    </MixedOperand>
+  </file>
+  <file src="src/Container/ApplicationFactory.php">
+    <MixedArgument occurrences="5">
+      <code>$container-&gt;get(ApplicationPipeline::class)</code>
+      <code>$container-&gt;get(MiddlewareFactory::class)</code>
+      <code>$container-&gt;get(RequestHandlerRunner::class)</code>
+      <code>$container-&gt;get(RouteCollector::class)</code>
+      <code>ApplicationPipeline::class</code>
+    </MixedArgument>
+    <UndefinedClass occurrences="1">
+      <code>ApplicationPipeline</code>
+    </UndefinedClass>
+  </file>
+  <file src="src/Container/ErrorHandlerFactory.php">
+    <MixedArgument occurrences="2">
+      <code>$container-&gt;get(ResponseInterface::class)</code>
+      <code>$generator</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$generator</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Container/ErrorResponseGeneratorFactory.php">
+    <MixedArgument occurrences="4">
+      <code>$debug</code>
+      <code>$errorHandlerConfig</code>
+      <code>$renderer</code>
+      <code>$template</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="5">
+      <code>$config</code>
+      <code>$debug</code>
+      <code>$errorHandlerConfig</code>
+      <code>$renderer</code>
+      <code>$template</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Container/MiddlewareFactoryFactory.php">
+    <MixedArgument occurrences="1">
+      <code>$container-&gt;get(MiddlewareContainer::class)</code>
+    </MixedArgument>
+  </file>
+  <file src="src/Container/NotFoundHandlerFactory.php">
+    <MixedArgument occurrences="4">
+      <code>$container-&gt;get(ResponseInterface::class)</code>
+      <code>$errorHandlerConfig</code>
+      <code>$renderer</code>
+      <code>$template</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="4">
+      <code>$config</code>
+      <code>$errorHandlerConfig</code>
+      <code>$renderer</code>
+      <code>$template</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Container/RequestHandlerRunnerFactory.php">
+    <MixedArgument occurrences="5">
+      <code>$container-&gt;get(ApplicationPipeline::class)</code>
+      <code>$container-&gt;get(EmitterInterface::class)</code>
+      <code>$container-&gt;get(ServerRequestErrorResponseGenerator::class)</code>
+      <code>$container-&gt;get(ServerRequestInterface::class)</code>
+      <code>ApplicationPipeline::class</code>
+    </MixedArgument>
+    <UndefinedClass occurrences="1">
+      <code>ApplicationPipeline</code>
+    </UndefinedClass>
+  </file>
+  <file src="src/Container/ServerRequestErrorResponseGeneratorFactory.php">
+    <MixedArgument occurrences="4">
+      <code>$container-&gt;get(ResponseInterface::class)</code>
+      <code>$debug</code>
+      <code>$renderer</code>
+      <code>$template</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="4">
+      <code>$config</code>
+      <code>$debug</code>
+      <code>$renderer</code>
+      <code>$template</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Container/WhoopsErrorResponseGeneratorFactory.php">
+    <MixedArgument occurrences="1">
+      <code>$container-&gt;get('Mezzio\Whoops')</code>
+    </MixedArgument>
+  </file>
+  <file src="src/Container/WhoopsFactory.php">
+    <MixedArgument occurrences="2">
+      <code>$config</code>
+      <code>$container-&gt;get('Mezzio\WhoopsPageHandler')</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="2">
+      <code>$config</code>
+      <code>$config</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Container/WhoopsPageHandlerFactory.php">
+    <MixedArgument occurrences="2">
+      <code>$config</code>
+      <code>$editor</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="3">
+      <code>$config</code>
+      <code>$config</code>
+      <code>$editor</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Handler/NotFoundHandler.php">
+    <MixedAssignment occurrences="2">
+      <code>$response</code>
+      <code>$response</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="3">
+      <code>ResponseInterface</code>
+      <code>ResponseInterface</code>
+      <code>ResponseInterface</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="6">
+      <code>getBody</code>
+      <code>getBody</code>
+      <code>withStatus</code>
+      <code>withStatus</code>
+      <code>write</code>
+      <code>write</code>
+    </MixedMethodCall>
+    <MixedReturnStatement occurrences="3">
+      <code>$response</code>
+      <code>$response</code>
+      <code>$responseFactory()</code>
+    </MixedReturnStatement>
+  </file>
+  <file src="src/Middleware/ErrorResponseGenerator.php">
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>$renderer</code>
+    </PossiblyNullPropertyAssignmentValue>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$this-&gt;renderer</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Middleware/WhoopsErrorResponseGenerator.php">
+    <DocblockTypeContradiction occurrences="1">
+      <code>$whoops instanceof RunInterface || $whoops instanceof Run</code>
+    </DocblockTypeContradiction>
+    <MixedAssignment occurrences="5">
+      <code>$handler</code>
+      <code>$request</code>
+      <code>$scriptName</code>
+      <code>$serverParams</code>
+      <code>$uri</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="7">
+      <code>getAttributes</code>
+      <code>getCookieParams</code>
+      <code>getHeaders</code>
+      <code>getMethod</code>
+      <code>getParsedBody</code>
+      <code>getQueryParams</code>
+      <code>getServerParams</code>
+    </MixedMethodCall>
+  </file>
+  <file src="src/MiddlewareContainer.php">
+    <InvalidStringClass occurrences="1">
+      <code>new $service()</code>
+    </InvalidStringClass>
+  </file>
+  <file src="src/MiddlewareFactory.php">
+    <DocblockTypeContradiction occurrences="2">
+      <code>! is_string($middleware)</code>
+      <code>is_string($middleware)</code>
+    </DocblockTypeContradiction>
+    <MixedArgument occurrences="2">
+      <code>$m</code>
+      <code>$middleware</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$middleware</code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment occurrences="1">
+      <code>$m</code>
+    </MixedAssignment>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>is_string($middleware)</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="src/Response/ServerRequestErrorResponseGenerator.php">
+    <MixedArgument occurrences="3">
+      <code>$response</code>
+      <code>$response</code>
+      <code>$response</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="2">
+      <code>$response</code>
+      <code>$response</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>ResponseInterface</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="3">
+      <code>getReasonPhrase</code>
+      <code>getStatusCode</code>
+      <code>withStatus</code>
+    </MixedMethodCall>
+    <MixedReturnStatement occurrences="1">
+      <code>$responseFactory()</code>
+    </MixedReturnStatement>
+    <PossiblyNullPropertyAssignmentValue occurrences="1">
+      <code>$renderer</code>
+    </PossiblyNullPropertyAssignmentValue>
+    <PropertyNotSetInConstructor occurrences="1">
+      <code>ServerRequestErrorResponseGenerator</code>
+    </PropertyNotSetInConstructor>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>$this-&gt;renderer</code>
+    </RedundantConditionGivenDocblockType>
+  </file>
+  <file src="test/ApplicationTest.php">
+    <DeprecatedMethod occurrences="2">
+      <code>Assert::assertAttributeSame($preparedMiddleware, 'middleware', $test)</code>
+      <code>Assert::assertAttributeSame('/foo', 'prefix', $test)</code>
+    </DeprecatedMethod>
+    <InvalidArgument occurrences="1"/>
+    <MissingClosureParamType occurrences="6">
+      <code>$request</code>
+      <code>$request</code>
+      <code>$response</code>
+      <code>$response</code>
+      <code>$test</code>
+      <code>$test</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="2">
+      <code>function ($request, $response) {</code>
+      <code>function ($test) use ($preparedMiddleware) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="16">
+      <code>createMockMiddleware</code>
+      <code>setUp</code>
+      <code>testAnyMethodPassesNullForMethodWhenAllArgumentsPresent</code>
+      <code>testAnyMethodPassesNullForMethodWhenNoNamePresent</code>
+      <code>testGetRoutesProxiesToRouteCollector</code>
+      <code>testHandleProxiesToPipelineToHandle</code>
+      <code>testPipeCanAcceptAPathArgument</code>
+      <code>testPipeCanAcceptSingleMiddlewareArgument</code>
+      <code>testPipeNonSlashPathOnNonStringPipeProduceTypeError</code>
+      <code>testProcessProxiesToPipelineToProcess</code>
+      <code>testRouteAcceptsPathAndMiddlewareOnly</code>
+      <code>testRouteAcceptsPathMiddlewareAndMethodsOnly</code>
+      <code>testRouteAcceptsPathMiddlewareMethodsAndName</code>
+      <code>testRunProxiesToRunner</code>
+      <code>testSpecificRouteMethodsCanAcceptOnlyPathAndMiddleware</code>
+      <code>testSpecificRouteMethodsCanAcceptPathMiddlewareAndName</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="2">
+      <code>$data</code>
+      <code>$key</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1"/>
+    <MixedAssignment occurrences="11">
+      <code>$data</code>
+      <code>$middleware2</code>
+      <code>$preparedMiddleware</code>
+      <code>$preparedMiddleware</code>
+      <code>$preparedMiddleware</code>
+      <code>$preparedMiddleware</code>
+      <code>$preparedMiddleware</code>
+      <code>$preparedMiddleware</code>
+      <code>$preparedMiddleware</code>
+      <code>$preparedMiddleware</code>
+      <code>$preparedMiddleware</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="2">
+      <code>iterable</code>
+      <code>iterable</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="58">
+      <code>$method</code>
+      <code>$method</code>
+      <code>any</code>
+      <code>any</code>
+      <code>getRoutes</code>
+      <code>getRoutes</code>
+      <code>handle</code>
+      <code>handle</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>process</code>
+      <code>process</code>
+      <code>route</code>
+      <code>route</code>
+      <code>route</code>
+      <code>route</code>
+      <code>route</code>
+      <code>route</code>
+      <code>route</code>
+      <code>route</code>
+      <code>route</code>
+      <code>route</code>
+      <code>run</code>
+      <code>run</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </MixedMethodCall>
+    <UndefinedThisPropertyAssignment occurrences="5">
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;pipeline</code>
+      <code>$this-&gt;routes</code>
+      <code>$this-&gt;runner</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="36">
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;app</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;pipeline</code>
+      <code>$this-&gt;pipeline</code>
+      <code>$this-&gt;pipeline</code>
+      <code>$this-&gt;pipeline</code>
+      <code>$this-&gt;routes</code>
+      <code>$this-&gt;routes</code>
+      <code>$this-&gt;routes</code>
+      <code>$this-&gt;routes</code>
+      <code>$this-&gt;routes</code>
+      <code>$this-&gt;routes</code>
+      <code>$this-&gt;routes</code>
+      <code>$this-&gt;routes</code>
+      <code>$this-&gt;runner</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="test/ConfigProviderTest.php">
+    <DeprecatedMethod occurrences="3">
+      <code>assertInternalType</code>
+      <code>assertInternalType</code>
+      <code>assertInternalType</code>
+    </DeprecatedMethod>
+    <InvalidFunctionCall occurrences="1">
+      <code>$configProvider()</code>
+    </InvalidFunctionCall>
+    <MissingReturnType occurrences="5">
+      <code>setUp</code>
+      <code>testInvocationReturnsArrayWithDependencies</code>
+      <code>testProviderDefinesExpectedAliases</code>
+      <code>testProviderDefinesExpectedFactoryServices</code>
+      <code>testServicesDefinedInConfigProvider</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="34">
+      <code>$alias</code>
+      <code>$alias</code>
+      <code>$alias</code>
+      <code>$alias</code>
+      <code>$aliases</code>
+      <code>$aliases</code>
+      <code>$aliases</code>
+      <code>$aliases</code>
+      <code>$aliases</code>
+      <code>$aliases</code>
+      <code>$configProvider()</code>
+      <code>$config['dependencies']</code>
+      <code>$config['dependencies']</code>
+      <code>$config['dependencies']</code>
+      <code>$dependency</code>
+      <code>$factories</code>
+      <code>$factories</code>
+      <code>$factories</code>
+      <code>$factories</code>
+      <code>$factories</code>
+      <code>$factories</code>
+      <code>$factories</code>
+      <code>$factories</code>
+      <code>$factories</code>
+      <code>$factories</code>
+      <code>$factories</code>
+      <code>$factories</code>
+      <code>$factories</code>
+      <code>$factory</code>
+      <code>$name</code>
+      <code>$name</code>
+      <code>$name</code>
+      <code>$name</code>
+      <code>ApplicationPipeline::class</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="2">
+      <code>$json['packages']</code>
+      <code>$package['extra']</code>
+    </MixedArrayAccess>
+    <MixedArrayAssignment occurrences="1">
+      <code>$config['dependencies']['services']</code>
+    </MixedArrayAssignment>
+    <MixedAssignment occurrences="6">
+      <code>$aliases</code>
+      <code>$dependency</code>
+      <code>$factories</code>
+      <code>$factory</code>
+      <code>$json</code>
+      <code>$package</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="1">
+      <code>new $package['extra']['laminas']['config-provider']()</code>
+    </MixedMethodCall>
+    <UndefinedClass occurrences="1">
+      <code>ApplicationPipeline</code>
+    </UndefinedClass>
+  </file>
+  <file src="test/Container/ApplicationConfigInjectionDelegatorTest.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$found</code>
+      <code>$route</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="2">
+      <code>function () {</code>
+      <code>function () {</code>
+    </MissingClosureReturnType>
+    <MissingParamType occurrences="4">
+      <code>$class</code>
+      <code>$message</code>
+      <code>$pipeline</code>
+      <code>$spec</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="22">
+      <code>assertPipelineContainsInstanceOf</code>
+      <code>assertRoute</code>
+      <code>callableMiddlewares</code>
+      <code>createApplication</code>
+      <code>getQueueFromApplicationPipeline</code>
+      <code>setUp</code>
+      <code>testConfigCanBeArrayObject</code>
+      <code>testInjectPipelineFromConfigHonorsPriorityOrderWhenAttachingMiddleware</code>
+      <code>testInjectPipelineFromConfigRaisesExceptionForSpecsOmittingMiddlewareKey</code>
+      <code>testInjectPipelineFromConfigWithEmptyConfigDoesNothing</code>
+      <code>testInjectRoutesFromConfigCanProvideRouteOptions</code>
+      <code>testInjectRoutesFromConfigRaisesExceptionIfAllowedMethodsIsInvalid</code>
+      <code>testInjectRoutesFromConfigRaisesExceptionIfOptionsIsNotAnArray</code>
+      <code>testInjectRoutesFromConfigRouteSpecNameOverrideArrayKeyName</code>
+      <code>testInjectRoutesFromConfigSetRouteNameViaArrayKey</code>
+      <code>testInjectRoutesFromConfigSetsUpRoutesFromConfig</code>
+      <code>testInjectRoutesFromConfigWillSkipSpecsThatOmitMiddleware</code>
+      <code>testInjectRoutesFromConfigWillSkipSpecsThatOmitPath</code>
+      <code>testInjectRoutesFromConfigWithEmptyConfigDoesNothing</code>
+      <code>testInvocationAsDelegatorFactoryRaisesExceptionIfCallbackIsNotAnApplication</code>
+      <code>testMiddlewareWithoutPriorityIsGivenDefaultPriorityAndRegisteredInOrderReceived</code>
+      <code>testNoRoutesAreAddedIfSpecDoesNotProvidePathOrMiddleware</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="18">
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$message</code>
+      <code>$pipeline</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="1">
+      <code>$spec['path']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="21">
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$message</code>
+      <code>$middleware</code>
+      <code>$pipeline</code>
+      <code>$pipeline</code>
+      <code>$pipeline</code>
+      <code>$pipeline</code>
+      <code>$pipeline</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="13">
+      <code>count</code>
+      <code>count</code>
+      <code>dequeue</code>
+      <code>dequeue</code>
+      <code>dequeue</code>
+      <code>dequeue</code>
+      <code>dequeue</code>
+      <code>dequeue</code>
+      <code>getAllowedMethods</code>
+      <code>getAllowedMethods</code>
+      <code>getMiddleware</code>
+      <code>getPath</code>
+      <code>willReturn</code>
+    </MixedMethodCall>
+    <PossiblyInvalidMethodCall occurrences="10">
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyUndefinedMethod occurrences="2">
+      <code>reveal</code>
+      <code>reveal</code>
+    </PossiblyUndefinedMethod>
+  </file>
+  <file src="test/Container/ApplicationFactoryTest.php">
+    <DeprecatedMethod occurrences="4">
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingReturnType occurrences="1">
+      <code>testFactoryProducesAnApplication</code>
+    </MissingReturnType>
+    <RedundantCondition occurrences="1">
+      <code>assertInstanceOf</code>
+    </RedundantCondition>
+    <UndefinedClass occurrences="1">
+      <code>ApplicationPipeline</code>
+    </UndefinedClass>
+  </file>
+  <file src="test/Container/EmitterFactoryTest.php">
+    <MissingReturnType occurrences="1">
+      <code>testFactoryProducesEmitterStackWithSapiEmitterComposed</code>
+    </MissingReturnType>
+    <MixedAssignment occurrences="1">
+      <code>$emitter</code>
+    </MixedAssignment>
+  </file>
+  <file src="test/Container/ErrorHandlerFactoryTest.php">
+    <DeprecatedMethod occurrences="4">
+      <code>assertAttributeInstanceOf</code>
+      <code>assertAttributeInstanceOf</code>
+      <code>assertAttributeInstanceOf</code>
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingReturnType occurrences="5">
+      <code>setUp</code>
+      <code>testFactoryCreatesHandlerWithGeneratorIfGeneratorServiceAvailable</code>
+      <code>testFactoryCreatesHandlerWithStratigilityGeneratorIfNoGeneratorServiceAvailable</code>
+      <code>testFactoryFailsIfResponseServiceIsMissing</code>
+      <code>testFactoryFailsIfResponseServiceReturnsResponse</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="4">
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+    </MixedArgument>
+    <MixedMethodCall occurrences="11">
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willThrow</code>
+    </MixedMethodCall>
+    <PossiblyInvalidMethodCall occurrences="7">
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyUndefinedMethod occurrences="4">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+    </PossiblyUndefinedMethod>
+    <RedundantCondition occurrences="2">
+      <code>assertInstanceOf</code>
+      <code>assertInstanceOf</code>
+    </RedundantCondition>
+  </file>
+  <file src="test/Container/ErrorResponseGeneratorFactoryTest.php">
+    <DeprecatedMethod occurrences="20">
+      <code>assertAttributeEmpty</code>
+      <code>assertAttributeEmpty</code>
+      <code>assertAttributeEmpty</code>
+      <code>assertAttributeEmpty</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingReturnType occurrences="6">
+      <code>setUp</code>
+      <code>testNoConfigurationCreatesInstanceWithDefaults</code>
+      <code>testNullifyLayout</code>
+      <code>testUsesConfiguredTemplateRenderToSetGeneratorRenderer</code>
+      <code>testUsesDebugConfigurationToSetDebugFlag</code>
+      <code>testUsesTemplateConfigurationToSetTemplate</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="5">
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+    </MixedArgument>
+    <MixedMethodCall occurrences="4">
+      <code>will</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </MixedMethodCall>
+    <PossiblyInvalidMethodCall occurrences="14">
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyUndefinedMethod occurrences="6">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+    </PossiblyUndefinedMethod>
+    <RedundantCondition occurrences="1">
+      <code>assertInstanceOf</code>
+    </RedundantCondition>
+    <UndefinedMethod occurrences="1">
+      <code>[$this-&gt;renderer, 'reveal']</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/Container/MiddlewareContainerFactoryTest.php">
+    <DeprecatedMethod occurrences="1">
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingReturnType occurrences="1">
+      <code>testFactoryCreatesMiddlewareContainerUsingProvidedContainer</code>
+    </MissingReturnType>
+    <RedundantCondition occurrences="1">
+      <code>assertInstanceOf</code>
+    </RedundantCondition>
+  </file>
+  <file src="test/Container/MiddlewareFactoryFactoryTest.php">
+    <DeprecatedMethod occurrences="1">
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingReturnType occurrences="1">
+      <code>testFactoryProducesMiddlewareFactoryComposingMiddlewareContainerInstance</code>
+    </MissingReturnType>
+    <RedundantCondition occurrences="1">
+      <code>assertInstanceOf</code>
+    </RedundantCondition>
+  </file>
+  <file src="test/Container/NotFoundHandlerFactoryTest.php">
+    <DeprecatedMethod occurrences="7">
+      <code>assertAttributeEmpty</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeInternalType</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingReturnType occurrences="5">
+      <code>setUp</code>
+      <code>testFactoryCreatesInstanceUsingRendererServiceWhenPresent</code>
+      <code>testFactoryCreatesInstanceWithoutRendererIfRendererServiceIsMissing</code>
+      <code>testFactoryUsesConfigured404TemplateWhenPresent</code>
+      <code>testNullifyLayout</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="4">
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+    </MixedArgument>
+    <MixedMethodCall occurrences="3">
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </MixedMethodCall>
+    <PossiblyInvalidMethodCall occurrences="11">
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyUndefinedMethod occurrences="4">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+    </PossiblyUndefinedMethod>
+    <RedundantCondition occurrences="1">
+      <code>assertInstanceOf</code>
+    </RedundantCondition>
+  </file>
+  <file src="test/Container/RequestHandlerRunnerFactoryTest.php">
+    <DeprecatedMethod occurrences="4">
+      <code>assertAttributeNotSame</code>
+      <code>assertAttributeNotSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingClosureReturnType occurrences="1">
+      <code>function () use ($request) {</code>
+    </MissingClosureReturnType>
+    <MissingParamType occurrences="4">
+      <code>$container</code>
+      <code>$container</code>
+      <code>$container</code>
+      <code>$container</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="1">
+      <code>testFactoryProducesRunnerUsingServicesFromContainer</code>
+    </MissingReturnType>
+    <MixedAssignment occurrences="2">
+      <code>$toTest</code>
+      <code>$toTest</code>
+    </MixedAssignment>
+    <MixedFunctionCall occurrences="2">
+      <code>$toTest($e)</code>
+      <code>$toTest()</code>
+    </MixedFunctionCall>
+    <MixedMethodCall occurrences="8">
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </MixedMethodCall>
+    <RedundantCondition occurrences="1">
+      <code>assertInstanceOf</code>
+    </RedundantCondition>
+    <UndefinedClass occurrences="1">
+      <code>ApplicationPipeline</code>
+    </UndefinedClass>
+  </file>
+  <file src="test/Container/ResponseFactoryFactoryTest.php">
+    <DeprecatedMethod occurrences="1">
+      <code>assertInternalType</code>
+    </DeprecatedMethod>
+    <MissingReturnType occurrences="1">
+      <code>testFactoryProducesACallableCapableOfGeneratingAResponseWhenDiactorosIsInstalled</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/Container/ResponseFactoryFactoryWithoutDiactorosTest.php">
+    <MissingReturnType occurrences="3">
+      <code>reloadAutoloaders</code>
+      <code>setUp</code>
+      <code>testFactoryRaisesAnExceptionIfDiactorosIsNotLoaded</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="1">
+      <code>$autoloader</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="2">
+      <code>$autoloader</code>
+      <code>$autoloader</code>
+    </MixedAssignment>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$this-&gt;container</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="test/Container/ServerRequestErrorResponseGeneratorFactoryTest.php">
+    <DeprecatedMethod occurrences="10">
+      <code>assertAttributeEmpty</code>
+      <code>assertAttributeInstanceOf</code>
+      <code>assertAttributeInstanceOf</code>
+      <code>assertAttributeNotSame</code>
+      <code>assertAttributeNotSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingClosureReturnType occurrences="2">
+      <code>function () {</code>
+      <code>function () {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="3">
+      <code>testFactoryCreatesGeneratorUsingConfiguredServices</code>
+      <code>testFactoryCreatesGeneratorWhenOnlyResponseServiceIsPresent</code>
+      <code>testFactoryOnlyRequiresResponseService</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/Container/ServerRequestFactoryFactoryTest.php">
+    <DeprecatedMethod occurrences="1">
+      <code>assertInternalType</code>
+    </DeprecatedMethod>
+    <MissingReturnType occurrences="2">
+      <code>testFactoryIsAClosure</code>
+      <code>testFactoryReturnsCallable</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/Container/ServerRequestFactoryFactoryWithoutDiactorosTest.php">
+    <MissingReturnType occurrences="3">
+      <code>reloadAutoloaders</code>
+      <code>setUp</code>
+      <code>testFactoryRaisesAnExceptionIfDiactorosIsNotLoaded</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="1">
+      <code>$autoloader</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="2">
+      <code>$autoloader</code>
+      <code>$autoloader</code>
+    </MixedAssignment>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$this-&gt;container</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="test/Container/StreamFactoryFactoryTest.php">
+    <DeprecatedMethod occurrences="1">
+      <code>assertInternalType</code>
+    </DeprecatedMethod>
+    <MissingReturnType occurrences="1">
+      <code>testFactoryProducesACallableCapableOfGeneratingAStreamWhenDiactorosIsInstalled</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/Container/StreamFactoryFactoryWithoutDiactorosTest.php">
+    <MissingReturnType occurrences="3">
+      <code>reloadAutoloaders</code>
+      <code>setUp</code>
+      <code>testFactoryRaisesAnExceptionIfDiactorosIsNotLoaded</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="1">
+      <code>$autoloader</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="2">
+      <code>$autoloader</code>
+      <code>$autoloader</code>
+    </MixedAssignment>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>$this-&gt;container</code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="test/Container/TestAsset/CallableInteropMiddleware.php">
+    <MissingParamType occurrences="1">
+      <code>$request</code>
+    </MissingParamType>
+  </file>
+  <file src="test/Container/TestAsset/CallableMiddleware.php">
+    <MissingParamType occurrences="2">
+      <code>$request</code>
+      <code>$response</code>
+    </MissingParamType>
+  </file>
+  <file src="test/Container/TestAsset/InteropMiddleware.php">
+    <InvalidReturnType occurrences="1">
+      <code>ResponseInterface</code>
+    </InvalidReturnType>
+  </file>
+  <file src="test/Container/WhoopsErrorResponseGeneratorFactoryTest.php">
+    <DeprecatedMethod occurrences="1">
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingReturnType occurrences="2">
+      <code>setUp</code>
+      <code>testCreatesInstanceWithConfiguredWhoopsService</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="1">
+      <code>$this-&gt;container-&gt;reveal()</code>
+    </MixedArgument>
+    <MixedMethodCall occurrences="1">
+      <code>will</code>
+    </MixedMethodCall>
+    <PossiblyUndefinedMethod occurrences="2">
+      <code>reveal</code>
+      <code>reveal</code>
+    </PossiblyUndefinedMethod>
+    <RedundantCondition occurrences="1">
+      <code>assertInstanceOf</code>
+    </RedundantCondition>
+    <UndefinedMethod occurrences="1">
+      <code>[$this-&gt;whoops, 'reveal']</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/Container/WhoopsFactoryTest.php">
+    <DeprecatedMethod occurrences="2">
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingParamType occurrences="2">
+      <code>$message</code>
+      <code>$type</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="5">
+      <code>assertWhoopsContainsHandler</code>
+      <code>setUp</code>
+      <code>testJsonResponseHandlerCanBeConfigured</code>
+      <code>testReturnsAWhoopsRuntimeWithPageHandlerComposed</code>
+      <code>testWillInjectJsonResponseHandlerIfConfigurationExpectsIt</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="5">
+      <code>$message</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$type</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="3">
+      <code>$handler</code>
+      <code>$message</code>
+      <code>$stack</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>Traversable</code>
+    </MixedInferredReturnType>
+    <PossiblyInvalidArgument occurrences="2">
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument occurrences="2">
+      <code>$handler</code>
+      <code>$handler</code>
+    </PossiblyNullArgument>
+    <PossiblyUndefinedMethod occurrences="3">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+    </PossiblyUndefinedMethod>
+    <RedundantCondition occurrences="2">
+      <code>assertInstanceOf</code>
+      <code>assertInstanceOf</code>
+    </RedundantCondition>
+  </file>
+  <file src="test/Container/WhoopsPageHandlerFactoryTest.php">
+    <DeprecatedMethod occurrences="3">
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingClosureReturnType occurrences="2">
+      <code>function () {</code>
+      <code>function () {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="7">
+      <code>invalidEditors</code>
+      <code>setUp</code>
+      <code>testInvalidEditorWillRaiseException</code>
+      <code>testReturnsAPrettyPageHandler</code>
+      <code>testWillInjectCallableEditor</code>
+      <code>testWillInjectEditorAsAService</code>
+      <code>testWillInjectStringEditor</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="5">
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+    </MixedArgument>
+    <PossiblyInvalidArgument occurrences="5">
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+    </PossiblyInvalidArgument>
+    <PossiblyUndefinedMethod occurrences="5">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+    </PossiblyUndefinedMethod>
+    <RedundantCondition occurrences="4">
+      <code>assertInstanceOf</code>
+      <code>assertInstanceOf</code>
+      <code>assertInstanceOf</code>
+      <code>assertInstanceOf</code>
+    </RedundantCondition>
+  </file>
+  <file src="test/ExceptionTest.php">
+    <InvalidLiteralArgument occurrences="1">
+      <code>ExceptionInterface::class</code>
+    </InvalidLiteralArgument>
+    <MissingReturnType occurrences="1">
+      <code>testContainerNotRegisteredExceptionForMiddlewareService</code>
+    </MissingReturnType>
+    <MixedInferredReturnType occurrences="2">
+      <code>Generator</code>
+      <code>Generator</code>
+    </MixedInferredReturnType>
+    <PossiblyFalseOperand occurrences="1">
+      <code>strrpos(ExceptionInterface::class, '\\')</code>
+    </PossiblyFalseOperand>
+  </file>
+  <file src="test/Handler/NotFoundHandlerTest.php">
+    <DeprecatedMethod occurrences="3">
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeEquals</code>
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingClosureReturnType occurrences="1">
+      <code>function () {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="6">
+      <code>setUp</code>
+      <code>testConstructorCanAcceptRendererAndTemplate</code>
+      <code>testConstructorDoesNotRequireARenderer</code>
+      <code>testImplementsRequesthandler</code>
+      <code>testRendersDefault404ResponseWhenNoRendererPresent</code>
+      <code>testUsesRendererToGenerateResponseContentsWhenPresent</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="2">
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+    </MixedArgument>
+    <PossiblyUndefinedMethod occurrences="7">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+    </PossiblyUndefinedMethod>
+    <RedundantCondition occurrences="2">
+      <code>assertInstanceOf</code>
+      <code>assertInstanceOf</code>
+    </RedundantCondition>
+    <UndefinedMethod occurrences="2">
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/Middleware/ErrorResponseGeneratorTest.php">
+    <ImplicitToStringCast occurrences="1"/>
+    <MissingClosureParamType occurrences="1">
+      <code>$body</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="4">
+      <code>function () use ($secondaryResponse) {</code>
+      <code>function () use ($secondaryResponse) {</code>
+      <code>function () use ($secondaryResponse) {</code>
+      <code>function () use ($secondaryResponse) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="6">
+      <code>setUp</code>
+      <code>templates</code>
+      <code>testRendersTemplateWithErrorDetailsWhenRendererPresentAndInDebugMode</code>
+      <code>testRendersTemplateWithoutErrorDetailsWhenRendererPresentAndNotInDebugMode</code>
+      <code>testWritesGenericMessageToResponseWhenNoRendererPresentAndNotInDebugMode</code>
+      <code>testWritesStackTraceToResponseWhenNoRendererPresentInDebugMode</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="12">
+      <code>$initialResponse-&gt;reveal()</code>
+      <code>$initialResponse-&gt;reveal()</code>
+      <code>$initialResponse-&gt;reveal()</code>
+      <code>$initialResponse-&gt;reveal()</code>
+      <code>$this-&gt;renderer-&gt;reveal()</code>
+      <code>$this-&gt;renderer-&gt;reveal()</code>
+      <code>$this-&gt;renderer-&gt;reveal()</code>
+      <code>$this-&gt;renderer-&gt;reveal()</code>
+      <code>$this-&gt;request-&gt;reveal()</code>
+      <code>$this-&gt;request-&gt;reveal()</code>
+      <code>$this-&gt;request-&gt;reveal()</code>
+      <code>$this-&gt;request-&gt;reveal()</code>
+    </MixedArgument>
+    <PossiblyInvalidMethodCall occurrences="18">
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyUndefinedMethod occurrences="34">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </PossiblyUndefinedMethod>
+    <UndefinedMethod occurrences="4">
+      <code>[$this-&gt;stream, 'reveal']</code>
+      <code>[$this-&gt;stream, 'reveal']</code>
+      <code>[$this-&gt;stream, 'reveal']</code>
+      <code>[$this-&gt;stream, 'reveal']</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/Middleware/LazyLoadingMiddlewareTest.php">
+    <MissingParamType occurrences="1">
+      <code>$middlewareName</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="4">
+      <code>buildLazyLoadingMiddleware</code>
+      <code>setUp</code>
+      <code>testDoesNotCatchContainerExceptions</code>
+      <code>testProcessesMiddlewarePulledFromContainer</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="2">
+      <code>$middlewareName</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="2">
+      <code>$lazyloader</code>
+      <code>$lazyloader</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="2">
+      <code>process</code>
+      <code>process</code>
+    </MixedMethodCall>
+    <PossiblyUndefinedMethod occurrences="9">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>will</code>
+      <code>willThrow</code>
+    </PossiblyUndefinedMethod>
+  </file>
+  <file src="test/Middleware/WhoopsErrorResponseGeneratorTest.php">
+    <InvalidArgument occurrences="2">
+      <code>$whoops</code>
+      <code>$whoops</code>
+    </InvalidArgument>
+    <MissingReturnType occurrences="6">
+      <code>setUp</code>
+      <code>testAddsRequestMetadataToWhoopsPrettyPageHandler</code>
+      <code>testJsonContentTypeResponseWithJsonResponseHandler</code>
+      <code>testThrowsInvalidArgumentExceptionOnNonRunForObject</code>
+      <code>testThrowsInvalidArgumentExceptionOnNonRunForScalar</code>
+      <code>testWritesResultsOfWhoopsExceptionsHandlingToResponse</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="12">
+      <code>$this-&gt;request-&gt;reveal()</code>
+      <code>$this-&gt;request-&gt;reveal()</code>
+      <code>$this-&gt;request-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;whoops-&gt;reveal()</code>
+      <code>$this-&gt;whoops-&gt;reveal()</code>
+      <code>$this-&gt;whoops-&gt;reveal()</code>
+    </MixedArgument>
+    <MixedMethodCall occurrences="5">
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>will</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </MixedMethodCall>
+    <PossiblyInvalidMethodCall occurrences="35">
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyNullReference occurrences="2">
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </PossiblyNullReference>
+    <PossiblyUndefinedMethod occurrences="12">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+    </PossiblyUndefinedMethod>
+    <UndefinedMethod occurrences="9">
+      <code>[$this-&gt;request, 'reveal']</code>
+      <code>[$this-&gt;request, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;stream, 'reveal']</code>
+      <code>[$this-&gt;stream, 'reveal']</code>
+      <code>[$this-&gt;stream, 'reveal']</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/MiddlewareContainerTest.php">
+    <DeprecatedMethod occurrences="1">
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingReturnType occurrences="11">
+      <code>setUp</code>
+      <code>testGetDoesNotCastMiddlewareImplementingRequestHandlerToRequestHandlerMiddleware</code>
+      <code>testGetRaisesExceptionIfClassSpecifiedDoesNotImplementMiddlewareInterface</code>
+      <code>testGetRaisesExceptionIfServiceIsUnknown</code>
+      <code>testGetRaisesExceptionIfServiceSpecifiedDoesNotImplementMiddlewareInterface</code>
+      <code>testGetReturnsInstantiatedClass</code>
+      <code>testGetReturnsServiceFromOriginContainer</code>
+      <code>testGetWillDecorateARequestHandlerAsMiddleware</code>
+      <code>testHasReturnsFalseIfOriginContainerDoesNotHaveServiceAndClassDoesNotExist</code>
+      <code>testHasReturnsTrueIfOriginContainerDoesNotHaveServiceButClassExists</code>
+      <code>testHasReturnsTrueIfOriginContainerHasService</code>
+    </MissingReturnType>
+    <MixedAssignment occurrences="1">
+      <code>$middleware</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="42">
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>get</code>
+      <code>has</code>
+      <code>has</code>
+      <code>has</code>
+      <code>has</code>
+      <code>has</code>
+      <code>has</code>
+      <code>has</code>
+      <code>has</code>
+      <code>has</code>
+      <code>has</code>
+      <code>has</code>
+      <code>has</code>
+      <code>has</code>
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>will</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </MixedMethodCall>
+    <UndefinedThisPropertyAssignment occurrences="2">
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;originContainer</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="20">
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;originContainer</code>
+      <code>$this-&gt;originContainer</code>
+      <code>$this-&gt;originContainer</code>
+      <code>$this-&gt;originContainer</code>
+      <code>$this-&gt;originContainer</code>
+      <code>$this-&gt;originContainer</code>
+      <code>$this-&gt;originContainer</code>
+      <code>$this-&gt;originContainer</code>
+      <code>$this-&gt;originContainer</code>
+      <code>$this-&gt;originContainer</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="test/MiddlewareFactoryTest.php">
+    <DeprecatedMethod occurrences="8">
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+      <code>assertAttributeSame</code>
+    </DeprecatedMethod>
+    <MissingClosureParamType occurrences="8">
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="4">
+      <code>function ($request, $handler) {</code>
+      <code>function ($request, $handler) {</code>
+      <code>function ($request, $handler) {</code>
+      <code>function ($request, $handler) {</code>
+    </MissingClosureReturnType>
+    <MissingParamType occurrences="1">
+      <code>$middleware</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="18">
+      <code>assertCallableMiddleware</code>
+      <code>assertLazyLoadingMiddleware</code>
+      <code>assertPipeline</code>
+      <code>setUp</code>
+      <code>testCallableDecoratesCallableMiddleware</code>
+      <code>testHandlerDecoratesRequestHandlersAsMiddleware</code>
+      <code>testLazyLoadingMiddlewareDecoratesMiddlewareServiceName</code>
+      <code>testPipelineAcceptsASingleArrayArgument</code>
+      <code>testPipelineAcceptsMultipleArguments</code>
+      <code>testPipelineAllowsAnyTypeSupportedByPrepare</code>
+      <code>testPipelineAllowsPipingArraysOfMiddlewareAndCastsThemToInternalPipelines</code>
+      <code>testPrepareDecoratesArraysAsMiddlewarePipes</code>
+      <code>testPrepareDecoratesCallables</code>
+      <code>testPrepareDecoratesRequestHandlersAsMiddleware</code>
+      <code>testPrepareDecoratesServiceNamesAsLazyLoadingMiddleware</code>
+      <code>testPrepareRaisesExceptionForTypesItDoesNotUnderstand</code>
+      <code>testPrepareReturnsMiddlewareImplementationsVerbatim</code>
+      <code>validPrepareTypes</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="8">
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$r-&gt;getValue($pipeline)</code>
+      <code>$r-&gt;getValue($pipeline)</code>
+      <code>$received[0]</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="6">
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$received</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>iterable</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="15">
+      <code>callable</code>
+      <code>handler</code>
+      <code>lazy</code>
+      <code>pipeline</code>
+      <code>pipeline</code>
+      <code>pipeline</code>
+      <code>pipeline</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>prepare</code>
+      <code>reveal</code>
+      <code>reveal</code>
+    </MixedMethodCall>
+    <UndefinedThisPropertyAssignment occurrences="2">
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;factory</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="15">
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;container</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+      <code>$this-&gt;factory</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="test/Response/ServerRequestErrorResponseGeneratorTest.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$message</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="1">
+      <code>function () {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="4">
+      <code>setUp</code>
+      <code>testPreparesResponseWithDefaultMessageAndStackTraceWhenNoRendererPresentAndInDebugMode</code>
+      <code>testPreparesResponseWithDefaultMessageOnlyWhenNoRendererPresentAndNotInDebugMode</code>
+      <code>testPreparesTemplatedResponseWhenRendererPresent</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="6">
+      <code>$message</code>
+      <code>$message</code>
+      <code>$this-&gt;renderer-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1"/>
+    <PossiblyInvalidMethodCall occurrences="7">
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyUndefinedMethod occurrences="12">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+    </PossiblyUndefinedMethod>
+    <UndefinedMethod occurrences="3">
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/Router/IntegrationTest.php">
+    <ArgumentTypeCoercion occurrences="13">
+      <code>$router</code>
+      <code>$router</code>
+      <code>$router</code>
+      <code>$router</code>
+      <code>$router</code>
+      <code>$router</code>
+      <code>$router</code>
+      <code>$router</code>
+      <code>$router</code>
+      <code>$router</code>
+      <code>$router</code>
+      <code>$router</code>
+      <code>$router</code>
+    </ArgumentTypeCoercion>
+    <InvalidStringClass occurrences="6">
+      <code>new $adapter()</code>
+      <code>new $adapter()</code>
+      <code>new $adapter()</code>
+      <code>new $adapter()</code>
+      <code>new $adapter()</code>
+      <code>new $adapter()</code>
+    </InvalidStringClass>
+    <MissingClosureParamType occurrences="19">
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$next</code>
+      <code>$req</code>
+      <code>$req</code>
+      <code>$req</code>
+      <code>$req</code>
+      <code>$req</code>
+      <code>$req</code>
+      <code>$req</code>
+      <code>$req</code>
+      <code>$req</code>
+      <code>$res</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="2">
+      <code>function ($req, $res, $next) {</code>
+      <code>function () {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="15">
+      <code>allowedMethod</code>
+      <code>createApplicationFromRouter</code>
+      <code>getApplication</code>
+      <code>routerAdapters</code>
+      <code>routerAdaptersForHttpMethods</code>
+      <code>setUp</code>
+      <code>testAllowedMethodsWhenOnlyPutMethodSet</code>
+      <code>testMatchWithAllHttpMethods</code>
+      <code>testRoutingDoesNotMatchMethod</code>
+      <code>testRoutingWithSamePathWithName</code>
+      <code>testRoutingWithSamePathWithRouteWithMultipleMethods</code>
+      <code>testRoutingWithSamePathWithRouteWithName</code>
+      <code>testRoutingWithSamePathWithRouteWithoutName</code>
+      <code>testRoutingWithSamePathWithoutName</code>
+      <code>testWithOnlyRootPathRouteDefinedRoutingToSubPathsShouldDelegate</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="4">
+      <code>$adapter</code>
+      <code>$adapterName</code>
+      <code>$this-&gt;container-&gt;reveal()</code>
+      <code>$this-&gt;router-&gt;reveal()</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="13">
+      <code>$adapter</code>
+      <code>$adapter</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$app</code>
+      <code>$result</code>
+      <code>$result</code>
+      <code>$result</code>
+      <code>$result</code>
+      <code>$result</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="2">
+      <code>Application</code>
+      <code>Application</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="39">
+      <code>get</code>
+      <code>getBody</code>
+      <code>getBody</code>
+      <code>getBody</code>
+      <code>getBody</code>
+      <code>getBody</code>
+      <code>getStatusCode</code>
+      <code>getStatusCode</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>pipe</code>
+      <code>post</code>
+      <code>process</code>
+      <code>process</code>
+      <code>process</code>
+      <code>process</code>
+      <code>process</code>
+      <code>process</code>
+      <code>put</code>
+      <code>route</code>
+      <code>route</code>
+      <code>route</code>
+      <code>route</code>
+      <code>route</code>
+      <code>route</code>
+      <code>withBody</code>
+    </MixedMethodCall>
+    <MixedReturnStatement occurrences="2">
+      <code>$app</code>
+      <code>$app</code>
+    </MixedReturnStatement>
+    <PossiblyUndefinedMethod occurrences="2">
+      <code>reveal</code>
+      <code>reveal</code>
+    </PossiblyUndefinedMethod>
+  </file>
+  <file src="test/TestAsset/InteropMiddleware.php">
+    <InvalidReturnType occurrences="1">
+      <code>ResponseInterface</code>
+    </InvalidReturnType>
+    <ParamNameMismatch occurrences="1">
+      <code>$delegate</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="test/TestAsset/InvokableMiddleware.php">
+    <MissingParamType occurrences="6">
+      <code>$next</code>
+      <code>$next</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$response</code>
+      <code>$response</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="1">
+      <code>staticallyCallableMiddleware</code>
+    </MissingReturnType>
+    <MixedMethodCall occurrences="1">
+      <code>withHeader</code>
+    </MixedMethodCall>
+  </file>
+</files>
