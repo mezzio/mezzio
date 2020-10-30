@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.17.2@9e526d9cb569fe4631e6a737bbb7948d05596e3f">
+<files psalm-version="4.1.0@8929bde5354595dc61947b7e27cfe59db45e3bb0">
   <file src="src/ConfigProvider.php">
     <UndefinedClass occurrences="3">
       <code>ApplicationPipeline</code>
@@ -14,7 +14,7 @@
       <code>$queue</code>
     </MissingClosureParamType>
     <MissingClosureReturnType occurrences="1">
-      <code>function ($queue, $item) use (&amp;$serial) {</code>
+      <code>function ($queue, $item) use (&amp;$serial) {&#13;</code>
     </MissingClosureReturnType>
     <MixedArgument occurrences="6">
       <code>$config['middleware_pipeline']</code>
@@ -282,8 +282,8 @@
       <code>$test</code>
     </MissingClosureParamType>
     <MissingClosureReturnType occurrences="2">
-      <code>function ($request, $response) {</code>
-      <code>function ($test) use ($preparedMiddleware) {</code>
+      <code>function ($request, $response) {&#13;</code>
+      <code>function ($test) use ($preparedMiddleware) {&#13;</code>
     </MissingClosureReturnType>
     <MissingReturnType occurrences="16">
       <code>createMockMiddleware</code>
@@ -308,8 +308,9 @@
       <code>$key</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1"/>
-    <MixedAssignment occurrences="11">
+    <MixedAssignment occurrences="12">
       <code>$data</code>
+      <code>$key</code>
       <code>$middleware2</code>
       <code>$preparedMiddleware</code>
       <code>$preparedMiddleware</code>
@@ -490,12 +491,14 @@
     <MixedArrayAssignment occurrences="1">
       <code>$config['dependencies']['services']</code>
     </MixedArrayAssignment>
-    <MixedAssignment occurrences="6">
+    <MixedAssignment occurrences="8">
+      <code>$alias</code>
       <code>$aliases</code>
       <code>$dependency</code>
       <code>$factories</code>
       <code>$factory</code>
       <code>$json</code>
+      <code>$name</code>
       <code>$package</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="1">
@@ -511,8 +514,8 @@
       <code>$route</code>
     </MissingClosureParamType>
     <MissingClosureReturnType occurrences="2">
-      <code>function () {</code>
-      <code>function () {</code>
+      <code>function () {&#13;</code>
+      <code>function () {&#13;</code>
     </MissingClosureReturnType>
     <MissingParamType occurrences="4">
       <code>$class</code>
@@ -856,7 +859,7 @@
       <code>assertAttributeSame</code>
     </DeprecatedMethod>
     <MissingClosureReturnType occurrences="1">
-      <code>function () use ($request) {</code>
+      <code>function () use ($request) {&#13;</code>
     </MissingClosureReturnType>
     <MissingParamType occurrences="4">
       <code>$container</code>
@@ -931,8 +934,8 @@
       <code>assertAttributeSame</code>
     </DeprecatedMethod>
     <MissingClosureReturnType occurrences="2">
-      <code>function () {</code>
-      <code>function () {</code>
+      <code>function () {&#13;</code>
+      <code>function () {&#13;</code>
     </MissingClosureReturnType>
     <MissingReturnType occurrences="3">
       <code>testFactoryCreatesGeneratorUsingConfiguredServices</code>
@@ -1088,8 +1091,8 @@
       <code>assertAttributeSame</code>
     </DeprecatedMethod>
     <MissingClosureReturnType occurrences="2">
-      <code>function () {</code>
-      <code>function () {</code>
+      <code>function () {&#13;</code>
+      <code>function () {&#13;</code>
     </MissingClosureReturnType>
     <MissingReturnType occurrences="7">
       <code>invalidEditors</code>
@@ -1150,7 +1153,7 @@
       <code>assertAttributeSame</code>
     </DeprecatedMethod>
     <MissingClosureReturnType occurrences="1">
-      <code>function () {</code>
+      <code>function () {&#13;</code>
     </MissingClosureReturnType>
     <MissingReturnType occurrences="6">
       <code>setUp</code>
@@ -1188,10 +1191,10 @@
       <code>$body</code>
     </MissingClosureParamType>
     <MissingClosureReturnType occurrences="4">
-      <code>function () use ($secondaryResponse) {</code>
-      <code>function () use ($secondaryResponse) {</code>
-      <code>function () use ($secondaryResponse) {</code>
-      <code>function () use ($secondaryResponse) {</code>
+      <code>function () use ($secondaryResponse) {&#13;</code>
+      <code>function () use ($secondaryResponse) {&#13;</code>
+      <code>function () use ($secondaryResponse) {&#13;</code>
+      <code>function () use ($secondaryResponse) {&#13;</code>
     </MissingClosureReturnType>
     <MissingReturnType occurrences="6">
       <code>setUp</code>
@@ -1526,10 +1529,10 @@
       <code>$request</code>
     </MissingClosureParamType>
     <MissingClosureReturnType occurrences="4">
-      <code>function ($request, $handler) {</code>
-      <code>function ($request, $handler) {</code>
-      <code>function ($request, $handler) {</code>
-      <code>function ($request, $handler) {</code>
+      <code>function ($request, $handler) {&#13;</code>
+      <code>function ($request, $handler) {&#13;</code>
+      <code>function ($request, $handler) {&#13;</code>
+      <code>function ($request, $handler) {&#13;</code>
     </MissingClosureReturnType>
     <MissingParamType occurrences="1">
       <code>$middleware</code>
@@ -1619,7 +1622,7 @@
       <code>$message</code>
     </MissingClosureParamType>
     <MissingClosureReturnType occurrences="1">
-      <code>function () {</code>
+      <code>function () {&#13;</code>
     </MissingClosureReturnType>
     <MissingReturnType occurrences="4">
       <code>setUp</code>
@@ -1711,8 +1714,8 @@
       <code>$res</code>
     </MissingClosureParamType>
     <MissingClosureReturnType occurrences="2">
-      <code>function ($req, $res, $next) {</code>
-      <code>function () {</code>
+      <code>function ($req, $res, $next) {&#13;</code>
+      <code>function () {&#13;</code>
     </MissingClosureReturnType>
     <MissingReturnType occurrences="15">
       <code>allowedMethod</code>
@@ -1737,9 +1740,10 @@
       <code>$this-&gt;container-&gt;reveal()</code>
       <code>$this-&gt;router-&gt;reveal()</code>
     </MixedArgument>
-    <MixedAssignment occurrences="13">
+    <MixedAssignment occurrences="14">
       <code>$adapter</code>
       <code>$adapter</code>
+      <code>$adapterName</code>
       <code>$app</code>
       <code>$app</code>
       <code>$app</code>
