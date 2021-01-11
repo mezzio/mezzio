@@ -32,7 +32,7 @@ class NotFoundHandlerTest extends TestCase
     /** @var callable */
     private $responseFactory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request  = $this->prophesize(ServerRequestInterface::class);
         $this->response = $this->prophesize(ResponseInterface::class);

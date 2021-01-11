@@ -56,7 +56,7 @@ class IntegrationTest extends TestCase
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->response  = new Response();
         $this->responseFactory = function () {

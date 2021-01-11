@@ -38,7 +38,7 @@ class WhoopsFactoryTest extends TestCase
     /** @var WhoopsFactory */
     private $factory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $pageHandler     = $this->prophesize(PrettyPageHandler::class);
         $this->container = $this->mockContainerInterface();

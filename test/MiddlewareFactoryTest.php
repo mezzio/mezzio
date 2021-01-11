@@ -28,7 +28,7 @@ use function iterator_to_array;
 
 class MiddlewareFactoryTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->prophesize(MiddlewareContainer::class);
         $this->factory = new MiddlewareFactory($this->container->reveal());

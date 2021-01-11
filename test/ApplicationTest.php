@@ -33,7 +33,7 @@ use function strtoupper;
 
 class ApplicationTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->factory = $this->prophesize(MiddlewareFactory::class);
         $this->pipeline = $this->prophesize(MiddlewarePipeInterface::class);

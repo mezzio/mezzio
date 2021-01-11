@@ -25,7 +25,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
     /** @var TemplateRendererInterface|ObjectProphecy */
     private $renderer;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
         $this->renderer  = $this->prophesize(TemplateRendererInterface::class);

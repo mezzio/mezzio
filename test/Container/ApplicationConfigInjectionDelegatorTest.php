@@ -60,7 +60,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
     /** @var RouterInterface|ObjectProphecy */
     private $router;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->mockContainerInterface();
         $this->router = $this->prophesize(RouterInterface::class);

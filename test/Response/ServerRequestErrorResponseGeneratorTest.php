@@ -33,7 +33,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
     /** @var callable */
     private $responseFactory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->response = $this->prophesize(ResponseInterface::class);
         $this->responseFactory = function () {

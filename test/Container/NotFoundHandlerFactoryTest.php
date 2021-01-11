@@ -26,7 +26,7 @@ class NotFoundHandlerFactoryTest extends TestCase
     /** @var ResponseInterface|ObjectProphecy */
     private $response;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->response = $this->prophesize(ResponseInterface::class)->reveal();
         $this->container = $this->prophesize(ContainerInterface::class);

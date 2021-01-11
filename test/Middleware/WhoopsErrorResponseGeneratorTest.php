@@ -42,7 +42,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
     /** @var StreamInterface|ObjectProphecy */
     private $stream;
 
-    public function setUp()
+    public function setUp(): void
     {
         // Run is marked final in 2.X, but in that version, we can mock the
         // RunInterface. 1.X has only Run, and it is not final.

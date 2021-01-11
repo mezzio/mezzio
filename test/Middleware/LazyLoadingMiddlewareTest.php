@@ -31,7 +31,7 @@ class LazyLoadingMiddlewareTest extends TestCase
     /** @var RequestHandlerInterface|ObjectProphecy */
     private $handler;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->prophesize(MiddlewareContainer::class);
         $this->request   = $this->prophesize(ServerRequestInterface::class);

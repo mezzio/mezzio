@@ -21,7 +21,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class MiddlewareContainerTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->originContainer = $this->prophesize(ContainerInterface::class);
         $this->container = new MiddlewareContainer($this->originContainer->reveal());
