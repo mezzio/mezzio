@@ -53,7 +53,7 @@
         "mockery/mockery": "^1.4.1",
         "phpstan/phpstan": "^0.12.33",
         "phpstan/phpstan-strict-rules": "^0.12.4",
-        "phpunit/phpunit": "^8.5.12"
+        "phpunit/phpunit": "^8.5.13"
     },
     "conflict": {
         "container-interop/container-interop": "<1.2.0",
