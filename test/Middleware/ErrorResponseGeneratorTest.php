@@ -26,9 +26,6 @@ class ErrorResponseGeneratorTest extends TestCase
     /** @var ServerRequestInterface|ObjectProphecy */
     private $request;
 
-    /** @var ResponseInterface|ObjectProphecy */
-    private $response;
-
     /** @var StreamInterface|ObjectProphecy */
     private $stream;
 
@@ -38,7 +35,6 @@ class ErrorResponseGeneratorTest extends TestCase
     public function setUp()
     {
         $this->request  = $this->prophesize(ServerRequestInterface::class);
-        $this->response = $this->prophesize(ResponseInterface::class);
         $this->stream   = $this->prophesize(StreamInterface::class);
         $this->renderer = $this->prophesize(TemplateRendererInterface::class);
     }
@@ -47,8 +43,8 @@ class ErrorResponseGeneratorTest extends TestCase
     {
         $error = new RuntimeException('', 0);
 
-        $initialResponse   = clone $this->response;
-        $secondaryResponse = clone $this->response;
+        $initialResponse   = $this->prophesize(ResponseInterface::class);
+        $secondaryResponse = $this->prophesize(ResponseInterface::class);
 
         $secondaryResponse->getBody()->will([$this->stream, 'reveal']);
 
@@ -77,8 +73,8 @@ class ErrorResponseGeneratorTest extends TestCase
         $branch = new RuntimeException('branch', 0, $leaf);
         $error  = new RuntimeException('root', 599, $branch);
 
-        $initialResponse   = clone $this->response;
-        $secondaryResponse = clone $this->response;
+        $initialResponse   = $this->prophesize(ResponseInterface::class);
+        $secondaryResponse = $this->prophesize(ResponseInterface::class);
 
         $secondaryResponse->getBody()->will([$this->stream, 'reveal']);
 
@@ -126,8 +122,8 @@ class ErrorResponseGeneratorTest extends TestCase
     {
         $error = new RuntimeException('', 0);
 
-        $initialResponse   = clone $this->response;
-        $secondaryResponse = clone $this->response;
+        $initialResponse   = $this->prophesize(ResponseInterface::class);
+        $secondaryResponse = $this->prophesize(ResponseInterface::class);
 
         $this->renderer
             ->render($expected, [
@@ -176,8 +172,8 @@ class ErrorResponseGeneratorTest extends TestCase
     {
         $error = new RuntimeException('', 0);
 
-        $initialResponse   = clone $this->response;
-        $secondaryResponse = clone $this->response;
+        $initialResponse   = $this->prophesize(ResponseInterface::class);
+        $secondaryResponse = $this->prophesize(ResponseInterface::class);
 
         $secondaryResponse->getBody()->will([$this->stream, 'reveal']);
 
