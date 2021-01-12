@@ -98,7 +98,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
         $stream
             ->method('write')
             ->with(self::callback(function ($message) {
-                self::assertRegExp('/^An unexpected error occurred; stack trace:/', $message);
+                self::assertMatchesRegularExpression('/^An unexpected error occurred; stack trace:/', $message);
                 self::assertStringContainsString('Stack Trace:', $message);
 
                 return true;
