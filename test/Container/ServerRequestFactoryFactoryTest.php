@@ -18,7 +18,7 @@ use Psr\Container\ContainerInterface;
 
 class ServerRequestFactoryFactoryTest extends TestCase
 {
-    public function testFactoryReturnsCallable()
+    public function testFactoryReturnsCallable() : callable
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();
         $factory = new ServerRequestFactoryFactory();
@@ -39,7 +39,7 @@ class ServerRequestFactoryFactoryTest extends TestCase
      *
      * @depends testFactoryReturnsCallable
      */
-    public function testFactoryIsAClosure(callable $factory)
+    public function testFactoryIsAClosure(callable $factory) : void
     {
         $this->assertNotSame([ServerRequestFactory::class, 'fromGlobals'], $factory);
         $this->assertNotSame(ServerRequestFactory::class . '::fromGlobals', $factory);

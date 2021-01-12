@@ -27,12 +27,12 @@ class ErrorHandlerFactoryTest extends TestCase
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
     }
 
-    public function testFactoryFailsIfResponseServiceIsMissing()
+    public function testFactoryFailsIfResponseServiceIsMissing() : void
     {
         $exception = new RuntimeException();
         $this->container->has(ErrorResponseGenerator::class)->willReturn(false);
@@ -47,7 +47,7 @@ class ErrorHandlerFactoryTest extends TestCase
         $factory($this->container->reveal());
     }
 
-    public function testFactoryFailsIfResponseServiceReturnsResponse()
+    public function testFactoryFailsIfResponseServiceReturnsResponse() : void
     {
         $response = $this->prophesize(ResponseInterface::class)->reveal();
         $this->container->has(ErrorResponseGenerator::class)->willReturn(false);
@@ -62,7 +62,7 @@ class ErrorHandlerFactoryTest extends TestCase
         $factory($this->container->reveal());
     }
 
-    public function testFactoryCreatesHandlerWithStratigilityGeneratorIfNoGeneratorServiceAvailable()
+    public function testFactoryCreatesHandlerWithStratigilityGeneratorIfNoGeneratorServiceAvailable() : void
     {
         $this->container->has(ErrorResponseGenerator::class)->willReturn(false);
         $this->container->has(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->willReturn(false);
@@ -80,7 +80,7 @@ class ErrorHandlerFactoryTest extends TestCase
         $this->assertAttributeInstanceOf(StratigilityGenerator::class, 'responseGenerator', $handler);
     }
 
-    public function testFactoryCreatesHandlerWithGeneratorIfGeneratorServiceAvailable()
+    public function testFactoryCreatesHandlerWithGeneratorIfGeneratorServiceAvailable() : void
     {
         $generator = $this->prophesize(ErrorResponseGenerator::class)->reveal();
         $this->container->has(ErrorResponseGenerator::class)->willReturn(true);

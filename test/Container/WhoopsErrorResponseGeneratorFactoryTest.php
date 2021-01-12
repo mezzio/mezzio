@@ -28,7 +28,7 @@ class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
     /** @var Run|RunInterface|ObjectProphecy */
     private $whoops;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
 
@@ -37,7 +37,7 @@ class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
             : $this->prophesize(Run::class);
     }
 
-    public function testCreatesInstanceWithConfiguredWhoopsService()
+    public function testCreatesInstanceWithConfiguredWhoopsService() : void
     {
         $this->container->get('Mezzio\Whoops')->will([$this->whoops, 'reveal']);
 

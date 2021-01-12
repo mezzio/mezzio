@@ -17,7 +17,7 @@ use Psr\Container\ContainerInterface;
 
 class StreamFactoryFactoryTest extends TestCase
 {
-    public function testFactoryProducesACallableCapableOfGeneratingAStreamWhenDiactorosIsInstalled()
+    public function testFactoryProducesACallableCapableOfGeneratingAStreamWhenDiactorosIsInstalled() : void
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();
         $factory = new StreamFactoryFactory();

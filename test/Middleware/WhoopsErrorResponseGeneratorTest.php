@@ -42,7 +42,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
     /** @var StreamInterface|ObjectProphecy */
     private $stream;
 
-    public function setUp()
+    public function setUp() : void
     {
         // Run is marked final in 2.X, but in that version, we can mock the
         // RunInterface. 1.X has only Run, and it is not final.
@@ -55,7 +55,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
         $this->stream   = $this->prophesize(StreamInterface::class);
     }
 
-    public function testWritesResultsOfWhoopsExceptionsHandlingToResponse()
+    public function testWritesResultsOfWhoopsExceptionsHandlingToResponse() : void
     {
         $error = new RuntimeException();
         $sendOutputFlag = true;
@@ -85,7 +85,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
         );
     }
 
-    public function testAddsRequestMetadataToWhoopsPrettyPageHandler()
+    public function testAddsRequestMetadataToWhoopsPrettyPageHandler() : void
     {
         $error = new RuntimeException('STATUS_INTERNAL_SERVER_ERROR', StatusCode::STATUS_INTERNAL_SERVER_ERROR);
         $sendOutputFlag = true;
@@ -134,7 +134,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
         );
     }
 
-    public function testJsonContentTypeResponseWithJsonResponseHandler()
+    public function testJsonContentTypeResponseWithJsonResponseHandler() : void
     {
         $error = new RuntimeException('STATUS_NOT_IMPLEMENTED', StatusCode::STATUS_NOT_IMPLEMENTED);
         $sendOutput = true;
@@ -176,7 +176,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
         );
     }
 
-    public function testThrowsInvalidArgumentExceptionOnNonRunForObject()
+    public function testThrowsInvalidArgumentExceptionOnNonRunForObject() : void
     {
         $whoops = new stdClass();
 
@@ -189,7 +189,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
         new WhoopsErrorResponseGenerator($whoops);
     }
 
-    public function testThrowsInvalidArgumentExceptionOnNonRunForScalar()
+    public function testThrowsInvalidArgumentExceptionOnNonRunForScalar() : void
     {
         $whoops = 'foo';
 

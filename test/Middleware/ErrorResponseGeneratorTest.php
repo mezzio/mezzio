@@ -32,14 +32,14 @@ class ErrorResponseGeneratorTest extends TestCase
     /** @var TemplateRendererInterface|ObjectProphecy */
     private $renderer;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->request  = $this->prophesize(ServerRequestInterface::class);
         $this->stream   = $this->prophesize(StreamInterface::class);
         $this->renderer = $this->prophesize(TemplateRendererInterface::class);
     }
 
-    public function testWritesGenericMessageToResponseWhenNoRendererPresentAndNotInDebugMode()
+    public function testWritesGenericMessageToResponseWhenNoRendererPresentAndNotInDebugMode() : void
     {
         $error = new RuntimeException('', 0);
 
@@ -67,7 +67,7 @@ class ErrorResponseGeneratorTest extends TestCase
         $this->assertSame($response, $secondaryResponse->reveal());
     }
 
-    public function testWritesStackTraceToResponseWhenNoRendererPresentInDebugMode()
+    public function testWritesStackTraceToResponseWhenNoRendererPresentInDebugMode() : void
     {
         $leaf   = new RuntimeException('leaf', 415);
         $branch = new RuntimeException('branch', 0, $leaf);
@@ -104,7 +104,7 @@ class ErrorResponseGeneratorTest extends TestCase
         $this->assertSame($response, $secondaryResponse->reveal());
     }
 
-    public function templates()
+    public function templates() : array
     {
         return [
             'default' => [null, 'error::error'],
@@ -114,12 +114,11 @@ class ErrorResponseGeneratorTest extends TestCase
 
     /**
      * @dataProvider templates
-     *
-     * @param null|string $template
-     * @param string $expected
      */
-    public function testRendersTemplateWithoutErrorDetailsWhenRendererPresentAndNotInDebugMode($template, $expected)
-    {
+    public function testRendersTemplateWithoutErrorDetailsWhenRendererPresentAndNotInDebugMode(
+        ?string $template,
+        string $expected
+    ) : void {
         $error = new RuntimeException('', 0);
 
         $initialResponse   = $this->prophesize(ResponseInterface::class);
@@ -164,12 +163,11 @@ class ErrorResponseGeneratorTest extends TestCase
 
     /**
      * @dataProvider templates
-     *
-     * @param null|string $template
-     * @param string $expected
      */
-    public function testRendersTemplateWithErrorDetailsWhenRendererPresentAndInDebugMode($template, $expected)
-    {
+    public function testRendersTemplateWithErrorDetailsWhenRendererPresentAndInDebugMode(
+        ?string $template,
+        string $expected
+    ) : void {
         $error = new RuntimeException('', 0);
 
         $initialResponse   = $this->prophesize(ResponseInterface::class);

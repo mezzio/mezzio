@@ -25,13 +25,13 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
     /** @var TemplateRendererInterface|ObjectProphecy */
     private $renderer;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
         $this->renderer  = $this->prophesize(TemplateRendererInterface::class);
     }
 
-    public function testNoConfigurationCreatesInstanceWithDefaults()
+    public function testNoConfigurationCreatesInstanceWithDefaults() : void
     {
         $this->container->has('config')->willReturn(false);
         $this->container->has(TemplateRendererInterface::class)->willReturn(false);
@@ -47,7 +47,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
         $this->assertAttributeEquals('layout::default', 'layout', $generator);
     }
 
-    public function testUsesDebugConfigurationToSetDebugFlag()
+    public function testUsesDebugConfigurationToSetDebugFlag() : void
     {
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn(['debug' => true]);
@@ -63,7 +63,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
         $this->assertAttributeEquals('layout::default', 'layout', $generator);
     }
 
-    public function testUsesConfiguredTemplateRenderToSetGeneratorRenderer()
+    public function testUsesConfiguredTemplateRenderToSetGeneratorRenderer() : void
     {
         $this->container->has('config')->willReturn(false);
         $this->container->has(TemplateRendererInterface::class)->willReturn(true);
@@ -78,7 +78,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
         $this->assertAttributeEquals('layout::default', 'layout', $generator);
     }
 
-    public function testUsesTemplateConfigurationToSetTemplate()
+    public function testUsesTemplateConfigurationToSetTemplate() : void
     {
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn([
@@ -101,7 +101,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
         $this->assertAttributeEquals('layout::custom', 'layout', $generator);
     }
 
-    public function testNullifyLayout()
+    public function testNullifyLayout() : void
     {
         $this->container->has('config')->willReturn(true);
         $this->container->get('config')->willReturn([

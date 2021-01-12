@@ -17,7 +17,7 @@ use Psr\Container\ContainerInterface;
 
 class ResponseFactoryFactoryTest extends TestCase
 {
-    public function testFactoryProducesACallableCapableOfGeneratingAResponseWhenDiactorosIsInstalled()
+    public function testFactoryProducesACallableCapableOfGeneratingAResponseWhenDiactorosIsInstalled() : void
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();
         $factory = new ResponseFactoryFactory();

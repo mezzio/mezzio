@@ -46,12 +46,12 @@ class ConfigProviderTest extends TestCase
     /** @var ConfigProvider */
     private $provider;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->provider = new ConfigProvider();
     }
 
-    public function testProviderDefinesExpectedAliases()
+    public function testProviderDefinesExpectedAliases() : void
     {
         $config = $this->provider->getDependencies();
         $aliases = $config['aliases'];
@@ -63,7 +63,7 @@ class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey(ROUTE_MIDDLEWARE, $aliases);
     }
 
-    public function testProviderDefinesExpectedFactoryServices()
+    public function testProviderDefinesExpectedFactoryServices() : void
     {
         $config = $this->provider->getDependencies();
         $factories = $config['factories'];
@@ -83,7 +83,7 @@ class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey(StreamInterface::class, $factories);
     }
 
-    public function testInvocationReturnsArrayWithDependencies()
+    public function testInvocationReturnsArrayWithDependencies() : void
     {
         $config = ($this->provider)();
         $this->assertInternalType('array', $config);
@@ -92,7 +92,7 @@ class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey('factories', $config['dependencies']);
     }
 
-    public function testServicesDefinedInConfigProvider()
+    public function testServicesDefinedInConfigProvider() : void
     {
         $config = ($this->provider)();
 

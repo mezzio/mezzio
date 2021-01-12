@@ -20,7 +20,7 @@ use function iterator_to_array;
 
 class EmitterFactoryTest extends TestCase
 {
-    public function testFactoryProducesEmitterStackWithSapiEmitterComposed()
+    public function testFactoryProducesEmitterStackWithSapiEmitterComposed() : void
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();
         $factory = new EmitterFactory();

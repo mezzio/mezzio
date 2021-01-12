@@ -16,7 +16,6 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use ReflectionProperty;
-use Traversable;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
@@ -38,7 +37,7 @@ class WhoopsFactoryTest extends TestCase
     /** @var WhoopsFactory */
     private $factory;
 
-    public function setUp()
+    public function setUp() : void
     {
         $pageHandler     = $this->prophesize(PrettyPageHandler::class);
         $this->container = $this->mockContainerInterface();
@@ -47,7 +46,7 @@ class WhoopsFactoryTest extends TestCase
         $this->factory = new WhoopsFactory();
     }
 
-    public function assertWhoopsContainsHandler($type, Whoops $whoops, $message = null)
+    public function assertWhoopsContainsHandler($type, Whoops $whoops, $message = null) : void
     {
         $message = $message ?: sprintf('Failed to assert whoops runtime composed handler of type %s', $type);
         $r       = new ReflectionProperty($whoops, 'handlerStack');
@@ -65,7 +64,7 @@ class WhoopsFactoryTest extends TestCase
         $this->assertTrue($found, $message);
     }
 
-    public function testReturnsAWhoopsRuntimeWithPageHandlerComposed()
+    public function testReturnsAWhoopsRuntimeWithPageHandlerComposed() : void
     {
         $factory = $this->factory;
         $result  = $factory($this->container->reveal());
@@ -73,7 +72,7 @@ class WhoopsFactoryTest extends TestCase
         $this->assertWhoopsContainsHandler(PrettyPageHandler::class, $result);
     }
 
-    public function testWillInjectJsonResponseHandlerIfConfigurationExpectsIt()
+    public function testWillInjectJsonResponseHandlerIfConfigurationExpectsIt() : void
     {
         $config = ['whoops' => ['json_exceptions' => ['display' => true]]];
         $this->injectServiceInContainer($this->container, 'config', $config);
@@ -94,7 +93,7 @@ class WhoopsFactoryTest extends TestCase
      * @param bool  $isAjaxOnly
      * @param bool  $requestIsAjax
      */
-    public function testJsonResponseHandlerCanBeConfigured($showsTrace, $isAjaxOnly, $requestIsAjax)
+    public function testJsonResponseHandlerCanBeConfigured($showsTrace, $isAjaxOnly, $requestIsAjax) : void
     {
         // Set for Whoops 2.x json handler detection
         if ($requestIsAjax) {
@@ -136,9 +135,9 @@ class WhoopsFactoryTest extends TestCase
     }
 
     /**
-     * @return Traversable
+     * @return iterable<string, bool[]>
      */
-    public function provideConfig()
+    public function provideConfig() : iterable
     {
         // @codingStandardsIgnoreStart
         //    test case                        => showsTrace, isAjaxOnly, requestIsAjax

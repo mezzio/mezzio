@@ -27,7 +27,7 @@ use Throwable;
 
 class RequestHandlerRunnerFactoryTest extends TestCase
 {
-    public function testFactoryProducesRunnerUsingServicesFromContainer()
+    public function testFactoryProducesRunnerUsingServicesFromContainer() : void
     {
         $container = $this->prophesize(ContainerInterface::class);
         $handler = $this->registerHandlerInContainer($container);

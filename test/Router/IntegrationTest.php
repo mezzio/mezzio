@@ -56,7 +56,7 @@ class IntegrationTest extends TestCase
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->response  = new Response();
         $this->responseFactory = function () {
@@ -66,12 +66,12 @@ class IntegrationTest extends TestCase
         $this->container = $this->mockContainerInterface();
     }
 
-    public function getApplication()
+    public function getApplication() : Application
     {
         return $this->createApplicationFromRouter($this->router->reveal());
     }
 
-    public function createApplicationFromRouter(RouterInterface $router)
+    public function createApplicationFromRouter(RouterInterface $router) : Application
     {
         $container = new MiddlewareContainer($this->container->reveal());
         $factory = new MiddlewareFactory($container);
@@ -89,7 +89,7 @@ class IntegrationTest extends TestCase
     /**
      * Get the router adapters to test
      */
-    public function routerAdapters()
+    public function routerAdapters() : array
     {
         return [
             'aura'       => [AuraRouter::class],
@@ -101,14 +101,12 @@ class IntegrationTest extends TestCase
     /**
      * Create an Application object with 2 routes, a GET and a POST
      * using Application::get() and Application::post()
-     *
-     * @param string $adapter
-     * @param string $getName
-     * @param string $postName
-     * @return Application
      */
-    private function createApplicationWithGetPost($adapter, $getName = null, $postName = null)
-    {
+    private function createApplicationWithGetPost(
+        string $adapter,
+        ?string $getName = null,
+        ?string $postName = null
+    ) : Application {
         $router = new $adapter();
         $app = $this->createApplicationFromRouter($router);
         $app->pipe(new RouteMiddleware($router));
@@ -137,8 +135,11 @@ class IntegrationTest extends TestCase
      * @param string $postName
      * @return Application
      */
-    private function createApplicationWithRouteGetPost($adapter, $getName = null, $postName = null)
-    {
+    private function createApplicationWithRouteGetPost(
+        string $adapter,
+        ?string $getName = null,
+        ?string $postName = null
+    ) : Application {
         $router = new $adapter();
         $app = $this->createApplicationFromRouter($router);
         $app->pipe(new RouteMiddleware($router));
@@ -160,10 +161,8 @@ class IntegrationTest extends TestCase
 
     /**
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testRoutingDoesNotMatchMethod($adapter)
+    public function testRoutingDoesNotMatchMethod(string $adapter) : void
     {
         $app = $this->createApplicationWithGetPost($adapter);
         $handler = $this->prophesize(RequestHandlerInterface::class);
@@ -183,10 +182,8 @@ class IntegrationTest extends TestCase
      * @group 40
      *
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testRoutingWithSamePathWithoutName($adapter)
+    public function testRoutingWithSamePathWithoutName(string $adapter) : void
     {
         $app = $this->createApplicationWithGetPost($adapter);
         $app->pipe(new DispatchMiddleware());
@@ -211,10 +208,8 @@ class IntegrationTest extends TestCase
      * @group 40
      *
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testRoutingWithSamePathWithName($adapter)
+    public function testRoutingWithSamePathWithName(string $adapter) : void
     {
         $app = $this->createApplicationWithGetPost($adapter, 'foo-get', 'foo-post');
         $app->pipe(new DispatchMiddleware());
@@ -240,10 +235,8 @@ class IntegrationTest extends TestCase
      * @group 40
      *
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testRoutingWithSamePathWithRouteWithoutName($adapter)
+    public function testRoutingWithSamePathWithRouteWithoutName(string $adapter) : void
     {
         $app = $this->createApplicationWithRouteGetPost($adapter);
         $app->pipe(new DispatchMiddleware());
@@ -267,10 +260,8 @@ class IntegrationTest extends TestCase
      * @see https://github.com/zendframework/zend-expressive/issues/40
      *
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testRoutingWithSamePathWithRouteWithName($adapter)
+    public function testRoutingWithSamePathWithRouteWithName(string $adapter) : void
     {
         $app = $this->createApplicationWithRouteGetPost($adapter, 'foo-get', 'foo-post');
         $app->pipe(new DispatchMiddleware());
@@ -296,10 +287,8 @@ class IntegrationTest extends TestCase
      * @group 40
      *
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testRoutingWithSamePathWithRouteWithMultipleMethods($adapter)
+    public function testRoutingWithSamePathWithRouteWithMultipleMethods(string $adapter) : void
     {
         $router = new $adapter();
         $app = $this->createApplicationFromRouter($router);
@@ -339,7 +328,10 @@ class IntegrationTest extends TestCase
         $this->assertEquals('Middleware DELETE', (string) $result->getBody());
     }
 
-    public function routerAdaptersForHttpMethods()
+    /**
+     * @return iterable<string, string[]>
+     */
+    public function routerAdaptersForHttpMethods() : iterable
     {
         $allMethods = [
             RequestMethod::METHOD_GET,
@@ -361,11 +353,8 @@ class IntegrationTest extends TestCase
 
     /**
      * @dataProvider routerAdaptersForHttpMethods
-     *
-     * @param string $adapter
-     * @param string $method
      */
-    public function testMatchWithAllHttpMethods($adapter, $method)
+    public function testMatchWithAllHttpMethods(string $adapter, string $method) : void
     {
         $router = new $adapter();
         $app = $this->createApplicationFromRouter($router);
@@ -391,7 +380,7 @@ class IntegrationTest extends TestCase
         $this->assertEquals('Middleware', (string) $result->getBody());
     }
 
-    public function allowedMethod()
+    public function allowedMethod() : array
     {
         return [
             'aura-head'          => [AuraRouter::class, RequestMethod::METHOD_HEAD],
@@ -405,11 +394,8 @@ class IntegrationTest extends TestCase
 
     /**
      * @dataProvider allowedMethod
-     *
-     * @param string $adapter
-     * @param string $method
      */
-    public function testAllowedMethodsWhenOnlyPutMethodSet($adapter, $method)
+    public function testAllowedMethodsWhenOnlyPutMethodSet(string $adapter, string $method) : void
     {
         $router = new $adapter();
         $app = $this->createApplicationFromRouter($router);
@@ -446,10 +432,8 @@ class IntegrationTest extends TestCase
      * @group 74
      *
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testWithOnlyRootPathRouteDefinedRoutingToSubPathsShouldDelegate($adapter)
+    public function testWithOnlyRootPathRouteDefinedRoutingToSubPathsShouldDelegate(string $adapter) : void
     {
         $router = new $adapter();
         $app = $this->createApplicationFromRouter($router);

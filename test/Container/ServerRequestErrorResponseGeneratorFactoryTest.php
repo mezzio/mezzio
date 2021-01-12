@@ -21,7 +21,7 @@ use RuntimeException;
 
 class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 {
-    public function testFactoryOnlyRequiresResponseService()
+    public function testFactoryOnlyRequiresResponseService() : void
     {
         $container = $this->prophesize(ContainerInterface::class);
         $container->has('config')->willReturn(false);
@@ -40,7 +40,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         $factory($container->reveal());
     }
 
-    public function testFactoryCreatesGeneratorWhenOnlyResponseServiceIsPresent()
+    public function testFactoryCreatesGeneratorWhenOnlyResponseServiceIsPresent() : void
     {
         $container = $this->prophesize(ContainerInterface::class);
         $container->has('config')->willReturn(false);
@@ -65,7 +65,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         $this->assertAttributeSame(ServerRequestErrorResponseGenerator::TEMPLATE_DEFAULT, 'template', $generator);
     }
 
-    public function testFactoryCreatesGeneratorUsingConfiguredServices()
+    public function testFactoryCreatesGeneratorUsingConfiguredServices() : void
     {
         $config = [
             'debug' => true,

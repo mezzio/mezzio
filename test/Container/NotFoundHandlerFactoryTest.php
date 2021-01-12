@@ -26,7 +26,7 @@ class NotFoundHandlerFactoryTest extends TestCase
     /** @var ResponseInterface|ObjectProphecy */
     private $response;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->response = $this->prophesize(ResponseInterface::class)->reveal();
         $this->container = $this->prophesize(ContainerInterface::class);
@@ -35,7 +35,7 @@ class NotFoundHandlerFactoryTest extends TestCase
         });
     }
 
-    public function testFactoryCreatesInstanceWithoutRendererIfRendererServiceIsMissing()
+    public function testFactoryCreatesInstanceWithoutRendererIfRendererServiceIsMissing() : void
     {
         $this->container->has('config')->willReturn(false);
         $this->container->has(TemplateRendererInterface::class)->willReturn(false);
@@ -48,7 +48,7 @@ class NotFoundHandlerFactoryTest extends TestCase
         $this->assertAttributeEmpty('renderer', $handler);
     }
 
-    public function testFactoryCreatesInstanceUsingRendererServiceWhenPresent()
+    public function testFactoryCreatesInstanceUsingRendererServiceWhenPresent() : void
     {
         $renderer = $this->prophesize(TemplateRendererInterface::class)->reveal();
         $this->container->has('config')->willReturn(false);
@@ -60,7 +60,7 @@ class NotFoundHandlerFactoryTest extends TestCase
         $this->assertAttributeSame($renderer, 'renderer', $handler);
     }
 
-    public function testFactoryUsesConfigured404TemplateWhenPresent()
+    public function testFactoryUsesConfigured404TemplateWhenPresent() : void
     {
         $config = [
             'mezzio' => [
@@ -89,7 +89,7 @@ class NotFoundHandlerFactoryTest extends TestCase
         );
     }
 
-    public function testNullifyLayout()
+    public function testNullifyLayout() : void
     {
         $config = [
             'mezzio' => [

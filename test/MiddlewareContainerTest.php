@@ -21,31 +21,31 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class MiddlewareContainerTest extends TestCase
 {
-    public function setUp()
+    public function setUp() : void
     {
         $this->originContainer = $this->prophesize(ContainerInterface::class);
         $this->container = new MiddlewareContainer($this->originContainer->reveal());
     }
 
-    public function testHasReturnsTrueIfOriginContainerHasService()
+    public function testHasReturnsTrueIfOriginContainerHasService() : void
     {
         $this->originContainer->has('foo')->willReturn(true);
         $this->assertTrue($this->container->has('foo'));
     }
 
-    public function testHasReturnsTrueIfOriginContainerDoesNotHaveServiceButClassExists()
+    public function testHasReturnsTrueIfOriginContainerDoesNotHaveServiceButClassExists() : void
     {
         $this->originContainer->has(__CLASS__)->willReturn(false);
         $this->assertTrue($this->container->has(__CLASS__));
     }
 
-    public function testHasReturnsFalseIfOriginContainerDoesNotHaveServiceAndClassDoesNotExist()
+    public function testHasReturnsFalseIfOriginContainerDoesNotHaveServiceAndClassDoesNotExist() : void
     {
         $this->originContainer->has('not-a-class')->willReturn(false);
         $this->assertFalse($this->container->has('not-a-class'));
     }
 
-    public function testGetRaisesExceptionIfServiceIsUnknown()
+    public function testGetRaisesExceptionIfServiceIsUnknown() : void
     {
         $this->originContainer->has('not-a-service')->willReturn(false);
 
@@ -53,7 +53,7 @@ class MiddlewareContainerTest extends TestCase
         $this->container->get('not-a-service');
     }
 
-    public function testGetRaisesExceptionIfServiceSpecifiedDoesNotImplementMiddlewareInterface()
+    public function testGetRaisesExceptionIfServiceSpecifiedDoesNotImplementMiddlewareInterface() : void
     {
         $this->originContainer->has(__CLASS__)->willReturn(true);
         $this->originContainer->get(__CLASS__)->willReturn($this);
@@ -62,7 +62,7 @@ class MiddlewareContainerTest extends TestCase
         $this->container->get(__CLASS__);
     }
 
-    public function testGetRaisesExceptionIfClassSpecifiedDoesNotImplementMiddlewareInterface()
+    public function testGetRaisesExceptionIfClassSpecifiedDoesNotImplementMiddlewareInterface() : void
     {
         $this->originContainer->has(__CLASS__)->willReturn(false);
         $this->originContainer->get(__CLASS__)->shouldNotBeCalled();
@@ -71,7 +71,7 @@ class MiddlewareContainerTest extends TestCase
         $this->container->get(__CLASS__);
     }
 
-    public function testGetReturnsServiceFromOriginContainer()
+    public function testGetReturnsServiceFromOriginContainer() : void
     {
         $middleware = $this->prophesize(MiddlewareInterface::class)->reveal();
         $this->originContainer->has('middleware-service')->willReturn(true);
@@ -80,7 +80,7 @@ class MiddlewareContainerTest extends TestCase
         $this->assertSame($middleware, $this->container->get('middleware-service'));
     }
 
-    public function testGetReturnsInstantiatedClass()
+    public function testGetReturnsInstantiatedClass() : void
     {
         $this->originContainer->has(DispatchMiddleware::class)->willReturn(false);
         $this->originContainer->get(DispatchMiddleware::class)->shouldNotBeCalled();
@@ -89,7 +89,7 @@ class MiddlewareContainerTest extends TestCase
         $this->assertInstanceOf(DispatchMiddleware::class, $middleware);
     }
 
-    public function testGetWillDecorateARequestHandlerAsMiddleware()
+    public function testGetWillDecorateARequestHandlerAsMiddleware() : void
     {
         $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
 
@@ -106,7 +106,7 @@ class MiddlewareContainerTest extends TestCase
     /**
      * @see https://github.com/zendframework/zend-expressive/issues/645
      */
-    public function testGetDoesNotCastMiddlewareImplementingRequestHandlerToRequestHandlerMiddleware()
+    public function testGetDoesNotCastMiddlewareImplementingRequestHandlerToRequestHandlerMiddleware() : void
     {
         $pipeline = $this->prophesize(RequestHandlerInterface::class);
         $pipeline->willImplement(MiddlewareInterface::class);

@@ -31,13 +31,13 @@ class WhoopsPageHandlerFactoryTest extends TestCase
     /** @var WhoopsPageHandlerFactory */
     private $factory;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->container = $this->mockContainerInterface();
         $this->factory   = new WhoopsPageHandlerFactory();
     }
 
-    public function testReturnsAPrettyPageHandler()
+    public function testReturnsAPrettyPageHandler() : void
     {
         $factory = $this->factory;
 
@@ -45,7 +45,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         $this->assertInstanceOf(PrettyPageHandler::class, $result);
     }
 
-    public function testWillInjectStringEditor()
+    public function testWillInjectStringEditor() : void
     {
         $config = ['whoops' => ['editor' => 'emacs']];
         $this->injectServiceInContainer($this->container, 'config', $config);
@@ -56,7 +56,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         $this->assertAttributeEquals($config['whoops']['editor'], 'editor', $result);
     }
 
-    public function testWillInjectCallableEditor()
+    public function testWillInjectCallableEditor() : void
     {
         $config = [
             'whoops' => [
@@ -72,7 +72,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         $this->assertAttributeSame($config['whoops']['editor'], 'editor', $result);
     }
 
-    public function testWillInjectEditorAsAService()
+    public function testWillInjectEditorAsAService() : void
     {
         $config = ['whoops' => ['editor' => 'custom']];
         $editor = function () {
@@ -86,7 +86,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         $this->assertAttributeSame($editor, 'editor', $result);
     }
 
-    public function invalidEditors()
+    public function invalidEditors() : array
     {
         return [
             'true'       => [true],
@@ -105,7 +105,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
      *
      * @param mixed $editor
      */
-    public function testInvalidEditorWillRaiseException($editor)
+    public function testInvalidEditorWillRaiseException($editor) : void
     {
         $config = ['whoops' => ['editor' => $editor]];
         $this->injectServiceInContainer($this->container, 'config', $config);

@@ -32,7 +32,7 @@ class NotFoundHandlerTest extends TestCase
     /** @var callable */
     private $responseFactory;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->request  = $this->prophesize(ServerRequestInterface::class);
         $this->response = $this->prophesize(ResponseInterface::class);
@@ -41,19 +41,19 @@ class NotFoundHandlerTest extends TestCase
         };
     }
 
-    public function testImplementsRequesthandler()
+    public function testImplementsRequesthandler() : void
     {
         $handler = new NotFoundHandler($this->responseFactory);
         $this->assertInstanceOf(RequestHandlerInterface::class, $handler);
     }
 
-    public function testConstructorDoesNotRequireARenderer()
+    public function testConstructorDoesNotRequireARenderer() : void
     {
         $handler = new NotFoundHandler($this->responseFactory);
         $this->assertInstanceOf(NotFoundHandler::class, $handler);
     }
 
-    public function testConstructorCanAcceptRendererAndTemplate()
+    public function testConstructorCanAcceptRendererAndTemplate() : void
     {
         $renderer = $this->prophesize(TemplateRendererInterface::class)->reveal();
         $template = 'foo::bar';
@@ -67,7 +67,7 @@ class NotFoundHandlerTest extends TestCase
         $this->assertAttributeEquals($layout, 'layout', $handler);
     }
 
-    public function testRendersDefault404ResponseWhenNoRendererPresent()
+    public function testRendersDefault404ResponseWhenNoRendererPresent() : void
     {
         $request = $this->prophesize(ServerRequestInterface::class);
         $request->getMethod()->willReturn(RequestMethod::METHOD_POST);
@@ -85,7 +85,7 @@ class NotFoundHandlerTest extends TestCase
         $this->assertSame($this->response->reveal(), $response);
     }
 
-    public function testUsesRendererToGenerateResponseContentsWhenPresent()
+    public function testUsesRendererToGenerateResponseContentsWhenPresent() : void
     {
         $request = $this->prophesize(ServerRequestInterface::class)->reveal();
 

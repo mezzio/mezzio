@@ -33,7 +33,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
     /** @var callable */
     private $responseFactory;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->response = $this->prophesize(ResponseInterface::class);
         $this->responseFactory = function () {
@@ -43,7 +43,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
         $this->renderer = $this->prophesize(TemplateRendererInterface::class);
     }
 
-    public function testPreparesTemplatedResponseWhenRendererPresent()
+    public function testPreparesTemplatedResponseWhenRendererPresent() : void
     {
         $stream = $this->prophesize(StreamInterface::class);
         $stream->write('data from template')->shouldBeCalled();
@@ -74,7 +74,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
         $this->assertSame($this->response->reveal(), $generator($e));
     }
 
-    public function testPreparesResponseWithDefaultMessageOnlyWhenNoRendererPresentAndNotInDebugMode()
+    public function testPreparesResponseWithDefaultMessageOnlyWhenNoRendererPresentAndNotInDebugMode() : void
     {
         $stream = $this->prophesize(StreamInterface::class);
         $stream->write('An unexpected error occurred')->shouldBeCalled();
@@ -91,7 +91,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
         $this->assertSame($this->response->reveal(), $generator($e));
     }
 
-    public function testPreparesResponseWithDefaultMessageAndStackTraceWhenNoRendererPresentAndInDebugMode()
+    public function testPreparesResponseWithDefaultMessageAndStackTraceWhenNoRendererPresentAndInDebugMode() : void
     {
         $stream = $this->prophesize(StreamInterface::class);
         $stream

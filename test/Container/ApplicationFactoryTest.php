@@ -22,7 +22,7 @@ use Psr\Container\ContainerInterface;
 
 class ApplicationFactoryTest extends TestCase
 {
-    public function testFactoryProducesAnApplication()
+    public function testFactoryProducesAnApplication() : void
     {
         $middlewareFactory = $this->prophesize(MiddlewareFactory::class)->reveal();
         $pipeline = $this->prophesize(MiddlewarePipeInterface::class)->reveal();

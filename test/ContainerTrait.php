@@ -23,10 +23,8 @@ trait ContainerTrait
      * Returns a prophecy for ContainerInterface.
      *
      * By default returns false for unknown `has('service')` method.
-     *
-     * @return ObjectProphecy
      */
-    protected function mockContainerInterface()
+    protected function mockContainerInterface() : ObjectProphecy
     {
         $container = $this->prophesize(ContainerInterface::class);
         $container->has(Argument::type('string'))->willReturn(false);
@@ -42,9 +40,8 @@ trait ContainerTrait
      * @param ObjectProphecy $container
      * @param string $serviceName
      * @param mixed $service
-     * @return void
      */
-    protected function injectServiceInContainer(ObjectProphecy $container, $serviceName, $service)
+    protected function injectServiceInContainer(ObjectProphecy $container, $serviceName, $service) : void
     {
         $container->has($serviceName)->willReturn(true);
         $container->get($serviceName)->willReturn($service);

@@ -18,7 +18,7 @@ use Psr\Container\ContainerInterface;
 
 class MiddlewareFactoryFactoryTest extends TestCase
 {
-    public function testFactoryProducesMiddlewareFactoryComposingMiddlewareContainerInstance()
+    public function testFactoryProducesMiddlewareFactoryComposingMiddlewareContainerInstance() : void
     {
         $middlewareContainer = $this->prophesize(MiddlewareContainer::class)->reveal();
 

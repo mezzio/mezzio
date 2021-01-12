@@ -61,7 +61,7 @@ class ExceptionTest extends TestCase
         $this->assertTrue(is_a($exception, ContainerExceptionInterface::class, true));
     }
 
-    public function testContainerNotRegisteredExceptionForMiddlewareService()
+    public function testContainerNotRegisteredExceptionForMiddlewareService() : void
     {
         $exception = ContainerNotRegisteredException::forMiddlewareService('foo');
 
