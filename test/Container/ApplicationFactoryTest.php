@@ -19,16 +19,15 @@ use Mezzio\MiddlewareFactory;
 use Mezzio\Router\RouteCollector;
 use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 
 class ApplicationFactoryTest extends TestCase
 {
     public function testFactoryProducesAnApplication() : void
     {
-        $middlewareFactory = $this->prophesize(MiddlewareFactory::class)->reveal();
-        $pipeline = $this->prophesize(MiddlewarePipeInterface::class)->reveal();
-        $routeCollector = $this->prophesize(RouteCollector::class)->reveal();
-        $runner = $this->prophesize(RequestHandlerRunner::class)->reveal();
+        $middlewareFactory = $this->createMock(MiddlewareFactory::class);
+        $pipeline = $this->createMock(MiddlewarePipeInterface::class);
+        $routeCollector = $this->createMock(RouteCollector::class);
+        $runner = $this->createMock(RequestHandlerRunner::class);
 
         $container = new InMemoryContainer();
         $container->set(MiddlewareFactory::class, $middlewareFactory);

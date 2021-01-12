@@ -41,8 +41,7 @@ class ErrorHandlerFactoryTest extends TestCase
 
     public function testFactoryFailsIfResponseServiceReturnsResponse() : void
     {
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
-        $this->container->set(ResponseInterface::class, $response);
+        $this->container->set(ResponseInterface::class, $this->createMock(ResponseInterface::class));
 
         $factory = new ErrorHandlerFactory();
 
@@ -65,7 +64,7 @@ class ErrorHandlerFactoryTest extends TestCase
 
     public function testFactoryCreatesHandlerWithGeneratorIfGeneratorServiceAvailable() : void
     {
-        $generator = $this->prophesize(ErrorResponseGenerator::class)->reveal();
+        $generator = $this->createMock(ErrorResponseGenerator::class);
         $this->container->set(ErrorResponseGenerator::class, $generator);
 
         $this->container->set(ResponseInterface::class, function () {

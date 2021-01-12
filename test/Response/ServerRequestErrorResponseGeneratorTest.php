@@ -12,9 +12,9 @@ namespace MezzioTest\Response;
 
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
@@ -24,10 +24,10 @@ use function strpos;
 
 class ServerRequestErrorResponseGeneratorTest extends TestCase
 {
-    /** @var TemplateRendererInterface|ObjectProphecy */
+    /** @var TemplateRendererInterface&MockObject */
     private $renderer;
 
-    /** @var ResponseInterface|ObjectProphecy */
+    /** @var ResponseInterface&MockObject */
     private $response;
 
     /** @var callable */
@@ -35,29 +35,30 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
 
     public function setUp() : void
     {
-        $this->response = $this->prophesize(ResponseInterface::class);
+        $this->response = $this->createMock(ResponseInterface::class);
         $this->responseFactory = function () {
-            return $this->response->reveal();
+            return $this->response;
         };
 
-        $this->renderer = $this->prophesize(TemplateRendererInterface::class);
+        $this->renderer = $this->createMock(TemplateRendererInterface::class);
     }
 
     public function testPreparesTemplatedResponseWhenRendererPresent() : void
     {
-        $stream = $this->prophesize(StreamInterface::class);
-        $stream->write('data from template')->shouldBeCalled();
+        $stream = $this->createMock(StreamInterface::class);
+        $stream->method('write')->with('data from template');
 
-        $this->response->withStatus(422)->will([$this->response, 'reveal']);
-        $this->response->getBody()->will([$stream, 'reveal']);
-        $this->response->getStatusCode()->willReturn(422);
-        $this->response->getReasonPhrase()->willReturn('Unexpected entity');
+        $this->response->method('withStatus')->with(422)->willReturn($this->response);
+        $this->response->method('getBody')->willReturn($stream);
+        $this->response->method('getStatusCode')->willReturn(422);
+        $this->response->method('getReasonPhrase')->willReturn('Unexpected entity');
 
         $template = 'some::template';
         $e = new RuntimeException('This is the exception message', 422);
         $this->renderer
-            ->render($template, [
-                'response' => $this->response->reveal(),
+            ->method('render')
+            ->with($template, [
+                'response' => $this->response,
                 'status'   => 422,
                 'reason'   => 'Unexpected entity',
                 'error'    => $e,
@@ -67,56 +68,51 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
         $generator = new ServerRequestErrorResponseGenerator(
             $this->responseFactory,
             true,
-            $this->renderer->reveal(),
+            $this->renderer,
             $template
         );
 
-        $this->assertSame($this->response->reveal(), $generator($e));
+        $this->assertSame($this->response, $generator($e));
     }
 
     public function testPreparesResponseWithDefaultMessageOnlyWhenNoRendererPresentAndNotInDebugMode() : void
     {
-        $stream = $this->prophesize(StreamInterface::class);
-        $stream->write('An unexpected error occurred')->shouldBeCalled();
+        $stream = $this->createMock(StreamInterface::class);
+        $stream->method('write')->with('An unexpected error occurred');
 
-        $this->response->withStatus(422)->will([$this->response, 'reveal']);
-        $this->response->getBody()->will([$stream, 'reveal']);
-        $this->response->getStatusCode()->shouldNotBeCalled();
-        $this->response->getReasonPhrase()->shouldNotBeCalled();
+        $this->response->method('withStatus')->with(422)->willReturn($this->response);
+        $this->response->method('getBody')->willReturn($stream);
+        $this->response->expects(self::never())->method('getStatusCode');
+        $this->response->expects(self::never())->method('getReasonPhrase');
 
         $e = new RuntimeException('This is the exception message', 422);
 
         $generator = new ServerRequestErrorResponseGenerator($this->responseFactory);
 
-        $this->assertSame($this->response->reveal(), $generator($e));
+        $this->assertSame($this->response, $generator($e));
     }
 
     public function testPreparesResponseWithDefaultMessageAndStackTraceWhenNoRendererPresentAndInDebugMode() : void
     {
-        $stream = $this->prophesize(StreamInterface::class);
+        $stream = $this->createMock(StreamInterface::class);
         $stream
-            ->write(Argument::that(function ($message) {
-                if (! preg_match('/^An unexpected error occurred; stack trace:/', $message)) {
-                    echo "Failed first assertion: $message\n";
-                    return false;
-                }
-                if (false === strpos($message, 'Stack Trace:')) {
-                    echo "Failed second assertion: $message\n";
-                    return false;
-                }
-                return $message;
-            }))
-            ->shouldBeCalled();
+            ->method('write')
+            ->with(self::callback(function ($message) {
+                self::assertRegExp('/^An unexpected error occurred; stack trace:/', $message);
+                self::assertStringContainsString('Stack Trace:', $message);
 
-        $this->response->withStatus(422)->will([$this->response, 'reveal']);
-        $this->response->getBody()->will([$stream, 'reveal']);
-        $this->response->getStatusCode()->shouldNotBeCalled();
-        $this->response->getReasonPhrase()->shouldNotBeCalled();
+                return true;
+            }));
+
+        $this->response->method('withStatus')->with(422)->willReturn($this->response);
+        $this->response->method('getBody')->willReturn($stream);
+        $this->response->expects(self::never())->method('getStatusCode');
+        $this->response->expects(self::never())->method('getReasonPhrase');
 
         $e = new RuntimeException('This is the exception message', 422);
 
         $generator = new ServerRequestErrorResponseGenerator($this->responseFactory, true);
 
-        $this->assertSame($this->response->reveal(), $generator($e));
+        $this->assertSame($this->response, $generator($e));
     }
 }

@@ -59,7 +59,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
                 ],
             ],
         ];
-        $renderer = $this->prophesize(TemplateRendererInterface::class)->reveal();
+        $renderer = $this->createMock(TemplateRendererInterface::class);
 
         $container = new InMemoryContainer();
         $container->set('config', $config);

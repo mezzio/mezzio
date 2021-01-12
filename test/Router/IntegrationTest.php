@@ -32,10 +32,8 @@ use Mezzio\Router\RouteCollector;
 use Mezzio\Router\RouterInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-
 use function array_pop;
 use function sprintf;
 
@@ -47,21 +45,17 @@ class IntegrationTest extends TestCase
     /** @var callable */
     private $responseFactory;
 
-    /** @var RouterInterface|ObjectProphecy */
-    private $router;
-
     public function setUp() : void
     {
         $this->response  = new Response();
         $this->responseFactory = function () {
             return $this->response;
         };
-        $this->router    = $this->prophesize(RouterInterface::class);
     }
 
     public function getApplication() : Application
     {
-        return $this->createApplicationFromRouter($this->router->reveal());
+        return $this->createApplicationFromRouter($this->createMock(RouterInterface::class));
     }
 
     public function createApplicationFromRouter(RouterInterface $router) : Application
@@ -70,7 +64,7 @@ class IntegrationTest extends TestCase
         $factory = new MiddlewareFactory($container);
         $pipeline = new MiddlewarePipe();
         $collector = new RouteCollector($router);
-        $runner = $this->prophesize(RequestHandlerRunner::class)->reveal();
+        $runner = $this->createMock(RequestHandlerRunner::class);
         return new Application(
             $factory,
             $pipeline,
@@ -158,12 +152,11 @@ class IntegrationTest extends TestCase
     public function testRoutingDoesNotMatchMethod(string $adapter) : void
     {
         $app = $this->createApplicationWithGetPost($adapter);
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'DELETE'], [], '/foo', 'DELETE');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertSame(StatusCode::STATUS_METHOD_NOT_ALLOWED, $result->getStatusCode());
         $headers = $result->getHeaders();
@@ -181,17 +174,16 @@ class IntegrationTest extends TestCase
         $app = $this->createApplicationWithGetPost($adapter);
         $app->pipe(new DispatchMiddleware());
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware GET', (string) $result->getBody());
 
         $request  = new ServerRequest(['REQUEST_METHOD' => 'POST'], [], '/foo', 'POST');
-        $result   = $app->process($request, $handler->reveal());
+        $result   = $app->process($request, $handler);
 
         $this->assertEquals('Middleware POST', (string) $result->getBody());
     }
@@ -207,18 +199,16 @@ class IntegrationTest extends TestCase
         $app = $this->createApplicationWithGetPost($adapter, 'foo-get', 'foo-post');
         $app->pipe(new DispatchMiddleware());
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler
-            ->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware GET', (string) $result->getBody());
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'POST'], [], '/foo', 'POST');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware POST', (string) $result->getBody());
     }
@@ -234,17 +224,16 @@ class IntegrationTest extends TestCase
         $app = $this->createApplicationWithRouteGetPost($adapter);
         $app->pipe(new DispatchMiddleware());
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware GET', (string) $result->getBody());
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'POST'], [], '/foo', 'POST');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware POST', (string) $result->getBody());
     }
@@ -259,18 +248,16 @@ class IntegrationTest extends TestCase
         $app = $this->createApplicationWithRouteGetPost($adapter, 'foo-get', 'foo-post');
         $app->pipe(new DispatchMiddleware());
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler
-            ->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware GET', (string) $result->getBody());
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'POST'], [], '/foo', 'POST');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware POST', (string) $result->getBody());
     }
@@ -303,21 +290,19 @@ class IntegrationTest extends TestCase
             return $deleteResponse->withBody($stream);
         }, ['DELETE']);
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler
-            ->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
         $this->assertEquals('Middleware GET, POST', (string) $result->getBody());
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'POST'], [], '/foo', 'POST');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
         $this->assertEquals('Middleware GET, POST', (string) $result->getBody());
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'DELETE'], [], '/foo', 'DELETE');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
         $this->assertEquals('Middleware DELETE', (string) $result->getBody());
     }
 
@@ -363,13 +348,11 @@ class IntegrationTest extends TestCase
             return $response->withBody($stream);
         });
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler
-            ->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => $method], [], '/foo', $method);
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
         $this->assertEquals('Middleware', (string) $result->getBody());
     }
 
@@ -406,12 +389,11 @@ class IntegrationTest extends TestCase
             return $res->withBody($stream);
         });
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => $method], [], '/foo', $method);
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         if ($method === RequestMethod::METHOD_OPTIONS) {
             $this->assertSame(StatusCode::STATUS_OK, $result->getStatusCode());
@@ -440,13 +422,11 @@ class IntegrationTest extends TestCase
         }, ['GET']);
 
         $expected = $this->response->withStatus(StatusCode::STATUS_NOT_FOUND);
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler
-            ->handle(Argument::type(ServerRequest::class))
-            ->willReturn($expected);
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->method('handle')->willReturn($expected);
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
         $this->assertSame($expected, $result);
     }
 }

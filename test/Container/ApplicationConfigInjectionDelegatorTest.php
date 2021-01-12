@@ -28,6 +28,7 @@ use Mezzio\Router\RouterInterface;
 use MezzioTest\InMemoryContainer;
 use MezzioTest\TestAsset\InvokableMiddleware;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Server\MiddlewareInterface;
@@ -43,10 +44,10 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
     /** @var InMemoryContainer */
     private $container;
 
-    /** @var DispatchMiddleware|ObjectProphecy */
+    /** @var DispatchMiddleware&MockObject */
     private $dispatchMiddleware;
 
-    /** @var MethodNotAllowedMiddleware|ObjectProphecy */
+    /** @var MethodNotAllowedMiddleware&MockObject */
     private $methodNotAllowedMiddleware;
 
     /** @var RouteCollector */
@@ -55,17 +56,17 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
     /** @var RouteMiddleware */
     private $routeMiddleware;
 
-    /** @var RouterInterface|ObjectProphecy */
+    /** @var RouterInterface&MockObject */
     private $router;
 
     public function setUp() : void
     {
         $this->container = new InMemoryContainer();
-        $this->router = $this->prophesize(RouterInterface::class);
-        $this->routeCollector = new RouteCollector($this->router->reveal());
-        $this->routeMiddleware = new RouteMiddleware($this->router->reveal());
-        $this->dispatchMiddleware = $this->prophesize(DispatchMiddleware::class)->reveal();
-        $this->methodNotAllowedMiddleware = $this->prophesize(MethodNotAllowedMiddleware::class)->reveal();
+        $this->router = $this->createMock(RouterInterface::class);
+        $this->routeCollector = new RouteCollector($this->router);
+        $this->routeMiddleware = new RouteMiddleware($this->router);
+        $this->dispatchMiddleware = $this->createMock(DispatchMiddleware::class);
+        $this->methodNotAllowedMiddleware = $this->createMock(MethodNotAllowedMiddleware::class);
     }
 
     public function createApplication() : Application
@@ -73,7 +74,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $container = new MiddlewareContainer($this->container);
         $factory = new MiddlewareFactory($container);
         $pipeline = new MiddlewarePipe();
-        $runner = $this->prophesize(RequestHandlerRunner::class)->reveal();
+        $runner = $this->createMock(RequestHandlerRunner::class);
         return new Application(
             $factory,
             $pipeline,

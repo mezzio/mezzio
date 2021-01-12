@@ -21,7 +21,7 @@ class MiddlewareFactoryFactoryTest extends TestCase
 {
     public function testFactoryProducesMiddlewareFactoryComposingMiddlewareContainerInstance() : void
     {
-        $middlewareContainer = $this->prophesize(MiddlewareContainer::class)->reveal();
+        $middlewareContainer = $this->createMock(MiddlewareContainer::class);
 
         $container = new InMemoryContainer();
         $container->set(MiddlewareContainer::class, $middlewareContainer);

@@ -14,22 +14,21 @@ use Mezzio\Container\ErrorResponseGeneratorFactory;
 use Mezzio\Middleware\ErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use MezzioTest\InMemoryContainer;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Container\ContainerInterface;
 
 class ErrorResponseGeneratorFactoryTest extends TestCase
 {
     /** @var InMemoryContainer */
     private $container;
 
-    /** @var TemplateRendererInterface|ObjectProphecy */
+    /** @var TemplateRendererInterface&MockObject */
     private $renderer;
 
     public function setUp() : void
     {
         $this->container = new InMemoryContainer();
-        $this->renderer  = $this->prophesize(TemplateRendererInterface::class);
+        $this->renderer  = $this->createMock(TemplateRendererInterface::class);
     }
 
     public function testNoConfigurationCreatesInstanceWithDefaults() : void
@@ -60,13 +59,13 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
 
     public function testUsesConfiguredTemplateRenderToSetGeneratorRenderer() : void
     {
-        $this->container->set(TemplateRendererInterface::class, $this->renderer->reveal());
+        $this->container->set(TemplateRendererInterface::class, $this->renderer);
         $factory = new ErrorResponseGeneratorFactory();
 
         $generator = $factory($this->container);
 
         $this->assertAttributeEquals(false, 'debug', $generator);
-        $this->assertAttributeSame($this->renderer->reveal(), 'renderer', $generator);
+        $this->assertAttributeSame($this->renderer, 'renderer', $generator);
         $this->assertAttributeEquals('error::error', 'template', $generator);
         $this->assertAttributeEquals('layout::default', 'layout', $generator);
     }

@@ -29,7 +29,7 @@ class NotFoundHandlerFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->response = $this->prophesize(ResponseInterface::class)->reveal();
+        $this->response = $this->createMock(ResponseInterface::class);
         $this->container = new InMemoryContainer();
         $this->container->set(ResponseInterface::class, function () {
             return $this->response;
@@ -48,7 +48,7 @@ class NotFoundHandlerFactoryTest extends TestCase
 
     public function testFactoryCreatesInstanceUsingRendererServiceWhenPresent() : void
     {
-        $renderer = $this->prophesize(TemplateRendererInterface::class)->reveal();
+        $renderer = $this->createMock(TemplateRendererInterface::class);
         $this->container->set(TemplateRendererInterface::class, $renderer);
         $factory = new NotFoundHandlerFactory();
 

@@ -107,8 +107,7 @@ class ConfigProviderTest extends TestCase
             }
         }
 
-        $routerInterface = $this->prophesize(RouterInterface::class)->reveal();
-        $config['dependencies']['services'][RouterInterface::class] = $routerInterface;
+        $config['dependencies']['services'][RouterInterface::class] = $this->createMock(RouterInterface::class);
         $container = $this->getContainer($config['dependencies']);
 
         $dependencies = $this->provider->getDependencies();

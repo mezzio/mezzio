@@ -22,7 +22,7 @@ class EmitterFactoryTest extends TestCase
 {
     public function testFactoryProducesEmitterStackWithSapiEmitterComposed() : void
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
+        $container = $this->createMock(ContainerInterface::class);
         $factory = new EmitterFactory();
 
         $emitter = $factory($container);

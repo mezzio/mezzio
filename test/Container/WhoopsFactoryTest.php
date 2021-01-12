@@ -35,9 +35,8 @@ class WhoopsFactoryTest extends TestCase
 
     public function setUp() : void
     {
-        $pageHandler     = $this->prophesize(PrettyPageHandler::class);
         $this->container = new InMemoryContainer();
-        $this->container->set('Mezzio\WhoopsPageHandler', $pageHandler->reveal());
+        $this->container->set('Mezzio\WhoopsPageHandler', $this->createMock(PrettyPageHandler::class));
 
         $this->factory = new WhoopsFactory();
     }

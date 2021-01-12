@@ -20,7 +20,7 @@ class ServerRequestFactoryFactoryTest extends TestCase
 {
     public function testFactoryReturnsCallable() : callable
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
+        $container = $this->createMock(ContainerInterface::class);
         $factory = new ServerRequestFactoryFactory();
 
         $generatedFactory = $factory($container);

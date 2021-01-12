@@ -60,7 +60,7 @@ class RequestHandlerRunnerFactoryTest extends TestCase
 
     public function registerHandlerInContainer(InMemoryContainer $container) : RequestHandlerInterface
     {
-        $app = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $app = $this->createMock(RequestHandlerInterface::class);
         $container->set(ApplicationPipeline::class, $app);
 
         return $app;
@@ -68,7 +68,7 @@ class RequestHandlerRunnerFactoryTest extends TestCase
 
     public function registerEmitterInContainer(InMemoryContainer $container) : EmitterInterface
     {
-        $emitter = $this->prophesize(EmitterInterface::class)->reveal();
+        $emitter = $this->createMock(EmitterInterface::class);
         $container->set(EmitterInterface::class, $emitter);
 
         return $emitter;
@@ -76,7 +76,7 @@ class RequestHandlerRunnerFactoryTest extends TestCase
 
     public function registerServerRequestFactoryInContainer(InMemoryContainer $container) : callable
     {
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
+        $request = $this->createMock(ServerRequestInterface::class);
         $factory = function () use ($request) {
             return $request;
         };
@@ -87,12 +87,14 @@ class RequestHandlerRunnerFactoryTest extends TestCase
 
     public function registerServerRequestErrorResponseGeneratorInContainer(InMemoryContainer $container) : callable
     {
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
-        $generator = $this->prophesize(ServerRequestErrorResponseGenerator::class);
-        $generator->__invoke(Argument::type(Throwable::class))->willReturn($response);
+        $response = $this->createMock(ResponseInterface::class);
+        $generator = $this->createMock(ServerRequestErrorResponseGenerator::class);
+        $generator->method('__invoke')
+            ->with(self::isInstanceOf(Throwable::class))
+            ->willReturn($response);
 
-        $container->set(ServerRequestErrorResponseGenerator::class, $generator->reveal());
+        $container->set(ServerRequestErrorResponseGenerator::class, $generator);
 
-        return $generator->reveal();
+        return $generator;
     }
 }

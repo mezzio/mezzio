@@ -36,7 +36,7 @@ class ServerRequestFactoryFactoryWithoutDiactorosTest extends TestCase
     {
         class_exists(InvalidServiceException::class);
 
-        $this->container = $this->prophesize(ContainerInterface::class)->reveal();
+        $this->container = $this->createMock(ContainerInterface::class);
         $this->factory = new ServerRequestFactoryFactory();
 
         $this->autoloadFunctions = spl_autoload_functions();
