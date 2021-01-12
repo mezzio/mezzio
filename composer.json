@@ -30,7 +30,7 @@
         }
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.3",
         "fig/http-message-util": "^1.1.2",
         "laminas/laminas-httphandlerrunner": "^1.0.1",
         "laminas/laminas-stratigility": "^3.0",
