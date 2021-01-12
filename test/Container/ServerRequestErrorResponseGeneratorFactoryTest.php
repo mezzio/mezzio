@@ -14,8 +14,8 @@ use Closure;
 use Mezzio\Container\ServerRequestErrorResponseGeneratorFactory;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 
@@ -23,40 +23,24 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 {
     public function testFactoryOnlyRequiresResponseService() : void
     {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has('config')->willReturn(false);
-        $container->get('config')->shouldNotBeCalled();
-        $container->has(TemplateRendererInterface::class)->willReturn(false);
-        $container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
-        $container->get(TemplateRendererInterface::class)->shouldNotBeCalled();
-        $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)->shouldNotBeCalled();
-
-        $exception = new RuntimeException();
-        $container->get(ResponseInterface::class)->willThrow($exception);
-
+        $container = new InMemoryContainer();
         $factory = new ServerRequestErrorResponseGeneratorFactory();
 
         $this->expectException(RuntimeException::class);
-        $factory($container->reveal());
+        $factory($container);
     }
 
     public function testFactoryCreatesGeneratorWhenOnlyResponseServiceIsPresent() : void
     {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has('config')->willReturn(false);
-        $container->get('config')->shouldNotBeCalled();
-        $container->has(TemplateRendererInterface::class)->willReturn(false);
-        $container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
-        $container->get(TemplateRendererInterface::class)->shouldNotBeCalled();
-        $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)->shouldNotBeCalled();
+        $container = new InMemoryContainer();
 
         $responseFactory = function () {
         };
-        $container->get(ResponseInterface::class)->willReturn($responseFactory);
+        $container->set(ResponseInterface::class, $responseFactory);
 
         $factory = new ServerRequestErrorResponseGeneratorFactory();
 
-        $generator = $factory($container->reveal());
+        $generator = $factory($container);
 
         $this->assertAttributeNotSame($responseFactory, 'responseFactory', $generator);
         $this->assertAttributeInstanceOf(Closure::class, 'responseFactory', $generator);
@@ -77,19 +61,17 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         ];
         $renderer = $this->prophesize(TemplateRendererInterface::class)->reveal();
 
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->has('config')->willReturn(true);
-        $container->get('config')->willReturn($config);
-        $container->has(TemplateRendererInterface::class)->willReturn(true);
-        $container->get(TemplateRendererInterface::class)->willReturn($renderer);
+        $container = new InMemoryContainer();
+        $container->set('config', $config);
+        $container->set(TemplateRendererInterface::class, $renderer);
 
         $responseFactory = function () {
         };
-        $container->get(ResponseInterface::class)->willReturn($responseFactory);
+        $container->set(ResponseInterface::class, $responseFactory);
 
         $factory = new ServerRequestErrorResponseGeneratorFactory();
 
-        $generator = $factory($container->reveal());
+        $generator = $factory($container);
 
         $this->assertAttributeNotSame($responseFactory, 'responseFactory', $generator);
         $this->assertAttributeInstanceOf(Closure::class, 'responseFactory', $generator);

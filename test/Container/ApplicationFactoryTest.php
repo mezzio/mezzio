@@ -17,6 +17,7 @@ use Mezzio\ApplicationPipeline;
 use Mezzio\Container\ApplicationFactory;
 use Mezzio\MiddlewareFactory;
 use Mezzio\Router\RouteCollector;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
@@ -29,15 +30,15 @@ class ApplicationFactoryTest extends TestCase
         $routeCollector = $this->prophesize(RouteCollector::class)->reveal();
         $runner = $this->prophesize(RequestHandlerRunner::class)->reveal();
 
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get(MiddlewareFactory::class)->willReturn($middlewareFactory);
-        $container->get(ApplicationPipeline::class)->willReturn($pipeline);
-        $container->get(RouteCollector::class)->willReturn($routeCollector);
-        $container->get(RequestHandlerRunner::class)->willReturn($runner);
+        $container = new InMemoryContainer();
+        $container->set(MiddlewareFactory::class, $middlewareFactory);
+        $container->set(ApplicationPipeline::class, $pipeline);
+        $container->set(RouteCollector::class, $routeCollector);
+        $container->set(RequestHandlerRunner::class, $runner);
 
         $factory = new ApplicationFactory();
 
-        $application = $factory($container->reveal());
+        $application = $factory($container);
 
         $this->assertInstanceOf(Application::class, $application);
         $this->assertAttributeSame($middlewareFactory, 'factory', $application);

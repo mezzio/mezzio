@@ -11,10 +11,8 @@ declare(strict_types=1);
 namespace MezzioTest\Container;
 
 use Mezzio\Container\WhoopsFactory;
-use MezzioTest\ContainerTrait;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Container\ContainerInterface;
 use ReflectionProperty;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
@@ -29,9 +27,7 @@ use function sprintf;
  */
 class WhoopsFactoryTest extends TestCase
 {
-    use ContainerTrait;
-
-    /** @var ContainerInterface|ObjectProphecy */
+    /** @var InMemoryContainer */
     private $container;
 
     /** @var WhoopsFactory */
@@ -40,8 +36,8 @@ class WhoopsFactoryTest extends TestCase
     public function setUp() : void
     {
         $pageHandler     = $this->prophesize(PrettyPageHandler::class);
-        $this->container = $this->mockContainerInterface();
-        $this->injectServiceInContainer($this->container, 'Mezzio\WhoopsPageHandler', $pageHandler->reveal());
+        $this->container = new InMemoryContainer();
+        $this->container->set('Mezzio\WhoopsPageHandler', $pageHandler->reveal());
 
         $this->factory = new WhoopsFactory();
     }
@@ -67,7 +63,7 @@ class WhoopsFactoryTest extends TestCase
     public function testReturnsAWhoopsRuntimeWithPageHandlerComposed() : void
     {
         $factory = $this->factory;
-        $result  = $factory($this->container->reveal());
+        $result  = $factory($this->container);
         $this->assertInstanceOf(Whoops::class, $result);
         $this->assertWhoopsContainsHandler(PrettyPageHandler::class, $result);
     }
@@ -75,10 +71,10 @@ class WhoopsFactoryTest extends TestCase
     public function testWillInjectJsonResponseHandlerIfConfigurationExpectsIt() : void
     {
         $config = ['whoops' => ['json_exceptions' => ['display' => true]]];
-        $this->injectServiceInContainer($this->container, 'config', $config);
+        $this->container->set('config', $config);
 
         $factory = $this->factory;
-        $result  = $factory($this->container->reveal());
+        $result  = $factory($this->container);
         $this->assertInstanceOf(Whoops::class, $result);
         $this->assertWhoopsContainsHandler(PrettyPageHandler::class, $result);
         $this->assertWhoopsContainsHandler(JsonResponseHandler::class, $result);
@@ -110,10 +106,10 @@ class WhoopsFactoryTest extends TestCase
             ],
         ];
 
-        $this->injectServiceInContainer($this->container, 'config', $config);
+        $this->container->set('config', $config);
 
         $factory = $this->factory;
-        $whoops  = $factory($this->container->reveal());
+        $whoops  = $factory($this->container);
         $handler = $whoops->popHandler();
 
         // If ajax only, not ajax request and Whoops 2, it does not inject JsonResponseHandler

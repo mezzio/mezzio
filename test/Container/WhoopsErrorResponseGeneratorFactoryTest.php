@@ -12,6 +12,7 @@ namespace MezzioTest\Container;
 
 use Mezzio\Container\WhoopsErrorResponseGeneratorFactory;
 use Mezzio\Middleware\WhoopsErrorResponseGenerator;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
@@ -22,7 +23,7 @@ use function interface_exists;
 
 class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
 {
-    /** @var ContainerInterface|ObjectProphecy */
+    /** @var InMemoryContainer */
     private $container;
 
     /** @var Run|RunInterface|ObjectProphecy */
@@ -30,7 +31,7 @@ class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
 
     public function setUp() : void
     {
-        $this->container = $this->prophesize(ContainerInterface::class);
+        $this->container = new InMemoryContainer();
 
         $this->whoops = interface_exists(RunInterface::class)
             ? $this->prophesize(RunInterface::class)
@@ -39,11 +40,11 @@ class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
 
     public function testCreatesInstanceWithConfiguredWhoopsService() : void
     {
-        $this->container->get('Mezzio\Whoops')->will([$this->whoops, 'reveal']);
+        $this->container->set('Mezzio\Whoops', $this->whoops->reveal());
 
         $factory = new WhoopsErrorResponseGeneratorFactory();
 
-        $generator = $factory($this->container->reveal());
+        $generator = $factory($this->container);
 
         $this->assertInstanceOf(WhoopsErrorResponseGenerator::class, $generator);
         $this->assertAttributeSame($this->whoops->reveal(), 'whoops', $generator);

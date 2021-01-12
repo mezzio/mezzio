@@ -25,12 +25,11 @@ use Mezzio\Router\Middleware\RouteMiddleware;
 use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollector;
 use Mezzio\Router\RouterInterface;
-use MezzioTest\ContainerTrait;
+use MezzioTest\InMemoryContainer;
 use MezzioTest\TestAsset\InvokableMiddleware;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use ReflectionProperty;
 use SplQueue;
@@ -41,9 +40,7 @@ use function array_shift;
 
 class ApplicationConfigInjectionDelegatorTest extends TestCase
 {
-    use ContainerTrait;
-
-    /** @var ContainerInterface|ObjectProphecy */
+    /** @var InMemoryContainer */
     private $container;
 
     /** @var DispatchMiddleware|ObjectProphecy */
@@ -63,7 +60,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     public function setUp() : void
     {
-        $this->container = $this->mockContainerInterface();
+        $this->container = new InMemoryContainer();
         $this->router = $this->prophesize(RouterInterface::class);
         $this->routeCollector = new RouteCollector($this->router->reveal());
         $this->routeMiddleware = new RouteMiddleware($this->router->reveal());
@@ -73,7 +70,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     public function createApplication() : Application
     {
-        $container = new MiddlewareContainer($this->container->reveal());
+        $container = new MiddlewareContainer($this->container);
         $factory = new MiddlewareFactory($container);
         $pipeline = new MiddlewarePipe();
         $runner = $this->prophesize(RequestHandlerRunner::class)->reveal();
@@ -160,14 +157,13 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     public function testInvocationAsDelegatorFactoryRaisesExceptionIfCallbackIsNotAnApplication() : void
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
         $callback = function () {
             return $this;
         };
         $factory = new ApplicationConfigInjectionDelegator();
         $this->expectException(InvalidServiceException::class);
         $this->expectExceptionMessage('cannot operate');
-        $factory($container, Application::class, $callback);
+        $factory($this->container, Application::class, $callback);
     }
 
     /**
@@ -177,8 +173,8 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
      */
     public function testInjectRoutesFromConfigSetsUpRoutesFromConfig($middleware) : void
     {
-        $this->container->has('HelloWorld')->willReturn(true);
-        $this->container->has('Ping')->willReturn(true);
+        $this->container->set('HelloWorld', true);
+        $this->container->set('Ping', true);
 
         $config = [
             'routes' => [
@@ -299,7 +295,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
                 ],
             ],
         ];
-        $this->container->has('config')->willReturn(false);
+
         $app = $this->createApplication();
 
         $this->expectException(InvalidArgumentException::class);
@@ -319,7 +315,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
                 ],
             ],
         ];
-        $this->container->has('config')->willReturn(false);
+
         $app = $this->createApplication();
 
         $this->expectException(InvalidArgumentException::class);
@@ -341,7 +337,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
                 ],
             ],
         ];
-        $this->container->has('config')->willReturn(false);
+
         $app = $this->createApplication();
 
         ApplicationConfigInjectionDelegator::injectRoutesFromConfig($app, $config);
@@ -365,7 +361,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
                 ],
             ],
         ];
-        $this->container->has('config')->willReturn(false);
+
 
         $app = $this->createApplication();
 
@@ -386,7 +382,6 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
                 ],
             ],
         ];
-        $this->container->has('config')->willReturn(false);
 
         $app = $this->createApplication();
 
@@ -404,7 +399,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
                 ],
             ],
         ];
-        $this->container->has('config')->willReturn(false);
+
         $app = $this->createApplication();
 
         ApplicationConfigInjectionDelegator::injectRoutesFromConfig($app, $config);
@@ -426,7 +421,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
                 ],
             ],
         ];
-        $this->container->has('config')->willReturn(false);
+
         $app = $this->createApplication();
 
         ApplicationConfigInjectionDelegator::injectRoutesFromConfig($app, $config);
@@ -465,11 +460,10 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
             ],
         ]);
 
-        $this->container->has('config')->willReturn(true);
-        $this->container->get('config')->willReturn($config);
+        $this->container->set('config', $config);
 
         $delegator = new ApplicationConfigInjectionDelegator();
-        $application = $delegator($this->container->reveal(), '', function () {
+        $application = $delegator($this->container, '', function () {
             return $this->createApplication();
         });
 

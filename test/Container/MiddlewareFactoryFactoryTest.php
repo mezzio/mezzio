@@ -13,6 +13,7 @@ namespace MezzioTest\Container;
 use Mezzio\Container\MiddlewareFactoryFactory;
 use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
@@ -22,12 +23,12 @@ class MiddlewareFactoryFactoryTest extends TestCase
     {
         $middlewareContainer = $this->prophesize(MiddlewareContainer::class)->reveal();
 
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get(MiddlewareContainer::class)->willReturn($middlewareContainer);
+        $container = new InMemoryContainer();
+        $container->set(MiddlewareContainer::class, $middlewareContainer);
 
         $factory = new MiddlewareFactoryFactory();
 
-        $middlewareFactory = $factory($container->reveal());
+        $middlewareFactory = $factory($container);
 
         $this->assertInstanceOf(MiddlewareFactory::class, $middlewareFactory);
         $this->assertAttributeSame($middlewareContainer, 'container', $middlewareFactory);

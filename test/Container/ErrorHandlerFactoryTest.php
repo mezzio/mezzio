@@ -15,65 +15,48 @@ use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Stratigility\Middleware\ErrorResponseGenerator as StratigilityGenerator;
 use Mezzio\Container\ErrorHandlerFactory;
 use Mezzio\Middleware\ErrorResponseGenerator;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 use TypeError;
 
 class ErrorHandlerFactoryTest extends TestCase
 {
-    /** @var ContainerInterface|ObjectProphecy */
+    /** @var InMemoryContainer */
     private $container;
 
     public function setUp() : void
     {
-        $this->container = $this->prophesize(ContainerInterface::class);
+        $this->container = new InMemoryContainer();
     }
 
     public function testFactoryFailsIfResponseServiceIsMissing() : void
     {
-        $exception = new RuntimeException();
-        $this->container->has(ErrorResponseGenerator::class)->willReturn(false);
-        $this->container->has(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->willReturn(false);
-        $this->container->get(ErrorResponseGenerator::class)->shouldNotBeCalled();
-        $this->container->get(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->shouldNotBeCalled();
-        $this->container->get(ResponseInterface::class)->willThrow($exception);
-
         $factory = new ErrorHandlerFactory();
 
         $this->expectException(RuntimeException::class);
-        $factory($this->container->reveal());
+        $factory($this->container);
     }
 
     public function testFactoryFailsIfResponseServiceReturnsResponse() : void
     {
         $response = $this->prophesize(ResponseInterface::class)->reveal();
-        $this->container->has(ErrorResponseGenerator::class)->willReturn(false);
-        $this->container->has(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->willReturn(false);
-        $this->container->get(ErrorResponseGenerator::class)->shouldNotBeCalled();
-        $this->container->get(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->shouldNotBeCalled();
-        $this->container->get(ResponseInterface::class)->willReturn($response);
+        $this->container->set(ResponseInterface::class, $response);
 
         $factory = new ErrorHandlerFactory();
 
         $this->expectException(TypeError::class);
-        $factory($this->container->reveal());
+        $factory($this->container);
     }
 
     public function testFactoryCreatesHandlerWithStratigilityGeneratorIfNoGeneratorServiceAvailable() : void
     {
-        $this->container->has(ErrorResponseGenerator::class)->willReturn(false);
-        $this->container->has(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->willReturn(false);
-        $this->container->get(ErrorResponseGenerator::class)->shouldNotBeCalled();
-        $this->container->get(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)->shouldNotBeCalled();
-
-        $this->container->get(ResponseInterface::class)->willReturn(function () {
+        $this->container->set(ResponseInterface::class, function () {
         });
 
         $factory = new ErrorHandlerFactory();
-        $handler = $factory($this->container->reveal());
+        $handler = $factory($this->container);
 
         $this->assertInstanceOf(ErrorHandler::class, $handler);
         $this->assertAttributeInstanceOf(Closure::class, 'responseFactory', $handler);
@@ -83,14 +66,13 @@ class ErrorHandlerFactoryTest extends TestCase
     public function testFactoryCreatesHandlerWithGeneratorIfGeneratorServiceAvailable() : void
     {
         $generator = $this->prophesize(ErrorResponseGenerator::class)->reveal();
-        $this->container->has(ErrorResponseGenerator::class)->willReturn(true);
-        $this->container->get(ErrorResponseGenerator::class)->willReturn($generator);
+        $this->container->set(ErrorResponseGenerator::class, $generator);
 
-        $this->container->get(ResponseInterface::class)->willReturn(function () {
+        $this->container->set(ResponseInterface::class, function () {
         });
 
         $factory = new ErrorHandlerFactory();
-        $handler = $factory($this->container->reveal());
+        $handler = $factory($this->container);
 
         $this->assertInstanceOf(ErrorHandler::class, $handler);
         $this->assertAttributeInstanceOf(Closure::class, 'responseFactory', $handler);

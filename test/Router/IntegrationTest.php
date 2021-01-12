@@ -30,7 +30,6 @@ use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
 use Mezzio\Router\RouteCollector;
 use Mezzio\Router\RouterInterface;
-use MezzioTest\ContainerTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -42,8 +41,6 @@ use function sprintf;
 
 class IntegrationTest extends TestCase
 {
-    use ContainerTrait;
-
     /** @var Response */
     private $response;
 
@@ -53,9 +50,6 @@ class IntegrationTest extends TestCase
     /** @var RouterInterface|ObjectProphecy */
     private $router;
 
-    /** @var ContainerInterface|ObjectProphecy */
-    private $container;
-
     public function setUp() : void
     {
         $this->response  = new Response();
@@ -63,7 +57,6 @@ class IntegrationTest extends TestCase
             return $this->response;
         };
         $this->router    = $this->prophesize(RouterInterface::class);
-        $this->container = $this->mockContainerInterface();
     }
 
     public function getApplication() : Application
@@ -73,7 +66,7 @@ class IntegrationTest extends TestCase
 
     public function createApplicationFromRouter(RouterInterface $router) : Application
     {
-        $container = new MiddlewareContainer($this->container->reveal());
+        $container = new MiddlewareContainer($this->createMock(ContainerInterface::class));
         $factory = new MiddlewareFactory($container);
         $pipeline = new MiddlewarePipe();
         $collector = new RouteCollector($router);

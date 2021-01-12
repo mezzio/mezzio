@@ -13,6 +13,7 @@ namespace MezzioTest\Container;
 use Mezzio\Container\NotFoundHandlerFactory;
 use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Template\TemplateRendererInterface;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
@@ -20,7 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class NotFoundHandlerFactoryTest extends TestCase
 {
-    /** @var ContainerInterface|ObjectProphecy */
+    /** @var InMemoryContainer */
     private $container;
 
     /** @var ResponseInterface|ObjectProphecy */
@@ -29,20 +30,17 @@ class NotFoundHandlerFactoryTest extends TestCase
     protected function setUp(): void
     {
         $this->response = $this->prophesize(ResponseInterface::class)->reveal();
-        $this->container = $this->prophesize(ContainerInterface::class);
-        $this->container->get(ResponseInterface::class)->willReturn(function () {
+        $this->container = new InMemoryContainer();
+        $this->container->set(ResponseInterface::class, function () {
             return $this->response;
         });
     }
 
     public function testFactoryCreatesInstanceWithoutRendererIfRendererServiceIsMissing() : void
     {
-        $this->container->has('config')->willReturn(false);
-        $this->container->has(TemplateRendererInterface::class)->willReturn(false);
-        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
         $factory = new NotFoundHandlerFactory();
 
-        $handler = $factory($this->container->reveal());
+        $handler = $factory($this->container);
         $this->assertInstanceOf(NotFoundHandler::class, $handler);
         $this->assertAttributeInternalType('callable', 'responseFactory', $handler);
         $this->assertAttributeEmpty('renderer', $handler);
@@ -51,12 +49,10 @@ class NotFoundHandlerFactoryTest extends TestCase
     public function testFactoryCreatesInstanceUsingRendererServiceWhenPresent() : void
     {
         $renderer = $this->prophesize(TemplateRendererInterface::class)->reveal();
-        $this->container->has('config')->willReturn(false);
-        $this->container->has(TemplateRendererInterface::class)->willReturn(true);
-        $this->container->get(TemplateRendererInterface::class)->willReturn($renderer);
+        $this->container->set(TemplateRendererInterface::class, $renderer);
         $factory = new NotFoundHandlerFactory();
 
-        $handler = $factory($this->container->reveal());
+        $handler = $factory($this->container);
         $this->assertAttributeSame($renderer, 'renderer', $handler);
     }
 
@@ -70,13 +66,10 @@ class NotFoundHandlerFactoryTest extends TestCase
                 ],
             ],
         ];
-        $this->container->has('config')->willReturn(true);
-        $this->container->get('config')->willReturn($config);
-        $this->container->has(TemplateRendererInterface::class)->willReturn(false);
-        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
+        $this->container->set('config', $config);
         $factory = new NotFoundHandlerFactory();
 
-        $handler = $factory($this->container->reveal());
+        $handler = $factory($this->container);
         $this->assertAttributeEquals(
             $config['mezzio']['error_handler']['layout'],
             'layout',
@@ -99,13 +92,10 @@ class NotFoundHandlerFactoryTest extends TestCase
                 ],
             ],
         ];
-        $this->container->has('config')->willReturn(true);
-        $this->container->get('config')->willReturn($config);
-        $this->container->has(TemplateRendererInterface::class)->willReturn(false);
-        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
+        $this->container->set('config', $config);
         $factory = new NotFoundHandlerFactory();
 
-        $handler = $factory($this->container->reveal());
+        $handler = $factory($this->container);
         // ideally we would like to keep null there,
         // but right now NotFoundHandlerFactory does not accept null for layout
         $this->assertAttributeSame('', 'layout', $handler);
