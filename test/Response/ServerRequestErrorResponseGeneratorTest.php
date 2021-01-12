@@ -14,6 +14,7 @@ use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -24,6 +25,8 @@ use function strpos;
 
 class ServerRequestErrorResponseGeneratorTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var TemplateRendererInterface|ObjectProphecy */
     private $renderer;
 
@@ -33,7 +36,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
     /** @var callable */
     private $responseFactory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->response = $this->prophesize(ResponseInterface::class);
         $this->responseFactory = function () {

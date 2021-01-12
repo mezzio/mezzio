@@ -15,6 +15,7 @@ use Mezzio\Middleware\ErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,6 +24,8 @@ use RuntimeException;
 
 class ErrorResponseGeneratorTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var ServerRequestInterface|ObjectProphecy */
     private $request;
 
@@ -32,7 +35,7 @@ class ErrorResponseGeneratorTest extends TestCase
     /** @var TemplateRendererInterface|ObjectProphecy */
     private $renderer;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request  = $this->prophesize(ServerRequestInterface::class);
         $this->stream   = $this->prophesize(StreamInterface::class);
@@ -91,9 +94,9 @@ class ErrorResponseGeneratorTest extends TestCase
 
         $this->stream
             ->write(Argument::that(function ($body) use ($leaf, $branch, $error) {
-                $this->assertContains($leaf->getTraceAsString(), $body);
-                $this->assertContains($branch->getTraceAsString(), $body);
-                $this->assertContains($error->getTraceAsString(), $body);
+                $this->assertStringContainsString($leaf->getTraceAsString(), $body);
+                $this->assertStringContainsString($branch->getTraceAsString(), $body);
+                $this->assertStringContainsString($error->getTraceAsString(), $body);
                 return true;
             }))
             ->shouldBeCalled();

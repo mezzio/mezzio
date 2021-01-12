@@ -25,6 +25,7 @@ use Mezzio\MiddlewareFactory;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Router\RouterInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -43,10 +44,12 @@ use const Mezzio\ROUTE_MIDDLEWARE;
 
 class ConfigProviderTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     /** @var ConfigProvider */
     private $provider;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->provider = new ConfigProvider();
     }

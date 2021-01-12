@@ -14,6 +14,7 @@ use Mezzio\Exception\InvalidMiddlewareException;
 use Mezzio\Middleware\LazyLoadingMiddleware;
 use Mezzio\MiddlewareContainer;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,6 +23,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class LazyLoadingMiddlewareTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var MiddlewareContainer|ObjectProphecy */
     private $container;
 
@@ -31,7 +34,7 @@ class LazyLoadingMiddlewareTest extends TestCase
     /** @var RequestHandlerInterface|ObjectProphecy */
     private $handler;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->prophesize(MiddlewareContainer::class);
         $this->request   = $this->prophesize(ServerRequestInterface::class);

@@ -13,11 +13,15 @@ namespace MezzioTest\Container;
 use Mezzio\Container\MiddlewareFactoryFactory;
 use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
+use MezzioTest\AttributeAssertionTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 
 class MiddlewareFactoryFactoryTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     public function testFactoryProducesMiddlewareFactoryComposingMiddlewareContainerInstance()
     {
         $middlewareContainer = $this->prophesize(MiddlewareContainer::class)->reveal();

@@ -13,19 +13,23 @@ namespace MezzioTest\Container;
 use Mezzio\Container\ErrorResponseGeneratorFactory;
 use Mezzio\Middleware\ErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
+use MezzioTest\AttributeAssertionTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 
 class ErrorResponseGeneratorFactoryTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
     /** @var TemplateRendererInterface|ObjectProphecy */
     private $renderer;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
         $this->renderer  = $this->prophesize(TemplateRendererInterface::class);

@@ -14,7 +14,9 @@ use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Template\TemplateRendererInterface;
+use MezzioTest\AttributeAssertionTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,6 +25,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class NotFoundHandlerTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     /** @var ServerRequestInterface|ObjectProphecy */
     private $request;
 
@@ -32,7 +36,7 @@ class NotFoundHandlerTest extends TestCase
     /** @var callable */
     private $responseFactory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request  = $this->prophesize(ServerRequestInterface::class);
         $this->response = $this->prophesize(ResponseInterface::class);

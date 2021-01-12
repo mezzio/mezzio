@@ -15,7 +15,9 @@ use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Stratigility\Middleware\ErrorResponseGenerator as StratigilityGenerator;
 use Mezzio\Container\ErrorHandlerFactory;
 use Mezzio\Middleware\ErrorResponseGenerator;
+use MezzioTest\AttributeAssertionTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -24,10 +26,12 @@ use TypeError;
 
 class ErrorHandlerFactoryTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
     }

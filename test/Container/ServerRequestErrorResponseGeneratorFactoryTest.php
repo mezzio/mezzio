@@ -14,13 +14,17 @@ use Closure;
 use Mezzio\Container\ServerRequestErrorResponseGeneratorFactory;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
+use MezzioTest\AttributeAssertionTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 
 class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     public function testFactoryOnlyRequiresResponseService()
     {
         $container = $this->prophesize(ContainerInterface::class);

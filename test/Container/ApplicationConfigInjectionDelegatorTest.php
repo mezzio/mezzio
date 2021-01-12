@@ -29,6 +29,7 @@ use MezzioTest\ContainerTrait;
 use MezzioTest\TestAsset\InvokableMiddleware;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -40,7 +41,7 @@ use function array_shift;
 
 class ApplicationConfigInjectionDelegatorTest extends TestCase
 {
-    use ContainerTrait;
+    use ContainerTrait, ProphecyTrait;
 
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
@@ -60,7 +61,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
     /** @var RouterInterface|ObjectProphecy */
     private $router;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->mockContainerInterface();
         $this->router = $this->prophesize(RouterInterface::class);

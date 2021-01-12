@@ -12,8 +12,10 @@ namespace MezzioTest\Container;
 
 use Mezzio\Container\Exception\InvalidServiceException;
 use Mezzio\Container\WhoopsPageHandlerFactory;
+use MezzioTest\AttributeAssertionTrait;
 use MezzioTest\ContainerTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Whoops\Handler\PrettyPageHandler;
@@ -23,7 +25,7 @@ use Whoops\Handler\PrettyPageHandler;
  */
 class WhoopsPageHandlerFactoryTest extends TestCase
 {
-    use ContainerTrait;
+    use ContainerTrait, ProphecyTrait, AttributeAssertionTrait;
 
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
@@ -31,7 +33,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
     /** @var WhoopsPageHandlerFactory */
     private $factory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->mockContainerInterface();
         $this->factory   = new WhoopsPageHandlerFactory();

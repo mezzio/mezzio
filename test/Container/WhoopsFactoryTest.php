@@ -11,8 +11,10 @@ declare(strict_types=1);
 namespace MezzioTest\Container;
 
 use Mezzio\Container\WhoopsFactory;
+use MezzioTest\AttributeAssertionTrait;
 use MezzioTest\ContainerTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use ReflectionProperty;
@@ -30,7 +32,7 @@ use function sprintf;
  */
 class WhoopsFactoryTest extends TestCase
 {
-    use ContainerTrait;
+    use ContainerTrait, ProphecyTrait, AttributeAssertionTrait;
 
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
@@ -38,7 +40,7 @@ class WhoopsFactoryTest extends TestCase
     /** @var WhoopsFactory */
     private $factory;
 
-    public function setUp()
+    public function setUp(): void
     {
         $pageHandler     = $this->prophesize(PrettyPageHandler::class);
         $this->container = $this->mockContainerInterface();

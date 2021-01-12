@@ -14,6 +14,7 @@ use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use InvalidArgumentException;
 use Mezzio\Middleware\WhoopsErrorResponseGenerator;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,6 +31,8 @@ use function method_exists;
 
 class WhoopsErrorResponseGeneratorTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var Run|RunInterface|ObjectProphecy */
     private $whoops;
 
@@ -42,7 +45,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
     /** @var StreamInterface|ObjectProphecy */
     private $stream;
 
-    public function setUp()
+    public function setUp(): void
     {
         // Run is marked final in 2.X, but in that version, we can mock the
         // RunInterface. 1.X has only Run, and it is not final.

@@ -33,6 +33,7 @@ use Mezzio\Router\RouterInterface;
 use MezzioTest\ContainerTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -42,7 +43,7 @@ use function sprintf;
 
 class IntegrationTest extends TestCase
 {
-    use ContainerTrait;
+    use ContainerTrait, ProphecyTrait;
 
     /** @var Response */
     private $response;
@@ -56,7 +57,7 @@ class IntegrationTest extends TestCase
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->response  = new Response();
         $this->responseFactory = function () {

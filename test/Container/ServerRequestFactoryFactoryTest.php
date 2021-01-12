@@ -13,11 +13,15 @@ namespace MezzioTest\Container;
 use Closure;
 use Laminas\Diactoros\ServerRequestFactory;
 use Mezzio\Container\ServerRequestFactoryFactory;
+use MezzioTest\AttributeAssertionTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 
 class ServerRequestFactoryFactoryTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     public function testFactoryReturnsCallable()
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();

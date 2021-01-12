@@ -13,20 +13,24 @@ namespace MezzioTest\Container;
 use Mezzio\Container\NotFoundHandlerFactory;
 use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Template\TemplateRendererInterface;
+use MezzioTest\AttributeAssertionTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class NotFoundHandlerFactoryTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
     /** @var ResponseInterface|ObjectProphecy */
     private $response;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->response = $this->prophesize(ResponseInterface::class)->reveal();
         $this->container = $this->prophesize(ContainerInterface::class);

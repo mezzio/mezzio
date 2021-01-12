@@ -17,11 +17,15 @@ use Mezzio\ApplicationPipeline;
 use Mezzio\Container\ApplicationFactory;
 use Mezzio\MiddlewareFactory;
 use Mezzio\Router\RouteCollector;
+use MezzioTest\AttributeAssertionTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 
 class ApplicationFactoryTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     public function testFactoryProducesAnApplication()
     {
         $middlewareFactory = $this->prophesize(MiddlewareFactory::class)->reveal();

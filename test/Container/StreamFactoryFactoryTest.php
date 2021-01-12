@@ -12,11 +12,15 @@ namespace MezzioTest\Container;
 
 use Laminas\Diactoros\Stream;
 use Mezzio\Container\StreamFactoryFactory;
+use MezzioTest\AttributeAssertionTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 
 class StreamFactoryFactoryTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     public function testFactoryProducesACallableCapableOfGeneratingAStreamWhenDiactorosIsInstalled()
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();

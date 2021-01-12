@@ -15,8 +15,10 @@ use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Mezzio\ApplicationPipeline;
 use Mezzio\Container\RequestHandlerRunnerFactory;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
+use MezzioTest\AttributeAssertionTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,6 +29,8 @@ use Throwable;
 
 class RequestHandlerRunnerFactoryTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     public function testFactoryProducesRunnerUsingServicesFromContainer()
     {
         $container = $this->prophesize(ContainerInterface::class);

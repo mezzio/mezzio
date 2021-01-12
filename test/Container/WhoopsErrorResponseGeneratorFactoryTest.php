@@ -12,7 +12,9 @@ namespace MezzioTest\Container;
 
 use Mezzio\Container\WhoopsErrorResponseGeneratorFactory;
 use Mezzio\Middleware\WhoopsErrorResponseGenerator;
+use MezzioTest\AttributeAssertionTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Whoops\Run;
@@ -22,13 +24,15 @@ use function interface_exists;
 
 class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
     /** @var Run|RunInterface|ObjectProphecy */
     private $whoops;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = $this->prophesize(ContainerInterface::class);
 

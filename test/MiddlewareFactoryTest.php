@@ -19,6 +19,7 @@ use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
 use Mezzio\Router\Middleware\DispatchMiddleware;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use ReflectionProperty;
@@ -28,7 +29,9 @@ use function iterator_to_array;
 
 class MiddlewareFactoryTest extends TestCase
 {
-    public function setUp()
+    use ProphecyTrait, AttributeAssertionTrait;
+
+    public function setUp(): void
     {
         $this->container = $this->prophesize(MiddlewareContainer::class);
         $this->factory = new MiddlewareFactory($this->container->reveal());

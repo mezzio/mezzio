@@ -21,6 +21,7 @@ use Mezzio\Router\RouteCollector;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -33,7 +34,9 @@ use function strtoupper;
 
 class ApplicationTest extends TestCase
 {
-    public function setUp()
+    use ProphecyTrait, AttributeAssertionTrait;
+
+    public function setUp(): void
     {
         $this->factory = $this->prophesize(MiddlewareFactory::class);
         $this->pipeline = $this->prophesize(MiddlewarePipeInterface::class);
@@ -124,9 +127,9 @@ class ApplicationTest extends TestCase
 
         $this->pipeline
             ->pipe(Argument::that(function ($test) use ($preparedMiddleware) {
-                Assert::assertInstanceOf(PathMiddlewareDecorator::class, $test);
-                Assert::assertAttributeSame('/foo', 'prefix', $test);
-                Assert::assertAttributeSame($preparedMiddleware, 'middleware', $test);
+                $this->assertInstanceOf(PathMiddlewareDecorator::class, $test);
+                $this->assertAttributeSame('/foo', 'prefix', $test);
+                $this->assertAttributeSame($preparedMiddleware, 'middleware', $test);
                 return $test;
             }))
             ->shouldBeCalled();

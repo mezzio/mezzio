@@ -12,11 +12,15 @@ namespace MezzioTest\Container;
 
 use Laminas\Diactoros\Response;
 use Mezzio\Container\ResponseFactoryFactory;
+use MezzioTest\AttributeAssertionTrait;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 
 class ResponseFactoryFactoryTest extends TestCase
 {
+    use ProphecyTrait, AttributeAssertionTrait;
+
     public function testFactoryProducesACallableCapableOfGeneratingAResponseWhenDiactorosIsInstalled()
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();

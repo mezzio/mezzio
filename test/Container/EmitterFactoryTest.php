@@ -13,6 +13,7 @@ namespace Mezzio\Container;
 use Laminas\HttpHandlerRunner\Emitter\EmitterStack;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 
 use function array_shift;
@@ -20,6 +21,8 @@ use function iterator_to_array;
 
 class EmitterFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testFactoryProducesEmitterStackWithSapiEmitterComposed()
     {
         $container = $this->prophesize(ContainerInterface::class)->reveal();

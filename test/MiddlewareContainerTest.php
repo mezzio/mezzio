@@ -15,13 +15,16 @@ use Mezzio\Exception;
 use Mezzio\MiddlewareContainer;
 use Mezzio\Router\Middleware\DispatchMiddleware;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class MiddlewareContainerTest extends TestCase
 {
-    public function setUp()
+    use ProphecyTrait, AttributeAssertionTrait;
+
+    public function setUp(): void
     {
         $this->originContainer = $this->prophesize(ContainerInterface::class);
         $this->container = new MiddlewareContainer($this->originContainer->reveal());
