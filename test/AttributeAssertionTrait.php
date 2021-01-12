@@ -9,68 +9,48 @@ use ReflectionClass;
 
 trait AttributeAssertionTrait
 {
-    protected function assertAttributeSame($expected, string $actualAttributeName, object $actualClassOrObject): void
+    protected function assertAttributeSame($expected, string $attributeName, object $object): void
     {
-        $reflectionClass = new ReflectionClass($actualClassOrObject);
-
-        $property = $reflectionClass->getProperty($actualAttributeName);
-        $property->setAccessible(true);
-
-        $this->assertSame($expected, $property->getValue($actualClassOrObject));
+        $this->assertSame($expected, $this->getInternalProperty($attributeName, $object));
     }
 
-    protected function assertAttributeNotSame($expected, string $actualAttributeName, object $actualClassOrObject): void
+    protected function assertAttributeNotSame($expected, string $attributeName, object $object): void
     {
-        $reflectionClass = new ReflectionClass($actualClassOrObject);
-
-        $property = $reflectionClass->getProperty($actualAttributeName);
-        $property->setAccessible(true);
-
-        $this->assertNotSame($expected, $property->getValue($actualClassOrObject));
+        $this->assertNotSame($expected, $this->getInternalProperty($attributeName, $object));
     }
 
-    protected function assertAttributeEquals($expected, string $actualAttributeName, object $actualClassOrObject): void
+    protected function assertAttributeEquals($expected, string $attributeName, object $object): void
     {
-        $reflectionClass = new ReflectionClass($actualClassOrObject);
-
-        $property = $reflectionClass->getProperty($actualAttributeName);
-        $property->setAccessible(true);
-
-        $this->assertEquals($expected, $property->getValue($actualClassOrObject));
+        $this->assertEquals($expected, $this->getInternalProperty($attributeName, $object));
     }
 
-    protected function assertAttributeEmpty(string $haystackAttributeName, $haystackClassOrObject): void
+    protected function assertAttributeInstanceOf(string $expected, string $attributeName, object $object): void
     {
-        $reflectionClass = new ReflectionClass($haystackClassOrObject);
-
-        $property = $reflectionClass->getProperty($haystackAttributeName);
-        $property->setAccessible(true);
-
-        $this->assertEmpty($property->getValue($haystackClassOrObject));
+        $this->assertInstanceOf($expected, $this->getInternalProperty($attributeName, $object));
     }
 
-    protected function assertAttributeInstanceOf(string $expected, string $attributeName, $classOrObject): void
+    protected function assertAttributeInternalType(string $expected, string $attributeName, object $object): void
     {
-        $reflectionClass = new ReflectionClass($classOrObject);
-
-        $property = $reflectionClass->getProperty($attributeName);
-        $property->setAccessible(true);
-
-        $this->assertInstanceOf($expected, $property->getValue($classOrObject));
+        $this->assertInternalType($expected, $this->getInternalProperty($attributeName, $object));
     }
 
-    protected function assertAttributeInternalType(string $expected, string $attributeName, $classOrObject): void
+    protected function assertAttributeEmpty(string $attributeName, object $object): void
     {
-        $reflectionClass = new ReflectionClass($classOrObject);
-
-        $property = $reflectionClass->getProperty($attributeName);
-        $property->setAccessible(true);
-
-        $this->assertInternalType($expected, $property->getValue($classOrObject));
+        $this->assertEmpty($this->getInternalProperty($attributeName, $object));
     }
 
     protected function assertInternalType(string $expected, $actual): void
     {
         $this->assertThat($actual, new IsType($expected));
+    }
+
+    private function getInternalProperty(string $attributeName, object $object)
+    {
+        $reflectionClass = new ReflectionClass($object);
+
+        $property = $reflectionClass->getProperty($attributeName);
+        $property->setAccessible(true);
+
+        return $property->getValue($object);
     }
 }
