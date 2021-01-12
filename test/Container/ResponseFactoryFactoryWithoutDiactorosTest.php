@@ -25,7 +25,7 @@ use function spl_autoload_unregister;
 class ResponseFactoryFactoryWithoutDiactorosTest extends TestCase
 {
     use ProphecyTrait;
-    
+
     /** @var ContainerInterface|ObjectProphecy */
     private $container;
 
