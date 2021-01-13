@@ -91,9 +91,9 @@ class ErrorResponseGeneratorTest extends TestCase
         $this->stream->expects(self::once())
             ->method('write')
             ->with(self::callback(function ($body) use ($leaf, $branch, $error) {
-                $this->assertContains($leaf->getTraceAsString(), $body);
-                $this->assertContains($branch->getTraceAsString(), $body);
-                $this->assertContains($error->getTraceAsString(), $body);
+                $this->assertStringContainsString($leaf->getTraceAsString(), $body);
+                $this->assertStringContainsString($branch->getTraceAsString(), $body);
+                $this->assertStringContainsString($error->getTraceAsString(), $body);
                 return true;
             }));
 
