@@ -8,13 +8,11 @@
 
 declare(strict_types=1);
 
-namespace MezzioTest\Container\TestAsset;
+namespace MezzioTest;
 
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class CallableInteropMiddleware
+interface MiddlewareAndRequestHandler extends RequestHandlerInterface, MiddlewareInterface
 {
-    public function __invoke($request, RequestHandlerInterface $handler) : void
-    {
-    }
 }

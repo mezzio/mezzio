@@ -17,14 +17,13 @@ use Psr\Container\ContainerInterface;
 
 class MiddlewareContainerFactoryTest extends TestCase
 {
-    public function testFactoryCreatesMiddlewareContainerUsingProvidedContainer()
+    public function testFactoryCreatesMiddlewareContainerUsingProvidedContainer() : void
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
+        $container = $this->createMock(ContainerInterface::class);
         $factory = new MiddlewareContainerFactory();
 
         $middlewareContainer = $factory($container);
 
-        $this->assertInstanceOf(MiddlewareContainer::class, $middlewareContainer);
-        $this->assertAttributeSame($container, 'container', $middlewareContainer);
+        self::assertEquals(new MiddlewareContainer($container), $middlewareContainer);
     }
 }

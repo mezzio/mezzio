@@ -46,12 +46,12 @@ class ConfigProviderTest extends TestCase
     /** @var ConfigProvider */
     private $provider;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->provider = new ConfigProvider();
     }
 
-    public function testProviderDefinesExpectedAliases()
+    public function testProviderDefinesExpectedAliases() : void
     {
         $config = $this->provider->getDependencies();
         $aliases = $config['aliases'];
@@ -63,7 +63,7 @@ class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey(ROUTE_MIDDLEWARE, $aliases);
     }
 
-    public function testProviderDefinesExpectedFactoryServices()
+    public function testProviderDefinesExpectedFactoryServices() : void
     {
         $config = $this->provider->getDependencies();
         $factories = $config['factories'];
@@ -83,16 +83,16 @@ class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey(StreamInterface::class, $factories);
     }
 
-    public function testInvocationReturnsArrayWithDependencies()
+    public function testInvocationReturnsArrayWithDependencies() : void
     {
         $config = ($this->provider)();
-        $this->assertInternalType('array', $config);
+        $this->assertIsArray($config);
         $this->assertArrayHasKey('dependencies', $config);
         $this->assertArrayHasKey('aliases', $config['dependencies']);
         $this->assertArrayHasKey('factories', $config['dependencies']);
     }
 
-    public function testServicesDefinedInConfigProvider()
+    public function testServicesDefinedInConfigProvider() : void
     {
         $config = ($this->provider)();
 
@@ -107,15 +107,13 @@ class ConfigProviderTest extends TestCase
             }
         }
 
-        $routerInterface = $this->prophesize(RouterInterface::class)->reveal();
-        $config['dependencies']['services'][RouterInterface::class] = $routerInterface;
+        $config['dependencies']['services'][RouterInterface::class] = $this->createMock(RouterInterface::class);
         $container = $this->getContainer($config['dependencies']);
 
         $dependencies = $this->provider->getDependencies();
         foreach ($dependencies['factories'] as $name => $factory) {
             $this->assertTrue($container->has($name), sprintf('Container does not contain service %s', $name));
-            $this->assertInternalType(
-                'object',
+            $this->assertIsObject(
                 $container->get($name),
                 sprintf('Cannot get service %s from container using factory %s', $name, $factory)
             );
@@ -126,8 +124,7 @@ class ConfigProviderTest extends TestCase
                 $container->has($alias),
                 sprintf('Container does not contain service with alias %s', $alias)
             );
-            $this->assertInternalType(
-                'object',
+            $this->assertIsObject(
                 $container->get($alias),
                 sprintf('Cannot get service %s using alias %s', $dependency, $alias)
             );

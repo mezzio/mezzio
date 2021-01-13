@@ -13,8 +13,8 @@ namespace MezzioTest\Middleware;
 use Mezzio\Exception\InvalidMiddlewareException;
 use Mezzio\Middleware\LazyLoadingMiddleware;
 use Mezzio\MiddlewareContainer;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -22,56 +22,52 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class LazyLoadingMiddlewareTest extends TestCase
 {
-    /** @var MiddlewareContainer|ObjectProphecy */
+    /** @var MiddlewareContainer&MockObject */
     private $container;
 
-    /** @var ServerRequestInterface|ObjectProphecy */
+    /** @var ServerRequestInterface&MockObject */
     private $request;
 
-    /** @var RequestHandlerInterface|ObjectProphecy */
+    /** @var RequestHandlerInterface&MockObject */
     private $handler;
 
-    public function setUp()
+    public function setUp() : void
     {
-        $this->container = $this->prophesize(MiddlewareContainer::class);
-        $this->request   = $this->prophesize(ServerRequestInterface::class);
-        $this->handler   = $this->prophesize(RequestHandlerInterface::class);
+        $this->container = $this->createMock(MiddlewareContainer::class);
+        $this->request   = $this->createMock(ServerRequestInterface::class);
+        $this->handler   = $this->createMock(RequestHandlerInterface::class);
     }
 
-    public function buildLazyLoadingMiddleware($middlewareName)
+    public function buildLazyLoadingMiddleware($middlewareName) : LazyLoadingMiddleware
     {
-        return new LazyLoadingMiddleware(
-            $this->container->reveal(),
-            $middlewareName
-        );
+        return new LazyLoadingMiddleware($this->container, $middlewareName);
     }
 
-    public function testProcessesMiddlewarePulledFromContainer()
+    public function testProcessesMiddlewarePulledFromContainer() : void
     {
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
-        $middleware = $this->prophesize(MiddlewareInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
+        $middleware = $this->createMock(MiddlewareInterface::class);
         $middleware
-            ->process(
-                $this->request->reveal(),
-                $this->handler->reveal()
-            )->willReturn($response);
+            ->method('process')
+            ->with($this->request, $this->handler)
+            ->willReturn($response);
 
-        $this->container->get('foo')->will([$middleware, 'reveal']);
+        $this->container->method('get')->with('foo')->willReturn($middleware);
 
         $lazyloader = $this->buildLazyLoadingMiddleware('foo');
         $this->assertSame(
             $response,
-            $lazyloader->process($this->request->reveal(), $this->handler->reveal())
+            $lazyloader->process($this->request, $this->handler)
         );
     }
 
-    public function testDoesNotCatchContainerExceptions()
+    public function testDoesNotCatchContainerExceptions() : void
     {
         $exception = new InvalidMiddlewareException();
-        $this->container->get('foo')->willThrow($exception);
+        $this->container->method('get')->with('foo')->willThrowException($exception);
 
         $lazyloader = $this->buildLazyLoadingMiddleware('foo');
         $this->expectException(InvalidMiddlewareException::class);
-        $lazyloader->process($this->request->reveal(), $this->handler->reveal());
+        $lazyloader->process($this->request, $this->handler);
     }
 }

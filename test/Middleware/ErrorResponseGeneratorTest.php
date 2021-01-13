@@ -11,11 +11,12 @@ declare(strict_types=1);
 namespace MezzioTest\Middleware;
 
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
+use Laminas\Diactoros\Uri;
 use Mezzio\Middleware\ErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -23,88 +24,86 @@ use RuntimeException;
 
 class ErrorResponseGeneratorTest extends TestCase
 {
-    /** @var ServerRequestInterface|ObjectProphecy */
+    /** @var ServerRequestInterface&MockObject */
     private $request;
 
-    /** @var StreamInterface|ObjectProphecy */
+    /** @var StreamInterface&MockObject */
     private $stream;
 
-    /** @var TemplateRendererInterface|ObjectProphecy */
+    /** @var TemplateRendererInterface&MockObject */
     private $renderer;
 
-    public function setUp()
+    public function setUp() : void
     {
-        $this->request  = $this->prophesize(ServerRequestInterface::class);
-        $this->stream   = $this->prophesize(StreamInterface::class);
-        $this->renderer = $this->prophesize(TemplateRendererInterface::class);
+        $this->request  = $this->createMock(ServerRequestInterface::class);
+        $this->stream   = $this->createMock(StreamInterface::class);
+        $this->renderer = $this->createMock(TemplateRendererInterface::class);
     }
 
-    public function testWritesGenericMessageToResponseWhenNoRendererPresentAndNotInDebugMode()
+    public function testWritesGenericMessageToResponseWhenNoRendererPresentAndNotInDebugMode() : void
     {
         $error = new RuntimeException('', 0);
 
-        $initialResponse   = $this->prophesize(ResponseInterface::class);
-        $secondaryResponse = $this->prophesize(ResponseInterface::class);
+        $initialResponse   = $this->createMock(ResponseInterface::class);
+        $secondaryResponse = $this->createMock(ResponseInterface::class);
 
-        $secondaryResponse->getBody()->will([$this->stream, 'reveal']);
+        $secondaryResponse->method('getBody')->willReturn($this->stream);
 
+        $initialResponse->method('getStatusCode')->willReturn(StatusCode::STATUS_OK);
         $initialResponse
-            ->getStatusCode()
-            ->willReturn(StatusCode::STATUS_OK);
-        $initialResponse
-            ->withStatus(StatusCode::STATUS_INTERNAL_SERVER_ERROR)
-            ->will(function () use ($secondaryResponse) {
-                $secondaryResponse->getStatusCode()->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
-                $secondaryResponse->getReasonPhrase()->willReturn('Network Connect Timeout Error');
-                return $secondaryResponse->reveal();
+            ->method('withStatus')
+            ->with(StatusCode::STATUS_INTERNAL_SERVER_ERROR)
+            ->willReturnCallback(function () use ($secondaryResponse) {
+                $secondaryResponse->method('getStatusCode')->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
+                $secondaryResponse->method('getReasonPhrase')->willReturn('Network Connect Timeout Error');
+                return $secondaryResponse;
             });
 
-        $this->stream->write('An unexpected error occurred')->shouldBeCalled();
+        $this->stream->expects(self::once())->method('write')->with('An unexpected error occurred');
 
         $generator = new ErrorResponseGenerator();
-        $response = $generator($error, $this->request->reveal(), $initialResponse->reveal());
+        $response = $generator($error, $this->request, $initialResponse);
 
-        $this->assertSame($response, $secondaryResponse->reveal());
+        $this->assertSame($response, $secondaryResponse);
     }
 
-    public function testWritesStackTraceToResponseWhenNoRendererPresentInDebugMode()
+    public function testWritesStackTraceToResponseWhenNoRendererPresentInDebugMode() : void
     {
         $leaf   = new RuntimeException('leaf', 415);
         $branch = new RuntimeException('branch', 0, $leaf);
         $error  = new RuntimeException('root', 599, $branch);
 
-        $initialResponse   = $this->prophesize(ResponseInterface::class);
-        $secondaryResponse = $this->prophesize(ResponseInterface::class);
+        $initialResponse   = $this->createMock(ResponseInterface::class);
+        $secondaryResponse = $this->createMock(ResponseInterface::class);
 
-        $secondaryResponse->getBody()->will([$this->stream, 'reveal']);
+        $secondaryResponse->method('getBody')->willReturn($this->stream);
 
+        $initialResponse->method('getStatusCode')->willReturn(StatusCode::STATUS_OK);
         $initialResponse
-            ->getStatusCode()
-            ->willReturn(StatusCode::STATUS_OK);
-        $initialResponse
-            ->withStatus(599)
-            ->will(function () use ($secondaryResponse) {
-                $secondaryResponse->getStatusCode()->willReturn(599);
-                $secondaryResponse->getReasonPhrase()->willReturn('Network Connect Timeout Error');
-                return $secondaryResponse->reveal();
+            ->method('withStatus')
+            ->with(599)
+            ->willReturnCallback(function () use ($secondaryResponse) {
+                $secondaryResponse->method('getStatusCode')->willReturn(599);
+                $secondaryResponse->method('getReasonPhrase')->willReturn('Network Connect Timeout Error');
+                return $secondaryResponse;
             });
 
-        $this->stream
-            ->write(Argument::that(function ($body) use ($leaf, $branch, $error) {
-                $this->assertContains($leaf->getTraceAsString(), $body);
-                $this->assertContains($branch->getTraceAsString(), $body);
-                $this->assertContains($error->getTraceAsString(), $body);
+        $this->stream->expects(self::once())
+            ->method('write')
+            ->with(self::callback(function ($body) use ($leaf, $branch, $error) {
+                $this->assertStringContainsString($leaf->getTraceAsString(), $body);
+                $this->assertStringContainsString($branch->getTraceAsString(), $body);
+                $this->assertStringContainsString($error->getTraceAsString(), $body);
                 return true;
-            }))
-            ->shouldBeCalled();
+            }));
 
         $generator = new ErrorResponseGenerator($debug = true);
-        $response = $generator($error, $this->request->reveal(), $initialResponse->reveal());
+        $response = $generator($error, $this->request, $initialResponse);
 
-        $this->assertSame($response, $secondaryResponse->reveal());
+        $this->assertSame($response, $secondaryResponse);
     }
 
-    public function templates()
+    public function templates() : array
     {
         return [
             'default' => [null, 'error::error'],
@@ -114,21 +113,21 @@ class ErrorResponseGeneratorTest extends TestCase
 
     /**
      * @dataProvider templates
-     *
-     * @param null|string $template
-     * @param string $expected
      */
-    public function testRendersTemplateWithoutErrorDetailsWhenRendererPresentAndNotInDebugMode($template, $expected)
-    {
+    public function testRendersTemplateWithoutErrorDetailsWhenRendererPresentAndNotInDebugMode(
+        ?string $template,
+        string $expected
+    ) : void {
         $error = new RuntimeException('', 0);
 
-        $initialResponse   = $this->prophesize(ResponseInterface::class);
-        $secondaryResponse = $this->prophesize(ResponseInterface::class);
+        $initialResponse   = $this->createMock(ResponseInterface::class);
+        $secondaryResponse = $this->createMock(ResponseInterface::class);
 
         $this->renderer
-            ->render($expected, [
-                'response' => $secondaryResponse->reveal(),
-                'request'  => $this->request->reveal(),
+            ->method('render')
+            ->with($expected, [
+                'response' => $secondaryResponse,
+                'request'  => $this->request,
                 'uri'      => 'https://example.com/foo',
                 'status'   => StatusCode::STATUS_INTERNAL_SERVER_ERROR,
                 'reason'   => 'Internal Server Error',
@@ -136,62 +135,62 @@ class ErrorResponseGeneratorTest extends TestCase
             ])
             ->willReturn('TEMPLATED CONTENTS');
 
-        $secondaryResponse->getBody()->will([$this->stream, 'reveal']);
+        $secondaryResponse->method('getBody')->willReturn($this->stream);
 
+        $initialResponse->method('getStatusCode')->willReturn(StatusCode::STATUS_OK);
         $initialResponse
-            ->getStatusCode()
-            ->willReturn(StatusCode::STATUS_OK);
-        $initialResponse
-            ->withStatus(StatusCode::STATUS_INTERNAL_SERVER_ERROR)
-            ->will(function () use ($secondaryResponse) {
-                $secondaryResponse->getStatusCode()->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
-                $secondaryResponse->getReasonPhrase()->willReturn('Internal Server Error');
-                return $secondaryResponse->reveal();
+            ->method('withStatus')
+            ->with(StatusCode::STATUS_INTERNAL_SERVER_ERROR)
+            ->willReturnCallback(function () use ($secondaryResponse) {
+                $secondaryResponse->method('getStatusCode')->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
+                $secondaryResponse->method('getReasonPhrase')->willReturn('Internal Server Error');
+                return $secondaryResponse;
             });
 
-        $this->stream->write('TEMPLATED CONTENTS')->shouldBeCalled();
+        $this->stream->expects(self::once())
+            ->method('write')
+            ->with('TEMPLATED CONTENTS');
 
-        $this->request->getUri()->willReturn('https://example.com/foo');
+        $this->request->method('getUri')->willReturn(new Uri('https://example.com/foo'));
 
         $generator = $template
-            ? new ErrorResponseGenerator(false, $this->renderer->reveal(), $template)
-            : new ErrorResponseGenerator(false, $this->renderer->reveal());
+            ? new ErrorResponseGenerator(false, $this->renderer, $template)
+            : new ErrorResponseGenerator(false, $this->renderer);
 
-        $response = $generator($error, $this->request->reveal(), $initialResponse->reveal());
+        $response = $generator($error, $this->request, $initialResponse);
 
-        $this->assertSame($response, $secondaryResponse->reveal());
+        $this->assertSame($response, $secondaryResponse);
     }
 
     /**
      * @dataProvider templates
-     *
-     * @param null|string $template
-     * @param string $expected
      */
-    public function testRendersTemplateWithErrorDetailsWhenRendererPresentAndInDebugMode($template, $expected)
-    {
+    public function testRendersTemplateWithErrorDetailsWhenRendererPresentAndInDebugMode(
+        ?string $template,
+        string $expected
+    ) : void {
         $error = new RuntimeException('', 0);
 
-        $initialResponse   = $this->prophesize(ResponseInterface::class);
-        $secondaryResponse = $this->prophesize(ResponseInterface::class);
+        $initialResponse   = $this->createMock(ResponseInterface::class);
+        $secondaryResponse = $this->createMock(ResponseInterface::class);
 
-        $secondaryResponse->getBody()->will([$this->stream, 'reveal']);
+        $secondaryResponse->method('getBody')->willReturn($this->stream);
 
+        $initialResponse->method('getStatusCode')->willReturn(StatusCode::STATUS_OK);
         $initialResponse
-            ->getStatusCode()
-            ->willReturn(StatusCode::STATUS_OK);
-        $initialResponse
-            ->withStatus(StatusCode::STATUS_INTERNAL_SERVER_ERROR)
-            ->will(function () use ($secondaryResponse) {
-                $secondaryResponse->getStatusCode()->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
-                $secondaryResponse->getReasonPhrase()->willReturn('Network Connect Timeout Error');
-                return $secondaryResponse->reveal();
+            ->method('withStatus')
+            ->with(StatusCode::STATUS_INTERNAL_SERVER_ERROR)
+            ->willReturnCallback(function () use ($secondaryResponse) {
+                $secondaryResponse->method('getStatusCode')->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
+                $secondaryResponse->method('getReasonPhrase')->willReturn('Network Connect Timeout Error');
+                return $secondaryResponse;
             });
 
         $this->renderer
-            ->render($expected, [
-                'response' => $secondaryResponse->reveal(),
-                'request'  => $this->request->reveal(),
+            ->method('render')
+            ->with($expected, [
+                'response' => $secondaryResponse,
+                'request'  => $this->request,
                 'uri'      => 'https://example.com/foo',
                 'status'   => StatusCode::STATUS_INTERNAL_SERVER_ERROR,
                 'reason'   => 'Network Connect Timeout Error',
@@ -200,16 +199,18 @@ class ErrorResponseGeneratorTest extends TestCase
             ])
             ->willReturn('TEMPLATED CONTENTS');
 
-        $this->stream->write('TEMPLATED CONTENTS')->shouldBeCalled();
+        $this->stream->expects(self::once())
+            ->method('write')
+            ->with('TEMPLATED CONTENTS');
 
-        $this->request->getUri()->willReturn('https://example.com/foo');
+        $this->request->method('getUri')->willReturn(new Uri('https://example.com/foo'));
 
         $generator = $template
-            ? new ErrorResponseGenerator(true, $this->renderer->reveal(), $template)
-            : new ErrorResponseGenerator(true, $this->renderer->reveal());
+            ? new ErrorResponseGenerator(true, $this->renderer, $template)
+            : new ErrorResponseGenerator(true, $this->renderer);
 
-        $response = $generator($error, $this->request->reveal(), $initialResponse->reveal());
+        $response = $generator($error, $this->request, $initialResponse);
 
-        $this->assertSame($response, $secondaryResponse->reveal());
+        $this->assertSame($response, $secondaryResponse);
     }
 }

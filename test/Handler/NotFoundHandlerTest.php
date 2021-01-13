@@ -12,10 +12,11 @@ namespace MezzioTest\Handler;
 
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
+use Laminas\Diactoros\Uri;
 use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Template\TemplateRendererInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -23,75 +24,58 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class NotFoundHandlerTest extends TestCase
 {
-    /** @var ServerRequestInterface|ObjectProphecy */
-    private $request;
-
-    /** @var ResponseInterface|ObjectProphecy */
+    /** @var ResponseInterface&MockObject */
     private $response;
 
     /** @var callable */
     private $responseFactory;
 
-    public function setUp()
+    public function setUp() : void
     {
-        $this->request  = $this->prophesize(ServerRequestInterface::class);
-        $this->response = $this->prophesize(ResponseInterface::class);
+        $this->response = $this->createMock(ResponseInterface::class);
         $this->responseFactory = function () {
-            return $this->response->reveal();
+            return $this->response;
         };
     }
 
-    public function testImplementsRequesthandler()
+    public function testImplementsRequesthandler() : void
     {
         $handler = new NotFoundHandler($this->responseFactory);
         $this->assertInstanceOf(RequestHandlerInterface::class, $handler);
     }
 
-    public function testConstructorDoesNotRequireARenderer()
+    public function testConstructorDoesNotRequireARenderer() : void
     {
         $handler = new NotFoundHandler($this->responseFactory);
         $this->assertInstanceOf(NotFoundHandler::class, $handler);
     }
 
-    public function testConstructorCanAcceptRendererAndTemplate()
+    public function testRendersDefault404ResponseWhenNoRendererPresent() : void
     {
-        $renderer = $this->prophesize(TemplateRendererInterface::class)->reveal();
-        $template = 'foo::bar';
-        $layout = 'layout::error';
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getMethod')->willReturn(RequestMethod::METHOD_POST);
+        $request->method('getUri')->willReturn(new Uri('https://example.com/foo/bar'));
 
-        $handler = new NotFoundHandler($this->responseFactory, $renderer, $template, $layout);
-
-        $this->assertInstanceOf(NotFoundHandler::class, $handler);
-        $this->assertAttributeSame($renderer, 'renderer', $handler);
-        $this->assertAttributeEquals($template, 'template', $handler);
-        $this->assertAttributeEquals($layout, 'layout', $handler);
-    }
-
-    public function testRendersDefault404ResponseWhenNoRendererPresent()
-    {
-        $request = $this->prophesize(ServerRequestInterface::class);
-        $request->getMethod()->willReturn(RequestMethod::METHOD_POST);
-        $request->getUri()->willReturn('https://example.com/foo/bar');
-
-        $stream = $this->prophesize(StreamInterface::class);
-        $stream->write('Cannot POST https://example.com/foo/bar')->shouldBeCalled();
-        $this->response->withStatus(StatusCode::STATUS_NOT_FOUND)->will([$this->response, 'reveal']);
-        $this->response->getBody()->will([$stream, 'reveal']);
+        $stream = $this->createMock(StreamInterface::class);
+        $stream->expects(self::once())->method('write')->with('Cannot POST https://example.com/foo/bar');
+        $this->response->method('withStatus')->with(StatusCode::STATUS_NOT_FOUND)->willReturn($this->response);
+        $this->response->method('getBody')->willReturn($stream);
 
         $handler = new NotFoundHandler($this->responseFactory);
 
-        $response = $handler->handle($request->reveal());
+        $response = $handler->handle($request);
 
-        $this->assertSame($this->response->reveal(), $response);
+        $this->assertSame($this->response, $response);
     }
 
-    public function testUsesRendererToGenerateResponseContentsWhenPresent()
+    public function testUsesRendererToGenerateResponseContentsWhenPresent() : void
     {
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
+        $request = $this->createMock(ServerRequestInterface::class);
 
-        $renderer = $this->prophesize(TemplateRendererInterface::class);
+        $renderer = $this->createMock(TemplateRendererInterface::class);
         $renderer
-            ->render(
+            ->method('render')
+            ->with(
                 NotFoundHandler::TEMPLATE_DEFAULT,
                 [
                     'request' => $request,
@@ -100,16 +84,45 @@ class NotFoundHandlerTest extends TestCase
             )
             ->willReturn('CONTENT');
 
-        $stream = $this->prophesize(StreamInterface::class);
-        $stream->write('CONTENT')->shouldBeCalled();
+        $stream = $this->createMock(StreamInterface::class);
+        $stream->expects(self::once())->method('write')->with('CONTENT');
 
-        $this->response->withStatus(StatusCode::STATUS_NOT_FOUND)->will([$this->response, 'reveal']);
-        $this->response->getBody()->will([$stream, 'reveal']);
+        $this->response->method('withStatus')->with(StatusCode::STATUS_NOT_FOUND)->willReturn($this->response);
+        $this->response->method('getBody')->willReturn($stream);
 
-        $handler = new NotFoundHandler($this->responseFactory, $renderer->reveal());
+        $handler = new NotFoundHandler($this->responseFactory, $renderer);
 
         $response = $handler->handle($request);
 
-        $this->assertSame($this->response->reveal(), $response);
+        $this->assertSame($this->response, $response);
+    }
+
+    public function testUsesRendererToGenerateResponseContentsWithCustomLayoutAndTemplate() : void
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+
+        $renderer = $this->createMock(TemplateRendererInterface::class);
+        $renderer
+            ->method('render')
+            ->with(
+                'foo::bar',
+                [
+                    'request' => $request,
+                    'layout' => 'layout::error',
+                ]
+            )
+            ->willReturn('CONTENT');
+
+        $stream = $this->createMock(StreamInterface::class);
+        $stream->expects(self::once())->method('write')->with('CONTENT');
+
+        $this->response->method('withStatus')->with(StatusCode::STATUS_NOT_FOUND)->willReturn($this->response);
+        $this->response->method('getBody')->willReturn($stream);
+
+        $handler = new NotFoundHandler($this->responseFactory, $renderer, 'foo::bar', 'layout::error');
+
+        $response = $handler->handle($request);
+
+        $this->assertSame($this->response, $response);
     }
 }

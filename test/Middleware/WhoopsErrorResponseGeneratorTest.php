@@ -13,8 +13,8 @@ namespace MezzioTest\Middleware;
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use InvalidArgumentException;
 use Mezzio\Middleware\WhoopsErrorResponseGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -30,69 +30,74 @@ use function method_exists;
 
 class WhoopsErrorResponseGeneratorTest extends TestCase
 {
-    /** @var Run|RunInterface|ObjectProphecy */
+    /** @var Run|RunInterface&MockObject */
     private $whoops;
 
-    /** @var ServerRequestInterface|ObjectProphecy */
+    /** @var ServerRequestInterface&MockObject */
     private $request;
 
-    /** @var ResponseInterface|ObjectProphecy */
+    /** @var ResponseInterface&MockObject */
     private $response;
 
-    /** @var StreamInterface|ObjectProphecy */
+    /** @var StreamInterface&MockObject */
     private $stream;
 
-    public function setUp()
+    public function setUp() : void
     {
         // Run is marked final in 2.X, but in that version, we can mock the
         // RunInterface. 1.X has only Run, and it is not final.
         $this->whoops = interface_exists(RunInterface::class)
-            ? $this->prophesize(RunInterface::class)
-            : $this->prophesize(Run::class);
+            ? $this->createMock(RunInterface::class)
+            : $this->createMock(Run::class);
 
-        $this->request  = $this->prophesize(ServerRequestInterface::class);
-        $this->response = $this->prophesize(ResponseInterface::class);
-        $this->stream   = $this->prophesize(StreamInterface::class);
+        $this->request  = $this->createMock(ServerRequestInterface::class);
+        $this->response = $this->createMock(ResponseInterface::class);
+        $this->stream   = $this->createMock(StreamInterface::class);
     }
 
-    public function testWritesResultsOfWhoopsExceptionsHandlingToResponse()
+    public function testWritesResultsOfWhoopsExceptionsHandlingToResponse() : void
     {
         $error = new RuntimeException();
         $sendOutputFlag = true;
 
-        $this->whoops->getHandlers()->willReturn([]);
-        $this->whoops->handleException($error)->willReturn('WHOOPS');
-        $this->whoops->writeToOutput()->willReturn($sendOutputFlag);
-        $this->whoops->writeToOutput(false)->shouldBeCalled();
-        $this->whoops->writeToOutput($sendOutputFlag)->shouldBeCalled();
+        $this->whoops->method('getHandlers')->willReturn([]);
+        $this->whoops->method('handleException')->with($error)->willReturn('WHOOPS');
+        $this->whoops->expects(self::exactly(3))
+            ->method('writeToOutput')
+            ->withConsecutive([], [false], [$sendOutputFlag])
+            ->willReturn($sendOutputFlag);
 
-        // Could do more assertions here, but these will be sufficent for
+        // Could do more assertions here, but these will be sufficient for
         // ensuring that the method for injecting metadata is never called.
-        $this->request->getAttribute('originalUri', false)->shouldNotBeCalled();
-        $this->request->getAttribute('originalRequest', false)->shouldNotBeCalled();
+        $this->request->expects(self::never())->method('getAttribute');
 
-        $this->response->withStatus(StatusCode::STATUS_INTERNAL_SERVER_ERROR)->will([$this->response, 'reveal']);
-        $this->response->getBody()->will([$this->stream, 'reveal']);
-        $this->response->getStatusCode()->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
+        $this->response->method('withStatus')
+            ->with(StatusCode::STATUS_INTERNAL_SERVER_ERROR)
+            ->willReturn($this->response);
 
-        $this->stream->write('WHOOPS')->shouldBeCalled();
+        $this->response->method('getBody')->willReturn($this->stream);
+        $this->response->method('getStatusCode')->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
 
-        $generator = new WhoopsErrorResponseGenerator($this->whoops->reveal());
+        $this->stream->method('write')->with('WHOOPS');
+
+        $generator = new WhoopsErrorResponseGenerator($this->whoops);
 
         $this->assertSame(
-            $this->response->reveal(),
-            $generator($error, $this->request->reveal(), $this->response->reveal())
+            $this->response,
+            $generator($error, $this->request, $this->response)
         );
     }
 
-    public function testAddsRequestMetadataToWhoopsPrettyPageHandler()
+    public function testAddsRequestMetadataToWhoopsPrettyPageHandler() : void
     {
         $error = new RuntimeException('STATUS_INTERNAL_SERVER_ERROR', StatusCode::STATUS_INTERNAL_SERVER_ERROR);
         $sendOutputFlag = true;
 
-        $handler = $this->prophesize(PrettyPageHandler::class);
+        $handler = $this->createMock(PrettyPageHandler::class);
         $handler
-            ->addDataTable('Mezzio Application Request', [
+            ->expects(self::once())
+            ->method('addDataTable')
+            ->with('Mezzio Application Request', [
                 'HTTP Method'            => 'POST',
                 'URI'                    => 'https://example.com/foo',
                 'Script'                 => __FILE__,
@@ -101,82 +106,89 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
                 'Attributes'             => [],
                 'Query String Arguments' => [],
                 'Body Params'            => [],
-            ])
-            ->shouldBeCalled();
+            ]);
 
-        $this->whoops->getHandlers()->willReturn([$handler->reveal()]);
-        $this->whoops->handleException($error)->willReturn('WHOOPS');
-        $this->whoops->writeToOutput()->willReturn($sendOutputFlag);
-        $this->whoops->writeToOutput(false)->shouldBeCalled();
-        $this->whoops->writeToOutput($sendOutputFlag)->shouldBeCalled();
+        $this->whoops->method('getHandlers')->willReturn([$handler]);
+        $this->whoops->method('handleException')->with($error)->willReturn('WHOOPS');
+        $this->whoops->expects(self::exactly(3))
+            ->method('writeToOutput')
+            ->withConsecutive([], [false], [$sendOutputFlag])
+            ->willReturn($sendOutputFlag);
 
-        $this->request->getAttribute('originalUri', false)->willReturn('https://example.com/foo');
-        $this->request->getAttribute('originalRequest', false)->will([$this->request, 'reveal']);
-        $this->request->getMethod()->willReturn('POST');
-        $this->request->getServerParams()->willReturn(['SCRIPT_NAME' => __FILE__]);
-        $this->request->getHeaders()->willReturn([]);
-        $this->request->getCookieParams()->willReturn([]);
-        $this->request->getAttributes()->willReturn([]);
-        $this->request->getQueryParams()->willReturn([]);
-        $this->request->getParsedBody()->willReturn([]);
+        $this->request->method('getAttribute')
+            ->withConsecutive(['originalUri', false], ['originalRequest', false])
+            ->willReturn('https://example.com/foo', $this->request);
 
-        $this->response->withStatus(StatusCode::STATUS_INTERNAL_SERVER_ERROR)->will([$this->response, 'reveal']);
-        $this->response->getStatusCode()->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
-        $this->response->getBody()->will([$this->stream, 'reveal']);
+        $this->request->method('getMethod')->willReturn('POST');
+        $this->request->method('getServerParams')->willReturn(['SCRIPT_NAME' => __FILE__]);
 
-        $this->stream->write('WHOOPS')->shouldBeCalled();
+        $this->response->method('withStatus')
+            ->with(StatusCode::STATUS_INTERNAL_SERVER_ERROR)
+            ->willReturn($this->response);
+        $this->response->method('getStatusCode')->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
+        $this->response->method('getBody')->willReturn($this->stream);
+        $this->request->method('getHeaders')->willReturn([]);
+        $this->request->method('getCookieParams')->willReturn([]);
+        $this->request->method('getAttributes')->willReturn([]);
+        $this->request->method('getQueryParams')->willReturn([]);
+        $this->request->method('getParsedBody')->willReturn([]);
 
-        $generator = new WhoopsErrorResponseGenerator($this->whoops->reveal());
+        $this->stream->method('write')->with('WHOOPS');
+
+        $generator = new WhoopsErrorResponseGenerator($this->whoops);
 
         $this->assertSame(
-            $this->response->reveal(),
-            $generator($error, $this->request->reveal(), $this->response->reveal())
+            $this->response,
+            $generator($error, $this->request, $this->response)
         );
     }
 
-    public function testJsonContentTypeResponseWithJsonResponseHandler()
+    public function testJsonContentTypeResponseWithJsonResponseHandler() : void
     {
         $error = new RuntimeException('STATUS_NOT_IMPLEMENTED', StatusCode::STATUS_NOT_IMPLEMENTED);
         $sendOutput = true;
 
-        $handler = $this->prophesize(JsonResponseHandler::class);
+        $handler = $this->createMock(JsonResponseHandler::class);
 
         if (method_exists(JsonResponseHandler::class, 'contentType')) {
-            $handler->contentType()->willReturn('application/json');
+            $handler->method('contentType')->willReturn('application/json');
         }
 
-        $this->whoops->getHandlers()->willReturn([$handler->reveal()]);
-        $this->whoops->handleException($error)->willReturn('error');
-        $this->whoops->writeToOutput()->willReturn($sendOutput);
-        $this->whoops->writeToOutput(false)->shouldBeCalled();
-        $this->whoops->writeToOutput($sendOutput)->shouldBeCalled();
+        $this->whoops->method('getHandlers')->willReturn([$handler]);
+        $this->whoops->method('handleException')->with($error)->willReturn('error');
+        $this->whoops->expects(self::exactly(3))
+            ->method('writeToOutput')
+            ->withConsecutive([], [false], [$sendOutput])
+            ->willReturn($sendOutput);
 
-        $this->request->getAttribute('originalUri', false)->willReturn('https://example.com/foo');
-        $this->request->getAttribute('originalRequest', false)->will([$this->request, 'reveal']);
-        $this->request->getMethod()->willReturn('POST');
-        $this->request->getServerParams()->willReturn(['SCRIPT_NAME' => __FILE__]);
-        $this->request->getHeaders()->willReturn([]);
-        $this->request->getCookieParams()->willReturn([]);
-        $this->request->getAttributes()->willReturn([]);
-        $this->request->getQueryParams()->willReturn([]);
-        $this->request->getParsedBody()->willReturn([]);
+        $this->request->method('getAttribute')
+            ->withConsecutive(['originalUri', false], ['originalRequest', false])
+            ->willReturn('https://example.com/foo', $this->request);
 
-        $this->response->withHeader('Content-Type', 'application/json')->will([$this->response, 'reveal']);
-        $this->response->withStatus(StatusCode::STATUS_NOT_IMPLEMENTED)->will([$this->response, 'reveal']);
-        $this->response->getStatusCode()->willReturn(StatusCode::STATUS_NOT_IMPLEMENTED);
-        $this->response->getBody()->will([$this->stream, 'reveal']);
+        $this->request->method('getMethod')->willReturn('POST');
+        $this->request->method('getServerParams')->willReturn(['SCRIPT_NAME' => __FILE__]);
+        $this->request->method('getHeaders')->willReturn([]);
+        $this->request->method('getCookieParams')->willReturn([]);
+        $this->request->method('getAttributes')->willReturn([]);
+        $this->request->method('getQueryParams')->willReturn([]);
+        $this->request->method('getParsedBody')->willReturn([]);
 
-        $this->stream->write('error')->shouldBeCalled();
+        $this->response->method('withHeader')->with('Content-Type', 'application/json')->willReturn($this->response);
+        $this->response->method('withStatus')->with(StatusCode::STATUS_NOT_IMPLEMENTED)->willReturn($this->response);
+        $this->response->method('getStatusCode')->willReturn(StatusCode::STATUS_NOT_IMPLEMENTED);
+        $this->response->method('getBody')->willReturn($this->stream);
 
-        $generator = new WhoopsErrorResponseGenerator($this->whoops->reveal());
+        $this->stream->method('write')->with('error');
+
+        $generator = new WhoopsErrorResponseGenerator($this->whoops);
 
         $this->assertSame(
-            $this->response->reveal(),
-            $generator($error, $this->request->reveal(), $this->response->reveal())
+            $this->response,
+            $generator($error, $this->request, $this->response)
         );
     }
 
-    public function testThrowsInvalidArgumentExceptionOnNonRunForObject()
+    public function testThrowsInvalidArgumentExceptionOnNonRunForObject() : void
     {
         $whoops = new stdClass();
 
@@ -189,7 +201,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
         new WhoopsErrorResponseGenerator($whoops);
     }
 
-    public function testThrowsInvalidArgumentExceptionOnNonRunForScalar()
+    public function testThrowsInvalidArgumentExceptionOnNonRunForScalar() : void
     {
         $whoops = 'foo';
 

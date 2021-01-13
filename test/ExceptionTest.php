@@ -43,7 +43,7 @@ class ExceptionTest extends TestCase
      */
     public function testExceptionIsInstanceOfExceptionInterface(string $exception) : void
     {
-        $this->assertContains('Exception', $exception);
+        $this->assertStringContainsString('Exception', $exception);
         $this->assertTrue(is_a($exception, ExceptionInterface::class, true));
     }
 
@@ -61,7 +61,7 @@ class ExceptionTest extends TestCase
         $this->assertTrue(is_a($exception, ContainerExceptionInterface::class, true));
     }
 
-    public function testContainerNotRegisteredExceptionForMiddlewareService()
+    public function testContainerNotRegisteredExceptionForMiddlewareService() : void
     {
         $exception = ContainerNotRegisteredException::forMiddlewareService('foo');
 

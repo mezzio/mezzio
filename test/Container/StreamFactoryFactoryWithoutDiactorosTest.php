@@ -32,11 +32,11 @@ class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
     /** @var array */
     private $autoloadFunctions = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         class_exists(InvalidServiceException::class);
 
-        $this->container = $this->prophesize(ContainerInterface::class)->reveal();
+        $this->container = $this->createMock(ContainerInterface::class);
         $this->factory = new StreamFactoryFactory();
 
         $this->autoloadFunctions = spl_autoload_functions();
@@ -45,7 +45,7 @@ class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
         }
     }
 
-    private function reloadAutoloaders()
+    private function reloadAutoloaders() : void
     {
         foreach ($this->autoloadFunctions as $autoloader) {
             spl_autoload_register($autoloader);
@@ -53,7 +53,7 @@ class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
         $this->autoloadFunctions = [];
     }
 
-    public function testFactoryRaisesAnExceptionIfDiactorosIsNotLoaded()
+    public function testFactoryRaisesAnExceptionIfDiactorosIsNotLoaded() : void
     {
         $this->expectException(InvalidServiceException::class);
         $this->expectExceptionMessage('laminas/laminas-diactoros');

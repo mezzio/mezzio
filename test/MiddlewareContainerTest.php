@@ -15,107 +15,96 @@ use Mezzio\Exception;
 use Mezzio\MiddlewareContainer;
 use Mezzio\Router\Middleware\DispatchMiddleware;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use stdClass;
 
 class MiddlewareContainerTest extends TestCase
 {
-    public function setUp()
+    /** @var MiddlewareContainer */
+    private $container;
+
+    /** @var InMemoryContainer */
+    private $originContainer;
+
+    public function setUp() : void
     {
-        $this->originContainer = $this->prophesize(ContainerInterface::class);
-        $this->container = new MiddlewareContainer($this->originContainer->reveal());
+        $this->originContainer = new InMemoryContainer();
+        $this->container = new MiddlewareContainer($this->originContainer);
     }
 
-    public function testHasReturnsTrueIfOriginContainerHasService()
+    public function testHasReturnsTrueIfOriginContainerHasService() : void
     {
-        $this->originContainer->has('foo')->willReturn(true);
+        $this->originContainer->set('foo', new stdClass());
+
         $this->assertTrue($this->container->has('foo'));
     }
 
-    public function testHasReturnsTrueIfOriginContainerDoesNotHaveServiceButClassExists()
+    public function testHasReturnsTrueIfOriginContainerDoesNotHaveServiceButClassExists() : void
     {
-        $this->originContainer->has(__CLASS__)->willReturn(false);
         $this->assertTrue($this->container->has(__CLASS__));
     }
 
-    public function testHasReturnsFalseIfOriginContainerDoesNotHaveServiceAndClassDoesNotExist()
+    public function testHasReturnsFalseIfOriginContainerDoesNotHaveServiceAndClassDoesNotExist() : void
     {
-        $this->originContainer->has('not-a-class')->willReturn(false);
         $this->assertFalse($this->container->has('not-a-class'));
     }
 
-    public function testGetRaisesExceptionIfServiceIsUnknown()
+    public function testGetRaisesExceptionIfServiceIsUnknown() : void
     {
-        $this->originContainer->has('not-a-service')->willReturn(false);
-
         $this->expectException(Exception\MissingDependencyException::class);
         $this->container->get('not-a-service');
     }
 
-    public function testGetRaisesExceptionIfServiceSpecifiedDoesNotImplementMiddlewareInterface()
+    public function testGetRaisesExceptionIfServiceSpecifiedDoesNotImplementMiddlewareInterface() : void
     {
-        $this->originContainer->has(__CLASS__)->willReturn(true);
-        $this->originContainer->get(__CLASS__)->willReturn($this);
+        $this->originContainer->set(__CLASS__, $this);
 
         $this->expectException(Exception\InvalidMiddlewareException::class);
         $this->container->get(__CLASS__);
     }
 
-    public function testGetRaisesExceptionIfClassSpecifiedDoesNotImplementMiddlewareInterface()
+    public function testGetRaisesExceptionIfClassSpecifiedDoesNotImplementMiddlewareInterface() : void
     {
-        $this->originContainer->has(__CLASS__)->willReturn(false);
-        $this->originContainer->get(__CLASS__)->shouldNotBeCalled();
-
         $this->expectException(Exception\InvalidMiddlewareException::class);
         $this->container->get(__CLASS__);
     }
 
-    public function testGetReturnsServiceFromOriginContainer()
+    public function testGetReturnsServiceFromOriginContainer() : void
     {
-        $middleware = $this->prophesize(MiddlewareInterface::class)->reveal();
-        $this->originContainer->has('middleware-service')->willReturn(true);
-        $this->originContainer->get('middleware-service')->willReturn($middleware);
+        $middleware = $this->createMock(MiddlewareInterface::class);
+
+        $this->originContainer->set('middleware-service', $middleware);
 
         $this->assertSame($middleware, $this->container->get('middleware-service'));
     }
 
-    public function testGetReturnsInstantiatedClass()
+    public function testGetReturnsInstantiatedClass() : void
     {
-        $this->originContainer->has(DispatchMiddleware::class)->willReturn(false);
-        $this->originContainer->get(DispatchMiddleware::class)->shouldNotBeCalled();
-
         $middleware = $this->container->get(DispatchMiddleware::class);
         $this->assertInstanceOf(DispatchMiddleware::class, $middleware);
     }
 
-    public function testGetWillDecorateARequestHandlerAsMiddleware()
+    public function testGetWillDecorateARequestHandlerAsMiddleware() : void
     {
-        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $handler = $this->createMock(RequestHandlerInterface::class);
 
-        $this->originContainer->has('AHandlerNotMiddleware')->willReturn(true);
-        $this->originContainer->get('AHandlerNotMiddleware')->willReturn($handler);
+        $this->originContainer->set('AHandlerNotMiddleware', $handler);
 
         $middleware = $this->container->get('AHandlerNotMiddleware');
 
-        // Test that we get back middleware decorating the handler
-        $this->assertInstanceOf(RequestHandlerMiddleware::class, $middleware);
-        $this->assertAttributeSame($handler, 'handler', $middleware);
+        self::assertEquals(new RequestHandlerMiddleware($handler), $middleware);
     }
 
     /**
      * @see https://github.com/zendframework/zend-expressive/issues/645
      */
-    public function testGetDoesNotCastMiddlewareImplementingRequestHandlerToRequestHandlerMiddleware()
+    public function testGetDoesNotCastMiddlewareImplementingRequestHandlerToRequestHandlerMiddleware() : void
     {
-        $pipeline = $this->prophesize(RequestHandlerInterface::class);
-        $pipeline->willImplement(MiddlewareInterface::class);
+        $pipeline = $this->createMock(MiddlewareAndRequestHandler::class);
 
-        $this->originContainer->has('pipeline')->willReturn(true);
-        $this->originContainer->get('pipeline')->will([$pipeline, 'reveal']);
+        $this->originContainer->set('pipeline', $pipeline);
 
-        $middleware = $this->container->get('pipeline');
-
-        $this->assertSame($middleware, $pipeline->reveal());
+        $this->assertSame($pipeline, $this->container->get('pipeline'));
     }
 }

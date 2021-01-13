@@ -17,14 +17,14 @@ use Psr\Container\ContainerInterface;
 
 class StreamFactoryFactoryTest extends TestCase
 {
-    public function testFactoryProducesACallableCapableOfGeneratingAStreamWhenDiactorosIsInstalled()
+    public function testFactoryProducesACallableCapableOfGeneratingAStreamWhenDiactorosIsInstalled() : void
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
+        $container = $this->createMock(ContainerInterface::class);
         $factory = new StreamFactoryFactory();
 
         $result = $factory($container);
 
-        $this->assertInternalType('callable', $result);
+        $this->assertIsCallable($result);
 
         $stream = $result();
         $this->assertInstanceOf(Stream::class, $stream);

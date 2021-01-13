@@ -13,75 +13,56 @@ namespace MezzioTest\Container;
 use Mezzio\Container\ErrorResponseGeneratorFactory;
 use Mezzio\Middleware\ErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
+use MezzioTest\InMemoryContainer;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Container\ContainerInterface;
 
 class ErrorResponseGeneratorFactoryTest extends TestCase
 {
-    /** @var ContainerInterface|ObjectProphecy */
+    /** @var InMemoryContainer */
     private $container;
 
-    /** @var TemplateRendererInterface|ObjectProphecy */
+    /** @var TemplateRendererInterface&MockObject */
     private $renderer;
 
-    public function setUp()
+    public function setUp() : void
     {
-        $this->container = $this->prophesize(ContainerInterface::class);
-        $this->renderer  = $this->prophesize(TemplateRendererInterface::class);
+        $this->container = new InMemoryContainer();
+        $this->renderer  = $this->createMock(TemplateRendererInterface::class);
     }
 
-    public function testNoConfigurationCreatesInstanceWithDefaults()
+    public function testNoConfigurationCreatesInstanceWithDefaults() : void
     {
-        $this->container->has('config')->willReturn(false);
-        $this->container->has(TemplateRendererInterface::class)->willReturn(false);
-        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
         $factory = new ErrorResponseGeneratorFactory();
 
-        $generator = $factory($this->container->reveal());
+        $generator = $factory($this->container);
 
-        $this->assertInstanceOf(ErrorResponseGenerator::class, $generator);
-        $this->assertAttributeEquals(false, 'debug', $generator);
-        $this->assertAttributeEmpty('renderer', $generator);
-        $this->assertAttributeEquals('error::error', 'template', $generator);
-        $this->assertAttributeEquals('layout::default', 'layout', $generator);
+        self::assertEquals(new ErrorResponseGenerator(), $generator);
     }
 
-    public function testUsesDebugConfigurationToSetDebugFlag()
+    public function testUsesDebugConfigurationToSetDebugFlag() : void
     {
-        $this->container->has('config')->willReturn(true);
-        $this->container->get('config')->willReturn(['debug' => true]);
-        $this->container->has(TemplateRendererInterface::class)->willReturn(false);
-        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
+        $this->container->set('config', ['debug' => true]);
         $factory = new ErrorResponseGeneratorFactory();
 
-        $generator = $factory($this->container->reveal());
+        $generator = $factory($this->container);
 
-        $this->assertAttributeEquals(true, 'debug', $generator);
-        $this->assertAttributeEmpty('renderer', $generator);
-        $this->assertAttributeEquals('error::error', 'template', $generator);
-        $this->assertAttributeEquals('layout::default', 'layout', $generator);
+        self::assertEquals(new ErrorResponseGenerator(true), $generator);
     }
 
-    public function testUsesConfiguredTemplateRenderToSetGeneratorRenderer()
+    public function testUsesConfiguredTemplateRenderToSetGeneratorRenderer() : void
     {
-        $this->container->has('config')->willReturn(false);
-        $this->container->has(TemplateRendererInterface::class)->willReturn(true);
-        $this->container->get(TemplateRendererInterface::class)->will([$this->renderer, 'reveal']);
+        $this->container->set(TemplateRendererInterface::class, $this->renderer);
         $factory = new ErrorResponseGeneratorFactory();
 
-        $generator = $factory($this->container->reveal());
+        $generator = $factory($this->container);
 
-        $this->assertAttributeEquals(false, 'debug', $generator);
-        $this->assertAttributeSame($this->renderer->reveal(), 'renderer', $generator);
-        $this->assertAttributeEquals('error::error', 'template', $generator);
-        $this->assertAttributeEquals('layout::default', 'layout', $generator);
+        self::assertEquals(new ErrorResponseGenerator(false, $this->renderer), $generator);
     }
 
-    public function testUsesTemplateConfigurationToSetTemplate()
+    public function testUsesTemplateConfigurationToSetTemplate() : void
     {
-        $this->container->has('config')->willReturn(true);
-        $this->container->get('config')->willReturn([
+        $this->container->set('config', [
             'mezzio' => [
                 'error_handler' => [
                     'template_error' => 'error::custom',
@@ -89,22 +70,16 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
                 ],
             ],
         ]);
-        $this->container->has(TemplateRendererInterface::class)->willReturn(false);
-        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
         $factory = new ErrorResponseGeneratorFactory();
 
-        $generator = $factory($this->container->reveal());
+        $generator = $factory($this->container);
 
-        $this->assertAttributeEquals(false, 'debug', $generator);
-        $this->assertAttributeEmpty('renderer', $generator);
-        $this->assertAttributeEquals('error::custom', 'template', $generator);
-        $this->assertAttributeEquals('layout::custom', 'layout', $generator);
+        self::assertEquals(new ErrorResponseGenerator(false, null, 'error::custom', 'layout::custom'), $generator);
     }
 
-    public function testNullifyLayout()
+    public function testNullifyLayout() : void
     {
-        $this->container->has('config')->willReturn(true);
-        $this->container->get('config')->willReturn([
+        $this->container->set('config', [
             'mezzio' => [
                 'error_handler' => [
                     'template_error' => 'error::custom',
@@ -112,17 +87,12 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
                 ],
             ],
         ]);
-        $this->container->has(TemplateRendererInterface::class)->willReturn(false);
-        $this->container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)->willReturn(false);
         $factory = new ErrorResponseGeneratorFactory();
 
-        $generator = $factory($this->container->reveal());
+        $generator = $factory($this->container);
 
-        $this->assertAttributeEquals(false, 'debug', $generator);
-        $this->assertAttributeEmpty('renderer', $generator);
-        $this->assertAttributeEquals('error::custom', 'template', $generator);
         // ideally we would like to keep null there,
         // but right now ErrorResponseGeneratorFactory does not accept null for layout
-        $this->assertAttributeSame('', 'layout', $generator);
+        self::assertEquals(new ErrorResponseGenerator(false, null, 'error::custom', ''), $generator);
     }
 }

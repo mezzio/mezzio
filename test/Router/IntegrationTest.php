@@ -30,54 +30,41 @@ use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
 use Mezzio\Router\RouteCollector;
 use Mezzio\Router\RouterInterface;
-use MezzioTest\ContainerTrait;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-
 use function array_pop;
 use function sprintf;
 
 class IntegrationTest extends TestCase
 {
-    use ContainerTrait;
-
     /** @var Response */
     private $response;
 
     /** @var callable */
     private $responseFactory;
 
-    /** @var RouterInterface|ObjectProphecy */
-    private $router;
-
-    /** @var ContainerInterface|ObjectProphecy */
-    private $container;
-
-    public function setUp()
+    public function setUp() : void
     {
         $this->response  = new Response();
         $this->responseFactory = function () {
             return $this->response;
         };
-        $this->router    = $this->prophesize(RouterInterface::class);
-        $this->container = $this->mockContainerInterface();
     }
 
-    public function getApplication()
+    public function getApplication() : Application
     {
-        return $this->createApplicationFromRouter($this->router->reveal());
+        return $this->createApplicationFromRouter($this->createMock(RouterInterface::class));
     }
 
-    public function createApplicationFromRouter(RouterInterface $router)
+    public function createApplicationFromRouter(RouterInterface $router) : Application
     {
-        $container = new MiddlewareContainer($this->container->reveal());
+        $container = new MiddlewareContainer($this->createMock(ContainerInterface::class));
         $factory = new MiddlewareFactory($container);
         $pipeline = new MiddlewarePipe();
         $collector = new RouteCollector($router);
-        $runner = $this->prophesize(RequestHandlerRunner::class)->reveal();
+        $runner = $this->createMock(RequestHandlerRunner::class);
         return new Application(
             $factory,
             $pipeline,
@@ -89,7 +76,7 @@ class IntegrationTest extends TestCase
     /**
      * Get the router adapters to test
      */
-    public function routerAdapters()
+    public function routerAdapters() : array
     {
         return [
             'aura'       => [AuraRouter::class],
@@ -101,14 +88,12 @@ class IntegrationTest extends TestCase
     /**
      * Create an Application object with 2 routes, a GET and a POST
      * using Application::get() and Application::post()
-     *
-     * @param string $adapter
-     * @param string $getName
-     * @param string $postName
-     * @return Application
      */
-    private function createApplicationWithGetPost($adapter, $getName = null, $postName = null)
-    {
+    private function createApplicationWithGetPost(
+        string $adapter,
+        ?string $getName = null,
+        ?string $postName = null
+    ) : Application {
         $router = new $adapter();
         $app = $this->createApplicationFromRouter($router);
         $app->pipe(new RouteMiddleware($router));
@@ -137,8 +122,11 @@ class IntegrationTest extends TestCase
      * @param string $postName
      * @return Application
      */
-    private function createApplicationWithRouteGetPost($adapter, $getName = null, $postName = null)
-    {
+    private function createApplicationWithRouteGetPost(
+        string $adapter,
+        ?string $getName = null,
+        ?string $postName = null
+    ) : Application {
         $router = new $adapter();
         $app = $this->createApplicationFromRouter($router);
         $app->pipe(new RouteMiddleware($router));
@@ -160,18 +148,15 @@ class IntegrationTest extends TestCase
 
     /**
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testRoutingDoesNotMatchMethod($adapter)
+    public function testRoutingDoesNotMatchMethod(string $adapter) : void
     {
         $app = $this->createApplicationWithGetPost($adapter);
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'DELETE'], [], '/foo', 'DELETE');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertSame(StatusCode::STATUS_METHOD_NOT_ALLOWED, $result->getStatusCode());
         $headers = $result->getHeaders();
@@ -183,25 +168,22 @@ class IntegrationTest extends TestCase
      * @group 40
      *
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testRoutingWithSamePathWithoutName($adapter)
+    public function testRoutingWithSamePathWithoutName(string $adapter) : void
     {
         $app = $this->createApplicationWithGetPost($adapter);
         $app->pipe(new DispatchMiddleware());
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware GET', (string) $result->getBody());
 
         $request  = new ServerRequest(['REQUEST_METHOD' => 'POST'], [], '/foo', 'POST');
-        $result   = $app->process($request, $handler->reveal());
+        $result   = $app->process($request, $handler);
 
         $this->assertEquals('Middleware POST', (string) $result->getBody());
     }
@@ -211,26 +193,22 @@ class IntegrationTest extends TestCase
      * @group 40
      *
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testRoutingWithSamePathWithName($adapter)
+    public function testRoutingWithSamePathWithName(string $adapter) : void
     {
         $app = $this->createApplicationWithGetPost($adapter, 'foo-get', 'foo-post');
         $app->pipe(new DispatchMiddleware());
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler
-            ->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware GET', (string) $result->getBody());
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'POST'], [], '/foo', 'POST');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware POST', (string) $result->getBody());
     }
@@ -240,25 +218,22 @@ class IntegrationTest extends TestCase
      * @group 40
      *
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testRoutingWithSamePathWithRouteWithoutName($adapter)
+    public function testRoutingWithSamePathWithRouteWithoutName(string $adapter) : void
     {
         $app = $this->createApplicationWithRouteGetPost($adapter);
         $app->pipe(new DispatchMiddleware());
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware GET', (string) $result->getBody());
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'POST'], [], '/foo', 'POST');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware POST', (string) $result->getBody());
     }
@@ -267,26 +242,22 @@ class IntegrationTest extends TestCase
      * @see https://github.com/zendframework/zend-expressive/issues/40
      *
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testRoutingWithSamePathWithRouteWithName($adapter)
+    public function testRoutingWithSamePathWithRouteWithName(string $adapter) : void
     {
         $app = $this->createApplicationWithRouteGetPost($adapter, 'foo-get', 'foo-post');
         $app->pipe(new DispatchMiddleware());
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler
-            ->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware GET', (string) $result->getBody());
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'POST'], [], '/foo', 'POST');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         $this->assertEquals('Middleware POST', (string) $result->getBody());
     }
@@ -296,10 +267,8 @@ class IntegrationTest extends TestCase
      * @group 40
      *
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testRoutingWithSamePathWithRouteWithMultipleMethods($adapter)
+    public function testRoutingWithSamePathWithRouteWithMultipleMethods(string $adapter) : void
     {
         $router = new $adapter();
         $app = $this->createApplicationFromRouter($router);
@@ -321,25 +290,26 @@ class IntegrationTest extends TestCase
             return $deleteResponse->withBody($stream);
         }, ['DELETE']);
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler
-            ->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
         $this->assertEquals('Middleware GET, POST', (string) $result->getBody());
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'POST'], [], '/foo', 'POST');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
         $this->assertEquals('Middleware GET, POST', (string) $result->getBody());
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'DELETE'], [], '/foo', 'DELETE');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
         $this->assertEquals('Middleware DELETE', (string) $result->getBody());
     }
 
-    public function routerAdaptersForHttpMethods()
+    /**
+     * @return iterable<string, string[]>
+     */
+    public function routerAdaptersForHttpMethods() : iterable
     {
         $allMethods = [
             RequestMethod::METHOD_GET,
@@ -361,11 +331,8 @@ class IntegrationTest extends TestCase
 
     /**
      * @dataProvider routerAdaptersForHttpMethods
-     *
-     * @param string $adapter
-     * @param string $method
      */
-    public function testMatchWithAllHttpMethods($adapter, $method)
+    public function testMatchWithAllHttpMethods(string $adapter, string $method) : void
     {
         $router = new $adapter();
         $app = $this->createApplicationFromRouter($router);
@@ -381,17 +348,15 @@ class IntegrationTest extends TestCase
             return $response->withBody($stream);
         });
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler
-            ->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => $method], [], '/foo', $method);
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
         $this->assertEquals('Middleware', (string) $result->getBody());
     }
 
-    public function allowedMethod()
+    public function allowedMethod() : array
     {
         return [
             'aura-head'          => [AuraRouter::class, RequestMethod::METHOD_HEAD],
@@ -405,11 +370,8 @@ class IntegrationTest extends TestCase
 
     /**
      * @dataProvider allowedMethod
-     *
-     * @param string $adapter
-     * @param string $method
      */
-    public function testAllowedMethodsWhenOnlyPutMethodSet($adapter, $method)
+    public function testAllowedMethodsWhenOnlyPutMethodSet(string $adapter, string $method) : void
     {
         $router = new $adapter();
         $app = $this->createApplicationFromRouter($router);
@@ -427,12 +389,11 @@ class IntegrationTest extends TestCase
             return $res->withBody($stream);
         });
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::type(ServerRequest::class))
-            ->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects(self::never())->method('handle');
 
         $request = new ServerRequest(['REQUEST_METHOD' => $method], [], '/foo', $method);
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
 
         if ($method === RequestMethod::METHOD_OPTIONS) {
             $this->assertSame(StatusCode::STATUS_OK, $result->getStatusCode());
@@ -446,10 +407,8 @@ class IntegrationTest extends TestCase
      * @group 74
      *
      * @dataProvider routerAdapters
-     *
-     * @param string $adapter
      */
-    public function testWithOnlyRootPathRouteDefinedRoutingToSubPathsShouldDelegate($adapter)
+    public function testWithOnlyRootPathRouteDefinedRoutingToSubPathsShouldDelegate(string $adapter) : void
     {
         $router = new $adapter();
         $app = $this->createApplicationFromRouter($router);
@@ -463,13 +422,11 @@ class IntegrationTest extends TestCase
         }, ['GET']);
 
         $expected = $this->response->withStatus(StatusCode::STATUS_NOT_FOUND);
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler
-            ->handle(Argument::type(ServerRequest::class))
-            ->willReturn($expected);
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->method('handle')->willReturn($expected);
 
         $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
-        $result  = $app->process($request, $handler->reveal());
+        $result  = $app->process($request, $handler);
         $this->assertSame($expected, $result);
     }
 }

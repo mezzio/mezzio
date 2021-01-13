@@ -17,32 +17,28 @@ use Mezzio\ApplicationPipeline;
 use Mezzio\Container\ApplicationFactory;
 use Mezzio\MiddlewareFactory;
 use Mezzio\Router\RouteCollector;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 
 class ApplicationFactoryTest extends TestCase
 {
-    public function testFactoryProducesAnApplication()
+    public function testFactoryProducesAnApplication() : void
     {
-        $middlewareFactory = $this->prophesize(MiddlewareFactory::class)->reveal();
-        $pipeline = $this->prophesize(MiddlewarePipeInterface::class)->reveal();
-        $routeCollector = $this->prophesize(RouteCollector::class)->reveal();
-        $runner = $this->prophesize(RequestHandlerRunner::class)->reveal();
+        $middlewareFactory = $this->createMock(MiddlewareFactory::class);
+        $pipeline = $this->createMock(MiddlewarePipeInterface::class);
+        $routeCollector = $this->createMock(RouteCollector::class);
+        $runner = $this->createMock(RequestHandlerRunner::class);
 
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get(MiddlewareFactory::class)->willReturn($middlewareFactory);
-        $container->get(ApplicationPipeline::class)->willReturn($pipeline);
-        $container->get(RouteCollector::class)->willReturn($routeCollector);
-        $container->get(RequestHandlerRunner::class)->willReturn($runner);
+        $container = new InMemoryContainer();
+        $container->set(MiddlewareFactory::class, $middlewareFactory);
+        $container->set(ApplicationPipeline::class, $pipeline);
+        $container->set(RouteCollector::class, $routeCollector);
+        $container->set(RequestHandlerRunner::class, $runner);
 
         $factory = new ApplicationFactory();
 
-        $application = $factory($container->reveal());
+        $application = $factory($container);
 
-        $this->assertInstanceOf(Application::class, $application);
-        $this->assertAttributeSame($middlewareFactory, 'factory', $application);
-        $this->assertAttributeSame($pipeline, 'pipeline', $application);
-        $this->assertAttributeSame($routeCollector, 'routes', $application);
-        $this->assertAttributeSame($runner, 'runner', $application);
+        self::assertEquals(new Application($middlewareFactory, $pipeline, $routeCollector, $runner), $application);
     }
 }

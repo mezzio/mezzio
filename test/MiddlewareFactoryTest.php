@@ -18,6 +18,7 @@ use Mezzio\Middleware\LazyLoadingMiddleware;
 use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
 use Mezzio\Router\Middleware\DispatchMiddleware;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -28,26 +29,29 @@ use function iterator_to_array;
 
 class MiddlewareFactoryTest extends TestCase
 {
-    public function setUp()
+    /** @var MiddlewareContainer&MockObject */
+    private $container;
+
+    /** @var MiddlewareFactory */
+    private $factory;
+
+    public function setUp() : void
     {
-        $this->container = $this->prophesize(MiddlewareContainer::class);
-        $this->factory = new MiddlewareFactory($this->container->reveal());
+        $this->container = $this->createMock(MiddlewareContainer::class);
+        $this->factory = new MiddlewareFactory($this->container);
     }
 
-    public function assertLazyLoadingMiddleware(string $expectedMiddlewareName, MiddlewareInterface $middleware)
+    public function assertLazyLoadingMiddleware(string $expectedMiddlewareName, MiddlewareInterface $middleware) : void
     {
-        $this->assertInstanceOf(LazyLoadingMiddleware::class, $middleware);
-        $this->assertAttributeSame($this->container->reveal(), 'container', $middleware);
-        $this->assertAttributeSame($expectedMiddlewareName, 'middlewareName', $middleware);
+        self::assertEquals(new LazyLoadingMiddleware($this->container, $expectedMiddlewareName), $middleware);
     }
 
-    public function assertCallableMiddleware(callable $expectedCallable, MiddlewareInterface $middleware)
+    public function assertCallableMiddleware(callable $expectedCallable, MiddlewareInterface $middleware) : void
     {
-        $this->assertInstanceOf(CallableMiddlewareDecorator::class, $middleware);
-        $this->assertAttributeSame($expectedCallable, 'middleware', $middleware);
+        self::assertEquals(new CallableMiddlewareDecorator($expectedCallable), $middleware);
     }
 
-    public function assertPipeline(array $expectedPipeline, MiddlewareInterface $middleware)
+    public function assertPipeline(array $expectedPipeline, MiddlewareInterface $middleware) : void
     {
         $this->assertInstanceOf(MiddlewarePipe::class, $middleware);
         $pipeline = $this->reflectPipeline($middleware);
@@ -61,7 +65,7 @@ class MiddlewareFactoryTest extends TestCase
         return iterator_to_array($r->getValue($pipeline));
     }
 
-    public function testCallableDecoratesCallableMiddleware()
+    public function testCallableDecoratesCallableMiddleware() : void
     {
         $callable = function ($request, $handler) {
         };
@@ -70,41 +74,40 @@ class MiddlewareFactoryTest extends TestCase
         $this->assertCallableMiddleware($callable, $middleware);
     }
 
-    public function testLazyLoadingMiddlewareDecoratesMiddlewareServiceName()
+    public function testLazyLoadingMiddlewareDecoratesMiddlewareServiceName() : void
     {
         $middleware = $this->factory->lazy('service');
         $this->assertLazyLoadingMiddleware('service', $middleware);
     }
 
-    public function testPrepareReturnsMiddlewareImplementationsVerbatim()
+    public function testPrepareReturnsMiddlewareImplementationsVerbatim() : void
     {
-        $middleware = $this->prophesize(MiddlewareInterface::class)->reveal();
+        $middleware = $this->createMock(MiddlewareInterface::class);
         $this->assertSame($middleware, $this->factory->prepare($middleware));
     }
 
-    public function testPrepareDecoratesCallables()
+    public function testPrepareDecoratesCallables() : void
     {
         $callable = function ($request, $handler) {
         };
 
         $middleware = $this->factory->prepare($callable);
-        $this->assertInstanceOf(CallableMiddlewareDecorator::class, $middleware);
-        $this->assertAttributeSame($callable, 'middleware', $middleware);
+
+        self::assertEquals(new CallableMiddlewareDecorator($callable), $middleware);
     }
 
-    public function testPrepareDecoratesServiceNamesAsLazyLoadingMiddleware()
+    public function testPrepareDecoratesServiceNamesAsLazyLoadingMiddleware() : void
     {
         $middleware = $this->factory->prepare('service');
-        $this->assertInstanceOf(LazyLoadingMiddleware::class, $middleware);
-        $this->assertAttributeSame('service', 'middlewareName', $middleware);
-        $this->assertAttributeSame($this->container->reveal(), 'container', $middleware);
+
+        self::assertEquals(new LazyLoadingMiddleware($this->container, 'service'), $middleware);
     }
 
-    public function testPrepareDecoratesArraysAsMiddlewarePipes()
+    public function testPrepareDecoratesArraysAsMiddlewarePipes() : void
     {
-        $middleware1 = $this->prophesize(MiddlewareInterface::class)->reveal();
-        $middleware2 = $this->prophesize(MiddlewareInterface::class)->reveal();
-        $middleware3 = $this->prophesize(MiddlewareInterface::class)->reveal();
+        $middleware1 = $this->createMock(MiddlewareInterface::class);
+        $middleware2 = $this->createMock(MiddlewareInterface::class);
+        $middleware3 = $this->createMock(MiddlewareInterface::class);
 
         $middleware = $this->factory->prepare([$middleware1, $middleware2, $middleware3]);
         $this->assertPipeline([$middleware1, $middleware2, $middleware3], $middleware);
@@ -125,33 +128,39 @@ class MiddlewareFactoryTest extends TestCase
     /**
      * @dataProvider invalidMiddlewareTypes
      */
-    public function testPrepareRaisesExceptionForTypesItDoesNotUnderstand($middleware)
+    public function testPrepareRaisesExceptionForTypesItDoesNotUnderstand($middleware) : void
     {
         $this->expectException(Exception\InvalidMiddlewareException::class);
         $this->factory->prepare($middleware);
     }
 
-    public function testPipelineAcceptsMultipleArguments()
+    public function testPipelineAcceptsMultipleArguments() : void
     {
-        $middleware1 = $this->prophesize(MiddlewareInterface::class)->reveal();
-        $middleware2 = $this->prophesize(MiddlewareInterface::class)->reveal();
-        $middleware3 = $this->prophesize(MiddlewareInterface::class)->reveal();
+        $middleware1 = $this->createMock(MiddlewareInterface::class);
+        $middleware2 = $this->createMock(MiddlewareInterface::class);
+        $middleware3 = $this->createMock(MiddlewareInterface::class);
 
         $middleware = $this->factory->pipeline($middleware1, $middleware2, $middleware3);
         $this->assertPipeline([$middleware1, $middleware2, $middleware3], $middleware);
     }
 
-    public function testPipelineAcceptsASingleArrayArgument()
+    public function testPipelineAcceptsASingleArrayArgument() : void
     {
-        $middleware1 = $this->prophesize(MiddlewareInterface::class)->reveal();
-        $middleware2 = $this->prophesize(MiddlewareInterface::class)->reveal();
-        $middleware3 = $this->prophesize(MiddlewareInterface::class)->reveal();
+        $middleware1 = $this->createMock(MiddlewareInterface::class);
+        $middleware2 = $this->createMock(MiddlewareInterface::class);
+        $middleware3 = $this->createMock(MiddlewareInterface::class);
 
         $middleware = $this->factory->pipeline([$middleware1, $middleware2, $middleware3]);
         $this->assertPipeline([$middleware1, $middleware2, $middleware3], $middleware);
     }
 
-    public function validPrepareTypes()
+    /**
+     * @return iterable<
+     *     string,
+     *     array{0: string|callable|MiddlewareInterface, 1: string, 2: string|callable|MiddlewareInterface}
+     * >
+     */
+    public function validPrepareTypes() : iterable
     {
         yield 'service' => ['service', 'assertLazyLoadingMiddleware', 'service'];
 
@@ -172,7 +181,7 @@ class MiddlewareFactoryTest extends TestCase
         $middleware,
         string $assertion,
         $expected
-    ) {
+    ) : void {
         $pipeline = $this->factory->pipeline($middleware);
         $this->assertInstanceOf(MiddlewarePipe::class, $pipeline);
 
@@ -184,7 +193,7 @@ class MiddlewareFactoryTest extends TestCase
         $this->{$assertion}($expected, $received);
     }
 
-    public function testPipelineAllowsPipingArraysOfMiddlewareAndCastsThemToInternalPipelines()
+    public function testPipelineAllowsPipingArraysOfMiddlewareAndCastsThemToInternalPipelines() : void
     {
         $callable = function ($request, $handler) {
         };
@@ -201,19 +210,19 @@ class MiddlewareFactoryTest extends TestCase
         $this->assertSame($middleware, $received[1]);
     }
 
-    public function testPrepareDecoratesRequestHandlersAsMiddleware()
+    public function testPrepareDecoratesRequestHandlersAsMiddleware() : void
     {
-        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $handler = $this->createMock(RequestHandlerInterface::class);
         $middleware = $this->factory->prepare($handler);
-        $this->assertInstanceOf(RequestHandlerMiddleware::class, $middleware);
-        $this->assertAttributeSame($handler, 'handler', $middleware);
+
+        self::assertEquals(new RequestHandlerMiddleware($handler), $middleware);
     }
 
-    public function testHandlerDecoratesRequestHandlersAsMiddleware()
+    public function testHandlerDecoratesRequestHandlersAsMiddleware() : void
     {
-        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $handler = $this->createMock(RequestHandlerInterface::class);
         $middleware = $this->factory->handler($handler);
-        $this->assertInstanceOf(RequestHandlerMiddleware::class, $middleware);
-        $this->assertAttributeSame($handler, 'handler', $middleware);
+
+        self::assertEquals(new RequestHandlerMiddleware($handler), $middleware);
     }
 }

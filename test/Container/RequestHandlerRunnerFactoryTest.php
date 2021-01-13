@@ -15,9 +15,9 @@ use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Mezzio\ApplicationPipeline;
 use Mezzio\Container\RequestHandlerRunnerFactory;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -27,9 +27,9 @@ use Throwable;
 
 class RequestHandlerRunnerFactoryTest extends TestCase
 {
-    public function testFactoryProducesRunnerUsingServicesFromContainer()
+    public function testFactoryProducesRunnerUsingServicesFromContainer() : void
     {
-        $container = $this->prophesize(ContainerInterface::class);
+        $container = new InMemoryContainer();
         $handler = $this->registerHandlerInContainer($container);
         $emitter = $this->registerEmitterInContainer($container);
         $serverRequestFactory = $this->registerServerRequestFactoryInContainer($container);
@@ -37,14 +37,12 @@ class RequestHandlerRunnerFactoryTest extends TestCase
 
         $factory = new RequestHandlerRunnerFactory();
 
-        $runner = $factory($container->reveal());
+        $runner = $factory($container);
 
-        $this->assertInstanceOf(RequestHandlerRunner::class, $runner);
-        $this->assertAttributeSame($handler, 'handler', $runner);
-        $this->assertAttributeSame($emitter, 'emitter', $runner);
-
-        $this->assertAttributeNotSame($serverRequestFactory, 'serverRequestFactory', $runner);
-        $this->assertAttributeNotSame($errorGenerator, 'serverRequestErrorResponseGenerator', $runner);
+        self::assertEquals(
+            new RequestHandlerRunner($handler, $emitter, $serverRequestFactory, $errorGenerator),
+            $runner
+        );
 
         $r = new ReflectionProperty($runner, 'serverRequestFactory');
         $r->setAccessible(true);
@@ -58,36 +56,43 @@ class RequestHandlerRunnerFactoryTest extends TestCase
         $this->assertSame($errorGenerator($e), $toTest($e));
     }
 
-    public function registerHandlerInContainer($container) : RequestHandlerInterface
+    public function registerHandlerInContainer(InMemoryContainer $container) : RequestHandlerInterface
     {
-        $app = $this->prophesize(RequestHandlerInterface::class)->reveal();
-        $container->get(ApplicationPipeline::class)->willReturn($app);
+        $app = $this->createMock(RequestHandlerInterface::class);
+        $container->set(ApplicationPipeline::class, $app);
+
         return $app;
     }
 
-    public function registerEmitterInContainer($container) : EmitterInterface
+    public function registerEmitterInContainer(InMemoryContainer $container) : EmitterInterface
     {
-        $emitter = $this->prophesize(EmitterInterface::class)->reveal();
-        $container->get(EmitterInterface::class)->willReturn($emitter);
+        $emitter = $this->createMock(EmitterInterface::class);
+        $container->set(EmitterInterface::class, $emitter);
+
         return $emitter;
     }
 
-    public function registerServerRequestFactoryInContainer($container) : callable
+    public function registerServerRequestFactoryInContainer(InMemoryContainer $container) : callable
     {
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
+        $request = $this->createMock(ServerRequestInterface::class);
         $factory = function () use ($request) {
             return $request;
         };
-        $container->get(ServerRequestInterface::class)->willReturn($factory);
+        $container->set(ServerRequestInterface::class, $factory);
+
         return $factory;
     }
 
-    public function registerServerRequestErrorResponseGeneratorInContainer($container) : callable
+    public function registerServerRequestErrorResponseGeneratorInContainer(InMemoryContainer $container) : callable
     {
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
-        $generator = $this->prophesize(ServerRequestErrorResponseGenerator::class);
-        $generator->__invoke(Argument::type(Throwable::class))->willReturn($response);
-        $container->get(ServerRequestErrorResponseGenerator::class)->willReturn($generator->reveal());
-        return $generator->reveal();
+        $response = $this->createMock(ResponseInterface::class);
+        $generator = $this->createMock(ServerRequestErrorResponseGenerator::class);
+        $generator->method('__invoke')
+            ->with(self::isInstanceOf(Throwable::class))
+            ->willReturn($response);
+
+        $container->set(ServerRequestErrorResponseGenerator::class, $generator);
+
+        return $generator;
     }
 }

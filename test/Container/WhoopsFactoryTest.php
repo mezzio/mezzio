@@ -11,12 +11,9 @@ declare(strict_types=1);
 namespace MezzioTest\Container;
 
 use Mezzio\Container\WhoopsFactory;
-use MezzioTest\ContainerTrait;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Container\ContainerInterface;
 use ReflectionProperty;
-use Traversable;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as Whoops;
@@ -30,24 +27,21 @@ use function sprintf;
  */
 class WhoopsFactoryTest extends TestCase
 {
-    use ContainerTrait;
-
-    /** @var ContainerInterface|ObjectProphecy */
+    /** @var InMemoryContainer */
     private $container;
 
     /** @var WhoopsFactory */
     private $factory;
 
-    public function setUp()
+    public function setUp() : void
     {
-        $pageHandler     = $this->prophesize(PrettyPageHandler::class);
-        $this->container = $this->mockContainerInterface();
-        $this->injectServiceInContainer($this->container, 'Mezzio\WhoopsPageHandler', $pageHandler->reveal());
+        $this->container = new InMemoryContainer();
+        $this->container->set('Mezzio\WhoopsPageHandler', $this->createMock(PrettyPageHandler::class));
 
         $this->factory = new WhoopsFactory();
     }
 
-    public function assertWhoopsContainsHandler($type, Whoops $whoops, $message = null)
+    public function assertWhoopsContainsHandler($type, Whoops $whoops, $message = null) : void
     {
         $message = $message ?: sprintf('Failed to assert whoops runtime composed handler of type %s', $type);
         $r       = new ReflectionProperty($whoops, 'handlerStack');
@@ -65,21 +59,21 @@ class WhoopsFactoryTest extends TestCase
         $this->assertTrue($found, $message);
     }
 
-    public function testReturnsAWhoopsRuntimeWithPageHandlerComposed()
+    public function testReturnsAWhoopsRuntimeWithPageHandlerComposed() : void
     {
         $factory = $this->factory;
-        $result  = $factory($this->container->reveal());
+        $result  = $factory($this->container);
         $this->assertInstanceOf(Whoops::class, $result);
         $this->assertWhoopsContainsHandler(PrettyPageHandler::class, $result);
     }
 
-    public function testWillInjectJsonResponseHandlerIfConfigurationExpectsIt()
+    public function testWillInjectJsonResponseHandlerIfConfigurationExpectsIt() : void
     {
         $config = ['whoops' => ['json_exceptions' => ['display' => true]]];
-        $this->injectServiceInContainer($this->container, 'config', $config);
+        $this->container->set('config', $config);
 
         $factory = $this->factory;
-        $result  = $factory($this->container->reveal());
+        $result  = $factory($this->container);
         $this->assertInstanceOf(Whoops::class, $result);
         $this->assertWhoopsContainsHandler(PrettyPageHandler::class, $result);
         $this->assertWhoopsContainsHandler(JsonResponseHandler::class, $result);
@@ -94,7 +88,7 @@ class WhoopsFactoryTest extends TestCase
      * @param bool  $isAjaxOnly
      * @param bool  $requestIsAjax
      */
-    public function testJsonResponseHandlerCanBeConfigured($showsTrace, $isAjaxOnly, $requestIsAjax)
+    public function testJsonResponseHandlerCanBeConfigured($showsTrace, $isAjaxOnly, $requestIsAjax) : void
     {
         // Set for Whoops 2.x json handler detection
         if ($requestIsAjax) {
@@ -111,10 +105,10 @@ class WhoopsFactoryTest extends TestCase
             ],
         ];
 
-        $this->injectServiceInContainer($this->container, 'config', $config);
+        $this->container->set('config', $config);
 
         $factory = $this->factory;
-        $whoops  = $factory($this->container->reveal());
+        $whoops  = $factory($this->container);
         $handler = $whoops->popHandler();
 
         // If ajax only, not ajax request and Whoops 2, it does not inject JsonResponseHandler
@@ -122,23 +116,24 @@ class WhoopsFactoryTest extends TestCase
             && ! $requestIsAjax
             && method_exists(WhoopsUtil::class, 'isAjaxRequest')
         ) {
-            $this->assertInstanceOf(PrettyPageHandler::class, $handler);
+            self::assertInstanceOf(PrettyPageHandler::class, $handler);
 
             // Skip remaining assertions
             return;
         }
 
-        $this->assertAttributeSame($showsTrace, 'returnFrames', $handler);
+        self::assertInstanceOf(JsonResponseHandler::class, $handler);
+        self::assertSame($showsTrace, $handler->addTraceToOutput());
 
         if (method_exists($handler, 'onlyForAjaxRequests')) {
-            $this->assertAttributeSame($isAjaxOnly, 'onlyForAjaxRequests', $handler);
+            self::assertSame($isAjaxOnly, $handler->onlyForAjaxRequests());
         }
     }
 
     /**
-     * @return Traversable
+     * @return iterable<string, bool[]>
      */
-    public function provideConfig()
+    public function provideConfig() : iterable
     {
         // @codingStandardsIgnoreStart
         //    test case                        => showsTrace, isAjaxOnly, requestIsAjax

@@ -17,14 +17,14 @@ use Psr\Container\ContainerInterface;
 
 class ResponseFactoryFactoryTest extends TestCase
 {
-    public function testFactoryProducesACallableCapableOfGeneratingAResponseWhenDiactorosIsInstalled()
+    public function testFactoryProducesACallableCapableOfGeneratingAResponseWhenDiactorosIsInstalled() : void
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
+        $container = $this->createMock(ContainerInterface::class);
         $factory = new ResponseFactoryFactory();
 
         $result = $factory($container);
 
-        $this->assertInternalType('callable', $result);
+        $this->assertIsCallable($result);
 
         $response = $result();
         $this->assertInstanceOf(Response::class, $response);
