@@ -46,7 +46,7 @@
         "laminas/laminas-coding-standard": "~1.0.0",
         "laminas/laminas-diactoros": "^2.5.0",
         "laminas/laminas-servicemanager": "^3.6.0",
-        "malukenho/docheader": "^0.1.6",
+        "malukenho/docheader": "^0.1.8",
         "mezzio/mezzio-aurarouter": "^3.0",
         "mezzio/mezzio-fastroute": "^3.0",
         "mezzio/mezzio-laminasrouter": "^3.0",
