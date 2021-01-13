@@ -25,7 +25,7 @@ class ServerRequestFactoryFactoryTest extends TestCase
 
         $generatedFactory = $factory($container);
 
-        $this->assertInternalType('callable', $generatedFactory);
+        $this->assertIsCallable($generatedFactory);
 
         return $generatedFactory;
     }

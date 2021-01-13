@@ -86,7 +86,7 @@ class ConfigProviderTest extends TestCase
     public function testInvocationReturnsArrayWithDependencies() : void
     {
         $config = ($this->provider)();
-        $this->assertInternalType('array', $config);
+        $this->assertIsArray($config);
         $this->assertArrayHasKey('dependencies', $config);
         $this->assertArrayHasKey('aliases', $config['dependencies']);
         $this->assertArrayHasKey('factories', $config['dependencies']);
@@ -113,8 +113,7 @@ class ConfigProviderTest extends TestCase
         $dependencies = $this->provider->getDependencies();
         foreach ($dependencies['factories'] as $name => $factory) {
             $this->assertTrue($container->has($name), sprintf('Container does not contain service %s', $name));
-            $this->assertInternalType(
-                'object',
+            $this->assertIsObject(
                 $container->get($name),
                 sprintf('Cannot get service %s from container using factory %s', $name, $factory)
             );
@@ -125,8 +124,7 @@ class ConfigProviderTest extends TestCase
                 $container->has($alias),
                 sprintf('Container does not contain service with alias %s', $alias)
             );
-            $this->assertInternalType(
-                'object',
+            $this->assertIsObject(
                 $container->get($alias),
                 sprintf('Cannot get service %s using alias %s', $dependency, $alias)
             );

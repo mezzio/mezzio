@@ -24,7 +24,7 @@ class ResponseFactoryFactoryTest extends TestCase
 
         $result = $factory($container);
 
-        $this->assertInternalType('callable', $result);
+        $this->assertIsCallable($result);
 
         $response = $result();
         $this->assertInstanceOf(Response::class, $response);

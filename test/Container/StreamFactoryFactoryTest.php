@@ -24,7 +24,7 @@ class StreamFactoryFactoryTest extends TestCase
 
         $result = $factory($container);
 
-        $this->assertInternalType('callable', $result);
+        $this->assertIsCallable($result);
 
         $stream = $result();
         $this->assertInstanceOf(Stream::class, $stream);
