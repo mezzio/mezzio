@@ -41,9 +41,8 @@ class NotFoundHandlerFactoryTest extends TestCase
         $factory = new NotFoundHandlerFactory();
 
         $handler = $factory($this->container);
-        $this->assertInstanceOf(NotFoundHandler::class, $handler);
-        $this->assertAttributeInternalType('callable', 'responseFactory', $handler);
-        $this->assertAttributeEmpty('renderer', $handler);
+
+        self::assertEquals(new NotFoundHandler($this->container->get(ResponseInterface::class)), $handler);
     }
 
     public function testFactoryCreatesInstanceUsingRendererServiceWhenPresent() : void
@@ -53,7 +52,8 @@ class NotFoundHandlerFactoryTest extends TestCase
         $factory = new NotFoundHandlerFactory();
 
         $handler = $factory($this->container);
-        $this->assertAttributeSame($renderer, 'renderer', $handler);
+
+        self::assertEquals(new NotFoundHandler($this->container->get(ResponseInterface::class), $renderer), $handler);
     }
 
     public function testFactoryUsesConfigured404TemplateWhenPresent() : void
@@ -70,14 +70,14 @@ class NotFoundHandlerFactoryTest extends TestCase
         $factory = new NotFoundHandlerFactory();
 
         $handler = $factory($this->container);
-        $this->assertAttributeEquals(
-            $config['mezzio']['error_handler']['layout'],
-            'layout',
-            $handler
-        );
-        $this->assertAttributeEquals(
-            $config['mezzio']['error_handler']['template_404'],
-            'template',
+
+        self::assertEquals(
+            new NotFoundHandler(
+                $this->container->get(ResponseInterface::class),
+                null,
+                $config['mezzio']['error_handler']['template_404'],
+                $config['mezzio']['error_handler']['layout']
+            ),
             $handler
         );
     }
@@ -96,9 +96,17 @@ class NotFoundHandlerFactoryTest extends TestCase
         $factory = new NotFoundHandlerFactory();
 
         $handler = $factory($this->container);
+
         // ideally we would like to keep null there,
         // but right now NotFoundHandlerFactory does not accept null for layout
-        $this->assertAttributeSame('', 'layout', $handler);
-        $this->assertAttributeEquals('foo::bar', 'template', $handler);
+        self::assertEquals(
+            new NotFoundHandler(
+                $this->container->get(ResponseInterface::class),
+                null,
+                $config['mezzio']['error_handler']['template_404'],
+                ''
+            ),
+            $handler
+        );
     }
 }

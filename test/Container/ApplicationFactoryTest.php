@@ -39,10 +39,6 @@ class ApplicationFactoryTest extends TestCase
 
         $application = $factory($container);
 
-        $this->assertInstanceOf(Application::class, $application);
-        $this->assertAttributeSame($middlewareFactory, 'factory', $application);
-        $this->assertAttributeSame($pipeline, 'pipeline', $application);
-        $this->assertAttributeSame($routeCollector, 'routes', $application);
-        $this->assertAttributeSame($runner, 'runner', $application);
+        self::assertEquals(new Application($middlewareFactory, $pipeline, $routeCollector, $runner), $application);
     }
 }

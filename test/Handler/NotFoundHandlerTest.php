@@ -50,20 +50,6 @@ class NotFoundHandlerTest extends TestCase
         $this->assertInstanceOf(NotFoundHandler::class, $handler);
     }
 
-    public function testConstructorCanAcceptRendererAndTemplate() : void
-    {
-        $renderer = $this->createMock(TemplateRendererInterface::class);
-        $template = 'foo::bar';
-        $layout = 'layout::error';
-
-        $handler = new NotFoundHandler($this->responseFactory, $renderer, $template, $layout);
-
-        $this->assertInstanceOf(NotFoundHandler::class, $handler);
-        $this->assertAttributeSame($renderer, 'renderer', $handler);
-        $this->assertAttributeEquals($template, 'template', $handler);
-        $this->assertAttributeEquals($layout, 'layout', $handler);
-    }
-
     public function testRendersDefault404ResponseWhenNoRendererPresent() : void
     {
         $request = $this->createMock(ServerRequestInterface::class);
@@ -105,6 +91,35 @@ class NotFoundHandlerTest extends TestCase
         $this->response->method('getBody')->willReturn($stream);
 
         $handler = new NotFoundHandler($this->responseFactory, $renderer);
+
+        $response = $handler->handle($request);
+
+        $this->assertSame($this->response, $response);
+    }
+
+    public function testUsesRendererToGenerateResponseContentsWithCustomLayoutAndTemplate() : void
+    {
+        $request = $this->createMock(ServerRequestInterface::class);
+
+        $renderer = $this->createMock(TemplateRendererInterface::class);
+        $renderer
+            ->method('render')
+            ->with(
+                'foo::bar',
+                [
+                    'request' => $request,
+                    'layout' => 'layout::error',
+                ]
+            )
+            ->willReturn('CONTENT');
+
+        $stream = $this->createMock(StreamInterface::class);
+        $stream->expects(self::once())->method('write')->with('CONTENT');
+
+        $this->response->method('withStatus')->with(StatusCode::STATUS_NOT_FOUND)->willReturn($this->response);
+        $this->response->method('getBody')->willReturn($stream);
+
+        $handler = new NotFoundHandler($this->responseFactory, $renderer, 'foo::bar', 'layout::error');
 
         $response = $handler->handle($request);
 

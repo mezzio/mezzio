@@ -24,7 +24,6 @@ class MiddlewareContainerFactoryTest extends TestCase
 
         $middlewareContainer = $factory($container);
 
-        $this->assertInstanceOf(MiddlewareContainer::class, $middlewareContainer);
-        $this->assertAttributeSame($container, 'container', $middlewareContainer);
+        self::assertEquals(new MiddlewareContainer($container), $middlewareContainer);
     }
 }

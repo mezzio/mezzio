@@ -39,12 +39,10 @@ class RequestHandlerRunnerFactoryTest extends TestCase
 
         $runner = $factory($container);
 
-        $this->assertInstanceOf(RequestHandlerRunner::class, $runner);
-        $this->assertAttributeSame($handler, 'handler', $runner);
-        $this->assertAttributeSame($emitter, 'emitter', $runner);
-
-        $this->assertAttributeNotSame($serverRequestFactory, 'serverRequestFactory', $runner);
-        $this->assertAttributeNotSame($errorGenerator, 'serverRequestErrorResponseGenerator', $runner);
+        self::assertEquals(
+            new RequestHandlerRunner($handler, $emitter, $serverRequestFactory, $errorGenerator),
+            $runner
+        );
 
         $r = new ReflectionProperty($runner, 'serverRequestFactory');
         $r->setAccessible(true);

@@ -42,11 +42,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 
         $generator = $factory($container);
 
-        $this->assertAttributeNotSame($responseFactory, 'responseFactory', $generator);
-        $this->assertAttributeInstanceOf(Closure::class, 'responseFactory', $generator);
-        $this->assertAttributeSame(false, 'debug', $generator);
-        $this->assertAttributeEmpty('renderer', $generator);
-        $this->assertAttributeSame(ServerRequestErrorResponseGenerator::TEMPLATE_DEFAULT, 'template', $generator);
+        self::assertEquals(new ServerRequestErrorResponseGenerator($responseFactory), $generator);
     }
 
     public function testFactoryCreatesGeneratorUsingConfiguredServices() : void
@@ -73,13 +69,13 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 
         $generator = $factory($container);
 
-        $this->assertAttributeNotSame($responseFactory, 'responseFactory', $generator);
-        $this->assertAttributeInstanceOf(Closure::class, 'responseFactory', $generator);
-        $this->assertAttributeSame(true, 'debug', $generator);
-        $this->assertAttributeSame($renderer, 'renderer', $generator);
-        $this->assertAttributeSame(
-            $config['mezzio']['error_handler']['template_error'],
-            'template',
+        self::assertEquals(
+            new ServerRequestErrorResponseGenerator(
+                $responseFactory,
+                true,
+                $renderer,
+                $config['mezzio']['error_handler']['template_error']
+            ),
             $generator
         );
     }

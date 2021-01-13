@@ -116,16 +116,17 @@ class WhoopsFactoryTest extends TestCase
             && ! $requestIsAjax
             && method_exists(WhoopsUtil::class, 'isAjaxRequest')
         ) {
-            $this->assertInstanceOf(PrettyPageHandler::class, $handler);
+            self::assertInstanceOf(PrettyPageHandler::class, $handler);
 
             // Skip remaining assertions
             return;
         }
 
-        $this->assertAttributeSame($showsTrace, 'returnFrames', $handler);
+        self::assertInstanceOf(JsonResponseHandler::class, $handler);
+        self::assertSame($showsTrace, $handler->addTraceToOutput());
 
         if (method_exists($handler, 'onlyForAjaxRequests')) {
-            $this->assertAttributeSame($isAjaxOnly, 'onlyForAjaxRequests', $handler);
+            self::assertSame($isAjaxOnly, $handler->onlyForAjaxRequests());
         }
     }
 

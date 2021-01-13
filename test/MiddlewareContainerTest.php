@@ -93,9 +93,7 @@ class MiddlewareContainerTest extends TestCase
 
         $middleware = $this->container->get('AHandlerNotMiddleware');
 
-        // Test that we get back middleware decorating the handler
-        $this->assertInstanceOf(RequestHandlerMiddleware::class, $middleware);
-        $this->assertAttributeSame($handler, 'handler', $middleware);
+        self::assertEquals(new RequestHandlerMiddleware($handler), $middleware);
     }
 
     /**

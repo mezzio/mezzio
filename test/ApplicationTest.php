@@ -147,13 +147,7 @@ class ApplicationTest extends TestCase
         $this->pipeline
             ->expects(self::once())
             ->method('pipe')
-            ->with(self::callback(static function ($test) use ($preparedMiddleware) {
-                Assert::assertInstanceOf(PathMiddlewareDecorator::class, $test);
-                Assert::assertAttributeSame('/foo', 'prefix', $test);
-                Assert::assertAttributeSame($preparedMiddleware, 'middleware', $test);
-
-                return true;
-            }));
+            ->with(new PathMiddlewareDecorator('/foo', $preparedMiddleware));
 
         $this->assertNull($this->app->pipe('/foo', $middleware));
     }

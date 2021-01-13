@@ -15,7 +15,6 @@ use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
 use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 
 class MiddlewareFactoryFactoryTest extends TestCase
 {
@@ -30,7 +29,6 @@ class MiddlewareFactoryFactoryTest extends TestCase
 
         $middlewareFactory = $factory($container);
 
-        $this->assertInstanceOf(MiddlewareFactory::class, $middlewareFactory);
-        $this->assertAttributeSame($middlewareContainer, 'container', $middlewareFactory);
+        self::assertEquals(new MiddlewareFactory($middlewareContainer), $middlewareFactory);
     }
 }

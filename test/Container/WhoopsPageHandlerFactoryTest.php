@@ -38,6 +38,8 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         $factory = $this->factory;
 
         $result = $factory($this->container);
+
+        self::assertEquals(new PrettyPageHandler(), $result);
         $this->assertInstanceOf(PrettyPageHandler::class, $result);
     }
 
@@ -48,8 +50,11 @@ class WhoopsPageHandlerFactoryTest extends TestCase
 
         $factory = $this->factory;
         $result  = $factory($this->container);
-        $this->assertInstanceOf(PrettyPageHandler::class, $result);
-        $this->assertAttributeEquals($config['whoops']['editor'], 'editor', $result);
+
+        $expected = new PrettyPageHandler();
+        $expected->setEditor($config['whoops']['editor']);
+
+        self::assertEquals($expected, $result);
     }
 
     public function testWillInjectCallableEditor() : void
@@ -64,8 +69,11 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         $factory = $this->factory;
 
         $result = $factory($this->container);
-        $this->assertInstanceOf(PrettyPageHandler::class, $result);
-        $this->assertAttributeSame($config['whoops']['editor'], 'editor', $result);
+
+        $expected = new PrettyPageHandler();
+        $expected->setEditor($config['whoops']['editor']);
+
+        self::assertEquals($expected, $result);
     }
 
     public function testWillInjectEditorAsAService() : void
@@ -78,8 +86,11 @@ class WhoopsPageHandlerFactoryTest extends TestCase
 
         $factory = $this->factory;
         $result  = $factory($this->container);
-        $this->assertInstanceOf(PrettyPageHandler::class, $result);
-        $this->assertAttributeSame($editor, 'editor', $result);
+
+        $expected = new PrettyPageHandler();
+        $expected->setEditor($editor);
+
+        self::assertEquals($expected, $result);
     }
 
     public function invalidEditors() : array

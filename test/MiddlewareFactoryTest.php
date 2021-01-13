@@ -43,15 +43,12 @@ class MiddlewareFactoryTest extends TestCase
 
     public function assertLazyLoadingMiddleware(string $expectedMiddlewareName, MiddlewareInterface $middleware) : void
     {
-        $this->assertInstanceOf(LazyLoadingMiddleware::class, $middleware);
-        $this->assertAttributeSame($this->container, 'container', $middleware);
-        $this->assertAttributeSame($expectedMiddlewareName, 'middlewareName', $middleware);
+        self::assertEquals(new LazyLoadingMiddleware($this->container, $expectedMiddlewareName), $middleware);
     }
 
     public function assertCallableMiddleware(callable $expectedCallable, MiddlewareInterface $middleware) : void
     {
-        $this->assertInstanceOf(CallableMiddlewareDecorator::class, $middleware);
-        $this->assertAttributeSame($expectedCallable, 'middleware', $middleware);
+        self::assertEquals(new CallableMiddlewareDecorator($expectedCallable), $middleware);
     }
 
     public function assertPipeline(array $expectedPipeline, MiddlewareInterface $middleware) : void
@@ -95,16 +92,15 @@ class MiddlewareFactoryTest extends TestCase
         };
 
         $middleware = $this->factory->prepare($callable);
-        $this->assertInstanceOf(CallableMiddlewareDecorator::class, $middleware);
-        $this->assertAttributeSame($callable, 'middleware', $middleware);
+
+        self::assertEquals(new CallableMiddlewareDecorator($callable), $middleware);
     }
 
     public function testPrepareDecoratesServiceNamesAsLazyLoadingMiddleware() : void
     {
         $middleware = $this->factory->prepare('service');
-        $this->assertInstanceOf(LazyLoadingMiddleware::class, $middleware);
-        $this->assertAttributeSame('service', 'middlewareName', $middleware);
-        $this->assertAttributeSame($this->container, 'container', $middleware);
+
+        self::assertEquals(new LazyLoadingMiddleware($this->container, 'service'), $middleware);
     }
 
     public function testPrepareDecoratesArraysAsMiddlewarePipes() : void
@@ -218,15 +214,15 @@ class MiddlewareFactoryTest extends TestCase
     {
         $handler = $this->createMock(RequestHandlerInterface::class);
         $middleware = $this->factory->prepare($handler);
-        $this->assertInstanceOf(RequestHandlerMiddleware::class, $middleware);
-        $this->assertAttributeSame($handler, 'handler', $middleware);
+
+        self::assertEquals(new RequestHandlerMiddleware($handler), $middleware);
     }
 
     public function testHandlerDecoratesRequestHandlersAsMiddleware() : void
     {
         $handler = $this->createMock(RequestHandlerInterface::class);
         $middleware = $this->factory->handler($handler);
-        $this->assertInstanceOf(RequestHandlerMiddleware::class, $middleware);
-        $this->assertAttributeSame($handler, 'handler', $middleware);
+
+        self::assertEquals(new RequestHandlerMiddleware($handler), $middleware);
     }
 }

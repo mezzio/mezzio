@@ -45,7 +45,6 @@ class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
 
         $generator = $factory($this->container);
 
-        $this->assertInstanceOf(WhoopsErrorResponseGenerator::class, $generator);
-        $this->assertAttributeSame($this->whoops, 'whoops', $generator);
+        self::assertEquals(new WhoopsErrorResponseGenerator($this->whoops), $generator);
     }
 }

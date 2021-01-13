@@ -37,11 +37,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
 
         $generator = $factory($this->container);
 
-        $this->assertInstanceOf(ErrorResponseGenerator::class, $generator);
-        $this->assertAttributeEquals(false, 'debug', $generator);
-        $this->assertAttributeEmpty('renderer', $generator);
-        $this->assertAttributeEquals('error::error', 'template', $generator);
-        $this->assertAttributeEquals('layout::default', 'layout', $generator);
+        self::assertEquals(new ErrorResponseGenerator(), $generator);
     }
 
     public function testUsesDebugConfigurationToSetDebugFlag() : void
@@ -51,10 +47,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
 
         $generator = $factory($this->container);
 
-        $this->assertAttributeEquals(true, 'debug', $generator);
-        $this->assertAttributeEmpty('renderer', $generator);
-        $this->assertAttributeEquals('error::error', 'template', $generator);
-        $this->assertAttributeEquals('layout::default', 'layout', $generator);
+        self::assertEquals(new ErrorResponseGenerator(true), $generator);
     }
 
     public function testUsesConfiguredTemplateRenderToSetGeneratorRenderer() : void
@@ -64,10 +57,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
 
         $generator = $factory($this->container);
 
-        $this->assertAttributeEquals(false, 'debug', $generator);
-        $this->assertAttributeSame($this->renderer, 'renderer', $generator);
-        $this->assertAttributeEquals('error::error', 'template', $generator);
-        $this->assertAttributeEquals('layout::default', 'layout', $generator);
+        self::assertEquals(new ErrorResponseGenerator(false, $this->renderer), $generator);
     }
 
     public function testUsesTemplateConfigurationToSetTemplate() : void
@@ -84,10 +74,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
 
         $generator = $factory($this->container);
 
-        $this->assertAttributeEquals(false, 'debug', $generator);
-        $this->assertAttributeEmpty('renderer', $generator);
-        $this->assertAttributeEquals('error::custom', 'template', $generator);
-        $this->assertAttributeEquals('layout::custom', 'layout', $generator);
+        self::assertEquals(new ErrorResponseGenerator(false, null, 'error::custom', 'layout::custom'), $generator);
     }
 
     public function testNullifyLayout() : void
@@ -104,11 +91,8 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
 
         $generator = $factory($this->container);
 
-        $this->assertAttributeEquals(false, 'debug', $generator);
-        $this->assertAttributeEmpty('renderer', $generator);
-        $this->assertAttributeEquals('error::custom', 'template', $generator);
         // ideally we would like to keep null there,
         // but right now ErrorResponseGeneratorFactory does not accept null for layout
-        $this->assertAttributeSame('', 'layout', $generator);
+        self::assertEquals(new ErrorResponseGenerator(false, null, 'error::custom', ''), $generator);
     }
 }
