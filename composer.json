@@ -54,7 +54,7 @@
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan": "^0.12.33",
         "phpstan/phpstan-phpunit": "^0.12.13",
-        "phpstan/phpstan-strict-rules": "^0.12",
+        "phpstan/phpstan-strict-rules": "^0.12.4",
         "phpunit/phpunit": "^9.3"
     },
     "conflict": {
