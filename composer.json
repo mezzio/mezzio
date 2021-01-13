@@ -48,7 +48,7 @@
         "laminas/laminas-servicemanager": "^3.6.0",
         "malukenho/docheader": "^0.1.8",
         "mezzio/mezzio-aurarouter": "^3.0",
-        "mezzio/mezzio-fastroute": "^3.0",
+        "mezzio/mezzio-fastroute": "^3.1.0",
         "mezzio/mezzio-laminasrouter": "^3.0",
         "mockery/mockery": "^1.0",
         "phpstan/extension-installer": "^1.1",
