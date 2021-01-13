@@ -45,7 +45,7 @@
         "filp/whoops": "^2.8.0",
         "laminas/laminas-coding-standard": "~1.0.0",
         "laminas/laminas-diactoros": "^2.5.0",
-        "laminas/laminas-servicemanager": "^2.7.8 || ^3.3",
+        "laminas/laminas-servicemanager": "^3.6.0",
         "malukenho/docheader": "^0.1.6",
         "mezzio/mezzio-aurarouter": "^3.0",
         "mezzio/mezzio-fastroute": "^3.0",
