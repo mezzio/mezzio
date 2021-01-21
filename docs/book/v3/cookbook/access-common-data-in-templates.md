@@ -26,7 +26,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Mezzio\Router\RouteResult;
-use Mezzio\Session\Authentication\UserInterface;
+use Mezzio\Authentication\UserInterface;
 use Mezzio\Flash\FlashMessagesInterface;
 use Mezzio\Flash\FlashMessageMiddleware;
 use Mezzio\Template\TemplateRendererInterface;
