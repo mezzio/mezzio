@@ -30,6 +30,14 @@ matrix:
     - php: 7.4
       env:
         - DEPS=latest
+    - php: 8.0
+      env:
+        - DEPS=lowest
+        - COMPOSER_ARGS=--ignore-platform-reqs
+    - php: 8.0
+      env:
+        - DEPS=latest
+        - COMPOSER_ARGS=--ignore-platform-reqs
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
