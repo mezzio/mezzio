@@ -2,27 +2,30 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 3.3.0 - TBD
+## 3.3.0 - 2021-01-24
 
-### Added
 
-- Nothing.
+-----
 
-### Changed
+### Release Notes for [3.3.0](https://github.com/mezzio/mezzio/milestone/1)
 
-- Nothing.
 
-### Deprecated
 
-- Nothing.
+### 3.3.0
 
-### Removed
+- Total issues resolved: **1**
+- Total pull requests resolved: **4**
+- Total contributors: **4**
 
-- Nothing.
+#### Bug
 
-### Fixed
+ - [61: Fix FQDN](https://github.com/mezzio/mezzio/pull/61) thanks to @Maks3w
 
-- Nothing.
+#### Enhancement
+
+ - [60: PHP 8.0 compatiblity and dependency upgrades.](https://github.com/mezzio/mezzio/pull/60) thanks to @jensdenies
+ - [59: Upgrade PHPUnit to 9.3](https://github.com/mezzio/mezzio/pull/59) thanks to @lcobucci and @boesing
+ - [56: Replaced &quot;ResponseInterface&quot; clone's with individual prophecy calls.](https://github.com/mezzio/mezzio/pull/56) thanks to @jensdenies
 
 ## 3.2.2 - 2020-04-28
 
