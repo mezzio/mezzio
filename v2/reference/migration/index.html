@@ -586,17 +586,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v2
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../../v3/" class="dropdown-item">
@@ -984,7 +984,6 @@ class XClacksOverheadMiddleware implements MiddlewareInterface
         return $response-&gt;withHeader('X-Clacks-Overhead', 'GNU Terry Pratchett');
     }
 }</code></pre>
-
 <p>Alternately, you can write this as a callable:</p>
 <pre class="highlight"><code class="language-php">namespace App\Middleware;
 
@@ -1005,7 +1004,6 @@ class XClacksOverheadMiddleware
         return $response-&gt;withHeader('X-Clacks-Overhead', 'GNU Terry Pratchett');
     }
 }</code></pre>
-
 <h2 id="original-messages">Original messages</h2>
 <p>In the <a href="../../../v1/reference/migration/to-v1-1/">migration to version 1.1 guide</a>, we detail the fact that
 Stratigility 1.3 deprecated its internal request and response decorators.
@@ -1027,10 +1025,8 @@ details how to update your configuration or programmatic pipeline.</p>
 package which will help you in this latter part of the migration. Install it as
 a development requirement via composer:</p>
 <pre class="highlight"><code class="language-bash">$ composer require --dev mezzio/mezzio-tooling</code></pre>
-
 <p>And then execute it via:</p>
 <pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio-migrate-original-messages</code></pre>
-
 <p>This tool will update calls to <code>getOriginalRequest()</code> and <code>getOriginalUri()</code> to
 instead use the new request attributes that the <code>OriginalMessages</code> middleware
 injects:</p>
@@ -1077,7 +1073,6 @@ internally, removes the <code>ErrorMiddlewareInterface</code> entirely, and thus
 
     return $response;
 }</code></pre>
-
 <p>Additionally, you will need middleware registered as your innermost layer that
 is guaranteed to return a response. Generally, if you hit that layer, no other
 middleware is capable of handling the request, indicating a 400 (Bad Request) or
@@ -1097,7 +1092,6 @@ environment. Error response generators are callables with the signature:</p>
     ServerRequestInterface $request,
     ResponseInterface $response
 ) : ResponseInterface</code></pre>
-
 <p>Mezzio 2.0 provides the following functionality to assist with your error
 handling needs:</p>
 <ul>
@@ -1272,7 +1266,6 @@ return [
         // Remove the section "error""
     ],
 ];</code></pre>
-
 <p>If you are defining a programmatic pipeline (see more below on this), the
 pipeline might look like:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipe(OriginalMessages::class);
@@ -1282,7 +1275,6 @@ $app-&gt;pipeRoutingMiddleware();
 $app-&gt;pipe(Helper\UrlHelperMiddleware::class);
 $app-&gt;pipeDispatchMiddleware();
 $app-&gt;pipe(Middleware\NotFoundHandler::class);</code></pre>
-
 <h3>Error handling and PHP errors</h3>
 <p>As noted above, <code>Laminas\Stratigility\Middleware\ErrorHandler</code> also creates a PHP
 error handler that casts PHP errors to <code>ErrorException</code> instances. More
@@ -1293,7 +1285,6 @@ to exceptions, code that would normally run will now result in error pages.</p>
 <p>We recommend adding the following line to your <code>public/index.php</code> towards the
 top of the file:</p>
 <pre class="highlight"><code class="language-php">error_reporting(error_reporting() &amp; ~E_USER_DEPRECATED);</code></pre>
-
 <p>This will prevent the error handler from casting deprecation notices to
 exceptions, while keeping the rest of your error reporting mask intact.</p>
 <h3>Removing legacy error middleware</h3>
@@ -1387,13 +1378,11 @@ You may install this package in one of the following ways:</p>
 </ul>
 <pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio-tooling        # install
 $ ./vendor/bin/mezzio-tooling remove # uninstall</code></pre>
-
 <ul>
 <li>Using Composer:</li>
 </ul>
 <pre class="highlight"><code class="language-bash">$ composer require --dev mezzio/mezzio-tooling # install
 $ composer remove --dev mezzio/mezzio-tooling  # uninstall</code></pre>
-
 <p>Once installed, you will use the <code>vendor/bin/mezzio-pipeline-from-config</code>
 command.</p>
 <p>This command does the following:</p>
@@ -1448,7 +1437,6 @@ return [
         ],
     ],
 ];</code></pre>
-
 <p>Other things you may want to do:</p>
 <ul>
 <li>
@@ -1522,7 +1510,6 @@ the new interface:</p>
     array $substitutions = [],
     array $options = []
 ) : string</code></pre>
-
 <h2 id="url-helper-changes">URL helper changes</h2>
 <p>Mezzio 2.0 uses mezzio/mezzio-helpers version 3.0+. This new
 version updates the signature of the <code>Mezzio\Helper\UrlHelper</code> from:</p>
@@ -1530,7 +1517,6 @@ version updates the signature of the <code>Mezzio\Helper\UrlHelper</code> from:<
     $routeName,
     array $routeParams = []
 ) : string</code></pre>
-
 <p>to:</p>
 <pre class="highlight"><code class="language-php">function (
     $routeName,
@@ -1539,7 +1525,6 @@ version updates the signature of the <code>Mezzio\Helper\UrlHelper</code> from:<
     $fragmentIdentifier = null,
     array $options = []
 ) : string</code></pre>
-
 <p>For consumers, this should represent a widening of features, and will not
 require any changes, unless you wish to opt-in to the new arguments. See the
 <a href="../../features/helpers/url-helper/">UrlHelper documentation</a> for information
@@ -1566,7 +1551,6 @@ install the following packages:</p>
 <p>As an example:</p>
 <pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-config-aggregator \
 &gt; laminas/laminas-component-installer</code></pre>
-
 <p>Once installed, you should update your <code>config/config.php</code> file to read as
 follows:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
@@ -1601,7 +1585,6 @@ $aggregator = new ConfigAggregator([
 ], $cacheConfig['config_cache_path']);
 
 return $aggregator-&gt;getMergedConfig();</code></pre>
-
 <p>The above should mimic what you already had in place; if it does not, check to
 see if there are additional paths you were globbing previously.</p>
 
@@ -2100,6 +2083,7 @@ see if there are additional paths you were globbing previously.</p>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -2172,7 +2156,7 @@ see if there are additional paths you were globbing previously.</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

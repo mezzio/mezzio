@@ -619,17 +619,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v3
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../../" class="dropdown-item active">
@@ -790,13 +790,11 @@ argument to any of the above:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;route('/foo', $middleware, 'foo'); // 'foo'
 $app-&gt;get('/foo/:id', $middleware, 'foo-item'); // 'foo-item'
 $app-&gt;route('/foo', $middleware, ['GET', 'POST'], 'foo-collection'); // 'foo-collection'</code></pre>
-
 <p>As noted above, these methods also return <code>Route</code> instances, allowing you to
 set the name after-the-fact; this is particularly useful with the <code>route()</code>
 method, where you may want to omit the HTTP methods if any HTTP method is
 allowed:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;route('/foo', $middleware)-&gt;setName('foo'); // 'foo'</code></pre>
-
 <p>We recommend that if you plan on generating URIs for given routes, you provide a
 custom name.</p>
 <blockquote>
@@ -806,20 +804,17 @@ named. This can be tricky when you use the same route path for multiple
 routes:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;get('/books', ListBooksHandler::class, 'books');
 $app-&gt;post('/books', CreateBookHandler::class, 'books'); // oops!</code></pre>
-
 <p>You could, of course, name the second route "create-book" or similar, but you
 then have multiple names capable of generating the same URI.</p>
 <p>Since URIs do not have a concept of HTTP method built in, we recommend naming
 either the route matching <code>GET</code> or the first route in the sequence:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;get('/books', ListBooksHandler::class, 'books');
 $app-&gt;post('/books', CreateBookHandler::class); // no name</code></pre>
-
 </blockquote>
 <h2 id="generating-uris">Generating URIs</h2>
 <p>Once you know the name of a URI you wish to generate, you can do so from the
 router instance:</p>
 <pre class="highlight"><code class="language-php">$uri = $router-&gt;generateUri('foo-item', ['id' =&gt; 'bar']); // "/foo/bar"</code></pre>
-
 <p>You can omit the second argument if no substitutions are necessary.</p>
 <blockquote>
 <h3>Compose the router</h3>
@@ -1357,6 +1352,7 @@ requires the URI generation facility. Inject the
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1429,7 +1425,7 @@ requires the URI generation facility. Inject the
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

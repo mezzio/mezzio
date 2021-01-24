@@ -541,17 +541,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v1
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../../../v3/" class="dropdown-item">
@@ -807,12 +807,10 @@ return [
         /* ... */
     ],
 ];</code></pre>
-
 <p>If you are <a href="https://mwop.net/blog/2016-05-16-programmatic-expressive.html">programmatically creating your pipeline</a>,
 use the following:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipe(OriginalMessages::class);
 /* all other middleware */</code></pre>
-
 <h3>Identifying and fixing getOriginal calls</h3>
 <p>To help you identify and update calls in your own code to the <code>getOriginal*()</code>
 methods, we provide a tool via the <a href="https://github.com/mezzio/mezzio-tooling">mezzio/mezzio-tooling</a>
@@ -820,10 +818,8 @@ package, <code>vendor/bin/mezzio-migrate-original-messages</code>.</p>
 <p>First, install the tooling package; since the tooling it provides is only
 useful during development, install it as a development requirement:</p>
 <pre class="highlight"><code class="language-bash">$ composer require --dev mezzio/mezzio-tooling</code></pre>
-
 <p>Once installed,  you can execute the tool using:</p>
 <pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio-migrate-original-messages</code></pre>
-
 <p>Passing the arguments <code>help</code>, <code>--help</code>, or <code>-h</code> will provide usage information;
 in most cases, it will assume sane defaults in order to run its scans.</p>
 <p>The tool updates calls to <code>getOriginalRequest()</code> and <code>getOriginalUri()</code> to
@@ -876,7 +872,6 @@ $app-&gt;pipeRoutingMiddleware();
 $app-&gt;pipe(Helper\UrlHelperMiddleware::class);
 $app-&gt;pipeDispatchMiddleware();
 $app-&gt;pipe(NotFoundHandler::class);</code></pre>
-
 <p>Mezzio also provides methods for specifying routed middleware. These
 include:</p>
 <ul>
@@ -893,12 +888,10 @@ wish to provide additional options to your route:</p>
     -&gt;setOptions([
         'timestamp' =&gt; date(),
     ]);</code></pre>
-
 <p>As an example, the default routes defined in the skeleton application can be
 written as follows:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;get('/', \App\Action\HomePageAction::class, 'home');
 $app-&gt;get('/api/ping', \App\Action\PingAction::class, 'api.ping');</code></pre>
-
 <p>We recommend rewriting your middleware pipeline and routing configuration into
 programmatic/declarative statements. Specifically:</p>
 <ul>
@@ -916,7 +909,6 @@ your application:</p>
         'programmatic_pipeline' =&gt; true,
     ],
 ];</code></pre>
-
 <p>Once enabled, any <code>middleware_pipeline</code> or <code>routes</code> configuration will be
   ignored when creating the <code>Application</code> instance.</p>
 <ul>
@@ -925,7 +917,6 @@ your application:</p>
 </ul>
 <pre class="highlight"><code class="language-php">require 'config/pipeline.php';
 require 'config/routes.php';</code></pre>
-
 <p>Once this has been done, the application will use your new programmatic
 pipelines instead of configuration. You can remove the <code>middleware_pipeline</code> and
 <code>routes</code> configuration after verifying your application continues to work.</p>
@@ -969,7 +960,6 @@ configuration:</p>
         'raise_throwables' =&gt; true,
     ],
 ];</code></pre>
-
 <p>When enabled, the internal dispatcher will no longer catch exceptions.</p>
 <p>This both allows you to, and <em>requires</em> you to, write your own error handling
 middleware. This will require two things:</p>
@@ -1004,7 +994,6 @@ middleware. This will require two things:</p>
 
     return $response;
 }</code></pre>
-
 <p>Stratigility 1.3 provides such an implementation via its
 <code>Laminas\Stratigility\Middleware\ErrorHandler</code>. In addition to the try/catch block,
 it also sets up a PHP error handler that will catch any PHP error types in the
@@ -1018,7 +1007,6 @@ current environment. Error response generators are callables with the signature:
     ServerRequestInterface $request,
     ResponseInterface $response
 ) : ResponseInterface</code></pre>
-
 <p>We recommend using the Stratigility <code>ErrorHandler</code> and writing and attaching a
 custom error response generator. As a simple example, the following details a
 generator that will use a template to display an error page:</p>
@@ -1056,7 +1044,6 @@ class TemplatedErrorResponseGenerator
         return $response;
     }
 }</code></pre>
-
 <p>You might then create a factory for generating the <code>ErrorHandler</code> and attaching
 this response generator as follows:</p>
 <pre class="highlight"><code class="language-php">namespace Acme\Container;
@@ -1078,7 +1065,6 @@ class ErrorHandlerFactory
         return new ErrorHandler(new Response(), $generator);
     }
 }</code></pre>
-
 <p>Once that is created you can tell your middleware configuration about it:</p>
 <pre class="highlight"><code class="language-php">// in config/autoload/middleware-pipeline.global.php
 use Acme\Container\ErrorHandlerFactory;
@@ -1104,14 +1090,12 @@ return [
         /* ... */
     ],
 ];</code></pre>
-
 <p>Alternately, if using a programmatic pipeline, as detailed in the previous
 section, you can use the following:</p>
 <pre class="highlight"><code class="language-php">use Laminas\Stratigility\Middleware\ErrorHandler;
 
 $app-&gt;pipe(ErrorHandler::class);
 // add all other middleware after it</code></pre>
-
 <h3>Not Found middleware</h3>
 <p>At the innermost layer of your application, you need middleware guaranteed to
 return a response; typically, this indicates a failure to route the request,
@@ -1151,7 +1135,6 @@ class TemplatedNotFoundHandler
         return $response-&gt;withStatus(404);
     }
 }</code></pre>
-
 <p>Similar to the discussion of the <code>ErrorHandler</code> above, we'll create a factory
 for this:</p>
 <pre class="highlight"><code class="language-php">namespace Acme\Container;
@@ -1169,7 +1152,6 @@ class TemplatedNotFoundHandlerFactory
         );
     }
 }</code></pre>
-
 <p>We can then register it in our pipeline:</p>
 <pre class="highlight"><code class="language-php">// in config/autoload/middleware-pipeline.global.php
 use Acme\Container\NotFoundHandlerFactory;
@@ -1197,13 +1179,11 @@ return [
         /* ... */
     ],
 ];</code></pre>
-
 <p>If you are using programmatic pipelines, as described in the previous section:</p>
 <pre class="highlight"><code class="language-php">use Acme\TemplatedNotFoundHandler;
 
 // all other pipeline directives, and then:
 $app-&gt;pipe(TemplatedNotFoundHandler::class);</code></pre>
-
 <h3>Detecting error middleware usage</h3>
 <p>If you use the new error handling paradigm, we recommend that you also audit
 your application for legacy Stratigility error middleware, as well as invocation
@@ -1212,7 +1192,6 @@ of error middleware. To do this, we provide a tool via the
 package, <code>vendor/bin/mezzio-scan-for-error-middleware</code>.</p>
 <p>First, install the tooling as a development requirement:</p>
 <pre class="highlight"><code class="language-bash">$ composer require --dev mezzio/mezzio-tooling</code></pre>
-
 <p>The tool will scan the <code>src/</code> directory by default, but allows you to scan other
 directories via the <code>--dir</code> flag. It will detect and report files with any of
 the following:</p>
@@ -1225,7 +1204,6 @@ the following:</p>
 <pre class="highlight"><code class="language-bash">$ ./vendor/bin/mezzio-scan-for-error-middleware scan
 # or, with a directory argument:
 $ ./vendor/bin/mezzio-scan-for-error-middleware scan --dir ./lib</code></pre>
-
 <p>You may also call the tool using its <code>help</code> command, or either of the <code>--help</code>
 or <code>-h</code> flags to get full usage information.</p>
 <p>Use this tool to identify potential problem areas in your application, and
@@ -1247,7 +1225,6 @@ return [
         /* ... */
     ],
 ];</code></pre>
-
 <p>Next, we'll update <code>config/autoload/middleware-pipeline.global.php</code> to list only
 dependencies:</p>
 <pre class="highlight"><code class="language-php">use Acme\Container;
@@ -1269,7 +1246,6 @@ return [
         ],
     ],
 ];</code></pre>
-
 <p>We'll also update <code>config/autoload/routes.global.php</code> to only list dependencies;
 in the following example, we list only the middleware shipped by default with
 the skeleton application:</p>
@@ -1288,7 +1264,6 @@ return [
         ],
     ],
 ];</code></pre>
-
 <p>To create our pipeline, we will create the file <code>config/pipeline.php</code>:</p>
 <pre class="highlight"><code class="language-php">use Acme\TemplatedNotFoundHandler;
 use Laminas\Stratigility\Middleware\ErrorHandler;
@@ -1305,7 +1280,6 @@ $app-&gt;pipe([
     ApplicationFactory::DISPATCH_MIDDLEWARE,
 ]);
 $app-&gt;pipe(TemplatedNotFoundHandler::class);</code></pre>
-
 <p>Note that you can use <em>arrays</em> of middleware just like you did in the
 configuration; this allows you to separate middleware into logical groups if
 desired!</p>
@@ -1315,7 +1289,6 @@ desired!</p>
 
 $app-&gt;get('/', Action\HomePageAction::class, 'home');
 $app-&gt;get('/api/ping', Action\PingAction::class, 'api.ping');</code></pre>
-
 <p>The above exercises the various routing methods of the <code>Application</code> class.</p>
 <p>Finally, we will need to update our <code>public/index.php</code>, to tell it to require
 our new pipeline and routing files; we'll do that between retrieving the
@@ -1324,7 +1297,6 @@ application from the container, and running the application:</p>
 require 'config/pipeline.php';
 require 'config/routes.php';
 $app-&gt;run();</code></pre>
-
 <p>With these changes in place, your application should continue to run as it did
 previously!</p>
 <h2 id="looking-forward">Looking forward</h2>
@@ -1781,6 +1753,7 @@ order to make your application forwards-compatible.</p>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1853,7 +1826,7 @@ order to make your application forwards-compatible.</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

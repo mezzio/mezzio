@@ -619,17 +619,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v3
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../../" class="dropdown-item active">
@@ -770,14 +770,12 @@ it provides:</p>
 <h2 id="installing-plates">Installing Plates</h2>
 <p>To use the Plates wrapper, you must install the Plates integration:</p>
 <pre class="highlight"><code class="language-bash">$ composer require mezzio/mezzio-platesrenderer</code></pre>
-
 <h2 id="using-the-wrapper">Using the wrapper</h2>
 <p>If instantiated without arguments, <code>Mezzio\Plates\PlatesRenderer</code> will create
 an instance of the Plates engine, which it will then proxy to.</p>
 <pre class="highlight"><code class="language-php">use Mezzio\Plates\PlatesRenderer;
 
 $renderer = new PlatesRenderer();</code></pre>
-
 <p>Alternately, you can instantiate and configure the engine yourself, and pass it
 to the <code>Mezzio\Plates\PlatesRenderer</code> constructor:</p>
 <pre class="highlight"><code class="language-php">use League\Plates\Engine as PlatesEngine;
@@ -792,7 +790,6 @@ $plates-&gt;loadExtension(new CustomExtension());
 
 // Inject:
 $renderer = new PlatesRenderer($plates);</code></pre>
-
 <h2 id="configuration-and-factory">Configuration and Factory</h2>
 <p>mezzio-platesrenderer ships with the factory
 <code>Mezzio\Plates\PlatesRendererFactory</code>, which will both create the
@@ -817,7 +814,6 @@ return [
         ],
     ],
 ];</code></pre>
-
 <p>The factory will also inject two extensions by default,
 <code>Mezzio\Plates\Extension\UrlExtension</code> and
 <code>Mezzio\Plates\Extension\EscaperExtension</code>, both listed in more detail
@@ -840,7 +836,6 @@ public function serverurl(string $path = null) : string;
 
 // Since mezzio-platesrender 2.1.0:
 public function route() : ?Mezzio\Router\RouteResult</code></pre>
-
 <p>As an example:</p>
 <pre class="highlight"><code class="language-php">&lt;a href="&lt;?= $this-&gt;url('blog', ['stub' =&gt; $this-&gt;stub]) ?&gt;"&gt;A blog post on this&lt;/a&gt;
 
@@ -851,7 +846,6 @@ $route       = $routingIsValid ? $routing-&gt;getMatchedRouteName() : 'blog';
 $routeParams = $routingIsValid ? $routing-&gt;getMatchedParams() : [];
 ?&gt;
 &lt;a href="&lt;?= $this-&gt;url($route, $routeParams) ?&gt;"&gt;For more information&lt;/a&gt;</code></pre>
-
 <h3>EscaperExtension</h3>
 <p><code>Mezzio\Plates\Extension\EscaperExtension</code> proxies to functionality
 provided in the <a href="https://docs.laminas.dev/laminas-escaper/">laminas-escaper</a>
@@ -863,7 +857,6 @@ return [
         'encoding' =&gt; ?string, // character encoding of generated content
     ],
 ];</code></pre>
-
 <p>By default it assumes UTF-8 for the encoding.</p>
 <p>The extension registers the following template methods:</p>
 <pre class="highlight"><code class="language-php">public function escapeHtml(string $html) : string;
@@ -871,7 +864,6 @@ public function escapeHtmlAttr(string $attribute) : string;
 public function escapeJs(string $js) : string;
 public function escapeCss(string $css) : string;
 public function escapeUrl(string $url) : string;</code></pre>
-
 <p>As examples:</p>
 <pre class="highlight"><code class="language-php">&lt;html&gt;
   &lt;head&gt;
@@ -1414,6 +1406,7 @@ public function escapeUrl(string $url) : string;</code></pre>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1486,7 +1479,7 @@ public function escapeUrl(string $url) : string;</code></pre>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

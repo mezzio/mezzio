@@ -586,17 +586,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v2
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../../../v3/" class="dropdown-item">
@@ -739,7 +739,6 @@ injection container with the following features:</p>
 <p>Aura.Di implements <a href="https://www.php-fig.org/psr/psr-11/">PSR-11</a> as of version
 3.</p>
 <pre class="highlight"><code class="language-bash">$ composer require aura/di</code></pre>
-
 <h2 id="configuration">Configuration</h2>
 <p>Aura.Di can help you to organize your code better with
 <a href="http://auraphp.com/packages/4.x/Di/config.html">ContainerConfig classes</a> and
@@ -756,7 +755,6 @@ $containerBuilder = new ContainerBuilder();
 return $containerBuilder-&gt;newConfiguredInstance([
     'Application\Config\Common',
 ]);</code></pre>
-
 <p>The bare minimum <code>ContainerConfig</code> code needed to make mezzio work is:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
 
@@ -838,7 +836,6 @@ class Common extends ContainerConfig
         */
     }
 }</code></pre>
-
 <p>Your bootstrap (typically <code>public/index.php</code>) will then look like this:</p>
 <pre class="highlight"><code class="language-php">chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
@@ -1343,6 +1340,7 @@ $app-&gt;run();</code></pre>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1415,7 +1413,7 @@ $app-&gt;run();</code></pre>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

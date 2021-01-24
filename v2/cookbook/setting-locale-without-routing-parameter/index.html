@@ -586,17 +586,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v2
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../../v3/" class="dropdown-item">
@@ -782,7 +782,6 @@ class SetLocaleMiddleware implements MiddlewareInterface
         ));
     }
 }</code></pre>
-
 <p>Then you will need a factory for the <code>SetLocaleMiddleware</code> to inject the
 <code>UrlHelper</code> instance.</p>
 <pre class="highlight"><code class="language-php">&lt;?php
@@ -801,7 +800,6 @@ class SetLocaleMiddlewareFactory
         );
     }
 }</code></pre>
-
 <p>Next, map the middleware to its factory in either
 <code>/config/autoload/dependencies.global.php</code> or
 <code>/config/autoload/middleware-pipeline.global.php</code>:</p>
@@ -817,7 +815,6 @@ return [
         ],
     ],
 ];</code></pre>
-
 <p>Finally, you will need to configure your middleware pipeline to ensure this
 middleware is executed on every request.</p>
 <p>If using a programmatic pipeline:</p>
@@ -831,7 +828,6 @@ $app-&gt;pipeRoutingMiddleware();
 $app-&gt;pipe(UrlHelperMiddleware::class);
 $app-&gt;pipeDispatchMiddleware();
 /* ... */</code></pre>
-
 <p>If using a configuration-driven application, update
 <code>/config/autoload/middleware-pipeline.global.php</code> to add the middleware:</p>
 <pre class="highlight"><code class="language-php">return [
@@ -858,13 +854,11 @@ $app-&gt;pipeDispatchMiddleware();
         /* ... */
     ],
 ];</code></pre>
-
 <h2 id="url-generation-in-the-view">Url generation in the view</h2>
 <p>Since the <code>UrlHelper</code> has the locale set as a base path, you don't need
 to worry about generating URLs within your view. Just use the helper to
 generate a URL and it will do the rest.</p>
 <pre class="highlight"><code class="language-php">&lt;?php echo $this-&gt;url('your-route') ?&gt;</code></pre>
-
 <blockquote>
 <h3>Helpers differ between template renderers</h3>
 <p>The above example is specific to laminas-view; syntax will differ for
@@ -907,7 +901,6 @@ class RedirectAction implements MiddlewareInterface
         );
     }
 }</code></pre>
-
 <p>Injecting the <code>UrlHelper</code> into your middleware will also require that the
 middleware have a factory that manages the injection. As an example, the
 following would work for the above middleware:</p>
@@ -1421,6 +1414,7 @@ class RedirectActionFactory
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1493,7 +1487,7 @@ class RedirectActionFactory
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

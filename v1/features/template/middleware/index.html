@@ -541,17 +541,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v1
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../../../v3/" class="dropdown-item">
@@ -710,7 +710,6 @@ class EntryMiddleware
         // ...
     }
 }</code></pre>
-
 <p>This will necessitate having a factory for your middleware:</p>
 <pre class="highlight"><code class="language-php">namespace Acme\Blog\Container;
 
@@ -726,7 +725,6 @@ class EntryMiddlewareFactory
         );
     }
 }</code></pre>
-
 <p>And, of course, you'll need to tell your container to use the factory; see the
 <a href="../../container/intro/">container documentation</a> for more information on how you
 might accomplish that.</p>
@@ -760,7 +758,6 @@ class EntryMiddleware
         );
     }
 }</code></pre>
-
 <p>Alternately, you can write to the composed response:</p>
 <pre class="highlight"><code class="language-php">$response-&gt;getBody()-&gt;write($this-&gt;templateRenderer-&gt;render('blog::entry', [
     'entry' =&gt; $entry,
@@ -1217,6 +1214,7 @@ return $response;</code></pre>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1289,7 +1287,7 @@ return $response;</code></pre>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

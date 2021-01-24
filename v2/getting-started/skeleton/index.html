@@ -586,17 +586,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v2
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../../v3/" class="dropdown-item">
@@ -745,7 +745,6 @@ renderer, and error handler from the outset.</p>
 <h2 id="create-a-new-project">Create a new project</h2>
 <p>First, we'll create a new project, using Composer's <code>create-project</code> command:</p>
 <pre class="highlight"><code class="language-bash">$ composer create-project mezzio/mezzio-skeleton mezzio</code></pre>
-
 <p>This will prompt you to choose:</p>
 <ul>
 <li>
@@ -778,7 +777,6 @@ when complete. You can test it out using <a href="http://php.net/manual/en/featu
 server</a>.</p>
 <p>From the project root directory, execute the following:</p>
 <pre class="highlight"><code class="language-bash">$ composer run --timeout=0 serve</code></pre>
-
 <p>This starts up a web server on localhost port 8080; browse to
 http://localhost:8080/ to see if your application responds correctly!</p>
 <blockquote>
@@ -793,7 +791,6 @@ will be used, and it will run until you cancel the process (usually via
 <code>Ctrl-C</code>). Alternately, you can specify a finite timeout; as an example,
 the following will extend the timeout to a full day:</p>
 <pre class="highlight"><code class="language-bash">$ composer run --timeout=86400 serve</code></pre>
-
 </blockquote>
 <h2 id="development-tools">Development Tools</h2>
 <p>We ship tools in our skeleton application to make development easier.</p>
@@ -803,7 +800,6 @@ you to enable and disable development mode from your cli.</p>
 <pre class="highlight"><code class="language-bash">$ composer development-enable  # enable development mode
 $ composer development-disable # disable development mode
 $ composer development-status  # show development status</code></pre>
-
 <p>The development configuration is set in <code>config/autoload/development.local.php.dist</code>.
 It also allows you to specify configuration and modules that should only be enabled
 when in development, and not when in production.</p>
@@ -812,14 +808,12 @@ when in development, and not when in production.</p>
 However, it must be easy for developers to clear the configuration cache. That's
 what this command does.</p>
 <pre class="highlight"><code class="language-bash">$ composer clear-config-cache</code></pre>
-
 <h3>Testing Your Code</h3>
 <p><a href="https://phpunit.de">PHPUnit</a> and
 <a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> are now
 installed by default. To execute tests and detect coding standards violations,
 run the following command:</p>
 <pre class="highlight"><code class="language-bash">$ composer check</code></pre>
-
 <h3>Security Advisories</h3>
 <p>We have included the <a href="https://github.com/Roave/SecurityAdvisories">security-advisories</a>
 package to notify you about installed dependencies with known security
@@ -876,7 +870,6 @@ $aggregator = new ConfigAggregator([
 ], 'data/config-cache.php');
 
 return $aggregator-&gt;getMergedConfig();</code></pre>
-
 <p>The configuration is merged in the same order as it is passed, with later entries
 having precedence.</p>
 <h3>Config Providers</h3>
@@ -943,7 +936,6 @@ class ConfigProvider
         ];
     }
 }</code></pre>
-
 <h3>mezzio-module command</h3>
 <p>To aid in the creation, registration, and deregistration of modules in your
 application, the installer will add the <a href="https://github.com/mezzio/mezzio-tooling">mezzio/mezzio-tooling</a>
@@ -980,12 +972,10 @@ error handling, segregated applications, routing, middleware dispatch, and more.
 exceptions.</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipe(ErrorHandler::class);
 $app-&gt;pipe(ServerUrlMiddleware::class);</code></pre>
-
 <p>After the <code>ErrorHandler</code> you can pipe more middleware that you want to execute
 on every request, such as bootstrapping, pre-conditions, and modifications to
 outgoing responses:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipe(ServerUrlMiddleware::class);</code></pre>
-
 <p>Piped middleware may be either callables or service names. Middleware may also
 be passed as an array; each item in the array must resolve to middleware
 eventually (i.e., callable or service name); underneath, Mezzio creates
@@ -997,10 +987,8 @@ this way will see a URI with the <strong>MATCHED PATH SEGMENT REMOVED!!!</strong
 <pre class="highlight"><code class="language-php">$app-&gt;pipe('/api', $apiMiddleware);
 $app-&gt;pipe('/docs', $apiDocMiddleware);
 $app-&gt;pipe('/files', $filesMiddleware);</code></pre>
-
 <p>Next, you should register the routing middleware in the middleware pipeline:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipeRoutingMiddleware();</code></pre>
-
 <p>Add more middleware that needs to introspect the routing results; this might
 include:</p>
 <ul>
@@ -1014,15 +1002,12 @@ include:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipe(ImplicitHeadMiddleware::class);
 $app-&gt;pipe(ImplicitOptionsMiddleware::class);
 $app-&gt;pipe(UrlHelperMiddleware::class);</code></pre>
-
 <p>Next, register the dispatch middleware in the middleware pipeline:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipeDispatchMiddleware();</code></pre>
-
 <p>At this point, if no response is return by any middleware, we need to provide a
 way of notifying the user of this; by default, we use the <code>NotFoundHandler</code>, but
 you can provide any other fallback middleware you wish:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipe(NotFoundHandler::class);</code></pre>
-
 <p>The full example then looks something like this:</p>
 <pre class="highlight"><code class="language-php">// In config/pipeline.php:
 
@@ -1048,7 +1033,6 @@ $app-&gt;pipe(UrlHelperMiddleware::class);
 $app-&gt;pipeDispatchMiddleware();
 
 $app-&gt;pipe(NotFoundHandler::class);</code></pre>
-
 <h3>Routing</h3>
 <p><a href="../../features/router/piping/#routing">Routing</a> is an additional feature
 provided by Mezzio. Routing is setup in <code>config/routes.php</code>.</p>
@@ -1058,13 +1042,10 @@ $app-&gt;post('/album', App\Action\AlbumCreateAction::class, 'album.create');
 $app-&gt;put('/album/:id', App\Action\AlbumUpdateAction::class, 'album.put');
 $app-&gt;patch('/album/:id', App\Action\AlbumUpdateAction::class, 'album.patch');
 $app-&gt;delete('/album/:id', App\Action\AlbumDeleteAction::class, 'album.delete');</code></pre>
-
 <p>Or with multiple request methods:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;route('/contact', App\Action\ContactAction::class, ['GET', 'POST', ...], 'contact');</code></pre>
-
 <p>Or handling all request methods:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;route('/contact', App\Action\ContactAction::class)-&gt;setName('contact');</code></pre>
-
 <p>Alternately, to be explicit, the above could be written as:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;route(
     '/contact',
@@ -1072,7 +1053,6 @@ $app-&gt;delete('/album/:id', App\Action\AlbumDeleteAction::class, 'album.delete
     Mezzio\Router\Route::HTTP_METHOD_ANY,
     'contact'
 );</code></pre>
-
 <p>We recommend a single middleware class per combination of route and request
 method.</p>
 <h2 id="next-steps">Next Steps</h2>
@@ -1097,7 +1077,6 @@ function (
   Message\ResponseInterface $response,
   callable $next
 ) : Message\ResponseInterface</code></pre>
-
 <p>While this style of middleware is still quite wide-spread and used in a number
 of projects, it has some flaws. Chief among them is the fact that middleware
 should not rely on the <code>$response</code> instance provided to them (as it may have
@@ -1146,7 +1125,6 @@ class HelloAction implements MiddlewareInterface
         ));
     }
 }</code></pre>
-
 <p>The above looks for a query string parameter "target", and uses its value to
 provide a message, which is then returned in an HTML response.</p>
 <p>Now we need to inform the application of this middleware, and indicate what
@@ -1162,11 +1140,9 @@ Edit that file to add an <em>invokable</em> entry for the new middleware:</p>
         /* ... */
     ],
 ];</code></pre>
-
 <p>Now open the file <code>config/routes.php</code>, and add the following at the bottom of
 the file:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;get('/hello', App\Action\HelloAction::class, 'hello');</code></pre>
-
 <p>Once you've completed the above, give it a try by going to each of the
 following URIs:</p>
 <ul>
@@ -1185,7 +1161,6 @@ following contents:</p>
 <pre class="highlight"><code class="language-php">&lt;?php $this-&gt;layout('layout::default', ['title' =&gt; 'Greetings']) ?&gt;
 
 &lt;h2&gt;Hello, &lt;?= $this-&gt;e($target) ?&gt;&lt;/h2&gt;</code></pre>
-
 <p>Now that we have a template, we need to:</p>
 <ul>
 <li>Inject a renderer into our action class.</li>
@@ -1225,7 +1200,6 @@ class HelloAction implements MiddlewareInterface
         );
     }
 }</code></pre>
-
 <p>The above modifies the class to accept a renderer to the constructor, and then
 calls on it to render a template. Note that we no longer need to escape our
 target; the template takes care of that for us.</p>
@@ -1239,7 +1213,6 @@ based on reflecting a class; we'll use that to generate our factory. Navigate to
 root skeleton-app directory in the console and enter the following:</p>
 <pre class="highlight"><code class="language-bash">$ ./vendor/bin/generate-factory-for-class \
 &gt; "App\\Action\\HelloAction" &gt; ./src/App/src/Action/HelloActionFactory.php</code></pre>
-
 <blockquote>
 <p>For more information see <a href="https://docs.laminas.dev/laminas-servicemanager/console-tools/#generate-factory-for-class">generate-factory-for-class</a></p>
 </blockquote>
@@ -1261,7 +1234,6 @@ we created previously, and add a <code>factories</code> entry:</p>
         /* ... */
     ],
 ];</code></pre>
-
 <p>Save that file, and now re-visit the URIs:</p>
 <ul>
 <li>http://localhost:8080/hello</li>
@@ -1775,6 +1747,7 @@ Mezzio:</p>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1847,7 +1820,7 @@ Mezzio:</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

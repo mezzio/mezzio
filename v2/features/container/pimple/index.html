@@ -586,17 +586,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v2
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../../../v3/" class="dropdown-item">
@@ -739,7 +739,6 @@ features:</p>
 such, you need to install the <code>xtreamwayz/pimple-container-interop</code> project,
 which provides a PSR-11 container wrapper around Pimple v3:</p>
 <pre class="highlight"><code class="language-bash">$ composer require xtreamwayz/pimple-container-interop</code></pre>
-
 <h2 id="configuring-pimple">Configuring Pimple</h2>
 <p>To configure Pimple, instantiate it, and then add the factories desired. We
 recommend doing this in a dedicated script that returns the Pimple instance; in
@@ -796,7 +795,6 @@ $container[Mezzio\Middleware\ErrorResponseGenerator::class] = new Container\Whoo
 $container[Mezzio\Middleware\ErrorResponseGenerator::class] = new Container\ErrorResponseGeneratorFactory();
 
 return $container;</code></pre>
-
 <p>Your bootstrap (typically <code>public/index.php</code>) will then look like this:</p>
 <pre class="highlight"><code class="language-php">chdir(dirname(__DIR__));
 $container = require 'config/container.php';
@@ -807,7 +805,6 @@ require 'config/routes.php';
 
 // All versions:
 $app-&gt;run();</code></pre>
-
 <blockquote>
 <h3>Environments</h3>
 <p>In the example above, we provide two alternate definitions for the
@@ -1312,6 +1309,7 @@ environment variable.</p>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1384,7 +1382,7 @@ environment variable.</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

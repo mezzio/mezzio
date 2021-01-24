@@ -541,17 +541,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v1
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../../v3/" class="dropdown-item">
@@ -724,7 +724,6 @@ $plates-&gt;addPath(__DIR__ . '/templates/error', 'error');
 $finalHandler = new TemplatedErrorHandler($plates, 'error::404', 'error::500');
 
 $app = new Application($router, $container, $finalHandler);</code></pre>
-
 <p>The above will use the templates <code>error::404</code> and <code>error::500</code> for 404 and general errors,
 respectively, rendering them using our Plates template adapter.</p>
 <p>You can also use the <code>TemplatedErrorHandler</code> as a substitute for the <code>FinalHandler</code>, without using
@@ -740,7 +739,6 @@ uses its features for 404 status and non-exception errors. For exceptions, howev
 the whoops output. As such, it is a good choice for use in development.</p>
 <p>To use it, you must first install whoops:</p>
 <pre class="highlight"><code class="language-bash">$ composer require filp/whoops</code></pre>
-
 <p>Then you will need to provide the error handler a whoops runtime instance, as well as a
 <code>Whoops\Handler\PrettyPageHandler</code> instance. You can also optionally provide a <code>TemplateRendererInterface</code>
 instance and template names, just as you would for a <code>TemplatedErrorHandler</code>.</p>
@@ -773,7 +771,6 @@ $app = new Application($router, $container, $finalHandler);
 // swallow bootstrap errors.
 $whoops-&gt;register();
 $app-&gt;run();</code></pre>
-
 <p>The calls to <code>writeToOutput(false)</code>, <code>allowQuit(false)</code>, and <code>register()</code> must be made to guarantee
 whoops will interoperate well with mezzio.</p>
 <p>You can add more handlers if desired.</p>
@@ -1242,6 +1239,7 @@ container implementations to simplify setup.</p>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1314,7 +1312,7 @@ container implementations to simplify setup.</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

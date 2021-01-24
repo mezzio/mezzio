@@ -619,17 +619,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v3
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../../" class="dropdown-item active">
@@ -826,7 +826,6 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
     $app-&gt;pipe(NotFoundHandler::class);
 };</code></pre>
-
 <p>Any middleware or handler that responds to a path beginning with <code>/api/doc</code> will
 now have a <code>Mezzio\Helper\Template\TemplateVariableContainer</code> attribute
 that contains an instance of that class.</p>
@@ -861,7 +860,6 @@ class InjectUserAndRouteVariablesMiddleware implements MiddlewareInterface
         return $handler-&gt;handle($request);
     }
 }</code></pre>
-
 <p>In a handler, you will call <code>mergeForTemplate()</code> with any local variables you
 want to use, including those that might override the defaults:</p>
 <pre class="highlight"><code class="language-php">use Psr\Http\Message\ResponseFactoryInterface;
@@ -906,7 +904,6 @@ class SomeHandler implements RequestHandlerInterface
         return $this-&gt;responseFactory()-&gt;createResponse(200)-&gt;withBody($body);
     }
 }</code></pre>
-
 <p>The <code>TemplateVariableContainer</code> contains the following methods:</p>
 <ul>
 <li><code>count() : int</code>: return a count of variables in the container.</li>
@@ -1474,6 +1471,7 @@ pipeline.</p>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1546,7 +1544,7 @@ pipeline.</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

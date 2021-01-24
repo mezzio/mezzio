@@ -619,17 +619,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v3
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="v3/" class="dropdown-item">
@@ -799,7 +799,6 @@
 <h2 id="get-started-now">Get Started Now!</h2>
 <p>Installation is only a <a href="https://getcomposer.org">Composer</a> command away!</p>
 <pre class="highlight"><code class="language-bash">$ composer create-project mezzio/mezzio-skeleton mezzio</code></pre>
-
 <p>Mezzio provides interfaces for routing and templating, letting <em>you</em>
 choose what to use, and how you want to implement it.</p>
 <p>Our unique installer allows you to select <em>your</em> choices when starting
@@ -817,10 +816,8 @@ your project!</p>
 
     return new TextResponse('You visited ' . $path, 200, ['X-Path' =&gt; $path]);
 };</code></pre>
-
 <p>And add it to an application:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;get('/path', $pathMiddleware);</code></pre>
-
 <p><a href="v3/features/application/">Learn more</a></p>
 <h2 id="learn-more">Learn more</h2>
 <ul>
@@ -1364,6 +1361,7 @@ your project!</p>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1436,7 +1434,7 @@ your project!</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>
@@ -1484,5 +1482,5 @@ your project!</p>
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2020-09-04 17:34:12.049266+00:00
+Build Date UTC : 2021-01-24 21:17:30.291772+00:00
 -->

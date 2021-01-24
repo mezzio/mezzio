@@ -541,17 +541,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v1
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../../../v3/" class="dropdown-item">
@@ -746,7 +746,6 @@ order to seed the <code>Application</code> instance:</p>
     Mezzio\Container\ApplicationFactory::DISPATCH_MIDDLEWARE,
     [ /* ... */ ],
 ],</code></pre>
-
 <p>Each item of the array, other than the entries for routing and dispatch
   middleware, must be an array itself, with the following structure:</p>
 <pre class="highlight"><code class="language-php">[
@@ -757,7 +756,6 @@ order to seed the <code>Application</code> instance:</p>
     'error' =&gt; true,
     'priority' =&gt; 1, // Integer
 ],</code></pre>
-
 <p>The <code>middleware</code> key itself is the middleware to execute, and must be a
   callable or the name of another defined service. If the <code>path</code> key is present,
   that key will be used to segregate the middleware to a specific matched path
@@ -791,14 +789,13 @@ order to seed the <code>Application</code> instance:</p>
     ],
     // etc.
 ],</code></pre>
-
 <p>Each route <em>requires</em>:</p>
 <pre class="codehilite"><code>- `path`: the path to match. Format will be based on the router you choose for
   your project.
 
 - `middleware`: a callable or a service name for the middleware to execute
-  when the route matches.</code></pre>
-
+  when the route matches.
+</code></pre>
 
 <p>Optionally, the route definition may provide:</p>
 <pre class="codehilite"><code>- `allowed_methods`: an array of allowed HTTP methods. If not provided, the
@@ -809,8 +806,8 @@ order to seed the <code>Application</code> instance:</p>
 
 - `options`: a key/value set of additional options to pass to the underlying
   router implementation for the given route. (Typical use cases include
-  passing constraints or default values.)</code></pre>
-
+  passing constraints or default values.)
+</code></pre>
 
 <h2 id="templatederrorhandlerfactory">TemplatedErrorHandlerFactory</h2>
 <ul>
@@ -835,7 +832,6 @@ seed the <code>Templated</code> instance:</p>
         'template_error' =&gt; 'name of error template',
     ],
 ],</code></pre>
-
 <h2 id="whoopserrorhandlerfactory">WhoopsErrorHandlerFactory</h2>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\TemplatedErrorHandler</code></li>
@@ -883,7 +879,6 @@ for the <code>Mezzio\WhoopsPageHandler</code> service will be injected.</p>
         'ajax_only'  =&gt; true,
     ],
 ],</code></pre>
-
 <p>If no <code>whoops</code> top-level key is present in the configuration, a default instance
 with no <code>JsonResponseHandler</code> composed will be created.</p>
 <h2 id="whoopspagehandlerfactory">WhoopsPageHandlerFactory</h2>
@@ -902,7 +897,6 @@ with no <code>JsonResponseHandler</code> composed will be created.</p>
 <pre class="highlight"><code class="language-php">'whoops' =&gt; [
     'editor' =&gt; 'editor name, editor service name, or callable',
 ],</code></pre>
-
 <p>The <code>editor</code> value must be a known editor name (see the Whoops documentation for
 pre-configured editor types), a callable, or a service name to use.</p>
 <h2 id="platesrendererfactory">PlatesRendererFactory</h2>
@@ -928,7 +922,6 @@ pre-configured editor types), a callable, or a service name to use.</p>
         // strings or arrays of string paths to associate with the namespace.
     ],
 ]</code></pre>
-
 <p>One note: Due to a limitation in the Plates engine, you can only map one path
 per namespace when using Plates.</p>
 <h2 id="twigrendererfactory">TwigRendererFactory</h2>
@@ -962,7 +955,6 @@ per namespace when using Plates.</p>
         // strings or arrays of string paths to associate with the namespace.
     ],
 ]</code></pre>
-
 <p>When <code>debug</code> is true, it disables caching, enables debug mode, enables strict
 variables, and enables auto reloading. The <code>assets_*</code> values are used to seed
 the <code>TwigExtension</code> instance (assuming the router was found).</p>
@@ -999,7 +991,6 @@ the <code>TwigExtension</code> instance (assuming the router was found).</p>
         // strings or arrays of string paths to associate with the namespace.
     ],
 ]</code></pre>
-
 <p>When creating the <code>PhpRenderer</code> instance, it will inject it with a
 <code>Laminas\View\HelperPluginManager</code> instance (either pulled from the container, or
 instantiated directly). It injects the helper plugin manager with custom url and
@@ -1456,6 +1447,7 @@ serverurl helpers, <code>Mezzio\LaminasView\UrlHelper</code> and
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1528,7 +1520,7 @@ serverurl helpers, <code>Mezzio\LaminasView\UrlHelper</code> and
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

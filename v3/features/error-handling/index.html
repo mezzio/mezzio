@@ -619,17 +619,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v3
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../" class="dropdown-item active">
@@ -750,7 +750,6 @@
 gracefully recover. Additionally, we recommend that you have a reasonable PHP
 <code>error_reporting</code> setting that includes warnings and fatal errors:</p>
 <pre class="highlight"><code class="language-php">error_reporting(E_ALL &amp; ~E_USER_DEPRECATED &amp; ~E_DEPRECATED &amp; ~E_STRICT &amp; ~E_NOTICE);</code></pre>
-
 <p>If you follow these guidelines, you can then write or use middleware that does
 the following:</p>
 <ul>
@@ -783,11 +782,9 @@ the following:</p>
         $e-&gt;getTraceAsString()
     ), 500);
 }</code></pre>
-
 <p>You would then pipe this as the outermost (or close to outermost) layer of your
 application:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipe($errorMiddleware);</code></pre>
-
 <p>So that you do not need to do this, we provide an error handler for you, via
 laminas-stratigility: <code>Laminas\Stratigility\Middleware\ErrorHandler</code>.</p>
 <p>This implementation allows you to both:</p>
@@ -833,7 +830,6 @@ return [
         ],
     ],
 ];</code></pre>
-
 <blockquote>
 <h3>Use development mode configuration to enable whoops</h3>
 <p>You can specify the above in one of your <code>config/autoload/*.global.php</code> files,
@@ -852,7 +848,6 @@ return [
         ],
     ],
 ];</code></pre>
-
 <p>When you enable development mode, whoops will then be enabled; when you
 disable development mode, you'll be using your production generator.</p>
 <p>If you are not using laminas-development-mode, you can define a
@@ -869,7 +864,6 @@ the ability to do so via its <code>attachListener()</code> method.</p>
     ServerRequestInterface $request,
     ResponseInterface $response
 ) : void</code></pre>
-
 <p>The response provided is the response returned by your error response generator,
 allowing the listener the ability to introspect the generated response as well.</p>
 <p>As an example, you could create a logging listener as follows:</p>
@@ -908,7 +902,6 @@ class LoggingErrorListener
         ));
     }
 }</code></pre>
-
 <p>You could then use a <a href="../container/delegator-factories/">delegator factory</a> to
 create your logger listener and attach it to your error handler:</p>
 <pre class="highlight"><code class="language-php">namespace Acme;
@@ -927,7 +920,6 @@ class LoggingErrorListenerDelegatorFactory
         return $errorHandler;
     }
 }</code></pre>
-
 <h2 id="handling-more-specific-error-types">Handling more specific error types</h2>
 <p>You could also write more specific error handlers. As an example, you might want
 to catch <code>UnauthorizedException</code> instances specifically, and display a login
@@ -945,14 +937,12 @@ page:</p>
         401
     );
 }</code></pre>
-
 <p>You could then push this into a middleware pipe only when it's needed:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;get('/dashboard', [
     $unauthorizedHandlerMiddleware,
     $middlewareThatChecksForAuthorization,
     $middlewareBehindAuthorizationWall,
 ], 'dashboard');</code></pre>
-
 <h2 id="page-not-found">Page not found</h2>
 <p>Error handlers work at the outermost layer, and are used to catch exceptions and
 errors in your application. At the <em>innermost</em> layer of your application, you
@@ -976,7 +966,6 @@ $app-&gt;pipe(RouteMiddleware::class);
 // . . .
 $app-&gt;pipe(DispatchMiddleware::class);
 $app-&gt;pipe(NotFoundHandler::class);</code></pre>
-
 <p>If you wish to provide an alternate response status or use a canned response,
 you should provide your own handler and pipe it to your application.</p>
 
@@ -1508,6 +1497,7 @@ you should provide your own handler and pipe it to your application.</p>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -1580,7 +1570,7 @@ you should provide your own handler and pipe it to your application.</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>
