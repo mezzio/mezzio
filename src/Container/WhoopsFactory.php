@@ -15,8 +15,6 @@ use Whoops\Handler\JsonResponseHandler;
 use Whoops\Run as Whoops;
 use Whoops\Util\Misc as WhoopsUtil;
 
-use function method_exists;
-
 /**
  * Create and return an instance of the Whoops runner.
  *
@@ -81,15 +79,9 @@ class WhoopsFactory
         }
 
         if (! empty($config['json_exceptions']['ajax_only'])) {
-            if (method_exists(WhoopsUtil::class, 'isAjaxRequest')) {
-                // Whoops 2.x; don't push handler on stack unless we are in
-                // an XHR request.
-                if (! WhoopsUtil::isAjaxRequest()) {
-                    return;
-                }
-            } elseif (method_exists($handler, 'onlyForAjaxRequests')) {
-                // Whoops 1.x
-                $handler->onlyForAjaxRequests(true);
+            // Don't push handler on stack unless we are in a XHR request.
+            if (! WhoopsUtil::isAjaxRequest()) {
+                return;
             }
         }
 

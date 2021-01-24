@@ -23,7 +23,6 @@ use Whoops\RunInterface;
 use function get_class;
 use function gettype;
 use function is_object;
-use function method_exists;
 use function sprintf;
 
 class WhoopsErrorResponseGenerator
@@ -67,12 +66,7 @@ class WhoopsErrorResponseGenerator
 
             // Set Json content type header
             if ($handler instanceof JsonResponseHandler) {
-                $contentType = 'application/json';
-
-                // Whoops < 2.1.5 does not provide contentType method
-                if (method_exists($handler, 'contentType')) {
-                    $contentType = $handler->contentType();
-                }
+                $contentType = $handler->contentType();
 
                 $response = $response->withHeader('Content-Type', $contentType);
             }

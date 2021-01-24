@@ -106,11 +106,6 @@ parameters:
 			path: src/Container/WhoopsFactory.php
 
 		-
-			message: "#^Call to function method_exists\\(\\) with 'Whoops\\\\\\\\Util\\\\\\\\Misc' and 'isAjaxRequest' will always evaluate to true\\.$#"
-			count: 1
-			path: src/Container/WhoopsFactory.php
-
-		-
 			message: "#^Method Mezzio\\\\Container\\\\WhoopsPageHandlerFactory\\:\\:injectEditor\\(\\) has parameter \\$config with generic interface ArrayAccess but does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: src/Container/WhoopsPageHandlerFactory.php
@@ -167,11 +162,6 @@ parameters:
 
 		-
 			message: "#^Else branch is unreachable because ternary operator condition is always true\\.$#"
-			count: 1
-			path: src/Middleware/WhoopsErrorResponseGenerator.php
-
-		-
-			message: "#^Call to function method_exists\\(\\) with Whoops\\\\Handler\\\\JsonResponseHandler and 'contentType' will always evaluate to true\\.$#"
 			count: 1
 			path: src/Middleware/WhoopsErrorResponseGenerator.php
 
