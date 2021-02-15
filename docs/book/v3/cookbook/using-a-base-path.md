@@ -54,11 +54,11 @@ server {
 }
 ```
 
-<!-- > ### Using other web servers
+> ### Using other web servers
 >
-> If you are using a web-server other than Apache, and know how to do a similar
+> If you are using a web-server other than Apache or Nginx, and know how to do a similar
 > rewrite, we'd love to know! Please submit ideas/instructions to
-> [our issue tracker](https://github.com/mezzio/mezzio/issues)! -->
+> [our issue tracker](https://github.com/mezzio/mezzio/issues)!
 
 ## Use middleware to rewrite the path
 
