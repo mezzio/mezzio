@@ -16,7 +16,7 @@ where `/var/www` is the web root, and your Mezzio application is in the
 `mezzio/` subdirectory. How can you make your application work correctly in
 this environment?
 
-## .htaccess in the application root.
+## Using Apache
 
 If you are using Apache, your first step is to add an `.htaccess` file to your
 application root, with directives for rewriting to the `public/` directory:
@@ -26,11 +26,39 @@ RewriteEngine On
 RewriteRule (.*) ./public/$1
 ```
 
-> ### Using other web servers
+## Using Nginx
+If you are using Nginx, add a named location block to rewrite to the mezzio web root directory within the server context.
+
+```ApacheConf
+server {
+    root /var/www/;
+
+    location / {
+        try_files $uri /index.php @mezzio;
+    }
+
+    location @mezzio {
+        rewrite /(.*)$ /mezzio/public/index.php?/$1 last;
+    }
+
+    location ~ \.php {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+        internal;
+    }
+}
+```
+
+<!-- > ### Using other web servers
 >
 > If you are using a web-server other than Apache, and know how to do a similar
 > rewrite, we'd love to know! Please submit ideas/instructions to
-> [our issue tracker](https://github.com/mezzio/mezzio/issues)!
+> [our issue tracker](https://github.com/mezzio/mezzio/issues)! -->
 
 ## Use middleware to rewrite the path
 
