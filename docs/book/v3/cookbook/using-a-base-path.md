@@ -57,6 +57,8 @@ server {
 }
 ```
 
+More detail is provided on this in the [official Nginx documentation](https://nginx.org/en/docs/http/ngx_http_core_module.html#location).
+
 > ### Using other web servers
 >
 > If you are using a web-server other than Apache or Nginx, and know how to do a similar
