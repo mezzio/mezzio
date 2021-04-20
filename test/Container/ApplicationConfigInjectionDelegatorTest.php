@@ -94,7 +94,10 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         return $r->getValue($pipeline);
     }
 
-    public static function assertRoute($spec, array $routes) : void
+    /**
+     * @param (array|callable|string)[] $spec
+     */
+    public static function assertRoute(array $spec, array $routes) : void
     {
         Assert::assertThat(
             array_reduce($routes, function ($found, $route) use ($spec) {
@@ -158,7 +161,10 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     public function testInvocationAsDelegatorFactoryRaisesExceptionIfCallbackIsNotAnApplication() : void
     {
-        $callback = function () {
+        $callback = /**
+         * @return static
+         */
+        function (): self {
             return $this;
         };
         $factory = new ApplicationConfigInjectionDelegator();

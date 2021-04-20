@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace MezzioTest;
 
+use Laminas\Stdlib\ResponseInterface;
 use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
 use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
 use Laminas\Stratigility\MiddlewarePipe;
@@ -67,7 +68,7 @@ class MiddlewareFactoryTest extends TestCase
 
     public function testCallableDecoratesCallableMiddleware() : void
     {
-        $callable = function ($request, $handler) {
+        $callable = function ($request, $handler): void {
         };
 
         $middleware = $this->factory->callable($callable);
@@ -88,7 +89,7 @@ class MiddlewareFactoryTest extends TestCase
 
     public function testPrepareDecoratesCallables() : void
     {
-        $callable = function ($request, $handler) {
+        $callable = function ($request, $handler): void {
         };
 
         $middleware = $this->factory->prepare($callable);
@@ -164,7 +165,7 @@ class MiddlewareFactoryTest extends TestCase
     {
         yield 'service' => ['service', 'assertLazyLoadingMiddleware', 'service'];
 
-        $callable = function ($request, $handler) {
+        $callable = function ($request, $handler): void {
         };
         yield 'callable' => [$callable, 'assertCallableMiddleware', $callable];
 
@@ -195,7 +196,7 @@ class MiddlewareFactoryTest extends TestCase
 
     public function testPipelineAllowsPipingArraysOfMiddlewareAndCastsThemToInternalPipelines() : void
     {
-        $callable = function ($request, $handler) {
+        $callable = function ($request, $handler): void {
         };
         $middleware = new DispatchMiddleware();
 

@@ -15,6 +15,7 @@ use Laminas\Stratigility\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
+use Webmozart\Assert\Assert;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
@@ -93,6 +94,8 @@ class WhoopsErrorResponseGenerator
         $request = $request->getAttribute('originalRequest', false) ?: $request;
 
         $serverParams = $request->getServerParams();
+        Assert::isMap($serverParams);
+
         $scriptName = $serverParams['SCRIPT_NAME'] ?? '';
 
         $handler->addDataTable('Mezzio Application Request', [

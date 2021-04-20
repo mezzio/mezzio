@@ -262,7 +262,7 @@ class ApplicationConfigInjectionDelegator
         // $serial is used to ensure that items of the same priority are enqueued
         // in the order in which they are inserted.
         $serial = PHP_INT_MAX;
-        return function ($queue, $item) use (&$serial) {
+        return function (SplPriorityQueue $queue, array $item) use (&$serial): SplPriorityQueue {
             $priority = isset($item['priority']) && is_int($item['priority'])
                 ? $item['priority']
                 : 1;

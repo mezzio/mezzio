@@ -51,7 +51,7 @@ class ErrorHandlerFactoryTest extends TestCase
 
     public function testFactoryCreatesHandlerWithStratigilityGeneratorIfNoGeneratorServiceAvailable() : void
     {
-        $responseFactory = function () {
+        $responseFactory = function (): void {
         };
         $this->container->set(ResponseInterface::class, $responseFactory);
 
@@ -64,7 +64,7 @@ class ErrorHandlerFactoryTest extends TestCase
     public function testFactoryCreatesHandlerWithGeneratorIfGeneratorServiceAvailable() : void
     {
         $generator = $this->createMock(ErrorResponseGenerator::class);
-        $responseFactory = function () {
+        $responseFactory = function (): void {
         };
 
         $this->container->set(ErrorResponseGenerator::class, $generator);

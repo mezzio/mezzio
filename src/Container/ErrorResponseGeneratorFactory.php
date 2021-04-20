@@ -13,6 +13,7 @@ namespace Mezzio\Container;
 use Mezzio\Middleware\ErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
+use Webmozart\Assert\Assert;
 
 use function array_key_exists;
 
@@ -21,6 +22,7 @@ class ErrorResponseGeneratorFactory
     public function __invoke(ContainerInterface $container) : ErrorResponseGenerator
     {
         $config = $container->has('config') ? $container->get('config') : [];
+        Assert::isMap($config);
 
         $debug = $config['debug'] ?? false;
 

@@ -15,6 +15,7 @@ use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
 use Laminas\Stratigility\MiddlewarePipe;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Webmozart\Assert\Assert;
 
 use function array_shift;
 use function count;
@@ -136,6 +137,8 @@ class MiddlewareFactory
         ) {
             $middleware = array_shift($middleware);
         }
+
+        Assert::isIterable($middleware, 'Unexpected value provided to pipeline');
 
         $pipeline = new MiddlewarePipe();
         foreach ($middleware as $m) {

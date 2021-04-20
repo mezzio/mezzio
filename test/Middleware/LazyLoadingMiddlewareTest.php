@@ -38,7 +38,7 @@ class LazyLoadingMiddlewareTest extends TestCase
         $this->handler   = $this->createMock(RequestHandlerInterface::class);
     }
 
-    public function buildLazyLoadingMiddleware($middlewareName) : LazyLoadingMiddleware
+    public function buildLazyLoadingMiddleware(string $middlewareName) : LazyLoadingMiddleware
     {
         return new LazyLoadingMiddleware($this->container, $middlewareName);
     }
