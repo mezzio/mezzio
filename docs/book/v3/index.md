@@ -5,16 +5,16 @@ to provide a minimalist [PSR-15](http://www.php-fig.org/psr/psr-15/) middleware
 framework for PHP, with the following features:
 
 - Routing. Choose your own router; we support:
-    - [Aura.Router](https://github.com/auraphp/Aura.Router)
-    - [FastRoute](https://github.com/nikic/FastRoute)
-    - [laminas-router](https://github.com/laminas/laminas-router)
+  - [Aura.Router](https://github.com/auraphp/Aura.Router)
+  - [FastRoute](https://github.com/nikic/FastRoute)
+  - [laminas-router](https://github.com/laminas/laminas-router)
 - DI Containers, via [PSR-11 Container](https://www.php-fig.org/psr/psr-11/).
   All middleware composed in Mezzio may be retrieved from the composed
   container.
 - Optionally, templating. We support:
-    - [Plates](http://platesphp.com/)
-    - [Twig](http://twig.sensiolabs.org/)
-    - [laminas-view's PhpRenderer](https://docs.laminas.dev/laminas-view/)
+  - [Plates](http://platesphp.com/)
+  - [Twig](http://twig.sensiolabs.org/)
+  - [laminas-view's PhpRenderer](https://docs.laminas.dev/laminas-view/)
 - Error handling. Create templated error pages, or use tools like
   [whoops](https://github.com/filp/whoops) for debugging purposes.
 - Nested middleware applications. Write an application, and compose it later

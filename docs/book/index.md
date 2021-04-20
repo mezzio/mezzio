@@ -1,5 +1,7 @@
+<!-- markdownlint-disable-next-line MD041-->
 ## Features
 
+<!-- markdownlint-disable MD033-->
 <div class="features">
     <div class="row">
         <div class="col-sm-6 col-md-4 text-center">
@@ -72,17 +74,19 @@
     </div>
 </div>
 
+<!-- markdownlint-disable-next-line MD026-->
 ## Get Started Now!
 
 Installation is only a [Composer](https://getcomposer.org) command away!
 
+<!-- markdownlint-disable-next-line MD046-->
 ```bash
 $ composer create-project mezzio/mezzio-skeleton mezzio
 ```
 
 Mezzio provides interfaces for routing and templating, letting _you_
 choose what to use, and how you want to implement it.
-    
+
 Our unique installer allows you to select <em>your</em> choices when starting
 your project!
 
@@ -94,6 +98,7 @@ your project!
 
 Write middleware:
 
+<!-- markdownlint-disable-next-line MD046-->
 ```php
 $pathMiddleware = function (
     ServerRequestInterface $request,
@@ -108,6 +113,7 @@ $pathMiddleware = function (
 
 And add it to an application:
 
+<!-- markdownlint-disable-next-line MD046-->
 ```php
 $app->get('/path', $pathMiddleware);
 ```
@@ -116,7 +122,7 @@ $app->get('/path', $pathMiddleware);
 
 ## Learn more
 
-* [Features overview](v3/getting-started/features.md)
-* [Quick Start](v3/getting-started/quick-start.md)
+- [Features overview](v3/getting-started/features.md)
+- [Quick Start](v3/getting-started/quick-start.md)
 
 Or use the sidebar menu to navigate to the section you're interested in.
