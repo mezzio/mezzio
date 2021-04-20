@@ -61,7 +61,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
     {
         $config = [
             'whoops' => [
-                'editor' => function () {
+                'editor' => function (): void {
                 },
             ],
         ];
@@ -79,7 +79,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
     public function testWillInjectEditorAsAService() : void
     {
         $config = ['whoops' => ['editor' => 'custom']];
-        $editor = function () {
+        $editor = function (): void {
         };
         $this->container->set('config', $config);
         $this->container->set('custom', $editor);

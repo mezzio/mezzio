@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Mezzio\Container;
 
 use Psr\Container\ContainerInterface;
+use Webmozart\Assert\Assert;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Run as Whoops;
 use Whoops\Util\Misc as WhoopsUtil;
@@ -49,6 +50,8 @@ class WhoopsFactory
     public function __invoke(ContainerInterface $container) : Whoops
     {
         $config = $container->has('config') ? $container->get('config') : [];
+        Assert::isMap($config);
+
         $config = $config['whoops'] ?? [];
 
         $whoops = new Whoops();

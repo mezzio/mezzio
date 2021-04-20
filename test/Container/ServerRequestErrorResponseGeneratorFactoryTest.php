@@ -34,7 +34,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
     {
         $container = new InMemoryContainer();
 
-        $responseFactory = function () {
+        $responseFactory = function (): void {
         };
         $container->set(ResponseInterface::class, $responseFactory);
 
@@ -61,7 +61,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         $container->set('config', $config);
         $container->set(TemplateRendererInterface::class, $renderer);
 
-        $responseFactory = function () {
+        $responseFactory = function (): void {
         };
         $container->set(ResponseInterface::class, $responseFactory);
 

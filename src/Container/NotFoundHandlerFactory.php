@@ -14,6 +14,7 @@ use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
+use Webmozart\Assert\Assert;
 
 use function array_key_exists;
 
@@ -21,7 +22,9 @@ class NotFoundHandlerFactory
 {
     public function __invoke(ContainerInterface $container) : NotFoundHandler
     {
-        $config   = $container->has('config') ? $container->get('config') : [];
+        $config = $container->has('config') ? $container->get('config') : [];
+        Assert::isMap($config);
+
         $renderer = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
             : ($container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)

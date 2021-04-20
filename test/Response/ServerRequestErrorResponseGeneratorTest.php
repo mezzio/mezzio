@@ -36,7 +36,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
     public function setUp() : void
     {
         $this->response = $this->createMock(ResponseInterface::class);
-        $this->responseFactory = function () {
+        $this->responseFactory = function (): ResponseInterface {
             return $this->response;
         };
 

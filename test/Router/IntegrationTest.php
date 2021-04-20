@@ -33,6 +33,7 @@ use Mezzio\Router\RouterInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use function array_pop;
 use function sprintf;
@@ -48,7 +49,7 @@ class IntegrationTest extends TestCase
     public function setUp() : void
     {
         $this->response  = new Response();
-        $this->responseFactory = function () {
+        $this->responseFactory = function (): Response {
             return $this->response;
         };
     }
@@ -75,6 +76,8 @@ class IntegrationTest extends TestCase
 
     /**
      * Get the router adapters to test
+     *
+     * @psalm-return array<string, array{0: class-string}>
      */
     public function routerAdapters() : array
     {
@@ -277,14 +280,14 @@ class IntegrationTest extends TestCase
         $app->pipe(new DispatchMiddleware());
 
         $response = clone $this->response;
-        $app->route('/foo', function ($req, $handler) use ($response) {
+        $app->route('/foo', function ($req, $handler) use ($response): ResponseInterface {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware GET, POST');
             return $response->withBody($stream);
         }, ['GET', 'POST']);
 
         $deleteResponse = clone $this->response;
-        $app->route('/foo', function ($req, $handler) use ($deleteResponse) {
+        $app->route('/foo', function ($req, $handler) use ($deleteResponse): ResponseInterface {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware DELETE');
             return $deleteResponse->withBody($stream);
@@ -307,7 +310,10 @@ class IntegrationTest extends TestCase
     }
 
     /**
-     * @return iterable<string, string[]>
+     * @psalm-return iterable<string, array{
+     *     0: class-string,
+     *     1: RequestMethod::METHOD_*
+     * }>
      */
     public function routerAdaptersForHttpMethods() : iterable
     {
@@ -331,6 +337,7 @@ class IntegrationTest extends TestCase
 
     /**
      * @dataProvider routerAdaptersForHttpMethods
+     * @psalm-param RequestMethod::METHOD_* $method
      */
     public function testMatchWithAllHttpMethods(string $adapter, string $method) : void
     {
@@ -342,7 +349,7 @@ class IntegrationTest extends TestCase
 
         // Add a route with Mezzio\Router\Route::HTTP_METHOD_ANY
         $response = clone $this->response;
-        $app->route('/foo', function ($req, $handler) use ($response) {
+        $app->route('/foo', function ($req, $handler) use ($response): ResponseInterface {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware');
             return $response->withBody($stream);
@@ -356,6 +363,12 @@ class IntegrationTest extends TestCase
         $this->assertEquals('Middleware', (string) $result->getBody());
     }
 
+    /**
+     * @psalm-return array<string, array{
+     *     0: class-string,
+     *     1: RequestMethod::METHOD_*
+     * }>
+     */
     public function allowedMethod() : array
     {
         return [
@@ -370,6 +383,7 @@ class IntegrationTest extends TestCase
 
     /**
      * @dataProvider allowedMethod
+     * @psalm-param RequestMethod::METHOD_* $method
      */
     public function testAllowedMethodsWhenOnlyPutMethodSet(string $adapter, string $method) : void
     {
@@ -383,7 +397,7 @@ class IntegrationTest extends TestCase
         $app->pipe(new DispatchMiddleware());
 
         // Add a PUT route
-        $app->put('/foo', function ($req, $res, $next) {
+        $app->put('/foo', function ($req, $res, $next): ResponseInterface {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware');
             return $res->withBody($stream);

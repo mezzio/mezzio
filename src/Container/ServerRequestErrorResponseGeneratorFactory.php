@@ -14,13 +14,16 @@ use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
+use Webmozart\Assert\Assert;
 
 class ServerRequestErrorResponseGeneratorFactory
 {
     public function __invoke(ContainerInterface $container) : ServerRequestErrorResponseGenerator
     {
         $config = $container->has('config') ? $container->get('config') : [];
-        $debug  = $config['debug'] ?? false;
+        Assert::isMap($config);
+
+        $debug = $config['debug'] ?? false;
 
         $renderer = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)

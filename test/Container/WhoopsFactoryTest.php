@@ -41,7 +41,10 @@ class WhoopsFactoryTest extends TestCase
         $this->factory = new WhoopsFactory();
     }
 
-    public function assertWhoopsContainsHandler($type, Whoops $whoops, $message = null) : void
+    /**
+     * @param string $type
+     */
+    public function assertWhoopsContainsHandler(string $type, Whoops $whoops, $message = null) : void
     {
         $message = $message ?: sprintf('Failed to assert whoops runtime composed handler of type %s', $type);
         $r       = new ReflectionProperty($whoops, 'handlerStack');

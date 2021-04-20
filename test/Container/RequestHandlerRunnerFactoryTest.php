@@ -17,7 +17,6 @@ use Mezzio\Container\RequestHandlerRunnerFactory;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -75,7 +74,7 @@ class RequestHandlerRunnerFactoryTest extends TestCase
     public function registerServerRequestFactoryInContainer(InMemoryContainer $container) : callable
     {
         $request = $this->createMock(ServerRequestInterface::class);
-        $factory = function () use ($request) {
+        $factory = function () use ($request): ServerRequestInterface {
             return $request;
         };
         $container->set(ServerRequestInterface::class, $factory);
@@ -83,7 +82,10 @@ class RequestHandlerRunnerFactoryTest extends TestCase
         return $factory;
     }
 
-    public function registerServerRequestErrorResponseGeneratorInContainer(InMemoryContainer $container) : callable
+    /**
+     * @psalm-return \PHPUnit\Framework\MockObject\MockObject&ServerRequestErrorResponseGenerator
+     */
+    public function registerServerRequestErrorResponseGeneratorInContainer(InMemoryContainer $container)
     {
         $response = $this->createMock(ResponseInterface::class);
         $generator = $this->createMock(ServerRequestErrorResponseGenerator::class);
