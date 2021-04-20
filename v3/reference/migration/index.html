@@ -900,7 +900,7 @@ middleware.</p>
 <h2 id="signature-and-behavior-changes">Signature and behavior changes</h2>
 <p>The following signature changes were made that could affect <em>class extensions</em>
 and/or consumers.</p>
-<h3>Application</h3>
+<h3 id="application">Application</h3>
 <p><code>Mezzio\Application</code> was refactored dramatically for version 3.</p>
 <p>If you were instantiating it directly previously, the constructor arguments are
 now, in order:</p>
@@ -936,18 +936,18 @@ $app-&gt;get('/foo', doublePassMiddleware($someDoublePassMiddleware, new Respons
 <li><code>injectPipelineFromConfig()</code>: use the new <code>ApplicationConfigInjectionDelegator</code> and/or the static method of the same name it defines.</li>
 <li><code>injectRoutesFromConfig()</code>: use the new <code>ApplicationConfigInjectionDelegator</code> and/or the static method of the same name it defines.</li>
 </ul>
-<h3>ApplicationFactory</h3>
+<h3 id="applicationfactory">ApplicationFactory</h3>
 <p><code>Mezzio\Container\ApplicationFactory</code> no longer looks at the
 <code>mezzio.programmatic_pipeline</code> flag, nor does it inject pipeline
 middleware and/or routed middleware from configuration any longer.</p>
 <p>If you want to use configuration-driven pipelines and/or middleware, you may
 register the new class <code>Mezzio\Container\ApplicationConfigInjectionDelegator</code>
 as a delegator factory on the <code>Mezzio\Application</code> service.</p>
-<h3>NotFoundHandlerFactory</h3>
+<h3 id="notfoundhandlerfactory">NotFoundHandlerFactory</h3>
 <p><code>Mezzio\Container\NotFoundHandlerFactory</code> now returns an instance of
 <code>Mezzio\Handler\NotFoundHandler</code>, instead of
 <code>Mezzio\Middleware\NotFoundHandler</code> (which has been removed).</p>
-<h3>LazyLoadingMiddleware</h3>
+<h3 id="lazyloadingmiddleware">LazyLoadingMiddleware</h3>
 <p><code>Mezzio\Middleware\LazyLoadingMiddleware</code> now composes a
 <code>Mezzio\MiddlewareContainer</code> instance instead of a more general PSR-11
 container; this is to ensure that the value returned is a PSR-15

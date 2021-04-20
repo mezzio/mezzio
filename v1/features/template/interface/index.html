@@ -738,7 +738,7 @@ interface TemplateRendererInterface
     public function addDefaultParam($templateName, $param, $value);
 }</code></pre>
 <blockquote>
-<h3>Namespaces</h3>
+<h3 id="namespaces">Namespaces</h3>
 <p>Unfortunately, namespace syntax varies between different template engine
 implementations. As an example:</p>
 <ul>
@@ -787,7 +787,7 @@ the second argument to <code>render()</code>:</p>
 ]);</code></pre>
 <p>It is up to the underlying template engine to determine how to perform the
 injections.</p>
-<h3>Default params</h3>
+<h3 id="default-params">Default params</h3>
 <p>The <code>TemplateRendererInterface</code> defines the method <code>addDefaultParam()</code>. This
 method can be used to specify default parameters to use when rendering a
 template. The signature is:</p>
@@ -820,7 +820,7 @@ $content = $renderer-&gt;render('example', [
 <li>References to the "baz" variable will contain "bat".</li>
 </ul>
 <blockquote>
-<h4>Support for default params</h4>
+<h4 id="support-for-default-params">Support for default params</h4>
 <p>The support for default params will often be renderer-specific. The reason is
 because the <code>render()</code> signature does not specify a type for <code>$params</code>, in
 order to allow passing alternative arguments such as view models. In such

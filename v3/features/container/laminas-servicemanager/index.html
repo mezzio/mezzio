@@ -799,7 +799,7 @@ composer:</p>
 <h2 id="configuring-laminas-servicemanager">Configuring laminas-servicemanager</h2>
 <p>You can configure laminas-servicemanager either programmatically or via
 configuration. We'll show you both methods.</p>
-<h3>Programmatically</h3>
+<h3 id="programmatically">Programmatically</h3>
 <p>To use laminas-servicemanager programatically, you'll need to create a
 <code>Laminas\ServiceManager\ServiceManager</code> instance, and then start populating it.</p>
 <p>For this example, we'll assume your application configuration (used by several
@@ -878,7 +878,7 @@ require 'config/routes.php';
 
 // All versions:
 $app-&gt;run();</code></pre>
-<h3>Configuration-Driven Container</h3>
+<h3 id="configuration-driven-container">Configuration-Driven Container</h3>
 <p>Alternately, you can use a configuration file to define the container. As
 before, we'll define our configuration in <code>config/config.php</code>, and our
 <code>config/container.php</code> file will still return our service manager instance; we'll

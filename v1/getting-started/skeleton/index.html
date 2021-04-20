@@ -712,7 +712,7 @@ http://localhost:8080/ to see if your application responds correctly!</p>
 classes, and using configuration to map routes to middleware. It also provides a
 default structure for templates, if you choose to use them. Let's see how you
 can create first vanilla middleware, and then templated middleware.</p>
-<h3>Creating middleware</h3>
+<h3 id="creating-middleware">Creating middleware</h3>
 <p>The easiest way to create middleware is to create a class that defines an
 <code>__invoke()</code> method accepting a request, response, and callable "next" argument
 (for invoking the "next" middleware in the queue). The skeleton defines an <code>App</code>
@@ -775,7 +775,7 @@ following URIs:</p>
 <li>http://localhost:8080/hello?target=ME</li>
 </ul>
 <p>You should see the message change as you go between the two URIs!</p>
-<h3>Using templates</h3>
+<h3 id="using-templates">Using templates</h3>
 <p>You likely don't want to hardcode HTML into your middleware; so, let's use
 templates. This particular exercise assumes you chose to use the
 <a href="http://platesphp.com">Plates</a> integration.</p>

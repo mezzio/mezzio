@@ -776,7 +776,7 @@ router instance:</p>
 <pre class="highlight"><code class="language-php">$uri = $router-&gt;generateUri('foo-item', ['id' =&gt; 'bar']); // "/foo/bar"</code></pre>
 <p>You can omit the second argument if no substitutions are necessary.</p>
 <blockquote>
-<h3>Compose the router</h3>
+<h3 id="compose-the-router">Compose the router</h3>
 <p>For this to work, you'll need to compose the router instance in any class that
 requires the URI generation facility. Inject the
 <code>Mezzio\Router\RouterInterface</code> service in these situations.</p>

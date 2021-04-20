@@ -798,7 +798,7 @@ allowed:</p>
 <p>We recommend that if you plan on generating URIs for given routes, you provide a
 custom name.</p>
 <blockquote>
-<h4>Names must be unique</h4>
+<h4 id="names-must-be-unique">Names must be unique</h4>
 <p>In order for the URI generation functionality to work, routes must be uniquely
 named. This can be tricky when you use the same route path for multiple
 routes:</p>
@@ -817,7 +817,7 @@ router instance:</p>
 <pre class="highlight"><code class="language-php">$uri = $router-&gt;generateUri('foo-item', ['id' =&gt; 'bar']); // "/foo/bar"</code></pre>
 <p>You can omit the second argument if no substitutions are necessary.</p>
 <blockquote>
-<h3>Compose the router</h3>
+<h3 id="compose-the-router">Compose the router</h3>
 <p>For this to work, you'll need to compose the router instance in any class that
 requires the URI generation facility. Inject the
 <code>Mezzio\Router\RouterInterface</code> service in these situations.</p>

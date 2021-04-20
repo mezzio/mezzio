@@ -805,7 +805,7 @@ server</a>.</p>
 <p>This starts up a web server on localhost port 8080; browse to
 http://localhost:8080/ to see if your application responds correctly!</p>
 <blockquote>
-<h3>Setting a timeout</h3>
+<h3 id="setting-a-timeout">Setting a timeout</h3>
 <p>Composer commands time out after 300 seconds (5 minutes). On Linux-based
 systems, the <code>php -S</code> command that <code>composer serve</code> spawns continues running
 as a background process, but on other systems halts when the timeout occurs.</p>
@@ -819,7 +819,7 @@ the following will extend the timeout to a full day:</p>
 </blockquote>
 <h2 id="development-tools">Development Tools</h2>
 <p>We ship tools in our skeleton application to make development easier.</p>
-<h3>Development Mode</h3>
+<h3 id="development-mode">Development Mode</h3>
 <p><a href="https://github.com/laminas/laminas-development-mode">laminas-development-mode</a> allows
 you to enable and disable development mode from your cli.</p>
 <pre class="highlight"><code class="language-bash">$ composer development-enable  # enable development mode
@@ -828,24 +828,24 @@ $ composer development-status  # show development status</code></pre>
 <p>The development configuration is set in <code>config/autoload/development.local.php.dist</code>.
 It also allows you to specify configuration and modules that should only be enabled
 when in development, and not when in production.</p>
-<h3>Clear config cache</h3>
+<h3 id="clear-config-cache">Clear config cache</h3>
 <p>Production settings are the default, which means enabling the configuration cache.
 However, it must be easy for developers to clear the configuration cache. That's
 what this command does.</p>
 <pre class="highlight"><code class="language-bash">$ composer clear-config-cache</code></pre>
-<h3>Testing Your Code</h3>
+<h3 id="testing-your-code">Testing Your Code</h3>
 <p><a href="https://phpunit.de">PHPUnit</a> and
 <a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> are now
 installed by default. To execute tests and detect coding standards violations,
 run the following command:</p>
 <pre class="highlight"><code class="language-bash">$ composer check</code></pre>
-<h3>Security Advisories</h3>
+<h3 id="security-advisories">Security Advisories</h3>
 <p>We have included the <a href="https://github.com/Roave/SecurityAdvisories">security-advisories</a>
 package to notify you about installed dependencies with known security
 vulnerabilities. Each time you run <code>composer update</code>, <code>composer install</code>, or
 <code>composer require</code>, it prevents installation of software with known and
 documented security issues.</p>
-<h3>Tooling integration</h3>
+<h3 id="tooling-integration">Tooling integration</h3>
 <p>The skeleton ships with <a href="https://github.com/mezzio/mezzio-tooling">mezzio-tooling</a>
 by default, and integrates with it by exposing it via composer:</p>
 <pre class="highlight"><code class="language-bash">$ composer mezzio</code></pre>
@@ -865,7 +865,7 @@ and <a href="https://docs.laminas.dev/laminas-config-aggregator/">laminas-config
 packages; the <a href="https://github.com/mezzio/mezzio-tooling">mezzio-tooling</a>.
 package provides tools for creating and manipulating modules in your
 application.</p>
-<h3>Component Installer</h3>
+<h3 id="component-installer">Component Installer</h3>
 <p>Whenever you add a component or module that exposes itself as such, the
 <a href="https://docs.laminas.dev/laminas-component-installer/">laminas-component-installer</a>
 composer plugin will prompt you, asking if and where you want to inject its
@@ -873,7 +873,7 @@ configuration. This ensures that components are wired automatically for you.</p>
 <p>In most cases, you will choose to inject in the <code>config/config.php</code> file; for
 tools intended only for usage during development, choose
 <code>config/development.config.php.dist</code>.</p>
-<h3>Config Aggregator</h3>
+<h3 id="config-aggregator">Config Aggregator</h3>
 <p>The <a href="https://docs.laminas.dev/laminas-config-aggregator/">laminas-config-aggregator</a>
 library collects and merges configuration from different sources. It also supports
 configuration caching.</p>
@@ -903,7 +903,7 @@ $aggregator = new ConfigAggregator([
 return $aggregator-&gt;getMergedConfig();</code></pre>
 <p>The configuration is merged in the same order as it is passed, with later entries
 having precedence.</p>
-<h3>Config Providers</h3>
+<h3 id="config-providers">Config Providers</h3>
 <p><code>ConfigAggregator</code> works by aggregating "Config Providers" passed to its
 constructor. Each provider should be a callable class that requires no
 constructor parameters, where invocation returns a configuration array (or a PHP
@@ -967,7 +967,7 @@ class ConfigProvider
         ];
     }
 }</code></pre>
-<h3>mezzio module commands</h3>
+<h3 id="mezzio-module-commands">mezzio module commands</h3>
 <p>To aid in the creation, registration, and deregistration of modules in your
 application, you can use the CLI tooling provided by default. All commands are
 exposed via <code>composer mezzio</code>, and include the following:</p>
@@ -987,7 +987,7 @@ exposed via <code>composer mezzio</code>, and include the following:</p>
 <p>The skeleton makes the assumption that you will be writing your middleware as
 classes, and uses <a href="../../features/router/piping/">piping and routing</a> to add
 your middleware.</p>
-<h3>Piping</h3>
+<h3 id="piping">Piping</h3>
 <p><a href="../../features/router/piping/#piping">Piping</a> is a foundation feature of the
 underlying <a href="https://docs.laminas.dev/laminas-stratigility/">laminas-stratigility</a>
 implementation. You can setup the middleware pipeline in <code>config/pipeline.php</code>.
@@ -1073,7 +1073,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 
     $app-&gt;pipe(NotFoundHandler::class);
 };</code></pre>
-<h3>Routing</h3>
+<h3 id="routing">Routing</h3>
 <p><a href="../../features/router/piping/#routing">Routing</a> is an additional feature
 provided by Mezzio. Routing is setup in <code>config/routes.php</code>.</p>
 <p>You can setup routes with a single request method:</p>
@@ -1109,7 +1109,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 <h2 id="next-steps">Next Steps</h2>
 <p>The skeleton provides a default structure for templates, if you choose to use them.
 Let's see how you can create your first vanilla middleware, and templated middleware.</p>
-<h3>Creating middleware</h3>
+<h3 id="creating-middleware">Creating middleware</h3>
 <p>Middleware must implement <code>Psr\Http\Server\MiddlewareInterface</code>; this interface
 defines a single method, <code>process()</code>, which accepts a
 <code>Psr\Http\Message\ServerRequestInterface</code> instance and a
@@ -1143,7 +1143,7 @@ introspect the headers returned with the response using your browser's
 development tools, you'll now see the following entry:</p>
 <pre class="highlight"><code class="language-http">X-Clacks-Overhead: GNU Terry Pratchett</code></pre>
 <p>You've created your first middleware!</p>
-<h3>Creating request handlers</h3>
+<h3 id="creating-request-handlers">Creating request handlers</h3>
 <p>You may route to either middleware or request handlers. In this section, we'll
 define a request handler and route to it.</p>
 <p>Request handlers must implement <code>Psr\Http\Server\RequestHandlerInterface</code>; this
@@ -1172,7 +1172,7 @@ return new HtmlResponse($this-&gt;renderer-&gt;render(
     ['target' =&gt; $target]
 ));</code></pre>
 <blockquote>
-<h4>Templateless handler</h4>
+<h4 id="templateless-handler">Templateless handler</h4>
 <p>If you did not select a template engine when creating your application, the
 contents of your <code>handle()</code> method will be empty to begin.</p>
 <p>In that case, alter the above example as follows:</p>

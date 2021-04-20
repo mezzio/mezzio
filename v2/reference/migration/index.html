@@ -924,7 +924,7 @@ recommend updating them to instead typehint against PSR-11, which will allow
 you to drop the container-interop requirement once your chosen container
 implementation no longer requires it.</p>
 <blockquote>
-<h3>Do not update blindly!</h3>
+<h3 id="do-not-update-blindly">Do not update blindly!</h3>
 <p>If you are implementing interfaces from other packages in your factory
 implementations, be sure to check and see if those interfaces update to PSR-11
 before making changes.</p>
@@ -1203,7 +1203,7 @@ handling needs:</p>
 </ul>
 </li>
 </ul>
-<h3>Error handler configuration example</h3>
+<h3 id="error-handler-configuration-example">Error handler configuration example</h3>
 <p>If you are using configuration-driven middleware, your middleware pipeline
 configuration may look like this in order to make use of the new error handling
 facilities:</p>
@@ -1275,7 +1275,7 @@ $app-&gt;pipeRoutingMiddleware();
 $app-&gt;pipe(Helper\UrlHelperMiddleware::class);
 $app-&gt;pipeDispatchMiddleware();
 $app-&gt;pipe(Middleware\NotFoundHandler::class);</code></pre>
-<h3>Error handling and PHP errors</h3>
+<h3 id="error-handling-and-php-errors">Error handling and PHP errors</h3>
 <p>As noted above, <code>Laminas\Stratigility\Middleware\ErrorHandler</code> also creates a PHP
 error handler that casts PHP errors to <code>ErrorException</code> instances. More
 specifically, it uses the current <code>error_reporting</code> value to determine <em>which</em>
@@ -1287,7 +1287,7 @@ top of the file:</p>
 <pre class="highlight"><code class="language-php">error_reporting(error_reporting() &amp; ~E_USER_DEPRECATED);</code></pre>
 <p>This will prevent the error handler from casting deprecation notices to
 exceptions, while keeping the rest of your error reporting mask intact.</p>
-<h3>Removing legacy error middleware</h3>
+<h3 id="removing-legacy-error-middleware">Removing legacy error middleware</h3>
 <p>Stratigility version 1-style error middleware (middleware implementing
 <code>Laminas\Stratigility\ErrorMiddlewareInterface</code>, or duck-typing its signature,
 which included an <code>$error</code> argument as the first argument to the middleware) is
@@ -1357,7 +1357,7 @@ otherwise producing a plain text response.</p>
 <p>Application's built using the 2.0 version of the skeleton application will have
 these features enabled by default.</p>
 <blockquote>
-<h3>NotFoundDelegate and NotFoundHandler</h3>
+<h3 id="notfounddelegate-and-notfoundhandler">NotFoundDelegate and NotFoundHandler</h3>
 <p><code>Mezzio\Middleware\NotFoundHandler</code>, which is intended as innermost
 middleware for producing a 404 response, composes and proxies to a
 <code>NotFoundDelegate</code> instance to produce its response.</p>

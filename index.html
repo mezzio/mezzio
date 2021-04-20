@@ -723,7 +723,9 @@
 <p>PSR-15 Middleware in Minutes</p>
 
 
-    <h2 id="features">Features</h2>
+    <!-- markdownlint-disable-next-line MD041-->
+<h2 id="features">Features</h2>
+<!-- markdownlint-disable MD033-->
 <div class="features">
     <div class="row">
         <div class="col-sm-6 col-md-4 text-center">
@@ -796,8 +798,10 @@
     </div>
 </div>
 
+<!-- markdownlint-disable-next-line MD026-->
 <h2 id="get-started-now">Get Started Now!</h2>
 <p>Installation is only a <a href="https://getcomposer.org">Composer</a> command away!</p>
+<!-- markdownlint-disable-next-line MD046-->
 <pre class="highlight"><code class="language-bash">$ composer create-project mezzio/mezzio-skeleton mezzio</code></pre>
 <p>Mezzio provides interfaces for routing and templating, letting <em>you</em>
 choose what to use, and how you want to implement it.</p>
@@ -807,6 +811,7 @@ your project!</p>
 <p><a href="v3/getting-started/quick-start/">Learn more</a></p>
 <h2 id="applications-simplified">Applications, Simplified</h2>
 <p>Write middleware:</p>
+<!-- markdownlint-disable-next-line MD046-->
 <pre class="highlight"><code class="language-php">$pathMiddleware = function (
     ServerRequestInterface $request,
     RequestHandlerInterface $handler
@@ -817,6 +822,7 @@ your project!</p>
     return new TextResponse('You visited ' . $path, 200, ['X-Path' =&gt; $path]);
 };</code></pre>
 <p>And add it to an application:</p>
+<!-- markdownlint-disable-next-line MD046-->
 <pre class="highlight"><code class="language-php">$app-&gt;get('/path', $pathMiddleware);</code></pre>
 <p><a href="v3/features/application/">Learn more</a></p>
 <h2 id="learn-more">Learn more</h2>
@@ -1482,5 +1488,5 @@ your project!</p>
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-01-24 21:17:30.291772+00:00
+Build Date UTC : 2021-04-20 17:05:57.900399+00:00
 -->

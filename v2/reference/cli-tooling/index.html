@@ -902,7 +902,7 @@ syntax to retrieve them:</p>
 $originalUri = $request-&gt;getAttribute('originalUri', $request-&gt;getUri();
 $originalResponse = $request-&gt;getAttribute('originalResponse') ?: new Response();</code></pre>
 <blockquote>
-<h3>Original response is not trustworthy</h3>
+<h3 id="original-response-is-not-trustworthy">Original response is not trustworthy</h3>
 <p>As noted above, the "original response" will likely be injected with the
 response prototype from the <code>Application</code> instance. We recommend not using it,
 and instead either composing a pristine response instance in your middleware,

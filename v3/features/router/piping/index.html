@@ -782,7 +782,7 @@ will skip over that middleware.</p>
 This is done purposefully, to provide excellent baseline performance, and to
 prevent feature creep in the library.</p>
 <blockquote>
-<h4>Path segregation</h4>
+<h4 id="path-segregation">Path segregation</h4>
 <p>Internally, when <code>Application::pipe()</code> detects two arguments, it calls
 <code>Laminas\Stratigility\path()</code> using the two arguments in order to create a
 <code>Laminas\Stratigility\Middleware\PathMiddlewareDecorator</code> instance; this latter is

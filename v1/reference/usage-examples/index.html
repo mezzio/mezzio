@@ -699,14 +699,14 @@ managing an application.</p>
   and you have configured <a href="https://getcomposer.org/doc/01-basic-usage.md#autoloading">autoloading</a> in your <code>composer.json</code> for those classes.</li>
 </ul>
 <blockquote>
-<h3>Using the built-in web server</h3>
+<h3 id="using-the-built-in-web-server">Using the built-in web server</h3>
 <p>You can use the built-in web server to run the examples. Run:</p>
 <pre class="highlight"><code class="language-bash">$ php -S 0.0.0.0:8080 -t public</code></pre>
 <p>from the application root to start up a web server running on port 8080, and
 then browse to http://localhost:8080/. If you used the Mezzio installer,
 the following is equivalent:</p>
 <pre class="highlight"><code class="language-bash">$ composer serve</code></pre>
-<h3>Setting up autoloading for the Application namespace</h3>
+<h3 id="setting-up-autoloading-for-the-application-namespace">Setting up autoloading for the Application namespace</h3>
 <p>In your <code>composer.json</code> file, place the following:</p>
 <pre class="highlight"><code class="language-javascript">"autoload": {
     "psr-4": {
@@ -716,7 +716,7 @@ the following is equivalent:</p>
 <p>Once done, run:</p>
 <pre class="highlight"><code class="language-bash">$ composer dump-autoload</code></pre>
 </blockquote>
-<h3>Routing</h3>
+<h3 id="routing">Routing</h3>
 <p>As noted in the <a href="../../features/application/#adding-routable-middleware">Application documentation</a>,
 routing is abstracted and can be accomplished by calling any of the following
 methods:</p>
@@ -1020,7 +1020,7 @@ Postman, or some other tool to test making a POST request to the path:</p>
 <p>You should see <code>IN POST!</code> for the response!</p>
 <p>Using this approach, you can build re-usable applications that are
 container-driven, and add one-off routes and middleware as needed.</p>
-<h3>Using the container to register middleware</h3>
+<h3 id="using-the-container-to-register-middleware">Using the container to register middleware</h3>
 <p>If you use a container to fetch your application instance, you have an
 additional option for specifying middleware for the pipeline: configuration:</p>
 <pre class="highlight"><code class="language-php">&lt;?php
@@ -1084,7 +1084,7 @@ the factory and expanded:</p>
     ],
 ];</code></pre>
 <blockquote>
-<h4>Place routing middleware correctly</h4>
+<h4 id="place-routing-middleware-correctly">Place routing middleware correctly</h4>
 <p>If you are defining routes <em>and</em> defining other middleware for the pipeline,
 you <strong>must</strong> add the routing middleware. When you do so, make sure you put
 it at the appropriate location in the pipeline.</p>
@@ -1121,7 +1121,7 @@ constants in such arrays as well:</p>
     ],
 ];</code></pre>
 <blockquote>
-<h4>Pipeline keys are ignored</h4>
+<h4 id="pipeline-keys-are-ignored">Pipeline keys are ignored</h4>
 <p>Keys in a <code>middleware_pipeline</code> specification are ignored. However, they can
 be useful when merging several configurations; if multiple configuration files
 specify the same key, then those entries will be merged. Be aware, however,
@@ -1136,7 +1136,7 @@ application that match a common path root.</p>
 <p><code>error</code> indicates whether or not the middleware represents error middleware;
 this is done to ensure that lazy-loading of error middleware works as expected.</p>
 <blockquote>
-<h4>Lazy-loaded Middleware</h4>
+<h4 id="lazy-loaded-middleware">Lazy-loaded Middleware</h4>
 <p>One feature of the <code>middleware_pipeline</code> is that any middleware service pulled
 from the container is actually wrapped in a closure:</p>
 <pre class="highlight"><code class="language-php">function ($request, $response, $next = null) use ($container, $middleware) {

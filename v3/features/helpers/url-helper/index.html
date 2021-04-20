@@ -814,12 +814,12 @@ $url = $helper('resource', ['id' =&gt; 'sha1']);</code></pre>
 <li>The given <code>$routeName</code> is not defined in the router.</li>
 </ul>
 <blockquote>
-<h3>Signature changes</h3>
+<h3 id="signature-changes">Signature changes</h3>
 <p>The signature listed above is current as of version 3.0.0 of
 mezzio/mezzio-helpers. Prior to that version, the helper only
 accepted the route name and route parameters.</p>
 </blockquote>
-<h3>Other methods available</h3>
+<h3 id="other-methods-available">Other methods available</h3>
 <ul>
 <li><code>getRouteResult() : ?Mezzio\Router\RouteResult</code> (since
   mezzio-helpers 5.2.0): if you want access to the result of routing —
@@ -835,7 +835,7 @@ if ($routeResult-&gt;isSuccess()) {
     $templateParams['route']        = $routeResult-&gt;getMatchedRouteName();
     $templateParams['route_params'] = $routeResult-&gt;getMatchedParams();
 }</code></pre>
-<h3>Registering the pipeline middleware</h3>
+<h3 id="registering-the-pipeline-middleware">Registering the pipeline middleware</h3>
 <p>For the <code>UrlHelper</code> to work, you must first register the <code>UrlHelperMiddleware</code>
 as pipeline middleware following the routing middleware, and before the dispatch
 middleware:</p>
@@ -847,7 +847,7 @@ $app-&gt;pipe(RouteMiddleware::class);
 $app-&gt;pipe(UrlHelperMiddleware::class);
 $app-&gt;pipe(DispatchMiddleware::class);</code></pre>
 <blockquote>
-<h4>Skeleton configures helpers</h4>
+<h4 id="skeleton-configures-helpers">Skeleton configures helpers</h4>
 <p>If you started your project using the Mezzio skeleton package, the
 <code>UrlHelper</code> and <code>UrlHelperMiddleware</code> factories are already registered for
 you, as is the <code>UrlHelperMiddleware</code> pipeline middleware.</p>

@@ -826,7 +826,7 @@ if it is not added for you during installation.</p>
 <pre class="highlight"><code class="language-php">if (! empty($container-&gt;get('config')['debug'])) {
     $app-&gt;pipe(PhpDebugBarMiddleware::class);
 }</code></pre>
-<h3>Usage in a Request Handler</h3>
+<h3 id="usage-in-a-request-handler">Usage in a Request Handler</h3>
 <p>You can add messages to the debug bar within request handlers and middleware. As
 an example, in your <code>src/App/Handler/HomePageHandler.php</code>, you might do the
 following:</p>
@@ -859,7 +859,7 @@ class HomePageHandler implements RequestHandlerInterface
     }
 }</code></pre>
 <blockquote>
-<h3>Only use in development</h3>
+<h3 id="only-use-in-development">Only use in development</h3>
 <p>Remember to enable <code>PhpMiddleware\PhpDebugBar\ConfigProvider</code> only in your
 development environments, and to remove references to the <code>DebugBar</code> class in
 production!</p>

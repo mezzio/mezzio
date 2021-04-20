@@ -811,7 +811,7 @@ return [
 use the following:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipe(OriginalMessages::class);
 /* all other middleware */</code></pre>
-<h3>Identifying and fixing getOriginal calls</h3>
+<h3 id="identifying-and-fixing-getoriginal-calls">Identifying and fixing getOriginal calls</h3>
 <p>To help you identify and update calls in your own code to the <code>getOriginal*()</code>
 methods, we provide a tool via the <a href="https://github.com/mezzio/mezzio-tooling">mezzio/mezzio-tooling</a>
 package, <code>vendor/bin/mezzio-migrate-original-messages</code>.</p>
@@ -972,7 +972,7 @@ middleware. This will require two things:</p>
   thus a 404 condition.</li>
 </ul>
 <p>The below sections detail approaches to each.</p>
-<h3>Error handling middleware</h3>
+<h3 id="error-handling-middleware">Error handling middleware</h3>
 <p>Error handling middleware generally will look something like this:</p>
 <pre class="highlight"><code class="language-php">function (
     ServerRequestInterface $request,
@@ -1096,7 +1096,7 @@ section, you can use the following:</p>
 
 $app-&gt;pipe(ErrorHandler::class);
 // add all other middleware after it</code></pre>
-<h3>Not Found middleware</h3>
+<h3 id="not-found-middleware">Not Found middleware</h3>
 <p>At the innermost layer of your application, you need middleware guaranteed to
 return a response; typically, this indicates a failure to route the request,
 and, as such, an HTTP 404 response.  <code>Laminas\Stratigility\Middleware\NotFoundHandler</code>
@@ -1184,7 +1184,7 @@ return [
 
 // all other pipeline directives, and then:
 $app-&gt;pipe(TemplatedNotFoundHandler::class);</code></pre>
-<h3>Detecting error middleware usage</h3>
+<h3 id="detecting-error-middleware-usage">Detecting error middleware usage</h3>
 <p>If you use the new error handling paradigm, we recommend that you also audit
 your application for legacy Stratigility error middleware, as well as invocation
 of error middleware. To do this, we provide a tool via the

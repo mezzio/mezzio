@@ -803,7 +803,7 @@ $renderer-&gt;setResolver($resolver);
 // Inject:
 $renderer = new LaminasViewRenderer($renderer);</code></pre>
 <blockquote>
-<h3>Namespaced path resolving</h3>
+<h3 id="namespaced-path-resolving">Namespaced path resolving</h3>
 <p>Mezzio defines a custom laminas-view resolver,
 <code>Mezzio\LaminasView\NamespacedPathStackResolver</code>. This resolver
 provides the ability to segregate paths by namespace, and later resolve a
@@ -840,12 +840,12 @@ render in order to provide content within the selected layout.</p>
   <code>addDefaultParam()</code> or via the template variables for the <code>layout</code> key; doing
   so will disable the layout.</li>
 </ul>
-<h3>Layout name passed to constructor</h3>
+<h3 id="layout-name-passed-to-constructor">Layout name passed to constructor</h3>
 <pre class="highlight"><code class="language-php">use Mezzio\LaminasView\LaminasViewRenderer;
 
 // Create the engine instance with a layout name:
 $renderer = new LaminasViewRenderer(null, 'layout::layout');</code></pre>
-<h3>Layout view model passed to constructor</h3>
+<h3 id="layout-view-model-passed-to-constructor">Layout view model passed to constructor</h3>
 <pre class="highlight"><code class="language-php">use Laminas\View\Model\ViewModel;
 use Mezzio\LaminasView\LaminasViewRenderer;
 
@@ -858,12 +858,12 @@ $layout-&gt;setTemplate('layout::layout');
 
 // Create the engine instance with the layout:
 $renderer = new LaminasViewRenderer(null, $layout);</code></pre>
-<h3>Provide a layout name when rendering</h3>
+<h3 id="provide-a-layout-name-when-rendering">Provide a layout name when rendering</h3>
 <pre class="highlight"><code class="language-php">$content = $renderer-&gt;render('blog/entry', [
     'layout' =&gt; 'layout::blog',
     'entry'  =&gt; $entry,
 ]);</code></pre>
-<h3>Provide a layout view model when rendering</h3>
+<h3 id="provide-a-layout-view-model-when-rendering">Provide a layout view model when rendering</h3>
 <pre class="highlight"><code class="language-php">use Laminas\View\Model\ViewModel;
 
 // Create the layout view model:

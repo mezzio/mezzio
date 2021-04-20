@@ -696,7 +696,7 @@ The above defines a route that will match any of the following:</p>
 <p>The <code>action</code> attribute can thus be one of <code>add</code> or <code>edit</code>, and we can optionally
 also receive an <code>id</code> attribute (in the latter example, it would be <code>3</code>).</p>
 <blockquote>
-<h3>Routing definitions may vary</h3>
+<h3 id="routing-definitions-may-vary">Routing definitions may vary</h3>
 <p>Depending on the router you chose when starting your project, your routing
 definition may differ. The above example uses the default <code>FastRoute</code>
 implementation.</p>
@@ -798,7 +798,7 @@ concatenates it with the word <code>Action</code>. It then uses this value to de
 a corresponding method exists in the current class, and, if so, calls it with
 the arguments it received; otherwise, it returns a 404 response.</p>
 <blockquote>
-<h3>Invoking the error stack</h3>
+<h3 id="invoking-the-error-stack">Invoking the error stack</h3>
 <p>Instead of returning a 404 response, you could also invoke <code>$next()</code> with an
 error:</p>
 <pre class="highlight"><code class="language-php">return $next($request, $response, new NotFoundError());</code></pre>
@@ -829,7 +829,7 @@ class AlbumPage extends AbstractPage
     public function editAction( /* ... */ ) { /* ... */ }
 }</code></pre>
 <blockquote>
-<h3>Or use a trait</h3>
+<h3 id="or-use-a-trait">Or use a trait</h3>
 <p>As an alternative to an abstract class, you could define the <code>__invoke()</code>
 logic in a trait, which you then compose into your middleware:</p>
 <pre class="highlight"><code class="language-php">namespace App\Action;

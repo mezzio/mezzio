@@ -820,7 +820,7 @@ return [
 below.</p>
 <h2 id="shipped-extensions">Shipped Extensions</h2>
 <p>mezzio-plates provides the following extensions.</p>
-<h3>UrlExtension</h3>
+<h3 id="urlextension">UrlExtension</h3>
 <p><code>Mezzio\Plates\Extension\UrlExtension</code> composes each of the
 <a href="../../helpers/url-helper/">UrlHelper</a> and <a href="../../helpers/server-url-helper/">ServerUrlHelper</a>,
 and provides the following template methods:</p>
@@ -846,7 +846,7 @@ $route       = $routingIsValid ? $routing-&gt;getMatchedRouteName() : 'blog';
 $routeParams = $routingIsValid ? $routing-&gt;getMatchedParams() : [];
 ?&gt;
 &lt;a href="&lt;?= $this-&gt;url($route, $routeParams) ?&gt;"&gt;For more information&lt;/a&gt;</code></pre>
-<h3>EscaperExtension</h3>
+<h3 id="escaperextension">EscaperExtension</h3>
 <p><code>Mezzio\Plates\Extension\EscaperExtension</code> proxies to functionality
 provided in the <a href="https://docs.laminas.dev/laminas-escaper/">laminas-escaper</a>
 package. It looks for the following configuration in the <code>config</code> service:</p>

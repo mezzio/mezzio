@@ -797,7 +797,7 @@ class PipelineAndRoutesDelegator
     }
 }</code></pre>
 <blockquote>
-<h3>Where to put the factory</h3>
+<h3 id="where-to-put-the-factory">Where to put the factory</h3>
 <p>You will place the factory class in one of the following locations:</p>
 <ul>
 <li><code>src/App/Factory/PipelineAndRoutesDelegator.php</code> if using the default, flat,
@@ -820,7 +820,7 @@ update the <code>getDependencies()</code> method to add the delegator factory:</
     ];
 }</code></pre>
 <blockquote>
-<h3>Where is the ConfigProvider class?</h3>
+<h3 id="where-is-the-configprovider-class">Where is the ConfigProvider class?</h3>
 <p>The <code>ConfigProvider</code> class is in one of the following locations:</p>
 <ul>
 <li><code>src/App/ConfigProvider.php</code> if using the default, flat, application
@@ -828,7 +828,7 @@ update the <code>getDependencies()</code> method to add the delegator factory:</
 <li><code>src/App/src/ConfigProvider.php</code> using the recommended, modular, application
   structure.</li>
 </ul>
-<h3>Why is an array assigned?</h3>
+<h3 id="why-is-an-array-assigned">Why is an array assigned?</h3>
 <p>As noted above in the description of delegator factories, since each delegator
 factory returns an instance, you can nest multiple delegator factories in
 order to shape initialization of a service. As such, they are assigned as an

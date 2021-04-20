@@ -752,7 +752,7 @@ both sets of middleware, and ensuring they are in the correct order.
 Additionally, since one goal of splitting the middleware is to allow
 <em>substitutions</em> for these responsibilities, auto-injection could in some cases
 be undesired. As a result, we now require you to inject each manually.</p>
-<h3>Impact</h3>
+<h3 id="impact">Impact</h3>
 <p>This change will require changes in your application.</p>
 <ol>
 <li>If you are using Mezzio programmatically (i.e., you are not using
@@ -829,7 +829,7 @@ you to update your application.</p>
   priority are executed in the order they are registered. Priority is now how
   you can indicate the order in which middleware should execute.</li>
 </ul>
-<h3>Impact</h3>
+<h3 id="impact_1">Impact</h3>
 <p>While the configuration from RC5 and earlier will continue to work, it will
 raise deprecation notices. As such, you will need to update your configuration
 to follow the guidelines created with RC6.</p>
@@ -981,7 +981,7 @@ priority, you can simplify adding new middleware, particularly if you know it
 should execute before routing, or as error middleware, or between routing and
 dispatch.</p>
 <blockquote>
-<h4>Keys are ignored</h4>
+<h4 id="keys-are-ignored">Keys are ignored</h4>
 <p>The above example provides keys for each middleware specification. The factory
 will ignore these, but they can be useful for cases when you might want to
 specify configuration in multiple files, and merge specific entries together.
@@ -1002,7 +1002,7 @@ observers:</p>
   method. This middleware must be piped separately to the middleware pipeline
   for it to trigger.</li>
 </ul>
-<h3>Impact</h3>
+<h3 id="impact_2">Impact</h3>
 <p>If you are using any route result observers, you will need to ensure your
 application notifies them, and you will want to migrate to alternative solutions
 to ensure your functionality continues to work.</p>

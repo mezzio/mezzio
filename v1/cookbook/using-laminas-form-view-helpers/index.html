@@ -747,7 +747,7 @@ operate on the same principle: they intercept after the original factory was
 called, and then operate on the generated instance, either modifying or
 replacing it. We'll demonstrate this for laminas-servicemanager and Pimple; at the
 time of writing, we're unaware of a mechanism for doing so in Aura.Di.</p>
-<h3>laminas-servicemanager</h3>
+<h3 id="laminas-servicemanager">laminas-servicemanager</h3>
 <p>You'll first need to create a delegator factory:</p>
 <pre class="highlight"><code class="language-php">namespace Your\Application;
 
@@ -811,7 +811,7 @@ returns the plugin manager instance.</p>
 <p>Note: delegator factories are keyed by the service they modify, and the value is
 an <em>array</em> of delegator factories, to allow multiple such factories to be in
 use.</p>
-<h3>Pimple</h3>
+<h3 id="pimple">Pimple</h3>
 <p>For Pimple, we don't currently support configuration of service extensions, so
 you'll need to edit the main container configuration file,
 <code>config/container.php</code>. Place the following anywhere after the factories and

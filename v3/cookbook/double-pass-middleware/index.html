@@ -748,7 +748,7 @@ request handlers exclusively as of version 3.</p>
 number of third-party packages provided double-pass middleware. How can you use
 this middleware with Mezzio 3?</p>
 <blockquote>
-<h3>What is Double-Pass Middleware?</h3>
+<h3 id="what-is-double-pass-middleware">What is Double-Pass Middleware?</h3>
 <p>Double pass middleware receives both the request and a response in addition to
 the handler, and passes both the request and response to the handler when
 invoking it:</p>
@@ -794,7 +794,7 @@ provided by a third-party implementation?</p>
 <li>Use a <a href="../../features/container/delegator-factories/">delegator factory</a> to
   decorate the middleware.</li>
 </ul>
-<h3>Decorating via factory</h3>
+<h3 id="decorating-via-factory">Decorating via factory</h3>
 <p>If you have control of the factory that creates the double-pass middleware you
 will be using in your application, you can use the strategy outlined above to
 decorate your middleware before returning it, with one minor change: you can
@@ -825,7 +825,7 @@ we pull it, and then invoke it to produce the response instance for our
 double-pass middleware.</p>
 <p>This approach will work, but it means code duplication everywhere you have
 double-pass middleware. Let's look at the delegator factory solution.</p>
-<h3>Decorating via delegator factory</h3>
+<h3 id="decorating-via-delegator-factory">Decorating via delegator factory</h3>
 <p>Delegator factories can be re-used for multiple services. In our case, we'll
 re-use it to decorate double-pass middleware.</p>
 <p>The delegator factory would look like this:</p>
@@ -866,7 +866,7 @@ provide configuration like the following:</p>
   contribute PSR-15 patches to, or potentially migrate away from, or middleware
   of our own we need to refactor.</li>
 </ul>
-<h3>Extending the MiddlewareContainer</h3>
+<h3 id="extending-the-middlewarecontainer">Extending the MiddlewareContainer</h3>
 <p>Another possibility is to extend <code>Mezzio\MiddlewareContainer</code> to add
 awareness of double-pass middleware, and have it auto-decorate them for you.</p>
 <p>A contributor has created such a library:</p>

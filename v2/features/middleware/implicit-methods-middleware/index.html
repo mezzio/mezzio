@@ -731,7 +731,7 @@ requests. The HTTP/1.1 specifications indicate that all server implementations
 layer, and middleware that can detect <em>implicit</em>  support for these methods
 (i.e., the route was not registered <em>explicitly</em> with the method).</p>
 <blockquote>
-<h3>Versions prior to 2.2</h3>
+<h3 id="versions-prior-to-22">Versions prior to 2.2</h3>
 <p>If you are using Mezzio versions earlier than 2.2, you may define a
 <code>Mezzio\Middleware\ImplicitHeadMiddleware</code> or
 <code>Mezzio\Middleware\ImplicitOptionsMiddleware</code> service under the
@@ -786,7 +786,7 @@ composed response (either the one injected at instantiation, or an empty
 instance). However, if <code>GET</code> is supported, it will dispatch the next layer, but
 with a <code>GET</code> request instead of <code>HEAD</code>; additionally, it will inject the
 returned response with an empty response body before returning it.</p>
-<h3>Detecting forwarded requests</h3>
+<h3 id="detecting-forwarded-requests">Detecting forwarded requests</h3>
 <ul>
 <li>Since 2.1.0</li>
 </ul>

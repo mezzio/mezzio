@@ -766,7 +766,7 @@ application.</p>
 <p>All factories, unless noted otherwise, are in the <code>Mezzio\Container</code>
 namespace, and define an <code>__invoke()</code> method that accepts an
 <code>Psr\Container\ContainerInterface</code> instance as the sole argument.</p>
-<h3>ApplicationFactory</h3>
+<h3 id="applicationfactory">ApplicationFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Application</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\Application</code></li>
@@ -780,7 +780,7 @@ namespace, and define an <code>__invoke()</code> method that accepts an
 </li>
 <li><strong>Optional</strong>: no optional services are used.</li>
 </ul>
-<h3>ApplicationPipelineFactory</h3>
+<h3 id="applicationpipelinefactory">ApplicationPipelineFactory</h3>
 <ul>
 <li><strong>Provides</strong>: a <code>Laminas\Stratigility\MiddlewarePipe</code> for use with the
   <code>Application</code> instance.</li>
@@ -788,7 +788,7 @@ namespace, and define an <code>__invoke()</code> method that accepts an
 <li><strong>Requires</strong>: no additional services are required.</li>
 <li><strong>Optional</strong>: no optional services are used.</li>
 </ul>
-<h3>EmitterFactory</h3>
+<h3 id="emitterfactory">EmitterFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Laminas\HttpHandlerRunner\Emitter\EmitterInterface</code></li>
 <li><strong>Suggested Name</strong>: <code>Laminas\HttpHandlerRunner\Emitter\EmitterInterface</code></li>
@@ -798,7 +798,7 @@ namespace, and define an <code>__invoke()</code> method that accepts an
 <p>This factory creates an instance of
 <code>Laminas\HttpHandlerRunner\Emitter\EmitterStack</code>, pushing a
 <code>Laminas\HttpHandlerRunner\Emitter\SapiEmitter</code> to it.</p>
-<h3>ErrorHandlerFactory</h3>
+<h3 id="errorhandlerfactory">ErrorHandlerFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Laminas\Stratigility\Middleware\ErrorHandler</code></li>
 <li><strong>Suggested Name</strong>: <code>Laminas\Stratigility\Middleware\ErrorHandler</code></li>
@@ -815,7 +815,7 @@ namespace, and define an <code>__invoke()</code> method that accepts an
 </ul>
 </li>
 </ul>
-<h3>ErrorResponseGeneratorFactory</h3>
+<h3 id="errorresponsegeneratorfactory">ErrorResponseGeneratorFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Middleware\ErrorResponseGenerator</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\Middleware\ErrorResponseGenerator</code></li>
@@ -851,7 +851,7 @@ namespace, and define an <code>__invoke()</code> method that accepts an
         'layout' =&gt; 'layout::alternate',
     ],
 ],</code></pre>
-<h3>MiddlewareContainerFactory</h3>
+<h3 id="middlewarecontainerfactory">MiddlewareContainerFactory</h3>
 <ul>
 <li><strong>Provides</strong>: a <code>Mezzio\MiddlewareContainer</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\MiddlewareContainer</code></li>
@@ -869,7 +869,7 @@ instances pulled are PSR-15 <code>MiddlewareInterface</code> instances:</p>
 <li>Any service retrieved that is not a <code>MiddlewareInterface</code> instance will result
   in an exception, ensuring that nothing invalid is piped or routed.</li>
 </ul>
-<h3>MiddlewareFactoryFactory</h3>
+<h3 id="middlewarefactoryfactory">MiddlewareFactoryFactory</h3>
 <ul>
 <li><strong>Provides</strong>: a <code>Mezzio\MiddlewareFactory</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\MiddlewareFactory</code></li>
@@ -890,7 +890,7 @@ instances pulled are PSR-15 <code>MiddlewareInterface</code> instances:</p>
   instance (which will also receive the <code>MiddlewareContainer.</code>)</li>
 <li>Or an <code>array</code> of any of the above types.</li>
 </ul>
-<h3>NotFoundHandlerFactory</h3>
+<h3 id="notfoundhandlerfactory">NotFoundHandlerFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Handler\NotFoundHandler</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\Handler\NotFoundHandler</code></li>
@@ -930,7 +930,7 @@ instances pulled are PSR-15 <code>MiddlewareInterface</code> instances:</p>
         'layout' =&gt; 'layout::alternate',
     ],
 ],</code></pre>
-<h3>RequestHandlerRunnerFactory</h3>
+<h3 id="requesthandlerrunnerfactory">RequestHandlerRunnerFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Laminas\HttpHandler\RequestHandlerRunner</code></li>
 <li><strong>Suggested Name</strong>: <code>Laminas\HttpHandler\RequestHandlerRunner</code></li>
@@ -951,7 +951,7 @@ instances pulled are PSR-15 <code>MiddlewareInterface</code> instances:</p>
 passes it to the application pipeline to handle, and emits the returned
 response. If an error occurs during request generation, it uses the
 <code>ServerRequestErrorResponseGenerator</code> to generate the response to emit.</p>
-<h3>ResponseFactoryFactory</h3>
+<h3 id="responsefactoryfactory">ResponseFactoryFactory</h3>
 <ul>
 <li><strong>Provides</strong>: a PHP callable capable of producing
   <code>Psr\Http\Message\ResponseInterface</code> instances.</li>
@@ -962,7 +962,7 @@ response. If an error occurs during request generation, it uses the
 <p>By default, this uses laminas-diactoros to produce a response, and will raise an
 exception if that package is not installed. You can provide an alternate factory
 if you want to use an alternate PSR-7 implementation.</p>
-<h3>ServerRequestErrorResponseGeneratorFactory</h3>
+<h3 id="serverrequesterrorresponsegeneratorfactory">ServerRequestErrorResponseGeneratorFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Response\ServerRequestErrorResponseGenerator</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\Response\ServerRequestErrorResponseGenerator</code></li>
@@ -998,7 +998,7 @@ if you want to use an alternate PSR-7 implementation.</p>
         'template_error' =&gt; 'name of error template',
     ],
 ],</code></pre>
-<h3>ServerRequestFactoryFactory</h3>
+<h3 id="serverrequestfactoryfactory">ServerRequestFactoryFactory</h3>
 <ul>
 <li><strong>Provides</strong>: a PHP callable capable of producing
   <code>Psr\Http\Message\ServerRequestInterface</code> instances.</li>
@@ -1009,7 +1009,7 @@ if you want to use an alternate PSR-7 implementation.</p>
 <p>By default, this uses laminas-diactoros to produce a request, and will raise an
 exception if that package is not installed. You can provide an alternate factory
 if you want to use an alternate PSR-7 implementation.</p>
-<h3>StreamFactoryFactory</h3>
+<h3 id="streamfactoryfactory">StreamFactoryFactory</h3>
 <ul>
 <li><strong>Provides</strong>: a PHP callable capable of producing
   <code>Psr\Http\Message\StreamInterface</code> instances.</li>
@@ -1020,14 +1020,14 @@ if you want to use an alternate PSR-7 implementation.</p>
 <p>By default, this uses laminas-diactoros to produce a stream, and will raise an
 exception if that package is not installed. You can provide an alternate factory
 if you want to use an alternate PSR-7 implementation.</p>
-<h3>WhoopsErrorResponseGeneratorFactory</h3>
+<h3 id="whoopserrorresponsegeneratorfactory">WhoopsErrorResponseGeneratorFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Middleware\WhoopsErrorResponseGenerator</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\Middleware\ErrorResponseGenerator</code></li>
 <li><strong>Requires</strong>: <code>Mezzio\Whoops</code> (see <a href="#whoopsfactory">WhoopsFactory</a>,
 below)</li>
 </ul>
-<h3>WhoopsFactory</h3>
+<h3 id="whoopsfactory">WhoopsFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Whoops\Run</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\Whoops</code></li>
@@ -1056,7 +1056,7 @@ for the <code>Mezzio\WhoopsPageHandler</code> service will be injected.</p>
 ],</code></pre>
 <p>If no <code>whoops</code> top-level key is present in the configuration, a default instance
 with no <code>JsonResponseHandler</code> composed will be created.</p>
-<h3>WhoopsPageHandlerFactory</h3>
+<h3 id="whoopspagehandlerfactory">WhoopsPageHandlerFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Whoops\Handler\PrettyPageHandler</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\WhoopsPageHandler</code></li>
@@ -1084,14 +1084,14 @@ application.</p>
 <p>All factories listed below are under the <code>Mezzio\Router\Middleware</code>
 namespace (unless otherwise specified), and define an <code>__invoke()</code> method that
 accepts a <code>Psr\Container\ContainerInterface</code> instance as the sole argument.</p>
-<h3>DispatchMiddlewareFactory</h3>
+<h3 id="dispatchmiddlewarefactory">DispatchMiddlewareFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Router\Middleware\DispatchMiddleware</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\Router\Middleware\DispatchMiddleware</code></li>
 <li><strong>Requires</strong>: no additional services are required.</li>
 <li><strong>Optional</strong>: no optional services are used.</li>
 </ul>
-<h3>ImplicitHeadMiddlewareFactory</h3>
+<h3 id="implicitheadmiddlewarefactory">ImplicitHeadMiddlewareFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Router\Middleware\ImplicitHeadMiddleware</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\Router\Middleware\ImplicitHeadMiddleware</code></li>
@@ -1104,7 +1104,7 @@ accepts a <code>Psr\Container\ContainerInterface</code> instance as the sole arg
 </li>
 <li><strong>Optional</strong>: no optional services are used.</li>
 </ul>
-<h3>ImplicitOptionsMiddlewareFactory</h3>
+<h3 id="implicitoptionsmiddlewarefactory">ImplicitOptionsMiddlewareFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Router\Middleware\ImplicitOptionsMiddleware</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\Router\Middleware\ImplicitOptionsMiddleware</code></li>
@@ -1116,7 +1116,7 @@ accepts a <code>Psr\Container\ContainerInterface</code> instance as the sole arg
 </li>
 <li><strong>Optional</strong>: no optional services are used.</li>
 </ul>
-<h3>MethodNotAllowedMiddlewareFactory</h3>
+<h3 id="methodnotallowedmiddlewarefactory">MethodNotAllowedMiddlewareFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Router\Middleware\MethodNotAllowedMiddleware</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\Router\Middleware\MethodNotAllowedMiddleware</code></li>
@@ -1128,7 +1128,7 @@ accepts a <code>Psr\Container\ContainerInterface</code> instance as the sole arg
 </li>
 <li><strong>Optional</strong>: no optional services are used.</li>
 </ul>
-<h3>RouteCollectorFactory</h3>
+<h3 id="routecollectorfactory">RouteCollectorFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Router\RouteCollector</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\Router\RouteCollector</code></li>
@@ -1138,7 +1138,7 @@ accepts a <code>Psr\Container\ContainerInterface</code> instance as the sole arg
 </li>
 <li><strong>Optional</strong>: no optional services are used.</li>
 </ul>
-<h3>RouteMiddlewareFactory</h3>
+<h3 id="routemiddlewarefactory">RouteMiddlewareFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Router\Middleware\RouteMiddleware</code></li>
 <li><strong>Suggested Name</strong>: <code>Mezzio\Router\Middleware\RouteMiddleware</code></li>
@@ -1152,7 +1152,7 @@ accepts a <code>Psr\Container\ContainerInterface</code> instance as the sole arg
 <p>The following factories are provided by individual template engine packages.
 Generally speaking, these will be provided to your container configuration
 during installation.</p>
-<h3>PlatesRendererFactory</h3>
+<h3 id="platesrendererfactory">PlatesRendererFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Plates\PlatesRenderer</code></li>
 <li><strong>FactoryName</strong>: <code>Mezzio\Plates\PlatesRendererFactory</code></li>
@@ -1177,7 +1177,7 @@ during installation.</p>
 ]</code></pre>
 <p>One note: Due to a limitation in the Plates engine, you can only map one path
 per namespace when using Plates.</p>
-<h3>TwigRendererFactory</h3>
+<h3 id="twigrendererfactory">TwigRendererFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\Twig\TwigRenderer</code></li>
 <li><strong>FactoryName</strong>: <code>Mezzio\Twig\TwigRendererFactory</code></li>
@@ -1211,7 +1211,7 @@ per namespace when using Plates.</p>
 <p>When <code>debug</code> is true, it disables caching, enables debug mode, enables strict
 variables, and enables auto reloading. The <code>assets_*</code> values are used to seed
 the <code>TwigExtension</code> instance (assuming the router was found).</p>
-<h3>LaminasViewRendererFactory</h3>
+<h3 id="laminasviewrendererfactory">LaminasViewRendererFactory</h3>
 <ul>
 <li><strong>Provides</strong>: <code>Mezzio\LaminasView\LaminasViewRenderer</code></li>
 <li><strong>FactoryName</strong>: <code>Mezzio\LaminasView\LaminasViewRendererFactory</code></li>

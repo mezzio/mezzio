@@ -721,7 +721,7 @@
 based on a routing parameter, the session, or a specialized sub-domain.
 In this recipe we will concentrate on using a routing parameter.</p>
 <blockquote>
-<h3>Routing parameters</h3>
+<h3 id="routing-parameters">Routing parameters</h3>
 <p>Using the approach in this chapter requires that you add a <code>/:locale</code> (or
 similar) segment to each and every route that can be localized, and, depending
 on the router used, may also require additional options for specifying
@@ -734,7 +734,7 @@ on <a href="../setting-locale-without-routing-parameter/">setting the locale wit
 to add a locale parameter to each route that requires localization.</p>
 <p>In the following examples, we use the <code>locale</code> parameter, which should consist
 of two lowercase alphabetical characters.</p>
-<h3>Dependency configuration</h3>
+<h3 id="dependency-configuration">Dependency configuration</h3>
 <p>The examples assume the following middleware dependency configuration:</p>
 <pre class="highlight"><code class="language-php">use Application\Action;
 
@@ -746,7 +746,7 @@ return [
         ],
     ],
 ];</code></pre>
-<h3>Programmatic routes</h3>
+<h3 id="programmatic-routes">Programmatic routes</h3>
 <p>The following describes routing configuration for use when using a
 programmatic application.</p>
 <pre class="highlight"><code class="language-php">use Application\Action\ContactPageAction;
@@ -758,7 +758,7 @@ $app-&gt;get('/:locale', HomePageAction::class, 'home')
     -&gt;setOptions($localeOptions);
 $app-&gt;get('/:locale/contact', ContactPageAction::class, 'contact')
     -&gt;setOptions($localeOptions);</code></pre>
-<h3>Configuration-based routes</h3>
+<h3 id="configuration-based-routes">Configuration-based routes</h3>
 <p>The following describes routing configuration for use when using a
 configuration-driven application.</p>
 <pre class="highlight"><code class="language-php">return [
@@ -788,7 +788,7 @@ configuration-driven application.</p>
     ],
 ];</code></pre>
 <blockquote>
-<h3>Note: Routing may differ based on router</h3>
+<h3 id="note-routing-may-differ-based-on-router">Note: Routing may differ based on router</h3>
 <p>The routing examples in this recipe use syntax for the laminas-mvc router, and,
 as such, may not work in your application.</p>
 <p>For Aura.Router, the 'home' route as listed above would read:</p>
@@ -848,7 +848,7 @@ class LocalizationMiddleware implements MiddlewareInterface
     }
 }</code></pre>
 <blockquote>
-<h3>Locale::setDefault is unsafe</h3>
+<h3 id="localesetdefault-is-unsafe">Locale::setDefault is unsafe</h3>
 <p>Do not use <code>Locale::setDefault($locale)</code> to set a global static locale.
 PSR-7 apps may run in async processes, which could lead to another process
 overwriting the value, and thus lead to unexpected results for your users.</p>

@@ -682,7 +682,7 @@ In this recipe we will concentrate on introspecting the URI path via middleware,
 which allows you to have a global mechanism for detecting the locale without
 requiring any changes to existing routes.</p>
 <blockquote>
-<h3>Distinguishing between routes that require localization</h3>
+<h3 id="distinguishing-between-routes-that-require-localization">Distinguishing between routes that require localization</h3>
 <p>If your application has a mixture of routes that require localization, and
 those that do not, the solution in this recipe may lead to multiple URIs
 that resolve to the identical action, which may be undesirable. In such
@@ -793,7 +793,7 @@ to worry about generating URLs within your view. Just use the helper to
 generate a URL and it will do the rest.</p>
 <pre class="highlight"><code class="language-php">&lt;?php echo $this-&gt;url('your-route') ?&gt;</code></pre>
 <blockquote>
-<h3>Helpers differ between template renderers</h3>
+<h3 id="helpers-differ-between-template-renderers">Helpers differ between template renderers</h3>
 <p>The above example is specific to laminas-view; syntax will differ for
 Twig and Plates.</p>
 </blockquote>

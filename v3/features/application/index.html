@@ -771,7 +771,7 @@ that composes:</p>
 <p>Regardless of how you setup the instance, there are several methods you will
 likely interact with at some point or another.</p>
 <h2 id="instantiation">Instantiation</h2>
-<h3>Constructor</h3>
+<h3 id="constructor">Constructor</h3>
 <p>If you wish to manually instantiate the <code>Application</code> instance, it has the
 following constructor:</p>
 <pre class="highlight"><code class="language-php">public function __construct(
@@ -780,7 +780,7 @@ following constructor:</p>
     Mezzio\Router\RouteCollector $routes,
     Laminas\HttpHandlerRunner\RequestHandlerRunner $runner
 ) {</code></pre>
-<h3>Container factory</h3>
+<h3 id="container-factory">Container factory</h3>
 <p>We also provide a factory that can be consumed by a <a href="https://www.php-fig.org/psr/psr-11/">PSR-11</a>
 dependency injection container; see the <a href="../container/factories/">container factories documentation</a>
 for details.</p>
@@ -790,7 +790,7 @@ of dynamically matching an incoming request against criteria, and it is one of
 the primary features of mezzio.</p>
 <p>Regardless of which <a href="../router/interface/">router implementation</a> you use, you
 can use the following <code>Application</code> methods to provide routable middleware:</p>
-<h3>route()</h3>
+<h3 id="route">route()</h3>
 <p><code>route()</code> has the following signature:</p>
 <pre class="highlight"><code class="language-php">public function route(
     string $path,
@@ -817,7 +817,7 @@ can use the following <code>Application</code> methods to provide routable middl
 </ul>
 <p>This method is typically only used if you want a single middleware to handle
 multiple HTTP request methods.</p>
-<h3>get(), post(), put(), patch(), delete(), any()</h3>
+<h3 id="get-post-put-patch-delete-any">get(), post(), put(), patch(), delete(), any()</h3>
 <p>Each of the methods <code>get()</code>, <code>post()</code>, <code>put()</code>, <code>patch()</code>, <code>delete()</code>, and <code>any()</code>
 proxies to <code>route()</code> and has the signature:</p>
 <pre class="highlight"><code class="language-php">function (
@@ -827,7 +827,7 @@ proxies to <code>route()</code> and has the signature:</p>
 ) : Mezzio\Router\Route</code></pre>
 <p>Essentially, each calls <code>route()</code> and specifies an array consisting solely of
 the corresponding HTTP method for the <code>$methods</code> argument.</p>
-<h3>Piping</h3>
+<h3 id="piping">Piping</h3>
 <p>Because mezzio builds on <a href="https://docs.laminas.dev/laminas-stratigility/">laminas-stratigility</a>,
 and, more specifically, its <code>MiddlewarePipe</code> definition, you can also pipe
 (queue) middleware to the application. This is useful for adding middleware that
@@ -856,7 +856,7 @@ lazy-loading of middleware only when it is invoked. Internally, it wraps the
 call to fetch and dispatch the middleware inside a
 <code>Mezzio\Middleware\LazyLoadingMiddleware</code> instance.</p>
 <p>Read the section on <a href="../router/piping/">piping vs routing</a> for more information.</p>
-<h3>Registering routing and dispatch middleware</h3>
+<h3 id="registering-routing-and-dispatch-middleware">Registering routing and dispatch middleware</h3>
 <p>Routing and dispatch middleware must be piped to the application like any other
 middleware. You can do so using the following:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipe(Mezzio\Router\Middleware\RouteMiddleware::class);

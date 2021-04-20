@@ -734,7 +734,7 @@ application root, with directives for rewriting to the <code>public/</code> dire
 <pre class="highlight"><code class="language-ApacheConf">RewriteEngine On
 RewriteRule (.*) ./public/$1</code></pre>
 <blockquote>
-<h3>Using other web servers</h3>
+<h3 id="using-other-web-servers">Using other web servers</h3>
 <p>If you are using a web-server other than Apache, and know how to do a similar
 rewrite, we'd love to know! Please submit ideas/instructions to
 <a href="https://github.com/mezzio/mezzio/issues">our issue tracker</a>!</p>
@@ -752,7 +752,7 @@ rewrite the URL accordingly.</p>
   URL rewriting mechanics, as well as utilities for generating URIs that retain
   the base path, but does not have a stable release yet.</li>
 </ul>
-<h3>los/basepath</h3>
+<h3 id="losbasepath">los/basepath</h3>
 <p>To use <code>los/basepath</code>, install it via Composer, copy the configuration files to
 your application, and then edit the configuration.</p>
 <p>To install and copy the configuration:</p>
@@ -771,7 +771,7 @@ excluded from git by default):</p>
 <p>The base path should be the portion of the web root leading up to the
 <code>index.php</code> of your application. In the above example, this would be
 <code>/mezzio</code>.</p>
-<h3>mtymek/blast-base-url</h3>
+<h3 id="mtymekblast-base-url">mtymek/blast-base-url</h3>
 <p>To use <code>mtymek/blast-base-url</code>, install it via Composer, and register some
 configuration.</p>
 <p>To install it:</p>

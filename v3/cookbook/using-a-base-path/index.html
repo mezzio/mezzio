@@ -688,7 +688,7 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#htaccess-in-the-application-root" class="toc__link nav-link">.htaccess in the application root.</a>
+                        <a href="#configure-web-server" class="toc__link nav-link">Configure Web Server</a>
                     </li>
                 
                     <li class="toc__entry">
@@ -753,14 +753,40 @@ web root. For example:</p>
 <p>where <code>/var/www</code> is the web root, and your Mezzio application is in the
 <code>mezzio/</code> subdirectory. How can you make your application work correctly in
 this environment?</p>
-<h2 id="htaccess-in-the-application-root">.htaccess in the application root.</h2>
+<h2 id="configure-web-server">Configure Web Server</h2>
+<h3 id="using-apache">Using Apache</h3>
 <p>If you are using Apache, your first step is to add an <code>.htaccess</code> file to your
 application root, with directives for rewriting to the <code>public/</code> directory:</p>
 <pre class="highlight"><code class="language-ApacheConf">RewriteEngine On
 RewriteRule (.*) ./public/$1</code></pre>
+<h3 id="using-nginx">Using Nginx</h3>
+<p>If you are using Nginx, add a named location block to rewrite to the Mezzio web root directory within the server context.</p>
+<pre class="highlight"><code class="language-nginx">server {
+    root /var/www/;
+
+    location / {
+        try_files $uri /index.php @mezzio;
+    }
+
+    location @mezzio {
+        rewrite /(.*)$ /mezzio/public/index.php?/$1 last;
+    }
+
+    location ~ \.php {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+        internal;
+    }
+}</code></pre>
+<p>More detail is provided on this in the <a href="https://nginx.org/en/docs/http/ngx_http_core_module.html#location">official Nginx documentation</a>.</p>
 <blockquote>
-<h3>Using other web servers</h3>
-<p>If you are using a web-server other than Apache, and know how to do a similar
+<h3 id="using-other-web-servers">Using other web servers</h3>
+<p>If you are using a web-server other than Apache or Nginx, and know how to do a similar
 rewrite, we'd love to know! Please submit ideas/instructions to
 <a href="https://github.com/mezzio/mezzio/issues">our issue tracker</a>!</p>
 </blockquote>
@@ -777,7 +803,7 @@ rewrite the URL accordingly.</p>
   URL rewriting mechanics, as well as utilities for generating URIs that retain
   the base path.</li>
 </ul>
-<h3>los/basepath</h3>
+<h3 id="losbasepath">los/basepath</h3>
 <p>To use <code>los/basepath</code>, install it via Composer, copy the configuration files to
 your application, and then edit the configuration.</p>
 <p>To install and copy the configuration:</p>
@@ -796,7 +822,7 @@ excluded from git by default):</p>
 <p>The base path should be the portion of the web root leading up to the
 <code>index.php</code> of your application. In the above example, this would be
 <code>/mezzio</code>.</p>
-<h3>mtymek/blast-base-url</h3>
+<h3 id="mtymekblast-base-url">mtymek/blast-base-url</h3>
 <p>To use <code>mtymek/blast-base-url</code>, install it via Composer, and register some
 configuration.</p>
 <p>To install it:</p>

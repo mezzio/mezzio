@@ -789,7 +789,7 @@ $url = $helper('resource', ['id' =&gt; 'sha1']);</code></pre>
 <li>The given <code>$routeName</code> is not defined in the router.</li>
 </ul>
 <blockquote>
-<h3>Signature changes</h3>
+<h3 id="signature-changes">Signature changes</h3>
 <p>The signature listed above is current as of version 3.0.0 of
 mezzio/mezzio-helpers. Prior to that version, the helper only
 accepted the route name and route parameters.</p>
@@ -811,7 +811,7 @@ result. The following steps should be followed to register and configure the hel
 <li>Register the <code>UrlHelperMiddleware</code> as pipeline middleware, immediately
   following the routing middleware.</li>
 </ul>
-<h3>Registering the helper service</h3>
+<h3 id="registering-the-helper-service">Registering the helper service</h3>
 <p>The following examples demonstrate programmatic registration of the <code>UrlHelper</code>
 service in your selected dependency injection container.</p>
 <pre class="highlight"><code class="language-php">use Mezzio\Helper\UrlHelper;
@@ -842,11 +842,11 @@ Mezzio skeleton:</p>
     ],
 ];</code></pre>
 <blockquote>
-<h4>UrlHelperFactory requires RouterInterface</h4>
+<h4 id="urlhelperfactory-requires-routerinterface">UrlHelperFactory requires RouterInterface</h4>
 <p>The factory requires that a service named <code>Mezzio\Router\RouterInterface</code> is present,
 and will raise an exception if the service is not found.</p>
 </blockquote>
-<h3>Registering the pipeline middleware</h3>
+<h3 id="registering-the-pipeline-middleware">Registering the pipeline middleware</h3>
 <p>To register the <code>UrlHelperMiddleware</code> as pipeline middleware following the
 routing middleware:</p>
 <pre class="highlight"><code class="language-php">use Mezzio\Helper\UrlHelperMiddleware;
@@ -920,7 +920,7 @@ return [
     ],
 ];</code></pre>
 <blockquote>
-<h4>Skeleton configures helpers</h4>
+<h4 id="skeleton-configures-helpers">Skeleton configures helpers</h4>
 <p>If you started your project using the Mezzio skeleton package, the
 <code>UrlHelper</code> and <code>UrlHelperMiddleware</code> factories are already registered for
 you, as is the <code>UrlHelperMiddleware</code> pipeline middleware.</p>

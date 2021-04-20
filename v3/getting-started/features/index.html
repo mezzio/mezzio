@@ -816,7 +816,7 @@ queue of middleware, and invokes the next in the queue when invoked.</p>
 <p>Any given middleware can return a <em>response</em>, at which point execution winds
 its way back out the onion.</p>
 <blockquote>
-<h3>Pipelines</h3>
+<h3 id="pipelines">Pipelines</h3>
 <p>The terminology "pipeline" is often used to describe the onion. One way of
 looking at the "onion" is as a <em>queue</em>, which is first-in-first-out (FIFO) in
 operation. This means that the first middleware on the queue is executed first,
@@ -831,7 +831,7 @@ looked at from this perspective:</p>
 <li>Responses are returned back <em>through</em> the pipeline, in reverse order of
   traversal.</li>
 </ul>
-<h3>Double pass middleware</h3>
+<h3 id="double-pass-middleware">Double pass middleware</h3>
 <p>The system described above is what is known as <em>lambda middleware</em>. Each
 middleware receives the request and a handler, and you pass only the
 request to the handler when wanting to hand off processing:</p>
