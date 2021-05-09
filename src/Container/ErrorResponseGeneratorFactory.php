@@ -25,8 +25,10 @@ class ErrorResponseGeneratorFactory
         Assert::isArrayAccessible($config);
 
         $debug = $config['debug'] ?? false;
+        $mezzioConfiguration = $config['mezzio'] ?? [];
+        Assert::isMap($mezzioConfiguration);
 
-        $errorHandlerConfig = $config['mezzio']['error_handler'] ?? [];
+        $errorHandlerConfig = $mezzioConfiguration['error_handler'] ?? [];
 
         $template = $errorHandlerConfig['template_error'] ?? ErrorResponseGenerator::TEMPLATE_DEFAULT;
         $layout   = array_key_exists('layout', $errorHandlerConfig)
