@@ -23,7 +23,7 @@ class NotFoundHandlerFactory
     public function __invoke(ContainerInterface $container) : NotFoundHandler
     {
         $config = $container->has('config') ? $container->get('config') : [];
-        Assert::isMap($config);
+        Assert::isArrayAccessible($config);
 
         $renderer = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
