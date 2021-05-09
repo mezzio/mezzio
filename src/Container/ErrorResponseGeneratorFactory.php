@@ -22,7 +22,7 @@ class ErrorResponseGeneratorFactory
     public function __invoke(ContainerInterface $container) : ErrorResponseGenerator
     {
         $config = $container->has('config') ? $container->get('config') : [];
-        Assert::isMap($config);
+        Assert::isArrayAccessible($config);
 
         $debug = $config['debug'] ?? false;
 
