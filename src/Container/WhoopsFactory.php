@@ -50,7 +50,7 @@ class WhoopsFactory
     public function __invoke(ContainerInterface $container) : Whoops
     {
         $config = $container->has('config') ? $container->get('config') : [];
-        Assert::isMap($config);
+        Assert::isArrayAccessible($config);
 
         $config = $config['whoops'] ?? [];
 
