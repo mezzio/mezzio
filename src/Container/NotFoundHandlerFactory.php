@@ -23,7 +23,7 @@ class NotFoundHandlerFactory
     public function __invoke(ContainerInterface $container) : NotFoundHandler
     {
         $config = $container->has('config') ? $container->get('config') : [];
-        Assert::isMap($config);
+        Assert::isArrayAccessible($config);
 
         $renderer = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
@@ -31,7 +31,9 @@ class NotFoundHandlerFactory
                 ? $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)
                 : null);
 
-        $errorHandlerConfig = $config['mezzio']['error_handler'] ?? [];
+        $mezzioConfiguration = $config['mezzio'] ?? [];
+        Assert::isMap($mezzioConfiguration);
+        $errorHandlerConfig = $mezzioConfiguration['error_handler'] ?? [];
 
         $template = $errorHandlerConfig['template_404'] ?? NotFoundHandler::TEMPLATE_DEFAULT;
         $layout   = array_key_exists('layout', $errorHandlerConfig)

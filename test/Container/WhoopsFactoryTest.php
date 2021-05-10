@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace MezzioTest\Container;
 
+use ArrayAccess;
 use Mezzio\Container\WhoopsFactory;
 use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
@@ -148,5 +149,15 @@ class WhoopsFactoryTest extends TestCase
 
         yield 'Not ajax only'                  => [true,      false,      false];
         // @codingStandardsIgnoreEnd
+    }
+
+    public function testCanHandleConfigWithArrayAccess(): void
+    {
+        $config = $this->createMock(ArrayAccess::class);
+        $this->container->set('config', $config);
+
+        $factory = new WhoopsFactory();
+        $factory($this->container);
+        $this->expectNotToPerformAssertions();
     }
 }

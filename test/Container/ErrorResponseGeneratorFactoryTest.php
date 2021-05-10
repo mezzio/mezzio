@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace MezzioTest\Container;
 
+use ArrayAccess;
 use Mezzio\Container\ErrorResponseGeneratorFactory;
 use Mezzio\Middleware\ErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
@@ -94,5 +95,15 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
         // ideally we would like to keep null there,
         // but right now ErrorResponseGeneratorFactory does not accept null for layout
         self::assertEquals(new ErrorResponseGenerator(false, null, 'error::custom', ''), $generator);
+    }
+
+    public function testCanHandleConfigWithArrayAccess(): void
+    {
+        $config = $this->createMock(ArrayAccess::class);
+        $this->container->set('config', $config);
+
+        $factory = new ErrorResponseGeneratorFactory();
+        $factory($this->container);
+        $this->expectNotToPerformAssertions();
     }
 }

@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace MezzioTest\Container;
 
-use Closure;
+use ArrayAccess;
 use Mezzio\Container\ServerRequestErrorResponseGeneratorFactory;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
@@ -78,5 +78,19 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
             ),
             $generator
         );
+    }
+
+    public function testCanHandleConfigWithArrayAccess(): void
+    {
+        $config = $this->createMock(ArrayAccess::class);
+        $container = new InMemoryContainer();
+        $container->set('config', $config);
+        $responseFactory = function (): void {
+        };
+        $container->set(ResponseInterface::class, $responseFactory);
+
+        $factory = new ServerRequestErrorResponseGeneratorFactory();
+        $factory($container);
+        $this->expectNotToPerformAssertions();
     }
 }
