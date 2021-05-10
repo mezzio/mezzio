@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MezzioTest\Container;
 
+use ArrayAccess;
 use Mezzio\Container\NotFoundHandlerFactory;
 use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Template\TemplateRendererInterface;
@@ -102,5 +103,15 @@ class NotFoundHandlerFactoryTest extends TestCase
             ),
             $handler
         );
+    }
+
+    public function testCanHandleConfigWithArrayAccess(): void
+    {
+        $config = $this->createMock(ArrayAccess::class);
+        $this->container->set('config', $config);
+
+        $factory = new NotFoundHandlerFactory();
+        $factory($this->container);
+        $this->expectNotToPerformAssertions();
     }
 }

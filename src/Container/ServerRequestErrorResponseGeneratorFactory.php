@@ -15,7 +15,7 @@ class ServerRequestErrorResponseGeneratorFactory
     public function __invoke(ContainerInterface $container) : ServerRequestErrorResponseGenerator
     {
         $config = $container->has('config') ? $container->get('config') : [];
-        Assert::isMap($config);
+        Assert::isArrayAccessible($config);
 
         $debug = $config['debug'] ?? false;
 
@@ -25,7 +25,11 @@ class ServerRequestErrorResponseGeneratorFactory
                 ? $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)
                 : null);
 
-        $template = $config['mezzio']['error_handler']['template_error']
+        $mezzioConfiguration = $config['mezzio'] ?? [];
+        Assert::isMap($mezzioConfiguration);
+        $errorHandlerConfiguration = $mezzioConfiguration['error_handler'] ?? [];
+        Assert::isMap($errorHandlerConfiguration);
+        $template = $errorHandlerConfiguration['template_error']
             ?? ServerRequestErrorResponseGenerator::TEMPLATE_DEFAULT;
 
         return new ServerRequestErrorResponseGenerator(
