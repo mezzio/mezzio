@@ -8,7 +8,7 @@ use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
@@ -24,15 +24,16 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
     /** @var ResponseInterface&MockObject */
     private $response;
 
-    /** @var callable */
+    /** @var ResponseFactoryInterface */
     private $responseFactory;
 
     public function setUp() : void
     {
         $this->response = $this->createMock(ResponseInterface::class);
-        $this->responseFactory = function (): ResponseInterface {
-            return $this->response;
-        };
+        $this->responseFactory = $this->createMock(ResponseFactoryInterface::class);
+        $this->responseFactory
+            ->method('createResponse')
+            ->willReturn($this->response);
 
         $this->renderer = $this->createMock(TemplateRendererInterface::class);
     }
@@ -91,7 +92,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
         $stream = $this->createMock(StreamInterface::class);
         $stream
             ->method('write')
-            ->with(self::callback(function ($message) {
+            ->with(self::callback(static function (string $message): bool {
                 self::assertMatchesRegularExpression('/^An unexpected error occurred; stack trace:/', $message);
                 self::assertStringContainsString('Stack Trace:', $message);
 
@@ -107,6 +108,29 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
 
         $generator = new ServerRequestErrorResponseGenerator($this->responseFactory, true);
 
+        $this->assertSame($this->response, $generator($e));
+    }
+
+    public function testCanHandleCallableResponseFactory(): void
+    {
+        $responseFactory = function (): ResponseInterface {
+            return $this->response;
+        };
+
+        $this->response
+            ->expects(self::exactly(2))
+            ->method('withStatus')
+            ->withConsecutive([200], [422])
+            ->willReturnSelf();
+
+        $this->response
+            ->expects(self::once())
+            ->method('getBody')
+            ->willReturn($this->createMock(StreamInterface::class));
+
+        $generator = new ServerRequestErrorResponseGenerator($responseFactory, false);
+
+        $e = new RuntimeException('This is the exception message', 422);
         $this->assertSame($this->response, $generator($e));
     }
 }

@@ -6,8 +6,10 @@ namespace Mezzio\Response;
 
 use Laminas\Stratigility\Utils;
 use Mezzio\Template\TemplateRendererInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
+use function is_callable;
 
 /**
  * Generates a response for use when the server request factory fails.
@@ -19,21 +21,24 @@ class ServerRequestErrorResponseGenerator
     public const TEMPLATE_DEFAULT = 'error::error';
 
     /**
-     * Factory capable of generating a ResponseInterface instance.
-     *
-     * @var callable
+     * @var ResponseFactoryInterface
      */
     private $responseFactory;
 
+    /**
+     * @param (callable():ResponseInterface)|ResponseFactoryInterface $responseFactory
+     */
     public function __construct(
-        callable $responseFactory,
+        $responseFactory,
         bool $isDevelopmentMode = false,
         TemplateRendererInterface $renderer = null,
         string $template = self::TEMPLATE_DEFAULT
     ) {
-        $this->responseFactory = function () use ($responseFactory) : ResponseInterface {
-            return $responseFactory();
-        };
+        if (is_callable($responseFactory)) {
+            $responseFactory = new ResponseFactory($responseFactory);
+        }
+
+        $this->responseFactory = $responseFactory;
 
         $this->debug     = $isDevelopmentMode;
         $this->renderer  = $renderer;
@@ -42,7 +47,7 @@ class ServerRequestErrorResponseGenerator
 
     public function __invoke(Throwable $e) : ResponseInterface
     {
-        $response = ($this->responseFactory)();
+        $response = $this->responseFactory->createResponse();
         $response = $response->withStatus(Utils::getStatusCode($e, $response));
 
         if ($this->renderer) {
