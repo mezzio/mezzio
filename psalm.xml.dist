@@ -20,6 +20,21 @@
                 <referencedFunction name="Laminas\Stratigility\path"/>
             </errorLevel>
         </PossiblyInvalidArgument>
+        <DeprecatedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Mezzio\Response\ResponseFactory"/>
+            </errorLevel>
+        </DeprecatedClass>
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Mezzio\Response\ResponseFactory::createResponse"/>
+            </errorLevel>
+        </InternalMethod>
+        <InternalClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Mezzio\Response\ResponseFactory"/>
+            </errorLevel>
+        </InternalClass>
     </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
