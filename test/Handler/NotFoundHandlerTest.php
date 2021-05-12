@@ -11,6 +11,7 @@ use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -21,15 +22,16 @@ class NotFoundHandlerTest extends TestCase
     /** @var ResponseInterface&MockObject */
     private $response;
 
-    /** @var callable */
+    /** @var ResponseFactoryInterface&MockObject */
     private $responseFactory;
 
     public function setUp() : void
     {
         $this->response = $this->createMock(ResponseInterface::class);
-        $this->responseFactory = function (): ResponseInterface {
-            return $this->response;
-        };
+        $this->responseFactory = $this->createMock(ResponseFactoryInterface::class);
+        $this->responseFactory
+            ->method('createResponse')
+            ->willReturn($this->response);
     }
 
     public function testImplementsRequesthandler() : void
@@ -116,6 +118,29 @@ class NotFoundHandlerTest extends TestCase
         $handler = new NotFoundHandler($this->responseFactory, $renderer, 'foo::bar', 'layout::error');
 
         $response = $handler->handle($request);
+
+        $this->assertSame($this->response, $response);
+    }
+
+    public function testCanHandleCallableResponseFactory(): void
+    {
+        $responseFactory = function (): ResponseInterface {
+            return $this->response;
+        };
+
+        $this->response
+            ->expects(self::exactly(2))
+            ->method('withStatus')
+            ->withConsecutive([200], [404])
+            ->willReturnSelf();
+
+        $this->response
+            ->expects(self::once())
+            ->method('getBody')
+            ->willReturn($this->createMock(StreamInterface::class));
+
+        $handler = new NotFoundHandler($responseFactory);
+        $response = $handler->handle($this->createMock(ServerRequestInterface::class));
 
         $this->assertSame($this->response, $response);
     }
