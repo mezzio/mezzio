@@ -96,6 +96,20 @@ class NotFoundHandlerFactoryTest extends TestCase
                 ],
             ],
         ];
+
+        yield 'delegated' => [
+            [
+                'dependencies' => [
+                    'delegators' => [
+                        ResponseInterface::class => [
+                            function (): ResponseInterface {
+                                return $this->createMock(ResponseInterface::class);
+                            }
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function testFactoryCreatesInstanceWithoutRendererIfRendererServiceIsMissing() : void

@@ -21,17 +21,33 @@ trait Psr17ResponseFactoryTrait
     private function detectResponseFactory(ContainerInterface $container, array $dependencies): ResponseFactoryInterface
     {
         $psr17FactoryAvailable = $container->has(ResponseFactoryInterface::class);
+
+        if (!$psr17FactoryAvailable) {
+            return $this->createResponseFactoryFromDeprecatedCallable($container);
+        }
+
         /** @psalm-suppress MixedAssignment */
         $deprecatedResponseFactory = $dependencies['aliases'][ResponseInterface::class]
             ?? $dependencies['factories'][ResponseInterface::class]
             ?? null;
 
-        if ($psr17FactoryAvailable && $deprecatedResponseFactory === ResponseFactoryFactory::class) {
-            $responseFactory = $container->get(ResponseFactoryInterface::class);
-            Assert::isInstanceOf($responseFactory, ResponseFactoryInterface::class);
-            return $responseFactory;
+        if ($deprecatedResponseFactory !== ResponseFactoryFactory::class) {
+            return $this->createResponseFactoryFromDeprecatedCallable($container);
         }
 
+        $delegators = $dependencies['delegators'] ?? [];
+        Assert::isArrayAccessible($delegators);
+        if (isset($delegators[ResponseInterface::class])) {
+            return $this->createResponseFactoryFromDeprecatedCallable($container);
+        }
+
+        $responseFactory = $container->get(ResponseFactoryInterface::class);
+        Assert::isInstanceOf($responseFactory, ResponseFactoryInterface::class);
+        return $responseFactory;
+    }
+
+    private function createResponseFactoryFromDeprecatedCallable(ContainerInterface $container): ResponseFactoryInterface
+    {
         /** @var callable():ResponseInterface $responseFactory */
         $responseFactory = $container->get(ResponseInterface::class);
         return new CallableResponseFactoryDecorator($responseFactory);
