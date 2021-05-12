@@ -8,7 +8,7 @@ use ArrayAccess;
 use Generator;
 use Mezzio\Container\ResponseFactoryFactory;
 use Mezzio\Container\ServerRequestErrorResponseGeneratorFactory;
-use Mezzio\Response\ResponseFactory;
+use Mezzio\Response\CallableResponseFactoryDecorator;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use MezzioTest\InMemoryContainer;
@@ -188,7 +188,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         $generator = ($this->factory)($container);
         $responseFactoryFromGenerator = $generator->getResponseFactory();
         self::assertNotSame($responseFactory, $responseFactoryFromGenerator);
-        self::assertInstanceOf(ResponseFactory::class, $responseFactoryFromGenerator);
+        self::assertInstanceOf(CallableResponseFactoryDecorator::class, $responseFactoryFromGenerator);
         self::assertEquals($response, $responseFactoryFromGenerator->getResponseFromCallable());
     }
 }

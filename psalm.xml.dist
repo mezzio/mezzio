@@ -22,20 +22,26 @@
         </PossiblyInvalidArgument>
         <DeprecatedClass>
             <errorLevel type="suppress">
-                <referencedClass name="Mezzio\Response\ResponseFactory"/>
+                <referencedClass name="Mezzio\Response\CallableResponseFactoryDecorator"/>
             </errorLevel>
         </DeprecatedClass>
         <InternalMethod>
             <errorLevel type="suppress">
-                <referencedMethod name="Mezzio\Response\ResponseFactory::createResponse"/>
-                <referencedMethod name="Mezzio\Response\ResponseFactory::getResponseFromCallable"/>
+                <referencedMethod name="Mezzio\Response\CallableResponseFactoryDecorator::createResponse"/>
+                <referencedMethod name="Mezzio\Response\CallableResponseFactoryDecorator::getResponseFromCallable"/>
             </errorLevel>
         </InternalMethod>
         <InternalClass>
             <errorLevel type="suppress">
-                <referencedClass name="Mezzio\Response\ResponseFactory"/>
+                <referencedClass name="Mezzio\Response\CallableResponseFactoryDecorator"/>
             </errorLevel>
         </InternalClass>
+        <DeprecatedTrait>
+            <errorLevel type="suppress">
+                <file name="src/Container/NotFoundHandlerFactory.php"/>
+                <file name="src/Container/ServerRequestErrorResponseGeneratorFactory.php"/>
+            </errorLevel>
+        </DeprecatedTrait>
     </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>

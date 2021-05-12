@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace MezzioTest\Response;
 
-use Mezzio\Response\ResponseFactory;
+use Mezzio\Response\CallableResponseFactoryDecorator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
-final class ResponseFactoryTest extends TestCase
+final class CallableResponseFactoryDecoratorTest extends TestCase
 {
     /**
      * @var MockObject&ResponseInterface
@@ -16,7 +16,7 @@ final class ResponseFactoryTest extends TestCase
     private $response;
 
     /**
-     * @var ResponseFactory
+     * @var CallableResponseFactoryDecorator
      */
     private $factory;
 
@@ -24,7 +24,7 @@ final class ResponseFactoryTest extends TestCase
     {
         parent::setUp();
         $this->response = $this->createMock(ResponseInterface::class);
-        $this->factory = new ResponseFactory(function (): ResponseInterface {
+        $this->factory = new CallableResponseFactoryDecorator(function (): ResponseInterface {
             return $this->response;
         });
     }

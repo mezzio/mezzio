@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
  * @internal
  * @deprecated Will be removed with v4.0.0
  */
-final class ResponseFactory implements ResponseFactoryInterface
+final class CallableResponseFactoryDecorator implements ResponseFactoryInterface
 {
     /**
      * @var callable():ResponseInterface

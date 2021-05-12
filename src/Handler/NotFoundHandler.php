@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mezzio\Handler;
 
 use Fig\Http\Message\StatusCodeInterface;
-use Mezzio\Response\ResponseFactory;
+use Mezzio\Response\CallableResponseFactoryDecorator;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -51,7 +51,7 @@ class NotFoundHandler implements RequestHandlerInterface
         string $layout = self::LAYOUT_DEFAULT
     ) {
         if (is_callable($responseFactory)) {
-            $responseFactory = new ResponseFactory($responseFactory);
+            $responseFactory = new CallableResponseFactoryDecorator($responseFactory);
         }
 
         $this->responseFactory = $responseFactory;
@@ -106,5 +106,10 @@ class NotFoundHandler implements RequestHandlerInterface
         );
 
         return $response;
+    }
+
+    public function getResponseFactory(): ResponseFactoryInterface
+    {
+        return $this->responseFactory;
     }
 }

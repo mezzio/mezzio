@@ -35,7 +35,7 @@ class ServerRequestErrorResponseGenerator
         string $template = self::TEMPLATE_DEFAULT
     ) {
         if (is_callable($responseFactory)) {
-            $responseFactory = new ResponseFactory($responseFactory);
+            $responseFactory = new CallableResponseFactoryDecorator($responseFactory);
         }
 
         $this->responseFactory = $responseFactory;

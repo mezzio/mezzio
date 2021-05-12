@@ -7,13 +7,14 @@ namespace Mezzio\Container;
 use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
 use Webmozart\Assert\Assert;
 
 use function array_key_exists;
 
 class NotFoundHandlerFactory
 {
+    use Psr17ResponseFactoryTrait;
+
     public function __invoke(ContainerInterface $container) : NotFoundHandler
     {
         $config = $container->has('config') ? $container->get('config') : [];
@@ -34,8 +35,13 @@ class NotFoundHandlerFactory
             ? (string) $errorHandlerConfig['layout']
             : NotFoundHandler::LAYOUT_DEFAULT;
 
+        $dependencies = $config['dependencies'] ?? [];
+        Assert::isMap($dependencies);
+
+        $responseFactory = $this->detectResponseFactory($container, $dependencies);
+
         return new NotFoundHandler(
-            $container->get(ResponseInterface::class),
+            $responseFactory,
             $renderer,
             $template,
             $layout
