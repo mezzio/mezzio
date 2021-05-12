@@ -33,32 +33,6 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
     /**
      * @psalm-return Generator<non-empty-string,array{0:array<string,mixed>}>
      */
-    public function configurationsWithResponseInterfaceFactory(): Generator
-    {
-        yield 'default' => [
-            [
-                'dependencies' => [
-                    'factories' => [
-                        ResponseInterface::class => ResponseFactoryFactory::class,
-                    ],
-                ],
-            ],
-        ];
-
-        yield 'aliased' => [
-            [
-                'dependencies' => [
-                    'aliases' => [
-                        ResponseInterface::class => ResponseFactoryFactory::class,
-                    ],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * @psalm-return Generator<non-empty-string,array{0:array<string,mixed>}>
-     */
     public function configurationsWithOverriddenResponseInterfaceFactory(): Generator
     {
         yield 'default' => [
@@ -77,9 +51,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
             [
                 'dependencies' => [
                     'aliases' => [
-                        ResponseInterface::class => function (): ResponseInterface {
-                            return $this->createMock(ResponseInterface::class);
-                        },
+                        ResponseInterface::class => 'CustomResponseInterface'
                     ],
                 ],
             ],
@@ -169,15 +141,17 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    /**
-     * @param array<string,mixed> $config
-     * @dataProvider configurationsWithResponseInterfaceFactory
-     */
-    public function testWillUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsNotOverridden(array $config): void
+    public function testWillUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsNotOverridden(): void
     {
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
         $container = new InMemoryContainer();
-        $container->set('config', $config);
+        $container->set('config', [
+            'dependencies' => [
+                'factories' => [
+                    ResponseInterface::class => ResponseFactoryFactory::class,
+                ],
+            ],
+        ]);
         $container->set(ResponseFactoryInterface::class, $responseFactory);
 
         $generator = ($this->factory)($container);
@@ -188,8 +162,9 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
      * @param array<string,mixed> $config
      * @dataProvider configurationsWithOverriddenResponseInterfaceFactory
      */
-    public function testWontUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsOverriden(array $config): void
-    {
+    public function testWontUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsOverriden(
+        array $config
+    ): void {
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
         $container = new InMemoryContainer();
         $container->set('config', $config);
