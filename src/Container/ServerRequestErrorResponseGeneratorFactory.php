@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Mezzio\Container;
 
+use Mezzio\Response\ResponseFactory;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Webmozart\Assert\Assert;
 
@@ -32,11 +34,38 @@ class ServerRequestErrorResponseGeneratorFactory
         $template = $errorHandlerConfiguration['template_error']
             ?? ServerRequestErrorResponseGenerator::TEMPLATE_DEFAULT;
 
+        $dependencies = $config['dependencies'] ?? [];
+        Assert::isMap($dependencies);
+
+        $responseFactory = $this->detectResponseFactory($container, $dependencies);
+
         return new ServerRequestErrorResponseGenerator(
-            $container->get(ResponseInterface::class),
+            $responseFactory,
             $debug,
             $renderer,
             $template
         );
+    }
+
+    /**
+     * @param array<string,mixed> $dependencies
+     */
+    private function detectResponseFactory(ContainerInterface $container, array $dependencies): ResponseFactoryInterface
+    {
+        $psr17FactoryAvailable = $container->has(ResponseFactoryInterface::class);
+        /** @psalm-suppress MixedAssignment */
+        $deprecatedResponseFactory = $dependencies['aliases'][ResponseInterface::class]
+            ?? $dependencies['factories'][ResponseInterface::class]
+            ?? null;
+
+        if ($psr17FactoryAvailable && $deprecatedResponseFactory === ResponseFactoryFactory::class) {
+            $responseFactory = $container->get(ResponseFactoryInterface::class);
+            Assert::isInstanceOf($responseFactory, ResponseFactoryInterface::class);
+            return $responseFactory;
+        }
+
+        /** @var callable():ResponseInterface $responseFactory */
+        $responseFactory = $container->get(ResponseInterface::class);
+        return new ResponseFactory($responseFactory);
     }
 }

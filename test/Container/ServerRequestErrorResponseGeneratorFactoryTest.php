@@ -5,36 +5,105 @@ declare(strict_types=1);
 namespace MezzioTest\Container;
 
 use ArrayAccess;
+use Generator;
+use Mezzio\Container\ResponseFactoryFactory;
 use Mezzio\Container\ServerRequestErrorResponseGeneratorFactory;
+use Mezzio\Response\ResponseFactory;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 
 class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 {
+    /**
+     * @var ServerRequestErrorResponseGeneratorFactory
+     */
+    private $factory;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->factory = new ServerRequestErrorResponseGeneratorFactory();
+    }
+
+    /**
+     * @psalm-return Generator<non-empty-string,array{0:array<string,mixed>}>
+     */
+    public function configurationsWithResponseInterfaceFactory(): Generator
+    {
+        yield 'default' => [
+            [
+                'dependencies' => [
+                    'factories' => [
+                        ResponseInterface::class => ResponseFactoryFactory::class,
+                    ],
+                ],
+            ],
+        ];
+
+        yield 'aliased' => [
+            [
+                'dependencies' => [
+                    'aliases' => [
+                        ResponseInterface::class => ResponseFactoryFactory::class,
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @psalm-return Generator<non-empty-string,array{0:array<string,mixed>}>
+     */
+    public function configurationsWithOverriddenResponseInterfaceFactory(): Generator
+    {
+        yield 'default' => [
+            [
+                'dependencies' => [
+                    'factories' => [
+                        ResponseInterface::class => function (): ResponseInterface {
+                            return $this->createMock(ResponseInterface::class);
+                        },
+                    ],
+                ],
+            ],
+        ];
+
+        yield 'aliased' => [
+            [
+                'dependencies' => [
+                    'aliases' => [
+                        ResponseInterface::class => function (): ResponseInterface {
+                            return $this->createMock(ResponseInterface::class);
+                        },
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function testFactoryOnlyRequiresResponseService() : void
     {
         $container = new InMemoryContainer();
-        $factory = new ServerRequestErrorResponseGeneratorFactory();
 
         $this->expectException(RuntimeException::class);
-        $factory($container);
+        ($this->factory)($container);
     }
 
     public function testFactoryCreatesGeneratorWhenOnlyResponseServiceIsPresent() : void
     {
         $container = new InMemoryContainer();
 
-        $responseFactory = function (): void {
+        $responseFactory = function (): ResponseInterface {
+            return $this->createMock(ResponseInterface::class);
         };
         $container->set(ResponseInterface::class, $responseFactory);
 
-        $factory = new ServerRequestErrorResponseGeneratorFactory();
-
-        $generator = $factory($container);
+        $generator = ($this->factory)($container);
 
         self::assertEquals(new ServerRequestErrorResponseGenerator($responseFactory), $generator);
     }
@@ -55,13 +124,12 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         $container->set('config', $config);
         $container->set(TemplateRendererInterface::class, $renderer);
 
-        $responseFactory = function (): void {
+        $responseFactory = function (): ResponseInterface {
+            return $this->createMock(ResponseInterface::class);
         };
         $container->set(ResponseInterface::class, $responseFactory);
 
-        $factory = new ServerRequestErrorResponseGeneratorFactory();
-
-        $generator = $factory($container);
+        $generator = ($this->factory)($container);
 
         self::assertEquals(
             new ServerRequestErrorResponseGenerator(
@@ -83,8 +151,44 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         };
         $container->set(ResponseInterface::class, $responseFactory);
 
-        $factory = new ServerRequestErrorResponseGeneratorFactory();
-        $factory($container);
+        ($this->factory)($container);
         $this->expectNotToPerformAssertions();
+    }
+
+    /**
+     * @param array<string,mixed> $config
+     * @dataProvider configurationsWithResponseInterfaceFactory
+     */
+    public function testWillUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsNotOverridden(array $config): void
+    {
+        $responseFactory = $this->createMock(ResponseFactoryInterface::class);
+        $container = new InMemoryContainer();
+        $container->set('config', $config);
+        $container->set(ResponseFactoryInterface::class, $responseFactory);
+
+        $generator = ($this->factory)($container);
+        self::assertSame($responseFactory, $generator->getResponseFactory());
+    }
+
+    /**
+     * @param array<string,mixed> $config
+     * @dataProvider configurationsWithOverriddenResponseInterfaceFactory
+     */
+    public function testWontUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsOverriden(array $config): void
+    {
+        $responseFactory = $this->createMock(ResponseFactoryInterface::class);
+        $container = new InMemoryContainer();
+        $container->set('config', $config);
+        $container->set(ResponseFactoryInterface::class, $responseFactory);
+        $response = $this->createMock(ResponseInterface::class);
+        $container->set(ResponseInterface::class, function () use ($response): ResponseInterface {
+            return $response;
+        });
+
+        $generator = ($this->factory)($container);
+        $responseFactoryFromGenerator = $generator->getResponseFactory();
+        self::assertNotSame($responseFactory, $responseFactoryFromGenerator);
+        self::assertInstanceOf(ResponseFactory::class, $responseFactoryFromGenerator);
+        self::assertEquals($response, $responseFactoryFromGenerator->getResponseFromCallable());
     }
 }

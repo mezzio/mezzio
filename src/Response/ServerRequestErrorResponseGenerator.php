@@ -66,4 +66,9 @@ class ServerRequestErrorResponseGenerator
 
         return $this->prepareDefaultResponse($e, $this->debug, $response);
     }
+
+    public function getResponseFactory(): ResponseFactoryInterface
+    {
+        return $this->responseFactory;
+    }
 }

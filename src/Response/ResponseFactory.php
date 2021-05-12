@@ -27,6 +27,11 @@ final class ResponseFactory implements ResponseFactoryInterface
 
     public function createResponse(int $code = 200, string $reasonPhrase = ''): ResponseInterface
     {
-        return ($this->responseFactory)()->withStatus($code, $reasonPhrase);
+        return $this->getResponseFromCallable()->withStatus($code, $reasonPhrase);
+    }
+
+    public function getResponseFromCallable(): ResponseInterface
+    {
+        return ($this->responseFactory)();
     }
 }

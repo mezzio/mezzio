@@ -28,6 +28,7 @@
         <InternalMethod>
             <errorLevel type="suppress">
                 <referencedMethod name="Mezzio\Response\ResponseFactory::createResponse"/>
+                <referencedMethod name="Mezzio\Response\ResponseFactory::getResponseFromCallable"/>
             </errorLevel>
         </InternalMethod>
         <InternalClass>
