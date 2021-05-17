@@ -1,7 +1,6 @@
 {
     "name": "mezzio/mezzio",
     "description": "PSR-15 Middleware Microframework",
-    "license": "BSD-3-Clause",
     "keywords": [
         "laminas",
         "mezzio",
@@ -13,24 +12,9 @@
         "psr-15"
     ],
     "homepage": "https://mezzio.dev",
-    "support": {
-        "docs": "https://docs.mezzio.dev/mezzio/",
-        "issues": "https://github.com/mezzio/mezzio/issues",
-        "source": "https://github.com/mezzio/mezzio",
-        "rss": "https://github.com/mezzio/mezzio/releases.atom",
-        "chat": "https://laminas.dev/chat",
-        "forum": "https://discourse.laminas.dev"
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "laminas": {
-            "config-provider": "Mezzio\\ConfigProvider"
-        }
-    },
+    "license": "BSD-3-Clause",
     "require": {
-        "php": "^7.3||~8.0.0",
+        "php": "^7.3 || ~8.0.0",
         "fig/http-message-util": "^1.1.5",
         "laminas/laminas-httphandlerrunner": "^1.3.0",
         "laminas/laminas-stratigility": "^3.3.0",
@@ -41,6 +25,14 @@
         "psr/http-message": "^1.0.1",
         "psr/http-server-middleware": "^1.0",
         "webmozart/assert": "^1.10"
+    },
+    "replace": {
+        "zendframework/zend-expressive": "^3.2.1"
+    },
+    "conflict": {
+        "container-interop/container-interop": "<1.2.0",
+        "laminas/laminas-diactoros": "<1.7.1",
+        "laminas/laminas-stdlib": "<3.2.1"
     },
     "require-dev": {
         "filp/whoops": "^2.8.0",
@@ -56,11 +48,6 @@
         "psalm/plugin-phpunit": "^0.13",
         "vimeo/psalm": "^4.1"
     },
-    "conflict": {
-        "container-interop/container-interop": "<1.2.0",
-        "laminas/laminas-diactoros": "<1.7.1",
-        "laminas/laminas-stdlib": "<3.2.1"
-    },
     "suggest": {
         "filp/whoops": "^2.1 to use the Whoops error handler",
         "laminas/laminas-auradi-config": "^2.0 to use Aura.Di dependency injection container",
@@ -70,14 +57,22 @@
         "mezzio/mezzio-tooling": "^1.0 for migration and development tools; require it with the --dev flag",
         "psr/http-message-implementation": "Please install a psr/http-message-implementation to consume Mezzio; e.g., laminas/laminas-diactoros"
     },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laminas": {
+            "config-provider": "Mezzio\\ConfigProvider"
+        }
+    },
     "autoload": {
+        "psr-4": {
+            "Mezzio\\": "src/"
+        },
         "files": [
             "src/constants.php",
             "src/constants.legacy.php"
-        ],
-        "psr-4": {
-            "Mezzio\\": "src/"
-        }
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -95,13 +90,18 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
+        "license-check": "docheader check src/ test/",
         "static-analysis": "psalm --shepherd --stats",
-        "update-baseline": "psalm --update-baseline",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
-        "license-check": "docheader check src/ test/"
+        "update-baseline": "psalm --update-baseline"
     },
-    "replace": {
-        "zendframework/zend-expressive": "^3.2.1"
+    "support": {
+        "issues": "https://github.com/mezzio/mezzio/issues",
+        "forum": "https://discourse.laminas.dev",
+        "chat": "https://laminas.dev/chat",
+        "source": "https://github.com/mezzio/mezzio",
+        "docs": "https://docs.mezzio.dev/mezzio/",
+        "rss": "https://github.com/mezzio/mezzio/releases.atom"
     }
 }
