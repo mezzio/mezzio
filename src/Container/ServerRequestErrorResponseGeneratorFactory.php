@@ -7,11 +7,12 @@ namespace Mezzio\Container;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
 use Webmozart\Assert\Assert;
 
 class ServerRequestErrorResponseGeneratorFactory
 {
+    use Psr17ResponseFactoryTrait;
+
     public function __invoke(ContainerInterface $container) : ServerRequestErrorResponseGenerator
     {
         $config = $container->has('config') ? $container->get('config') : [];
@@ -32,8 +33,13 @@ class ServerRequestErrorResponseGeneratorFactory
         $template = $errorHandlerConfiguration['template_error']
             ?? ServerRequestErrorResponseGenerator::TEMPLATE_DEFAULT;
 
+        $dependencies = $config['dependencies'] ?? [];
+        Assert::isMap($dependencies);
+
+        $responseFactory = $this->detectResponseFactory($container, $dependencies);
+
         return new ServerRequestErrorResponseGenerator(
-            $container->get(ResponseInterface::class),
+            $responseFactory,
             $debug,
             $renderer,
             $template
