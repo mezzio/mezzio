@@ -183,14 +183,6 @@
       <code>$responseFactory()</code>
     </MixedReturnStatement>
   </file>
-  <file src="src/Middleware/ErrorResponseGenerator.php">
-    <PossiblyNullPropertyAssignmentValue occurrences="1">
-      <code>$renderer</code>
-    </PossiblyNullPropertyAssignmentValue>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>$this-&gt;renderer</code>
-    </RedundantConditionGivenDocblockType>
-  </file>
   <file src="src/Middleware/WhoopsErrorResponseGenerator.php">
     <DocblockTypeContradiction occurrences="1">
       <code>$whoops instanceof RunInterface || $whoops instanceof Run</code>
@@ -252,15 +244,9 @@
     <MixedReturnStatement occurrences="1">
       <code>$responseFactory()</code>
     </MixedReturnStatement>
-    <PossiblyNullPropertyAssignmentValue occurrences="1">
-      <code>$renderer</code>
-    </PossiblyNullPropertyAssignmentValue>
     <PropertyNotSetInConstructor occurrences="1">
       <code>ServerRequestErrorResponseGenerator</code>
     </PropertyNotSetInConstructor>
-    <RedundantConditionGivenDocblockType occurrences="1">
-      <code>$this-&gt;renderer</code>
-    </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/ApplicationTest.php">
     <MissingClosureParamType occurrences="4">

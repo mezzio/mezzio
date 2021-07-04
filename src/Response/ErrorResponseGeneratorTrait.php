@@ -21,7 +21,7 @@ trait ErrorResponseGeneratorTrait
     private $debug;
 
     /**
-     * @var TemplateRendererInterface
+     * @var TemplateRendererInterface|null
      */
     private $renderer;
 
