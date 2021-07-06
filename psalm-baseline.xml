@@ -88,8 +88,7 @@
     </MixedArgument>
   </file>
   <file src="src/Container/NotFoundHandlerFactory.php">
-    <MixedArgument occurrences="4">
-      <code>$container-&gt;get(ResponseInterface::class)</code>
+    <MixedArgument occurrences="3">
       <code>$errorHandlerConfig</code>
       <code>$renderer</code>
       <code>$template</code>
@@ -116,15 +115,11 @@
     </UndefinedClass>
   </file>
   <file src="src/Container/ServerRequestErrorResponseGeneratorFactory.php">
-    <MixedArgument occurrences="4">
-      <code>$container-&gt;get(ResponseInterface::class)</code>
+    <MixedArgument occurrences="3">
       <code>$debug</code>
       <code>$renderer</code>
       <code>$template</code>
     </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$config['mezzio']['error_handler']['template_error']</code>
-    </MixedArrayAccess>
     <MixedAssignment occurrences="3">
       <code>$debug</code>
       <code>$renderer</code>
@@ -158,30 +153,6 @@
       <code>$config</code>
       <code>$editor</code>
     </MixedAssignment>
-  </file>
-  <file src="src/Handler/NotFoundHandler.php">
-    <MixedAssignment occurrences="2">
-      <code>$response</code>
-      <code>$response</code>
-    </MixedAssignment>
-    <MixedInferredReturnType occurrences="3">
-      <code>ResponseInterface</code>
-      <code>ResponseInterface</code>
-      <code>ResponseInterface</code>
-    </MixedInferredReturnType>
-    <MixedMethodCall occurrences="6">
-      <code>getBody</code>
-      <code>getBody</code>
-      <code>withStatus</code>
-      <code>withStatus</code>
-      <code>write</code>
-      <code>write</code>
-    </MixedMethodCall>
-    <MixedReturnStatement occurrences="3">
-      <code>$response</code>
-      <code>$response</code>
-      <code>$responseFactory()</code>
-    </MixedReturnStatement>
   </file>
   <file src="src/Middleware/ErrorResponseGenerator.php">
     <PossiblyNullPropertyAssignmentValue occurrences="1">
@@ -232,26 +203,6 @@
     </MixedAssignment>
   </file>
   <file src="src/Response/ServerRequestErrorResponseGenerator.php">
-    <MixedArgument occurrences="3">
-      <code>$response</code>
-      <code>$response</code>
-      <code>$response</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$response</code>
-      <code>$response</code>
-    </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
-      <code>ResponseInterface</code>
-    </MixedInferredReturnType>
-    <MixedMethodCall occurrences="3">
-      <code>getReasonPhrase</code>
-      <code>getStatusCode</code>
-      <code>withStatus</code>
-    </MixedMethodCall>
-    <MixedReturnStatement occurrences="1">
-      <code>$responseFactory()</code>
-    </MixedReturnStatement>
     <PossiblyNullPropertyAssignmentValue occurrences="1">
       <code>$renderer</code>
     </PossiblyNullPropertyAssignmentValue>
@@ -633,14 +584,6 @@
       <code>$request</code>
       <code>$request</code>
     </UnusedClosureParam>
-  </file>
-  <file src="test/Response/ServerRequestErrorResponseGeneratorTest.php">
-    <MissingClosureParamType occurrences="1">
-      <code>$message</code>
-    </MissingClosureParamType>
-    <MixedArgument occurrences="1">
-      <code>$message</code>
-    </MixedArgument>
   </file>
   <file src="test/Router/IntegrationTest.php">
     <ArgumentTypeCoercion occurrences="13">
