@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mezzio\Handler;
 
 use Fig\Http\Message\StatusCodeInterface;
-use Mezzio\Response\CallableResponseFactoryDecorator;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -41,19 +40,13 @@ class NotFoundHandler implements RequestHandlerInterface
 
     /**
      * @todo Allow nullable $layout
-     * @param callable|ResponseFactoryInterface $responseFactory
-     * @psalm-param (callable():ResponseInterface)|ResponseFactoryInterface $responseFactory
      */
     public function __construct(
-        $responseFactory,
+        ResponseFactoryInterface $responseFactory,
         TemplateRendererInterface $renderer = null,
         string $template = self::TEMPLATE_DEFAULT,
         string $layout = self::LAYOUT_DEFAULT
     ) {
-        if (is_callable($responseFactory)) {
-            $responseFactory = new CallableResponseFactoryDecorator($responseFactory);
-        }
-
         $this->responseFactory = $responseFactory;
         $this->renderer = $renderer;
         $this->template = $template;
@@ -79,7 +72,7 @@ class NotFoundHandler implements RequestHandlerInterface
      */
     private function generatePlainTextResponse(ServerRequestInterface $request) : ResponseInterface
     {
-        $response = $this->responseFactory->createResponse()->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
+        $response = $this->responseFactory->createResponse(StatusCodeInterface::STATUS_NOT_FOUND);
         $response->getBody()
             ->write(sprintf(
                 'Cannot %s %s',
@@ -100,16 +93,11 @@ class NotFoundHandler implements RequestHandlerInterface
         ServerRequestInterface $request
     ) : ResponseInterface {
 
-        $response = $this->responseFactory->createResponse()->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
+        $response = $this->responseFactory->createResponse(StatusCodeInterface::STATUS_NOT_FOUND);
         $response->getBody()->write(
             $renderer->render($this->template, ['request' => $request, 'layout' => $this->layout])
         );
 
         return $response;
-    }
-
-    public function getResponseFactory(): ResponseFactoryInterface
-    {
-        return $this->responseFactory;
     }
 }

@@ -7,15 +7,11 @@ namespace MezzioTest\Container;
 use ArrayAccess;
 use Generator;
 use Mezzio\Container\NotFoundHandlerFactory;
-use Mezzio\Container\ResponseFactoryFactory;
 use Mezzio\Handler\NotFoundHandler;
-use Mezzio\Response\CallableResponseFactoryDecorator;
 use Mezzio\Template\TemplateRendererInterface;
 use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -36,9 +32,7 @@ class NotFoundHandlerFactoryTest extends TestCase
     {
         $this->response = $this->createMock(ResponseInterface::class);
         $this->container = new InMemoryContainer();
-        $this->container->set(ResponseInterface::class, function () {
-            return $this->response;
-        });
+        $this->container->set(ResponseFactoryInterface::class, $this->createMock(ResponseFactoryInterface::class));
         $this->factory = new NotFoundHandlerFactory();
     }
 
@@ -86,22 +80,25 @@ class NotFoundHandlerFactoryTest extends TestCase
 
     public function testFactoryCreatesInstanceWithoutRendererIfRendererServiceIsMissing() : void
     {
-        $factory = new NotFoundHandlerFactory();
+        $handler = ($this->factory)($this->container);
 
-        $handler = $factory($this->container);
-
-        self::assertEquals(new NotFoundHandler($this->container->get(ResponseInterface::class)), $handler);
+        self::assertEquals(new NotFoundHandler($this->container->get(ResponseFactoryInterface::class)), $handler);
     }
 
     public function testFactoryCreatesInstanceUsingRendererServiceWhenPresent() : void
     {
         $renderer = $this->createMock(TemplateRendererInterface::class);
         $this->container->set(TemplateRendererInterface::class, $renderer);
-        $factory = new NotFoundHandlerFactory();
 
-        $handler = $factory($this->container);
+        $handler = ($this->factory)($this->container);
 
-        self::assertEquals(new NotFoundHandler($this->container->get(ResponseInterface::class), $renderer), $handler);
+        self::assertEquals(
+            new NotFoundHandler(
+                $this->container->get(ResponseFactoryInterface::class),
+                $renderer
+            ),
+            $handler
+        );
     }
 
     public function testFactoryUsesConfigured404TemplateWhenPresent() : void
@@ -115,13 +112,12 @@ class NotFoundHandlerFactoryTest extends TestCase
             ],
         ];
         $this->container->set('config', $config);
-        $factory = new NotFoundHandlerFactory();
 
-        $handler = $factory($this->container);
+        $handler = ($this->factory)($this->container);
 
         self::assertEquals(
             new NotFoundHandler(
-                $this->container->get(ResponseInterface::class),
+                $this->container->get(ResponseFactoryInterface::class),
                 null,
                 $config['mezzio']['error_handler']['template_404'],
                 $config['mezzio']['error_handler']['layout']
@@ -141,15 +137,14 @@ class NotFoundHandlerFactoryTest extends TestCase
             ],
         ];
         $this->container->set('config', $config);
-        $factory = new NotFoundHandlerFactory();
 
-        $handler = $factory($this->container);
+        $handler = ($this->factory)($this->container);
 
         // ideally we would like to keep null there,
         // but right now NotFoundHandlerFactory does not accept null for layout
         self::assertEquals(
             new NotFoundHandler(
-                $this->container->get(ResponseInterface::class),
+                $this->container->get(ResponseFactoryInterface::class),
                 null,
                 $config['mezzio']['error_handler']['template_404'],
                 ''
@@ -163,49 +158,7 @@ class NotFoundHandlerFactoryTest extends TestCase
         $config = $this->createMock(ArrayAccess::class);
         $this->container->set('config', $config);
 
-        $factory = new NotFoundHandlerFactory();
-        $factory($this->container);
+        ($this->factory)($this->container);
         $this->expectNotToPerformAssertions();
-    }
-
-
-    public function testWillUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsNotOverridden(): void
-    {
-        $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container = new InMemoryContainer();
-        $container->set('config', [
-            'dependencies' => [
-                'factories' => [
-                    ResponseInterface::class => ResponseFactoryFactory::class,
-                ],
-            ],
-        ]);
-        $container->set(ResponseFactoryInterface::class, $responseFactory);
-
-        $generator = ($this->factory)($container);
-        self::assertSame($responseFactory, $generator->getResponseFactory());
-    }
-
-    /**
-     * @param array<string,mixed> $config
-     * @dataProvider configurationsWithOverriddenResponseInterfaceFactory
-     */
-    public function testWontUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsOverriden(
-        array $config
-    ): void {
-        $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container = new InMemoryContainer();
-        $container->set('config', $config);
-        $container->set(ResponseFactoryInterface::class, $responseFactory);
-        $response = $this->createMock(ResponseInterface::class);
-        $container->set(ResponseInterface::class, function () use ($response): ResponseInterface {
-            return $response;
-        });
-
-        $generator = ($this->factory)($container);
-        $responseFactoryFromGenerator = $generator->getResponseFactory();
-        self::assertNotSame($responseFactory, $responseFactoryFromGenerator);
-        self::assertInstanceOf(CallableResponseFactoryDecorator::class, $responseFactoryFromGenerator);
-        self::assertEquals($response, $responseFactoryFromGenerator->getResponseFromCallable());
     }
 }

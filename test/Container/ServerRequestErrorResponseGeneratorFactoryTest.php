@@ -6,9 +6,7 @@ namespace MezzioTest\Container;
 
 use ArrayAccess;
 use Generator;
-use Mezzio\Container\ResponseFactoryFactory;
 use Mezzio\Container\ServerRequestErrorResponseGeneratorFactory;
-use Mezzio\Response\CallableResponseFactoryDecorator;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use MezzioTest\InMemoryContainer;
@@ -84,10 +82,8 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
     {
         $container = new InMemoryContainer();
 
-        $responseFactory = function (): ResponseInterface {
-            return $this->createMock(ResponseInterface::class);
-        };
-        $container->set(ResponseInterface::class, $responseFactory);
+        $responseFactory = $this->createMock(ResponseFactoryInterface::class);
+        $container->set(ResponseFactoryInterface::class, $responseFactory);
 
         $generator = ($this->factory)($container);
 
@@ -110,10 +106,8 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         $container->set('config', $config);
         $container->set(TemplateRendererInterface::class, $renderer);
 
-        $responseFactory = function (): ResponseInterface {
-            return $this->createMock(ResponseInterface::class);
-        };
-        $container->set(ResponseInterface::class, $responseFactory);
+        $responseFactory = $this->createMock(ResponseFactoryInterface::class);
+        $container->set(ResponseFactoryInterface::class, $responseFactory);
 
         $generator = ($this->factory)($container);
 
@@ -133,51 +127,9 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         $config = $this->createMock(ArrayAccess::class);
         $container = new InMemoryContainer();
         $container->set('config', $config);
-        $responseFactory = function (): void {
-        };
-        $container->set(ResponseInterface::class, $responseFactory);
+        $container->set(ResponseFactoryInterface::class, $this->createMock(ResponseFactoryInterface::class));
 
         ($this->factory)($container);
         $this->expectNotToPerformAssertions();
-    }
-
-    public function testWillUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsNotOverridden(): void
-    {
-        $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container = new InMemoryContainer();
-        $container->set('config', [
-            'dependencies' => [
-                'factories' => [
-                    ResponseInterface::class => ResponseFactoryFactory::class,
-                ],
-            ],
-        ]);
-        $container->set(ResponseFactoryInterface::class, $responseFactory);
-
-        $generator = ($this->factory)($container);
-        self::assertSame($responseFactory, $generator->getResponseFactory());
-    }
-
-    /**
-     * @param array<string,mixed> $config
-     * @dataProvider configurationsWithOverriddenResponseInterfaceFactory
-     */
-    public function testWontUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsOverriden(
-        array $config
-    ): void {
-        $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container = new InMemoryContainer();
-        $container->set('config', $config);
-        $container->set(ResponseFactoryInterface::class, $responseFactory);
-        $response = $this->createMock(ResponseInterface::class);
-        $container->set(ResponseInterface::class, function () use ($response): ResponseInterface {
-            return $response;
-        });
-
-        $generator = ($this->factory)($container);
-        $responseFactoryFromGenerator = $generator->getResponseFactory();
-        self::assertNotSame($responseFactory, $responseFactoryFromGenerator);
-        self::assertInstanceOf(CallableResponseFactoryDecorator::class, $responseFactoryFromGenerator);
-        self::assertEquals($response, $responseFactoryFromGenerator->getResponseFromCallable());
     }
 }

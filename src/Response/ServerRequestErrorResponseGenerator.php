@@ -9,7 +9,6 @@ use Mezzio\Template\TemplateRendererInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
-use function is_callable;
 
 /**
  * Generates a response for use when the server request factory fails.
@@ -25,19 +24,12 @@ class ServerRequestErrorResponseGenerator
      */
     private $responseFactory;
 
-    /**
-     * @param (callable():ResponseInterface)|ResponseFactoryInterface $responseFactory
-     */
     public function __construct(
-        $responseFactory,
+        ResponseFactoryInterface $responseFactory,
         bool $isDevelopmentMode = false,
         TemplateRendererInterface $renderer = null,
         string $template = self::TEMPLATE_DEFAULT
     ) {
-        if (is_callable($responseFactory)) {
-            $responseFactory = new CallableResponseFactoryDecorator($responseFactory);
-        }
-
         $this->responseFactory = $responseFactory;
 
         $this->debug     = $isDevelopmentMode;
@@ -65,10 +57,5 @@ class ServerRequestErrorResponseGenerator
         }
 
         return $this->prepareDefaultResponse($e, $this->debug, $response);
-    }
-
-    public function getResponseFactory(): ResponseFactoryInterface
-    {
-        return $this->responseFactory;
     }
 }

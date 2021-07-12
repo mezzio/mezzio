@@ -28,13 +28,6 @@ use function file_get_contents;
 use function json_decode;
 use function sprintf;
 
-use const Mezzio\DEFAULT_DELEGATE;
-use const Mezzio\DISPATCH_MIDDLEWARE;
-use const Mezzio\IMPLICIT_HEAD_MIDDLEWARE;
-use const Mezzio\IMPLICIT_OPTIONS_MIDDLEWARE;
-use const Mezzio\NOT_FOUND_MIDDLEWARE;
-use const Mezzio\ROUTE_MIDDLEWARE;
-
 class ConfigProviderTest extends TestCase
 {
     /** @var ConfigProvider */
@@ -43,18 +36,6 @@ class ConfigProviderTest extends TestCase
     public function setUp() : void
     {
         $this->provider = new ConfigProvider();
-    }
-
-    public function testProviderDefinesExpectedAliases() : void
-    {
-        $config = $this->provider->getDependencies();
-        $aliases = $config['aliases'];
-        $this->assertArrayHasKey(DEFAULT_DELEGATE, $aliases);
-        $this->assertArrayHasKey(DISPATCH_MIDDLEWARE, $aliases);
-        $this->assertArrayHasKey(IMPLICIT_HEAD_MIDDLEWARE, $aliases);
-        $this->assertArrayHasKey(IMPLICIT_OPTIONS_MIDDLEWARE, $aliases);
-        $this->assertArrayHasKey(NOT_FOUND_MIDDLEWARE, $aliases);
-        $this->assertArrayHasKey(ROUTE_MIDDLEWARE, $aliases);
     }
 
     public function testProviderDefinesExpectedFactoryServices() : void
@@ -82,7 +63,6 @@ class ConfigProviderTest extends TestCase
         $config = ($this->provider)();
         $this->assertIsArray($config);
         $this->assertArrayHasKey('dependencies', $config);
-        $this->assertArrayHasKey('aliases', $config['dependencies']);
         $this->assertArrayHasKey('factories', $config['dependencies']);
     }
 
@@ -113,7 +93,7 @@ class ConfigProviderTest extends TestCase
             );
         }
 
-        foreach ($dependencies['aliases'] as $alias => $dependency) {
+        foreach ($dependencies['aliases'] ?? [] as $alias => $dependency) {
             $this->assertTrue(
                 $container->has($alias),
                 sprintf('Container does not contain service with alias %s', $alias)
