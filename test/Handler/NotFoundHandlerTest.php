@@ -121,27 +121,4 @@ class NotFoundHandlerTest extends TestCase
 
         $this->assertSame($this->response, $response);
     }
-
-    public function testCanHandleCallableResponseFactory(): void
-    {
-        $responseFactory = function (): ResponseInterface {
-            return $this->response;
-        };
-
-        $this->response
-            ->expects(self::exactly(2))
-            ->method('withStatus')
-            ->withConsecutive([200], [404])
-            ->willReturnSelf();
-
-        $this->response
-            ->expects(self::once())
-            ->method('getBody')
-            ->willReturn($this->createMock(StreamInterface::class));
-
-        $handler = new NotFoundHandler($responseFactory);
-        $response = $handler->handle($this->createMock(ServerRequestInterface::class));
-
-        $this->assertSame($this->response, $response);
-    }
 }

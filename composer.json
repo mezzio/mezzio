@@ -72,10 +72,6 @@
         "psr/http-message-implementation": "Please install a psr/http-message-implementation to consume Mezzio; e.g., laminas/laminas-diactoros"
     },
     "autoload": {
-        "files": [
-            "src/constants.php",
-            "src/constants.legacy.php"
-        ],
         "psr-4": {
             "Mezzio\\": "src/"
         }

@@ -13,9 +13,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
-use function preg_match;
-use function strpos;
-
 class ServerRequestErrorResponseGeneratorTest extends TestCase
 {
     /** @var TemplateRendererInterface&MockObject */
@@ -108,29 +105,6 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
 
         $generator = new ServerRequestErrorResponseGenerator($this->responseFactory, true);
 
-        $this->assertSame($this->response, $generator($e));
-    }
-
-    public function testCanHandleCallableResponseFactory(): void
-    {
-        $responseFactory = function (): ResponseInterface {
-            return $this->response;
-        };
-
-        $this->response
-            ->expects(self::exactly(2))
-            ->method('withStatus')
-            ->withConsecutive([200], [422])
-            ->willReturnSelf();
-
-        $this->response
-            ->expects(self::once())
-            ->method('getBody')
-            ->willReturn($this->createMock(StreamInterface::class));
-
-        $generator = new ServerRequestErrorResponseGenerator($responseFactory, false);
-
-        $e = new RuntimeException('This is the exception message', 422);
         $this->assertSame($this->response, $generator($e));
     }
 }
