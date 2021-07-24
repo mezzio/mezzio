@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5629fa6c194d855c797e1dcc6121b5e5",
+    "content-hash": "7051660a42b61f9a6109b0b18666d4a2",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -402,16 +402,16 @@
         },
         {
             "name": "mezzio/mezzio-router",
-            "version": "3.3.0",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-router.git",
-                "reference": "42659ecc8db2e60ca3dde413507a98d879031a37"
+                "reference": "c09ebf1799f5dea4226155e717c7e50658759113"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-router/zipball/42659ecc8db2e60ca3dde413507a98d879031a37",
-                "reference": "42659ecc8db2e60ca3dde413507a98d879031a37",
+                "url": "https://api.github.com/repos/mezzio/mezzio-router/zipball/c09ebf1799f5dea4226155e717c7e50658759113",
+                "reference": "c09ebf1799f5dea4226155e717c7e50658759113",
                 "shasum": ""
             },
             "require": {
@@ -426,8 +426,7 @@
                 "zendframework/zend-expressive-router": "^3.1.1"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "~2.1.0",
-                "malukenho/docheader": "^0.1.6",
+                "laminas/laminas-coding-standard": "~2.2.0",
                 "phpspec/prophecy": "^1.9",
                 "phpspec/prophecy-phpunit": "^2.0",
                 "phpunit/phpunit": "^9.4.1",
@@ -464,13 +463,21 @@
                 "psr",
                 "psr-7"
             ],
+            "support": {
+                "chat": "https://laminas.dev/chat",
+                "docs": "https://docs.mezzio.dev/mezzio/features/router/intro/",
+                "forum": "https://discourse.laminas.dev",
+                "issues": "https://github.com/mezzio/mezzio-router/issues",
+                "rss": "https://github.com/mezzio/mezzio-router/releases.atom",
+                "source": "https://github.com/mezzio/mezzio-router"
+            },
             "funding": [
                 {
                     "url": "https://funding.communitybridge.org/projects/laminas-project",
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-01-06T16:46:13+00:00"
+            "time": "2021-07-24T13:12:24+00:00"
         },
         {
             "name": "mezzio/mezzio-template",
