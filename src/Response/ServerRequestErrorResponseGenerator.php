@@ -9,6 +9,7 @@ use Mezzio\Template\TemplateRendererInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
+
 use function is_callable;
 
 /**
@@ -20,9 +21,7 @@ class ServerRequestErrorResponseGenerator
 
     public const TEMPLATE_DEFAULT = 'error::error';
 
-    /**
-     * @var ResponseFactoryInterface
-     */
+    /** @var ResponseFactoryInterface */
     private $responseFactory;
 
     /**
@@ -31,7 +30,7 @@ class ServerRequestErrorResponseGenerator
     public function __construct(
         $responseFactory,
         bool $isDevelopmentMode = false,
-        TemplateRendererInterface $renderer = null,
+        ?TemplateRendererInterface $renderer = null,
         string $template = self::TEMPLATE_DEFAULT
     ) {
         if (is_callable($responseFactory)) {
@@ -40,12 +39,12 @@ class ServerRequestErrorResponseGenerator
 
         $this->responseFactory = $responseFactory;
 
-        $this->debug     = $isDevelopmentMode;
-        $this->renderer  = $renderer;
-        $this->template  = $template;
+        $this->debug    = $isDevelopmentMode;
+        $this->renderer = $renderer;
+        $this->template = $template;
     }
 
-    public function __invoke(Throwable $e) : ResponseInterface
+    public function __invoke(Throwable $e): ResponseInterface
     {
         $response = $this->responseFactory->createResponse();
         $response = $response->withStatus(Utils::getStatusCode($e, $response));

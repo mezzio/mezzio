@@ -14,10 +14,10 @@ use function iterator_to_array;
 
 class EmitterFactoryTest extends TestCase
 {
-    public function testFactoryProducesEmitterStackWithSapiEmitterComposed() : void
+    public function testFactoryProducesEmitterStackWithSapiEmitterComposed(): void
     {
         $container = $this->createMock(ContainerInterface::class);
-        $factory = new EmitterFactory();
+        $factory   = new EmitterFactory();
 
         $emitter = $factory($container);
 

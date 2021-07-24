@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace MezzioTest\Response;
@@ -10,21 +11,17 @@ use Psr\Http\Message\ResponseInterface;
 
 final class CallableResponseFactoryDecoratorTest extends TestCase
 {
-    /**
-     * @var MockObject&ResponseInterface
-     */
+    /** @var MockObject&ResponseInterface */
     private $response;
 
-    /**
-     * @var CallableResponseFactoryDecorator
-     */
+    /** @var CallableResponseFactoryDecorator */
     private $factory;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->response = $this->createMock(ResponseInterface::class);
-        $this->factory = new CallableResponseFactoryDecorator(function (): ResponseInterface {
+        $this->factory  = new CallableResponseFactoryDecorator(function (): ResponseInterface {
             return $this->response;
         });
     }

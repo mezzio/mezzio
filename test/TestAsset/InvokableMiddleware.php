@@ -13,6 +13,6 @@ class InvokableMiddleware
 
     public static function staticallyCallableMiddleware($request, $response, $next)
     {
-        return $response->withHeader('X-Invoked', __CLASS__);
+        return $response->withHeader('X-Invoked', self::class);
     }
 }

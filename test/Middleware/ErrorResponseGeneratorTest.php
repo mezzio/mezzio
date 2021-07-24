@@ -10,7 +10,6 @@ use Mezzio\Middleware\ErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -27,14 +26,14 @@ class ErrorResponseGeneratorTest extends TestCase
     /** @var TemplateRendererInterface&MockObject */
     private $renderer;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->request  = $this->createMock(ServerRequestInterface::class);
         $this->stream   = $this->createMock(StreamInterface::class);
         $this->renderer = $this->createMock(TemplateRendererInterface::class);
     }
 
-    public function testWritesGenericMessageToResponseWhenNoRendererPresentAndNotInDebugMode() : void
+    public function testWritesGenericMessageToResponseWhenNoRendererPresentAndNotInDebugMode(): void
     {
         $error = new RuntimeException('', 0);
 
@@ -56,12 +55,12 @@ class ErrorResponseGeneratorTest extends TestCase
         $this->stream->expects(self::once())->method('write')->with('An unexpected error occurred');
 
         $generator = new ErrorResponseGenerator();
-        $response = $generator($error, $this->request, $initialResponse);
+        $response  = $generator($error, $this->request, $initialResponse);
 
         $this->assertSame($response, $secondaryResponse);
     }
 
-    public function testWritesStackTraceToResponseWhenNoRendererPresentInDebugMode() : void
+    public function testWritesStackTraceToResponseWhenNoRendererPresentInDebugMode(): void
     {
         $leaf   = new RuntimeException('leaf', 415);
         $branch = new RuntimeException('branch', 0, $leaf);
@@ -92,16 +91,16 @@ class ErrorResponseGeneratorTest extends TestCase
             }));
 
         $generator = new ErrorResponseGenerator($debug = true);
-        $response = $generator($error, $this->request, $initialResponse);
+        $response  = $generator($error, $this->request, $initialResponse);
 
         $this->assertSame($response, $secondaryResponse);
     }
 
-    public function templates() : array
+    public function templates(): array
     {
         return [
             'default' => [null, 'error::error'],
-            'custom' => ['error::custom', 'error::custom'],
+            'custom'  => ['error::custom', 'error::custom'],
         ];
     }
 
@@ -111,7 +110,7 @@ class ErrorResponseGeneratorTest extends TestCase
     public function testRendersTemplateWithoutErrorDetailsWhenRendererPresentAndNotInDebugMode(
         ?string $template,
         string $expected
-    ) : void {
+    ): void {
         $error = new RuntimeException('', 0);
 
         $initialResponse   = $this->createMock(ResponseInterface::class);
@@ -162,7 +161,7 @@ class ErrorResponseGeneratorTest extends TestCase
     public function testRendersTemplateWithErrorDetailsWhenRendererPresentAndInDebugMode(
         ?string $template,
         string $expected
-    ) : void {
+    ): void {
         $error = new RuntimeException('', 0);
 
         $initialResponse   = $this->createMock(ResponseInterface::class);

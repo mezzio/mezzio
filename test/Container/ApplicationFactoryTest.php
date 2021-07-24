@@ -16,12 +16,12 @@ use PHPUnit\Framework\TestCase;
 
 class ApplicationFactoryTest extends TestCase
 {
-    public function testFactoryProducesAnApplication() : void
+    public function testFactoryProducesAnApplication(): void
     {
         $middlewareFactory = $this->createMock(MiddlewareFactory::class);
-        $pipeline = $this->createMock(MiddlewarePipeInterface::class);
-        $routeCollector = $this->createMock(RouteCollector::class);
-        $runner = $this->createMock(RequestHandlerRunner::class);
+        $pipeline          = $this->createMock(MiddlewarePipeInterface::class);
+        $routeCollector    = $this->createMock(RouteCollector::class);
+        $runner            = $this->createMock(RequestHandlerRunner::class);
 
         $container = new InMemoryContainer();
         $container->set(MiddlewareFactory::class, $middlewareFactory);

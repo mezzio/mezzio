@@ -31,7 +31,7 @@ class ResponseFactoryFactoryWithoutDiactorosTest extends TestCase
         class_exists(InvalidServiceException::class);
 
         $this->container = $this->createMock(ContainerInterface::class);
-        $this->factory = new ResponseFactoryFactory();
+        $this->factory   = new ResponseFactoryFactory();
 
         $this->autoloadFunctions = spl_autoload_functions();
         foreach ($this->autoloadFunctions as $autoloader) {
@@ -39,14 +39,14 @@ class ResponseFactoryFactoryWithoutDiactorosTest extends TestCase
         }
     }
 
-    private function reloadAutoloaders() : void
+    private function reloadAutoloaders(): void
     {
         foreach ($this->autoloadFunctions as $autoloader) {
             spl_autoload_register($autoloader);
         }
     }
 
-    public function testFactoryRaisesAnExceptionIfDiactorosIsNotLoaded() : void
+    public function testFactoryRaisesAnExceptionIfDiactorosIsNotLoaded(): void
     {
         $this->expectException(InvalidServiceException::class);
         $this->expectExceptionMessage('laminas/laminas-diactoros');

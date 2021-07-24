@@ -25,21 +25,21 @@ class LazyLoadingMiddlewareTest extends TestCase
     /** @var RequestHandlerInterface&MockObject */
     private $handler;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->container = $this->createMock(MiddlewareContainer::class);
         $this->request   = $this->createMock(ServerRequestInterface::class);
         $this->handler   = $this->createMock(RequestHandlerInterface::class);
     }
 
-    public function buildLazyLoadingMiddleware(string $middlewareName) : LazyLoadingMiddleware
+    public function buildLazyLoadingMiddleware(string $middlewareName): LazyLoadingMiddleware
     {
         return new LazyLoadingMiddleware($this->container, $middlewareName);
     }
 
-    public function testProcessesMiddlewarePulledFromContainer() : void
+    public function testProcessesMiddlewarePulledFromContainer(): void
     {
-        $response = $this->createMock(ResponseInterface::class);
+        $response   = $this->createMock(ResponseInterface::class);
         $middleware = $this->createMock(MiddlewareInterface::class);
         $middleware
             ->method('process')
@@ -55,7 +55,7 @@ class LazyLoadingMiddlewareTest extends TestCase
         );
     }
 
-    public function testDoesNotCatchContainerExceptions() : void
+    public function testDoesNotCatchContainerExceptions(): void
     {
         $exception = new InvalidMiddlewareException();
         $this->container->method('get')->with('foo')->willThrowException($exception);
