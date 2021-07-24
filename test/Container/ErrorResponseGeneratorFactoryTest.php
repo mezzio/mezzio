@@ -20,13 +20,13 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
     /** @var TemplateRendererInterface&MockObject */
     private $renderer;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->container = new InMemoryContainer();
         $this->renderer  = $this->createMock(TemplateRendererInterface::class);
     }
 
-    public function testNoConfigurationCreatesInstanceWithDefaults() : void
+    public function testNoConfigurationCreatesInstanceWithDefaults(): void
     {
         $factory = new ErrorResponseGeneratorFactory();
 
@@ -35,7 +35,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
         self::assertEquals(new ErrorResponseGenerator(), $generator);
     }
 
-    public function testUsesDebugConfigurationToSetDebugFlag() : void
+    public function testUsesDebugConfigurationToSetDebugFlag(): void
     {
         $this->container->set('config', ['debug' => true]);
         $factory = new ErrorResponseGeneratorFactory();
@@ -45,7 +45,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
         self::assertEquals(new ErrorResponseGenerator(true), $generator);
     }
 
-    public function testUsesConfiguredTemplateRenderToSetGeneratorRenderer() : void
+    public function testUsesConfiguredTemplateRenderToSetGeneratorRenderer(): void
     {
         $this->container->set(TemplateRendererInterface::class, $this->renderer);
         $factory = new ErrorResponseGeneratorFactory();
@@ -55,13 +55,13 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
         self::assertEquals(new ErrorResponseGenerator(false, $this->renderer), $generator);
     }
 
-    public function testUsesTemplateConfigurationToSetTemplate() : void
+    public function testUsesTemplateConfigurationToSetTemplate(): void
     {
         $this->container->set('config', [
             'mezzio' => [
                 'error_handler' => [
                     'template_error' => 'error::custom',
-                    'layout' => 'layout::custom',
+                    'layout'         => 'layout::custom',
                 ],
             ],
         ]);
@@ -72,13 +72,13 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
         self::assertEquals(new ErrorResponseGenerator(false, null, 'error::custom', 'layout::custom'), $generator);
     }
 
-    public function testNullifyLayout() : void
+    public function testNullifyLayout(): void
     {
         $this->container->set('config', [
             'mezzio' => [
                 'error_handler' => [
                     'template_error' => 'error::custom',
-                    'layout' => null,
+                    'layout'         => null,
                 ],
             ],
         ]);

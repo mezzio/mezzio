@@ -11,10 +11,10 @@ use Psr\Container\ContainerInterface;
 
 class MiddlewareContainerFactoryTest extends TestCase
 {
-    public function testFactoryCreatesMiddlewareContainerUsingProvidedContainer() : void
+    public function testFactoryCreatesMiddlewareContainerUsingProvidedContainer(): void
     {
         $container = $this->createMock(ContainerInterface::class);
-        $factory = new MiddlewareContainerFactory();
+        $factory   = new MiddlewareContainerFactory();
 
         $middlewareContainer = $factory($container);
 

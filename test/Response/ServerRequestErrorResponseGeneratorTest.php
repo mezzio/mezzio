@@ -13,9 +13,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
-use function preg_match;
-use function strpos;
-
 class ServerRequestErrorResponseGeneratorTest extends TestCase
 {
     /** @var TemplateRendererInterface&MockObject */
@@ -27,9 +24,9 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
     /** @var ResponseFactoryInterface */
     private $responseFactory;
 
-    public function setUp() : void
+    public function setUp(): void
     {
-        $this->response = $this->createMock(ResponseInterface::class);
+        $this->response        = $this->createMock(ResponseInterface::class);
         $this->responseFactory = $this->createMock(ResponseFactoryInterface::class);
         $this->responseFactory
             ->method('createResponse')
@@ -38,7 +35,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
         $this->renderer = $this->createMock(TemplateRendererInterface::class);
     }
 
-    public function testPreparesTemplatedResponseWhenRendererPresent() : void
+    public function testPreparesTemplatedResponseWhenRendererPresent(): void
     {
         $stream = $this->createMock(StreamInterface::class);
         $stream->method('write')->with('data from template');
@@ -49,7 +46,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
         $this->response->method('getReasonPhrase')->willReturn('Unexpected entity');
 
         $template = 'some::template';
-        $e = new RuntimeException('This is the exception message', 422);
+        $e        = new RuntimeException('This is the exception message', 422);
         $this->renderer
             ->method('render')
             ->with($template, [
@@ -70,7 +67,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
         $this->assertSame($this->response, $generator($e));
     }
 
-    public function testPreparesResponseWithDefaultMessageOnlyWhenNoRendererPresentAndNotInDebugMode() : void
+    public function testPreparesResponseWithDefaultMessageOnlyWhenNoRendererPresentAndNotInDebugMode(): void
     {
         $stream = $this->createMock(StreamInterface::class);
         $stream->method('write')->with('An unexpected error occurred');
@@ -87,7 +84,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
         $this->assertSame($this->response, $generator($e));
     }
 
-    public function testPreparesResponseWithDefaultMessageAndStackTraceWhenNoRendererPresentAndInDebugMode() : void
+    public function testPreparesResponseWithDefaultMessageAndStackTraceWhenNoRendererPresentAndInDebugMode(): void
     {
         $stream = $this->createMock(StreamInterface::class);
         $stream

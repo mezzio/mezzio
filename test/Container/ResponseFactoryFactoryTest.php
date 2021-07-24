@@ -11,10 +11,10 @@ use Psr\Container\ContainerInterface;
 
 class ResponseFactoryFactoryTest extends TestCase
 {
-    public function testFactoryProducesACallableCapableOfGeneratingAResponseWhenDiactorosIsInstalled() : void
+    public function testFactoryProducesACallableCapableOfGeneratingAResponseWhenDiactorosIsInstalled(): void
     {
         $container = $this->createMock(ContainerInterface::class);
-        $factory = new ResponseFactoryFactory();
+        $factory   = new ResponseFactoryFactory();
 
         $result = $factory($container);
 

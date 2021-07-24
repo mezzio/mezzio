@@ -16,15 +16,13 @@ use RuntimeException;
 use stdClass;
 use Whoops\Handler\JsonResponseHandler;
 use Whoops\Handler\PrettyPageHandler;
-use Whoops\Run;
 use Whoops\RunInterface;
 
-use function interface_exists;
 use function method_exists;
 
 class WhoopsErrorResponseGeneratorTest extends TestCase
 {
-    /** @var Run|RunInterface&MockObject */
+    /** @var RunInterface&MockObject */
     private $whoops;
 
     /** @var ServerRequestInterface&MockObject */
@@ -36,22 +34,17 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
     /** @var StreamInterface&MockObject */
     private $stream;
 
-    public function setUp() : void
+    public function setUp(): void
     {
-        // Run is marked final in 2.X, but in that version, we can mock the
-        // RunInterface. 1.X has only Run, and it is not final.
-        $this->whoops = interface_exists(RunInterface::class)
-            ? $this->createMock(RunInterface::class)
-            : $this->createMock(Run::class);
-
+        $this->whoops   = $this->createMock(RunInterface::class);
         $this->request  = $this->createMock(ServerRequestInterface::class);
         $this->response = $this->createMock(ResponseInterface::class);
         $this->stream   = $this->createMock(StreamInterface::class);
     }
 
-    public function testWritesResultsOfWhoopsExceptionsHandlingToResponse() : void
+    public function testWritesResultsOfWhoopsExceptionsHandlingToResponse(): void
     {
-        $error = new RuntimeException();
+        $error          = new RuntimeException();
         $sendOutputFlag = true;
 
         $this->whoops->method('getHandlers')->willReturn([]);
@@ -82,9 +75,12 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
         );
     }
 
-    public function testAddsRequestMetadataToWhoopsPrettyPageHandler() : void
+    public function testAddsRequestMetadataToWhoopsPrettyPageHandler(): void
     {
-        $error = new RuntimeException('STATUS_INTERNAL_SERVER_ERROR', StatusCode::STATUS_INTERNAL_SERVER_ERROR);
+        $error          = new RuntimeException(
+            'STATUS_INTERNAL_SERVER_ERROR',
+            StatusCode::STATUS_INTERNAL_SERVER_ERROR
+        );
         $sendOutputFlag = true;
 
         $handler = $this->createMock(PrettyPageHandler::class);
@@ -137,9 +133,9 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
         );
     }
 
-    public function testJsonContentTypeResponseWithJsonResponseHandler() : void
+    public function testJsonContentTypeResponseWithJsonResponseHandler(): void
     {
-        $error = new RuntimeException('STATUS_NOT_IMPLEMENTED', StatusCode::STATUS_NOT_IMPLEMENTED);
+        $error      = new RuntimeException('STATUS_NOT_IMPLEMENTED', StatusCode::STATUS_NOT_IMPLEMENTED);
         $sendOutput = true;
 
         $handler = $this->createMock(JsonResponseHandler::class);
@@ -182,7 +178,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
         );
     }
 
-    public function testThrowsInvalidArgumentExceptionOnNonRunForObject() : void
+    public function testThrowsInvalidArgumentExceptionOnNonRunForObject(): void
     {
         $whoops = new stdClass();
 
@@ -195,7 +191,7 @@ class WhoopsErrorResponseGeneratorTest extends TestCase
         new WhoopsErrorResponseGenerator($whoops);
     }
 
-    public function testThrowsInvalidArgumentExceptionOnNonRunForScalar() : void
+    public function testThrowsInvalidArgumentExceptionOnNonRunForScalar(): void
     {
         $whoops = 'foo';
 

@@ -18,14 +18,14 @@ use Psr\Http\Message\StreamInterface;
  */
 class ConfigProvider
 {
-    public function __invoke() : array
+    public function __invoke(): array
     {
         return [
             'dependencies' => $this->getDependencies(),
         ];
     }
 
-    public function getDependencies() : array
+    public function getDependencies(): array
     {
         // @codingStandardsIgnoreStart
         return [

@@ -21,50 +21,50 @@ class MiddlewareContainerTest extends TestCase
     /** @var InMemoryContainer */
     private $originContainer;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->originContainer = new InMemoryContainer();
-        $this->container = new MiddlewareContainer($this->originContainer);
+        $this->container       = new MiddlewareContainer($this->originContainer);
     }
 
-    public function testHasReturnsTrueIfOriginContainerHasService() : void
+    public function testHasReturnsTrueIfOriginContainerHasService(): void
     {
         $this->originContainer->set('foo', new stdClass());
 
         $this->assertTrue($this->container->has('foo'));
     }
 
-    public function testHasReturnsTrueIfOriginContainerDoesNotHaveServiceButClassExists() : void
+    public function testHasReturnsTrueIfOriginContainerDoesNotHaveServiceButClassExists(): void
     {
-        $this->assertTrue($this->container->has(__CLASS__));
+        $this->assertTrue($this->container->has(self::class));
     }
 
-    public function testHasReturnsFalseIfOriginContainerDoesNotHaveServiceAndClassDoesNotExist() : void
+    public function testHasReturnsFalseIfOriginContainerDoesNotHaveServiceAndClassDoesNotExist(): void
     {
         $this->assertFalse($this->container->has('not-a-class'));
     }
 
-    public function testGetRaisesExceptionIfServiceIsUnknown() : void
+    public function testGetRaisesExceptionIfServiceIsUnknown(): void
     {
         $this->expectException(Exception\MissingDependencyException::class);
         $this->container->get('not-a-service');
     }
 
-    public function testGetRaisesExceptionIfServiceSpecifiedDoesNotImplementMiddlewareInterface() : void
+    public function testGetRaisesExceptionIfServiceSpecifiedDoesNotImplementMiddlewareInterface(): void
     {
-        $this->originContainer->set(__CLASS__, $this);
+        $this->originContainer->set(self::class, $this);
 
         $this->expectException(Exception\InvalidMiddlewareException::class);
-        $this->container->get(__CLASS__);
+        $this->container->get(self::class);
     }
 
-    public function testGetRaisesExceptionIfClassSpecifiedDoesNotImplementMiddlewareInterface() : void
+    public function testGetRaisesExceptionIfClassSpecifiedDoesNotImplementMiddlewareInterface(): void
     {
         $this->expectException(Exception\InvalidMiddlewareException::class);
-        $this->container->get(__CLASS__);
+        $this->container->get(self::class);
     }
 
-    public function testGetReturnsServiceFromOriginContainer() : void
+    public function testGetReturnsServiceFromOriginContainer(): void
     {
         $middleware = $this->createMock(MiddlewareInterface::class);
 
@@ -73,13 +73,13 @@ class MiddlewareContainerTest extends TestCase
         $this->assertSame($middleware, $this->container->get('middleware-service'));
     }
 
-    public function testGetReturnsInstantiatedClass() : void
+    public function testGetReturnsInstantiatedClass(): void
     {
         $middleware = $this->container->get(DispatchMiddleware::class);
         $this->assertInstanceOf(DispatchMiddleware::class, $middleware);
     }
 
-    public function testGetWillDecorateARequestHandlerAsMiddleware() : void
+    public function testGetWillDecorateARequestHandlerAsMiddleware(): void
     {
         $handler = $this->createMock(RequestHandlerInterface::class);
 
@@ -93,9 +93,9 @@ class MiddlewareContainerTest extends TestCase
     /**
      * @see https://github.com/zendframework/zend-expressive/issues/645
      */
-    public function testGetDoesNotCastMiddlewareImplementingRequestHandlerToRequestHandlerMiddleware() : void
+    public function testGetDoesNotCastMiddlewareImplementingRequestHandlerToRequestHandlerMiddleware(): void
     {
-        $pipeline = $this->createMock(MiddlewareAndRequestHandler::class);
+        $pipeline = $this->createMock(MiddlewareAndRequestHandlerInterface::class);
 
         $this->originContainer->set('pipeline', $pipeline);
 

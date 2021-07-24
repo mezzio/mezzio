@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Mezzio\Response;
@@ -12,9 +13,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class CallableResponseFactoryDecorator implements ResponseFactoryInterface
 {
-    /**
-     * @var callable():ResponseInterface
-     */
+    /** @var callable():ResponseInterface */
     private $responseFactory;
 
     /**

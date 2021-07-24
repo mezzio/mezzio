@@ -14,8 +14,6 @@ use Mezzio\Template\TemplateRendererInterface;
 use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -27,14 +25,12 @@ class NotFoundHandlerFactoryTest extends TestCase
     /** @var ResponseInterface&MockObject */
     private $response;
 
-    /**
-     * @var NotFoundHandlerFactory
-     */
+    /** @var NotFoundHandlerFactory */
     private $factory;
 
     protected function setUp(): void
     {
-        $this->response = $this->createMock(ResponseInterface::class);
+        $this->response  = $this->createMock(ResponseInterface::class);
         $this->container = new InMemoryContainer();
         $this->container->set(ResponseInterface::class, function () {
             return $this->response;
@@ -63,7 +59,7 @@ class NotFoundHandlerFactoryTest extends TestCase
             [
                 'dependencies' => [
                     'aliases' => [
-                        ResponseInterface::class => 'CustomResponseInterface'
+                        ResponseInterface::class => 'CustomResponseInterface',
                     ],
                 ],
             ],
@@ -76,7 +72,7 @@ class NotFoundHandlerFactoryTest extends TestCase
                         ResponseInterface::class => [
                             function (): ResponseInterface {
                                 return $this->createMock(ResponseInterface::class);
-                            }
+                            },
                         ],
                     ],
                 ],
@@ -84,7 +80,7 @@ class NotFoundHandlerFactoryTest extends TestCase
         ];
     }
 
-    public function testFactoryCreatesInstanceWithoutRendererIfRendererServiceIsMissing() : void
+    public function testFactoryCreatesInstanceWithoutRendererIfRendererServiceIsMissing(): void
     {
         $factory = new NotFoundHandlerFactory();
 
@@ -93,7 +89,7 @@ class NotFoundHandlerFactoryTest extends TestCase
         self::assertEquals(new NotFoundHandler($this->container->get(ResponseInterface::class)), $handler);
     }
 
-    public function testFactoryCreatesInstanceUsingRendererServiceWhenPresent() : void
+    public function testFactoryCreatesInstanceUsingRendererServiceWhenPresent(): void
     {
         $renderer = $this->createMock(TemplateRendererInterface::class);
         $this->container->set(TemplateRendererInterface::class, $renderer);
@@ -104,12 +100,12 @@ class NotFoundHandlerFactoryTest extends TestCase
         self::assertEquals(new NotFoundHandler($this->container->get(ResponseInterface::class), $renderer), $handler);
     }
 
-    public function testFactoryUsesConfigured404TemplateWhenPresent() : void
+    public function testFactoryUsesConfigured404TemplateWhenPresent(): void
     {
         $config = [
             'mezzio' => [
                 'error_handler' => [
-                    'layout' => 'layout::error',
+                    'layout'       => 'layout::error',
                     'template_404' => 'foo::bar',
                 ],
             ],
@@ -130,13 +126,13 @@ class NotFoundHandlerFactoryTest extends TestCase
         );
     }
 
-    public function testNullifyLayout() : void
+    public function testNullifyLayout(): void
     {
         $config = [
             'mezzio' => [
                 'error_handler' => [
                     'template_404' => 'foo::bar',
-                    'layout' => null,
+                    'layout'       => null,
                 ],
             ],
         ];
@@ -168,11 +164,10 @@ class NotFoundHandlerFactoryTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-
     public function testWillUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsNotOverridden(): void
     {
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container = new InMemoryContainer();
+        $container       = new InMemoryContainer();
         $container->set('config', [
             'dependencies' => [
                 'factories' => [
@@ -194,7 +189,7 @@ class NotFoundHandlerFactoryTest extends TestCase
         array $config
     ): void {
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container = new InMemoryContainer();
+        $container       = new InMemoryContainer();
         $container->set('config', $config);
         $container->set(ResponseFactoryInterface::class, $responseFactory);
         $response = $this->createMock(ResponseInterface::class);
@@ -202,7 +197,7 @@ class NotFoundHandlerFactoryTest extends TestCase
             return $response;
         });
 
-        $generator = ($this->factory)($container);
+        $generator                    = ($this->factory)($container);
         $responseFactoryFromGenerator = $generator->getResponseFactory();
         self::assertNotSame($responseFactory, $responseFactoryFromGenerator);
         self::assertInstanceOf(CallableResponseFactoryDecorator::class, $responseFactoryFromGenerator);

@@ -15,7 +15,7 @@ class NotFoundHandlerFactory
 {
     use Psr17ResponseFactoryTrait;
 
-    public function __invoke(ContainerInterface $container) : NotFoundHandler
+    public function __invoke(ContainerInterface $container): NotFoundHandler
     {
         $config = $container->has('config') ? $container->get('config') : [];
         Assert::isArrayAccessible($config);
