@@ -33,10 +33,7 @@ class ServerRequestErrorResponseGeneratorFactory
         $template = $errorHandlerConfiguration['template_error']
             ?? ServerRequestErrorResponseGenerator::TEMPLATE_DEFAULT;
 
-        $dependencies = $config['dependencies'] ?? [];
-        Assert::isMap($dependencies);
-
-        $responseFactory = $this->detectResponseFactory($container, $dependencies);
+        $responseFactory = $this->detectResponseFactory($container);
 
         return new ServerRequestErrorResponseGenerator(
             $responseFactory,
