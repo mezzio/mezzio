@@ -10,7 +10,7 @@ use function sprintf;
 
 class ContainerNotRegisteredException extends RuntimeException implements ExceptionInterface
 {
-    public static function forMiddlewareService(string $middleware) : self
+    public static function forMiddlewareService(string $middleware): self
     {
         return new self(sprintf(
             'Cannot marshal middleware by service name "%s"; no container registered',

@@ -19,9 +19,7 @@ use RuntimeException;
 
 class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 {
-    /**
-     * @var ServerRequestErrorResponseGeneratorFactory
-     */
+    /** @var ServerRequestErrorResponseGeneratorFactory */
     private $factory;
 
     protected function setUp(): void
@@ -51,7 +49,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
             [
                 'dependencies' => [
                     'aliases' => [
-                        ResponseInterface::class => 'CustomResponseInterface'
+                        ResponseInterface::class => 'CustomResponseInterface',
                     ],
                 ],
             ],
@@ -64,7 +62,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
                         ResponseInterface::class => [
                             function (): ResponseInterface {
                                 return $this->createMock(ResponseInterface::class);
-                            }
+                            },
                         ],
                     ],
                 ],
@@ -72,7 +70,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         ];
     }
 
-    public function testFactoryOnlyRequiresResponseService() : void
+    public function testFactoryOnlyRequiresResponseService(): void
     {
         $container = new InMemoryContainer();
 
@@ -80,7 +78,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         ($this->factory)($container);
     }
 
-    public function testFactoryCreatesGeneratorWhenOnlyResponseServiceIsPresent() : void
+    public function testFactoryCreatesGeneratorWhenOnlyResponseServiceIsPresent(): void
     {
         $container = new InMemoryContainer();
 
@@ -94,10 +92,10 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         self::assertEquals(new ServerRequestErrorResponseGenerator($responseFactory), $generator);
     }
 
-    public function testFactoryCreatesGeneratorUsingConfiguredServices() : void
+    public function testFactoryCreatesGeneratorUsingConfiguredServices(): void
     {
-        $config = [
-            'debug' => true,
+        $config   = [
+            'debug'  => true,
             'mezzio' => [
                 'error_handler' => [
                     'template_error' => 'some::template',
@@ -130,7 +128,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 
     public function testCanHandleConfigWithArrayAccess(): void
     {
-        $config = $this->createMock(ArrayAccess::class);
+        $config    = $this->createMock(ArrayAccess::class);
         $container = new InMemoryContainer();
         $container->set('config', $config);
         $responseFactory = function (): void {
@@ -144,7 +142,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
     public function testWillUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsNotOverridden(): void
     {
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container = new InMemoryContainer();
+        $container       = new InMemoryContainer();
         $container->set('config', [
             'dependencies' => [
                 'factories' => [
@@ -166,7 +164,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         array $config
     ): void {
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container = new InMemoryContainer();
+        $container       = new InMemoryContainer();
         $container->set('config', $config);
         $container->set(ResponseFactoryInterface::class, $responseFactory);
         $response = $this->createMock(ResponseInterface::class);
@@ -174,7 +172,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
             return $response;
         });
 
-        $generator = ($this->factory)($container);
+        $generator                    = ($this->factory)($container);
         $responseFactoryFromGenerator = $generator->getResponseFactory();
         self::assertNotSame($responseFactory, $responseFactoryFromGenerator);
         self::assertInstanceOf(CallableResponseFactoryDecorator::class, $responseFactoryFromGenerator);

@@ -40,14 +40,14 @@ class ConfigProviderTest extends TestCase
     /** @var ConfigProvider */
     private $provider;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->provider = new ConfigProvider();
     }
 
-    public function testProviderDefinesExpectedAliases() : void
+    public function testProviderDefinesExpectedAliases(): void
     {
-        $config = $this->provider->getDependencies();
+        $config  = $this->provider->getDependencies();
         $aliases = $config['aliases'];
         $this->assertArrayHasKey(DEFAULT_DELEGATE, $aliases);
         $this->assertArrayHasKey(DISPATCH_MIDDLEWARE, $aliases);
@@ -57,9 +57,9 @@ class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey(ROUTE_MIDDLEWARE, $aliases);
     }
 
-    public function testProviderDefinesExpectedFactoryServices() : void
+    public function testProviderDefinesExpectedFactoryServices(): void
     {
-        $config = $this->provider->getDependencies();
+        $config    = $this->provider->getDependencies();
         $factories = $config['factories'];
 
         $this->assertArrayHasKey(Application::class, $factories);
@@ -77,7 +77,7 @@ class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey(StreamInterface::class, $factories);
     }
 
-    public function testInvocationReturnsArrayWithDependencies() : void
+    public function testInvocationReturnsArrayWithDependencies(): void
     {
         $config = ($this->provider)();
         $this->assertIsArray($config);
@@ -86,7 +86,7 @@ class ConfigProviderTest extends TestCase
         $this->assertArrayHasKey('factories', $config['dependencies']);
     }
 
-    public function testServicesDefinedInConfigProvider() : void
+    public function testServicesDefinedInConfigProvider(): void
     {
         $config = ($this->provider)();
 
@@ -97,12 +97,12 @@ class ConfigProviderTest extends TestCase
         foreach ($json['packages'] as $package) {
             if (isset($package['extra']['laminas']['config-provider'])) {
                 $configProvider = new $package['extra']['laminas']['config-provider']();
-                $config = array_merge_recursive($config, $configProvider());
+                $config         = array_merge_recursive($config, $configProvider());
             }
         }
 
         $config['dependencies']['services'][RouterInterface::class] = $this->createMock(RouterInterface::class);
-        $container = $this->getContainer($config['dependencies']);
+        $container                                                  = $this->getContainer($config['dependencies']);
 
         $dependencies = $this->provider->getDependencies();
         foreach ($dependencies['factories'] as $name => $factory) {
@@ -125,7 +125,7 @@ class ConfigProviderTest extends TestCase
         }
     }
 
-    private function getContainer(array $dependencies) : ServiceManager
+    private function getContainer(array $dependencies): ServiceManager
     {
         $container = new ServiceManager();
         (new Config($dependencies))->configureServiceManager($container);

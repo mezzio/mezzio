@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * Should resolve to the Handler\NotFoundHandler class.
  *
  * @deprecated To remove in version 4.0.0.
+ *
  * @var string
  */
 const DEFAULT_DELEGATE = __NAMESPACE__ . '\Delegate\DefaultDelegate';
@@ -21,6 +22,7 @@ const DEFAULT_DELEGATE = __NAMESPACE__ . '\Delegate\DefaultDelegate';
  * service.
  *
  * @deprecated To remove in version 4.0.0.
+ *
  * @var string
  */
 const DISPATCH_MIDDLEWARE = __NAMESPACE__ . '\Middleware\DispatchMiddleware';
@@ -31,6 +33,7 @@ const DISPATCH_MIDDLEWARE = __NAMESPACE__ . '\Middleware\DispatchMiddleware';
  * service.
  *
  * @deprecated To remove in version 4.0.0.
+ *
  * @var string
  */
 const IMPLICIT_HEAD_MIDDLEWARE = __NAMESPACE__ . '\Middleware\ImplicitHeadMiddleware';
@@ -41,6 +44,7 @@ const IMPLICIT_HEAD_MIDDLEWARE = __NAMESPACE__ . '\Middleware\ImplicitHeadMiddle
  * service.
  *
  * @deprecated To remove in version 4.0.0.
+ *
  * @var string
  */
 const IMPLICIT_OPTIONS_MIDDLEWARE = __NAMESPACE__ . '\Middleware\ImplicitOptionsMiddleware';
@@ -50,6 +54,7 @@ const IMPLICIT_OPTIONS_MIDDLEWARE = __NAMESPACE__ . '\Middleware\ImplicitOptions
  * 3.0.0alpha2. Should resolve to the Handler\NotFoundHandler class.
  *
  * @deprecated To remove in version 4.0.0.
+ *
  * @var string
  */
 const NOT_FOUND_MIDDLEWARE = __NAMESPACE__ . '\Middleware\NotFoundMiddleware';
@@ -60,6 +65,7 @@ const NOT_FOUND_MIDDLEWARE = __NAMESPACE__ . '\Middleware\NotFoundMiddleware';
  * service.
  *
  * @deprecated To remove in version 4.0.0.
+ *
  * @var string
  */
 const ROUTE_MIDDLEWARE = __NAMESPACE__ . '\Middleware\RouteMiddleware';
@@ -70,6 +76,7 @@ const ROUTE_MIDDLEWARE = __NAMESPACE__ . '\Middleware\RouteMiddleware';
  * Psr\Http\Message\ServerRequestInterface service.
  *
  * @deprecated To remove in version 4.0.0.
+ *
  * @var string
  */
 const SERVER_REQUEST_FACTORY = ServerRequestInterface::class;

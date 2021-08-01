@@ -1,8 +1,23 @@
 <?xml version="1.0"?>
-<ruleset name="Laminas Coding Standard">
-    <rule ref="./vendor/laminas/laminas-coding-standard/ruleset.xml"/>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+
+    <arg name="basepath" value="."/>
+    <arg name="cache" value=".phpcs-cache"/>
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+    <arg name="parallel" value="80"/>
+
+    <!-- Show progress -->
+    <arg value="p"/>
 
     <!-- Paths to check -->
+    <file>bin</file>
     <file>src</file>
     <file>test</file>
+
+    <!-- Include all rules from the Laminas Coding Standard -->
+    <rule ref="LaminasCodingStandard"/>
+    <exclude-pattern>test/TestAsset/**</exclude-pattern>
+    <exclude-pattern>test/**/TestAsset/**</exclude-pattern>
 </ruleset>

@@ -10,10 +10,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class CallableInteropMiddleware
 {
-    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
 
-        return $response->withHeader('X-Callable-Interop-Middleware', __CLASS__);
+        return $response->withHeader('X-Callable-Interop-Middleware', self::class);
     }
 }

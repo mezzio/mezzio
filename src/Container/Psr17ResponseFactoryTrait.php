@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Mezzio\Container;
@@ -34,7 +35,7 @@ trait Psr17ResponseFactoryTrait
         }
 
         $delegators = $dependencies['delegators'] ?? [];
-        $aliases = $dependencies['aliases'] ?? [];
+        $aliases    = $dependencies['aliases'] ?? [];
         Assert::isArrayAccessible($delegators);
         Assert::isArrayAccessible($aliases);
         if (isset($delegators[ResponseInterface::class]) || isset($aliases[ResponseInterface::class])) {

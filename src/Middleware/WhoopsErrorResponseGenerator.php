@@ -22,22 +22,21 @@ use function sprintf;
 
 class WhoopsErrorResponseGenerator
 {
-    /**
-     * @var Run|RunInterface
-     */
+    /** @var RunInterface */
     private $whoops;
 
     /**
-     * @param Run|RunInterface $whoops
-     * @throws InvalidArgumentException if $whoops is not a Run or RunInterface
+     * @param RunInterface $whoops
+     * @throws InvalidArgumentException If $whoops is not a Run or RunInterface
      *     instance.
      */
     public function __construct($whoops)
     {
-        if (! ($whoops instanceof RunInterface || $whoops instanceof Run)) {
+        /** @psalm-suppress DocblockTypeContradiction Can be removed with the next major when enforcing argument type */
+        if (! $whoops instanceof RunInterface) {
             throw new InvalidArgumentException(sprintf(
                 '%s expects a %s or %s instance; received %s',
-                get_class($this),
+                static::class,
                 Run::class,
                 RunInterface::class,
                 is_object($whoops) ? get_class($whoops) : gettype($whoops)
@@ -51,7 +50,7 @@ class WhoopsErrorResponseGenerator
         Throwable $e,
         ServerRequestInterface $request,
         ResponseInterface $response
-    ) : ResponseInterface {
+    ): ResponseInterface {
         // Walk through all handlers
         foreach ($this->whoops->getHandlers() as $handler) {
             // Add fancy data for the PrettyPageHandler
@@ -82,9 +81,9 @@ class WhoopsErrorResponseGenerator
     /**
      * Prepare the Whoops page handler with a table displaying request information
      */
-    private function prepareWhoopsHandler(ServerRequestInterface $request, PrettyPageHandler $handler) : void
+    private function prepareWhoopsHandler(ServerRequestInterface $request, PrettyPageHandler $handler): void
     {
-        $uri = $request->getAttribute('originalUri', false) ?: $request->getUri();
+        $uri     = $request->getAttribute('originalUri', false) ?: $request->getUri();
         $request = $request->getAttribute('originalRequest', false) ?: $request;
 
         $serverParams = $request->getServerParams();

@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class MiddlewareFactoryFactoryTest extends TestCase
 {
-    public function testFactoryProducesMiddlewareFactoryComposingMiddlewareContainerInstance() : void
+    public function testFactoryProducesMiddlewareFactoryComposingMiddlewareContainerInstance(): void
     {
         $middlewareContainer = $this->createMock(MiddlewareContainer::class);
 

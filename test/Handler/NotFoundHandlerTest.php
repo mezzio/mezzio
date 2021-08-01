@@ -25,28 +25,28 @@ class NotFoundHandlerTest extends TestCase
     /** @var ResponseFactoryInterface&MockObject */
     private $responseFactory;
 
-    public function setUp() : void
+    public function setUp(): void
     {
-        $this->response = $this->createMock(ResponseInterface::class);
+        $this->response        = $this->createMock(ResponseInterface::class);
         $this->responseFactory = $this->createMock(ResponseFactoryInterface::class);
         $this->responseFactory
             ->method('createResponse')
             ->willReturn($this->response);
     }
 
-    public function testImplementsRequesthandler() : void
+    public function testImplementsRequesthandler(): void
     {
         $handler = new NotFoundHandler($this->responseFactory);
         $this->assertInstanceOf(RequestHandlerInterface::class, $handler);
     }
 
-    public function testConstructorDoesNotRequireARenderer() : void
+    public function testConstructorDoesNotRequireARenderer(): void
     {
         $handler = new NotFoundHandler($this->responseFactory);
         $this->assertInstanceOf(NotFoundHandler::class, $handler);
     }
 
-    public function testRendersDefault404ResponseWhenNoRendererPresent() : void
+    public function testRendersDefault404ResponseWhenNoRendererPresent(): void
     {
         $request = $this->createMock(ServerRequestInterface::class);
         $request->method('getMethod')->willReturn(RequestMethod::METHOD_POST);
@@ -64,7 +64,7 @@ class NotFoundHandlerTest extends TestCase
         $this->assertSame($this->response, $response);
     }
 
-    public function testUsesRendererToGenerateResponseContentsWhenPresent() : void
+    public function testUsesRendererToGenerateResponseContentsWhenPresent(): void
     {
         $request = $this->createMock(ServerRequestInterface::class);
 
@@ -75,7 +75,7 @@ class NotFoundHandlerTest extends TestCase
                 NotFoundHandler::TEMPLATE_DEFAULT,
                 [
                     'request' => $request,
-                    'layout' => NotFoundHandler::LAYOUT_DEFAULT,
+                    'layout'  => NotFoundHandler::LAYOUT_DEFAULT,
                 ]
             )
             ->willReturn('CONTENT');
@@ -93,7 +93,7 @@ class NotFoundHandlerTest extends TestCase
         $this->assertSame($this->response, $response);
     }
 
-    public function testUsesRendererToGenerateResponseContentsWithCustomLayoutAndTemplate() : void
+    public function testUsesRendererToGenerateResponseContentsWithCustomLayoutAndTemplate(): void
     {
         $request = $this->createMock(ServerRequestInterface::class);
 
@@ -104,7 +104,7 @@ class NotFoundHandlerTest extends TestCase
                 'foo::bar',
                 [
                     'request' => $request,
-                    'layout' => 'layout::error',
+                    'layout'  => 'layout::error',
                 ]
             )
             ->willReturn('CONTENT');
@@ -139,7 +139,7 @@ class NotFoundHandlerTest extends TestCase
             ->method('getBody')
             ->willReturn($this->createMock(StreamInterface::class));
 
-        $handler = new NotFoundHandler($responseFactory);
+        $handler  = new NotFoundHandler($responseFactory);
         $response = $handler->handle($this->createMock(ServerRequestInterface::class));
 
         $this->assertSame($this->response, $response);

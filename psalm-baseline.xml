@@ -155,9 +155,6 @@
     </MixedAssignment>
   </file>
   <file src="src/Middleware/WhoopsErrorResponseGenerator.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>$whoops instanceof RunInterface || $whoops instanceof Run</code>
-    </DocblockTypeContradiction>
     <MixedAssignment occurrences="4">
       <code>$handler</code>
       <code>$request</code>
@@ -299,17 +296,10 @@
       <code>$found</code>
       <code>$route</code>
     </MissingClosureParamType>
-    <MissingParamType occurrences="3">
-      <code>$class</code>
-      <code>$message</code>
-      <code>$pipeline</code>
-    </MissingParamType>
-    <MixedArgument occurrences="2">
-      <code>$message</code>
+    <MixedArgument occurrences="1">
       <code>$pipeline</code>
     </MixedArgument>
-    <MixedAssignment occurrences="3">
-      <code>$message</code>
+    <MixedAssignment occurrences="2">
       <code>$middleware</code>
       <code>$pipeline</code>
     </MixedAssignment>
@@ -452,15 +442,8 @@
     </InvalidReturnType>
   </file>
   <file src="test/Container/WhoopsFactoryTest.php">
-    <MissingParamType occurrences="1">
-      <code>$message</code>
-    </MissingParamType>
-    <MixedArgument occurrences="1">
-      <code>$message</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="3">
+    <MixedAssignment occurrences="2">
       <code>$handler</code>
-      <code>$message</code>
       <code>$stack</code>
     </MixedAssignment>
   </file>
@@ -481,20 +464,6 @@
       <code>strrpos(ExceptionInterface::class, '\\')</code>
     </PossiblyFalseOperand>
   </file>
-  <file src="test/InMemoryContainer.php">
-    <MissingPropertyType occurrences="1">
-      <code>$services</code>
-    </MissingPropertyType>
-    <MixedArgument occurrences="1">
-      <code>$this-&gt;services</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="1">
-      <code>$this-&gt;services[$id]</code>
-    </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="1">
-      <code>$this-&gt;services[$id]</code>
-    </MixedArrayAssignment>
-  </file>
   <file src="test/Middleware/ErrorResponseGeneratorTest.php">
     <MissingClosureParamType occurrences="1">
       <code>$body</code>
@@ -511,28 +480,6 @@
       <code>$whoops</code>
       <code>$whoops</code>
     </InvalidArgument>
-    <MixedMethodCall occurrences="12">
-      <code>method</code>
-      <code>method</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>willReturn</code>
-      <code>with</code>
-      <code>with</code>
-      <code>withConsecutive</code>
-      <code>withConsecutive</code>
-    </MixedMethodCall>
-    <PossiblyUndefinedMethod occurrences="6">
-      <code>expects</code>
-      <code>expects</code>
-      <code>method</code>
-      <code>method</code>
-      <code>method</code>
-      <code>method</code>
-    </PossiblyUndefinedMethod>
   </file>
   <file src="test/MiddlewareFactoryTest.php">
     <MissingClosureParamType occurrences="8">
@@ -545,9 +492,6 @@
       <code>$request</code>
       <code>$request</code>
     </MissingClosureParamType>
-    <MissingParamType occurrences="1">
-      <code>$middleware</code>
-    </MissingParamType>
     <MixedArgument occurrences="4">
       <code>$middleware</code>
       <code>$r-&gt;getValue($pipeline)</code>
