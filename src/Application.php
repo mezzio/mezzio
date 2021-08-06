@@ -6,7 +6,7 @@ namespace Mezzio;
 
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\Stratigility\MiddlewarePipeInterface;
-use Mezzio\Router\RouteCollector;
+use Mezzio\Router\RouteCollectorInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -22,7 +22,7 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
     /** @var MiddlewarePipeInterface */
     private $pipeline;
 
-    /** @var RouteCollector */
+    /** @var RouteCollectorInterface */
     private $routes;
 
     /** @var RequestHandlerRunner */
@@ -31,7 +31,7 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
     public function __construct(
         MiddlewareFactory $factory,
         MiddlewarePipeInterface $pipeline,
-        RouteCollector $routes,
+        RouteCollectorInterface $routes,
         RequestHandlerRunner $runner
     ) {
         $this->factory  = $factory;

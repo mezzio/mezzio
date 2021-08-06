@@ -9,6 +9,7 @@ use Mezzio\Application;
 use Mezzio\ApplicationPipeline;
 use Mezzio\MiddlewareFactory;
 use Mezzio\Router\RouteCollector;
+use Mezzio\Router\RouteCollectorInterface;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -30,7 +31,9 @@ class ApplicationFactory
         return new Application(
             $container->get(MiddlewareFactory::class),
             $container->get(ApplicationPipeline::class),
-            $container->get(RouteCollector::class),
+            $container->has(RouteCollectorInterface::class) ?
+                $container->get(RouteCollectorInterface::class) :
+                $container->get(RouteCollector::class),
             $container->get(RequestHandlerRunner::class)
         );
     }

@@ -36,7 +36,7 @@ following constructor:
 public function __construct(
     Mezzio\MiddlewareFactory $factory,
     Laminas\Stratigility\MiddlewarePipeInterface $pipeline,
-    Mezzio\Router\RouteCollector $routes,
+    Mezzio\Router\RouteCollectorInterface $routes,
     Laminas\HttpHandlerRunner\RequestHandlerRunner $runner
 ) {
 ```
