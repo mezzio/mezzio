@@ -35,10 +35,7 @@ class NotFoundHandlerFactory
             ? (string) $errorHandlerConfig['layout']
             : NotFoundHandler::LAYOUT_DEFAULT;
 
-        $dependencies = $config['dependencies'] ?? [];
-        Assert::isMap($dependencies);
-
-        $responseFactory = $this->detectResponseFactory($container, $dependencies);
+        $responseFactory = $this->detectResponseFactory($container);
 
         return new NotFoundHandler(
             $responseFactory,
