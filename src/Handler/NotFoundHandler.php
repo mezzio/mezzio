@@ -12,31 +12,24 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+use function is_callable;
 use function sprintf;
 
 class NotFoundHandler implements RequestHandlerInterface
 {
     public const TEMPLATE_DEFAULT = 'error::404';
-    public const LAYOUT_DEFAULT = 'layout::default';
+    public const LAYOUT_DEFAULT   = 'layout::default';
 
-    /**
-     * @var TemplateRendererInterface|null
-     */
+    /** @var TemplateRendererInterface|null */
     private $renderer;
 
-    /**
-     * @var ResponseFactoryInterface
-     */
+    /** @var ResponseFactoryInterface */
     private $responseFactory;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $template;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $layout;
 
     /**
@@ -46,7 +39,7 @@ class NotFoundHandler implements RequestHandlerInterface
      */
     public function __construct(
         $responseFactory,
-        TemplateRendererInterface $renderer = null,
+        ?TemplateRendererInterface $renderer = null,
         string $template = self::TEMPLATE_DEFAULT,
         string $layout = self::LAYOUT_DEFAULT
     ) {
@@ -55,9 +48,9 @@ class NotFoundHandler implements RequestHandlerInterface
         }
 
         $this->responseFactory = $responseFactory;
-        $this->renderer = $renderer;
-        $this->template = $template;
-        $this->layout = $layout;
+        $this->renderer        = $renderer;
+        $this->template        = $template;
+        $this->layout          = $layout;
     }
 
     /**
@@ -65,7 +58,7 @@ class NotFoundHandler implements RequestHandlerInterface
      *
      * @param ServerRequestInterface $request Passed to internal handler
      */
-    public function handle(ServerRequestInterface $request) : ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         if ($this->renderer === null) {
             return $this->generatePlainTextResponse($request);
@@ -77,7 +70,7 @@ class NotFoundHandler implements RequestHandlerInterface
     /**
      * Generates a plain text response indicating the request method and URI.
      */
-    private function generatePlainTextResponse(ServerRequestInterface $request) : ResponseInterface
+    private function generatePlainTextResponse(ServerRequestInterface $request): ResponseInterface
     {
         $response = $this->responseFactory->createResponse()->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         $response->getBody()
@@ -98,8 +91,7 @@ class NotFoundHandler implements RequestHandlerInterface
     private function generateTemplatedResponse(
         TemplateRendererInterface $renderer,
         ServerRequestInterface $request
-    ) : ResponseInterface {
-
+    ): ResponseInterface {
         $response = $this->responseFactory->createResponse()->withStatus(StatusCodeInterface::STATUS_NOT_FOUND);
         $response->getBody()->write(
             $renderer->render($this->template, ['request' => $request, 'layout' => $this->layout])

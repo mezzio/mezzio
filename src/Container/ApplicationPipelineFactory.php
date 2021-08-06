@@ -10,7 +10,7 @@ use Psr\Container\ContainerInterface;
 
 class ApplicationPipelineFactory
 {
-    public function __invoke(ContainerInterface $container) : MiddlewarePipeInterface
+    public function __invoke(ContainerInterface $container): MiddlewarePipeInterface
     {
         return new MiddlewarePipe();
     }

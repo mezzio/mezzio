@@ -17,7 +17,7 @@ use function sprintf;
  */
 class ResponseFactoryFactory
 {
-    public function __invoke(ContainerInterface $container) : callable
+    public function __invoke(ContainerInterface $container): callable
     {
         if (! class_exists(Response::class)) {
             throw new Exception\InvalidServiceException(sprintf(
@@ -31,7 +31,7 @@ class ResponseFactoryFactory
             ));
         }
 
-        return function () : Response {
+        return function (): Response {
             return new Response();
         };
     }

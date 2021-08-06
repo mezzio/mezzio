@@ -12,10 +12,8 @@ use Mezzio\Application;
 use Mezzio\MiddlewareFactory;
 use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollector;
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -43,12 +41,12 @@ class ApplicationTest extends TestCase
     /** @var Application */
     private $app;
 
-    public function setUp() : void
+    public function setUp(): void
     {
-        $this->factory = $this->createMock(MiddlewareFactory::class);
+        $this->factory  = $this->createMock(MiddlewareFactory::class);
         $this->pipeline = $this->createMock(MiddlewarePipeInterface::class);
-        $this->routes = $this->createMock(RouteCollector::class);
-        $this->runner = $this->createMock(RequestHandlerRunner::class);
+        $this->routes   = $this->createMock(RouteCollector::class);
+        $this->runner   = $this->createMock(RequestHandlerRunner::class);
 
         $this->app = new Application(
             $this->factory,
@@ -58,14 +56,14 @@ class ApplicationTest extends TestCase
         );
     }
 
-    public function createMockMiddleware() : MiddlewareInterface
+    public function createMockMiddleware(): MiddlewareInterface
     {
         return $this->createMock(MiddlewareInterface::class);
     }
 
-    public function testHandleProxiesToPipelineToHandle() : void
+    public function testHandleProxiesToPipelineToHandle(): void
     {
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request  = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);
 
         $this->pipeline->expects(self::once())
@@ -76,11 +74,11 @@ class ApplicationTest extends TestCase
         $this->assertSame($response, $this->app->handle($request));
     }
 
-    public function testProcessProxiesToPipelineToProcess() : void
+    public function testProcessProxiesToPipelineToProcess(): void
     {
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request  = $this->createMock(ServerRequestInterface::class);
         $response = $this->createMock(ResponseInterface::class);
-        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler  = $this->createMock(RequestHandlerInterface::class);
 
         $this->pipeline->expects(self::once())
             ->method('process')
@@ -90,13 +88,13 @@ class ApplicationTest extends TestCase
         $this->assertSame($response, $this->app->process($request, $handler));
     }
 
-    public function testRunProxiesToRunner() : void
+    public function testRunProxiesToRunner(): void
     {
         $this->runner->expects(self::once())->method('run');
         $this->app->run();
     }
 
-    public function validMiddleware() : iterable
+    public function validMiddleware(): iterable
     {
         // @codingStandardsIgnoreStart
         yield 'string'   => ['service'];
@@ -110,7 +108,7 @@ class ApplicationTest extends TestCase
      * @dataProvider validMiddleware
      * @param string|array|callable|MiddlewareInterface $middleware
      */
-    public function testPipeCanAcceptSingleMiddlewareArgument($middleware) : void
+    public function testPipeCanAcceptSingleMiddlewareArgument($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
         $this->factory->expects(self::once())
@@ -130,7 +128,7 @@ class ApplicationTest extends TestCase
      * @dataProvider validMiddleware
      * @param string|array|callable|MiddlewareInterface $middleware
      */
-    public function testPipeCanAcceptAPathArgument($middleware) : void
+    public function testPipeCanAcceptAPathArgument($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
         $this->factory->expects(self::once())
@@ -146,7 +144,7 @@ class ApplicationTest extends TestCase
         $this->assertNull($this->app->pipe('/foo', $middleware));
     }
 
-    public function testPipeNonSlashPathOnNonStringPipeProduceTypeError() : void
+    public function testPipeNonSlashPathOnNonStringPipeProduceTypeError(): void
     {
         $middleware1 = function ($request, $response) {
             return $response;
@@ -161,7 +159,7 @@ class ApplicationTest extends TestCase
      * @dataProvider validMiddleware
      * @param string|array|callable|MiddlewareInterface $middleware
      */
-    public function testRouteAcceptsPathAndMiddlewareOnly($middleware) : void
+    public function testRouteAcceptsPathAndMiddlewareOnly($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
 
@@ -189,7 +187,7 @@ class ApplicationTest extends TestCase
      * @dataProvider validMiddleware
      * @param string|array|callable|MiddlewareInterface $middleware
      */
-    public function testRouteAcceptsPathMiddlewareAndMethodsOnly($middleware) : void
+    public function testRouteAcceptsPathMiddlewareAndMethodsOnly($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
 
@@ -217,7 +215,7 @@ class ApplicationTest extends TestCase
      * @dataProvider validMiddleware
      * @param string|array|callable|MiddlewareInterface $middleware
      */
-    public function testRouteAcceptsPathMiddlewareMethodsAndName($middleware) : void
+    public function testRouteAcceptsPathMiddlewareMethodsAndName($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
 
@@ -241,7 +239,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($route, $this->app->route('/foo', $middleware, ['GET', 'POST'], 'foo'));
     }
 
-    public function requestMethodsWithValidMiddleware() : iterable
+    public function requestMethodsWithValidMiddleware(): iterable
     {
         foreach (['get', 'post', 'put', 'patch', 'delete'] as $method) {
             foreach ($this->validMiddleware() as $key => $data) {
@@ -256,7 +254,7 @@ class ApplicationTest extends TestCase
      * @dataProvider requestMethodsWithValidMiddleware
      * @param string|array|callable|MiddlewareInterface $middleware
      */
-    public function testSpecificRouteMethodsCanAcceptOnlyPathAndMiddleware(string $method, $middleware) : void
+    public function testSpecificRouteMethodsCanAcceptOnlyPathAndMiddleware(string $method, $middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
 
@@ -284,7 +282,7 @@ class ApplicationTest extends TestCase
      * @dataProvider requestMethodsWithValidMiddleware
      * @param string|array|callable|MiddlewareInterface $middleware
      */
-    public function testSpecificRouteMethodsCanAcceptPathMiddlewareAndName(string $method, $middleware) : void
+    public function testSpecificRouteMethodsCanAcceptPathMiddlewareAndName(string $method, $middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
 
@@ -312,7 +310,7 @@ class ApplicationTest extends TestCase
      * @dataProvider validMiddleware
      * @param string|array|callable|MiddlewareInterface $middleware
      */
-    public function testAnyMethodPassesNullForMethodWhenNoNamePresent($middleware) : void
+    public function testAnyMethodPassesNullForMethodWhenNoNamePresent($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
 
@@ -340,7 +338,7 @@ class ApplicationTest extends TestCase
      * @dataProvider validMiddleware
      * @param string|array|callable|MiddlewareInterface $middleware
      */
-    public function testAnyMethodPassesNullForMethodWhenAllArgumentsPresent($middleware) : void
+    public function testAnyMethodPassesNullForMethodWhenAllArgumentsPresent($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
 
@@ -364,7 +362,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($route, $this->app->any('/foo', $middleware, 'foo'));
     }
 
-    public function testGetRoutesProxiesToRouteCollector() : void
+    public function testGetRoutesProxiesToRouteCollector(): void
     {
         $route = $this->createMock(Route::class);
         $this->routes->method('getRoutes')->willReturn([$route]);

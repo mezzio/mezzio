@@ -8,7 +8,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class CallableInteropMiddleware
 {
-    public function __invoke($request, RequestHandlerInterface $handler) : void
+    public function __invoke($request, RequestHandlerInterface $handler): void
     {
     }
 }

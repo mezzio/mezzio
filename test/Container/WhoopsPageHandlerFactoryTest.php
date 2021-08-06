@@ -21,13 +21,13 @@ class WhoopsPageHandlerFactoryTest extends TestCase
     /** @var WhoopsPageHandlerFactory */
     private $factory;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->container = new InMemoryContainer();
         $this->factory   = new WhoopsPageHandlerFactory();
     }
 
-    public function testReturnsAPrettyPageHandler() : void
+    public function testReturnsAPrettyPageHandler(): void
     {
         $factory = $this->factory;
 
@@ -37,7 +37,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         $this->assertInstanceOf(PrettyPageHandler::class, $result);
     }
 
-    public function testWillInjectStringEditor() : void
+    public function testWillInjectStringEditor(): void
     {
         $config = ['whoops' => ['editor' => 'emacs']];
         $this->container->set('config', $config);
@@ -51,7 +51,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    public function testWillInjectCallableEditor() : void
+    public function testWillInjectCallableEditor(): void
     {
         $config = [
             'whoops' => [
@@ -70,7 +70,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    public function testWillInjectEditorAsAService() : void
+    public function testWillInjectEditorAsAService(): void
     {
         $config = ['whoops' => ['editor' => 'custom']];
         $editor = function (): void {
@@ -87,7 +87,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    public function invalidEditors() : array
+    public function invalidEditors(): array
     {
         return [
             'true'       => [true],
@@ -103,10 +103,9 @@ class WhoopsPageHandlerFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidEditors
-     *
      * @param mixed $editor
      */
-    public function testInvalidEditorWillRaiseException($editor) : void
+    public function testInvalidEditorWillRaiseException($editor): void
     {
         $config = ['whoops' => ['editor' => $editor]];
         $this->container->set('config', $config);

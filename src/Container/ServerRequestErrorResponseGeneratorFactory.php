@@ -13,7 +13,7 @@ class ServerRequestErrorResponseGeneratorFactory
 {
     use Psr17ResponseFactoryTrait;
 
-    public function __invoke(ContainerInterface $container) : ServerRequestErrorResponseGenerator
+    public function __invoke(ContainerInterface $container): ServerRequestErrorResponseGenerator
     {
         $config = $container->has('config') ? $container->get('config') : [];
         Assert::isArrayAccessible($config);
@@ -33,10 +33,7 @@ class ServerRequestErrorResponseGeneratorFactory
         $template = $errorHandlerConfiguration['template_error']
             ?? ServerRequestErrorResponseGenerator::TEMPLATE_DEFAULT;
 
-        $dependencies = $config['dependencies'] ?? [];
-        Assert::isMap($dependencies);
-
-        $responseFactory = $this->detectResponseFactory($container, $dependencies);
+        $responseFactory = $this->detectResponseFactory($container);
 
         return new ServerRequestErrorResponseGenerator(
             $responseFactory,

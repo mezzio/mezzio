@@ -11,10 +11,10 @@ use Psr\Container\ContainerInterface;
 
 class StreamFactoryFactoryTest extends TestCase
 {
-    public function testFactoryProducesACallableCapableOfGeneratingAStreamWhenDiactorosIsInstalled() : void
+    public function testFactoryProducesACallableCapableOfGeneratingAStreamWhenDiactorosIsInstalled(): void
     {
         $container = $this->createMock(ContainerInterface::class);
-        $factory = new StreamFactoryFactory();
+        $factory   = new StreamFactoryFactory();
 
         $result = $factory($container);
 

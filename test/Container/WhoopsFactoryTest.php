@@ -18,7 +18,7 @@ use function method_exists;
 use function sprintf;
 
 /**
- * @covers Mezzio\Container\WhoopsFactory
+ * @covers \Mezzio\Container\WhoopsFactory
  */
 class WhoopsFactoryTest extends TestCase
 {
@@ -28,7 +28,7 @@ class WhoopsFactoryTest extends TestCase
     /** @var WhoopsFactory */
     private $factory;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->container = new InMemoryContainer();
         $this->container->set('Mezzio\WhoopsPageHandler', $this->createMock(PrettyPageHandler::class));
@@ -36,10 +36,7 @@ class WhoopsFactoryTest extends TestCase
         $this->factory = new WhoopsFactory();
     }
 
-    /**
-     * @param string $type
-     */
-    public function assertWhoopsContainsHandler(string $type, Whoops $whoops, $message = null) : void
+    public function assertWhoopsContainsHandler(string $type, Whoops $whoops, ?string $message = null): void
     {
         $message = $message ?: sprintf('Failed to assert whoops runtime composed handler of type %s', $type);
         $r       = new ReflectionProperty($whoops, 'handlerStack');
@@ -57,7 +54,7 @@ class WhoopsFactoryTest extends TestCase
         $this->assertTrue($found, $message);
     }
 
-    public function testReturnsAWhoopsRuntimeWithPageHandlerComposed() : void
+    public function testReturnsAWhoopsRuntimeWithPageHandlerComposed(): void
     {
         $factory = $this->factory;
         $result  = $factory($this->container);
@@ -65,7 +62,7 @@ class WhoopsFactoryTest extends TestCase
         $this->assertWhoopsContainsHandler(PrettyPageHandler::class, $result);
     }
 
-    public function testWillInjectJsonResponseHandlerIfConfigurationExpectsIt() : void
+    public function testWillInjectJsonResponseHandlerIfConfigurationExpectsIt(): void
     {
         $config = ['whoops' => ['json_exceptions' => ['display' => true]]];
         $this->container->set('config', $config);
@@ -81,12 +78,11 @@ class WhoopsFactoryTest extends TestCase
      * @backupGlobals enabled
      * @depends       testWillInjectJsonResponseHandlerIfConfigurationExpectsIt
      * @dataProvider  provideConfig
-     *
      * @param bool  $showsTrace
      * @param bool  $isAjaxOnly
      * @param bool  $requestIsAjax
      */
-    public function testJsonResponseHandlerCanBeConfigured($showsTrace, $isAjaxOnly, $requestIsAjax) : void
+    public function testJsonResponseHandlerCanBeConfigured($showsTrace, $isAjaxOnly, $requestIsAjax): void
     {
         // Set for Whoops 2.x json handler detection
         if ($requestIsAjax) {
@@ -110,7 +106,8 @@ class WhoopsFactoryTest extends TestCase
         $handler = $whoops->popHandler();
 
         // If ajax only, not ajax request and Whoops 2, it does not inject JsonResponseHandler
-        if ($isAjaxOnly
+        if (
+            $isAjaxOnly
             && ! $requestIsAjax
             && method_exists(WhoopsUtil::class, 'isAjaxRequest')
         ) {
@@ -131,7 +128,7 @@ class WhoopsFactoryTest extends TestCase
     /**
      * @return iterable<string, bool[]>
      */
-    public function provideConfig() : iterable
+    public function provideConfig(): iterable
     {
         // @codingStandardsIgnoreStart
         //    test case                        => showsTrace, isAjaxOnly, requestIsAjax
