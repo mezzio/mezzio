@@ -70,6 +70,51 @@ Each method will raise an exception if:
 > mezzio/mezzio-helpers. Prior to that version, the helper only
 > accepted the route name and route parameters.
 
+### Reusing Matched Route Result Parameters
+
+When you're on a route that has many parameters, often times it makes sense to reuse
+currently matched route parameters instead of assigning them explicitly, this is the 
+default behaviour.
+
+As an example, we will imagine being on a detail page for our `blog` route. We want
+to display links to the `edit` and `delete` actions without having to assign the ID
+again:
+
+```php
+// Current URL: /blog/view/777
+
+$this->url('blog', ['action' => 'edit']);
+$this->url('blog', ['action' => 'delete']);
+```
+
+The `UrlHelper` will generate the route: `/blog/edit/777` and `/blog/delete/777` 
+respectively. 
+
+However, this may not always be desired, if we are on the detail page for our `blog`
+route, and wanted to generate a canonical url to our blog, we can pass the 
+`reuse_result_params` option with  value of `false` to prevent reusing route parameters: 
+
+```php
+// Generated url: /blog/list?results_per_page=10 
+
+$this->url('blog', ['action' => 'list'], ['results_per_page' => 10], null, ['reuse_result_params' => false]);
+``` 
+
+### Reusing Query Parameters
+
+There may be times when it would be convenient to reuse query parameters for the matched
+route. For example, referring back to our blog scenario with the generated route:
+`/blog/list?results_per_page=10`. We would like to add a link to the next page of
+results, while retaining the query parameters (results_per_page). 
+
+We can achieve this by passing the `reuse_query_params` option to the `UrlHelper`as follows:
+
+```php
+// Generated url: /blog/list?results_per_page=10&page=2
+
+echo $this->url('blog', ['action' => 'list'], ['page' => 2], null, ['reuse_query_params' => true]);
+```
+
 ### Other methods available
 
 - `getRouteResult() : ?Mezzio\Router\RouteResult` (since
