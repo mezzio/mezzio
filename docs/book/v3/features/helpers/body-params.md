@@ -13,7 +13,8 @@ By default, this middleware will detect the following content types:
   uploads)
 - `application/json`, `application/*+json` (JSON payloads)
 
-> ### This middleware **must** be used for PUT requests
+> ### This Middleware **Must** Be Used for PUT Requests
+>
 > If it is not a part of the middleware pipeline for routes using PUT requests, then calls to `ServerRequestInterface::getParsedBody()` will return an empty array—even if the request included a body.
 
 ## Registering the middleware
