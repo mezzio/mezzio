@@ -1,4 +1,4 @@
-# Body Parsing Middleware
+# Body Params Middleware
 
 `Mezzio\Helper\BodyParams\BodyParamsMiddleware` provides generic
 [PSR-15](https://www.php-fig.org/psr/psr-15/) middleware for parsing the request

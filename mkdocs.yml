@@ -54,7 +54,7 @@ nav:
               - Introduction: v3/features/helpers/intro.md
               - UrlHelper: v3/features/helpers/url-helper.md
               - ServerUrlHelper: v3/features/helpers/server-url-helper.md
-              - 'Body Parsing Middleware': v3/features/helpers/body-parse.md
+              - 'Body Params Middleware': v3/features/helpers/body-params.md
               - 'Content-Length Middleware': v3/features/helpers/content-length.md
               - 'Template Variable Container': v3/features/helpers/template-variable-container.md
           - Emitters: v3/features/emitters.md
