@@ -258,3 +258,8 @@ site_description: 'PSR-15 Middleware in Minutes'
 repo_url: 'https://github.com/mezzio/mezzio'
 extra_css:
     - css/mezzio.css
+plugins:
+  - search
+  - redirects:
+        redirect_maps:
+            v3/features/helpers/body-parse.md: v3/features/helpers/body-params.md
