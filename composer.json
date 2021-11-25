@@ -30,13 +30,13 @@
         }
     },
     "require": {
-        "php": "^7.3||~8.0.0",
+        "php": "~7.4.0||~8.0.0||~8.1.0",
         "fig/http-message-util": "^1.1.5",
-        "laminas/laminas-httphandlerrunner": "^1.3.0",
-        "laminas/laminas-stratigility": "^3.3.0",
-        "laminas/laminas-zendframework-bridge": "^1.1.0",
-        "mezzio/mezzio-router": "^3.5",
-        "mezzio/mezzio-template": "^2.1.0",
+        "laminas/laminas-httphandlerrunner": "^1.5",
+        "laminas/laminas-stratigility": "^3.5",
+        "laminas/laminas-zendframework-bridge": "^1.4",
+        "mezzio/mezzio-router": "^3.7",
+        "mezzio/mezzio-template": "^2.2",
         "psr/container": "^1.0",
         "psr/http-factory": "^1.0",
         "psr/http-message": "^1.0.1",
@@ -44,24 +44,26 @@
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
-        "filp/whoops": "^2.8.0",
-        "laminas/laminas-coding-standard": "~2.2.0",
-        "laminas/laminas-diactoros": "^2.5.0",
-        "laminas/laminas-servicemanager": "^3.6.0",
+        "filp/whoops": "^2.14.4",
+        "laminas/laminas-coding-standard": "~2.3.0",
+        "laminas/laminas-diactoros": "^2.8.0",
+        "laminas/laminas-servicemanager": "^3.10",
         "malukenho/docheader": "^0.1.8",
         "mezzio/mezzio-aurarouter": "^3.1.0",
-        "mezzio/mezzio-fastroute": "^3.1.0",
+        "mezzio/mezzio-fastroute": "^3.3.0",
         "mezzio/mezzio-laminasrouter": "^3.1.0",
-        "mockery/mockery": "^1.0",
-        "phpunit/phpunit": "^9.3",
+        "mockery/mockery": "^1.4.4",
+        "phpunit/phpunit": "^9.5.10",
         "psalm/plugin-phpunit": "^0.13",
-        "vimeo/psalm": "^4.1"
+        "vimeo/psalm": "^4.13.1"
     },
     "conflict": {
         "container-interop/container-interop": "<1.2.0",
         "laminas/laminas-diactoros": "<1.7.1",
-        "laminas/laminas-stdlib": "<3.2.1",
-        "filp/whoops": "<2.1.1"
+        "laminas/laminas-http": "<2.15.0",
+        "laminas/laminas-stdlib": "<3.6.0",
+        "laminas/laminas-router": "<3.5.0",
+        "filp/whoops": "<2.14.4"
     },
     "suggest": {
         "filp/whoops": "^2.1 to use the Whoops error handler",

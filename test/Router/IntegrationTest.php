@@ -32,6 +32,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 use function array_pop;
 use function sprintf;
 
+use const PHP_VERSION_ID;
+
 class IntegrationTest extends TestCase
 {
     /** @var Response */
@@ -71,20 +73,26 @@ class IntegrationTest extends TestCase
     /**
      * Get the router adapters to test
      *
-     * @psalm-return array<string, array{0: class-string}>
+     * @psalm-return iterable<string, array{class-string<RouterInterface>}>
      */
-    public function routerAdapters(): array
+    public function routerAdapters(): iterable
     {
-        return [
-            'aura'       => [AuraRouter::class],
-            'fast-route' => [FastRouteRouter::class],
-            'laminas'    => [LaminasRouter::class],
-        ];
+        if (PHP_VERSION_ID < 80100) {
+            /**
+             * Excluded from PHP 8.1 onwards since the package seems to be abandoned.
+             */
+            yield 'aura' => [AuraRouter::class];
+        }
+
+        yield 'fast-route' => [FastRouteRouter::class];
+        yield 'laminas'    => [LaminasRouter::class];
     }
 
     /**
      * Create an Application object with 2 routes, a GET and a POST
      * using Application::get() and Application::post()
+     *
+     * @psalm-param class-string<RouterInterface> $adapter
      */
     private function createApplicationWithGetPost(
         string $adapter,
@@ -113,6 +121,8 @@ class IntegrationTest extends TestCase
     /**
      * Create an Application object with 2 routes, a GET and a POST
      * using Application::route()
+     *
+     * @psalm-param class-string<RouterInterface> $adapter
      */
     private function createApplicationWithRouteGetPost(
         string $adapter,
@@ -140,6 +150,7 @@ class IntegrationTest extends TestCase
 
     /**
      * @dataProvider routerAdapters
+     * @psalm-param class-string<RouterInterface> $adapter
      */
     public function testRoutingDoesNotMatchMethod(string $adapter): void
     {
@@ -160,6 +171,7 @@ class IntegrationTest extends TestCase
      *
      * @group 40
      * @dataProvider routerAdapters
+     * @psalm-param class-string<RouterInterface> $adapter
      */
     public function testRoutingWithSamePathWithoutName(string $adapter): void
     {
@@ -185,6 +197,7 @@ class IntegrationTest extends TestCase
      *
      * @group 40
      * @dataProvider routerAdapters
+     * @psalm-param class-string<RouterInterface> $adapter
      */
     public function testRoutingWithSamePathWithName(string $adapter): void
     {
@@ -210,6 +223,7 @@ class IntegrationTest extends TestCase
      *
      * @group 40
      * @dataProvider routerAdapters
+     * @psalm-param class-string<RouterInterface> $adapter
      */
     public function testRoutingWithSamePathWithRouteWithoutName(string $adapter): void
     {
@@ -234,6 +248,7 @@ class IntegrationTest extends TestCase
      * @see https://github.com/zendframework/zend-expressive/issues/40
      *
      * @dataProvider routerAdapters
+     * @psalm-param class-string<RouterInterface> $adapter
      */
     public function testRoutingWithSamePathWithRouteWithName(string $adapter): void
     {
@@ -259,6 +274,7 @@ class IntegrationTest extends TestCase
      *
      * @group 40
      * @dataProvider routerAdapters
+     * @psalm-param class-string<RouterInterface> $adapter
      */
     public function testRoutingWithSamePathWithRouteWithMultipleMethods(string $adapter): void
     {
@@ -300,7 +316,7 @@ class IntegrationTest extends TestCase
 
     /**
      * @psalm-return iterable<string, array{
-     *     0: class-string,
+     *     0: class-string<RouterInterface>,
      *     1: RequestMethod::METHOD_*
      * }>
      */
@@ -326,6 +342,7 @@ class IntegrationTest extends TestCase
 
     /**
      * @dataProvider routerAdaptersForHttpMethods
+     * @psalm-param class-string<RouterInterface> $adapter
      * @psalm-param RequestMethod::METHOD_* $method
      */
     public function testMatchWithAllHttpMethods(string $adapter, string $method): void
@@ -353,25 +370,30 @@ class IntegrationTest extends TestCase
     }
 
     /**
-     * @psalm-return array<string, array{
-     *     0: class-string,
+     * @psalm-return iterable<array{
+     *     0: class-string<RouterInterface>,
      *     1: RequestMethod::METHOD_*
      * }>
      */
-    public function allowedMethod(): array
+    public function allowedMethod(): iterable
     {
-        return [
-            'aura-head'          => [AuraRouter::class, RequestMethod::METHOD_HEAD],
-            'aura-options'       => [AuraRouter::class, RequestMethod::METHOD_OPTIONS],
-            'fast-route-head'    => [FastRouteRouter::class, RequestMethod::METHOD_HEAD],
-            'fast-route-options' => [FastRouteRouter::class, RequestMethod::METHOD_OPTIONS],
-            'laminas-head'       => [LaminasRouter::class, RequestMethod::METHOD_HEAD],
-            'laminas-options'    => [LaminasRouter::class, RequestMethod::METHOD_OPTIONS],
-        ];
+        if (PHP_VERSION_ID < 80100) {
+            /**
+             * Excluded from PHP 8.1 onwards since the package seems to be abandoned.
+             */
+            yield 'aura-head'    => [AuraRouter::class, RequestMethod::METHOD_HEAD];
+            yield 'aura-options' => [AuraRouter::class, RequestMethod::METHOD_OPTIONS];
+        }
+
+        yield 'fast-route-head'    => [FastRouteRouter::class, RequestMethod::METHOD_HEAD];
+        yield 'fast-route-options' => [FastRouteRouter::class, RequestMethod::METHOD_OPTIONS];
+        yield 'laminas-head'       => [LaminasRouter::class, RequestMethod::METHOD_HEAD];
+        yield 'laminas-options'    => [LaminasRouter::class, RequestMethod::METHOD_OPTIONS];
     }
 
     /**
      * @dataProvider allowedMethod
+     * @psalm-param class-string<RouterInterface> $adapter
      * @psalm-param RequestMethod::METHOD_* $method
      */
     public function testAllowedMethodsWhenOnlyPutMethodSet(string $adapter, string $method): void
