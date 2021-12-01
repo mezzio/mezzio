@@ -34,7 +34,6 @@
         "fig/http-message-util": "^1.1.5",
         "laminas/laminas-httphandlerrunner": "^1.5",
         "laminas/laminas-stratigility": "^3.5",
-        "laminas/laminas-zendframework-bridge": "^1.4",
         "mezzio/mezzio-router": "^3.7",
         "mezzio/mezzio-template": "^2.2",
         "psr/container": "^1.0",
@@ -63,7 +62,8 @@
         "laminas/laminas-http": "<2.15.0",
         "laminas/laminas-stdlib": "<3.6.0",
         "laminas/laminas-router": "<3.5.0",
-        "filp/whoops": "<2.14.4"
+        "filp/whoops": "<2.14.4",
+        "zendframework/zend-expressive": "*"
     },
     "suggest": {
         "filp/whoops": "^2.1 to use the Whoops error handler",
@@ -104,8 +104,5 @@
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
         "license-check": "docheader check src/ test/"
-    },
-    "replace": {
-        "zendframework/zend-expressive": "^3.2.1"
     }
 }
