@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.7.0@d4377c0baf3ffbf0b1ec6998e8d1be2a40971005">
+<files psalm-version="4.13.1@5cf660f63b548ccd4a56f62d916ee4d6028e01a3">
   <file src="src/Application.php">
     <PossiblyInvalidCast occurrences="1">
       <code>$path</code>
     </PossiblyInvalidCast>
   </file>
   <file src="src/ConfigProvider.php">
+    <MixedArrayOffset occurrences="2"/>
     <UndefinedClass occurrences="3">
       <code>ApplicationPipeline</code>
       <code>ApplicationPipeline</code>
@@ -31,13 +32,14 @@
       <code>$spec['middleware']</code>
       <code>$spec['path']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="7">
+    <MixedAssignment occurrences="8">
       <code>$config</code>
       <code>$methods</code>
       <code>$name</code>
       <code>$options</code>
       <code>$path</code>
       <code>$queue</code>
+      <code>$serial</code>
       <code>$spec</code>
     </MixedAssignment>
     <MixedOperand occurrences="1">
@@ -169,11 +171,18 @@
       <code>getQueryParams</code>
       <code>getServerParams</code>
     </MixedMethodCall>
+    <RedundantConditionGivenDocblockType occurrences="1">
+      <code>is_object($whoops)</code>
+    </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/MiddlewareContainer.php">
     <InvalidStringClass occurrences="1">
       <code>new $service()</code>
     </InvalidStringClass>
+    <ParamNameMismatch occurrences="2">
+      <code>$service</code>
+      <code>$service</code>
+    </ParamNameMismatch>
   </file>
   <file src="src/MiddlewareFactory.php">
     <DocblockTypeContradiction occurrences="1">
@@ -263,6 +272,9 @@
       <code>$name</code>
       <code>ApplicationPipeline::class</code>
     </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$dependencies</code>
+    </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="2">
       <code>$json['packages']</code>
       <code>$package['extra']</code>
@@ -373,16 +385,12 @@
     <MixedArgument occurrences="1">
       <code>$autoloader</code>
     </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$autoloader</code>
+    <MixedAssignment occurrences="1">
       <code>$autoloader</code>
     </MixedAssignment>
     <PossiblyInvalidArgument occurrences="1">
       <code>$this-&gt;container</code>
     </PossiblyInvalidArgument>
-    <UnusedFunctionCall occurrences="1">
-      <code>spl_autoload_unregister</code>
-    </UnusedFunctionCall>
   </file>
   <file src="test/Container/ServerRequestFactoryFactoryTest.php">
     <RedundantCondition occurrences="1">
@@ -393,16 +401,12 @@
     <MixedArgument occurrences="1">
       <code>$autoloader</code>
     </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$autoloader</code>
+    <MixedAssignment occurrences="1">
       <code>$autoloader</code>
     </MixedAssignment>
     <PossiblyInvalidArgument occurrences="1">
       <code>$this-&gt;container</code>
     </PossiblyInvalidArgument>
-    <UnusedFunctionCall occurrences="1">
-      <code>spl_autoload_unregister</code>
-    </UnusedFunctionCall>
   </file>
   <file src="test/Container/StreamFactoryFactoryTest.php">
     <RedundantCondition occurrences="1">
@@ -413,16 +417,12 @@
     <MixedArgument occurrences="1">
       <code>$autoloader</code>
     </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$autoloader</code>
+    <MixedAssignment occurrences="1">
       <code>$autoloader</code>
     </MixedAssignment>
     <PossiblyInvalidArgument occurrences="1">
       <code>$this-&gt;container</code>
     </PossiblyInvalidArgument>
-    <UnusedFunctionCall occurrences="1">
-      <code>spl_autoload_unregister</code>
-    </UnusedFunctionCall>
   </file>
   <file src="test/Container/TestAsset/CallableInteropMiddleware.php">
     <MissingParamType occurrences="1">
@@ -452,9 +452,6 @@
     </MixedInferredReturnType>
   </file>
   <file src="test/ExceptionTest.php">
-    <InvalidLiteralArgument occurrences="1">
-      <code>ExceptionInterface::class</code>
-    </InvalidLiteralArgument>
     <MixedInferredReturnType occurrences="2">
       <code>Generator</code>
       <code>Generator</code>
@@ -514,28 +511,15 @@
       <code>$request</code>
     </UnusedClosureParam>
   </file>
+  <file src="test/Response/CallableResponseFactoryDecoratorTest.php">
+    <InternalMethod occurrences="1"/>
+  </file>
   <file src="test/Router/IntegrationTest.php">
-    <ArgumentTypeCoercion occurrences="13">
-      <code>$router</code>
-      <code>$router</code>
-      <code>$router</code>
-      <code>$router</code>
-      <code>$router</code>
-      <code>$router</code>
-      <code>$router</code>
-      <code>$router</code>
-      <code>$router</code>
-      <code>$router</code>
-      <code>$router</code>
+    <ArgumentTypeCoercion occurrences="2">
       <code>$router</code>
       <code>$router</code>
     </ArgumentTypeCoercion>
-    <InvalidStringClass occurrences="6">
-      <code>new $adapter()</code>
-      <code>new $adapter()</code>
-      <code>new $adapter()</code>
-      <code>new $adapter()</code>
-      <code>new $adapter()</code>
+    <InvalidStringClass occurrences="1">
       <code>new $adapter()</code>
     </InvalidStringClass>
     <MissingClosureParamType occurrences="19">
@@ -559,7 +543,15 @@
       <code>$req</code>
       <code>$res</code>
     </MissingClosureParamType>
-    <MixedInferredReturnType occurrences="1">
+    <MixedArgumentTypeCoercion occurrences="6">
+      <code>$this-&gt;responseFactory</code>
+      <code>$this-&gt;responseFactory</code>
+      <code>$this-&gt;responseFactory</code>
+      <code>$this-&gt;responseFactory</code>
+      <code>$this-&gt;responseFactory</code>
+      <code>$this-&gt;responseFactory</code>
+    </MixedArgumentTypeCoercion>
+    <MixedInferredReturnType occurrences="2">
       <code>ResponseInterface</code>
     </MixedInferredReturnType>
     <MixedMethodCall occurrences="1">
@@ -568,6 +560,9 @@
     <MixedReturnStatement occurrences="1">
       <code>$res-&gt;withBody($stream)</code>
     </MixedReturnStatement>
+    <PossiblyInvalidArgument occurrences="1">
+      <code>testMatchWithAllHttpMethods</code>
+    </PossiblyInvalidArgument>
     <UnusedClosureParam occurrences="18">
       <code>$handler</code>
       <code>$handler</code>

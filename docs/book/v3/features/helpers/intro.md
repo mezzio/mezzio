@@ -6,7 +6,7 @@ may integrate features or simply provide standalone benefits.
 
 Currently, these include:
 
-- [Body Parsing Middleware](body-parse.md)
+- [Body Params Middleware](body-params.md)
 - [Content-Length Middleware](content-length.md) (since mezzio-helpers 4.1.0)
 - [UrlHelper](url-helper.md)
 - [ServerUrlHelper](server-url-helper.md)
