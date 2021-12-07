@@ -9,7 +9,7 @@ use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\Stream;
-use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Laminas\Stratigility\MiddlewarePipe;
 use Mezzio\Application;
 use Mezzio\MiddlewareContainer;
@@ -61,7 +61,7 @@ class IntegrationTest extends TestCase
         $factory   = new MiddlewareFactory($container);
         $pipeline  = new MiddlewarePipe();
         $collector = new RouteCollector($router);
-        $runner    = $this->createMock(RequestHandlerRunner::class);
+        $runner    = $this->createMock(RequestHandlerRunnerInterface::class);
         return new Application(
             $factory,
             $pipeline,
