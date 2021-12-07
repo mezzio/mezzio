@@ -66,6 +66,9 @@ class RequestHandlerRunnerFactoryTest extends TestCase
         return $emitter;
     }
 
+    /**
+     * @return callable():ServerRequestInterface
+     */
     public function registerServerRequestFactoryInContainer(InMemoryContainer $container): callable
     {
         $request = $this->createMock(ServerRequestInterface::class);

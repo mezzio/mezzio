@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MezzioTest;
 
-use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
 use Laminas\Stratigility\MiddlewarePipe;
 use Laminas\Stratigility\MiddlewarePipeInterface;
@@ -35,7 +35,7 @@ class ApplicationTest extends TestCase
     /** @var RouteCollector&MockObject */
     private $routes;
 
-    /** @var RequestHandlerRunner&MockObject */
+    /** @var RequestHandlerRunnerInterface&MockObject */
     private $runner;
 
     /** @var Application */
@@ -46,7 +46,7 @@ class ApplicationTest extends TestCase
         $this->factory  = $this->createMock(MiddlewareFactory::class);
         $this->pipeline = $this->createMock(MiddlewarePipeInterface::class);
         $this->routes   = $this->createMock(RouteCollector::class);
-        $this->runner   = $this->createMock(RequestHandlerRunner::class);
+        $this->runner   = $this->createMock(RequestHandlerRunnerInterface::class);
 
         $this->app = new Application(
             $this->factory,

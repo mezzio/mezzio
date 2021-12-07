@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MezzioTest\Container;
 
 use ArrayObject;
-use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Laminas\Stratigility\MiddlewarePipe;
 use Mezzio\Application;
 use Mezzio\Container\ApplicationConfigInjectionDelegator;
@@ -52,7 +52,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $container = new MiddlewareContainer($this->container);
         $factory   = new MiddlewareFactory($container);
         $pipeline  = new MiddlewarePipe();
-        $runner    = $this->createMock(RequestHandlerRunner::class);
+        $runner    = $this->createMock(RequestHandlerRunnerInterface::class);
         return new Application(
             $factory,
             $pipeline,

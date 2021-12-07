@@ -32,7 +32,7 @@
     "require": {
         "php": "~7.4.0||~8.0.0||~8.1.0",
         "fig/http-message-util": "^1.1.5",
-        "laminas/laminas-httphandlerrunner": "^1.5",
+        "laminas/laminas-httphandlerrunner": "^2.1",
         "laminas/laminas-stratigility": "^3.5",
         "mezzio/mezzio-router": "^3.7",
         "mezzio/mezzio-template": "^2.2",
