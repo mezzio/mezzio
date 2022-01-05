@@ -42,6 +42,11 @@
                 <file name="src/Container/ServerRequestErrorResponseGeneratorFactory.php"/>
             </errorLevel>
         </DeprecatedTrait>
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Zend\*"/>
+            </errorLevel>
+        </UndefinedClass>
     </issueHandlers>
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
