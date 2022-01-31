@@ -31,9 +31,7 @@ class ErrorResponseGeneratorFactory
 
         $renderer = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
-            : ($container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)
-                ? $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)
-                : null);
+                : null;
 
         return new ErrorResponseGenerator($debug, $renderer, $template, $layout);
     }

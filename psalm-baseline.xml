@@ -6,11 +6,10 @@
     </PossiblyInvalidCast>
   </file>
   <file src="src/ConfigProvider.php">
-    <MixedArrayOffset occurrences="2"/>
-    <UndefinedClass occurrences="3">
+    <MixedArrayOffset occurrences="1"/>
+    <UndefinedClass occurrences="1">
       <code>ApplicationPipeline</code>
       <code>ApplicationPipeline</code>
-      <code>\Zend\Expressive\ApplicationPipeline</code>
     </UndefinedClass>
   </file>
   <file src="src/Container/ApplicationConfigInjectionDelegator.php">

@@ -22,7 +22,11 @@
         "forum": "https://discourse.laminas.dev"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/package-versions-deprecated": true
+        }
     },
     "extra": {
         "laminas": {
@@ -76,8 +80,7 @@
     },
     "autoload": {
         "files": [
-            "src/constants.php",
-            "src/constants.legacy.php"
+            "src/constants.php"
         ],
         "psr-4": {
             "Mezzio\\": "src/"
