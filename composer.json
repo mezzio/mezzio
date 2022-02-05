@@ -24,7 +24,8 @@
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "composer/package-versions-deprecated": true
         }
     },
     "extra": {
@@ -51,7 +52,7 @@
         "laminas/laminas-diactoros": "^2.8.0",
         "laminas/laminas-servicemanager": "^3.10",
         "malukenho/docheader": "^0.1.8",
-        "mezzio/mezzio-aurarouter": "^3.1.0",
+        "mezzio/mezzio-aurarouter": "^3.3.0",
         "mezzio/mezzio-fastroute": "^3.3.0",
         "mezzio/mezzio-laminasrouter": "^3.1.0",
         "mockery/mockery": "^1.4.4",
