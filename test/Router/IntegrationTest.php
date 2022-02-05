@@ -32,8 +32,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 use function array_pop;
 use function sprintf;
 
-use const PHP_VERSION_ID;
-
 class IntegrationTest extends TestCase
 {
     /** @var Response */
@@ -77,13 +75,7 @@ class IntegrationTest extends TestCase
      */
     public function routerAdapters(): iterable
     {
-        if (PHP_VERSION_ID < 80100) {
-            /**
-             * Excluded from PHP 8.1 onwards since the package seems to be abandoned.
-             */
-            yield 'aura' => [AuraRouter::class];
-        }
-
+        yield 'aura' => [AuraRouter::class];
         yield 'fast-route' => [FastRouteRouter::class];
         yield 'laminas'    => [LaminasRouter::class];
     }
@@ -377,14 +369,8 @@ class IntegrationTest extends TestCase
      */
     public function allowedMethod(): iterable
     {
-        if (PHP_VERSION_ID < 80100) {
-            /**
-             * Excluded from PHP 8.1 onwards since the package seems to be abandoned.
-             */
-            yield 'aura-head'    => [AuraRouter::class, RequestMethod::METHOD_HEAD];
-            yield 'aura-options' => [AuraRouter::class, RequestMethod::METHOD_OPTIONS];
-        }
-
+        yield 'aura-head'    => [AuraRouter::class, RequestMethod::METHOD_HEAD];
+        yield 'aura-options' => [AuraRouter::class, RequestMethod::METHOD_OPTIONS];
         yield 'fast-route-head'    => [FastRouteRouter::class, RequestMethod::METHOD_HEAD];
         yield 'fast-route-options' => [FastRouteRouter::class, RequestMethod::METHOD_OPTIONS];
         yield 'laminas-head'       => [LaminasRouter::class, RequestMethod::METHOD_HEAD];
