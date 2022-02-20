@@ -6,6 +6,7 @@ namespace Mezzio;
 
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -36,6 +37,8 @@ class ConfigProvider
                 IMPLICIT_OPTIONS_MIDDLEWARE => Router\Middleware\ImplicitOptionsMiddleware::class,
                 NOT_FOUND_MIDDLEWARE        => Handler\NotFoundHandler::class,
                 ROUTE_MIDDLEWARE            => Router\Middleware\RouteMiddleware::class,
+
+                RequestHandlerRunnerInterface::class => RequestHandlerRunner::class,
             ],
             'factories' => [
                 Application::class                       => Container\ApplicationFactory::class,

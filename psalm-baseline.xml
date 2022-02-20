@@ -48,7 +48,7 @@
     <MixedArgument occurrences="5">
       <code>$container-&gt;get(ApplicationPipeline::class)</code>
       <code>$container-&gt;get(MiddlewareFactory::class)</code>
-      <code>$container-&gt;get(RequestHandlerRunner::class)</code>
+      <code>$container-&gt;get(RequestHandlerRunnerInterface::class)</code>
       <code>ApplicationPipeline::class</code>
     </MixedArgument>
     <UndefinedClass occurrences="1">
