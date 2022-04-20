@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mezzio\Container;
 
-use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Mezzio\Application;
 use Mezzio\ApplicationPipeline;
 use Mezzio\MiddlewareFactory;
@@ -34,7 +34,7 @@ class ApplicationFactory
             $container->has(RouteCollectorInterface::class) ?
                 $container->get(RouteCollectorInterface::class) :
                 $container->get(RouteCollector::class),
-            $container->get(RequestHandlerRunner::class)
+            $container->get(RequestHandlerRunnerInterface::class)
         );
     }
 }

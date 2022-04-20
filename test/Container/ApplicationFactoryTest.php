@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MezzioTest\Container;
 
-use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Laminas\Stratigility\MiddlewarePipeInterface;
 use Mezzio\Application;
@@ -28,7 +27,7 @@ class ApplicationFactoryTest extends TestCase
         $container->set(MiddlewareFactory::class, $middlewareFactory);
         $container->set(ApplicationPipeline::class, $pipeline);
         $container->set(RouteCollector::class, $routeCollector);
-        $container->set(RequestHandlerRunner::class, $runner);
+        $container->set(RequestHandlerRunnerInterface::class, $runner);
 
         $factory = new ApplicationFactory();
 
