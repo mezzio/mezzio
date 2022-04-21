@@ -23,6 +23,7 @@
         <DeprecatedClass>
             <errorLevel type="suppress">
                 <referencedClass name="Mezzio\Response\CallableResponseFactoryDecorator"/>
+                <referencedClass name="Mezzio\ApplicationPipeline"/>
             </errorLevel>
         </DeprecatedClass>
         <InternalMethod>
