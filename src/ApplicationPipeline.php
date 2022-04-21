@@ -10,6 +10,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * The purpose of this class is to provide an existing class to the {@see \Mezzio\Container\ApplicationFactory}.
+ * This factory fetches this class via the container to inject an instance of {@see MiddlewarePipeInterface} to the
+ * {@see \Mezzio\Application}.
+ *
+ * @deprecated Will get superseded with v4.0.0. In 4.0.0, the {@see \Mezzio\Container\ApplicationFactory} will instead
+ *             fetch the {@see MiddlewarePipeInterface} directly from the container.
+ */
 final class ApplicationPipeline implements MiddlewarePipeInterface
 {
     private MiddlewarePipeInterface $pipeline;
