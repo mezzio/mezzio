@@ -214,7 +214,7 @@ class LoggingErrorListenerDelegatorFactory
 ```
 
 Then, enable the delegator factory by registering it in the `delegators` element of the relevant [ConfigProvider class](https://docs.laminas.dev/laminas-config-aggregator/config-providers/).
-For example, in _src/App/src/ConfigProvider.php_, update the `getDependencies()` method as follows:
+For example, in `src/App/src/ConfigProvider.php`, update the `getDependencies()` method as follows:
 
 ```php
 public function getDependencies(): array
