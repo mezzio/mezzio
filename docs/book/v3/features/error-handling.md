@@ -213,6 +213,23 @@ class LoggingErrorListenerDelegatorFactory
 }
 ```
 
+Then, enable the delegator factory by registering it in the `delegators` element of the relevant [ConfigProvider class](https://docs.laminas.dev/laminas-config-aggregator/config-providers/).
+For example, in `src/App/src/ConfigProvider.php`, update the `getDependencies()` method as follows:
+
+```php
+public function getDependencies(): array
+{
+    return [
+        'delegators' => [
+            ErrorHandler::class => [
+                LoggingErrorListenerDelegatorFactory::class
+            ]
+        ],
+        // remaining configuration...
+    ];
+}
+```
+
 ## Handling more specific error types
 
 You could also write more specific error handlers. As an example, you might want
