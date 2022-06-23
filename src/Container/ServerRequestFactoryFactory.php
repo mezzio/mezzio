@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mezzio\Container;
 
 use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -19,6 +20,10 @@ use function sprintf;
  * allow vanilla PHP callable services. Instead, we wrap it in an
  * anonymous function here, which is allowed by all containers tested
  * at this time.
+ *
+ * This factory consumes the
+ * Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface
+ * service, which is used to make changes when initializing the request.
  */
 class ServerRequestFactoryFactory
 {
@@ -36,8 +41,12 @@ class ServerRequestFactoryFactory
             ));
         }
 
-        return function () {
-            return ServerRequestFactory::fromGlobals();
+        $filter = $container->has(ServerRequestFilterInterface::class)
+            ? $container->get(ServerRequestFilterInterface::class)
+            : null;
+
+        return function () use ($filter) {
+            return ServerRequestFactory::fromGlobals(null, null, null, null, null, $filter);
         };
     }
 }
