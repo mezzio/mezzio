@@ -250,9 +250,42 @@ As an example:
 - **Requires**: no additional services are required.
 - **Optional**: no optional services are used.
 
-By default, this uses laminas-diactoros to produce a request, and will raise an
-exception if that package is not installed. You can provide an alternate factory
-if you want to use an alternate PSR-7 implementation.
+By default, this uses laminas-diactoros to produce a request, and will raise an exception if that package is not installed.
+You can provide an alternate factory if you want to use an alternate PSR-7 implementation.
+
+Also by default, this factory will consume the service `Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface`.
+This service is mapped to `Laminas\Diactoros\ServerRequestFilter\XForwardedHeaderFilterFactory` by default, with the following configuration:
+
+```php
+Laminas\Diactoros\ConfigProvider::CONFIG_KEY => [
+    Laminas\Diactoros\ConfigProvider::X_FORWARDED => [
+        Laminas\Diactoros\ConfigProvider::X_FORWARDED_TRUST_ANY => true,
+    ],
+],
+```
+
+If you want to limit the proxy servers you trust (or supply one or more subnets), or which `X-Forwarded-*` headers are trusted, you should set the `Laminas\Diactoros\ConfigProvider::X_FORWARDED_TRUST_ANY` value to `false` and provide alternate configuration, as detailed in the [Diactoros XForwardedHeaderFilterFactory documentation](https://docs.laminas.dev/laminas-diactoros/v2/server-request-filters/#xforwardedheaderfilterfactory).
+
+Alternately, if you want to disable usage of proxy headers entirely, change the mapping of the `ServerRequestFilterInterface` to reference the `NoOpRequestFilterFactory`:
+
+```php
+'dependencies' => [
+    'factories' => [
+        Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface::class => 
+            Laminas\Diactoros\ServerRequestFilter\NoOpRequestFilterFactory::class,
+    ],
+],
+```
+
+If you have a custom implementation, you may map the service to anything producing your custom implementation.
+
+> CAUTION: Default server request filter will change in version 4
+> The default server request filter is currently specified as the `XForwardedHeaderFilter` in order to preserve backwards compatibility.
+> However, usage of this filter is unsafe if you are not behind a trusted proxy and/or your server is accessible both via the proxy and a public IP address.
+> As such, for version 4, we will be switching the default to the `NoOpRequestFilter`.
+> We highly recommend you configure the `ServerRequestFilterInterface` service explicitly for your application both to opt-in to security measures, as well as to prepare for version 4.
+>
+> Additionally, the Mezzio skeleton application may adopt a more secure default before version 4 is released; if so, the configuration will be found in your `config/autoload/mezzio.global.php` configuration file.
 
 ### StreamFactoryFactory
 

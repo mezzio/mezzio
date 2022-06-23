@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Mezzio;
 
+use Laminas\Diactoros\ConfigProvider as DiactorosConfigProvider;
+use Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface;
+use Laminas\Diactoros\ServerRequestFilter\XForwardedHeaderFilterFactory;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
@@ -22,7 +25,9 @@ class ConfigProvider
     public function __invoke(): array
     {
         return [
-            'dependencies' => $this->getDependencies(),
+            'dependencies'                      => $this->getDependencies(),
+            // @todo Remove this for version 4
+            DiactorosConfigProvider::CONFIG_KEY => $this->getDefaultServerRequestFilterConfig(),
         ];
     }
 
@@ -65,10 +70,24 @@ class ConfigProvider
                 RequestHandlerRunner::class              => Container\RequestHandlerRunnerFactory::class,
                 ResponseInterface::class                 => Container\ResponseFactoryFactory::class,
                 Response\ServerRequestErrorResponseGenerator::class  => Container\ServerRequestErrorResponseGeneratorFactory::class,
+                // @todo Switch this to the NoOpRequestFilterFactory for version 4
+                ServerRequestFilterInterface::class      => XForwardedHeaderFilterFactory::class,
                 ServerRequestInterface::class            => Container\ServerRequestFactoryFactory::class,
                 StreamInterface::class                   => Container\StreamFactoryFactory::class,
             ],
         ];
         // @codingStandardsIgnoreEnd
+    }
+
+    /**
+     * @todo Remove this for version 4.
+     */
+    public function getDefaultServerRequestFilterConfig(): array
+    {
+        return [
+            DiactorosConfigProvider::X_FORWARDED => [
+                DiactorosConfigProvider::X_FORWARDED_TRUST_ANY => true,
+            ],
+        ];
     }
 }
