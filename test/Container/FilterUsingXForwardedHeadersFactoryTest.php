@@ -116,7 +116,7 @@ class FilterUsingXForwardedHeadersFactoryTest extends TestCase
             ConfigProvider::DIACTOROS_CONFIG_KEY => [
                 ConfigProvider::DIACTOROS_SERVER_REQUEST_FILTER_CONFIG_KEY => [
                     ConfigProvider::DIACTOROS_X_FORWARDED_FILTER_CONFIG_KEY => [
-                        ConfigProvider::DIACTOROS_TRUSTED_PROXIES_CONFIG_KEY => '*',
+                        ConfigProvider::DIACTOROS_TRUSTED_PROXIES_CONFIG_KEY => ['*'],
                     ],
                 ],
             ],
@@ -256,31 +256,6 @@ class FilterUsingXForwardedHeadersFactoryTest extends TestCase
      */
     public function trustedProxiesAndHeaders(): iterable
     {
-        yield 'string-proxy-single-header' => [
-            false,
-            [
-                ConfigProvider::DIACTOROS_CONFIG_KEY => [
-                    ConfigProvider::DIACTOROS_SERVER_REQUEST_FILTER_CONFIG_KEY => [
-                        ConfigProvider::DIACTOROS_X_FORWARDED_FILTER_CONFIG_KEY => [
-                            ConfigProvider::DIACTOROS_TRUSTED_PROXIES_CONFIG_KEY => '192.168.1.1',
-                            ConfigProvider::DIACTOROS_TRUSTED_HEADERS_CONFIG_KEY => [
-                                FilterUsingXForwardedHeaders::HEADER_HOST,
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            [
-                'Host'                                     => 'localhost',
-                FilterUsingXForwardedHeaders::HEADER_HOST  => 'api.example.com',
-                FilterUsingXForwardedHeaders::HEADER_PROTO => 'https',
-                FilterUsingXForwardedHeaders::HEADER_PORT  => '4443',
-            ],
-            ['REMOTE_ADDR' => '192.168.1.1'],
-            'http://localhost/foo/bar',
-            'http://api.example.com/foo/bar',
-        ];
-
         yield 'single-proxy-single-header' => [
             false,
             [
