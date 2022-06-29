@@ -8,10 +8,7 @@ use Laminas\Diactoros\ServerRequestFilter\FilterUsingXForwardedHeaders;
 use Mezzio\ConfigProvider;
 use Psr\Container\ContainerInterface;
 
-use function get_class;
-use function gettype;
 use function is_array;
-use function is_object;
 
 /**
  * Factory for use in generating a custom FilterUsingXForwardedHeaders instance.
@@ -53,9 +50,7 @@ final class FilterUsingXForwardedHeadersFactory
 
         if (! is_array($proxies)) {
             // Invalid or missing configuration
-            throw Exception\InvalidTrustedProxyConfigurationException::forType(
-                is_object($proxies) ? get_class($proxies) : gettype($proxies)
-            );
+            throw Exception\InvalidTrustedProxyConfigurationException::forProxies($proxies);
         }
 
         // Missing trusted headers setting means all headers are considered trusted
@@ -68,9 +63,7 @@ final class FilterUsingXForwardedHeadersFactory
 
         if (! is_array($headers)) {
             // Invalid value; trust nothing
-            throw Exception\InvalidTrustedHeaderConfigurationException::forType(
-                is_object($headers) ? get_class($headers) : gettype($headers)
-            );
+            throw Exception\InvalidTrustedHeaderConfigurationException::forHeaders($headers);
         }
 
         return FilterUsingXForwardedHeaders::trustProxies($proxies, $headers);

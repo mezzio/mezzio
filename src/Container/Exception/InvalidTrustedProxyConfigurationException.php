@@ -7,12 +7,18 @@ namespace Mezzio\Container\Exception;
 use Mezzio\ConfigProvider;
 use Mezzio\Exception\RuntimeException;
 
+use function get_class;
+use function gettype;
+use function is_object;
 use function sprintf;
 
 class InvalidTrustedProxyConfigurationException extends RuntimeException implements ExceptionInterface
 {
-    public static function forType(string $type): self
+    /** @param mixed $proxies */
+    public static function forProxies($proxies): self
     {
+        $type = is_object($proxies) ? get_class($proxies) : gettype($proxies);
+
         return new self(sprintf(
             'Invalid %s.%s.%s.%s configuration; received %s; should be list<string>',
             ConfigProvider::DIACTOROS_CONFIG_KEY,
