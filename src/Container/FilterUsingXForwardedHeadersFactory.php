@@ -8,8 +8,10 @@ use Laminas\Diactoros\ServerRequestFilter\FilterUsingXForwardedHeaders;
 use Mezzio\ConfigProvider;
 use Psr\Container\ContainerInterface;
 
+use function get_class;
+use function gettype;
 use function is_array;
-use function is_string;
+use function is_object;
 
 /**
  * Factory for use in generating a custom FilterUsingXForwardedHeaders instance.
