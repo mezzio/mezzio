@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.20.0@f82a70e7edfc6cf2705e9374c8a0b6a974a779ed">
+<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
   <file src="src/Application.php">
     <PossiblyInvalidCast occurrences="1">
       <code>$path</code>
@@ -8,7 +8,6 @@
   <file src="src/ConfigProvider.php">
     <MixedArrayOffset occurrences="1"/>
     <UndefinedClass occurrences="1">
-      <code>ApplicationPipeline</code>
       <code>ApplicationPipeline</code>
     </UndefinedClass>
   </file>
@@ -81,6 +80,19 @@
       <code>$template</code>
     </MixedAssignment>
   </file>
+  <file src="src/Container/FilterUsingXForwardedHeadersFactory.php">
+    <MixedArgumentTypeCoercion occurrences="3">
+      <code>$headers</code>
+      <code>$proxies</code>
+      <code>$proxies</code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess occurrences="1">
+      <code>$config[ConfigProvider::DIACTOROS_CONFIG_KEY]</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="1">
+      <code>$config</code>
+    </MixedAssignment>
+  </file>
   <file src="src/Container/MiddlewareFactoryFactory.php">
     <MixedArgument occurrences="1">
       <code>$container-&gt;get(MiddlewareContainer::class)</code>
@@ -123,6 +135,14 @@
       <code>$debug</code>
       <code>$renderer</code>
       <code>$template</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Container/ServerRequestFactoryFactory.php">
+    <MixedArgument occurrences="1">
+      <code>$filter</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$filter</code>
     </MixedAssignment>
   </file>
   <file src="src/Container/WhoopsErrorResponseGeneratorFactory.php">
@@ -277,7 +297,8 @@
       <code>$json['packages']</code>
       <code>$package['extra']</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="1">
+    <MixedArrayAssignment occurrences="2">
+      <code>$config['dependencies']['services']</code>
       <code>$config['dependencies']['services']</code>
     </MixedArrayAssignment>
     <MixedAssignment occurrences="8">
@@ -334,6 +355,18 @@
     <InvalidArgument occurrences="1">
       <code>$generator</code>
     </InvalidArgument>
+  </file>
+  <file src="test/Container/FilterUsingXForwardedHeadersFactoryTest.php">
+    <MoreSpecificReturnType occurrences="1">
+      <code>iterable&lt;string, array{0: string, 1: array&lt;string, string&gt;}&gt;</code>
+    </MoreSpecificReturnType>
+    <UndefinedInterfaceMethod occurrences="5">
+      <code>set</code>
+      <code>set</code>
+      <code>set</code>
+      <code>set</code>
+      <code>set</code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="test/Container/NotFoundHandlerFactoryTest.php">
     <MixedArgument occurrences="4">

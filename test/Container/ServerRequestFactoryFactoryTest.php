@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace MezzioTest\Container;
 
 use Closure;
+use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Diactoros\ServerRequestFilter\DoNotFilter;
+use Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface;
 use Mezzio\Container\ServerRequestFactoryFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class ServerRequestFactoryFactoryTest extends TestCase
 {
@@ -38,5 +42,33 @@ class ServerRequestFactoryFactoryTest extends TestCase
         $this->assertNotSame([ServerRequestFactory::class, 'fromGlobals'], $factory);
         $this->assertNotSame(ServerRequestFactory::class . '::fromGlobals', $factory);
         $this->assertInstanceOf(Closure::class, $factory);
+    }
+
+    public function testConsumesFilterServerRequestInterfaceServiceWhenPresent(): void
+    {
+        $request = new ServerRequest();
+        $filter  = $this->createMock(FilterServerRequestInterface::class);
+        $filter
+            ->expects($this->once())
+            ->method('__invoke')
+            ->with($this->isInstanceOf(ServerRequestInterface::class))
+            ->willReturn($request);
+
+        $container = $this->createMock(ContainerInterface::class);
+        $container
+            ->expects($this->once())
+            ->method('has')
+            ->with(FilterServerRequestInterface::class)
+            ->willReturn(true);
+        $container
+            ->expects($this->once())
+            ->method('get')
+            ->with(FilterServerRequestInterface::class)
+            ->willReturn($filter);
+
+        $factory          = new ServerRequestFactoryFactory();
+        $generatedFactory = $factory($container);
+
+        $this->assertSame($request, $generatedFactory());
     }
 }

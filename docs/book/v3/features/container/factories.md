@@ -253,39 +253,22 @@ As an example:
 By default, this uses laminas-diactoros to produce a request, and will raise an exception if that package is not installed.
 You can provide an alternate factory if you want to use an alternate PSR-7 implementation.
 
-Also by default, this factory will consume the service `Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface`.
-This service is mapped to `Laminas\Diactoros\ServerRequestFilter\XForwardedHeaderFilterFactory` by default, with the following configuration:
+Also by default, this factory will consume the service `Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface`, if defined.
 
-```php
-Laminas\Diactoros\ConfigProvider::CONFIG_KEY => [
-    Laminas\Diactoros\ConfigProvider::X_FORWARDED => [
-        Laminas\Diactoros\ConfigProvider::X_FORWARDED_TRUST_ANY => true,
-    ],
-],
-```
+If you want to limit the proxy servers you trust (or supply one or more subnets), or which `X-Forwarded-*` headers are trusted, you should define the `Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface` service; one option is to use the shipped [FilterUsingXForwardedHeadersFactory described below](#filterusingxforwardedheadersfactory).
 
-If you want to limit the proxy servers you trust (or supply one or more subnets), or which `X-Forwarded-*` headers are trusted, you should set the `Laminas\Diactoros\ConfigProvider::X_FORWARDED_TRUST_ANY` value to `false` and provide alternate configuration, as detailed in the [Diactoros XForwardedHeaderFilterFactory documentation](https://docs.laminas.dev/laminas-diactoros/v2/server-request-filters/#xforwardedheaderfilterfactory).
-
-Alternately, if you want to disable usage of proxy headers entirely, change the mapping of the `ServerRequestFilterInterface` to reference the `NoOpRequestFilterFactory`:
+Alternately, if you want to disable usage of proxy headers entirely, alias the `FilterServerRequestInterface` to the `Laminas\Diactoros\ServerRequestFilter\DoNotFilter` class:
 
 ```php
 'dependencies' => [
-    'factories' => [
-        Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface::class => 
-            Laminas\Diactoros\ServerRequestFilter\NoOpRequestFilterFactory::class,
+    'aliases' => [
+        Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface::class => 
+            Laminas\Diactoros\ServerRequestFilter\DoNotFilter::class,
     ],
 ],
 ```
 
 If you have a custom implementation, you may map the service to anything producing your custom implementation.
-
-> CAUTION: Default server request filter will change in version 4
-> The default server request filter is currently specified as the `XForwardedHeaderFilter` in order to preserve backwards compatibility.
-> However, usage of this filter is unsafe if you are not behind a trusted proxy and/or your server is accessible both via the proxy and a public IP address.
-> As such, for version 4, we will be switching the default to the `NoOpRequestFilter`.
-> We highly recommend you configure the `ServerRequestFilterInterface` service explicitly for your application both to opt-in to security measures, as well as to prepare for version 4.
->
-> Additionally, the Mezzio skeleton application may adopt a more secure default before version 4 is released; if so, the configuration will be found in your `config/autoload/mezzio.global.php` configuration file.
 
 ### StreamFactoryFactory
 
@@ -543,3 +526,42 @@ When creating the `PhpRenderer` instance, it will inject it with a
 instantiated directly). It injects the helper plugin manager with custom url and
 serverurl helpers, `Mezzio\LaminasView\UrlHelper` and
 `Mezzio\LaminasView\ServerUrlHelper`, respectively.
+
+#### FilterUsingXForwardedHeadersFactory
+
+Diactoros also ships with a factory for generating a customized `Laminas\Diactoros\ServerRequestFilter\FilterUsingXForwardedHeaders` instance via the `Laminas\Diactoros\ServerRequestFilter\FilterUsingXForwardedHeadersFactory` class.
+This factory looks for the following configuration in order to generate an instance:
+
+```php
+$config = [
+    'laminas-diactoros' => [
+        'server-request-filter' => [
+            'x-forwarded-headers' => [
+                'trusted-proxies' => string|string[],
+                'trusted-headers' => string[],
+            ],
+        ],
+    ],
+];
+```
+
+- The `trusted-proxies` value may be one of the following:
+  - The string "*". This indicates that all originating addresses are trusted.
+  - A string IP address or CIDR notation value indicating a trusted proxy server or subnet.
+  - An array of string IP addresses or CIDR notation values.
+- The `trusted-headers` array should consist of one or more of the `X-Forwarded-Host`, `X-Forwarded-Port`, or `X-Forwarded-Proto` header names; the values are case insensitive.
+  When the configuration is omitted, , the assumption is to honor all `X-Forwarded-*` headers for trusted proxies.
+  If the configuration is an empty array, the assumption is **no** `X-Forwarded-*` headers are trusted.
+
+Register the factory using the `Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface` key:
+
+```php
+$config = [
+    'dependencies' => [
+        'factories' => [
+            \Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface::class =>
+                \Mezzio\Container\FilterUsingXForwardedHeadersFactory::class,
+        ],
+    ],
+];
+```
