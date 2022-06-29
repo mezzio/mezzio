@@ -7,7 +7,6 @@ namespace MezzioTest\Container;
 use Closure;
 use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\ServerRequestFactory;
-use Laminas\Diactoros\ServerRequestFilter\DoNotFilter;
 use Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface;
 use Mezzio\Container\ServerRequestFactoryFactory;
 use PHPUnit\Framework\TestCase;
