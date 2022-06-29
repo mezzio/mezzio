@@ -537,8 +537,8 @@ $config = [
     'laminas-diactoros' => [
         'server-request-filter' => [
             'x-forwarded-headers' => [
-                'trusted-proxies' => string|string[],
-                'trusted-headers' => string[],
+                'trusted-proxies' => list<string>,
+                'trusted-headers' => list<string>,
             ],
         ],
     ],

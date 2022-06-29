@@ -8,7 +8,6 @@ use Laminas\Diactoros\ServerRequestFilter\FilterUsingXForwardedHeaders;
 use Mezzio\ConfigProvider;
 use Psr\Container\ContainerInterface;
 
-use function array_key_exists;
 use function is_array;
 use function is_string;
 
@@ -23,7 +22,7 @@ use function is_string;
  *     'server-request-filter' => [
  *         'x-forwarded-headers' => [
  *             // Trust any proxy:
- *             'trusted-proxies' => '*',
+ *             'trusted-proxies' => ['*'],
  *             // Trust specific proxies:
  *             'trusted-proxies' => ['192.168.0.1', '192.168.0.2'],
  *             // Trust entire subnets:
@@ -48,16 +47,14 @@ final class FilterUsingXForwardedHeadersFactory
             return FilterUsingXForwardedHeaders::trustProxies([], []);
         }
 
-        $proxies = array_key_exists(ConfigProvider::DIACTOROS_TRUSTED_PROXIES_CONFIG_KEY, $config)
-            ? $config[ConfigProvider::DIACTOROS_TRUSTED_PROXIES_CONFIG_KEY]
-            : [];
+        $proxies = $config[ConfigProvider::DIACTOROS_TRUSTED_PROXIES_CONFIG_KEY] ?? [];
 
-        if (! is_string($proxies) && ! is_array($proxies)) {
+        if (! is_array($proxies)) {
             // Invalid or missing configuration
-            return FilterUsingXForwardedHeaders::trustProxies([], []);
+            throw Exception\InvalidTrustedProxyConfigurationException::forType(
+                is_object($proxies) ? get_class($proxies) : gettype($proxies)
+            );
         }
-
-        $proxies = is_string($proxies) ? [$proxies] : $proxies;
 
         // Missing trusted headers setting means all headers are considered trusted
         $headers = $config[ConfigProvider::DIACTOROS_TRUSTED_HEADERS_CONFIG_KEY] ?? null;
@@ -69,7 +66,9 @@ final class FilterUsingXForwardedHeadersFactory
 
         if (! is_array($headers)) {
             // Invalid value; trust nothing
-            return FilterUsingXForwardedHeaders::trustProxies([], []);
+            throw Exception\InvalidTrustedHeaderConfigurationException::forType(
+                is_object($headers) ? get_class($headers) : gettype($headers)
+            );
         }
 
         return FilterUsingXForwardedHeaders::trustProxies($proxies, $headers);
