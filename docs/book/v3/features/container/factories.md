@@ -257,11 +257,11 @@ Also by default, this factory will consume the service `Laminas\Diactoros\Server
 
 If you want to limit the proxy servers you trust (or supply one or more subnets), or which `X-Forwarded-*` headers are trusted, you should define the `Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface` service; one option is to use the shipped [FilterUsingXForwardedHeadersFactory described below](#filterusingxforwardedheadersfactory).
 
-Alternately, if you want to disable usage of proxy headers entirely, alias the `FilterServerRequestInterface` to the `Laminas\Diactoros\ServerRequestFilter\DoNotFilter` class:
+Alternately, if you want to disable usage of proxy headers entirely, alias the `FilterServerRequestInterface` as an invokable to the `Laminas\Diactoros\ServerRequestFilter\DoNotFilter` class:
 
 ```php
 'dependencies' => [
-    'aliases' => [
+    'invokables' => [
         Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface::class => 
             Laminas\Diactoros\ServerRequestFilter\DoNotFilter::class,
     ],
