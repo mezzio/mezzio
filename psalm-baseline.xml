@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.13.1@5cf660f63b548ccd4a56f62d916ee4d6028e01a3">
+<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
   <file src="src/Application.php">
     <PossiblyInvalidCast occurrences="1">
       <code>$path</code>
     </PossiblyInvalidCast>
   </file>
   <file src="src/ConfigProvider.php">
-    <MixedArrayOffset occurrences="2"/>
-    <UndefinedClass occurrences="3">
+    <MixedArrayOffset occurrences="1"/>
+    <UndefinedClass occurrences="2">
       <code>ApplicationPipeline</code>
       <code>ApplicationPipeline</code>
-      <code>\Zend\Expressive\ApplicationPipeline</code>
     </UndefinedClass>
   </file>
   <file src="src/Container/ApplicationConfigInjectionDelegator.php">
@@ -32,11 +31,10 @@
       <code>$spec['middleware']</code>
       <code>$spec['path']</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="8">
+    <MixedAssignment occurrences="7">
       <code>$config</code>
       <code>$methods</code>
       <code>$name</code>
-      <code>$options</code>
       <code>$path</code>
       <code>$queue</code>
       <code>$serial</code>
@@ -83,6 +81,19 @@
       <code>$template</code>
     </MixedAssignment>
   </file>
+  <file src="src/Container/FilterUsingXForwardedHeadersFactory.php">
+    <MixedArgumentTypeCoercion occurrences="3">
+      <code>$headers</code>
+      <code>$proxies</code>
+      <code>$proxies</code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess occurrences="1">
+      <code>$config[ConfigProvider::DIACTOROS_CONFIG_KEY]</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="1">
+      <code>$config</code>
+    </MixedAssignment>
+  </file>
   <file src="src/Container/MiddlewareFactoryFactory.php">
     <MixedArgument occurrences="1">
       <code>$container-&gt;get(MiddlewareContainer::class)</code>
@@ -125,6 +136,14 @@
       <code>$debug</code>
       <code>$renderer</code>
       <code>$template</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Container/ServerRequestFactoryFactory.php">
+    <MixedArgument occurrences="1">
+      <code>$filter</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$filter</code>
     </MixedAssignment>
   </file>
   <file src="src/Container/WhoopsErrorResponseGeneratorFactory.php">
@@ -279,7 +298,8 @@
       <code>$json['packages']</code>
       <code>$package['extra']</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="1">
+    <MixedArrayAssignment occurrences="2">
+      <code>$config['dependencies']['services']</code>
       <code>$config['dependencies']['services']</code>
     </MixedArrayAssignment>
     <MixedAssignment occurrences="8">
@@ -303,10 +323,6 @@
     </UndefinedClass>
   </file>
   <file src="test/Container/ApplicationConfigInjectionDelegatorTest.php">
-    <MissingClosureParamType occurrences="2">
-      <code>$found</code>
-      <code>$route</code>
-    </MissingClosureParamType>
     <MixedArgument occurrences="1">
       <code>$pipeline</code>
     </MixedArgument>
@@ -336,15 +352,22 @@
       <code>ApplicationPipeline</code>
     </UndefinedClass>
   </file>
-  <file src="test/Container/EmitterFactoryTest.php">
-    <MixedAssignment occurrences="1">
-      <code>$emitter</code>
-    </MixedAssignment>
-  </file>
   <file src="test/Container/ErrorHandlerFactoryTest.php">
     <InvalidArgument occurrences="1">
       <code>$generator</code>
     </InvalidArgument>
+  </file>
+  <file src="test/Container/FilterUsingXForwardedHeadersFactoryTest.php">
+    <MoreSpecificReturnType occurrences="1">
+      <code>iterable&lt;string, array{0: string, 1: array&lt;string, string&gt;}&gt;</code>
+    </MoreSpecificReturnType>
+    <UndefinedInterfaceMethod occurrences="5">
+      <code>set</code>
+      <code>set</code>
+      <code>set</code>
+      <code>set</code>
+      <code>set</code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="test/Container/NotFoundHandlerFactoryTest.php">
     <MixedArgument occurrences="4">
@@ -461,9 +484,6 @@
     </PossiblyFalseOperand>
   </file>
   <file src="test/Middleware/ErrorResponseGeneratorTest.php">
-    <MissingClosureParamType occurrences="1">
-      <code>$body</code>
-    </MissingClosureParamType>
     <MixedArgument occurrences="1">
       <code>$body</code>
     </MixedArgument>
@@ -560,9 +580,6 @@
     <MixedReturnStatement occurrences="1">
       <code>$res-&gt;withBody($stream)</code>
     </MixedReturnStatement>
-    <PossiblyInvalidArgument occurrences="1">
-      <code>testMatchWithAllHttpMethods</code>
-    </PossiblyInvalidArgument>
     <UnusedClosureParam occurrences="18">
       <code>$handler</code>
       <code>$handler</code>
