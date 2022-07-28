@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
+<files psalm-version="v4.25.0@d7cd84c4ebca74ba3419b9601f81d177bcbe2aac">
   <file src="src/Application.php">
     <PossiblyInvalidCast occurrences="1">
       <code>$path</code>
@@ -254,10 +254,7 @@
     <InvalidFunctionCall occurrences="1">
       <code>$configProvider()</code>
     </InvalidFunctionCall>
-    <MixedArgument occurrences="34">
-      <code>$alias</code>
-      <code>$alias</code>
-      <code>$alias</code>
+    <MixedArgument occurrences="28">
       <code>$alias</code>
       <code>$aliases</code>
       <code>$aliases</code>
@@ -284,9 +281,6 @@
       <code>$factories</code>
       <code>$factories</code>
       <code>$factory</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
       <code>$name</code>
       <code>ApplicationPipeline::class</code>
     </MixedArgument>
@@ -360,13 +354,6 @@
     <MoreSpecificReturnType occurrences="1">
       <code>iterable&lt;string, array{0: string, 1: array&lt;string, string&gt;}&gt;</code>
     </MoreSpecificReturnType>
-    <UndefinedInterfaceMethod occurrences="5">
-      <code>set</code>
-      <code>set</code>
-      <code>set</code>
-      <code>set</code>
-      <code>set</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="test/Container/NotFoundHandlerFactoryTest.php">
     <MixedArgument occurrences="4">
@@ -481,6 +468,11 @@
     <PossiblyFalseOperand occurrences="1">
       <code>strrpos(ExceptionInterface::class, '\\')</code>
     </PossiblyFalseOperand>
+  </file>
+  <file src="test/InMemoryContainer.php">
+    <MethodSignatureMismatch occurrences="1">
+      <code>InMemoryContainer</code>
+    </MethodSignatureMismatch>
   </file>
   <file src="test/Middleware/ErrorResponseGeneratorTest.php">
     <MixedArgument occurrences="1">

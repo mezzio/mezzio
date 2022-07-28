@@ -8,13 +8,16 @@ use ArrayAccess;
 use Mezzio\Container\ErrorResponseGeneratorFactory;
 use Mezzio\Middleware\ErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
-use MezzioTest\InMemoryContainer;
+use MezzioTest\InMemoryContainerTrait;
+use MezzioTest\MutableMemoryContainerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ErrorResponseGeneratorFactoryTest extends TestCase
 {
-    /** @var InMemoryContainer */
+    use InMemoryContainerTrait;
+
+    /** @var MutableMemoryContainerInterface */
     private $container;
 
     /** @var TemplateRendererInterface&MockObject */
@@ -22,7 +25,7 @@ class ErrorResponseGeneratorFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->container = new InMemoryContainer();
+        $this->container = $this->createContainer();
         $this->renderer  = $this->createMock(TemplateRendererInterface::class);
     }
 

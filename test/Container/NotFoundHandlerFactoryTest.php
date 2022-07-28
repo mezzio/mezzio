@@ -11,7 +11,8 @@ use Mezzio\Container\ResponseFactoryFactory;
 use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Response\CallableResponseFactoryDecorator;
 use Mezzio\Template\TemplateRendererInterface;
-use MezzioTest\InMemoryContainer;
+use MezzioTest\InMemoryContainerTrait;
+use MezzioTest\MutableMemoryContainerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -19,7 +20,9 @@ use Psr\Http\Message\ResponseInterface;
 
 class NotFoundHandlerFactoryTest extends TestCase
 {
-    /** @var InMemoryContainer */
+    use InMemoryContainerTrait;
+
+    /** @var MutableMemoryContainerInterface */
     private $container;
 
     /** @var ResponseInterface&MockObject */
@@ -31,7 +34,7 @@ class NotFoundHandlerFactoryTest extends TestCase
     protected function setUp(): void
     {
         $this->response  = $this->createMock(ResponseInterface::class);
-        $this->container = new InMemoryContainer();
+        $this->container = $this->createContainer();
         $this->container->set(ResponseInterface::class, function () {
             return $this->response;
         });
@@ -167,7 +170,7 @@ class NotFoundHandlerFactoryTest extends TestCase
     public function testWillUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsNotOverridden(): void
     {
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container       = new InMemoryContainer();
+        $container       = $this->createContainer();
         $container->set('config', [
             'dependencies' => [
                 'factories' => [
@@ -189,7 +192,7 @@ class NotFoundHandlerFactoryTest extends TestCase
         array $config
     ): void {
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container       = new InMemoryContainer();
+        $container       = $this->createContainer();
         $container->set('config', $config);
         $container->set(ResponseFactoryInterface::class, $responseFactory);
         $response = $this->createMock(ResponseInterface::class);

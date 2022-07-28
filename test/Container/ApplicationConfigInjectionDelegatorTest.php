@@ -16,7 +16,8 @@ use Mezzio\MiddlewareFactory;
 use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollector;
 use Mezzio\Router\RouterInterface;
-use MezzioTest\InMemoryContainer;
+use MezzioTest\InMemoryContainerTrait;
+use MezzioTest\MutableMemoryContainerInterface;
 use MezzioTest\TestAsset\InvokableMiddleware;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -31,7 +32,9 @@ use function array_shift;
 
 class ApplicationConfigInjectionDelegatorTest extends TestCase
 {
-    /** @var InMemoryContainer */
+    use InMemoryContainerTrait;
+
+    /** @var MutableMemoryContainerInterface */
     private $container;
 
     /** @var RouteCollector */
@@ -42,7 +45,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     public function setUp(): void
     {
-        $this->container      = new InMemoryContainer();
+        $this->container      = $this->createContainer();
         $this->router         = $this->createMock(RouterInterface::class);
         $this->routeCollector = new RouteCollector($this->router);
     }
