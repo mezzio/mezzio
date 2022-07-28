@@ -6,14 +6,17 @@ namespace MezzioTest\Container;
 
 use Mezzio\Container\WhoopsErrorResponseGeneratorFactory;
 use Mezzio\Middleware\WhoopsErrorResponseGenerator;
-use MezzioTest\InMemoryContainer;
+use MezzioTest\InMemoryContainerTrait;
+use MezzioTest\MutableMemoryContainerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Whoops\RunInterface;
 
 class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
 {
-    /** @var InMemoryContainer */
+    use InMemoryContainerTrait;
+
+    /** @var MutableMemoryContainerInterface */
     private $container;
 
     /** @var RunInterface&MockObject */
@@ -21,7 +24,7 @@ class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->container = new InMemoryContainer();
+        $this->container = $this->createContainer();
 
         $this->whoops = $this->createMock(RunInterface::class);
     }

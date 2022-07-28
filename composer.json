@@ -26,6 +26,9 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "composer/package-versions-deprecated": true
+        },
+        "platform": {
+            "php": "7.4.99"
         }
     },
     "extra": {
@@ -40,7 +43,7 @@
         "laminas/laminas-stratigility": "^3.5",
         "mezzio/mezzio-router": "^3.7",
         "mezzio/mezzio-template": "^2.2",
-        "psr/container": "^1.0||^2.0",
+        "psr/container": "^1.1.2||^2.0.2",
         "psr/http-factory": "^1.0",
         "psr/http-message": "^1.0.1",
         "psr/http-server-middleware": "^1.0",
@@ -49,7 +52,7 @@
     "require-dev": {
         "filp/whoops": "^2.14.4",
         "laminas/laminas-coding-standard": "~2.3.0",
-        "laminas/laminas-diactoros": "^2.8.0",
+        "laminas/laminas-diactoros": "^2.11.2",
         "laminas/laminas-servicemanager": "^3.10",
         "malukenho/docheader": "^0.1.8",
         "mezzio/mezzio-aurarouter": "^3.3.0",
