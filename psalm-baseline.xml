@@ -24,9 +24,6 @@
       <code>$spec['middleware']</code>
       <code>$spec['path']</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>self::createPriorityQueueReducer()</code>
-    </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="2">
       <code>$spec['middleware']</code>
       <code>$spec['path']</code>

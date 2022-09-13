@@ -117,7 +117,6 @@ class ApplicationConfigInjectionDelegator
         }
 
         // Create a priority queue from the specifications
-        /** @var SplPriorityQueue $queue */
         $queue = array_reduce(
             array_map(self::createCollectionMapper(), $config['middleware_pipeline']),
             self::createPriorityQueueReducer(),
@@ -252,6 +251,8 @@ class ApplicationConfigInjectionDelegator
      *
      * The function is useful to reduce an array of pipeline middleware to a
      * priority queue.
+     *
+     * @return callable(...): SplPriorityQueue
      */
     private static function createPriorityQueueReducer(): callable
     {
