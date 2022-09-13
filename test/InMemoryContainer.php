@@ -31,9 +31,8 @@ final class InMemoryContainer implements ContainerInterface
 
     /**
      * @param string $id
-     * @return bool
      */
-    public function has($id)
+    public function has($id): bool
     {
         return array_key_exists($id, $this->services);
     }
