@@ -60,7 +60,7 @@
         "mezzio/mezzio-laminasrouter": "^3.1.0",
         "mockery/mockery": "^1.4.4",
         "phpunit/phpunit": "^9.5.10",
-        "psalm/plugin-phpunit": "^0.13",
+        "psalm/plugin-phpunit": "^0.17",
         "vimeo/psalm": "^4.13.1"
     },
     "conflict": {
