@@ -7,7 +7,6 @@ namespace MezzioTest\Container;
 use Mezzio\Container\Exception\InvalidServiceException;
 use Mezzio\Container\StreamFactoryFactory;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Container\ContainerInterface;
 
 use function class_exists;
@@ -17,7 +16,7 @@ use function spl_autoload_unregister;
 
 class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
 {
-    /** @var ContainerInterface|ObjectProphecy */
+    /** @var ContainerInterface */
     private $container;
 
     /** @var StreamFactoryFactory */

@@ -251,6 +251,8 @@ class ApplicationConfigInjectionDelegator
      *
      * The function is useful to reduce an array of pipeline middleware to a
      * priority queue.
+     *
+     * @return callable(...): SplPriorityQueue
      */
     private static function createPriorityQueueReducer(): callable
     {
