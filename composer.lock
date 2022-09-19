@@ -223,30 +223,30 @@
         },
         {
             "name": "laminas/laminas-httphandlerrunner",
-            "version": "2.1.0",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-httphandlerrunner.git",
-                "reference": "4d337cde83e6b901a4443b0ab5c3b97cbaa46413"
+                "reference": "eb670c5c7167cd218c61a8b4f6ab9ce339200c16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-httphandlerrunner/zipball/4d337cde83e6b901a4443b0ab5c3b97cbaa46413",
-                "reference": "4d337cde83e6b901a4443b0ab5c3b97cbaa46413",
+                "url": "https://api.github.com/repos/laminas/laminas-httphandlerrunner/zipball/eb670c5c7167cd218c61a8b4f6ab9ce339200c16",
+                "reference": "eb670c5c7167cd218c61a8b4f6ab9ce339200c16",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3 || ~8.0.0 || ~8.1.0",
+                "php": "^7.4 || ~8.0.0 || ~8.1.0",
                 "psr/http-message": "^1.0",
                 "psr/http-message-implementation": "^1.0",
                 "psr/http-server-handler": "^1.0"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "~2.3.0",
-                "laminas/laminas-diactoros": "^2.8.0",
-                "phpunit/phpunit": "^9.5.9",
-                "psalm/plugin-phpunit": "^0.16.1",
-                "vimeo/psalm": "^4.10.0"
+                "laminas/laminas-coding-standard": "~2.4.0",
+                "laminas/laminas-diactoros": "^2.13.0",
+                "phpunit/phpunit": "^9.5.21",
+                "psalm/plugin-phpunit": "^0.17.0",
+                "vimeo/psalm": "^4.24.0"
             },
             "type": "library",
             "extra": {
@@ -286,7 +286,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-09-22T09:27:36+00:00"
+            "time": "2022-09-17T16:24:51+00:00"
         },
         {
             "name": "laminas/laminas-stratigility",
@@ -2524,16 +2524,16 @@
         },
         {
             "name": "mezzio/mezzio-laminasrouter",
-            "version": "3.4.0",
+            "version": "3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-laminasrouter.git",
-                "reference": "70a3a023fb2f2ba8c1a528aa143d81d4dbf57bc7"
+                "reference": "05b4f0d4ea28ccff010cf659bf2f63401cffe4b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-laminasrouter/zipball/70a3a023fb2f2ba8c1a528aa143d81d4dbf57bc7",
-                "reference": "70a3a023fb2f2ba8c1a528aa143d81d4dbf57bc7",
+                "url": "https://api.github.com/repos/mezzio/mezzio-laminasrouter/zipball/05b4f0d4ea28ccff010cf659bf2f63401cffe4b7",
+                "reference": "05b4f0d4ea28ccff010cf659bf2f63401cffe4b7",
                 "shasum": ""
             },
             "require": {
@@ -2541,18 +2541,20 @@
                 "laminas/laminas-psr7bridge": "^0.2.2 || ^1.0.0",
                 "laminas/laminas-router": "^3.3.0",
                 "mezzio/mezzio-router": "^3.2",
-                "php": "^7.3 || ~8.0.0 || ~8.1.0",
+                "php": "^7.4 || ~8.0.0 || ~8.1.0",
                 "psr/http-message": "^1.0.1"
             },
             "conflict": {
                 "zendframework/zend-expressive-zendrouter": "*"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "^2.3.0",
-                "laminas/laminas-i18n": "~2.12",
-                "laminas/laminas-stratigility": "^3.5",
+                "laminas/laminas-coding-standard": "~2.4.0",
+                "laminas/laminas-i18n": "~2.17",
+                "laminas/laminas-stratigility": "^3.8",
                 "phpspec/prophecy-phpunit": "^2.0",
-                "phpunit/phpunit": "^9.5.10"
+                "phpunit/phpunit": "^9.5.24",
+                "psalm/plugin-phpunit": "^0.17.0",
+                "vimeo/psalm": "^4.27"
             },
             "type": "library",
             "extra": {
@@ -2593,7 +2595,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-01-06T16:08:32+00:00"
+            "time": "2022-09-18T15:12:54+00:00"
         },
         {
             "name": "mockery/mockery",
