@@ -15,7 +15,6 @@ use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 use Whoops\RunInterface;
 
-use function get_class;
 use function gettype;
 use function is_object;
 use function sprintf;
@@ -39,7 +38,7 @@ class WhoopsErrorResponseGenerator
                 static::class,
                 Run::class,
                 RunInterface::class,
-                is_object($whoops) ? get_class($whoops) : gettype($whoops)
+                is_object($whoops) ? $whoops::class : gettype($whoops)
             ));
         }
 
