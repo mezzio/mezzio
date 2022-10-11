@@ -14,6 +14,8 @@
             <exclude>./test/Container/ResponseFactoryFactoryWithoutDiactorosTest.php</exclude>
             <exclude>./test/Container/ServerRequestFactoryFactoryWithoutDiactorosTest.php</exclude>
             <exclude>./test/Container/StreamFactoryFactoryWithoutDiactorosTest.php</exclude>
+            <exclude>./test/InMemoryContainer.php</exclude>
+            <exclude>./test/InMemoryContainerV2.php</exclude>
         </testsuite>
     </testsuites>
 
