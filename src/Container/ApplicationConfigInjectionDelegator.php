@@ -13,7 +13,6 @@ use SplPriorityQueue;
 use function array_key_exists;
 use function array_map;
 use function array_reduce;
-use function get_class;
 use function gettype;
 use function is_array;
 use function is_int;
@@ -40,7 +39,7 @@ class ApplicationConfigInjectionDelegator
             throw new Exception\InvalidServiceException(sprintf(
                 'Delegator factory %s cannot operate on a %s; please map it only to the %s service',
                 self::class,
-                is_object($application) ? get_class($application) . ' instance' : gettype($application),
+                is_object($application) ? $application::class . ' instance' : gettype($application),
                 Application::class
             ));
         }
@@ -232,7 +231,7 @@ class ApplicationConfigInjectionDelegator
                 throw new InvalidArgumentException(sprintf(
                     'Invalid pipeline specification received; must be an array'
                     . ' containing a middleware key; received %s',
-                    is_object($item) ? get_class($item) : gettype($item)
+                    is_object($item) ? $item::class : gettype($item)
                 ));
             }
 
@@ -251,6 +250,8 @@ class ApplicationConfigInjectionDelegator
      *
      * The function is useful to reduce an array of pipeline middleware to a
      * priority queue.
+     *
+     * @return callable(...): SplPriorityQueue
      */
     private static function createPriorityQueueReducer(): callable
     {

@@ -8,7 +8,6 @@ use Mezzio\Template\TemplateRendererInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
-use function get_class;
 use function sprintf;
 
 trait ErrorResponseGeneratorTrait
@@ -88,7 +87,7 @@ EOT;
         do {
             $message .= sprintf(
                 $this->stackTraceTemplate,
-                get_class($e),
+                $e::class,
                 $e->getFile(),
                 $e->getLine(),
                 $e->getMessage(),

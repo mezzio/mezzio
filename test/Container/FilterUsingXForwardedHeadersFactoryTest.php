@@ -8,20 +8,50 @@ use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\ServerRequestFilter\FilterUsingXForwardedHeaders;
 use Mezzio\ConfigProvider;
 use Mezzio\Container\FilterUsingXForwardedHeadersFactory;
-use MezzioTest\InMemoryContainerTrait;
-use MezzioTest\MutableMemoryContainerInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
+
+use function array_key_exists;
 
 class FilterUsingXForwardedHeadersFactoryTest extends TestCase
 {
-    use InMemoryContainerTrait;
-
-    /** @var MutableMemoryContainerInterface */
+    /** @var ContainerInterface */
     private $container;
 
     public function setUp(): void
     {
-        $this->container = $this->createContainer();
+        $this->container = new class () implements ContainerInterface {
+            /** @psalm-var array<string, mixed> */
+            private array $services = [];
+
+            /**
+             * @param string $id
+             */
+            public function has($id): bool
+            {
+                return array_key_exists($id, $this->services);
+            }
+
+            /**
+             * @param string $id
+             * @return mixed
+             */
+            public function get($id)
+            {
+                if (! array_key_exists($id, $this->services)) {
+                    return null;
+                }
+
+                return $this->services[$id];
+            }
+
+            /** @param mixed $value */
+            public function set(string $id, $value): void
+            {
+                $this->services[$id] = $value;
+            }
+        };
+
         $this->container->set('config', []);
     }
 
