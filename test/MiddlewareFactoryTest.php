@@ -26,8 +26,7 @@ class MiddlewareFactoryTest extends TestCase
     /** @var MiddlewareContainer&MockObject */
     private $container;
 
-    /** @var MiddlewareFactory */
-    private $factory;
+    private MiddlewareFactory $factory;
 
     public function setUp(): void
     {
@@ -61,7 +60,7 @@ class MiddlewareFactoryTest extends TestCase
 
     public function testCallableDecoratesCallableMiddleware(): void
     {
-        $callable = function ($request, $handler): void {
+        $callable = static function ($request, $handler): void {
         };
 
         $middleware = $this->factory->callable($callable);
@@ -82,7 +81,7 @@ class MiddlewareFactoryTest extends TestCase
 
     public function testPrepareDecoratesCallables(): void
     {
-        $callable = function ($request, $handler): void {
+        $callable = static function ($request, $handler): void {
         };
 
         $middleware = $this->factory->prepare($callable);
@@ -120,10 +119,9 @@ class MiddlewareFactoryTest extends TestCase
     }
 
     /**
-     * @param mixed $middleware
      * @dataProvider invalidMiddlewareTypes
      */
-    public function testPrepareRaisesExceptionForTypesItDoesNotUnderstand($middleware): void
+    public function testPrepareRaisesExceptionForTypesItDoesNotUnderstand(mixed $middleware): void
     {
         $this->expectException(Exception\InvalidMiddlewareException::class);
         $this->factory->prepare($middleware);
@@ -159,7 +157,7 @@ class MiddlewareFactoryTest extends TestCase
     {
         yield 'service' => ['service', 'assertLazyLoadingMiddleware', 'service'];
 
-        $callable = function ($request, $handler): void {
+        $callable = static function ($request, $handler): void {
         };
         yield 'callable' => [$callable, 'assertCallableMiddleware', $callable];
 
@@ -175,7 +173,7 @@ class MiddlewareFactoryTest extends TestCase
     public function testPipelineAllowsAnyTypeSupportedByPrepare(
         $middleware,
         string $assertion,
-        $expected
+        mixed $expected
     ): void {
         $pipeline = $this->factory->pipeline($middleware);
         $this->assertInstanceOf(MiddlewarePipe::class, $pipeline);
@@ -190,7 +188,7 @@ class MiddlewareFactoryTest extends TestCase
 
     public function testPipelineAllowsPipingArraysOfMiddlewareAndCastsThemToInternalPipelines(): void
     {
-        $callable   = function ($request, $handler): void {
+        $callable   = static function ($request, $handler): void {
         };
         $middleware = new DispatchMiddleware();
 

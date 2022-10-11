@@ -37,8 +37,7 @@ use const Mezzio\ROUTE_MIDDLEWARE;
 
 class ConfigProviderTest extends TestCase
 {
-    /** @var ConfigProvider */
-    private $provider;
+    private ConfigProvider $provider;
 
     public function setUp(): void
     {

@@ -15,8 +15,7 @@ use function array_key_exists;
 
 class FilterUsingXForwardedHeadersFactoryTest extends TestCase
 {
-    /** @var ContainerInterface */
-    private $container;
+    private ContainerInterface $container;
 
     public function setUp(): void
     {
@@ -45,8 +44,7 @@ class FilterUsingXForwardedHeadersFactoryTest extends TestCase
                 return $this->services[$id];
             }
 
-            /** @param mixed $value */
-            public function set(string $id, $value): void
+            public function set(string $id, mixed $value): void
             {
                 $this->services[$id] = $value;
             }

@@ -16,8 +16,7 @@ use TypeError;
 
 class ErrorHandlerFactoryTest extends TestCase
 {
-    /** @var InMemoryContainer */
-    private $container;
+    private InMemoryContainer $container;
 
     public function setUp(): void
     {
@@ -44,7 +43,7 @@ class ErrorHandlerFactoryTest extends TestCase
 
     public function testFactoryCreatesHandlerWithStratigilityGeneratorIfNoGeneratorServiceAvailable(): void
     {
-        $responseFactory = function (): void {
+        $responseFactory = static function (): void {
         };
         $this->container->set(ResponseInterface::class, $responseFactory);
 
@@ -57,7 +56,7 @@ class ErrorHandlerFactoryTest extends TestCase
     public function testFactoryCreatesHandlerWithGeneratorIfGeneratorServiceAvailable(): void
     {
         $generator       = $this->createMock(ErrorResponseGenerator::class);
-        $responseFactory = function (): void {
+        $responseFactory = static function (): void {
         };
 
         $this->container->set(ErrorResponseGenerator::class, $generator);

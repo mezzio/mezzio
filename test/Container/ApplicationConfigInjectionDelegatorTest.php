@@ -25,17 +25,14 @@ use Psr\Http\Server\MiddlewareInterface;
 use ReflectionProperty;
 use SplQueue;
 
-use function array_merge;
 use function array_reduce;
 use function array_shift;
 
 class ApplicationConfigInjectionDelegatorTest extends TestCase
 {
-    /** @var InMemoryContainer */
-    private $container;
+    private InMemoryContainer $container;
 
-    /** @var RouteCollector */
-    private $routeCollector;
+    private RouteCollector $routeCollector;
 
     /** @var RouterInterface&MockObject */
     private $router;
@@ -78,33 +75,28 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
     public static function assertRoute(array $spec, array $routes): void
     {
         Assert::assertThat(
-            array_reduce($routes, function ($found, $route) use ($spec) {
+            array_reduce($routes, static function ($found, $route) use ($spec) {
                 if ($found) {
                     return $found;
                 }
-
                 if ($route->getPath() !== $spec['path']) {
                     return false;
                 }
-
                 if (! $route->getMiddleware() instanceof MiddlewareInterface) {
                     return false;
                 }
-
                 if (
                     isset($spec['allowed_methods'])
                     && $route->getAllowedMethods() !== $spec['allowed_methods']
                 ) {
                     return false;
                 }
-
                 if (
                     ! isset($spec['allowed_methods'])
                     && $route->getAllowedMethods() !== Route::HTTP_METHOD_ANY
                 ) {
                     return false;
                 }
-
                 return true;
             }, false),
             Assert::isTrue(),
@@ -135,7 +127,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         return [
             ['HelloWorld'],
             [
-                function () {
+                static function (): void {
                 },
             ],
             [[InvokableMiddleware::class, 'staticallyCallableMiddleware']],
@@ -147,9 +139,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $callback = /**
          * @return static
          */
-        function (): self {
-            return $this;
-        };
+        fn(): self => $this;
         $factory  = new ApplicationConfigInjectionDelegator();
         $this->expectException(InvalidServiceException::class);
         $this->expectExceptionMessage('cannot operate');
@@ -220,7 +210,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $pipeline2 = [['middleware' => clone $middleware, 'priority' => 100]];
         $pipeline3 = [['middleware' => clone $middleware, 'priority' => -100]];
 
-        $pipeline = array_merge($pipeline3, $pipeline1, $pipeline2);
+        $pipeline = [...$pipeline3, ...$pipeline1, ...$pipeline2];
         $config   = ['middleware_pipeline' => $pipeline];
 
         $app = $this->createApplication();
@@ -242,7 +232,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $pipeline2 = [['middleware' => clone $middleware]];
         $pipeline3 = [['middleware' => clone $middleware]];
 
-        $pipeline = array_merge($pipeline3, $pipeline1, $pipeline2);
+        $pipeline = [...$pipeline3, ...$pipeline1, ...$pipeline2];
         $config   = ['middleware_pipeline' => $pipeline];
 
         $app = $this->createApplication();
@@ -451,9 +441,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $this->container->set('config', $config);
 
         $delegator   = new ApplicationConfigInjectionDelegator();
-        $application = $delegator($this->container, '', function () {
-            return $this->createApplication();
-        });
+        $application = $delegator($this->container, '', fn() => $this->createApplication());
 
         $this->assertCount(1, $application->getRoutes());
     }

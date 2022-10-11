@@ -16,14 +16,11 @@ use function spl_autoload_unregister;
 
 class ServerRequestFactoryFactoryWithoutDiactorosTest extends TestCase
 {
-    /** @var ContainerInterface */
-    private $container;
+    private ContainerInterface $container;
 
-    /** @var ServerRequestFactoryFactory */
-    private $factory;
+    private ServerRequestFactoryFactory $factory;
 
-    /** @var array */
-    private $autoloadFunctions = [];
+    private array $autoloadFunctions = [];
 
     protected function setUp(): void
     {

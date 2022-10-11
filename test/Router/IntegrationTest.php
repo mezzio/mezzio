@@ -34,8 +34,7 @@ use function sprintf;
 
 class IntegrationTest extends TestCase
 {
-    /** @var Response */
-    private $response;
+    private Response $response;
 
     /** @var callable */
     private $responseFactory;
@@ -43,9 +42,7 @@ class IntegrationTest extends TestCase
     public function setUp(): void
     {
         $this->response        = new Response();
-        $this->responseFactory = function (): Response {
-            return $this->response;
-        };
+        $this->responseFactory = fn(): Response => $this->response;
     }
 
     public function getApplication(): Application
@@ -96,12 +93,12 @@ class IntegrationTest extends TestCase
         $app->pipe(new RouteMiddleware($router));
         $app->pipe(new MethodNotAllowedMiddleware($this->responseFactory));
 
-        $app->get('/foo', function ($req, $handler) {
+        $app->get('/foo', function ($req, $handler): Response {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware GET');
             return $this->response->withBody($stream);
         }, $getName);
-        $app->post('/foo', function ($req, $handler) {
+        $app->post('/foo', function ($req, $handler): Response {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware POST');
             return $this->response->withBody($stream);
@@ -126,12 +123,12 @@ class IntegrationTest extends TestCase
         $app->pipe(new RouteMiddleware($router));
         $app->pipe(new MethodNotAllowedMiddleware($this->responseFactory));
 
-        $app->route('/foo', function ($req, $handler) {
+        $app->route('/foo', function ($req, $handler): Response {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware GET');
             return $this->response->withBody($stream);
         }, ['GET'], $getName);
-        $app->route('/foo', function ($req, $handler) {
+        $app->route('/foo', function ($req, $handler): Response {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware POST');
             return $this->response->withBody($stream);
@@ -277,14 +274,14 @@ class IntegrationTest extends TestCase
         $app->pipe(new DispatchMiddleware());
 
         $response = clone $this->response;
-        $app->route('/foo', function ($req, $handler) use ($response): ResponseInterface {
+        $app->route('/foo', static function ($req, $handler) use ($response): ResponseInterface {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware GET, POST');
             return $response->withBody($stream);
         }, ['GET', 'POST']);
 
         $deleteResponse = clone $this->response;
-        $app->route('/foo', function ($req, $handler) use ($deleteResponse): ResponseInterface {
+        $app->route('/foo', static function ($req, $handler) use ($deleteResponse): ResponseInterface {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware DELETE');
             return $deleteResponse->withBody($stream);
@@ -347,7 +344,7 @@ class IntegrationTest extends TestCase
 
         // Add a route with Mezzio\Router\Route::HTTP_METHOD_ANY
         $response = clone $this->response;
-        $app->route('/foo', function ($req, $handler) use ($response): ResponseInterface {
+        $app->route('/foo', static function ($req, $handler) use ($response): ResponseInterface {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware');
             return $response->withBody($stream);
@@ -387,14 +384,14 @@ class IntegrationTest extends TestCase
         $router = new $adapter();
         $app    = $this->createApplicationFromRouter($router);
         $app->pipe(new RouteMiddleware($router));
-        $app->pipe(new ImplicitHeadMiddleware($router, function () {
+        $app->pipe(new ImplicitHeadMiddleware($router, static function (): void {
         }));
         $app->pipe(new ImplicitOptionsMiddleware($this->responseFactory));
         $app->pipe(new MethodNotAllowedMiddleware($this->responseFactory));
         $app->pipe(new DispatchMiddleware());
 
         // Add a PUT route
-        $app->put('/foo', function ($req, $res, $next): ResponseInterface {
+        $app->put('/foo', static function ($req, $res, $next): ResponseInterface {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware');
             return $res->withBody($stream);
@@ -425,7 +422,7 @@ class IntegrationTest extends TestCase
         $app->pipe(new RouteMiddleware($router));
 
         $response = clone $this->response;
-        $app->route('/', function ($req, $handler) use ($response) {
+        $app->route('/', static function ($req, $handler) use ($response): Response {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware');
             return $response->withBody($stream);

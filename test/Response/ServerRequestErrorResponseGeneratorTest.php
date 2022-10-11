@@ -21,8 +21,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
     /** @var ResponseInterface&MockObject */
     private $response;
 
-    /** @var ResponseFactoryInterface */
-    private $responseFactory;
+    private ResponseFactoryInterface $responseFactory;
 
     public function setUp(): void
     {
@@ -110,9 +109,7 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
 
     public function testCanHandleCallableResponseFactory(): void
     {
-        $responseFactory = function (): ResponseInterface {
-            return $this->response;
-        };
+        $responseFactory = fn(): ResponseInterface => $this->response;
 
         $this->response
             ->expects(self::exactly(2))

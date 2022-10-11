@@ -13,7 +13,7 @@ use function array_key_exists;
 final class InMemoryContainer implements ContainerInterface
 {
     /** @var array<string,mixed> */
-    private $services = [];
+    private array $services = [];
 
     /**
      * @param string $id
@@ -37,8 +37,7 @@ final class InMemoryContainer implements ContainerInterface
         return array_key_exists($id, $this->services);
     }
 
-    /** @param mixed $item */
-    public function set(string $id, $item): void
+    public function set(string $id, mixed $item): void
     {
         $this->services[$id] = $item;
     }

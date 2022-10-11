@@ -13,8 +13,7 @@ use Whoops\RunInterface;
 
 class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
 {
-    /** @var InMemoryContainer */
-    private $container;
+    private InMemoryContainer $container;
 
     /** @var RunInterface&MockObject */
     private $whoops;

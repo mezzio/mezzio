@@ -226,7 +226,7 @@ class ApplicationConfigInjectionDelegator
      */
     private static function createCollectionMapper(): callable
     {
-        return function ($item) {
+        return static function ($item): array {
             if (! is_array($item) || ! array_key_exists('middleware', $item)) {
                 throw new InvalidArgumentException(sprintf(
                     'Invalid pipeline specification received; must be an array'
@@ -234,7 +234,6 @@ class ApplicationConfigInjectionDelegator
                     is_object($item) ? $item::class : gettype($item)
                 ));
             }
-
             return $item;
         };
     }
@@ -258,7 +257,7 @@ class ApplicationConfigInjectionDelegator
         // $serial is used to ensure that items of the same priority are enqueued
         // in the order in which they are inserted.
         $serial = PHP_INT_MAX;
-        return function (SplPriorityQueue $queue, array $item) use (&$serial): SplPriorityQueue {
+        return static function (SplPriorityQueue $queue, array $item) use (&$serial): SplPriorityQueue {
             $priority = isset($item['priority']) && is_int($item['priority'])
                 ? $item['priority']
                 : 1;
