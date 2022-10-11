@@ -11,7 +11,7 @@ use Mezzio\Container\ServerRequestErrorResponseGeneratorFactory;
 use Mezzio\Response\CallableResponseFactoryDecorator;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
-use MezzioTest\InMemoryContainer;
+use MezzioTest\InMemoryContainerTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -19,6 +19,8 @@ use RuntimeException;
 
 class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 {
+    use InMemoryContainerTrait;
+
     /** @var ServerRequestErrorResponseGeneratorFactory */
     private $factory;
 
@@ -72,7 +74,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 
     public function testFactoryOnlyRequiresResponseService(): void
     {
-        $container = new InMemoryContainer();
+        $container = $this->createContainer();
 
         $this->expectException(RuntimeException::class);
         ($this->factory)($container);
@@ -80,7 +82,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 
     public function testFactoryCreatesGeneratorWhenOnlyResponseServiceIsPresent(): void
     {
-        $container = new InMemoryContainer();
+        $container = $this->createContainer();
 
         $responseFactory = function (): ResponseInterface {
             return $this->createMock(ResponseInterface::class);
@@ -104,7 +106,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         ];
         $renderer = $this->createMock(TemplateRendererInterface::class);
 
-        $container = new InMemoryContainer();
+        $container = $this->createContainer();
         $container->set('config', $config);
         $container->set(TemplateRendererInterface::class, $renderer);
 
@@ -129,7 +131,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
     public function testCanHandleConfigWithArrayAccess(): void
     {
         $config    = $this->createMock(ArrayAccess::class);
-        $container = new InMemoryContainer();
+        $container = $this->createContainer();
         $container->set('config', $config);
         $responseFactory = function (): void {
         };
@@ -142,7 +144,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
     public function testWillUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsNotOverridden(): void
     {
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container       = new InMemoryContainer();
+        $container       = $this->createContainer();
         $container->set('config', [
             'dependencies' => [
                 'factories' => [
@@ -164,7 +166,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
         array $config
     ): void {
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container       = new InMemoryContainer();
+        $container       = $this->createContainer();
         $container->set('config', $config);
         $container->set(ResponseFactoryInterface::class, $responseFactory);
         $response = $this->createMock(ResponseInterface::class);

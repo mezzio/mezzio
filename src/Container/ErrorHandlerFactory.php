@@ -15,9 +15,7 @@ class ErrorHandlerFactory
     {
         $generator = $container->has(ErrorResponseGenerator::class)
             ? $container->get(ErrorResponseGenerator::class)
-            : ($container->has(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)
-                ? $container->get(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)
-                : null);
+            : null;
 
         return new ErrorHandler($container->get(ResponseInterface::class), $generator);
     }

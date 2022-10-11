@@ -11,9 +11,6 @@ use Laminas\Stratigility\Middleware\ErrorHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
-use Zend\Expressive\Handler\NotFoundHandler;
-use Zend\Expressive\Middleware\ErrorResponseGenerator;
-use Zend\Expressive\Response\ServerRequestErrorResponseGenerator;
 
 /**
  * Provide initial configuration for mezzio.
@@ -47,18 +44,6 @@ class ConfigProvider
                 NOT_FOUND_MIDDLEWARE                 => Handler\NotFoundHandler::class,
                 ROUTE_MIDDLEWARE                     => Router\Middleware\RouteMiddleware::class,
                 RequestHandlerRunnerInterface::class => RequestHandlerRunner::class,
-
-                // Legacy Zend Framework aliases
-                \Zend\Expressive\Application::class                     => Application::class,
-                \Zend\Expressive\ApplicationPipeline::class             => ApplicationPipeline::class,
-                \Zend\HttpHandlerRunner\Emitter\EmitterInterface::class => EmitterInterface::class,
-                \Zend\Stratigility\Middleware\ErrorHandler::class       => ErrorHandler::class,
-                NotFoundHandler::class                                  => Handler\NotFoundHandler::class,
-                \Zend\Expressive\MiddlewareContainer::class             => MiddlewareContainer::class,
-                \Zend\Expressive\MiddlewareFactory::class               => MiddlewareFactory::class,
-                ErrorResponseGenerator::class                           => Middleware\ErrorResponseGenerator::class,
-                \Zend\HttpHandlerRunner\RequestHandlerRunner::class     => RequestHandlerRunner::class,
-                ServerRequestErrorResponseGenerator::class              => Response\ServerRequestErrorResponseGenerator::class,
             ],
             'factories' => [
                 Application::class             => Container\ApplicationFactory::class,

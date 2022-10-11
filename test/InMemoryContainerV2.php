@@ -9,16 +9,13 @@ use RuntimeException;
 
 use function array_key_exists;
 
-final class InMemoryContainer implements MutableMemoryContainerInterface
+final class InMemoryContainerV2 implements MutableMemoryContainerInterface
 {
     /** @var array<string,mixed> */
     private $services = [];
 
-    /**
-     * @param string $id
-     * @return mixed
-     */
-    public function get($id)
+    /** @return mixed */
+    public function get(string $id)
     {
         if (! $this->has($id)) {
             throw new class ($id . ' was not found') extends RuntimeException implements NotFoundExceptionInterface {
@@ -28,10 +25,7 @@ final class InMemoryContainer implements MutableMemoryContainerInterface
         return $this->services[$id];
     }
 
-    /**
-     * @param string $id
-     */
-    public function has($id): bool
+    public function has(string $id): bool
     {
         return array_key_exists($id, $this->services);
     }

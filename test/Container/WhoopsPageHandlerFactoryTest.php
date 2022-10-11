@@ -6,7 +6,8 @@ namespace MezzioTest\Container;
 
 use Mezzio\Container\Exception\InvalidServiceException;
 use Mezzio\Container\WhoopsPageHandlerFactory;
-use MezzioTest\InMemoryContainer;
+use MezzioTest\InMemoryContainerTrait;
+use MezzioTest\MutableMemoryContainerInterface;
 use PHPUnit\Framework\TestCase;
 use Whoops\Handler\PrettyPageHandler;
 
@@ -15,7 +16,9 @@ use Whoops\Handler\PrettyPageHandler;
  */
 class WhoopsPageHandlerFactoryTest extends TestCase
 {
-    /** @var InMemoryContainer */
+    use InMemoryContainerTrait;
+
+    /** @var MutableMemoryContainerInterface */
     private $container;
 
     /** @var WhoopsPageHandlerFactory */
@@ -23,7 +26,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->container = new InMemoryContainer();
+        $this->container = $this->createContainer();
         $this->factory   = new WhoopsPageHandlerFactory();
     }
 

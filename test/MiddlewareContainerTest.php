@@ -15,15 +15,17 @@ use stdClass;
 
 class MiddlewareContainerTest extends TestCase
 {
+    use InMemoryContainerTrait;
+
     /** @var MiddlewareContainer */
     private $container;
 
-    /** @var InMemoryContainer */
+    /** @var MutableMemoryContainerInterface */
     private $originContainer;
 
     public function setUp(): void
     {
-        $this->originContainer = new InMemoryContainer();
+        $this->originContainer = $this->createContainer();
         $this->container       = new MiddlewareContainer($this->originContainer);
     }
 

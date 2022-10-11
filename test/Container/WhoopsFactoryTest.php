@@ -6,7 +6,8 @@ namespace MezzioTest\Container;
 
 use ArrayAccess;
 use Mezzio\Container\WhoopsFactory;
-use MezzioTest\InMemoryContainer;
+use MezzioTest\InMemoryContainerTrait;
+use MezzioTest\MutableMemoryContainerInterface;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use Whoops\Handler\JsonResponseHandler;
@@ -22,7 +23,9 @@ use function sprintf;
  */
 class WhoopsFactoryTest extends TestCase
 {
-    /** @var InMemoryContainer */
+    use InMemoryContainerTrait;
+
+    /** @var MutableMemoryContainerInterface */
     private $container;
 
     /** @var WhoopsFactory */
@@ -30,7 +33,7 @@ class WhoopsFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->container = new InMemoryContainer();
+        $this->container = $this->createContainer();
         $this->container->set('Mezzio\WhoopsPageHandler', $this->createMock(PrettyPageHandler::class));
 
         $this->factory = new WhoopsFactory();

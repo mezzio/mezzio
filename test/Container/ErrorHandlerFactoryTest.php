@@ -8,7 +8,8 @@ use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Stratigility\Middleware\ErrorResponseGenerator as StratigilityGenerator;
 use Mezzio\Container\ErrorHandlerFactory;
 use Mezzio\Middleware\ErrorResponseGenerator;
-use MezzioTest\InMemoryContainer;
+use MezzioTest\InMemoryContainerTrait;
+use MezzioTest\MutableMemoryContainerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
@@ -16,12 +17,14 @@ use TypeError;
 
 class ErrorHandlerFactoryTest extends TestCase
 {
-    /** @var InMemoryContainer */
+    use InMemoryContainerTrait;
+
+    /** @var MutableMemoryContainerInterface */
     private $container;
 
     public function setUp(): void
     {
-        $this->container = new InMemoryContainer();
+        $this->container = $this->createContainer();
     }
 
     public function testFactoryFailsIfResponseServiceIsMissing(): void
