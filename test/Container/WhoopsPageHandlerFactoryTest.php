@@ -6,8 +6,7 @@ namespace MezzioTest\Container;
 
 use Mezzio\Container\Exception\InvalidServiceException;
 use Mezzio\Container\WhoopsPageHandlerFactory;
-use MezzioTest\InMemoryContainerTrait;
-use MezzioTest\MutableMemoryContainerInterface;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 use Whoops\Handler\PrettyPageHandler;
 
@@ -16,17 +15,13 @@ use Whoops\Handler\PrettyPageHandler;
  */
 class WhoopsPageHandlerFactoryTest extends TestCase
 {
-    use InMemoryContainerTrait;
+    private InMemoryContainer $container;
 
-    /** @var MutableMemoryContainerInterface */
-    private $container;
-
-    /** @var WhoopsPageHandlerFactory */
-    private $factory;
+    private WhoopsPageHandlerFactory $factory;
 
     public function setUp(): void
     {
-        $this->container = $this->createContainer();
+        $this->container = new InMemoryContainer();
         $this->factory   = new WhoopsPageHandlerFactory();
     }
 
@@ -58,7 +53,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
     {
         $config = [
             'whoops' => [
-                'editor' => function (): void {
+                'editor' => static function (): void {
                 },
             ],
         ];
@@ -76,7 +71,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
     public function testWillInjectEditorAsAService(): void
     {
         $config = ['whoops' => ['editor' => 'custom']];
-        $editor = function (): void {
+        $editor = static function (): void {
         };
         $this->container->set('config', $config);
         $this->container->set('custom', $editor);
@@ -106,9 +101,8 @@ class WhoopsPageHandlerFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidEditors
-     * @param mixed $editor
      */
-    public function testInvalidEditorWillRaiseException($editor): void
+    public function testInvalidEditorWillRaiseException(mixed $editor): void
     {
         $config = ['whoops' => ['editor' => $editor]];
         $this->container->set('config', $config);

@@ -8,6 +8,7 @@ use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
 use Mezzio\Exception;
 use Mezzio\MiddlewareContainer;
 use Mezzio\Router\Middleware\DispatchMiddleware;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -15,17 +16,13 @@ use stdClass;
 
 class MiddlewareContainerTest extends TestCase
 {
-    use InMemoryContainerTrait;
+    private MiddlewareContainer $container;
 
-    /** @var MiddlewareContainer */
-    private $container;
-
-    /** @var MutableMemoryContainerInterface */
-    private $originContainer;
+    private InMemoryContainer $originContainer;
 
     public function setUp(): void
     {
-        $this->originContainer = $this->createContainer();
+        $this->originContainer = new InMemoryContainer();
         $this->container       = new MiddlewareContainer($this->originContainer);
     }
 

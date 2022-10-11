@@ -8,8 +8,7 @@ use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Stratigility\Middleware\ErrorResponseGenerator as StratigilityGenerator;
 use Mezzio\Container\ErrorHandlerFactory;
 use Mezzio\Middleware\ErrorResponseGenerator;
-use MezzioTest\InMemoryContainerTrait;
-use MezzioTest\MutableMemoryContainerInterface;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
@@ -17,14 +16,11 @@ use TypeError;
 
 class ErrorHandlerFactoryTest extends TestCase
 {
-    use InMemoryContainerTrait;
-
-    /** @var MutableMemoryContainerInterface */
-    private $container;
+    private InMemoryContainer $container;
 
     public function setUp(): void
     {
-        $this->container = $this->createContainer();
+        $this->container = new InMemoryContainer();
     }
 
     public function testFactoryFailsIfResponseServiceIsMissing(): void
@@ -47,7 +43,7 @@ class ErrorHandlerFactoryTest extends TestCase
 
     public function testFactoryCreatesHandlerWithStratigilityGeneratorIfNoGeneratorServiceAvailable(): void
     {
-        $responseFactory = function (): void {
+        $responseFactory = static function (): void {
         };
         $this->container->set(ResponseInterface::class, $responseFactory);
 
@@ -60,7 +56,7 @@ class ErrorHandlerFactoryTest extends TestCase
     public function testFactoryCreatesHandlerWithGeneratorIfGeneratorServiceAvailable(): void
     {
         $generator       = $this->createMock(ErrorResponseGenerator::class);
-        $responseFactory = function (): void {
+        $responseFactory = static function (): void {
         };
 
         $this->container->set(ErrorResponseGenerator::class, $generator);

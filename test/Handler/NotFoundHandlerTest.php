@@ -124,9 +124,7 @@ class NotFoundHandlerTest extends TestCase
 
     public function testCanHandleCallableResponseFactory(): void
     {
-        $responseFactory = function (): ResponseInterface {
-            return $this->response;
-        };
+        $responseFactory = fn(): ResponseInterface => $this->response;
 
         $this->response
             ->expects(self::exactly(2))

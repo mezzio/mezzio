@@ -14,16 +14,13 @@ final class CallableResponseFactoryDecoratorTest extends TestCase
     /** @var MockObject&ResponseInterface */
     private $response;
 
-    /** @var CallableResponseFactoryDecorator */
-    private $factory;
+    private CallableResponseFactoryDecorator $factory;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->response = $this->createMock(ResponseInterface::class);
-        $this->factory  = new CallableResponseFactoryDecorator(function (): ResponseInterface {
-            return $this->response;
-        });
+        $this->factory  = new CallableResponseFactoryDecorator(fn(): ResponseInterface => $this->response);
     }
 
     public function testWillPassStatusCodeAndPhraseToCallable(): void

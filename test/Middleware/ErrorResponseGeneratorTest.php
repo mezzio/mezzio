@@ -46,7 +46,7 @@ class ErrorResponseGeneratorTest extends TestCase
         $initialResponse
             ->method('withStatus')
             ->with(StatusCode::STATUS_INTERNAL_SERVER_ERROR)
-            ->willReturnCallback(function () use ($secondaryResponse) {
+            ->willReturnCallback(static function () use ($secondaryResponse): MockObject {
                 $secondaryResponse->method('getStatusCode')->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
                 $secondaryResponse->method('getReasonPhrase')->willReturn('Network Connect Timeout Error');
                 return $secondaryResponse;
@@ -75,7 +75,7 @@ class ErrorResponseGeneratorTest extends TestCase
         $initialResponse
             ->method('withStatus')
             ->with(599)
-            ->willReturnCallback(function () use ($secondaryResponse) {
+            ->willReturnCallback(static function () use ($secondaryResponse): MockObject {
                 $secondaryResponse->method('getStatusCode')->willReturn(599);
                 $secondaryResponse->method('getReasonPhrase')->willReturn('Network Connect Timeout Error');
                 return $secondaryResponse;
@@ -83,7 +83,7 @@ class ErrorResponseGeneratorTest extends TestCase
 
         $this->stream->expects(self::once())
             ->method('write')
-            ->with(self::callback(function ($body) use ($leaf, $branch, $error) {
+            ->with(self::callback(function ($body) use ($leaf, $branch, $error): bool {
                 $this->assertStringContainsString($leaf->getTraceAsString(), $body);
                 $this->assertStringContainsString($branch->getTraceAsString(), $body);
                 $this->assertStringContainsString($error->getTraceAsString(), $body);
@@ -134,7 +134,7 @@ class ErrorResponseGeneratorTest extends TestCase
         $initialResponse
             ->method('withStatus')
             ->with(StatusCode::STATUS_INTERNAL_SERVER_ERROR)
-            ->willReturnCallback(function () use ($secondaryResponse) {
+            ->willReturnCallback(static function () use ($secondaryResponse): MockObject {
                 $secondaryResponse->method('getStatusCode')->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
                 $secondaryResponse->method('getReasonPhrase')->willReturn('Internal Server Error');
                 return $secondaryResponse;
@@ -173,7 +173,7 @@ class ErrorResponseGeneratorTest extends TestCase
         $initialResponse
             ->method('withStatus')
             ->with(StatusCode::STATUS_INTERNAL_SERVER_ERROR)
-            ->willReturnCallback(function () use ($secondaryResponse) {
+            ->willReturnCallback(static function () use ($secondaryResponse): MockObject {
                 $secondaryResponse->method('getStatusCode')->willReturn(StatusCode::STATUS_INTERNAL_SERVER_ERROR);
                 $secondaryResponse->method('getReasonPhrase')->willReturn('Network Connect Timeout Error');
                 return $secondaryResponse;

@@ -7,18 +7,16 @@ namespace MezzioTest\Container;
 use Mezzio\Container\MiddlewareFactoryFactory;
 use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
-use MezzioTest\InMemoryContainerTrait;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 
 class MiddlewareFactoryFactoryTest extends TestCase
 {
-    use InMemoryContainerTrait;
-
     public function testFactoryProducesMiddlewareFactoryComposingMiddlewareContainerInstance(): void
     {
         $middlewareContainer = $this->createMock(MiddlewareContainer::class);
 
-        $container = $this->createContainer();
+        $container = new InMemoryContainer();
         $container->set(MiddlewareContainer::class, $middlewareContainer);
 
         $factory = new MiddlewareFactoryFactory();

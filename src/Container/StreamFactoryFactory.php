@@ -31,8 +31,6 @@ class StreamFactoryFactory
             ));
         }
 
-        return function (): Stream {
-            return new Stream('php://temp', 'wb+');
-        };
+        return static fn(): Stream => new Stream('php://temp', 'wb+');
     }
 }

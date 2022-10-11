@@ -9,7 +9,7 @@ use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Mezzio\ApplicationPipeline;
 use Mezzio\Container\RequestHandlerRunnerFactory;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
-use MezzioTest\InMemoryContainerTrait;
+use MezzioTest\InMemoryContainer;
 use MezzioTest\MutableMemoryContainerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -22,11 +22,9 @@ use Throwable;
 
 class RequestHandlerRunnerFactoryTest extends TestCase
 {
-    use InMemoryContainerTrait;
-
     public function testFactoryProducesRunnerUsingServicesFromContainer(): void
     {
-        $container            = $this->createContainer();
+        $container            = new InMemoryContainer();
         $handler              = $this->registerHandlerInContainer($container);
         $emitter              = $this->registerEmitterInContainer($container);
         $serverRequestFactory = $this->registerServerRequestFactoryInContainer($container);
@@ -75,9 +73,7 @@ class RequestHandlerRunnerFactoryTest extends TestCase
     public function registerServerRequestFactoryInContainer(MutableMemoryContainerInterface $container): callable
     {
         $request = $this->createMock(ServerRequestInterface::class);
-        $factory = function () use ($request): ServerRequestInterface {
-            return $request;
-        };
+        $factory = static fn(): ServerRequestInterface => $request;
         $container->set(ServerRequestInterface::class, $factory);
 
         return $factory;

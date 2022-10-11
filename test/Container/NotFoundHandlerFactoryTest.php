@@ -11,8 +11,7 @@ use Mezzio\Container\ResponseFactoryFactory;
 use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Response\CallableResponseFactoryDecorator;
 use Mezzio\Template\TemplateRendererInterface;
-use MezzioTest\InMemoryContainerTrait;
-use MezzioTest\MutableMemoryContainerInterface;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -20,24 +19,18 @@ use Psr\Http\Message\ResponseInterface;
 
 class NotFoundHandlerFactoryTest extends TestCase
 {
-    use InMemoryContainerTrait;
-
-    /** @var MutableMemoryContainerInterface */
-    private $container;
+    private InMemoryContainer $container;
 
     /** @var ResponseInterface&MockObject */
     private $response;
 
-    /** @var NotFoundHandlerFactory */
-    private $factory;
+    private NotFoundHandlerFactory $factory;
 
     protected function setUp(): void
     {
         $this->response  = $this->createMock(ResponseInterface::class);
-        $this->container = $this->createContainer();
-        $this->container->set(ResponseInterface::class, function () {
-            return $this->response;
-        });
+        $this->container = new InMemoryContainer();
+        $this->container->set(ResponseInterface::class, fn() => $this->response);
         $this->factory = new NotFoundHandlerFactory();
     }
 
@@ -50,9 +43,8 @@ class NotFoundHandlerFactoryTest extends TestCase
             [
                 'dependencies' => [
                     'factories' => [
-                        ResponseInterface::class => function (): ResponseInterface {
-                            return $this->createMock(ResponseInterface::class);
-                        },
+                        ResponseInterface::class
+                            => fn(): ResponseInterface => $this->createMock(ResponseInterface::class),
                     ],
                 ],
             ],
@@ -73,9 +65,7 @@ class NotFoundHandlerFactoryTest extends TestCase
                 'dependencies' => [
                     'delegators' => [
                         ResponseInterface::class => [
-                            function (): ResponseInterface {
-                                return $this->createMock(ResponseInterface::class);
-                            },
+                            fn(): ResponseInterface => $this->createMock(ResponseInterface::class),
                         ],
                     ],
                 ],
@@ -170,7 +160,7 @@ class NotFoundHandlerFactoryTest extends TestCase
     public function testWillUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsNotOverridden(): void
     {
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container       = $this->createContainer();
+        $container       = new InMemoryContainer();
         $container->set('config', [
             'dependencies' => [
                 'factories' => [
@@ -192,13 +182,11 @@ class NotFoundHandlerFactoryTest extends TestCase
         array $config
     ): void {
         $responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $container       = $this->createContainer();
+        $container       = new InMemoryContainer();
         $container->set('config', $config);
         $container->set(ResponseFactoryInterface::class, $responseFactory);
         $response = $this->createMock(ResponseInterface::class);
-        $container->set(ResponseInterface::class, function () use ($response): ResponseInterface {
-            return $response;
-        });
+        $container->set(ResponseInterface::class, static fn(): ResponseInterface => $response);
 
         $generator                    = ($this->factory)($container);
         $responseFactoryFromGenerator = $generator->getResponseFactory();

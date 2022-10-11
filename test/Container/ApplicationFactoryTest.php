@@ -11,13 +11,11 @@ use Mezzio\ApplicationPipeline;
 use Mezzio\Container\ApplicationFactory;
 use Mezzio\MiddlewareFactory;
 use Mezzio\Router\RouteCollector;
-use MezzioTest\InMemoryContainerTrait;
+use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 
 class ApplicationFactoryTest extends TestCase
 {
-    use InMemoryContainerTrait;
-
     public function testFactoryProducesAnApplication(): void
     {
         $middlewareFactory = $this->createMock(MiddlewareFactory::class);
@@ -25,7 +23,7 @@ class ApplicationFactoryTest extends TestCase
         $routeCollector    = $this->createMock(RouteCollector::class);
         $runner            = $this->createMock(RequestHandlerRunnerInterface::class);
 
-        $container = $this->createContainer();
+        $container = new InMemoryContainer();
         $container->set(MiddlewareFactory::class, $middlewareFactory);
         $container->set(ApplicationPipeline::class, $pipeline);
         $container->set(RouteCollector::class, $routeCollector);
