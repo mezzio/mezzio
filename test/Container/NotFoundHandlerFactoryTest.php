@@ -19,22 +19,18 @@ use Psr\Http\Message\ResponseInterface;
 
 class NotFoundHandlerFactoryTest extends TestCase
 {
-    /** @var InMemoryContainer */
-    private $container;
+    private InMemoryContainer $container;
 
     /** @var ResponseInterface&MockObject */
     private $response;
 
-    /** @var NotFoundHandlerFactory */
-    private $factory;
+    private NotFoundHandlerFactory $factory;
 
     protected function setUp(): void
     {
         $this->response  = $this->createMock(ResponseInterface::class);
         $this->container = new InMemoryContainer();
-        $this->container->set(ResponseInterface::class, function () {
-            return $this->response;
-        });
+        $this->container->set(ResponseInterface::class, fn() => $this->response);
         $this->factory = new NotFoundHandlerFactory();
     }
 
@@ -47,9 +43,8 @@ class NotFoundHandlerFactoryTest extends TestCase
             [
                 'dependencies' => [
                     'factories' => [
-                        ResponseInterface::class => function (): ResponseInterface {
-                            return $this->createMock(ResponseInterface::class);
-                        },
+                        ResponseInterface::class
+                            => fn(): ResponseInterface => $this->createMock(ResponseInterface::class),
                     ],
                 ],
             ],
@@ -70,9 +65,7 @@ class NotFoundHandlerFactoryTest extends TestCase
                 'dependencies' => [
                     'delegators' => [
                         ResponseInterface::class => [
-                            function (): ResponseInterface {
-                                return $this->createMock(ResponseInterface::class);
-                            },
+                            fn(): ResponseInterface => $this->createMock(ResponseInterface::class),
                         ],
                     ],
                 ],
@@ -193,9 +186,7 @@ class NotFoundHandlerFactoryTest extends TestCase
         $container->set('config', $config);
         $container->set(ResponseFactoryInterface::class, $responseFactory);
         $response = $this->createMock(ResponseInterface::class);
-        $container->set(ResponseInterface::class, function () use ($response): ResponseInterface {
-            return $response;
-        });
+        $container->set(ResponseInterface::class, static fn(): ResponseInterface => $response);
 
         $generator                    = ($this->factory)($container);
         $responseFactoryFromGenerator = $generator->getResponseFactory();

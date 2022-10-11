@@ -15,11 +15,9 @@ use Whoops\Handler\PrettyPageHandler;
  */
 class WhoopsPageHandlerFactoryTest extends TestCase
 {
-    /** @var InMemoryContainer */
-    private $container;
+    private InMemoryContainer $container;
 
-    /** @var WhoopsPageHandlerFactory */
-    private $factory;
+    private WhoopsPageHandlerFactory $factory;
 
     public function setUp(): void
     {
@@ -55,7 +53,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
     {
         $config = [
             'whoops' => [
-                'editor' => function (): void {
+                'editor' => static function (): void {
                 },
             ],
         ];
@@ -73,7 +71,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
     public function testWillInjectEditorAsAService(): void
     {
         $config = ['whoops' => ['editor' => 'custom']];
-        $editor = function (): void {
+        $editor = static function (): void {
         };
         $this->container->set('config', $config);
         $this->container->set('custom', $editor);
@@ -103,9 +101,8 @@ class WhoopsPageHandlerFactoryTest extends TestCase
 
     /**
      * @dataProvider invalidEditors
-     * @param mixed $editor
      */
-    public function testInvalidEditorWillRaiseException($editor): void
+    public function testInvalidEditorWillRaiseException(mixed $editor): void
     {
         $config = ['whoops' => ['editor' => $editor]];
         $this->container->set('config', $config);

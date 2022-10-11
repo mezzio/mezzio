@@ -20,17 +20,7 @@ class NotFoundHandler implements RequestHandlerInterface
     public const TEMPLATE_DEFAULT = 'error::404';
     public const LAYOUT_DEFAULT   = 'layout::default';
 
-    /** @var TemplateRendererInterface|null */
-    private $renderer;
-
-    /** @var ResponseFactoryInterface */
-    private $responseFactory;
-
-    /** @var string */
-    private $template;
-
-    /** @var string */
-    private $layout;
+    private ResponseFactoryInterface $responseFactory;
 
     /**
      * @todo Allow nullable $layout
@@ -39,18 +29,15 @@ class NotFoundHandler implements RequestHandlerInterface
      */
     public function __construct(
         $responseFactory,
-        ?TemplateRendererInterface $renderer = null,
-        string $template = self::TEMPLATE_DEFAULT,
-        string $layout = self::LAYOUT_DEFAULT
+        private ?TemplateRendererInterface $renderer = null,
+        private string $template = self::TEMPLATE_DEFAULT,
+        private string $layout = self::LAYOUT_DEFAULT
     ) {
         if (is_callable($responseFactory)) {
             $responseFactory = new CallableResponseFactoryDecorator($responseFactory);
         }
 
         $this->responseFactory = $responseFactory;
-        $this->renderer        = $renderer;
-        $this->template        = $template;
-        $this->layout          = $layout;
     }
 
     /**

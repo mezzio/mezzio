@@ -45,12 +45,8 @@ use function is_string;
  */
 class MiddlewareFactory
 {
-    /** @var MiddlewareContainer */
-    private $container;
-
-    public function __construct(MiddlewareContainer $container)
+    public function __construct(private MiddlewareContainer $container)
     {
-        $this->container = $container;
     }
 
     /**

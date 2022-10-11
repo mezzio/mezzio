@@ -38,8 +38,7 @@ class ApplicationTest extends TestCase
     /** @var RequestHandlerRunnerInterface&MockObject */
     private $runner;
 
-    /** @var Application */
-    private $app;
+    private Application $app;
 
     public function setUp(): void
     {
@@ -99,7 +98,8 @@ class ApplicationTest extends TestCase
         // @codingStandardsIgnoreStart
         yield 'string'   => ['service'];
         yield 'array'    => [['middleware', 'service']];
-        yield 'callable' => [function ($request, $response) {}];
+        yield 'callable' => [static function ($request, $response) : void {
+        }];
         yield 'instance' => [new MiddlewarePipe()];
         // @codingStandardsIgnoreEnd
     }
@@ -146,9 +146,7 @@ class ApplicationTest extends TestCase
 
     public function testPipeNonSlashPathOnNonStringPipeProduceTypeError(): void
     {
-        $middleware1 = function ($request, $response) {
-            return $response;
-        };
+        $middleware1 = static fn($request, $response) => $response;
         $middleware2 = $this->createMockMiddleware();
 
         $this->expectException(TypeError::class);

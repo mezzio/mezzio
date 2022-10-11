@@ -13,8 +13,7 @@ use function sprintf;
 
 class InvalidTrustedProxyConfigurationException extends RuntimeException implements ExceptionInterface
 {
-    /** @param mixed $proxies */
-    public static function forProxies($proxies): self
+    public static function forProxies(mixed $proxies): self
     {
         $type = is_object($proxies) ? $proxies::class : gettype($proxies);
 

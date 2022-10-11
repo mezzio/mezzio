@@ -31,8 +31,6 @@ class ResponseFactoryFactory
             ));
         }
 
-        return function (): Response {
-            return new Response();
-        };
+        return static fn(): Response => new Response();
     }
 }

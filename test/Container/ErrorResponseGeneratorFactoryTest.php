@@ -14,8 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class ErrorResponseGeneratorFactoryTest extends TestCase
 {
-    /** @var InMemoryContainer */
-    private $container;
+    private InMemoryContainer $container;
 
     /** @var TemplateRendererInterface&MockObject */
     private $renderer;

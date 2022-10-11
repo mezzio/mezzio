@@ -22,11 +22,9 @@ use function sprintf;
  */
 class WhoopsFactoryTest extends TestCase
 {
-    /** @var InMemoryContainer */
-    private $container;
+    private InMemoryContainer $container;
 
-    /** @var WhoopsFactory */
-    private $factory;
+    private WhoopsFactory $factory;
 
     public function setUp(): void
     {

@@ -13,8 +13,7 @@ use function sprintf;
 
 class InvalidTrustedHeaderConfigurationException extends RuntimeException implements ExceptionInterface
 {
-    /** @param mixed $headers */
-    public static function forHeaders($headers): self
+    public static function forHeaders(mixed $headers): self
     {
         $type = is_object($headers) ? $headers::class : gettype($headers);
 

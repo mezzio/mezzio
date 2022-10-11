@@ -16,28 +16,12 @@ use function Laminas\Stratigility\path;
 
 class Application implements MiddlewareInterface, RequestHandlerInterface
 {
-    /** @var MiddlewareFactory */
-    private $factory;
-
-    /** @var MiddlewarePipeInterface */
-    private $pipeline;
-
-    /** @var RouteCollectorInterface */
-    private $routes;
-
-    /** @var RequestHandlerRunnerInterface */
-    private $runner;
-
     public function __construct(
-        MiddlewareFactory $factory,
-        MiddlewarePipeInterface $pipeline,
-        RouteCollectorInterface $routes,
-        RequestHandlerRunnerInterface $runner
+        private MiddlewareFactory $factory,
+        private MiddlewarePipeInterface $pipeline,
+        private RouteCollectorInterface $routes,
+        private RequestHandlerRunnerInterface $runner
     ) {
-        $this->factory  = $factory;
-        $this->pipeline = $pipeline;
-        $this->routes   = $routes;
-        $this->runner   = $runner;
     }
 
     /**

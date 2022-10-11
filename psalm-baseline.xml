@@ -226,8 +226,8 @@
       <code>$response</code>
       <code>$response</code>
     </MissingClosureParamType>
-    <MissingClosureReturnType occurrences="1">
-      <code>function ($request, $response) {</code>
+    <MissingClosureReturnType occurrences="2">
+      <code>fn($request, $response)</code>
     </MissingClosureReturnType>
     <MixedArgument occurrences="2">
       <code>$data</code>

@@ -21,8 +21,7 @@ use function sprintf;
 
 class WhoopsErrorResponseGenerator
 {
-    /** @var RunInterface */
-    private $whoops;
+    private RunInterface $whoops;
 
     /**
      * @param RunInterface $whoops

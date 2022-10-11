@@ -21,8 +21,7 @@ class ServerRequestErrorResponseGenerator
 
     public const TEMPLATE_DEFAULT = 'error::error';
 
-    /** @var ResponseFactoryInterface */
-    private $responseFactory;
+    private ResponseFactoryInterface $responseFactory;
 
     /**
      * @param (callable():ResponseInterface)|ResponseFactoryInterface $responseFactory
