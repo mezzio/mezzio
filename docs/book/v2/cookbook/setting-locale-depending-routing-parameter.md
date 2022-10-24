@@ -1,4 +1,4 @@
-# How can I setup the locale depending on a routing parameter?
+# How can I set up the locale depending on a routing parameter?
 
 Localized web applications often set the locale (and therefor the language)
 based on a routing parameter, the session, or a specialized sub-domain.
@@ -15,7 +15,7 @@ In this recipe we will concentrate on using a routing parameter.
 
 ## Setting up the route
 
-If you want to set the locale depending on an routing parameter, you first have
+If you want to set the locale depending on a routing parameter, you first have
 to add a locale parameter to each route that requires localization.
 
 In the following examples, we use the `locale` parameter, which should consist
@@ -128,7 +128,7 @@ return [
 
 ## Create a route result middleware class for localization
 
-To make sure that you can setup the locale after the routing has been processed,
+To make sure that you can set up the locale after the routing has been processed,
 you need to implement localization middleware that acts on the route result, and
 registered in the pipeline immediately following the routing middleware.
 

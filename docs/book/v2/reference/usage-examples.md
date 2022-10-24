@@ -415,7 +415,7 @@ $app->run();
 ```
 
 Notice that our index file now doesn't have any code related to setting up the
-application any longer! All it does is setup autoloading, retrieve our service
+application any longer! All it does is set up autoloading, retrieve our service
 container, pull the application from it, and run it. Our choices for container,
 router, etc. are all abstracted, and if we change our mind later, this code will
 continue to work.

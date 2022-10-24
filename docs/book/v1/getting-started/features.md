@@ -72,7 +72,7 @@ Below is a diagram detailing the workflow used by Mezzio.
 ![Mezzio Architectural Flow](../../images/architecture.png)
 
 The `Application` acts as an "onion"; in the diagram above, the top is the
-outer-most layer of the onion, while the bottom is the inner-most.
+outermost layer of the onion, while the bottom is the innermost.
 
 The `Application` dispatches each middleware. Each middleware accepts a
 *request*, a *response*, and the *next* middleware to dispatch. Internally,
@@ -94,8 +94,8 @@ argument to act on.
 > looked at from this perspective:
 >
 > - In most cases, the entire queue *will not* be traversed.
-> - The inner-most layer of the onion represents the last item in the queue.
-> - Responses are returned back *through* the pipeline, in reverse order of
+> - The innermost layer of the onion represents the last item in the queue.
+> - Responses are returned *through* the pipeline, in reverse order of
 >   traversal.
 
 The `Application` allows arbitrary middleware to be injected, with each being

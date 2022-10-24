@@ -47,7 +47,7 @@ If you need greater control over the FastRoute setup and configuration, you
 can create the instances necessary and inject them into
 `Mezzio\Router\FastRouteRouter` during instantiation.
 
-To do so, you will need to setup your `RouteCollector` instance and/or
+To do so, you will need to set up your `RouteCollector` instance and/or
 optionally callable to return your `RegexBasedAbstract` instance manually,
 inject them in your `Mezzio\Router\FastRouteRouter` instance, and inject use
 that when creating your `Application` instance.
