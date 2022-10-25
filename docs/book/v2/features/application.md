@@ -21,7 +21,7 @@ You can define the `Application` instance in several ways:
 - Via a dependency injection container; we provide a factory for setting up all
   aspects of the instance via configuration and other defined services.
 
-Regardless of how you setup the instance, there are several methods you will
+Regardless of how you set up the instance, there are several methods you will
 likely interact with at some point or another.
 
 ## Instantiation
@@ -232,7 +232,7 @@ methods for retrieving them. They include:
   [emitter](https://docs.laminas.dev/laminas-diactoros/emitting-responses/),
   typically a `Mezzio\Emitter\EmitterStack` instance.
 - `getDefaultDelegate()`: retrieves the default delegate to use when the internal middleware pipeline is exhausted without returning a response. If none is provided at instantiation, this method will do one of the following:
-    - If no container is composed, instanatiates a
+    - If no container is composed, instantiates a
       `Mezzio\Delegate\NotFoundDelegate` using the composed response
       prototype only.
     - If a container is composed, but does not have the

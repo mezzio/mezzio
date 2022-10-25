@@ -12,7 +12,7 @@ RC6 introduced changes to the following:
   failures.
 - Middleware configuration specifications now accept a `priority` key to
   guarantee the order of items. If you have defined your middleware pipeline in
-  multiple files that are then merged, you will need to defined these keys to
+  multiple files that are then merged, you will need to define these keys to
   ensure order.
 
 ## Routing and Dispatch middleware

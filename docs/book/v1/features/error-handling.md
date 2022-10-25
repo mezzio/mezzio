@@ -41,7 +41,7 @@ First, of course, you'll need to select a templating system and ensure you have
 the appropriate dependencies installed; see the [templating documentation](template/intro.md)
 for information on what we support and how to install supported systems.
 
-Once you have selected your templating system, you can setup the templated error
+Once you have selected your templating system, you can set up the templated error
 handler.
 
 ```php

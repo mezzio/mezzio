@@ -3,13 +3,13 @@
 Templates often need access to common request data, such as request attributes,
 the current route name, the currently authenticated user, and more. Wrangling
 all of that data in every single handler, however, often leads to code
-duplication, and the possibility of accidently omitting some of that data. How
+duplication, and the possibility of accidentally omitting some of that data. How
 can you make such data available to all templates?
 
 The approach detailed in this recipe involves creating a middleware that calls
 on the template renderer's `addDefaultParam()` method.
 
-Foolowing is an example that injects the current user, the matched route name,
+The following is an example that injects the current user, the matched route name,
 and all flash messages via a single middleware.
 
 ```php

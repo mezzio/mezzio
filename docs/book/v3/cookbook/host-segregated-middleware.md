@@ -1,7 +1,7 @@
 # How does one segregate middleware by host?
 
 If your application is being re-used to respond to multiple host domains, how
-can you segregate middleware to work only in reponse to a specific host request?
+can you segregate middleware to work only in response to a specific host request?
 
 As an example, perhaps you have an "admin" area of your application you only
 want to expose via the host name "admin.example.org"; how can you do this?

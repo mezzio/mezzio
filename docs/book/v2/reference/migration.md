@@ -409,7 +409,7 @@ handling needs:
   get to the innermost layer, no middleware was able to handle the request,
   indicating a 404.) By default, it will produce a canned plaintext response.
   However, you can also provide an optional `TemplateRendererInterface` instance
-  and `$template` in order to provided templated content.<br/><br/>
+  and `$template` in order to provide templated content.<br/><br/>
   The constructor arguments are:
 
     - `ResponseInterface $responsePrototype`: this is an empty response on which

@@ -32,7 +32,7 @@ This will prompt you to choose:
   Plates in the examples below, so choose it if you want to code along).
 
 - An error handler. Whoops is a very nice option for development, as it gives
-  you extensive, browseable information for exceptions and errors raised.
+  you extensive, browsable information for exceptions and errors raised.
 
 ## Start a web server
 
@@ -285,7 +285,7 @@ your middleware.
 
 [Piping](../features/router/piping.md#piping) is a foundation feature of the
 underlying [laminas-stratigility](https://docs.laminas.dev/laminas-stratigility/)
-implementation. You can setup the middleware pipeline in `config/pipeline.php`.
+implementation. You can set up the middleware pipeline in `config/pipeline.php`.
 In this section, we'll demonstrate setting up a basic pipeline that includes
 error handling, segregated applications, routing, middleware dispatch, and more.
 
@@ -389,7 +389,7 @@ $app->pipe(NotFoundHandler::class);
 ### Routing
 
 [Routing](../features/router/piping.md#routing) is an additional feature
-provided by Mezzio. Routing is setup in `config/routes.php`.
+provided by Mezzio. Routing is set up in `config/routes.php`.
 
 You can setup routes with a single request method:
 

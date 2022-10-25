@@ -1,4 +1,4 @@
-# How can I setup the locale without routing parameters?
+# How can I set up the locale without routing parameters?
 
 Localized web applications often set the locale (and therefore the language)
 based on a routing parameter, the session, or a specialized sub-domain.
@@ -15,12 +15,12 @@ requiring any changes to existing routes.
 > with a required routing parameter; this approach is described in the
 > ["Setting a locale based on a routing parameter" recipe](setting-locale-depending-routing-parameter.md).
 
-## Setup a middleware to extract the locale from the URI
+## Set up a middleware to extract the locale from the URI
 
-First, we need to setup middleware that extracts the locale param directly
+First, we need to set up middleware that extracts the locale param directly
 from the request URI's path. If it doesn't find one, it sets a default.
 
-If it does find one, it uses the value to setup the locale. It also:
+If it does find one, it uses the value to set up the locale. It also:
 
 - amends the request with a truncated path (removing the locale segment).
 - adds the locale segment as the base path of the `UrlHelper`.

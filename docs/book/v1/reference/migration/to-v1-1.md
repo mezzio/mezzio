@@ -41,7 +41,7 @@ will be removed for the 2.0 release:
   `Mezzio\Exception\InvalidArgumentException` instead.
 
 - `Mezzio\Container\Exception\NotFoundException`: this exception type
-  is not currently used anyways.
+  is not currently used anyway.
 
 - `Mezzio\ErrorMiddlewarePipe`: Stratigility v1 error middleware are
   removed in the Stratigility v2 release, which Mezzio 2.0 will adopt,
