@@ -52,8 +52,8 @@
     "require-dev": {
         "filp/whoops": "^2.14.5",
         "laminas/laminas-coding-standard": "~2.4.0",
-        "laminas/laminas-diactoros": "^2.19",
-        "laminas/laminas-servicemanager": "^3.15",
+        "laminas/laminas-diactoros": "^2.20.0",
+        "laminas/laminas-servicemanager": "^3.19.0",
         "mezzio/mezzio-aurarouter": "^3.5",
         "mezzio/mezzio-fastroute": "^3.7",
         "mezzio/mezzio-laminasrouter": "^3.7",
