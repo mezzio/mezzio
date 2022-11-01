@@ -58,9 +58,9 @@
         "mezzio/mezzio-fastroute": "^3.7",
         "mezzio/mezzio-laminasrouter": "^3.7",
         "mockery/mockery": "^1.5.1",
-        "phpunit/phpunit": "^9.5.25",
+        "phpunit/phpunit": "^9.5.26",
         "psalm/plugin-phpunit": "^0.17",
-        "vimeo/psalm": "^4.28"
+        "vimeo/psalm": "^4.29.0"
     },
     "conflict": {
         "container-interop/container-interop": "<1.2.0",
