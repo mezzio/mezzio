@@ -2284,22 +2284,23 @@
         },
         {
             "name": "laminas/laminas-validator",
-            "version": "2.27.0",
+            "version": "2.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-validator.git",
-                "reference": "451f5e24574a99b86e8e22f0431ccfc6d5c7318b"
+                "reference": "695bfa40b0a83dc1c5c58bdf74a03fdbeb516c39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-validator/zipball/451f5e24574a99b86e8e22f0431ccfc6d5c7318b",
-                "reference": "451f5e24574a99b86e8e22f0431ccfc6d5c7318b",
+                "url": "https://api.github.com/repos/laminas/laminas-validator/zipball/695bfa40b0a83dc1c5c58bdf74a03fdbeb516c39",
+                "reference": "695bfa40b0a83dc1c5c58bdf74a03fdbeb516c39",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-servicemanager": "^3.12.0",
                 "laminas/laminas-stdlib": "^3.13",
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0"
+                "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+                "psr/http-message": "^1.0.1"
             },
             "conflict": {
                 "zendframework/zend-validator": "*"
@@ -2316,7 +2317,6 @@
                 "psalm/plugin-phpunit": "^0.18.0",
                 "psr/http-client": "^1.0.1",
                 "psr/http-factory": "^1.0.1",
-                "psr/http-message": "^1.0.1",
                 "vimeo/psalm": "^4.28"
             },
             "suggest": {
@@ -2365,7 +2365,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2022-11-12T21:00:53+00:00"
+            "time": "2022-11-14T08:50:44+00:00"
         },
         {
             "name": "mezzio/mezzio-aurarouter",
