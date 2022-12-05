@@ -7,18 +7,18 @@ namespace Mezzio;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
+use Laminas\ServiceManager\ConfigInterface;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
-use Zend\Expressive\Handler\NotFoundHandler;
-use Zend\Expressive\Middleware\ErrorResponseGenerator;
-use Zend\Expressive\Response\ServerRequestErrorResponseGenerator;
 
 /**
  * Provide initial configuration for mezzio.
  *
  * This class provides initial _production_ configuration for mezzio.
+ *
+ * @psalm-import-type ServiceManagerConfigurationType from ConfigInterface
  */
 class ConfigProvider
 {
@@ -28,6 +28,7 @@ class ConfigProvider
     public const DIACTOROS_TRUSTED_PROXIES_CONFIG_KEY       = 'trusted-proxies';
     public const DIACTOROS_TRUSTED_HEADERS_CONFIG_KEY       = 'trusted-headers';
 
+    /** @return array{dependencies: ServiceManagerConfigurationType} */
     public function __invoke(): array
     {
         return [
@@ -35,6 +36,7 @@ class ConfigProvider
         ];
     }
 
+    /** @return ServiceManagerConfigurationType */
     public function getDependencies(): array
     {
         // phpcs:disable Generic.Files.LineLength.TooLong
@@ -49,20 +51,20 @@ class ConfigProvider
                 RequestHandlerRunnerInterface::class => RequestHandlerRunner::class,
 
                 // Legacy Zend Framework aliases
-                \Zend\Expressive\Application::class                     => Application::class,
-                \Zend\Expressive\ApplicationPipeline::class             => ApplicationPipeline::class,
-                \Zend\HttpHandlerRunner\Emitter\EmitterInterface::class => EmitterInterface::class,
-                \Zend\Stratigility\Middleware\ErrorHandler::class       => ErrorHandler::class,
-                NotFoundHandler::class                                  => Handler\NotFoundHandler::class,
-                \Zend\Expressive\MiddlewareContainer::class             => MiddlewareContainer::class,
-                \Zend\Expressive\MiddlewareFactory::class               => MiddlewareFactory::class,
-                ErrorResponseGenerator::class                           => Middleware\ErrorResponseGenerator::class,
-                \Zend\HttpHandlerRunner\RequestHandlerRunner::class     => RequestHandlerRunner::class,
-                ServerRequestErrorResponseGenerator::class              => Response\ServerRequestErrorResponseGenerator::class,
+                'Zend\Expressive\Application'                                  => Application::class,
+                'Zend\Expressive\ApplicationPipeline'                          => 'Mezzio\ApplicationPipeline',
+                'Zend\HttpHandlerRunner\Emitter\EmitterInterface'              => EmitterInterface::class,
+                'Zend\Stratigility\Middleware\ErrorHandler'                    => ErrorHandler::class,
+                'Zend\Expressive\Handler\NotFoundHandler'                      => Handler\NotFoundHandler::class,
+                'Zend\Expressive\MiddlewareContainer'                          => MiddlewareContainer::class,
+                'Zend\Expressive\MiddlewareFactory'                            => MiddlewareFactory::class,
+                'Zend\Expressive\Middleware\ErrorResponseGenerator'            => Middleware\ErrorResponseGenerator::class,
+                'Zend\HttpHandlerRunner\RequestHandlerRunner'                  => RequestHandlerRunner::class,
+                'Zend\Expressive\Response\ServerRequestErrorResponseGenerator' => Response\ServerRequestErrorResponseGenerator::class,
             ],
             'factories' => [
                 Application::class             => Container\ApplicationFactory::class,
-                ApplicationPipeline::class     => Container\ApplicationPipelineFactory::class,
+                'Mezzio\ApplicationPipeline'   => Container\ApplicationPipelineFactory::class,
                 EmitterInterface::class        => Container\EmitterFactory::class,
                 ErrorHandler::class            => Container\ErrorHandlerFactory::class,
                 Handler\NotFoundHandler::class => Container\NotFoundHandlerFactory::class,
