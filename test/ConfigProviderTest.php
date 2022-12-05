@@ -46,8 +46,8 @@ class ConfigProviderTest extends TestCase
 
     public function testProviderDefinesExpectedAliases(): void
     {
-        $config  = $this->provider->getDependencies();
-        $aliases = $config['aliases'];
+        $aliases = $this->provider->getDependencies()['aliases'] ?? [];
+
         $this->assertArrayHasKey(DEFAULT_DELEGATE, $aliases);
         $this->assertArrayHasKey(DISPATCH_MIDDLEWARE, $aliases);
         $this->assertArrayHasKey(IMPLICIT_HEAD_MIDDLEWARE, $aliases);
@@ -58,8 +58,7 @@ class ConfigProviderTest extends TestCase
 
     public function testProviderDefinesExpectedFactoryServices(): void
     {
-        $config    = $this->provider->getDependencies();
-        $factories = $config['factories'];
+        $factories = $this->provider->getDependencies()['factories'] ?? [];
 
         $this->assertArrayHasKey(Application::class, $factories);
         $this->assertArrayHasKey(ApplicationPipeline::class, $factories);
@@ -105,7 +104,8 @@ class ConfigProviderTest extends TestCase
         $container                                                  = $this->getContainer($config['dependencies']);
 
         $dependencies = $this->provider->getDependencies();
-        foreach ($dependencies['factories'] as $name => $factory) {
+        foreach ($dependencies['factories'] ?? [] as $name => $factory) {
+            $this->assertIsString($factory);
             $this->assertTrue($container->has($name), sprintf('Container does not contain service %s', $name));
             $this->assertIsObject(
                 $container->get($name),
@@ -113,7 +113,7 @@ class ConfigProviderTest extends TestCase
             );
         }
 
-        foreach ($dependencies['aliases'] as $alias => $dependency) {
+        foreach ($dependencies['aliases'] ?? [] as $alias => $dependency) {
             $this->assertTrue(
                 $container->has($alias),
                 sprintf('Container does not contain service with alias %s', $alias)
