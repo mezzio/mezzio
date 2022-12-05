@@ -232,7 +232,7 @@
       <code>iterable</code>
     </MixedInferredReturnType>
     <UnusedClosureParam occurrences="3">
-      <code>$request</code>
+      <code>$req</code>
       <code>$request</code>
       <code>$response</code>
     </UnusedClosureParam>

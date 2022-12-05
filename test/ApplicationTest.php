@@ -147,7 +147,7 @@ class ApplicationTest extends TestCase
 
     public function testPipeNonSlashPathOnNonStringPipeProduceTypeError(): void
     {
-        $middleware1 = static fn(RequestInterface $request, ResponseInterface $response): ResponseInterface => $response;
+        $middleware1 = static fn(RequestInterface $req, ResponseInterface $res): ResponseInterface => $res;
         $middleware2 = $this->createMockMiddleware();
 
         $this->expectException(TypeError::class);
