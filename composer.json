@@ -60,7 +60,7 @@
         "mockery/mockery": "^1.5.1",
         "phpunit/phpunit": "^9.5.26",
         "psalm/plugin-phpunit": "^0.18",
-        "vimeo/psalm": "^4.29.0"
+        "vimeo/psalm": "^5.0.0"
     },
     "conflict": {
         "container-interop/container-interop": "<1.2.0",
