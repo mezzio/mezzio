@@ -14,6 +14,7 @@ use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollector;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -146,7 +147,7 @@ class ApplicationTest extends TestCase
 
     public function testPipeNonSlashPathOnNonStringPipeProduceTypeError(): void
     {
-        $middleware1 = static fn($request, $response) => $response;
+        $middleware1 = static fn(RequestInterface $request, ResponseInterface $response): ResponseInterface => $response;
         $middleware2 = $this->createMockMiddleware();
 
         $this->expectException(TypeError::class);
