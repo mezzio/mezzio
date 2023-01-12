@@ -14,6 +14,7 @@ use SplPriorityQueue;
 use function array_key_exists;
 use function array_map;
 use function array_reduce;
+use function assert;
 use function gettype;
 use function is_array;
 use function is_int;
@@ -31,11 +32,13 @@ use const PHP_INT_MAX;
  *     allowed_methods?: list<string>,
  *     name?: null|non-empty-string,
  *     options?: array<string, mixed>,
+ *     ...
  * }
  * @psalm-type MiddlewareSpec = array{
  *     middleware: MiddlewareParam,
  *     path?: non-empty-string,
  *     priority?: int,
+ *     ...
  * }
  */
 class ApplicationConfigInjectionDelegator
@@ -222,7 +225,8 @@ class ApplicationConfigInjectionDelegator
                 }
             }
 
-            $name  = $spec['name'] ?? (is_string($key) ? $key : null);
+            $name = $spec['name'] ?? (is_string($key) ? $key : null);
+            assert(is_string($name) && $name !== '');
             $route = $application->route(
                 $spec['path'],
                 $spec['middleware'],
