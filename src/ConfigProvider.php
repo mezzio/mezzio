@@ -49,18 +49,6 @@ class ConfigProvider
                 NOT_FOUND_MIDDLEWARE                 => Handler\NotFoundHandler::class,
                 ROUTE_MIDDLEWARE                     => Router\Middleware\RouteMiddleware::class,
                 RequestHandlerRunnerInterface::class => RequestHandlerRunner::class,
-
-                // Legacy Zend Framework aliases
-                'Zend\Expressive\Application'                                  => Application::class,
-                'Zend\Expressive\ApplicationPipeline'                          => 'Mezzio\ApplicationPipeline',
-                'Zend\HttpHandlerRunner\Emitter\EmitterInterface'              => EmitterInterface::class,
-                'Zend\Stratigility\Middleware\ErrorHandler'                    => ErrorHandler::class,
-                'Zend\Expressive\Handler\NotFoundHandler'                      => Handler\NotFoundHandler::class,
-                'Zend\Expressive\MiddlewareContainer'                          => MiddlewareContainer::class,
-                'Zend\Expressive\MiddlewareFactory'                            => MiddlewareFactory::class,
-                'Zend\Expressive\Middleware\ErrorResponseGenerator'            => Middleware\ErrorResponseGenerator::class,
-                'Zend\HttpHandlerRunner\RequestHandlerRunner'                  => RequestHandlerRunner::class,
-                'Zend\Expressive\Response\ServerRequestErrorResponseGenerator' => Response\ServerRequestErrorResponseGenerator::class,
             ],
             'factories' => [
                 Application::class             => Container\ApplicationFactory::class,
