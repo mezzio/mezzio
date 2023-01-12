@@ -29,13 +29,13 @@ this middleware with Mezzio 3?
 laminas-stratigility v2.2 and v3.0 ship a utility function,
 `Laminas\Stratigility\doublePassMiddleware()`, that will decorate a callable
 double-pass middleware using a `Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator`
-instance; this latter is a PSR-15 impelementation, and can thus be used in your
+instance; this latter is a PSR-15 implementation, and can thus be used in your
 middleware pipelines.
 
 The function (and class) also expects a [PSR-7](https://www.php-fig.org/psr/psr-7/)
 `ResponseInterface` instance as a second argument; this is then passed as the
 `$response` argument to the double-pass middleware. The following examples
-demostrate both piping and routing to double pass middleware using this
+demonstrate both piping and routing to double pass middleware using this
 technique, and using laminas-diactoros to provide the response instance.
 
 ```php

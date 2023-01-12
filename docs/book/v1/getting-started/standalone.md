@@ -48,8 +48,8 @@ $ mkdir public
 
 ## 4. Create your bootstrap script
 
-Next, we'll create a bootstrap script. Such scripts typically setup the
-environment, setup the application, and invoke it. This needs to be in our web
+Next, we'll create a bootstrap script. Such scripts typically set up the
+environment, set up the application, and invoke it. This needs to be in our web
 root, and we want it to intercept any incoming request; as such, we'll use
 `public/index.php`:
 
@@ -76,7 +76,7 @@ $app->run();
 > ### Rewriting URLs
 >
 > Many web servers will not rewrite URLs to the bootstrap script by default. If
-> you use Apache, for instance, you'll need to setup rewrite rules to ensure
+> you use Apache, for instance, you'll need to set up rewrite rules to ensure
 > your bootstrap is invoked for unknown URLs. We'll cover that in a later
 > chapter.
 

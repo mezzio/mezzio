@@ -3,7 +3,7 @@
 Many modern frameworks and applications provide debug toolbars: in-browser
 toolbars to provide profiling information of the request executed. These can
 provide invaluable details into application objects, database queries, and more.
-As an Mezzio user, how can you get similar functionality?
+As a Mezzio user, how can you get similar functionality?
 
 ## Zend Server Z-Ray
 
@@ -16,7 +16,7 @@ as an extension to an existing PHP installation.
 
 When using Zend Server or the standalone Z-Ray, you do not need to make any
 changes to your application whatsoever to benefit from it; you simply need to
-make sure Z-Ray is enabled and/or that you've setup a security token to
+make sure Z-Ray is enabled and/or that you've set up a security token to
 selectively enable it on-demand. See the
 [Z-Ray documentation](http://files.zend.com/help/Zend-Server/content/z-ray_concept.htm)
 for full usage details.

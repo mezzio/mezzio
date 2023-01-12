@@ -489,7 +489,7 @@ the `TwigExtension` instance (assuming the router was found).
 - **Optional**:
     - `config`, an array or `ArrayAccess` instance. This will be used to further
       configure the `LaminasView` instance, specifically with the layout template
-      name, entries for a `TemplateMapResolver`, and and template paths to
+      name, entries for a `TemplateMapResolver`, and template paths to
       inject.
     - `Laminas\View\Renderer\PhpRenderer`, in order to allow providing custom
       extensions and/or re-using an existing configuration; otherwise, a default

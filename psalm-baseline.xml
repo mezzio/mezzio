@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.28.0@52e96bea381e6cb07a672aefec791a5817694a26">
+<files psalm-version="5.1.0@4defa177c89397c5e14737a80fe4896584130674">
   <file src="src/Application.php">
     <PossiblyInvalidCast occurrences="1">
       <code>$path</code>
     </PossiblyInvalidCast>
-  </file>
-  <file src="src/ConfigProvider.php">
-    <MixedArrayOffset occurrences="1"/>
-    <UndefinedClass occurrences="1">
-      <code>ApplicationPipeline</code>
-      <code>ApplicationPipeline</code>
-    </UndefinedClass>
   </file>
   <file src="src/Container/ApplicationConfigInjectionDelegator.php">
     <MissingClosureParamType occurrences="1">
@@ -83,8 +76,10 @@
       <code>$proxies</code>
       <code>$proxies</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="1">
+    <MixedArrayAccess occurrences="3">
       <code>$config[ConfigProvider::DIACTOROS_CONFIG_KEY]</code>
+      <code>$config[ConfigProvider::DIACTOROS_CONFIG_KEY][ConfigProvider::DIACTOROS_SERVER_REQUEST_FILTER_CONFIG_KEY]</code>
+      <code>$config[ConfigProvider::DIACTOROS_CONFIG_KEY][ConfigProvider::DIACTOROS_SERVER_REQUEST_FILTER_CONFIG_KEY][ConfigProvider::DIACTOROS_X_FORWARDED_FILTER_CONFIG_KEY]</code>
     </MixedArrayAccess>
     <MixedAssignment occurrences="1">
       <code>$config</code>
@@ -220,13 +215,10 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/ApplicationTest.php">
-    <MissingClosureParamType occurrences="4">
+    <MissingClosureParamType occurrences="2">
       <code>$request</code>
-      <code>$request</code>
-      <code>$response</code>
       <code>$response</code>
     </MissingClosureParamType>
-    <MissingClosureReturnType occurrences="1"/>
     <MixedArgument occurrences="2">
       <code>$data</code>
       <code>$key</code>
@@ -240,7 +232,7 @@
       <code>iterable</code>
     </MixedInferredReturnType>
     <UnusedClosureParam occurrences="3">
-      <code>$request</code>
+      <code>$req</code>
       <code>$request</code>
       <code>$response</code>
     </UnusedClosureParam>
@@ -249,61 +241,21 @@
     <InvalidFunctionCall occurrences="1">
       <code>$configProvider()</code>
     </InvalidFunctionCall>
-    <MixedArgument occurrences="28">
-      <code>$alias</code>
-      <code>$alias</code>
-      <code>$alias</code>
-      <code>$alias</code>
-      <code>$aliases</code>
-      <code>$aliases</code>
-      <code>$aliases</code>
-      <code>$aliases</code>
-      <code>$aliases</code>
-      <code>$aliases</code>
+    <MixedArgument occurrences="2">
       <code>$configProvider()</code>
-      <code>$config['dependencies']</code>
-      <code>$config['dependencies']</code>
-      <code>$config['dependencies']</code>
-      <code>$dependency</code>
-      <code>$factories</code>
-      <code>$factories</code>
-      <code>$factories</code>
-      <code>$factories</code>
-      <code>$factories</code>
-      <code>$factories</code>
-      <code>$factories</code>
-      <code>$factories</code>
-      <code>$factories</code>
-      <code>$factories</code>
-      <code>$factories</code>
-      <code>$factories</code>
-      <code>$factories</code>
-      <code>$factory</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
-      <code>$name</code>
       <code>ApplicationPipeline::class</code>
     </MixedArgument>
     <MixedArgumentTypeCoercion occurrences="1">
       <code>$dependencies</code>
     </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="2">
+    <MixedArrayAccess occurrences="4">
       <code>$json['packages']</code>
       <code>$package['extra']</code>
+      <code>$package['extra']['laminas']</code>
+      <code>$package['extra']['laminas']['config-provider']</code>
     </MixedArrayAccess>
-    <MixedArrayAssignment occurrences="2">
-      <code>$config['dependencies']['services']</code>
-      <code>$config['dependencies']['services']</code>
-    </MixedArrayAssignment>
-    <MixedAssignment occurrences="8">
-      <code>$alias</code>
-      <code>$aliases</code>
-      <code>$dependency</code>
-      <code>$factories</code>
-      <code>$factory</code>
+    <MixedAssignment occurrences="2">
       <code>$json</code>
-      <code>$name</code>
       <code>$package</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="1">
@@ -517,7 +469,9 @@
     </UnusedClosureParam>
   </file>
   <file src="test/Response/CallableResponseFactoryDecoratorTest.php">
-    <InternalMethod occurrences="1"/>
+    <InternalMethod occurrences="1">
+      <code>new CallableResponseFactoryDecorator(fn(): ResponseInterface =&gt; $this-&gt;response)</code>
+    </InternalMethod>
   </file>
   <file src="test/Router/IntegrationTest.php">
     <ArgumentTypeCoercion occurrences="2">

@@ -20,7 +20,7 @@ You can define the `Application` instance in several ways:
 - Via a dependency injection container; we provide a factory for setting up all
   aspects of the instance via configuration and other defined services.
 
-Regardless of how you setup the instance, there are several methods you will
+Regardless of how you set up the instance, there are several methods you will
 likely interact with at some point or another.
 
 ## Instantiation

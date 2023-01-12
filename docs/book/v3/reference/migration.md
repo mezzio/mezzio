@@ -38,7 +38,7 @@ changes were made throughout Mezzio:
   `\Psr\Http\Message\ResponseInterface`.
 
 This change also affects all middleware you, as an application developer, have
-written, and your middleware will need to be update. We provide a tool for this
+written, and your middleware will need to be updated. We provide a tool for this
 via mezzio-tooling. Make sure that package is up-to-date (a version 1
 release should be installed), and run the following:
 

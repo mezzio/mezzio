@@ -7,6 +7,7 @@ namespace Mezzio;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
+use Laminas\ServiceManager\ConfigInterface;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,6 +17,8 @@ use Psr\Http\Message\StreamInterface;
  * Provide initial configuration for mezzio.
  *
  * This class provides initial _production_ configuration for mezzio.
+ *
+ * @psalm-import-type ServiceManagerConfigurationType from ConfigInterface
  */
 class ConfigProvider
 {
@@ -25,6 +28,7 @@ class ConfigProvider
     public const DIACTOROS_TRUSTED_PROXIES_CONFIG_KEY       = 'trusted-proxies';
     public const DIACTOROS_TRUSTED_HEADERS_CONFIG_KEY       = 'trusted-headers';
 
+    /** @return array{dependencies: ServiceManagerConfigurationType} */
     public function __invoke(): array
     {
         return [
@@ -32,6 +36,7 @@ class ConfigProvider
         ];
     }
 
+    /** @return ServiceManagerConfigurationType */
     public function getDependencies(): array
     {
         // phpcs:disable Generic.Files.LineLength.TooLong
@@ -47,7 +52,7 @@ class ConfigProvider
             ],
             'factories' => [
                 Application::class             => Container\ApplicationFactory::class,
-                ApplicationPipeline::class     => Container\ApplicationPipelineFactory::class,
+                'Mezzio\ApplicationPipeline'   => Container\ApplicationPipelineFactory::class,
                 EmitterInterface::class        => Container\EmitterFactory::class,
                 ErrorHandler::class            => Container\ErrorHandlerFactory::class,
                 Handler\NotFoundHandler::class => Container\NotFoundHandlerFactory::class,

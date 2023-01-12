@@ -288,7 +288,7 @@ the `TwigExtension` instance (assuming the router was found).
 - **Optional**:
     - `config`, an array or `ArrayAccess` instance. This will be used to further
       configure the `LaminasView` instance, specifically with the layout template
-      name, entries for a `TemplateMapResolver`, and and template paths to
+      name, entries for a `TemplateMapResolver`, and template paths to
       inject.
     - `Laminas\View\HelperPluginManager`; if present, will be used to inject the
       `PhpRenderer` instance.
@@ -314,4 +314,4 @@ When creating the `PhpRenderer` instance, it will inject it with a
 `Laminas\View\HelperPluginManager` instance (either pulled from the container, or
 instantiated directly). It injects the helper plugin manager with custom url and
 serverurl helpers, `Mezzio\LaminasView\UrlHelper` and
-`Mezzio\LaminasView\ServerUrlHelper`, respetively.
+`Mezzio\LaminasView\ServerUrlHelper`, respectively.

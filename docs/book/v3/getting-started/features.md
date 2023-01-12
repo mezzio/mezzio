@@ -16,7 +16,7 @@ maintain.
 
 PSR-15 also defines _request handlers_; these are classes that receive a
 request and return a response, without delegating to other layers of the
-application. These are generally the inner-most layers of your application.
+application. These are generally the innermost layers of your application.
 
 Middleware is also designed for composability; you should be able to nest
 middleware and re-use middleware.
@@ -77,7 +77,7 @@ Below is a diagram detailing the workflow used by Mezzio.
 ![Mezzio Architectural Flow](../../images/architecture.png)
 
 The `Application` acts as an "onion"; in the diagram above, the top is the
-outer-most layer of the onion, while the bottom is the inner-most.
+outermost layer of the onion, while the bottom is the innermost.
 
 The `Application` dispatches each middleware. Each middleware receives a request
 and a delegate for handing off processing of the request should the middleware
@@ -96,11 +96,11 @@ its way back out the onion.
 > looked at from this perspective:
 >
 > - In most cases, the entire queue *will not* be traversed.
-> - The inner-most layer of the onion represents the last item in the queue, and
+> - The innermost layer of the onion represents the last item in the queue, and
 >   should be guaranteed to return a response; usually this is indicative of
 >   a malformed request (HTTP 400 response status) and/or inability to route
 >   the middleware to a handler (HTTP 404 response status).
-> - Responses are returned back *through* the pipeline, in reverse order of
+> - Responses are returned *through* the pipeline, in reverse order of
 >   traversal.
 
 > ### Double pass middleware
