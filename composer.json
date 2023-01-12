@@ -57,7 +57,6 @@
         "mezzio/mezzio-aurarouter": "^3.6",
         "mezzio/mezzio-fastroute": "^3.8",
         "mezzio/mezzio-laminasrouter": "^3.7",
-        "mockery/mockery": "^1.5.1",
         "phpunit/phpunit": "^9.5.27",
         "psalm/plugin-phpunit": "^0.18.4",
         "vimeo/psalm": "^5.4"
