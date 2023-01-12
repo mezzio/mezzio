@@ -300,7 +300,6 @@ class ApplicationConfigInjectionDelegator
             $priority = isset($item['priority']) && is_int($item['priority'])
                 ? $item['priority']
                 : 1;
-            /** @psalm-var int $serial */
             $queue->insert($item, [$priority, $serial]);
             $serial -= 1;
             return $queue;

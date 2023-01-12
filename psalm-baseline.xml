@@ -14,6 +14,12 @@
       <code>is_array($methods)</code>
       <code>is_object($item)</code>
     </DocblockTypeContradiction>
+    <MixedAssignment occurrences="1">
+      <code>$serial</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="1">
+      <code>$serial</code>
+    </MixedOperand>
     <RedundantCast occurrences="1">
       <code>(array) $config</code>
     </RedundantCast>
