@@ -64,13 +64,13 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      *
      * The resulting middleware, in both cases, is piped to the pipeline.
      *
-     * @param non-empty-string|array|callable|MiddlewareInterface|RequestHandlerInterface $middlewareOrPath
+     * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface $middlewareOrPath
      *     Either the middleware to pipe, or the path to segregate the $middleware
      *     by, via a PathMiddlewareDecorator.
-     * @param null|non-empty-string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
+     * @param null|string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
      *     If present, middleware or request handler to segregate by the path
      *     specified in $middlewareOrPath.
-     * @psalm-param non-empty-string|MiddlewareParam $middlewareOrPath
+     * @psalm-param string|MiddlewareParam $middlewareOrPath
      * @psalm-param null|MiddlewareParam $middleware
      */
     public function pipe($middlewareOrPath, $middleware = null): void
