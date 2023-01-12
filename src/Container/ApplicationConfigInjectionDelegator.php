@@ -14,7 +14,6 @@ use SplPriorityQueue;
 use function array_key_exists;
 use function array_map;
 use function array_reduce;
-use function assert;
 use function gettype;
 use function is_array;
 use function is_int;
@@ -225,8 +224,7 @@ class ApplicationConfigInjectionDelegator
                 }
             }
 
-            $name = $spec['name'] ?? (is_string($key) ? $key : null);
-            assert(is_string($name) && $name !== '');
+            $name  = $spec['name'] ?? (is_string($key) ? $key : null);
             $route = $application->route(
                 $spec['path'],
                 $spec['middleware'],
