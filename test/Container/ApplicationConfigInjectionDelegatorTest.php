@@ -28,6 +28,10 @@ use SplQueue;
 use function array_reduce;
 use function array_shift;
 
+/**
+ * @psalm-import-type MiddlewareParam from MiddlewareFactory
+ * @psalm-import-type RouteSpec from ApplicationConfigInjectionDelegator
+ */
 class ApplicationConfigInjectionDelegatorTest extends TestCase
 {
     private InMemoryContainer $container;
@@ -70,12 +74,13 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
     }
 
     /**
-     * @param (array|callable|string)[] $spec
+     * @psalm-param RouteSpec $spec
+     * @psalm-param list<Route> $routes
      */
     public static function assertRoute(array $spec, array $routes): void
     {
         Assert::assertThat(
-            array_reduce($routes, static function ($found, $route) use ($spec) {
+            array_reduce($routes, static function ($found, Route $route) use ($spec) {
                 if ($found) {
                     return $found;
                 }
@@ -122,6 +127,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         Assert::assertThat($found, Assert::isTrue(), $message);
     }
 
+    /** @return list<array{MiddlewareParam}> */
     public function callableMiddlewares(): array
     {
         return [
@@ -148,7 +154,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     /**
      * @dataProvider callableMiddlewares
-     * @param callable|array|string $middleware
+     * @param MiddlewareParam $middleware
      */
     public function testInjectRoutesFromConfigSetsUpRoutesFromConfig($middleware): void
     {
@@ -196,6 +202,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
         $app = $this->createApplication();
 
+        /** @psalm-suppress InvalidArgument */
         ApplicationConfigInjectionDelegator::injectRoutesFromConfig($app, $config);
 
         $routes = $app->getRoutes();
@@ -279,6 +286,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Allowed HTTP methods');
+        /** @psalm-suppress InvalidArgument */
         ApplicationConfigInjectionDelegator::injectRoutesFromConfig($app, $config);
     }
 
@@ -299,6 +307,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Route options must be an array');
+        /** @psalm-suppress InvalidArgument */
         ApplicationConfigInjectionDelegator::injectRoutesFromConfig($app, $config);
     }
 
@@ -423,6 +432,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid pipeline specification received');
+        /** @psalm-suppress InvalidArgument */
         ApplicationConfigInjectionDelegator::injectPipelineFromConfig($app, $config);
     }
 

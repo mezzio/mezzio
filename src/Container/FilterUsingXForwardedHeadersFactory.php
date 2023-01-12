@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Mezzio\Container;
 
+use ArrayAccess;
 use Laminas\Diactoros\ServerRequestFilter\FilterUsingXForwardedHeaders;
 use Mezzio\ConfigProvider;
 use Psr\Container\ContainerInterface;
+use Webmozart\Assert\Assert;
 
+use function assert;
 use function is_array;
 
 /**
@@ -32,15 +35,16 @@ use function is_array;
  *     ],
  * ],
  * </code>
-*/
+ */
 final class FilterUsingXForwardedHeadersFactory
 {
     public function __invoke(ContainerInterface $container): FilterUsingXForwardedHeaders
     {
         // phpcs:disable Generic.Files.LineLength.TooLong
-        $config = $container->get('config');
-        $config = $config[ConfigProvider::DIACTOROS_CONFIG_KEY][ConfigProvider::DIACTOROS_SERVER_REQUEST_FILTER_CONFIG_KEY][ConfigProvider::DIACTOROS_X_FORWARDED_FILTER_CONFIG_KEY] ?? [];
-
+        $appConfig = $container->get('config');
+        assert(is_array($appConfig) || $appConfig instanceof ArrayAccess);
+        $config = $appConfig[ConfigProvider::DIACTOROS_CONFIG_KEY][ConfigProvider::DIACTOROS_SERVER_REQUEST_FILTER_CONFIG_KEY][ConfigProvider::DIACTOROS_X_FORWARDED_FILTER_CONFIG_KEY] ?? [];
+        // phpcs:enable Generic.Files.LineLength.TooLong
         if (! is_array($config) || empty($config)) {
             // Trust nothing!
             return FilterUsingXForwardedHeaders::trustProxies([], []);
@@ -52,6 +56,9 @@ final class FilterUsingXForwardedHeadersFactory
             // Invalid or missing configuration
             throw Exception\InvalidTrustedProxyConfigurationException::forProxies($proxies);
         }
+
+        Assert::isList($proxies);
+        Assert::allStringNotEmpty($proxies);
 
         // Missing trusted headers setting means all headers are considered trusted
         $headers = $config[ConfigProvider::DIACTOROS_TRUSTED_HEADERS_CONFIG_KEY] ?? null;
@@ -66,7 +73,14 @@ final class FilterUsingXForwardedHeadersFactory
             throw Exception\InvalidTrustedHeaderConfigurationException::forHeaders($headers);
         }
 
+        Assert::isList($headers);
+        Assert::allStringNotEmpty($proxies);
+
+        /**
+         * Forcing variable type that is validated by Diactoros
+         *
+         * @psalm-var list<FilterUsingXForwardedHeaders::HEADER_*> $headers
+         */
         return FilterUsingXForwardedHeaders::trustProxies($proxies, $headers);
-        // phpcs:enable Generic.Files.LineLength.TooLong
     }
 }

@@ -1,37 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.1.0@4defa177c89397c5e14737a80fe4896584130674">
+<files psalm-version="5.4.0@62db5d4f6a7ae0a20f7cc5a4952d730272fc0863">
   <file src="src/Application.php">
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$middleware</code>
+    </MixedArgumentTypeCoercion>
     <PossiblyInvalidCast occurrences="1">
       <code>$path</code>
     </PossiblyInvalidCast>
   </file>
   <file src="src/Container/ApplicationConfigInjectionDelegator.php">
-    <MissingClosureParamType occurrences="1">
+    <ArgumentTypeCoercion occurrences="1">
+      <code>$name</code>
+    </ArgumentTypeCoercion>
+    <DocblockTypeContradiction occurrences="2">
+      <code>is_array($methods)</code>
+      <code>is_array($options)</code>
+    </DocblockTypeContradiction>
+    <InvalidReturnStatement occurrences="1">
       <code>$item</code>
-    </MissingClosureParamType>
-    <MixedArgument occurrences="6">
-      <code>$config['middleware_pipeline']</code>
-      <code>$name</code>
-      <code>$path</code>
-      <code>$spec['middleware']</code>
-      <code>$spec['middleware']</code>
-      <code>$spec['path']</code>
-    </MixedArgument>
-    <MixedArrayAccess occurrences="2">
-      <code>$spec['middleware']</code>
-      <code>$spec['path']</code>
-    </MixedArrayAccess>
-    <MixedAssignment occurrences="6">
-      <code>$config</code>
-      <code>$methods</code>
-      <code>$name</code>
-      <code>$path</code>
-      <code>$serial</code>
-      <code>$spec</code>
-    </MixedAssignment>
-    <MixedOperand occurrences="1">
-      <code>$serial</code>
-    </MixedOperand>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>array</code>
+    </InvalidReturnType>
+    <RedundantCast occurrences="1">
+      <code>(array) $config</code>
+    </RedundantCast>
+    <RedundantCastGivenDocblockType occurrences="1">
+      <code>(array) $config</code>
+    </RedundantCastGivenDocblockType>
+    <RedundantConditionGivenDocblockType occurrences="2">
+      <code>is_int($item['priority'])</code>
+      <code>isset($item['priority']) &amp;&amp; is_int($item['priority'])</code>
+    </RedundantConditionGivenDocblockType>
+    <TypeDoesNotContainType occurrences="1">
+      <code>! is_array($config['routes'])</code>
+    </TypeDoesNotContainType>
   </file>
   <file src="src/Container/ApplicationFactory.php">
     <MixedArgument occurrences="5">
@@ -71,19 +74,10 @@
     </MixedAssignment>
   </file>
   <file src="src/Container/FilterUsingXForwardedHeadersFactory.php">
-    <MixedArgumentTypeCoercion occurrences="3">
-      <code>$headers</code>
-      <code>$proxies</code>
-      <code>$proxies</code>
-    </MixedArgumentTypeCoercion>
-    <MixedArrayAccess occurrences="3">
-      <code>$config[ConfigProvider::DIACTOROS_CONFIG_KEY]</code>
-      <code>$config[ConfigProvider::DIACTOROS_CONFIG_KEY][ConfigProvider::DIACTOROS_SERVER_REQUEST_FILTER_CONFIG_KEY]</code>
-      <code>$config[ConfigProvider::DIACTOROS_CONFIG_KEY][ConfigProvider::DIACTOROS_SERVER_REQUEST_FILTER_CONFIG_KEY][ConfigProvider::DIACTOROS_X_FORWARDED_FILTER_CONFIG_KEY]</code>
+    <MixedArrayAccess occurrences="2">
+      <code>$appConfig[ConfigProvider::DIACTOROS_CONFIG_KEY][ConfigProvider::DIACTOROS_SERVER_REQUEST_FILTER_CONFIG_KEY]</code>
+      <code>$appConfig[ConfigProvider::DIACTOROS_CONFIG_KEY][ConfigProvider::DIACTOROS_SERVER_REQUEST_FILTER_CONFIG_KEY][ConfigProvider::DIACTOROS_X_FORWARDED_FILTER_CONFIG_KEY]</code>
     </MixedArrayAccess>
-    <MixedAssignment occurrences="1">
-      <code>$config</code>
-    </MixedAssignment>
   </file>
   <file src="src/Container/MiddlewareFactoryFactory.php">
     <MixedArgument occurrences="1">
@@ -195,59 +189,19 @@
     </ParamNameMismatch>
   </file>
   <file src="src/MiddlewareFactory.php">
-    <DocblockTypeContradiction occurrences="1">
-      <code>! is_string($middleware)</code>
-    </DocblockTypeContradiction>
-    <MixedArgument occurrences="2">
-      <code>$m</code>
-      <code>$middleware</code>
-    </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$middleware</code>
-    </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="1">
-      <code>$m</code>
-    </MixedAssignment>
+    <RedundantCondition occurrences="1">
+      <code>isIterable</code>
+    </RedundantCondition>
   </file>
   <file src="src/Response/ServerRequestErrorResponseGenerator.php">
     <PropertyNotSetInConstructor occurrences="1">
       <code>ServerRequestErrorResponseGenerator</code>
     </PropertyNotSetInConstructor>
   </file>
-  <file src="test/ApplicationTest.php">
-    <MissingClosureParamType occurrences="2">
-      <code>$request</code>
-      <code>$response</code>
-    </MissingClosureParamType>
-    <MixedArgument occurrences="2">
-      <code>$data</code>
-      <code>$key</code>
-    </MixedArgument>
-    <MixedAssignment occurrences="2">
-      <code>$data</code>
-      <code>$key</code>
-    </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
-      <code>iterable</code>
-      <code>iterable</code>
-    </MixedInferredReturnType>
-    <UnusedClosureParam occurrences="3">
-      <code>$req</code>
-      <code>$request</code>
-      <code>$response</code>
-    </UnusedClosureParam>
-  </file>
   <file src="test/ConfigProviderTest.php">
-    <InvalidFunctionCall occurrences="1">
-      <code>$configProvider()</code>
-    </InvalidFunctionCall>
-    <MixedArgument occurrences="2">
-      <code>$configProvider()</code>
+    <MixedArgument occurrences="1">
       <code>ApplicationPipeline::class</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$dependencies</code>
-    </MixedArgumentTypeCoercion>
     <MixedArrayAccess occurrences="4">
       <code>$json['packages']</code>
       <code>$package['extra']</code>
@@ -276,16 +230,9 @@
       <code>$middleware</code>
       <code>$pipeline</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="2">
+    <MixedInferredReturnType occurrences="1">
       <code>SplQueue</code>
-      <code>array</code>
     </MixedInferredReturnType>
-    <MixedMethodCall occurrences="4">
-      <code>getAllowedMethods</code>
-      <code>getAllowedMethods</code>
-      <code>getMiddleware</code>
-      <code>getPath</code>
-    </MixedMethodCall>
     <MixedReturnStatement occurrences="1">
       <code>$r-&gt;getValue($pipeline)</code>
     </MixedReturnStatement>
@@ -435,18 +382,11 @@
     </InvalidArgument>
   </file>
   <file src="test/MiddlewareFactoryTest.php">
-    <MissingClosureParamType occurrences="8">
+    <MissingClosureParamType occurrences="2">
       <code>$handler</code>
-      <code>$handler</code>
-      <code>$handler</code>
-      <code>$handler</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
       <code>$request</code>
     </MissingClosureParamType>
-    <MixedArgument occurrences="4">
-      <code>$middleware</code>
+    <MixedArgument occurrences="3">
       <code>$r-&gt;getValue($pipeline)</code>
       <code>$r-&gt;getValue($pipeline)</code>
       <code>$received[0]</code>
@@ -454,17 +394,8 @@
     <MixedAssignment occurrences="1">
       <code>$received</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
-      <code>iterable</code>
-    </MixedInferredReturnType>
-    <UnusedClosureParam occurrences="8">
+    <UnusedClosureParam occurrences="2">
       <code>$handler</code>
-      <code>$handler</code>
-      <code>$handler</code>
-      <code>$handler</code>
-      <code>$request</code>
-      <code>$request</code>
-      <code>$request</code>
       <code>$request</code>
     </UnusedClosureParam>
   </file>
@@ -481,7 +412,7 @@
     <InvalidStringClass occurrences="1">
       <code>new $adapter()</code>
     </InvalidStringClass>
-    <MissingClosureParamType occurrences="19">
+    <MissingClosureParamType occurrences="16">
       <code>$handler</code>
       <code>$handler</code>
       <code>$handler</code>
@@ -490,7 +421,6 @@
       <code>$handler</code>
       <code>$handler</code>
       <code>$handler</code>
-      <code>$next</code>
       <code>$req</code>
       <code>$req</code>
       <code>$req</code>
@@ -499,27 +429,9 @@
       <code>$req</code>
       <code>$req</code>
       <code>$req</code>
-      <code>$req</code>
-      <code>$res</code>
     </MissingClosureParamType>
-    <MixedArgumentTypeCoercion occurrences="6">
-      <code>$this-&gt;responseFactory</code>
-      <code>$this-&gt;responseFactory</code>
-      <code>$this-&gt;responseFactory</code>
-      <code>$this-&gt;responseFactory</code>
-      <code>$this-&gt;responseFactory</code>
-      <code>$this-&gt;responseFactory</code>
-    </MixedArgumentTypeCoercion>
-    <MixedInferredReturnType occurrences="2">
-      <code>ResponseInterface</code>
-    </MixedInferredReturnType>
-    <MixedMethodCall occurrences="1">
-      <code>withBody</code>
-    </MixedMethodCall>
-    <MixedReturnStatement occurrences="1">
-      <code>$res-&gt;withBody($stream)</code>
-    </MixedReturnStatement>
-    <UnusedClosureParam occurrences="18">
+    <MixedInferredReturnType occurrences="1"/>
+    <UnusedClosureParam occurrences="17">
       <code>$handler</code>
       <code>$handler</code>
       <code>$handler</code>
@@ -528,7 +440,6 @@
       <code>$handler</code>
       <code>$handler</code>
       <code>$handler</code>
-      <code>$next</code>
       <code>$req</code>
       <code>$req</code>
       <code>$req</code>

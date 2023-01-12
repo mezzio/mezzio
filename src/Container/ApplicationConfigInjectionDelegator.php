@@ -6,6 +6,7 @@ namespace Mezzio\Container;
 
 use Mezzio\Application;
 use Mezzio\Exception\InvalidArgumentException;
+use Mezzio\MiddlewareFactory;
 use Mezzio\Router\Route;
 use Psr\Container\ContainerInterface;
 use SplPriorityQueue;
@@ -22,6 +23,21 @@ use function sprintf;
 
 use const PHP_INT_MAX;
 
+/**
+ * @psalm-import-type MiddlewareParam from MiddlewareFactory
+ * @psalm-type RouteSpec = array{
+ *     path: non-empty-string,
+ *     middleware: MiddlewareParam,
+ *     allowed_methods?: list<string>,
+ *     name?: null|non-empty-string,
+ *     options?: array<string, mixed>,
+ * }
+ * @psalm-type MiddlewareSpec = array{
+ *     middleware: MiddlewareParam,
+ *     path?: non-empty-string,
+ *     priority?: int,
+ * }
+ */
 class ApplicationConfigInjectionDelegator
 {
     /**
@@ -48,6 +64,14 @@ class ApplicationConfigInjectionDelegator
             return $application;
         }
 
+        /**
+         * The array shape is forced here as it cannot be inferred
+         *
+         * @psalm-var array{
+         *     middleware_pipeline?: list<MiddlewareSpec>,
+         *     routes?: array<int|non-empty-string, RouteSpec>,
+         * } $config
+         */
         $config = $container->get('config');
 
         if (! empty($config['middleware_pipeline'])) {
@@ -108,6 +132,11 @@ class ApplicationConfigInjectionDelegator
      * the `middleware` value of a specification. Internally, this will create
      * a `Laminas\Stratigility\MiddlewarePipe` instance, with the middleware
      * specified piped in the order provided.
+     *
+     * @psalm-param array{
+     *     middleware_pipeline?: list<MiddlewareSpec>,
+     *     ...
+     * } $config
      */
     public static function injectPipelineFromConfig(Application $application, array $config): void
     {
@@ -115,7 +144,11 @@ class ApplicationConfigInjectionDelegator
             return;
         }
 
-        // Create a priority queue from the specifications
+        /**
+         * Create a priority queue from the specifications
+         *
+         * @psalm-var SplPriorityQueue<int, MiddlewareSpec> $queue
+         */
         $queue = array_reduce(
             array_map(self::createCollectionMapper(), $config['middleware_pipeline']),
             self::createPriorityQueueReducer(),
@@ -164,6 +197,7 @@ class ApplicationConfigInjectionDelegator
      * The "options" key may also be omitted, and its interpretation will be
      * dependent on the underlying router used.
      *
+     * @psalm-param array{routes?: array<array-key, RouteSpec>, ...} $config
      * @throws InvalidArgumentException
      */
     public static function injectRoutesFromConfig(Application $application, array $config): void
@@ -222,6 +256,7 @@ class ApplicationConfigInjectionDelegator
      * If the 'middleware' value is missing, or not viable as middleware, it
      * raises an exception, to ensure the pipeline is built correctly.
      *
+     * @return callable(mixed): MiddlewareSpec
      * @throws InvalidArgumentException
      */
     private static function createCollectionMapper(): callable
@@ -250,7 +285,7 @@ class ApplicationConfigInjectionDelegator
      * The function is useful to reduce an array of pipeline middleware to a
      * priority queue.
      *
-     * @return callable(...): SplPriorityQueue
+     * @return callable(SplPriorityQueue, MiddlewareSpec): SplPriorityQueue
      */
     private static function createPriorityQueueReducer(): callable
     {
@@ -261,6 +296,7 @@ class ApplicationConfigInjectionDelegator
             $priority = isset($item['priority']) && is_int($item['priority'])
                 ? $item['priority']
                 : 1;
+            /** @psalm-var int $serial */
             $queue->insert($item, [$priority, $serial]);
             $serial -= 1;
             return $queue;
