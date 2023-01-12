@@ -9,26 +9,19 @@
     </PossiblyInvalidCast>
   </file>
   <file src="src/Container/ApplicationConfigInjectionDelegator.php">
-    <ArgumentTypeCoercion occurrences="1">
-      <code>$name</code>
-    </ArgumentTypeCoercion>
-    <DocblockTypeContradiction occurrences="2">
+    <DocblockTypeContradiction occurrences="3">
+      <code>! is_array($item)</code>
       <code>is_array($methods)</code>
-      <code>is_array($options)</code>
+      <code>is_object($item)</code>
     </DocblockTypeContradiction>
-    <InvalidReturnStatement occurrences="1">
-      <code>$item</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>array</code>
-    </InvalidReturnType>
     <RedundantCast occurrences="1">
       <code>(array) $config</code>
     </RedundantCast>
     <RedundantCastGivenDocblockType occurrences="1">
       <code>(array) $config</code>
     </RedundantCastGivenDocblockType>
-    <RedundantConditionGivenDocblockType occurrences="2">
+    <RedundantConditionGivenDocblockType occurrences="3">
+      <code>gettype($item)</code>
       <code>is_int($item['priority'])</code>
       <code>isset($item['priority']) &amp;&amp; is_int($item['priority'])</code>
     </RedundantConditionGivenDocblockType>

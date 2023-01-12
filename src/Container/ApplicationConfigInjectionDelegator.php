@@ -260,7 +260,7 @@ class ApplicationConfigInjectionDelegator
      * If the 'middleware' value is missing, or not viable as middleware, it
      * raises an exception, to ensure the pipeline is built correctly.
      *
-     * @return callable(mixed): MiddlewareSpec
+     * @return callable(MiddlewareSpec): MiddlewareSpec
      * @throws InvalidArgumentException
      */
     private static function createCollectionMapper(): callable
