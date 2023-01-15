@@ -26,6 +26,7 @@ use Mezzio\Router\RouteCollector;
 use Mezzio\Router\RouterInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
@@ -36,7 +37,7 @@ class IntegrationTest extends TestCase
 {
     private Response $response;
 
-    /** @var callable */
+    /** @var callable(): Response */
     private $responseFactory;
 
     public function setUp(): void
@@ -81,6 +82,8 @@ class IntegrationTest extends TestCase
      * Create an Application object with 2 routes, a GET and a POST
      * using Application::get() and Application::post()
      *
+     * @param non-empty-string|null $getName
+     * @param non-empty-string|null $postName
      * @psalm-param class-string<RouterInterface> $adapter
      */
     private function createApplicationWithGetPost(
@@ -111,6 +114,8 @@ class IntegrationTest extends TestCase
      * Create an Application object with 2 routes, a GET and a POST
      * using Application::route()
      *
+     * @param non-empty-string|null $getName
+     * @param non-empty-string|null $postName
      * @psalm-param class-string<RouterInterface> $adapter
      */
     private function createApplicationWithRouteGetPost(
@@ -384,6 +389,7 @@ class IntegrationTest extends TestCase
         $router = new $adapter();
         $app    = $this->createApplicationFromRouter($router);
         $app->pipe(new RouteMiddleware($router));
+        /** @psalm-suppress InvalidArgument */
         $app->pipe(new ImplicitHeadMiddleware($router, static function (): void {
         }));
         $app->pipe(new ImplicitOptionsMiddleware($this->responseFactory));
@@ -391,7 +397,7 @@ class IntegrationTest extends TestCase
         $app->pipe(new DispatchMiddleware());
 
         // Add a PUT route
-        $app->put('/foo', static function ($req, $res, $next): ResponseInterface {
+        $app->put('/foo', static function (RequestInterface $req, ResponseInterface $res): ResponseInterface {
             $stream = new Stream('php://temp', 'w+');
             $stream->write('Middleware');
             return $res->withBody($stream);

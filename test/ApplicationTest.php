@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MezzioTest;
 
+use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
 use Laminas\Stratigility\MiddlewarePipe;
@@ -14,17 +15,16 @@ use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollector;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use TypeError;
 
-use function array_unshift;
 use function sprintf;
 use function strtoupper;
 
+/** @psalm-import-type MiddlewareParam from MiddlewareFactory */
 class ApplicationTest extends TestCase
 {
     /** @var MiddlewareFactory&MockObject */
@@ -94,20 +94,21 @@ class ApplicationTest extends TestCase
         $this->app->run();
     }
 
+    /** @return iterable<string, array{0: MiddlewareParam}> */
     public function validMiddleware(): iterable
     {
         // @codingStandardsIgnoreStart
         yield 'string'   => ['service'];
         yield 'array'    => [['middleware', 'service']];
-        yield 'callable' => [static function ($request, $response) : void {
-        }];
+        /** @psalm-suppress UnusedClosureParam */
+        yield 'callable' => [fn ( ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface => new Response()];
         yield 'instance' => [new MiddlewarePipe()];
         // @codingStandardsIgnoreEnd
     }
 
     /**
      * @dataProvider validMiddleware
-     * @param string|array|callable|MiddlewareInterface $middleware
+     * @param MiddlewareParam $middleware
      */
     public function testPipeCanAcceptSingleMiddlewareArgument($middleware): void
     {
@@ -122,12 +123,12 @@ class ApplicationTest extends TestCase
             ->method('pipe')
             ->with(self::identicalTo($preparedMiddleware));
 
-        $this->assertNull($this->app->pipe($middleware));
+        $this->app->pipe($middleware);
     }
 
     /**
      * @dataProvider validMiddleware
-     * @param string|array|callable|MiddlewareInterface $middleware
+     * @param MiddlewareParam $middleware
      */
     public function testPipeCanAcceptAPathArgument($middleware): void
     {
@@ -142,12 +143,14 @@ class ApplicationTest extends TestCase
             ->method('pipe')
             ->with(new PathMiddlewareDecorator('/foo', $preparedMiddleware));
 
-        $this->assertNull($this->app->pipe('/foo', $middleware));
+        $this->app->pipe('/foo', $middleware);
     }
 
     public function testPipeNonSlashPathOnNonStringPipeProduceTypeError(): void
     {
-        $middleware1 = static fn(RequestInterface $req, ResponseInterface $res): ResponseInterface => $res;
+        /** @psalm-suppress UnusedClosureParam */
+        $middleware1 = static fn(ServerRequestInterface $req, RequestHandlerInterface $res): ResponseInterface
+            => new Response();
         $middleware2 = $this->createMockMiddleware();
 
         $this->expectException(TypeError::class);
@@ -156,7 +159,7 @@ class ApplicationTest extends TestCase
 
     /**
      * @dataProvider validMiddleware
-     * @param string|array|callable|MiddlewareInterface $middleware
+     * @param MiddlewareParam $middleware
      */
     public function testRouteAcceptsPathAndMiddlewareOnly($middleware): void
     {
@@ -184,7 +187,7 @@ class ApplicationTest extends TestCase
 
     /**
      * @dataProvider validMiddleware
-     * @param string|array|callable|MiddlewareInterface $middleware
+     * @param MiddlewareParam $middleware
      */
     public function testRouteAcceptsPathMiddlewareAndMethodsOnly($middleware): void
     {
@@ -212,7 +215,7 @@ class ApplicationTest extends TestCase
 
     /**
      * @dataProvider validMiddleware
-     * @param string|array|callable|MiddlewareInterface $middleware
+     * @param MiddlewareParam $middleware
      */
     public function testRouteAcceptsPathMiddlewareMethodsAndName($middleware): void
     {
@@ -238,20 +241,20 @@ class ApplicationTest extends TestCase
         $this->assertSame($route, $this->app->route('/foo', $middleware, ['GET', 'POST'], 'foo'));
     }
 
+    /** @return iterable<string, array{0: string, 1: MiddlewareParam}> */
     public function requestMethodsWithValidMiddleware(): iterable
     {
         foreach (['get', 'post', 'put', 'patch', 'delete'] as $method) {
             foreach ($this->validMiddleware() as $key => $data) {
-                array_unshift($data, $method);
                 $name = sprintf('%s-%s', $method, $key);
-                yield $name => $data;
+                yield $name => [$method, $data[0]];
             }
         }
     }
 
     /**
      * @dataProvider requestMethodsWithValidMiddleware
-     * @param string|array|callable|MiddlewareInterface $middleware
+     * @param MiddlewareParam $middleware
      */
     public function testSpecificRouteMethodsCanAcceptOnlyPathAndMiddleware(string $method, $middleware): void
     {
@@ -279,7 +282,7 @@ class ApplicationTest extends TestCase
 
     /**
      * @dataProvider requestMethodsWithValidMiddleware
-     * @param string|array|callable|MiddlewareInterface $middleware
+     * @param MiddlewareParam $middleware
      */
     public function testSpecificRouteMethodsCanAcceptPathMiddlewareAndName(string $method, $middleware): void
     {
@@ -307,7 +310,7 @@ class ApplicationTest extends TestCase
 
     /**
      * @dataProvider validMiddleware
-     * @param string|array|callable|MiddlewareInterface $middleware
+     * @param MiddlewareParam $middleware
      */
     public function testAnyMethodPassesNullForMethodWhenNoNamePresent($middleware): void
     {
@@ -335,7 +338,7 @@ class ApplicationTest extends TestCase
 
     /**
      * @dataProvider validMiddleware
-     * @param string|array|callable|MiddlewareInterface $middleware
+     * @param MiddlewareParam $middleware
      */
     public function testAnyMethodPassesNullForMethodWhenAllArgumentsPresent($middleware): void
     {

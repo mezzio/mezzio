@@ -50,17 +50,16 @@
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
-        "filp/whoops": "^2.14.5",
+        "filp/whoops": "^2.14.6",
         "laminas/laminas-coding-standard": "~2.5.0",
-        "laminas/laminas-diactoros": "^2.19",
-        "laminas/laminas-servicemanager": "^3.15",
-        "mezzio/mezzio-aurarouter": "^3.5",
-        "mezzio/mezzio-fastroute": "^3.7",
+        "laminas/laminas-diactoros": "^2.24",
+        "laminas/laminas-servicemanager": "^3.20",
+        "mezzio/mezzio-aurarouter": "^3.6",
+        "mezzio/mezzio-fastroute": "^3.8",
         "mezzio/mezzio-laminasrouter": "^3.7",
-        "mockery/mockery": "^1.5.1",
-        "phpunit/phpunit": "^9.5.26",
-        "psalm/plugin-phpunit": "^0.18",
-        "vimeo/psalm": "^5.0.0"
+        "phpunit/phpunit": "^9.5.27",
+        "psalm/plugin-phpunit": "^0.18.4",
+        "vimeo/psalm": "^5.4"
     },
     "conflict": {
         "container-interop/container-interop": "<1.2.0",
