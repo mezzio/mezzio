@@ -1,6 +1,7 @@
 # mezzio
 
 [![Build Status](https://github.com/mezzio/mezzio/workflows/Continuous%20Integration/badge.svg)](https://github.com/mezzio/mezzio/actions?query=workflow%3A"Continuous+Integration")
+[![Type Coverage](https://shepherd.dev/github/mezzio/mezzio/coverage.svg)](https://shepherd.dev/github/mezzio/mezzio)
 
 > ## 🇷🇺 Русским гражданам
 >

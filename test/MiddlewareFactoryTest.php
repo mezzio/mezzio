@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MezzioTest;
 
+use Closure;
+use Laminas\Diactoros\Response;
 use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
 use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
 use Laminas\Stratigility\MiddlewarePipe;
@@ -14,6 +16,8 @@ use Mezzio\MiddlewareFactory;
 use Mezzio\Router\Middleware\DispatchMiddleware;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use ReflectionProperty;
@@ -21,6 +25,7 @@ use ReflectionProperty;
 use function array_shift;
 use function iterator_to_array;
 
+/** @psalm-import-type MiddlewareParam from MiddlewareFactory */
 class MiddlewareFactoryTest extends TestCase
 {
     /** @var MiddlewareContainer&MockObject */
@@ -32,6 +37,18 @@ class MiddlewareFactoryTest extends TestCase
     {
         $this->container = $this->createMock(MiddlewareContainer::class);
         $this->factory   = new MiddlewareFactory($this->container);
+    }
+
+    /** @return Closure(ServerRequestInterface, RequestHandlerInterface): ResponseInterface */
+    private static function validCallable(): Closure
+    {
+        /** @psalm-suppress UnusedClosureParam */
+        return function (
+            ServerRequestInterface $request,
+            RequestHandlerInterface $handler
+        ): ResponseInterface {
+            return new Response();
+        };
     }
 
     public function assertLazyLoadingMiddleware(string $expectedMiddlewareName, MiddlewareInterface $middleware): void
@@ -81,12 +98,9 @@ class MiddlewareFactoryTest extends TestCase
 
     public function testPrepareDecoratesCallables(): void
     {
-        $callable = static function ($request, $handler): void {
-        };
+        $middleware = $this->factory->prepare(self::validCallable());
 
-        $middleware = $this->factory->prepare($callable);
-
-        self::assertEquals(new CallableMiddlewareDecorator($callable), $middleware);
+        self::assertEquals(new CallableMiddlewareDecorator(self::validCallable()), $middleware);
     }
 
     public function testPrepareDecoratesServiceNamesAsLazyLoadingMiddleware(): void
@@ -106,6 +120,7 @@ class MiddlewareFactoryTest extends TestCase
         $this->assertPipeline([$middleware1, $middleware2, $middleware3], $middleware);
     }
 
+    /** @return iterable<string, array{0: mixed}> */
     public function invalidMiddlewareTypes(): iterable
     {
         yield 'null' => [null];
@@ -124,6 +139,7 @@ class MiddlewareFactoryTest extends TestCase
     public function testPrepareRaisesExceptionForTypesItDoesNotUnderstand(mixed $middleware): void
     {
         $this->expectException(Exception\InvalidMiddlewareException::class);
+        /** @psalm-suppress MixedArgument */
         $this->factory->prepare($middleware);
     }
 
@@ -150,16 +166,14 @@ class MiddlewareFactoryTest extends TestCase
     /**
      * @return iterable<
      *     string,
-     *     array{0: string|callable|MiddlewareInterface, 1: string, 2: string|callable|MiddlewareInterface}
+     *     array{0: MiddlewareParam, 1: string, 2: MiddlewareParam}
      * >
      */
     public function validPrepareTypes(): iterable
     {
         yield 'service' => ['service', 'assertLazyLoadingMiddleware', 'service'];
 
-        $callable = static function ($request, $handler): void {
-        };
-        yield 'callable' => [$callable, 'assertCallableMiddleware', $callable];
+        yield 'callable' => [self::validCallable(), 'assertCallableMiddleware', self::validCallable()];
 
         $middleware = new DispatchMiddleware();
         yield 'instance' => [$middleware, 'assertSame', $middleware];
@@ -167,7 +181,7 @@ class MiddlewareFactoryTest extends TestCase
 
     /**
      * @dataProvider validPrepareTypes
-     * @param string|callable|MiddlewareInterface $middleware
+     * @param MiddlewareParam $middleware
      * @param mixed $expected Expected type or value for use with assertion
      */
     public function testPipelineAllowsAnyTypeSupportedByPrepare(
@@ -188,18 +202,16 @@ class MiddlewareFactoryTest extends TestCase
 
     public function testPipelineAllowsPipingArraysOfMiddlewareAndCastsThemToInternalPipelines(): void
     {
-        $callable   = static function ($request, $handler): void {
-        };
         $middleware = new DispatchMiddleware();
 
-        $internalPipeline = [$callable, $middleware];
+        $internalPipeline = [self::validCallable(), $middleware];
 
         $pipeline = $this->factory->pipeline($internalPipeline);
 
         $this->assertInstanceOf(MiddlewarePipe::class, $pipeline);
         $received = $this->reflectPipeline($pipeline);
         $this->assertCount(2, $received);
-        $this->assertCallableMiddleware($callable, $received[0]);
+        $this->assertCallableMiddleware(self::validCallable(), $received[0]);
         $this->assertSame($middleware, $received[1]);
     }
 

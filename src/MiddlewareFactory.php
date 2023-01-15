@@ -7,6 +7,8 @@ namespace Mezzio;
 use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
 use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
 use Laminas\Stratigility\MiddlewarePipe;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Webmozart\Assert\Assert;
@@ -42,6 +44,10 @@ use function is_string;
  *   factory instance, as a LazyLoadingMiddleware instance.
  * - pipeline() will create a MiddlewarePipe instance from the array of
  *   middleware passed to it, after passing each first to prepare().
+ *
+ * @psalm-type InterfaceType = RequestHandlerInterface|RequestHandlerMiddleware|MiddlewareInterface
+ * @psalm-type CallableType = callable(ServerRequestInterface, RequestHandlerInterface): ResponseInterface
+ * @psalm-type MiddlewareParam = string|InterfaceType|CallableType|list<string|InterfaceType|CallableType>
  */
 class MiddlewareFactory
 {
@@ -51,6 +57,7 @@ class MiddlewareFactory
 
     /**
      * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
+     * @psalm-param MiddlewareParam $middleware
      * @throws Exception\InvalidMiddlewareException If argument is not one of
      *    the specified types.
      */
@@ -116,6 +123,7 @@ class MiddlewareFactory
      * MiddlewarePipe instance the method returns.
      *
      * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface ...$middleware
+     * @psalm-param MiddlewareParam ...$middleware
      */
     public function pipeline(...$middleware): MiddlewarePipe
     {
