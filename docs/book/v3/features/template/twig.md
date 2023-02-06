@@ -34,10 +34,12 @@ to the `Mezzio\Twig\TwigRenderer` constructor:
 
 ```php
 use Mezzio\Twig\TwigRenderer;
+use Twig\Loader\ArrayLoader;
+use Twig\Environment;
 
 // Create the engine instance:
-$loader = new Twig\Loader\ArrayLoader(include 'config/templates.php');
-$twig = new Twig\Environment($loader);
+$loader = new ArrayLoader(include 'config/templates.php');
+$twig = new Environment($loader);
 
 // Configure it:
 $twig->addExtension(new CustomExtension());
