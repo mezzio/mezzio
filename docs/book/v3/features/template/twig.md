@@ -33,13 +33,11 @@ Alternately, you can instantiate and configure the engine yourself, and pass it
 to the `Mezzio\Twig\TwigRenderer` constructor:
 
 ```php
-use Twig_Environment;
-use Twig_Loader_Array;
 use Mezzio\Twig\TwigRenderer;
 
 // Create the engine instance:
-$loader = new Twig_Loader_Array(include 'config/templates.php');
-$twig = new Twig_Environment($loader);
+$loader = new Twig\Loader\ArrayLoader(include 'config/templates.php');
+$twig = new Twig\Environment($loader);
 
 // Configure it:
 $twig->addExtension(new CustomExtension());
