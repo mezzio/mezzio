@@ -100,7 +100,6 @@ class ApplicationTest extends TestCase
         // @codingStandardsIgnoreStart
         yield 'string'   => ['service'];
         yield 'array'    => [['middleware', 'service']];
-        /** @psalm-suppress UnusedClosureParam */
         yield 'callable' => [fn ( ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface => new Response()];
         yield 'instance' => [new MiddlewarePipe()];
         // @codingStandardsIgnoreEnd
@@ -148,7 +147,6 @@ class ApplicationTest extends TestCase
 
     public function testPipeNonSlashPathOnNonStringPipeProduceTypeError(): void
     {
-        /** @psalm-suppress UnusedClosureParam */
         $middleware1 = static fn(ServerRequestInterface $req, RequestHandlerInterface $res): ResponseInterface
             => new Response();
         $middleware2 = $this->createMockMiddleware();

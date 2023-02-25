@@ -42,7 +42,6 @@ class MiddlewareFactoryTest extends TestCase
     /** @return Closure(ServerRequestInterface, RequestHandlerInterface): ResponseInterface */
     private static function validCallable(): Closure
     {
-        /** @psalm-suppress UnusedClosureParam */
         return function (
             ServerRequestInterface $request,
             RequestHandlerInterface $handler
