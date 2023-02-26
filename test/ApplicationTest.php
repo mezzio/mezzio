@@ -95,7 +95,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @return iterable<string, array{0: MiddlewareParam}> */
-    public function validMiddleware(): iterable
+    public static function validMiddleware(): iterable
     {
         // @codingStandardsIgnoreStart
         yield 'string'   => ['service'];
@@ -240,10 +240,10 @@ class ApplicationTest extends TestCase
     }
 
     /** @return iterable<string, array{0: string, 1: MiddlewareParam}> */
-    public function requestMethodsWithValidMiddleware(): iterable
+    public static function requestMethodsWithValidMiddleware(): iterable
     {
         foreach (['get', 'post', 'put', 'patch', 'delete'] as $method) {
-            foreach ($this->validMiddleware() as $key => $data) {
+            foreach (self::validMiddleware() as $key => $data) {
                 $name = sprintf('%s-%s', $method, $key);
                 yield $name => [$method, $data[0]];
             }

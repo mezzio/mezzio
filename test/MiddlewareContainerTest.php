@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MezzioTest;
 
+use ArrayObject;
 use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
 use Mezzio\Exception;
 use Mezzio\MiddlewareContainer;
@@ -51,16 +52,16 @@ class MiddlewareContainerTest extends TestCase
 
     public function testGetRaisesExceptionIfServiceSpecifiedDoesNotImplementMiddlewareInterface(): void
     {
-        $this->originContainer->set(self::class, $this);
+        $this->originContainer->set(ArrayObject::class, new ArrayObject());
 
         $this->expectException(Exception\InvalidMiddlewareException::class);
-        $this->container->get(self::class);
+        $this->container->get(ArrayObject::class);
     }
 
     public function testGetRaisesExceptionIfClassSpecifiedDoesNotImplementMiddlewareInterface(): void
     {
         $this->expectException(Exception\InvalidMiddlewareException::class);
-        $this->container->get(self::class);
+        $this->container->get(ArrayObject::class);
     }
 
     public function testGetReturnsServiceFromOriginContainer(): void

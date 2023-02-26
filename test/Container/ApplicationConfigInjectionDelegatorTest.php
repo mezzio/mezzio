@@ -128,7 +128,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
     }
 
     /** @return list<array{MiddlewareParam}> */
-    public function callableMiddlewares(): array
+    public static function callableMiddlewares(): array
     {
         return [
             ['HelloWorld'],

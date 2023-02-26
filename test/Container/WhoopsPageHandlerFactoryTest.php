@@ -85,7 +85,8 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    public function invalidEditors(): array
+    /** @return array<string, array{0: mixed}> */
+    public static function invalidEditors(): array
     {
         return [
             'true'       => [true],

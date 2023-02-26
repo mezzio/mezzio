@@ -8,6 +8,7 @@
   <file src="src/Container/ApplicationConfigInjectionDelegator.php">
     <DocblockTypeContradiction>
       <code>! is_array($item)</code>
+      <code>1</code>
       <code>is_array($methods)</code>
       <code>is_object($item)</code>
     </DocblockTypeContradiction>
@@ -23,6 +24,7 @@
     </MixedOperand>
     <RedundantCastGivenDocblockType>
       <code>(array) $config</code>
+      <code>(array) $config</code>
     </RedundantCastGivenDocblockType>
     <RedundantConditionGivenDocblockType>
       <code>gettype($item)</code>
@@ -36,8 +38,6 @@
   <file src="src/Container/ApplicationFactory.php">
     <MixedArgument>
       <code><![CDATA[$container->get(ApplicationPipeline::class)]]></code>
-      <code><![CDATA[$container->get(MiddlewareFactory::class)]]></code>
-      <code><![CDATA[$container->get(RequestHandlerRunnerInterface::class)]]></code>
       <code>ApplicationPipeline::class</code>
     </MixedArgument>
     <UndefinedClass>
@@ -45,19 +45,17 @@
     </UndefinedClass>
   </file>
   <file src="src/Container/ErrorHandlerFactory.php">
-    <MixedArgument>
+    <InvalidArgument>
       <code><![CDATA[$container->get(ResponseInterface::class)]]></code>
+    </InvalidArgument>
+    <PossiblyInvalidArgument>
       <code>$generator</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$generator</code>
-    </MixedAssignment>
+    </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/ErrorResponseGeneratorFactory.php">
     <MixedArgument>
       <code>$debug</code>
       <code>$errorHandlerConfig</code>
-      <code>$renderer</code>
       <code>$template</code>
     </MixedArgument>
     <MixedArrayAccess>
@@ -66,9 +64,11 @@
     <MixedAssignment>
       <code>$debug</code>
       <code>$errorHandlerConfig</code>
-      <code>$renderer</code>
       <code>$template</code>
     </MixedAssignment>
+    <PossiblyInvalidArgument>
+      <code>$renderer</code>
+    </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/FilterUsingXForwardedHeadersFactory.php">
     <MixedArrayAccess>
@@ -76,15 +76,9 @@
       <code>$appConfig[ConfigProvider::DIACTOROS_CONFIG_KEY][ConfigProvider::DIACTOROS_SERVER_REQUEST_FILTER_CONFIG_KEY][ConfigProvider::DIACTOROS_X_FORWARDED_FILTER_CONFIG_KEY]</code>
     </MixedArrayAccess>
   </file>
-  <file src="src/Container/MiddlewareFactoryFactory.php">
-    <MixedArgument>
-      <code><![CDATA[$container->get(MiddlewareContainer::class)]]></code>
-    </MixedArgument>
-  </file>
   <file src="src/Container/NotFoundHandlerFactory.php">
     <MixedArgument>
       <code>$errorHandlerConfig</code>
-      <code>$renderer</code>
       <code>$template</code>
     </MixedArgument>
     <MixedArrayAccess>
@@ -92,16 +86,18 @@
     </MixedArrayAccess>
     <MixedAssignment>
       <code>$errorHandlerConfig</code>
-      <code>$renderer</code>
       <code>$template</code>
     </MixedAssignment>
+    <PossiblyInvalidArgument>
+      <code>$renderer</code>
+    </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/RequestHandlerRunnerFactory.php">
+    <InvalidArgument>
+      <code><![CDATA[$container->get(ServerRequestInterface::class)]]></code>
+    </InvalidArgument>
     <MixedArgument>
       <code><![CDATA[$container->get(ApplicationPipeline::class)]]></code>
-      <code><![CDATA[$container->get(EmitterInterface::class)]]></code>
-      <code><![CDATA[$container->get(ServerRequestErrorResponseGenerator::class)]]></code>
-      <code><![CDATA[$container->get(ServerRequestInterface::class)]]></code>
       <code>ApplicationPipeline::class</code>
     </MixedArgument>
     <UndefinedClass>
@@ -111,22 +107,15 @@
   <file src="src/Container/ServerRequestErrorResponseGeneratorFactory.php">
     <MixedArgument>
       <code>$debug</code>
-      <code>$renderer</code>
       <code>$template</code>
     </MixedArgument>
     <MixedAssignment>
       <code>$debug</code>
-      <code>$renderer</code>
       <code>$template</code>
     </MixedAssignment>
-  </file>
-  <file src="src/Container/ServerRequestFactoryFactory.php">
-    <MixedArgument>
-      <code>$filter</code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code>$filter</code>
-    </MixedAssignment>
+    <PossiblyInvalidArgument>
+      <code>$renderer</code>
+    </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/WhoopsErrorResponseGeneratorFactory.php">
     <MixedArgument>
@@ -180,10 +169,6 @@
     <InvalidStringClass>
       <code>new $service()</code>
     </InvalidStringClass>
-    <ParamNameMismatch>
-      <code>$service</code>
-      <code>$service</code>
-    </ParamNameMismatch>
   </file>
   <file src="src/MiddlewareFactory.php">
     <RedundantCondition>
@@ -247,25 +232,13 @@
       <code>$generator</code>
     </InvalidArgument>
   </file>
-  <file src="test/Container/FilterUsingXForwardedHeadersFactoryTest.php">
-    <MoreSpecificReturnType>
-      <code><![CDATA[iterable<string, array{0: string, 1: array<string, string>}>]]></code>
-    </MoreSpecificReturnType>
-    <UndefinedInterfaceMethod>
-      <code>set</code>
-      <code>set</code>
-      <code>set</code>
-      <code>set</code>
-      <code>set</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="test/Container/NotFoundHandlerFactoryTest.php">
-    <MixedArgument>
+    <InvalidArgument>
       <code><![CDATA[$this->container->get(ResponseInterface::class)]]></code>
       <code><![CDATA[$this->container->get(ResponseInterface::class)]]></code>
       <code><![CDATA[$this->container->get(ResponseInterface::class)]]></code>
       <code><![CDATA[$this->container->get(ResponseInterface::class)]]></code>
-    </MixedArgument>
+    </InvalidArgument>
   </file>
   <file src="test/Container/RequestHandlerRunnerFactoryTest.php">
     <InvalidArgument>
@@ -350,27 +323,23 @@
       <code>$stack</code>
     </MixedAssignment>
   </file>
-  <file src="test/Container/WhoopsPageHandlerFactoryTest.php">
-    <MixedInferredReturnType>
-      <code>array</code>
-    </MixedInferredReturnType>
-  </file>
   <file src="test/ExceptionTest.php">
     <MixedInferredReturnType>
-      <code>Generator</code>
       <code>Generator</code>
     </MixedInferredReturnType>
     <PossiblyFalseOperand>
       <code><![CDATA[strrpos(ExceptionInterface::class, '\\')]]></code>
     </PossiblyFalseOperand>
   </file>
+  <file src="test/InMemoryContainer.php">
+    <MixedReturnStatement>
+      <code><![CDATA[$this->services[$id]]]></code>
+    </MixedReturnStatement>
+  </file>
   <file src="test/Middleware/ErrorResponseGeneratorTest.php">
     <MixedArgument>
       <code>$body</code>
     </MixedArgument>
-    <MixedInferredReturnType>
-      <code>array</code>
-    </MixedInferredReturnType>
   </file>
   <file src="test/Middleware/WhoopsErrorResponseGeneratorTest.php">
     <InvalidArgument>
@@ -423,7 +392,6 @@
       <code>$req</code>
       <code>$req</code>
     </MissingClosureParamType>
-    <MixedInferredReturnType/>
   </file>
   <file src="test/TestAsset/InteropMiddleware.php">
     <InvalidReturnType>

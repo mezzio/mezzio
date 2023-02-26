@@ -126,7 +126,7 @@ class WhoopsFactoryTest extends TestCase
     /**
      * @return iterable<string, bool[]>
      */
-    public function provideConfig(): iterable
+    public static function provideConfig(): iterable
     {
         // @codingStandardsIgnoreStart
         //    test case                        => showsTrace, isAjaxOnly, requestIsAjax

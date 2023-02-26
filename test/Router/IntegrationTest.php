@@ -71,7 +71,7 @@ class IntegrationTest extends TestCase
      *
      * @psalm-return iterable<string, array{class-string<RouterInterface>}>
      */
-    public function routerAdapters(): iterable
+    public static function routerAdapters(): iterable
     {
         yield 'aura' => [AuraRouter::class];
         yield 'fast-route' => [FastRouteRouter::class];
@@ -314,7 +314,7 @@ class IntegrationTest extends TestCase
      *     1: RequestMethod::METHOD_*
      * }>
      */
-    public function routerAdaptersForHttpMethods(): iterable
+    public static function routerAdaptersForHttpMethods(): iterable
     {
         $allMethods = [
             RequestMethod::METHOD_GET,
@@ -325,7 +325,7 @@ class IntegrationTest extends TestCase
             RequestMethod::METHOD_HEAD,
             RequestMethod::METHOD_OPTIONS,
         ];
-        foreach ($this->routerAdapters() as $adapterName => $adapter) {
+        foreach (self::routerAdapters() as $adapterName => $adapter) {
             $adapter = array_pop($adapter);
             foreach ($allMethods as $method) {
                 $name = sprintf('%s-%s', $adapterName, $method);
@@ -364,12 +364,12 @@ class IntegrationTest extends TestCase
     }
 
     /**
-     * @psalm-return iterable<array{
+     * @psalm-return iterable<string, array{
      *     0: class-string<RouterInterface>,
      *     1: RequestMethod::METHOD_*
      * }>
      */
-    public function allowedMethod(): iterable
+    public static function allowedMethod(): iterable
     {
         yield 'aura-head'    => [AuraRouter::class, RequestMethod::METHOD_HEAD];
         yield 'aura-options' => [AuraRouter::class, RequestMethod::METHOD_OPTIONS];

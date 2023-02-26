@@ -120,7 +120,7 @@ class MiddlewareFactoryTest extends TestCase
     }
 
     /** @return iterable<string, array{0: mixed}> */
-    public function invalidMiddlewareTypes(): iterable
+    public static function invalidMiddlewareTypes(): iterable
     {
         yield 'null' => [null];
         yield 'false' => [false];
@@ -168,7 +168,7 @@ class MiddlewareFactoryTest extends TestCase
      *     array{0: MiddlewareParam, 1: string, 2: MiddlewareParam}
      * >
      */
-    public function validPrepareTypes(): iterable
+    public static function validPrepareTypes(): iterable
     {
         yield 'service' => ['service', 'assertLazyLoadingMiddleware', 'service'];
 

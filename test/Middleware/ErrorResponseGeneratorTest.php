@@ -96,7 +96,8 @@ class ErrorResponseGeneratorTest extends TestCase
         $this->assertSame($response, $secondaryResponse);
     }
 
-    public function templates(): array
+    /** @return array<string, array{0:string|null, 1: string}> */
+    public static function templates(): array
     {
         return [
             'default' => [null, 'error::error'],

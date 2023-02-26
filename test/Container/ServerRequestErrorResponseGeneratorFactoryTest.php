@@ -6,6 +6,7 @@ namespace MezzioTest\Container;
 
 use ArrayAccess;
 use Generator;
+use Laminas\Diactoros\Response\TextResponse;
 use Mezzio\Container\ResponseFactoryFactory;
 use Mezzio\Container\ServerRequestErrorResponseGeneratorFactory;
 use Mezzio\Response\CallableResponseFactoryDecorator;
@@ -30,14 +31,14 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
     /**
      * @psalm-return Generator<non-empty-string,array{0:array<string,mixed>}>
      */
-    public function configurationsWithOverriddenResponseInterfaceFactory(): Generator
+    public static function configurationsWithOverriddenResponseInterfaceFactory(): Generator
     {
         yield 'default' => [
             [
                 'dependencies' => [
                     'factories' => [
                         ResponseInterface::class
-                            => fn(): ResponseInterface => $this->createMock(ResponseInterface::class),
+                            => fn(): ResponseInterface => new TextResponse('Foo'),
                     ],
                 ],
             ],
@@ -58,7 +59,7 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
                 'dependencies' => [
                     'delegators' => [
                         ResponseInterface::class => [
-                            fn(): ResponseInterface => $this->createMock(ResponseInterface::class),
+                            fn(): ResponseInterface => new TextResponse('Foo'),
                         ],
                     ],
                 ],

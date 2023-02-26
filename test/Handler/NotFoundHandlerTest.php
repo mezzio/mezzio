@@ -6,6 +6,7 @@ namespace MezzioTest\Handler;
 
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
+use Laminas\Diactoros\Response\TextResponse;
 use Laminas\Diactoros\Uri;
 use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Template\TemplateRendererInterface;
@@ -124,22 +125,12 @@ class NotFoundHandlerTest extends TestCase
 
     public function testCanHandleCallableResponseFactory(): void
     {
-        $responseFactory = fn(): ResponseInterface => $this->response;
+        $response        = new TextResponse('Foo');
+        $responseFactory = fn(): ResponseInterface => $response;
+        $handler         = new NotFoundHandler($responseFactory);
+        $result          = $handler->handle($this->createMock(ServerRequestInterface::class));
 
-        $this->response
-            ->expects(self::exactly(2))
-            ->method('withStatus')
-            ->withConsecutive([200], [404])
-            ->willReturnSelf();
-
-        $this->response
-            ->expects(self::once())
-            ->method('getBody')
-            ->willReturn($this->createMock(StreamInterface::class));
-
-        $handler  = new NotFoundHandler($responseFactory);
-        $response = $handler->handle($this->createMock(ServerRequestInterface::class));
-
-        $this->assertSame($this->response, $response);
+        self::assertNotSame($response, $result);
+        self::assertSame(404, $result->getStatusCode());
     }
 }

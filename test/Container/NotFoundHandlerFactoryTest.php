@@ -6,6 +6,7 @@ namespace MezzioTest\Container;
 
 use ArrayAccess;
 use Generator;
+use Laminas\Diactoros\Response\TextResponse;
 use Mezzio\Container\NotFoundHandlerFactory;
 use Mezzio\Container\ResponseFactoryFactory;
 use Mezzio\Handler\NotFoundHandler;
@@ -37,14 +38,14 @@ class NotFoundHandlerFactoryTest extends TestCase
     /**
      * @psalm-return Generator<non-empty-string,array{0:array<string,mixed>}>
      */
-    public function configurationsWithOverriddenResponseInterfaceFactory(): Generator
+    public static function configurationsWithOverriddenResponseInterfaceFactory(): Generator
     {
         yield 'default' => [
             [
                 'dependencies' => [
                     'factories' => [
                         ResponseInterface::class
-                            => fn(): ResponseInterface => $this->createMock(ResponseInterface::class),
+                            => fn(): ResponseInterface => new TextResponse('Foo'),
                     ],
                 ],
             ],
@@ -65,7 +66,7 @@ class NotFoundHandlerFactoryTest extends TestCase
                 'dependencies' => [
                     'delegators' => [
                         ResponseInterface::class => [
-                            fn(): ResponseInterface => $this->createMock(ResponseInterface::class),
+                            fn(): ResponseInterface => new TextResponse('Foo'),
                         ],
                     ],
                 ],
