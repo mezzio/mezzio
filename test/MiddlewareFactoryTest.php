@@ -14,6 +14,7 @@ use Mezzio\Middleware\LazyLoadingMiddleware;
 use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
 use Mezzio\Router\Middleware\DispatchMiddleware;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -132,9 +133,7 @@ class MiddlewareFactoryTest extends TestCase
         yield 'object' => [(object) ['foo' => 'bar']];
     }
 
-    /**
-     * @dataProvider invalidMiddlewareTypes
-     */
+    #[DataProvider('invalidMiddlewareTypes')]
     public function testPrepareRaisesExceptionForTypesItDoesNotUnderstand(mixed $middleware): void
     {
         $this->expectException(Exception\InvalidMiddlewareException::class);
@@ -179,10 +178,10 @@ class MiddlewareFactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider validPrepareTypes
      * @param MiddlewareParam $middleware
      * @param mixed $expected Expected type or value for use with assertion
      */
+    #[DataProvider('validPrepareTypes')]
     public function testPipelineAllowsAnyTypeSupportedByPrepare(
         $middleware,
         string $assertion,

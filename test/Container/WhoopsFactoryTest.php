@@ -7,6 +7,10 @@ namespace MezzioTest\Container;
 use ArrayAccess;
 use Mezzio\Container\WhoopsFactory;
 use MezzioTest\InMemoryContainer;
+use PHPUnit\Framework\Attributes\BackupGlobals;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use ReflectionProperty;
 use Whoops\Handler\JsonResponseHandler;
@@ -17,9 +21,7 @@ use Whoops\Util\Misc as WhoopsUtil;
 use function method_exists;
 use function sprintf;
 
-/**
- * @covers \Mezzio\Container\WhoopsFactory
- */
+#[CoversClass(WhoopsFactory::class)]
 class WhoopsFactoryTest extends TestCase
 {
     private InMemoryContainer $container;
@@ -73,13 +75,13 @@ class WhoopsFactoryTest extends TestCase
     }
 
     /**
-     * @backupGlobals enabled
-     * @depends       testWillInjectJsonResponseHandlerIfConfigurationExpectsIt
-     * @dataProvider  provideConfig
      * @param bool  $showsTrace
      * @param bool  $isAjaxOnly
      * @param bool  $requestIsAjax
      */
+    #[DataProvider('provideConfig')]
+    #[Depends('testWillInjectJsonResponseHandlerIfConfigurationExpectsIt')]
+    #[BackupGlobals(true)]
     public function testJsonResponseHandlerCanBeConfigured($showsTrace, $isAjaxOnly, $requestIsAjax): void
     {
         // Set for Whoops 2.x json handler detection

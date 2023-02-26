@@ -13,6 +13,7 @@ use Mezzio\Response\CallableResponseFactoryDecorator;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use MezzioTest\InMemoryContainer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -151,8 +152,8 @@ class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 
     /**
      * @param array<string,mixed> $config
-     * @dataProvider configurationsWithOverriddenResponseInterfaceFactory
      */
+    #[DataProvider('configurationsWithOverriddenResponseInterfaceFactory')]
     public function testWontUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsOverriden(
         array $config
     ): void {

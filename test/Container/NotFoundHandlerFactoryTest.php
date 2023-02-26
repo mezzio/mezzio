@@ -13,6 +13,7 @@ use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Response\CallableResponseFactoryDecorator;
 use Mezzio\Template\TemplateRendererInterface;
 use MezzioTest\InMemoryContainer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -177,8 +178,8 @@ class NotFoundHandlerFactoryTest extends TestCase
 
     /**
      * @param array<string,mixed> $config
-     * @dataProvider configurationsWithOverriddenResponseInterfaceFactory
      */
+    #[DataProvider('configurationsWithOverriddenResponseInterfaceFactory')]
     public function testWontUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsOverriden(
         array $config
     ): void {

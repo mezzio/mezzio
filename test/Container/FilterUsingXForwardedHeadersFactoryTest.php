@@ -9,6 +9,7 @@ use Laminas\Diactoros\ServerRequestFilter\FilterUsingXForwardedHeaders;
 use Mezzio\ConfigProvider;
 use Mezzio\Container\FilterUsingXForwardedHeadersFactory;
 use MezzioTest\InMemoryContainer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class FilterUsingXForwardedHeadersFactoryTest extends TestCase
@@ -35,7 +36,7 @@ class FilterUsingXForwardedHeadersFactoryTest extends TestCase
         yield 'public' => ['4.4.4.4'];
     }
 
-    /** @dataProvider randomIpGenerator */
+    #[DataProvider('randomIpGenerator')]
     public function testIfNoConfigPresentFactoryReturnsFilterThatDoesNotTrustAny(string $remoteAddr): void
     {
         $factory = new FilterUsingXForwardedHeadersFactory();
@@ -73,7 +74,7 @@ class FilterUsingXForwardedHeadersFactoryTest extends TestCase
         }
     }
 
-    /** @dataProvider trustAnyProvider */
+    #[DataProvider('trustAnyProvider')]
     public function testIfWildcardProxyAddressSpecifiedReturnsFilterConfiguredToTrustAny(
         string $remoteAddr,
         array $headers
@@ -107,7 +108,7 @@ class FilterUsingXForwardedHeadersFactoryTest extends TestCase
         $this->assertSame($headers[FilterUsingXForwardedHeaders::HEADER_PROTO], $uri->getScheme());
     }
 
-    /** @dataProvider randomIpGenerator */
+    #[DataProvider('randomIpGenerator')]
     public function testEmptyProxiesListDoesNotTrustXForwardedRequests(string $remoteAddr): void
     {
         $this->container->set('config', [
@@ -141,7 +142,7 @@ class FilterUsingXForwardedHeadersFactoryTest extends TestCase
         $this->assertSame($request, $filteredRequest);
     }
 
-    /** @dataProvider randomIpGenerator */
+    #[DataProvider('randomIpGenerator')]
     public function testMissingHeadersListTrustsAllXForwardedRequestsForMatchedProxies(string $remoteAddr): void
     {
         $this->container->set('config', [
@@ -178,7 +179,7 @@ class FilterUsingXForwardedHeadersFactoryTest extends TestCase
         $this->assertSame('https', $uri->getScheme());
     }
 
-    /** @dataProvider randomIpGenerator */
+    #[DataProvider('randomIpGenerator')]
     public function testEmptyHeadersListTrustsNoRequests(string $remoteAddr): void
     {
         $this->container->set('config', [
@@ -328,7 +329,7 @@ class FilterUsingXForwardedHeadersFactoryTest extends TestCase
         ];
     }
 
-    /** @dataProvider trustedProxiesAndHeaders */
+    #[DataProvider('trustedProxiesAndHeaders')]
     public function testCombinedProxiesAndHeadersDefineTrust(
         bool $expectUnfiltered,
         array $config,

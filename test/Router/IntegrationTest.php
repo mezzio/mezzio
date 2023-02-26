@@ -24,6 +24,8 @@ use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
 use Mezzio\Router\RouteCollector;
 use Mezzio\Router\RouterInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\RequestInterface;
@@ -143,9 +145,9 @@ class IntegrationTest extends TestCase
     }
 
     /**
-     * @dataProvider routerAdapters
      * @psalm-param class-string<RouterInterface> $adapter
      */
+    #[DataProvider('routerAdapters')]
     public function testRoutingDoesNotMatchMethod(string $adapter): void
     {
         $app     = $this->createApplicationWithGetPost($adapter);
@@ -163,10 +165,10 @@ class IntegrationTest extends TestCase
     /**
      * @see https://github.com/zendframework/zend-expressive/issues/40
      *
-     * @group 40
-     * @dataProvider routerAdapters
      * @psalm-param class-string<RouterInterface> $adapter
      */
+    #[DataProvider('routerAdapters')]
+    #[Group('40')]
     public function testRoutingWithSamePathWithoutName(string $adapter): void
     {
         $app = $this->createApplicationWithGetPost($adapter);
@@ -189,10 +191,10 @@ class IntegrationTest extends TestCase
     /**
      * @see https://github.com/zendframework/zend-expressive/issues/40
      *
-     * @group 40
-     * @dataProvider routerAdapters
      * @psalm-param class-string<RouterInterface> $adapter
      */
+    #[DataProvider('routerAdapters')]
+    #[Group('40')]
     public function testRoutingWithSamePathWithName(string $adapter): void
     {
         $app = $this->createApplicationWithGetPost($adapter, 'foo-get', 'foo-post');
@@ -215,10 +217,10 @@ class IntegrationTest extends TestCase
     /**
      * @see https://github.com/zendframework/zend-expressive/issues/40
      *
-     * @group 40
-     * @dataProvider routerAdapters
      * @psalm-param class-string<RouterInterface> $adapter
      */
+    #[DataProvider('routerAdapters')]
+    #[Group('40')]
     public function testRoutingWithSamePathWithRouteWithoutName(string $adapter): void
     {
         $app = $this->createApplicationWithRouteGetPost($adapter);
@@ -241,9 +243,9 @@ class IntegrationTest extends TestCase
     /**
      * @see https://github.com/zendframework/zend-expressive/issues/40
      *
-     * @dataProvider routerAdapters
      * @psalm-param class-string<RouterInterface> $adapter
      */
+    #[DataProvider('routerAdapters')]
     public function testRoutingWithSamePathWithRouteWithName(string $adapter): void
     {
         $app = $this->createApplicationWithRouteGetPost($adapter, 'foo-get', 'foo-post');
@@ -266,10 +268,10 @@ class IntegrationTest extends TestCase
     /**
      * @see https://github.com/zendframework/zend-expressive/issues/40
      *
-     * @group 40
-     * @dataProvider routerAdapters
      * @psalm-param class-string<RouterInterface> $adapter
      */
+    #[DataProvider('routerAdapters')]
+    #[Group('40')]
     public function testRoutingWithSamePathWithRouteWithMultipleMethods(string $adapter): void
     {
         $router = new $adapter();
@@ -335,10 +337,10 @@ class IntegrationTest extends TestCase
     }
 
     /**
-     * @dataProvider routerAdaptersForHttpMethods
      * @psalm-param class-string<RouterInterface> $adapter
      * @psalm-param RequestMethod::METHOD_* $method
      */
+    #[DataProvider('routerAdaptersForHttpMethods')]
     public function testMatchWithAllHttpMethods(string $adapter, string $method): void
     {
         $router = new $adapter();
@@ -380,10 +382,10 @@ class IntegrationTest extends TestCase
     }
 
     /**
-     * @dataProvider allowedMethod
      * @psalm-param class-string<RouterInterface> $adapter
      * @psalm-param RequestMethod::METHOD_* $method
      */
+    #[DataProvider('allowedMethod')]
     public function testAllowedMethodsWhenOnlyPutMethodSet(string $adapter, string $method): void
     {
         $router = new $adapter();
@@ -417,10 +419,8 @@ class IntegrationTest extends TestCase
         $this->assertSame('', (string) $result->getBody());
     }
 
-    /**
-     * @group 74
-     * @dataProvider routerAdapters
-     */
+    #[DataProvider('routerAdapters')]
+    #[Group('74')]
     public function testWithOnlyRootPathRouteDefinedRoutingToSubPathsShouldDelegate(string $adapter): void
     {
         $router = new $adapter();

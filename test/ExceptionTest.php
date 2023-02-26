@@ -9,6 +9,7 @@ use Mezzio\Exception\ContainerNotRegisteredException;
 use Mezzio\Exception\ExceptionInterface;
 use Mezzio\Exception\InvalidMiddlewareException;
 use Mezzio\Exception\MissingDependencyException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerExceptionInterface;
 use Throwable;
@@ -33,9 +34,7 @@ class ExceptionTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider exception
-     */
+    #[DataProvider('exception')]
     public function testExceptionIsInstanceOfExceptionInterface(string $exception): void
     {
         $this->assertStringContainsString('Exception', $exception);
@@ -49,9 +48,7 @@ class ExceptionTest extends TestCase
         yield MissingDependencyException::class => [MissingDependencyException::class];
     }
 
-    /**
-     * @dataProvider containerException
-     */
+    #[DataProvider('containerException')]
     public function testExceptionIsInstanceOfContainerExceptionInterface(string $exception): void
     {
         $this->assertTrue(is_a($exception, ContainerExceptionInterface::class, true));

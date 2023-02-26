@@ -8,6 +8,7 @@ use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Laminas\Diactoros\Uri;
 use Mezzio\Middleware\ErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -105,9 +106,7 @@ class ErrorResponseGeneratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider templates
-     */
+    #[DataProvider('templates')]
     public function testRendersTemplateWithoutErrorDetailsWhenRendererPresentAndNotInDebugMode(
         ?string $template,
         string $expected
@@ -156,9 +155,7 @@ class ErrorResponseGeneratorTest extends TestCase
         $this->assertSame($response, $secondaryResponse);
     }
 
-    /**
-     * @dataProvider templates
-     */
+    #[DataProvider('templates')]
     public function testRendersTemplateWithErrorDetailsWhenRendererPresentAndInDebugMode(
         ?string $template,
         string $expected

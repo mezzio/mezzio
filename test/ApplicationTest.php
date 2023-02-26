@@ -13,6 +13,7 @@ use Mezzio\Application;
 use Mezzio\MiddlewareFactory;
 use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollector;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -106,9 +107,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testPipeCanAcceptSingleMiddlewareArgument($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -126,9 +127,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testPipeCanAcceptAPathArgument($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -156,9 +157,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testRouteAcceptsPathAndMiddlewareOnly($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -184,9 +185,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testRouteAcceptsPathMiddlewareAndMethodsOnly($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -212,9 +213,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testRouteAcceptsPathMiddlewareMethodsAndName($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -251,9 +252,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider requestMethodsWithValidMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('requestMethodsWithValidMiddleware')]
     public function testSpecificRouteMethodsCanAcceptOnlyPathAndMiddleware(string $method, $middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -279,9 +280,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider requestMethodsWithValidMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('requestMethodsWithValidMiddleware')]
     public function testSpecificRouteMethodsCanAcceptPathMiddlewareAndName(string $method, $middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -307,9 +308,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testAnyMethodPassesNullForMethodWhenNoNamePresent($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -335,9 +336,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testAnyMethodPassesNullForMethodWhenAllArgumentsPresent($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
