@@ -9,6 +9,7 @@ use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface;
 use Mezzio\Container\ServerRequestFactoryFactory;
+use PHPUnit\Framework\Attributes\Depends;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -33,9 +34,8 @@ class ServerRequestFactoryFactoryTest extends TestCase
      * cannot simply return a callable referencing the
      * ServerRequestFactory::fromGlobals method, but must be decorated as a
      * closure.
-     *
-     * @depends testFactoryReturnsCallable
      */
+    #[Depends('testFactoryReturnsCallable')]
     public function testFactoryIsAClosure(callable $factory): void
     {
         $this->assertNotSame([ServerRequestFactory::class, 'fromGlobals'], $factory);

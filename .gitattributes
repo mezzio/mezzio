@@ -12,3 +12,4 @@
 /psalm-baseline.xml export-ignore
 /phpcs.xml export-ignore
 /phpunit.xml.dist export-ignore
+.psr-container.php.stub export-ignore

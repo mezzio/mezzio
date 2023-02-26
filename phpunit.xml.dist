@@ -2,24 +2,31 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
-         colors="true">
-    <testsuites>
-        <testsuite name="mezzio-response-factory">
-            <file>./test/Container/ResponseFactoryFactoryWithoutDiactorosTest.php</file>
-            <file>./test/Container/ServerRequestFactoryFactoryWithoutDiactorosTest.php</file>
-            <file>./test/Container/StreamFactoryFactoryWithoutDiactorosTest.php</file>
-        </testsuite>
-        <testsuite name="mezzio">
-            <directory>./test</directory>
-            <exclude>./test/Container/ResponseFactoryFactoryWithoutDiactorosTest.php</exclude>
-            <exclude>./test/Container/ServerRequestFactoryFactoryWithoutDiactorosTest.php</exclude>
-            <exclude>./test/Container/StreamFactoryFactoryWithoutDiactorosTest.php</exclude>
-        </testsuite>
-    </testsuites>
-
-    <coverage processUncoveredFiles="true">
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
-    </coverage>
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         displayDetailsOnIncompleteTests="true"
+         displayDetailsOnSkippedTests="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+>
+  <testsuites>
+    <testsuite name="mezzio-response-factory">
+      <file>./test/Container/ResponseFactoryFactoryWithoutDiactorosTest.php</file>
+      <file>./test/Container/ServerRequestFactoryFactoryWithoutDiactorosTest.php</file>
+      <file>./test/Container/StreamFactoryFactoryWithoutDiactorosTest.php</file>
+    </testsuite>
+    <testsuite name="mezzio">
+      <directory>./test</directory>
+      <exclude>./test/Container/ResponseFactoryFactoryWithoutDiactorosTest.php</exclude>
+      <exclude>./test/Container/ServerRequestFactoryFactoryWithoutDiactorosTest.php</exclude>
+      <exclude>./test/Container/StreamFactoryFactoryWithoutDiactorosTest.php</exclude>
+    </testsuite>
+  </testsuites>
+  <coverage>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+  </coverage>
 </phpunit>

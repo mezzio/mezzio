@@ -5,5 +5,5 @@
 /laminas-mkdoc-theme/
 /phpunit.xml
 /vendor/
-/.phpunit.result.cache
+/.phpunit.cache
 /.phpcs-cache

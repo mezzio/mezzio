@@ -19,6 +19,7 @@ use Mezzio\Router\RouterInterface;
 use MezzioTest\InMemoryContainer;
 use MezzioTest\TestAsset\InvokableMiddleware;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\MiddlewareInterface;
@@ -128,7 +129,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
     }
 
     /** @return list<array{MiddlewareParam}> */
-    public function callableMiddlewares(): array
+    public static function callableMiddlewares(): array
     {
         return [
             ['HelloWorld'],
@@ -153,9 +154,9 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
     }
 
     /**
-     * @dataProvider callableMiddlewares
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('callableMiddlewares')]
     public function testInjectRoutesFromConfigSetsUpRoutesFromConfig($middleware): void
     {
         $this->container->set('HelloWorld', true);
