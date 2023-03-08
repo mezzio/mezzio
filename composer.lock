@@ -370,21 +370,21 @@
         },
         {
             "name": "mezzio/mezzio-router",
-            "version": "3.13.0",
+            "version": "3.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-router.git",
-                "reference": "cb9e2476844074587e1ed849f53ef466a7e8d893"
+                "reference": "d8fa434e06e3694c06ecef41f50f05f56ddf6084"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-router/zipball/cb9e2476844074587e1ed849f53ef466a7e8d893",
-                "reference": "cb9e2476844074587e1ed849f53ef466a7e8d893",
+                "url": "https://api.github.com/repos/mezzio/mezzio-router/zipball/d8fa434e06e3694c06ecef41f50f05f56ddf6084",
+                "reference": "d8fa434e06e3694c06ecef41f50f05f56ddf6084",
                 "shasum": ""
             },
             "require": {
                 "fig/http-message-util": "^1.1.2",
-                "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+                "php": "~8.1.0 || ~8.2.0",
                 "psr/container": "^1.0 || ^2.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0.1",
@@ -399,9 +399,9 @@
                 "laminas/laminas-coding-standard": "~2.5.0",
                 "laminas/laminas-diactoros": "^2.24",
                 "laminas/laminas-stratigility": "^3.9.0",
-                "phpunit/phpunit": "^9.5.27",
+                "phpunit/phpunit": "^10.0.12",
                 "psalm/plugin-phpunit": "^0.18.4",
-                "vimeo/psalm": "^5.4"
+                "vimeo/psalm": "^5.7.7"
             },
             "suggest": {
                 "mezzio/mezzio-aurarouter": "^3.0 to use the Aura.Router routing adapter",
@@ -447,7 +447,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2023-01-15T08:25:11+00:00"
+            "time": "2023-03-02T11:42:36+00:00"
         },
         {
             "name": "mezzio/mezzio-template",
@@ -1629,16 +1629,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.14.6",
+            "version": "2.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "f7948baaa0330277c729714910336383286305da"
+                "reference": "e864ac957acd66e1565f25efda61e37791a5db0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/f7948baaa0330277c729714910336383286305da",
-                "reference": "f7948baaa0330277c729714910336383286305da",
+                "url": "https://api.github.com/repos/filp/whoops/zipball/e864ac957acd66e1565f25efda61e37791a5db0b",
+                "reference": "e864ac957acd66e1565f25efda61e37791a5db0b",
                 "shasum": ""
             },
             "require": {
@@ -1688,7 +1688,7 @@
             ],
             "support": {
                 "issues": "https://github.com/filp/whoops/issues",
-                "source": "https://github.com/filp/whoops/tree/2.14.6"
+                "source": "https://github.com/filp/whoops/tree/2.15.1"
             },
             "funding": [
                 {
@@ -1696,7 +1696,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-11-02T16:23:29+00:00"
+            "time": "2023-03-06T18:09:13+00:00"
         },
         {
             "name": "laminas/laminas-coding-standard",
@@ -2689,16 +2689,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.15.3",
+            "version": "v4.15.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "570e980a201d8ed0236b0a62ddf2c9cbb2034039"
+                "reference": "6bb5176bc4af8bcb7d926f88718db9b96a2d4290"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/570e980a201d8ed0236b0a62ddf2c9cbb2034039",
-                "reference": "570e980a201d8ed0236b0a62ddf2c9cbb2034039",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/6bb5176bc4af8bcb7d926f88718db9b96a2d4290",
+                "reference": "6bb5176bc4af8bcb7d926f88718db9b96a2d4290",
                 "shasum": ""
             },
             "require": {
@@ -2739,9 +2739,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.3"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.4"
             },
-            "time": "2023-01-16T22:05:37+00:00"
+            "time": "2023-03-05T19:49:14+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -3065,16 +3065,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "10.0.1",
+            "version": "10.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "b9c21a93dd8c8eed79879374884ee733259475cc"
+                "reference": "20800e84296ea4732f9a125e08ce86b4004ae3e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/b9c21a93dd8c8eed79879374884ee733259475cc",
-                "reference": "b9c21a93dd8c8eed79879374884ee733259475cc",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/20800e84296ea4732f9a125e08ce86b4004ae3e4",
+                "reference": "20800e84296ea4732f9a125e08ce86b4004ae3e4",
                 "shasum": ""
             },
             "require": {
@@ -3096,8 +3096,8 @@
                 "phpunit/phpunit": "^10.0"
             },
             "suggest": {
-                "ext-pcov": "*",
-                "ext-xdebug": "*"
+                "ext-pcov": "PHP extension that provides line coverage",
+                "ext-xdebug": "PHP extension that provides line coverage as well as branch and path coverage"
             },
             "type": "library",
             "extra": {
@@ -3130,7 +3130,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.0.1"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/10.0.2"
             },
             "funding": [
                 {
@@ -3138,7 +3138,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-25T05:35:03+00:00"
+            "time": "2023-03-06T13:00:19+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -3383,16 +3383,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.0.13",
+            "version": "10.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c37a88d7a905266eab6498817a1bf1170043313f"
+                "reference": "7065dbebcb0f66cf16a45fc9cfc28c2351e06169"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c37a88d7a905266eab6498817a1bf1170043313f",
-                "reference": "c37a88d7a905266eab6498817a1bf1170043313f",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7065dbebcb0f66cf16a45fc9cfc28c2351e06169",
+                "reference": "7065dbebcb0f66cf16a45fc9cfc28c2351e06169",
                 "shasum": ""
             },
             "require": {
@@ -3463,7 +3463,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.0.13"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.0.14"
             },
             "funding": [
                 {
@@ -3479,7 +3479,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-27T13:07:57+00:00"
+            "time": "2023-03-01T05:37:49+00:00"
         },
         {
             "name": "psalm/plugin-phpunit",
@@ -4782,12 +4782,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "0121954c80fd17c18cf050fe73360e63bb43d4fb"
+                "reference": "e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/0121954c80fd17c18cf050fe73360e63bb43d4fb",
-                "reference": "0121954c80fd17c18cf050fe73360e63bb43d4fb",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e",
+                "reference": "e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e",
                 "shasum": ""
             },
             "require": {
@@ -4841,7 +4841,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-02T07:48:03+00:00"
+            "time": "2023-03-01T10:25:55+00:00"
         },
         {
             "name": "symfony/filesystem",
@@ -5562,24 +5562,24 @@
         },
         {
             "name": "webimpress/coding-standard",
-            "version": "1.2.4",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webimpress/coding-standard.git",
-                "reference": "cd0c4b0b97440c337c1f7da17b524674ca2f9ca9"
+                "reference": "eb64f30c1a5e7c1624f292784553ea507b6cd109"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webimpress/coding-standard/zipball/cd0c4b0b97440c337c1f7da17b524674ca2f9ca9",
-                "reference": "cd0c4b0b97440c337c1f7da17b524674ca2f9ca9",
+                "url": "https://api.github.com/repos/webimpress/coding-standard/zipball/eb64f30c1a5e7c1624f292784553ea507b6cd109",
+                "reference": "eb64f30c1a5e7c1624f292784553ea507b6cd109",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.3 || ^8.0",
-                "squizlabs/php_codesniffer": "^3.6.2"
+                "squizlabs/php_codesniffer": "^3.7.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.5.13"
+                "phpunit/phpunit": "^9.6.4"
             },
             "type": "phpcodesniffer-standard",
             "extra": {
@@ -5605,7 +5605,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webimpress/coding-standard/issues",
-                "source": "https://github.com/webimpress/coding-standard/tree/1.2.4"
+                "source": "https://github.com/webimpress/coding-standard/tree/1.3.0"
             },
             "funding": [
                 {
@@ -5613,7 +5613,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-02-15T19:52:12+00:00"
+            "time": "2023-03-06T14:06:13+00:00"
         }
     ],
     "aliases": [],
