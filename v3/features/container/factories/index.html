@@ -5,7 +5,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PSR-15 Middleware in Minutes">  
+    <meta name="description" content="PSR-15 Middleware in Minutes"> 
+
+    
+    
+        
+    
+    <meta name="docsearch:version" content="3.0.0,latest">
+    <meta name="docsearch:language" content="en">
+    <meta name="docsearch:component" content="mezzio">
+
     <link rel="canonical" href="https://docs.mezzio.dev/mezzio/v3/features/container/factories/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
@@ -401,7 +410,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../helpers/body-parse/" class="subnavigation__link">Body Parsing Middleware</a>
+        <a href="../../helpers/body-params/" class="subnavigation__link">Body Params Middleware</a>
     </li>
 
             
@@ -663,7 +672,7 @@
                     <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
                         <i class="fa fa-search"></i> Search
                     </a>
-                    <a href="https://github.com/mezzio/mezzio/" class="header__link header__link--github" title="Go to repository of mezzio">
+                    <a href="https://github.com/mezzio/mezzio" class="header__link header__link--github" title="Go to repository of mezzio">
                         <i class="fa fa-github"></i> GitHub
                     </a>
                 
@@ -1006,9 +1015,18 @@ if you want to use an alternate PSR-7 implementation.</p>
 <li><strong>Requires</strong>: no additional services are required.</li>
 <li><strong>Optional</strong>: no optional services are used.</li>
 </ul>
-<p>By default, this uses laminas-diactoros to produce a request, and will raise an
-exception if that package is not installed. You can provide an alternate factory
-if you want to use an alternate PSR-7 implementation.</p>
+<p>By default, this uses laminas-diactoros to produce a request, and will raise an exception if that package is not installed.
+You can provide an alternate factory if you want to use an alternate PSR-7 implementation.</p>
+<p>Also by default, this factory will consume the service <code>Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface</code>, if defined.</p>
+<p>If you want to limit the proxy servers you trust (or supply one or more subnets), or which <code>X-Forwarded-*</code> headers are trusted, you should define the <code>Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface</code> service; one option is to use the shipped <a href="#filterusingxforwardedheadersfactory">FilterUsingXForwardedHeadersFactory described below</a>.</p>
+<p>Alternately, if you want to disable usage of proxy headers entirely, alias the <code>FilterServerRequestInterface</code> as an invokable to the <code>Laminas\Diactoros\ServerRequestFilter\DoNotFilter</code> class:</p>
+<pre class="highlight"><code class="language-php">'dependencies' =&gt; [
+    'invokables' =&gt; [
+        Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface::class =&gt; 
+            Laminas\Diactoros\ServerRequestFilter\DoNotFilter::class,
+    ],
+],</code></pre>
+<p>If you have a custom implementation, you may map the service to anything producing your custom implementation.</p>
 <h3 id="streamfactoryfactory">StreamFactoryFactory</h3>
 <ul>
 <li><strong>Provides</strong>: a PHP callable capable of producing
@@ -1220,7 +1238,7 @@ the <code>TwigExtension</code> instance (assuming the router was found).</p>
 <li><strong>Optional</strong>:<ul>
 <li><code>config</code>, an array or <code>ArrayAccess</code> instance. This will be used to further
   configure the <code>LaminasView</code> instance, specifically with the layout template
-  name, entries for a <code>TemplateMapResolver</code>, and and template paths to
+  name, entries for a <code>TemplateMapResolver</code>, and template paths to
   inject.</li>
 <li><code>Laminas\View\Renderer\PhpRenderer</code>, in order to allow providing custom
   extensions and/or re-using an existing configuration; otherwise, a default
@@ -1255,6 +1273,37 @@ the <code>TwigExtension</code> instance (assuming the router was found).</p>
 instantiated directly). It injects the helper plugin manager with custom url and
 serverurl helpers, <code>Mezzio\LaminasView\UrlHelper</code> and
 <code>Mezzio\LaminasView\ServerUrlHelper</code>, respectively.</p>
+<h4 id="filterusingxforwardedheadersfactory">FilterUsingXForwardedHeadersFactory</h4>
+<p>Diactoros also ships with a factory for generating a customized <code>Laminas\Diactoros\ServerRequestFilter\FilterUsingXForwardedHeaders</code> instance via the <code>Laminas\Diactoros\ServerRequestFilter\FilterUsingXForwardedHeadersFactory</code> class.
+This factory looks for the following configuration in order to generate an instance:</p>
+<pre class="highlight"><code class="language-php">$config = [
+    'laminas-diactoros' =&gt; [
+        'server-request-filter' =&gt; [
+            'x-forwarded-headers' =&gt; [
+                'trusted-proxies' =&gt; list&lt;string&gt;,
+                'trusted-headers' =&gt; list&lt;string&gt;,
+            ],
+        ],
+    ],
+];</code></pre>
+<ul>
+<li>The <code>trusted-proxies</code> value may be one of the following:</li>
+<li>The string "*". This indicates that all originating addresses are trusted.</li>
+<li>A string IP address or CIDR notation value indicating a trusted proxy server or subnet.</li>
+<li>An array of string IP addresses or CIDR notation values.</li>
+<li>The <code>trusted-headers</code> array should consist of one or more of the <code>X-Forwarded-Host</code>, <code>X-Forwarded-Port</code>, or <code>X-Forwarded-Proto</code> header names; the values are case insensitive.
+  When the configuration is omitted, , the assumption is to honor all <code>X-Forwarded-*</code> headers for trusted proxies.
+  If the configuration is an empty array, the assumption is <strong>no</strong> <code>X-Forwarded-*</code> headers are trusted.</li>
+</ul>
+<p>Register the factory using the <code>Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface</code> key:</p>
+<pre class="highlight"><code class="language-php">$config = [
+    'dependencies' =&gt; [
+        'factories' =&gt; [
+            \Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface::class =&gt;
+                \Mezzio\Container\FilterUsingXForwardedHeadersFactory::class,
+        ],
+    ],
+];</code></pre>
 
 
 
@@ -1266,7 +1315,9 @@ serverurl helpers, <code>Mezzio\LaminasView\UrlHelper</code> and
         <li class="page-nav__item">
             
                 <a rel="prev" class="page-nav__link page-nav__link--prev" href="../intro/">
-                    <i class="fa fa-chevron-left"></i> Previous
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Introduction
                 </a>
             
         </li>
@@ -1275,7 +1326,9 @@ serverurl helpers, <code>Mezzio\LaminasView\UrlHelper</code> and
         <li class="page-nav__item">
             
                 <a rel="next" class="page-nav__link page-nav__link--next" href="../delegator-factories/">
-                    Next <i class="fa fa-chevron-right"></i>
+                    <small class="page-nav__label">Next</small>
+                    Delegator Factories
+                    <i class="fa fa-chevron-right"></i>
                 </a>
             
         </li>
@@ -1283,16 +1336,6 @@ serverurl helpers, <code>Mezzio\LaminasView\UrlHelper</code> and
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/mezzio/mezzio/edit/master/docs/book/v3/features/container/factories.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>
@@ -1601,7 +1644,7 @@ serverurl helpers, <code>Mezzio\LaminasView\UrlHelper</code> and
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../helpers/body-parse/" class="subnavigation__link">Body Parsing Middleware</a>
+        <a href="../../helpers/body-params/" class="subnavigation__link">Body Params Middleware</a>
     </li>
 
             
@@ -1847,7 +1890,7 @@ serverurl helpers, <code>Mezzio\LaminasView\UrlHelper</code> and
                         <h4 class="footer__headline">License</h4>
                         <p>
                             Code licensed under <a
-                                href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
+                                href="https://github.com/mezzio/mezzio/blob/-/LICENSE.md">BSD 3-Clause</a>.
                         </p>
                     </div>
 
@@ -1857,7 +1900,7 @@ serverurl helpers, <code>Mezzio\LaminasView\UrlHelper</code> and
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2023 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

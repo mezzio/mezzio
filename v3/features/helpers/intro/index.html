@@ -5,7 +5,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PSR-15 Middleware in Minutes">  
+    <meta name="description" content="PSR-15 Middleware in Minutes"> 
+
+    
+    
+        
+    
+    <meta name="docsearch:version" content="3.0.0,latest">
+    <meta name="docsearch:language" content="en">
+    <meta name="docsearch:component" content="mezzio">
+
     <link rel="canonical" href="https://docs.mezzio.dev/mezzio/v3/features/helpers/intro/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
@@ -401,7 +410,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../body-parse/" class="subnavigation__link">Body Parsing Middleware</a>
+        <a href="../body-params/" class="subnavigation__link">Body Params Middleware</a>
     </li>
 
             
@@ -663,7 +672,7 @@
                     <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
                         <i class="fa fa-search"></i> Search
                     </a>
-                    <a href="https://github.com/mezzio/mezzio/" class="header__link header__link--github" title="Go to repository of mezzio">
+                    <a href="https://github.com/mezzio/mezzio" class="header__link header__link--github" title="Go to repository of mezzio">
                         <i class="fa fa-github"></i> GitHub
                     </a>
                 
@@ -750,7 +759,7 @@ those, Mezzio provides <em>helpers</em>. These are typically utility classes tha
 may integrate features or simply provide standalone benefits.</p>
 <p>Currently, these include:</p>
 <ul>
-<li><a href="../body-parse/">Body Parsing Middleware</a></li>
+<li><a href="../body-params/">Body Params Middleware</a></li>
 <li><a href="../content-length/">Content-Length Middleware</a> (since mezzio-helpers 4.1.0)</li>
 <li><a href="../url-helper/">UrlHelper</a></li>
 <li><a href="../server-url-helper/">ServerUrlHelper</a></li>
@@ -771,7 +780,9 @@ are already installed.</p>
         <li class="page-nav__item">
             
                 <a rel="prev" class="page-nav__link page-nav__link--prev" href="../../middleware/method-not-allowed-middleware/">
-                    <i class="fa fa-chevron-left"></i> Previous
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Returning Method Not Allowed
                 </a>
             
         </li>
@@ -780,7 +791,9 @@ are already installed.</p>
         <li class="page-nav__item">
             
                 <a rel="next" class="page-nav__link page-nav__link--next" href="../url-helper/">
-                    Next <i class="fa fa-chevron-right"></i>
+                    <small class="page-nav__label">Next</small>
+                    UrlHelper
+                    <i class="fa fa-chevron-right"></i>
                 </a>
             
         </li>
@@ -788,16 +801,6 @@ are already installed.</p>
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/mezzio/mezzio/edit/master/docs/book/v3/features/helpers/intro.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>
@@ -1106,7 +1109,7 @@ are already installed.</p>
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../body-parse/" class="subnavigation__link">Body Parsing Middleware</a>
+        <a href="../body-params/" class="subnavigation__link">Body Params Middleware</a>
     </li>
 
             
@@ -1352,7 +1355,7 @@ are already installed.</p>
                         <h4 class="footer__headline">License</h4>
                         <p>
                             Code licensed under <a
-                                href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
+                                href="https://github.com/mezzio/mezzio/blob/-/LICENSE.md">BSD 3-Clause</a>.
                         </p>
                     </div>
 
@@ -1362,7 +1365,7 @@ are already installed.</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2023 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

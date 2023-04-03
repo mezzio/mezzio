@@ -5,7 +5,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PSR-15 Middleware in Minutes">  
+    <meta name="description" content="PSR-15 Middleware in Minutes"> 
+
+    
+    
+        
+    
+    <meta name="docsearch:version" content="3.0.0,latest">
+    <meta name="docsearch:language" content="en">
+    <meta name="docsearch:component" content="mezzio">
+
     <link rel="canonical" href="https://docs.mezzio.dev/mezzio/v3/getting-started/features/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
@@ -401,7 +410,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../features/helpers/body-parse/" class="subnavigation__link">Body Parsing Middleware</a>
+        <a href="../../features/helpers/body-params/" class="subnavigation__link">Body Params Middleware</a>
     </li>
 
             
@@ -663,7 +672,7 @@
                     <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
                         <i class="fa fa-search"></i> Search
                     </a>
-                    <a href="https://github.com/mezzio/mezzio/" class="header__link header__link--github" title="Go to repository of mezzio">
+                    <a href="https://github.com/mezzio/mezzio" class="header__link header__link--github" title="Go to repository of mezzio">
                         <i class="fa fa-github"></i> GitHub
                     </a>
                 
@@ -755,7 +764,7 @@ be relegated only to those tasks, and should be relatively easy to write and
 maintain.</p>
 <p>PSR-15 also defines <em>request handlers</em>; these are classes that receive a
 request and return a response, without delegating to other layers of the
-application. These are generally the inner-most layers of your application.</p>
+application. These are generally the innermost layers of your application.</p>
 <p>Middleware is also designed for composability; you should be able to nest
 middleware and re-use middleware.</p>
 <p>With Mezzio, you can build middleware applications such as the following:</p>
@@ -808,7 +817,7 @@ features it provides include:</p>
 <p>Below is a diagram detailing the workflow used by Mezzio.</p>
 <p><img alt="Mezzio Architectural Flow" src="../../../images/architecture.png" class="img-responsive"/></p>
 <p>The <code>Application</code> acts as an "onion"; in the diagram above, the top is the
-outer-most layer of the onion, while the bottom is the inner-most.</p>
+outermost layer of the onion, while the bottom is the innermost.</p>
 <p>The <code>Application</code> dispatches each middleware. Each middleware receives a request
 and a delegate for handing off processing of the request should the middleware
 not be able to fully process it itself. Internally, the delegate composes a
@@ -824,11 +833,11 @@ and this invokes the next, and so on (and hence the "next" terminology). When
 looked at from this perspective:</p>
 <ul>
 <li>In most cases, the entire queue <em>will not</em> be traversed.</li>
-<li>The inner-most layer of the onion represents the last item in the queue, and
+<li>The innermost layer of the onion represents the last item in the queue, and
   should be guaranteed to return a response; usually this is indicative of
   a malformed request (HTTP 400 response status) and/or inability to route
   the middleware to a handler (HTTP 404 response status).</li>
-<li>Responses are returned back <em>through</em> the pipeline, in reverse order of
+<li>Responses are returned <em>through</em> the pipeline, in reverse order of
   traversal.</li>
 </ul>
 <h3 id="double-pass-middleware">Double pass middleware</h3>
@@ -932,7 +941,9 @@ error response for your application, usually as an HTTP 404 Not Found response.<
         <li class="page-nav__item">
             
                 <a rel="prev" class="page-nav__link page-nav__link--prev" href="../../">
-                    <i class="fa fa-chevron-left"></i> Previous
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Introduction
                 </a>
             
         </li>
@@ -941,7 +952,9 @@ error response for your application, usually as an HTTP 404 Not Found response.<
         <li class="page-nav__item">
             
                 <a rel="next" class="page-nav__link page-nav__link--next" href="../quick-start/">
-                    Next <i class="fa fa-chevron-right"></i>
+                    <small class="page-nav__label">Next</small>
+                    Quick Start
+                    <i class="fa fa-chevron-right"></i>
                 </a>
             
         </li>
@@ -949,16 +962,6 @@ error response for your application, usually as an HTTP 404 Not Found response.<
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/mezzio/mezzio/edit/master/docs/book/v3/getting-started/features.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>
@@ -1267,7 +1270,7 @@ error response for your application, usually as an HTTP 404 Not Found response.<
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../features/helpers/body-parse/" class="subnavigation__link">Body Parsing Middleware</a>
+        <a href="../../features/helpers/body-params/" class="subnavigation__link">Body Params Middleware</a>
     </li>
 
             
@@ -1513,7 +1516,7 @@ error response for your application, usually as an HTTP 404 Not Found response.<
                         <h4 class="footer__headline">License</h4>
                         <p>
                             Code licensed under <a
-                                href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
+                                href="https://github.com/mezzio/mezzio/blob/-/LICENSE.md">BSD 3-Clause</a>.
                         </p>
                     </div>
 
@@ -1523,7 +1526,7 @@ error response for your application, usually as an HTTP 404 Not Found response.<
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2023 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

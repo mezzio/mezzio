@@ -5,7 +5,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PSR-15 Middleware in Minutes">  
+    <meta name="description" content="PSR-15 Middleware in Minutes"> 
+
+    
+    
+        
+    
+    <meta name="docsearch:version" content="3.0.0,latest">
+    <meta name="docsearch:language" content="en">
+    <meta name="docsearch:component" content="mezzio">
+
     <link rel="canonical" href="https://docs.mezzio.dev/mezzio/v3/cookbook/setting-locale-without-routing-parameter/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
@@ -401,7 +410,7 @@
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../features/helpers/body-parse/" class="subnavigation__link">Body Parsing Middleware</a>
+        <a href="../../features/helpers/body-params/" class="subnavigation__link">Body Params Middleware</a>
     </li>
 
             
@@ -663,7 +672,7 @@
                     <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
                         <i class="fa fa-search"></i> Search
                     </a>
-                    <a href="https://github.com/mezzio/mezzio/" class="header__link header__link--github" title="Go to repository of mezzio">
+                    <a href="https://github.com/mezzio/mezzio" class="header__link header__link--github" title="Go to repository of mezzio">
                         <i class="fa fa-github"></i> GitHub
                     </a>
                 
@@ -688,7 +697,7 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#setup-a-middleware-to-extract-the-locale-from-the-uri" class="toc__link nav-link">Setup a middleware to extract the locale from the URI</a>
+                        <a href="#set-up-a-middleware-to-extract-the-locale-from-the-uri" class="toc__link nav-link">Set up a middleware to extract the locale from the URI</a>
                     </li>
                 
                     <li class="toc__entry">
@@ -745,7 +754,7 @@
         <h2 class="chapter__headline">Cookbook</h2>
     
 
-    <h1 id="how-can-i-setup-the-locale-without-routing-parameters">How can I setup the locale without routing parameters?</h1>
+    <h1 id="how-can-i-set-up-the-locale-without-routing-parameters">How can I set up the locale without routing parameters?</h1>
 <p>Localized web applications often set the locale (and therefore the language)
 based on a routing parameter, the session, or a specialized sub-domain.
 In this recipe we will concentrate on introspecting the URI path via middleware,
@@ -760,10 +769,10 @@ cases, you may want to prefix the specific routes that require localization
 with a required routing parameter; this approach is described in the
 <a href="../setting-locale-depending-routing-parameter/">"Setting a locale based on a routing parameter" recipe</a>.</p>
 </blockquote>
-<h2 id="setup-a-middleware-to-extract-the-locale-from-the-uri">Setup a middleware to extract the locale from the URI</h2>
-<p>First, we need to setup middleware that extracts the locale param directly
+<h2 id="set-up-a-middleware-to-extract-the-locale-from-the-uri">Set up a middleware to extract the locale from the URI</h2>
+<p>First, we need to set up middleware that extracts the locale param directly
 from the request URI's path. If it doesn't find one, it sets a default.</p>
-<p>If it does find one, it uses the value to setup the locale. It also:</p>
+<p>If it does find one, it uses the value to set up the locale. It also:</p>
 <ul>
 <li>amends the request with a truncated path (removing the locale segment).</li>
 <li>adds the locale segment as the base path of the <code>UrlHelper</code>.</li>
@@ -945,7 +954,9 @@ class RedirectHandlerFactory
         <li class="page-nav__item">
             
                 <a rel="prev" class="page-nav__link page-nav__link--prev" href="../setting-locale-depending-routing-parameter/">
-                    <i class="fa fa-chevron-left"></i> Previous
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Setting a locale based on a routing parameter
                 </a>
             
         </li>
@@ -954,7 +965,9 @@ class RedirectHandlerFactory
         <li class="page-nav__item">
             
                 <a rel="next" class="page-nav__link page-nav__link--next" href="../debug-toolbars/">
-                    Next <i class="fa fa-chevron-right"></i>
+                    <small class="page-nav__label">Next</small>
+                    Enabling debug toolbars
+                    <i class="fa fa-chevron-right"></i>
                 </a>
             
         </li>
@@ -962,16 +975,6 @@ class RedirectHandlerFactory
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/mezzio/mezzio/edit/master/docs/book/v3/cookbook/setting-locale-without-routing-parameter.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>
@@ -1280,7 +1283,7 @@ class RedirectHandlerFactory
             
                 
     <li class="subnavigation__list-item ">
-        <a href="../../features/helpers/body-parse/" class="subnavigation__link">Body Parsing Middleware</a>
+        <a href="../../features/helpers/body-params/" class="subnavigation__link">Body Params Middleware</a>
     </li>
 
             
@@ -1526,7 +1529,7 @@ class RedirectHandlerFactory
                         <h4 class="footer__headline">License</h4>
                         <p>
                             Code licensed under <a
-                                href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
+                                href="https://github.com/mezzio/mezzio/blob/-/LICENSE.md">BSD 3-Clause</a>.
                         </p>
                     </div>
 
@@ -1536,7 +1539,7 @@ class RedirectHandlerFactory
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2023 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

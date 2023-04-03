@@ -5,7 +5,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PSR-15 Middleware in Minutes">  
+    <meta name="description" content="PSR-15 Middleware in Minutes"> 
+
+    
+    
+        
+    
+    <meta name="docsearch:version" content="3.0.0,latest">
+    <meta name="docsearch:language" content="en">
+    <meta name="docsearch:component" content="mezzio">
+
     <link rel="canonical" href="https://docs.mezzio.dev/mezzio/v2/getting-started/skeleton/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
@@ -630,7 +639,7 @@
                     <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
                         <i class="fa fa-search"></i> Search
                     </a>
-                    <a href="https://github.com/mezzio/mezzio/" class="header__link header__link--github" title="Go to repository of mezzio">
+                    <a href="https://github.com/mezzio/mezzio" class="header__link header__link--github" title="Go to repository of mezzio">
                         <i class="fa fa-github"></i> GitHub
                     </a>
                 
@@ -768,7 +777,7 @@ renderer, and error handler from the outset.</p>
 </li>
 <li>
 <p>An error handler. Whoops is a very nice option for development, as it gives
-  you extensive, browseable information for exceptions and errors raised.</p>
+  you extensive, browsable information for exceptions and errors raised.</p>
 </li>
 </ul>
 <h2 id="start-a-web-server">Start a web server</h2>
@@ -965,7 +974,7 @@ your middleware.</p>
 <h3 id="piping">Piping</h3>
 <p><a href="../../features/router/piping/#piping">Piping</a> is a foundation feature of the
 underlying <a href="https://docs.laminas.dev/laminas-stratigility/">laminas-stratigility</a>
-implementation. You can setup the middleware pipeline in <code>config/pipeline.php</code>.
+implementation. You can set up the middleware pipeline in <code>config/pipeline.php</code>.
 In this section, we'll demonstrate setting up a basic pipeline that includes
 error handling, segregated applications, routing, middleware dispatch, and more.</p>
 <p>The error handler should be the first (most outer) middleware to catch all
@@ -1035,7 +1044,7 @@ $app-&gt;pipeDispatchMiddleware();
 $app-&gt;pipe(NotFoundHandler::class);</code></pre>
 <h3 id="routing">Routing</h3>
 <p><a href="../../features/router/piping/#routing">Routing</a> is an additional feature
-provided by Mezzio. Routing is setup in <code>config/routes.php</code>.</p>
+provided by Mezzio. Routing is set up in <code>config/routes.php</code>.</p>
 <p>You can setup routes with a single request method:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;get('/', App\Action\HomePageAction::class, 'home');
 $app-&gt;post('/album', App\Action\AlbumCreateAction::class, 'album.create');
@@ -1262,7 +1271,9 @@ Mezzio:</p>
         <li class="page-nav__item">
             
                 <a rel="prev" class="page-nav__link page-nav__link--prev" href="../standalone/">
-                    <i class="fa fa-chevron-left"></i> Previous
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Quick Start: Standalone
                 </a>
             
         </li>
@@ -1271,7 +1282,9 @@ Mezzio:</p>
         <li class="page-nav__item">
             
                 <a rel="next" class="page-nav__link page-nav__link--next" href="../../features/middleware-types/">
-                    Next <i class="fa fa-chevron-right"></i>
+                    <small class="page-nav__label">Next</small>
+                    Middleware Types
+                    <i class="fa fa-chevron-right"></i>
                 </a>
             
         </li>
@@ -1279,16 +1292,6 @@ Mezzio:</p>
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/mezzio/mezzio/edit/master/docs/book/v2/getting-started/skeleton.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>
@@ -1810,7 +1813,7 @@ Mezzio:</p>
                         <h4 class="footer__headline">License</h4>
                         <p>
                             Code licensed under <a
-                                href="https://github.com/mezzio/mezzio/blob/master/LICENSE.md">BSD 3-Clause</a>.
+                                href="https://github.com/mezzio/mezzio/blob/-/LICENSE.md">BSD 3-Clause</a>.
                         </p>
                     </div>
 
@@ -1820,7 +1823,7 @@ Mezzio:</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2023 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>
