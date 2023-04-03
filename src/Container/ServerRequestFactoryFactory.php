@@ -23,7 +23,7 @@ use function sprintf;
  * at this time.
  *
  * This factory consumes the
- * Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface
+ * Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface
  * service, which is used to make changes when initializing the request.
  */
 class ServerRequestFactoryFactory
