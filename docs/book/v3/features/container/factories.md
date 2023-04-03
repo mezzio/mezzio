@@ -553,13 +553,13 @@ $config = [
   When the configuration is omitted, , the assumption is to honor all `X-Forwarded-*` headers for trusted proxies.
   If the configuration is an empty array, the assumption is **no** `X-Forwarded-*` headers are trusted.
 
-Register the factory using the `Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface` key:
+Register the factory using the `Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface` key:
 
 ```php
 $config = [
     'dependencies' => [
         'factories' => [
-            \Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface::class =>
+            \Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface::class =>
                 \Mezzio\Container\FilterUsingXForwardedHeadersFactory::class,
         ],
     ],
