@@ -13,6 +13,7 @@ use Mezzio\Exception;
 use Mezzio\Middleware\LazyLoadingMiddleware;
 use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
+use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\Middleware\DispatchMiddleware;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -26,7 +27,7 @@ use ReflectionProperty;
 use function array_shift;
 use function iterator_to_array;
 
-/** @psalm-import-type MiddlewareParam from MiddlewareFactory */
+/** @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface */
 class MiddlewareFactoryTest extends TestCase
 {
     /** @var MiddlewareContainer&MockObject */

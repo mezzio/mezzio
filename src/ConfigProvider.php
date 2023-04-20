@@ -49,6 +49,7 @@ class ConfigProvider
                 NOT_FOUND_MIDDLEWARE                 => Handler\NotFoundHandler::class,
                 ROUTE_MIDDLEWARE                     => Router\Middleware\RouteMiddleware::class,
                 RequestHandlerRunnerInterface::class => RequestHandlerRunner::class,
+                MiddlewareFactoryInterface::class    => MiddlewareFactory::class,
 
                 // Legacy Zend Framework aliases
                 'Zend\Expressive\Application'                                  => Application::class,
