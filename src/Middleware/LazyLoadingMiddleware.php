@@ -26,4 +26,11 @@ class LazyLoadingMiddleware implements MiddlewareInterface
         $middleware = $this->container->get($this->middlewareName);
         return $middleware->process($request, $handler);
     }
+    
+    /**
+     * For inspection of the lazy loaded middleware
+     */
+    public function getMiddlewareName(): string {
+        return $this->middlewareName;
+    }
 }
