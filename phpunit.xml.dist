@@ -24,9 +24,9 @@
       <exclude>./test/Container/StreamFactoryFactoryWithoutDiactorosTest.php</exclude>
     </testsuite>
   </testsuites>
-  <coverage>
+  <source>
     <include>
       <directory suffix=".php">src</directory>
     </include>
-  </coverage>
+  </source>
 </phpunit>
