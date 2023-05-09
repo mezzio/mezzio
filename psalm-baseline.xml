@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.7.7@e028ba46ba0d7f9a78bc3201c251e137383e145f">
+<files psalm-version="5.11.0@c9b192ab8400fdaf04b2b13d110575adc879aa90">
   <file src="src/Application.php">
     <MixedArgumentTypeCoercion>
       <code>$middleware</code>
@@ -170,11 +170,6 @@
       <code>new $service()</code>
     </InvalidStringClass>
   </file>
-  <file src="src/MiddlewareFactory.php">
-    <RedundantCondition>
-      <code>isIterable</code>
-    </RedundantCondition>
-  </file>
   <file src="src/Response/ServerRequestErrorResponseGenerator.php">
     <PropertyNotSetInConstructor>
       <code>ServerRequestErrorResponseGenerator</code>
@@ -205,19 +200,10 @@
     </UndefinedClass>
   </file>
   <file src="test/Container/ApplicationConfigInjectionDelegatorTest.php">
-    <MixedArgument>
-      <code>$pipeline</code>
-    </MixedArgument>
     <MixedAssignment>
       <code>$middleware</code>
       <code>$pipeline</code>
     </MixedAssignment>
-    <MixedInferredReturnType>
-      <code>SplQueue</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code><![CDATA[$r->getValue($pipeline)]]></code>
-    </MixedReturnStatement>
   </file>
   <file src="test/Container/ApplicationFactoryTest.php">
     <MixedArgument>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MezzioTest\Container;
 
 use ArrayObject;
+use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Laminas\Stratigility\MiddlewarePipe;
 use Mezzio\Application;
@@ -22,12 +23,16 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use ReflectionProperty;
 use SplQueue;
 
 use function array_reduce;
 use function array_shift;
+use function assert;
 
 /**
  * @psalm-import-type MiddlewareParam from MiddlewareFactory
@@ -65,13 +70,14 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     public function getQueueFromApplicationPipeline(Application $app): SplQueue
     {
-        $r = new ReflectionProperty($app, 'pipeline');
-        $r->setAccessible(true);
+        $r        = new ReflectionProperty($app, 'pipeline');
         $pipeline = $r->getValue($app);
+        assert($pipeline instanceof MiddlewarePipe);
 
-        $r = new ReflectionProperty($pipeline, 'pipeline');
-        $r->setAccessible(true);
-        return $r->getValue($pipeline);
+        $r        = new ReflectionProperty($pipeline, 'pipeline');
+        $pipeline = $r->getValue($pipeline);
+        assert($pipeline instanceof SplQueue);
+        return $pipeline;
     }
 
     /**
@@ -134,7 +140,8 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         return [
             ['HelloWorld'],
             [
-                static function (): void {
+                static function (ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+                    return new Response();
                 },
             ],
             [[InvokableMiddleware::class, 'staticallyCallableMiddleware']],
