@@ -48,6 +48,7 @@ use function is_string;
  * @psalm-type InterfaceType = RequestHandlerInterface|RequestHandlerMiddleware|MiddlewareInterface
  * @psalm-type CallableType = callable(ServerRequestInterface, RequestHandlerInterface): ResponseInterface
  * @psalm-type MiddlewareParam = string|InterfaceType|CallableType|list<string|InterfaceType|CallableType>
+ * @final
  */
 class MiddlewareFactory implements MiddlewareFactoryInterface
 {

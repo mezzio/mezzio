@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Mezzio;
 
-use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
 use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
-use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\MiddlewarePipeInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -15,7 +14,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * Marshal middleware for use in the application.
  *
- * This class provides a number of methods for preparing and returning
+ * This interface provides a number of methods for preparing and returning
  * middleware for use within an application.
  *
  * If any middleware provided is already a MiddlewareInterface, it can be used
@@ -55,17 +54,17 @@ interface MiddlewareFactoryInterface
     /**
      * Decorate callable standards-signature middleware via a CallableMiddlewareDecorator.
      */
-    public function callable(callable $middleware): CallableMiddlewareDecorator;
+    public function callable(callable $middleware): MiddlewareInterface;
 
     /**
      * Decorate a RequestHandlerInterface as middleware via RequestHandlerMiddleware.
      */
-    public function handler(RequestHandlerInterface $handler): RequestHandlerMiddleware;
+    public function handler(RequestHandlerInterface $handler): MiddlewareInterface;
 
     /**
      * Create lazy loading middleware based on a service name.
      */
-    public function lazy(string $middleware): Middleware\LazyLoadingMiddleware;
+    public function lazy(string $middleware): MiddlewareInterface;
 
     /**
      * Create a middleware pipeline from an array of middleware.
@@ -82,5 +81,5 @@ interface MiddlewareFactoryInterface
      * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface ...$middleware
      * @psalm-param MiddlewareParam ...$middleware
      */
-    public function pipeline(...$middleware): MiddlewarePipe;
+    public function pipeline(...$middleware): MiddlewarePipeInterface;
 }
