@@ -57,8 +57,8 @@ final class FilterUsingXForwardedHeadersFactory
             throw Exception\InvalidTrustedProxyConfigurationException::forProxies($proxies);
         }
 
-        Assert::isList($proxies);
         Assert::allStringNotEmpty($proxies);
+        Assert::isList($proxies);
 
         // Missing trusted headers setting means all headers are considered trusted
         $headers = $config[ConfigProvider::DIACTOROS_TRUSTED_HEADERS_CONFIG_KEY] ?? null;

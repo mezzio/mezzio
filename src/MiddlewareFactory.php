@@ -11,7 +11,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webmozart\Assert\Assert;
 
 use function array_shift;
 use function count;
@@ -79,6 +78,9 @@ class MiddlewareFactory
             return $this->pipeline(...$middleware);
         }
 
+        /**
+         * @psalm-suppress DocblockTypeContradiction Unless there are native types, we should not trust phpdoc
+         */
         if (! is_string($middleware) || $middleware === '') {
             throw Exception\InvalidMiddlewareException::forMiddleware($middleware);
         }
@@ -134,8 +136,6 @@ class MiddlewareFactory
         ) {
             $middleware = array_shift($middleware);
         }
-
-        Assert::isIterable($middleware, 'Unexpected value provided to pipeline');
 
         $pipeline = new MiddlewarePipe();
         foreach ($middleware as $m) {
