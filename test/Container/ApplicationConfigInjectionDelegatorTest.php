@@ -14,6 +14,7 @@ use Mezzio\Container\Exception\InvalidServiceException;
 use Mezzio\Exception\InvalidArgumentException;
 use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
+use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollector;
 use Mezzio\Router\RouterInterface;
@@ -35,7 +36,7 @@ use function array_shift;
 use function assert;
 
 /**
- * @psalm-import-type MiddlewareParam from MiddlewareFactory
+ * @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface
  * @psalm-import-type RouteSpec from ApplicationConfigInjectionDelegator
  */
 class ApplicationConfigInjectionDelegatorTest extends TestCase

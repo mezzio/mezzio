@@ -18,7 +18,7 @@ use function Laminas\Stratigility\path;
 class Application implements MiddlewareInterface, RequestHandlerInterface
 {
     public function __construct(
-        private MiddlewareFactory $factory,
+        private MiddlewareFactoryInterface $factory,
         private MiddlewarePipeInterface $pipeline,
         private RouteCollectorInterface $routes,
         private RequestHandlerRunnerInterface $runner

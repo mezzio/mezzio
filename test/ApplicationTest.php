@@ -10,7 +10,7 @@ use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
 use Laminas\Stratigility\MiddlewarePipe;
 use Laminas\Stratigility\MiddlewarePipeInterface;
 use Mezzio\Application;
-use Mezzio\MiddlewareFactory;
+use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollector;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -25,10 +25,10 @@ use TypeError;
 use function sprintf;
 use function strtoupper;
 
-/** @psalm-import-type MiddlewareParam from MiddlewareFactory */
+/** @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface */
 class ApplicationTest extends TestCase
 {
-    /** @var MiddlewareFactory&MockObject */
+    /** @var MiddlewareFactoryInterface&MockObject */
     private $factory;
 
     /** @var MiddlewarePipeInterface&MockObject */
@@ -44,7 +44,7 @@ class ApplicationTest extends TestCase
 
     public function setUp(): void
     {
-        $this->factory  = $this->createMock(MiddlewareFactory::class);
+        $this->factory  = $this->createMock(MiddlewareFactoryInterface::class);
         $this->pipeline = $this->createMock(MiddlewarePipeInterface::class);
         $this->routes   = $this->createMock(RouteCollector::class);
         $this->runner   = $this->createMock(RequestHandlerRunnerInterface::class);
