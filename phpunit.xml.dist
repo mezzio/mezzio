@@ -11,22 +11,25 @@
          displayDetailsOnTestsThatTriggerNotices="true"
          displayDetailsOnTestsThatTriggerWarnings="true"
 >
-  <testsuites>
-    <testsuite name="mezzio-response-factory">
-      <file>./test/Container/ResponseFactoryFactoryWithoutDiactorosTest.php</file>
-      <file>./test/Container/ServerRequestFactoryFactoryWithoutDiactorosTest.php</file>
-      <file>./test/Container/StreamFactoryFactoryWithoutDiactorosTest.php</file>
-    </testsuite>
-    <testsuite name="mezzio">
-      <directory>./test</directory>
-      <exclude>./test/Container/ResponseFactoryFactoryWithoutDiactorosTest.php</exclude>
-      <exclude>./test/Container/ServerRequestFactoryFactoryWithoutDiactorosTest.php</exclude>
-      <exclude>./test/Container/StreamFactoryFactoryWithoutDiactorosTest.php</exclude>
-    </testsuite>
-  </testsuites>
-  <source>
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-  </source>
+    <testsuites>
+        <testsuite name="mezzio-response-factory">
+            <file>./test/Container/ResponseFactoryFactoryWithoutDiactorosTest.php</file>
+            <file>./test/Container/ServerRequestFactoryFactoryWithoutDiactorosTest.php</file>
+            <file>./test/Container/StreamFactoryFactoryWithoutDiactorosTest.php</file>
+        </testsuite>
+        <testsuite name="mezzio">
+            <directory>./test</directory>
+            <exclude>./test/Container/ResponseFactoryFactoryWithoutDiactorosTest.php</exclude>
+            <exclude>./test/Container/ServerRequestFactoryFactoryWithoutDiactorosTest.php</exclude>
+            <exclude>./test/Container/StreamFactoryFactoryWithoutDiactorosTest.php</exclude>
+            <exclude>./test/InMemoryContainer.php</exclude>
+            <exclude>./test/InMemoryContainerV2.php</exclude>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </source>
 </phpunit>
