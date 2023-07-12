@@ -107,8 +107,8 @@ class MiddlewareFactory implements MiddlewareFactoryInterface
     {
         // Allow passing arrays of middleware or individual lists of middleware
         if (
-            is_array($middleware[0])
-            && count($middleware) === 1
+            count($middleware) === 1
+            && is_array($middleware[0])
         ) {
             $middleware = array_shift($middleware);
         }
