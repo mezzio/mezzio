@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mezzio;
 
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
-use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Laminas\ServiceManager\ConfigInterface;
 use Laminas\Stratigility\Middleware\ErrorHandler;
@@ -42,13 +41,12 @@ class ConfigProvider
         // phpcs:disable Generic.Files.LineLength.TooLong
         return [
             'aliases'   => [
-                DEFAULT_DELEGATE                     => Handler\NotFoundHandler::class,
-                DISPATCH_MIDDLEWARE                  => Router\Middleware\DispatchMiddleware::class,
-                IMPLICIT_HEAD_MIDDLEWARE             => Router\Middleware\ImplicitHeadMiddleware::class,
-                IMPLICIT_OPTIONS_MIDDLEWARE          => Router\Middleware\ImplicitOptionsMiddleware::class,
-                NOT_FOUND_MIDDLEWARE                 => Handler\NotFoundHandler::class,
-                ROUTE_MIDDLEWARE                     => Router\Middleware\RouteMiddleware::class,
-                RequestHandlerRunnerInterface::class => RequestHandlerRunner::class,
+                DEFAULT_DELEGATE            => Handler\NotFoundHandler::class,
+                DISPATCH_MIDDLEWARE         => Router\Middleware\DispatchMiddleware::class,
+                IMPLICIT_HEAD_MIDDLEWARE    => Router\Middleware\ImplicitHeadMiddleware::class,
+                IMPLICIT_OPTIONS_MIDDLEWARE => Router\Middleware\ImplicitOptionsMiddleware::class,
+                NOT_FOUND_MIDDLEWARE        => Handler\NotFoundHandler::class,
+                ROUTE_MIDDLEWARE            => Router\Middleware\RouteMiddleware::class,
             ],
             'factories' => [
                 Application::class             => Container\ApplicationFactory::class,
@@ -60,7 +58,7 @@ class ConfigProvider
                 MiddlewareFactory::class       => Container\MiddlewareFactoryFactory::class,
                 // Change the following in development to the WhoopsErrorResponseGeneratorFactory:
                 Middleware\ErrorResponseGenerator::class            => Container\ErrorResponseGeneratorFactory::class,
-                RequestHandlerRunner::class                         => Container\RequestHandlerRunnerFactory::class,
+                RequestHandlerRunnerInterface::class                => Container\RequestHandlerRunnerFactory::class,
                 ResponseInterface::class                            => Container\ResponseFactoryFactory::class,
                 Response\ServerRequestErrorResponseGenerator::class => Container\ServerRequestErrorResponseGeneratorFactory::class,
                 ServerRequestInterface::class                       => Container\ServerRequestFactoryFactory::class,
