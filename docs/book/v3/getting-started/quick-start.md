@@ -16,6 +16,8 @@ $ composer create-project mezzio/mezzio-skeleton mezzio
 
 This will prompt you to choose:
 
+![Mezzio Installer](../../images/installer.png)
+
 - Whether to install a minimal skeleton (no default middleware), a flat
   application structure (all code under `src/`), or a modular structure
   (directories under `src/` are modules, each with source code and potentially
