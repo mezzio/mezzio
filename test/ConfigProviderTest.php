@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MezzioTest;
 
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
-use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Laminas\ServiceManager\Config;
 use Laminas\ServiceManager\ConfigInterface;
@@ -52,7 +51,6 @@ class ConfigProviderTest extends TestCase
     {
         $aliases = $this->provider->getDependencies()['aliases'] ?? [];
 
-        self::assertArrayHasKey(RequestHandlerRunnerInterface::class, $aliases);
         self::assertArrayHasKey(MiddlewareFactoryInterface::class, $aliases);
         self::assertArrayHasKey(DEFAULT_DELEGATE, $aliases);
         self::assertArrayHasKey(DISPATCH_MIDDLEWARE, $aliases);
@@ -74,7 +72,7 @@ class ConfigProviderTest extends TestCase
         self::assertArrayHasKey(MiddlewareFactory::class, $factories);
         self::assertArrayHasKey(Middleware\ErrorResponseGenerator::class, $factories);
         self::assertArrayHasKey(NotFoundHandler::class, $factories);
-        self::assertArrayHasKey(RequestHandlerRunner::class, $factories);
+        self::assertArrayHasKey(RequestHandlerRunnerInterface::class, $factories);
         self::assertArrayHasKey(ResponseInterface::class, $factories);
         self::assertArrayHasKey(ServerRequestInterface::class, $factories);
         self::assertArrayHasKey(ServerRequestErrorResponseGenerator::class, $factories);
