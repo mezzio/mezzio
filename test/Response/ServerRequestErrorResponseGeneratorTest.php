@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MezzioTest\Response;
 
+use Laminas\Diactoros\Response\TextResponse;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Mezzio\Template\TemplateRendererInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -109,22 +110,15 @@ class ServerRequestErrorResponseGeneratorTest extends TestCase
 
     public function testCanHandleCallableResponseFactory(): void
     {
-        $responseFactory = fn(): ResponseInterface => $this->response;
+        $response        = new TextResponse('Foo');
+        $responseFactory = fn(): ResponseInterface => $response;
 
-        $this->response
-            ->expects(self::exactly(2))
-            ->method('withStatus')
-            ->withConsecutive([200], [422])
-            ->willReturnSelf();
+        $e             = new RuntimeException('This is the exception message', 422);
+        $generator     = new ServerRequestErrorResponseGenerator($responseFactory, false);
+        $errorResponse = $generator($e);
 
-        $this->response
-            ->expects(self::once())
-            ->method('getBody')
-            ->willReturn($this->createMock(StreamInterface::class));
-
-        $generator = new ServerRequestErrorResponseGenerator($responseFactory, false);
-
-        $e = new RuntimeException('This is the exception message', 422);
-        $this->assertSame($this->response, $generator($e));
+        self::assertNotSame($response, $errorResponse);
+        self::assertSame(422, $errorResponse->getStatusCode());
+        self::assertNotEquals('Foo', (string) $errorResponse->getBody());
     }
 }

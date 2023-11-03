@@ -7,12 +7,12 @@ namespace MezzioTest\Container;
 use Mezzio\Container\Exception\InvalidServiceException;
 use Mezzio\Container\WhoopsPageHandlerFactory;
 use MezzioTest\InMemoryContainer;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Whoops\Handler\PrettyPageHandler;
 
-/**
- * @covers Mezzio\Container\WhoopsPageHandlerFactory
- */
+#[CoversClass(WhoopsPageHandlerFactory::class)]
 class WhoopsPageHandlerFactoryTest extends TestCase
 {
     private InMemoryContainer $container;
@@ -85,7 +85,8 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         self::assertEquals($expected, $result);
     }
 
-    public function invalidEditors(): array
+    /** @return array<string, array{0: mixed}> */
+    public static function invalidEditors(): array
     {
         return [
             'true'       => [true],
@@ -99,9 +100,7 @@ class WhoopsPageHandlerFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider invalidEditors
-     */
+    #[DataProvider('invalidEditors')]
     public function testInvalidEditorWillRaiseException(mixed $editor): void
     {
         $config = ['whoops' => ['editor' => $editor]];

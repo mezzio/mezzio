@@ -11,7 +11,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webmozart\Assert\Assert;
 
 use function array_shift;
 use function count;
@@ -48,19 +47,15 @@ use function is_string;
  * @psalm-type InterfaceType = RequestHandlerInterface|RequestHandlerMiddleware|MiddlewareInterface
  * @psalm-type CallableType = callable(ServerRequestInterface, RequestHandlerInterface): ResponseInterface
  * @psalm-type MiddlewareParam = string|InterfaceType|CallableType|list<string|InterfaceType|CallableType>
+ * @final
  */
-class MiddlewareFactory
+class MiddlewareFactory implements MiddlewareFactoryInterface
 {
     public function __construct(private MiddlewareContainer $container)
     {
     }
 
-    /**
-     * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface $middleware
-     * @psalm-param MiddlewareParam $middleware
-     * @throws Exception\InvalidMiddlewareException If argument is not one of
-     *    the specified types.
-     */
+    /** @inheritDoc */
     public function prepare($middleware): MiddlewareInterface
     {
         if ($middleware instanceof MiddlewareInterface) {
@@ -79,6 +74,9 @@ class MiddlewareFactory
             return $this->pipeline(...$middleware);
         }
 
+        /**
+         * @psalm-suppress DocblockTypeContradiction Unless there are native types, we should not trust phpdoc
+         */
         if (! is_string($middleware) || $middleware === '') {
             throw Exception\InvalidMiddlewareException::forMiddleware($middleware);
         }
@@ -86,45 +84,25 @@ class MiddlewareFactory
         return $this->lazy($middleware);
     }
 
-    /**
-     * Decorate callable standards-signature middleware via a CallableMiddlewareDecorator.
-     */
+    /** @inheritDoc */
     public function callable(callable $middleware): CallableMiddlewareDecorator
     {
         return new CallableMiddlewareDecorator($middleware);
     }
 
-    /**
-     * Decorate a RequestHandlerInterface as middleware via RequestHandlerMiddleware.
-     */
+    /** @inheritDoc */
     public function handler(RequestHandlerInterface $handler): RequestHandlerMiddleware
     {
         return new RequestHandlerMiddleware($handler);
     }
 
-    /**
-     * Create lazy loading middleware based on a service name.
-     */
+    /** @inheritDoc */
     public function lazy(string $middleware): Middleware\LazyLoadingMiddleware
     {
         return new Middleware\LazyLoadingMiddleware($this->container, $middleware);
     }
 
-    /**
-     * Create a middleware pipeline from an array of middleware.
-     *
-     * This method allows passing an array of middleware as either:
-     *
-     * - discrete arguments
-     * - an array of middleware, using the splat operator: pipeline(...$array)
-     * - an array of middleware as the sole argument: pipeline($array)
-     *
-     * Each item is passed to prepare() before being passed to the
-     * MiddlewarePipe instance the method returns.
-     *
-     * @param string|array|callable|MiddlewareInterface|RequestHandlerInterface ...$middleware
-     * @psalm-param MiddlewareParam ...$middleware
-     */
+    /** @inheritDoc */
     public function pipeline(...$middleware): MiddlewarePipe
     {
         // Allow passing arrays of middleware or individual lists of middleware
@@ -134,8 +112,6 @@ class MiddlewareFactory
         ) {
             $middleware = array_shift($middleware);
         }
-
-        Assert::isIterable($middleware, 'Unexpected value provided to pipeline');
 
         $pipeline = new MiddlewarePipe();
         foreach ($middleware as $m) {

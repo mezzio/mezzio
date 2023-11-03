@@ -10,9 +10,10 @@ use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
 use Laminas\Stratigility\MiddlewarePipe;
 use Laminas\Stratigility\MiddlewarePipeInterface;
 use Mezzio\Application;
-use Mezzio\MiddlewareFactory;
+use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollector;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -24,10 +25,10 @@ use TypeError;
 use function sprintf;
 use function strtoupper;
 
-/** @psalm-import-type MiddlewareParam from MiddlewareFactory */
+/** @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface */
 class ApplicationTest extends TestCase
 {
-    /** @var MiddlewareFactory&MockObject */
+    /** @var MiddlewareFactoryInterface&MockObject */
     private $factory;
 
     /** @var MiddlewarePipeInterface&MockObject */
@@ -43,7 +44,7 @@ class ApplicationTest extends TestCase
 
     public function setUp(): void
     {
-        $this->factory  = $this->createMock(MiddlewareFactory::class);
+        $this->factory  = $this->createMock(MiddlewareFactoryInterface::class);
         $this->pipeline = $this->createMock(MiddlewarePipeInterface::class);
         $this->routes   = $this->createMock(RouteCollector::class);
         $this->runner   = $this->createMock(RequestHandlerRunnerInterface::class);
@@ -95,21 +96,20 @@ class ApplicationTest extends TestCase
     }
 
     /** @return iterable<string, array{0: MiddlewareParam}> */
-    public function validMiddleware(): iterable
+    public static function validMiddleware(): iterable
     {
         // @codingStandardsIgnoreStart
         yield 'string'   => ['service'];
         yield 'array'    => [['middleware', 'service']];
-        /** @psalm-suppress UnusedClosureParam */
         yield 'callable' => [fn ( ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface => new Response()];
         yield 'instance' => [new MiddlewarePipe()];
         // @codingStandardsIgnoreEnd
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testPipeCanAcceptSingleMiddlewareArgument($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -127,9 +127,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testPipeCanAcceptAPathArgument($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -148,7 +148,6 @@ class ApplicationTest extends TestCase
 
     public function testPipeNonSlashPathOnNonStringPipeProduceTypeError(): void
     {
-        /** @psalm-suppress UnusedClosureParam */
         $middleware1 = static fn(ServerRequestInterface $req, RequestHandlerInterface $res): ResponseInterface
             => new Response();
         $middleware2 = $this->createMockMiddleware();
@@ -158,9 +157,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testRouteAcceptsPathAndMiddlewareOnly($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -186,9 +185,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testRouteAcceptsPathMiddlewareAndMethodsOnly($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -214,9 +213,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testRouteAcceptsPathMiddlewareMethodsAndName($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -242,10 +241,10 @@ class ApplicationTest extends TestCase
     }
 
     /** @return iterable<string, array{0: string, 1: MiddlewareParam}> */
-    public function requestMethodsWithValidMiddleware(): iterable
+    public static function requestMethodsWithValidMiddleware(): iterable
     {
         foreach (['get', 'post', 'put', 'patch', 'delete'] as $method) {
-            foreach ($this->validMiddleware() as $key => $data) {
+            foreach (self::validMiddleware() as $key => $data) {
                 $name = sprintf('%s-%s', $method, $key);
                 yield $name => [$method, $data[0]];
             }
@@ -253,9 +252,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider requestMethodsWithValidMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('requestMethodsWithValidMiddleware')]
     public function testSpecificRouteMethodsCanAcceptOnlyPathAndMiddleware(string $method, $middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -281,9 +280,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider requestMethodsWithValidMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('requestMethodsWithValidMiddleware')]
     public function testSpecificRouteMethodsCanAcceptPathMiddlewareAndName(string $method, $middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -309,9 +308,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testAnyMethodPassesNullForMethodWhenNoNamePresent($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
@@ -337,9 +336,9 @@ class ApplicationTest extends TestCase
     }
 
     /**
-     * @dataProvider validMiddleware
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('validMiddleware')]
     public function testAnyMethodPassesNullForMethodWhenAllArgumentsPresent($middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();

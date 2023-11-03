@@ -9,8 +9,10 @@ use Mezzio\Exception\ContainerNotRegisteredException;
 use Mezzio\Exception\ExceptionInterface;
 use Mezzio\Exception\InvalidMiddlewareException;
 use Mezzio\Exception\MissingDependencyException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerExceptionInterface;
+use Throwable;
 
 use function basename;
 use function glob;
@@ -20,7 +22,7 @@ use function substr;
 
 class ExceptionTest extends TestCase
 {
-    public function exception(): Generator
+    public static function exception(): Generator
     {
         $namespace = substr(ExceptionInterface::class, 0, strrpos(ExceptionInterface::class, '\\') + 1);
 
@@ -32,24 +34,21 @@ class ExceptionTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider exception
-     */
+    #[DataProvider('exception')]
     public function testExceptionIsInstanceOfExceptionInterface(string $exception): void
     {
         $this->assertStringContainsString('Exception', $exception);
         $this->assertTrue(is_a($exception, ExceptionInterface::class, true));
     }
 
-    public function containerException(): Generator
+    /** @return Generator<class-string<Throwable>, array{0: class-string<Throwable>}> */
+    public static function containerException(): Generator
     {
         yield InvalidMiddlewareException::class => [InvalidMiddlewareException::class];
         yield MissingDependencyException::class => [MissingDependencyException::class];
     }
 
-    /**
-     * @dataProvider containerException
-     */
+    #[DataProvider('containerException')]
     public function testExceptionIsInstanceOfContainerExceptionInterface(string $exception): void
     {
         $this->assertTrue(is_a($exception, ContainerExceptionInterface::class, true));

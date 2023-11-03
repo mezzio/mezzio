@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Mezzio\Container;
 
-use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface;
 use Psr\Container\ContainerInterface;
@@ -23,7 +22,7 @@ use function sprintf;
  * at this time.
  *
  * This factory consumes the
- * Laminas\Diactoros\ServerRequestFilter\ServerRequestFilterInterface
+ * Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface
  * service, which is used to make changes when initializing the request.
  */
 class ServerRequestFactoryFactory
@@ -46,6 +45,6 @@ class ServerRequestFactoryFactory
             ? $container->get(FilterServerRequestInterface::class)
             : null;
 
-        return static fn(): ServerRequest => ServerRequestFactory::fromGlobals(null, null, null, null, null, $filter);
+        return static fn(): ServerRequestInterface => ServerRequestFactory::fromGlobals(requestFilter: $filter);
     }
 }

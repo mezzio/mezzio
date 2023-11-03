@@ -6,12 +6,14 @@ namespace MezzioTest\Container;
 
 use ArrayAccess;
 use Generator;
+use Laminas\Diactoros\Response\TextResponse;
 use Mezzio\Container\NotFoundHandlerFactory;
 use Mezzio\Container\ResponseFactoryFactory;
 use Mezzio\Handler\NotFoundHandler;
 use Mezzio\Response\CallableResponseFactoryDecorator;
 use Mezzio\Template\TemplateRendererInterface;
 use MezzioTest\InMemoryContainer;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -37,14 +39,14 @@ class NotFoundHandlerFactoryTest extends TestCase
     /**
      * @psalm-return Generator<non-empty-string,array{0:array<string,mixed>}>
      */
-    public function configurationsWithOverriddenResponseInterfaceFactory(): Generator
+    public static function configurationsWithOverriddenResponseInterfaceFactory(): Generator
     {
         yield 'default' => [
             [
                 'dependencies' => [
                     'factories' => [
                         ResponseInterface::class
-                            => fn(): ResponseInterface => $this->createMock(ResponseInterface::class),
+                            => fn(): ResponseInterface => new TextResponse('Foo'),
                     ],
                 ],
             ],
@@ -65,7 +67,7 @@ class NotFoundHandlerFactoryTest extends TestCase
                 'dependencies' => [
                     'delegators' => [
                         ResponseInterface::class => [
-                            fn(): ResponseInterface => $this->createMock(ResponseInterface::class),
+                            fn(): ResponseInterface => new TextResponse('Foo'),
                         ],
                     ],
                 ],
@@ -176,8 +178,8 @@ class NotFoundHandlerFactoryTest extends TestCase
 
     /**
      * @param array<string,mixed> $config
-     * @dataProvider configurationsWithOverriddenResponseInterfaceFactory
      */
+    #[DataProvider('configurationsWithOverriddenResponseInterfaceFactory')]
     public function testWontUseResponseFactoryInterfaceFromContainerWhenApplicationFactoryIsOverriden(
         array $config
     ): void {

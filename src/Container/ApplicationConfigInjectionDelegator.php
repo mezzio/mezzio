@@ -6,7 +6,7 @@ namespace Mezzio\Container;
 
 use Mezzio\Application;
 use Mezzio\Exception\InvalidArgumentException;
-use Mezzio\MiddlewareFactory;
+use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\Route;
 use Psr\Container\ContainerInterface;
 use SplPriorityQueue;
@@ -24,7 +24,7 @@ use function sprintf;
 use const PHP_INT_MAX;
 
 /**
- * @psalm-import-type MiddlewareParam from MiddlewareFactory
+ * @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface
  * @psalm-type RouteSpec = array{
  *     path: non-empty-string,
  *     middleware: MiddlewareParam,

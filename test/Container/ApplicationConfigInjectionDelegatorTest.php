@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MezzioTest\Container;
 
 use ArrayObject;
+use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Laminas\Stratigility\MiddlewarePipe;
 use Mezzio\Application;
@@ -13,23 +14,29 @@ use Mezzio\Container\Exception\InvalidServiceException;
 use Mezzio\Exception\InvalidArgumentException;
 use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
+use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollector;
 use Mezzio\Router\RouterInterface;
 use MezzioTest\InMemoryContainer;
 use MezzioTest\TestAsset\InvokableMiddleware;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use ReflectionProperty;
 use SplQueue;
 
 use function array_reduce;
 use function array_shift;
+use function assert;
 
 /**
- * @psalm-import-type MiddlewareParam from MiddlewareFactory
+ * @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface
  * @psalm-import-type RouteSpec from ApplicationConfigInjectionDelegator
  */
 class ApplicationConfigInjectionDelegatorTest extends TestCase
@@ -64,13 +71,14 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     public function getQueueFromApplicationPipeline(Application $app): SplQueue
     {
-        $r = new ReflectionProperty($app, 'pipeline');
-        $r->setAccessible(true);
+        $r        = new ReflectionProperty($app, 'pipeline');
         $pipeline = $r->getValue($app);
+        assert($pipeline instanceof MiddlewarePipe);
 
-        $r = new ReflectionProperty($pipeline, 'pipeline');
-        $r->setAccessible(true);
-        return $r->getValue($pipeline);
+        $r        = new ReflectionProperty($pipeline, 'pipeline');
+        $pipeline = $r->getValue($pipeline);
+        assert($pipeline instanceof SplQueue);
+        return $pipeline;
     }
 
     /**
@@ -128,12 +136,13 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
     }
 
     /** @return list<array{MiddlewareParam}> */
-    public function callableMiddlewares(): array
+    public static function callableMiddlewares(): array
     {
         return [
             ['HelloWorld'],
             [
-                static function (): void {
+                static function (ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+                    return new Response();
                 },
             ],
             [[InvokableMiddleware::class, 'staticallyCallableMiddleware']],
@@ -153,9 +162,9 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
     }
 
     /**
-     * @dataProvider callableMiddlewares
      * @param MiddlewareParam $middleware
      */
+    #[DataProvider('callableMiddlewares')]
     public function testInjectRoutesFromConfigSetsUpRoutesFromConfig($middleware): void
     {
         $this->container->set('HelloWorld', true);
