@@ -43,7 +43,7 @@
         "laminas/laminas-stratigility": "^3.5",
         "mezzio/mezzio-router": "^3.7",
         "mezzio/mezzio-template": "^2.2",
-        "psr/container": "^1.0||^2.0",
+        "psr/container": "^1.1.2||^2.0.2",
         "psr/http-factory": "^1.0",
         "psr/http-message": "^1.0.1 || ^2.0.0",
         "psr/http-server-middleware": "^1.0",
@@ -81,8 +81,7 @@
     },
     "autoload": {
         "files": [
-            "src/constants.php",
-            "src/constants.legacy.php"
+            "src/constants.php"
         ],
         "psr-4": {
             "Mezzio\\": "src/"
