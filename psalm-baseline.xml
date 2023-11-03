@@ -179,9 +179,9 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/ConfigProviderTest.php">
-    <DeprecatedClass>
-      <code>new Config($dependencies)</code>
-    </DeprecatedClass>
+    <ArgumentTypeCoercion>
+      <code>$dependencies</code>
+    </ArgumentTypeCoercion>
     <MixedArgument>
       <code>ApplicationPipeline::class</code>
     </MixedArgument>

@@ -7,8 +7,6 @@ namespace MezzioTest;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
-use Laminas\ServiceManager\Config;
-use Laminas\ServiceManager\ConfigInterface;
 use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Mezzio\Application;
@@ -38,7 +36,9 @@ use const Mezzio\IMPLICIT_OPTIONS_MIDDLEWARE;
 use const Mezzio\NOT_FOUND_MIDDLEWARE;
 use const Mezzio\ROUTE_MIDDLEWARE;
 
-/** @psalm-import-type ServiceManagerConfigurationType from ConfigInterface */
+/**
+ * @psalm-import-type ServiceManagerConfiguration from ServiceManager
+ */
 class ConfigProviderTest extends TestCase
 {
     private ConfigProvider $provider;
@@ -136,12 +136,9 @@ class ConfigProviderTest extends TestCase
         }
     }
 
-    /** @psalm-param ServiceManagerConfigurationType $dependencies */
+    /** @psalm-param $dependencies ServiceManagerConfiguration */
     private function getContainer(array $dependencies): ServiceManager
     {
-        $container = new ServiceManager();
-        (new Config($dependencies))->configureServiceManager($container);
-
-        return $container;
+        return new ServiceManager($dependencies);
     }
 }

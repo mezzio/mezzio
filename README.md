@@ -11,14 +11,14 @@ features:
 
 - Routing. Choose your own router; we support:
   - [Aura.Router](https://github.com/auraphp/Aura.Router)
-    - [FastRoute](https://github.com/nikic/FastRoute)
-    - [laminas-router](https://github.com/mezzio/mezzio-router)
+  - [FastRoute](https://github.com/nikic/FastRoute)
+  - [laminas-router](https://github.com/mezzio/mezzio-router)
 - DI Containers, via [PSR-11 Container](https://github.com/php-fig/container).
   Middleware matched via routing is retrieved from the composed container.
 - Optionally, templating. We support:
   - [Plates](http://platesphp.com/)
-    - [Twig](http://twig.sensiolabs.org/)
-    - [Laminas's PhpRenderer](https://github.com/laminas/laminas-view)
+  - [Twig](http://twig.sensiolabs.org/)
+  - [Laminas's PhpRenderer](https://github.com/laminas/laminas-view)
 
 ## Installation
 
