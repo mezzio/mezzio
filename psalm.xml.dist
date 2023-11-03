@@ -19,11 +19,6 @@
     </projectFiles>
 
     <issueHandlers>
-        <PossiblyInvalidArgument>
-            <errorLevel type="suppress">
-                <referencedFunction name="Laminas\Stratigility\path"/>
-            </errorLevel>
-        </PossiblyInvalidArgument>
         <DeprecatedClass>
             <errorLevel type="suppress">
                 <referencedClass name="Mezzio\Response\CallableResponseFactoryDecorator"/>
