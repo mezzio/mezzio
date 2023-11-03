@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.11.0@c9b192ab8400fdaf04b2b13d110575adc879aa90">
+<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
   <file src="src/Application.php">
     <MixedArgumentTypeCoercion>
       <code>$middleware</code>
     </MixedArgumentTypeCoercion>
+    <PossiblyInvalidArgument>
+      <code>$path</code>
+    </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/ApplicationConfigInjectionDelegator.php">
     <DocblockTypeContradiction>
@@ -176,6 +179,9 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/ConfigProviderTest.php">
+    <ArgumentTypeCoercion>
+      <code>$dependencies</code>
+    </ArgumentTypeCoercion>
     <MixedArgument>
       <code>ApplicationPipeline::class</code>
     </MixedArgument>

@@ -10,15 +10,15 @@ to provide a minimalist PSR-7 middleware framework for PHP, with the following
 features:
 
 - Routing. Choose your own router; we support:
-    - [Aura.Router](https://github.com/auraphp/Aura.Router)
-    - [FastRoute](https://github.com/nikic/FastRoute)
-    - [laminas-router](https://github.com/mezzio/mezzio-router)
+  - [Aura.Router](https://github.com/auraphp/Aura.Router)
+  - [FastRoute](https://github.com/nikic/FastRoute)
+  - [laminas-router](https://github.com/mezzio/mezzio-router)
 - DI Containers, via [PSR-11 Container](https://github.com/php-fig/container).
   Middleware matched via routing is retrieved from the composed container.
 - Optionally, templating. We support:
-    - [Plates](http://platesphp.com/)
-    - [Twig](http://twig.sensiolabs.org/)
-    - [Laminas's PhpRenderer](https://github.com/laminas/laminas-view)
+  - [Plates](http://platesphp.com/)
+  - [Twig](http://twig.sensiolabs.org/)
+  - [Laminas's PhpRenderer](https://github.com/laminas/laminas-view)
 
 ## Installation
 
@@ -37,7 +37,7 @@ also provides configuration for officially supported dependencies.
 To use the skeleton, use Composer's `create-project` command:
 
 ```bash
-$ composer create-project mezzio/mezzio-skeleton <project dir>
+composer create-project mezzio/mezzio-skeleton <project dir>
 ```
 
 This will prompt you through choosing your dependencies, and then create and
@@ -49,7 +49,7 @@ create and install in a `mezzio-skeleton/` directory).
 You can install Mezzio standalone using Composer:
 
 ```bash
-$ composer require mezzio/mezzio
+composer require mezzio/mezzio
 ```
 
 However, at this point, Mezzio is not usable, as you need to supply
@@ -87,8 +87,8 @@ documentation.
 Documentation is [in the doc tree](docs/book/), and can be compiled using [mkdocs](https://www.mkdocs.org):
 
 ```bash
-$ mkdocs build
+mkdocs build
 ```
 
 Additionally, public-facing, browseable documentation is available at
-https://docs.mezzio.dev/mezzio/
+<https://docs.mezzio.dev/mezzio/>
