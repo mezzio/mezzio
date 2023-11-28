@@ -14,6 +14,7 @@ use SplPriorityQueue;
 use function array_key_exists;
 use function array_map;
 use function array_reduce;
+use function get_debug_type;
 use function gettype;
 use function is_array;
 use function is_int;
@@ -268,7 +269,7 @@ class ApplicationConfigInjectionDelegator
                 throw new InvalidArgumentException(sprintf(
                     'Invalid pipeline specification received; must be an array'
                     . ' containing a middleware key; received %s',
-                    is_object($item) ? $item::class : gettype($item)
+                    get_debug_type($item),
                 ));
             }
             return $item;

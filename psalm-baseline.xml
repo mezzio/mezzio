@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
+<files psalm-version="5.16.0@2897ba636551a8cb61601cc26f6ccfbba6c36591">
   <file src="src/Application.php">
     <MixedArgumentTypeCoercion>
       <code>$middleware</code>
@@ -13,7 +13,6 @@
       <code>! is_array($item)</code>
       <code>1</code>
       <code>is_array($methods)</code>
-      <code>is_object($item)</code>
     </DocblockTypeContradiction>
     <MixedArgument>
       <code>$name</code>
@@ -30,7 +29,6 @@
       <code>(array) $config</code>
     </RedundantCastGivenDocblockType>
     <RedundantConditionGivenDocblockType>
-      <code>gettype($item)</code>
       <code><![CDATA[is_int($item['priority'])]]></code>
       <code><![CDATA[isset($item['priority']) && is_int($item['priority'])]]></code>
     </RedundantConditionGivenDocblockType>
