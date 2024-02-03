@@ -77,10 +77,13 @@ class ApplicationConfigInjectionDelegator
          */
         $config = $container->get('config');
 
-        if (! empty($config['middleware_pipeline'])) {
+        $config['middleware_pipeline'] ??= [];
+        $config['routes']              ??= [];
+
+        if ($config['middleware_pipeline'] !== []) {
             self::injectPipelineFromConfig($application, (array) $config);
         }
-        if (! empty($config['routes'])) {
+        if ($config['routes'] !== []) {
             self::injectRoutesFromConfig($application, (array) $config);
         }
 
@@ -143,7 +146,8 @@ class ApplicationConfigInjectionDelegator
      */
     public static function injectPipelineFromConfig(Application $application, array $config): void
     {
-        if (empty($config['middleware_pipeline'])) {
+        $middlewarePipeline = $config['middleware_pipeline'] ?? [];
+        if ($middlewarePipeline === []) {
             return;
         }
 
@@ -153,7 +157,7 @@ class ApplicationConfigInjectionDelegator
          * @psalm-var SplPriorityQueue<int, MiddlewareSpec> $queue
          */
         $queue = array_reduce(
-            array_map(self::createCollectionMapper(), $config['middleware_pipeline']),
+            array_map(self::createCollectionMapper(), $middlewarePipeline),
             self::createPriorityQueueReducer(),
             new SplPriorityQueue()
         );
@@ -205,11 +209,12 @@ class ApplicationConfigInjectionDelegator
      */
     public static function injectRoutesFromConfig(Application $application, array $config): void
     {
-        if (empty($config['routes']) || ! is_array($config['routes'])) {
+        $routes = $config['routes'] ?? [];
+        if (! is_array($routes) || $routes === []) {
             return;
         }
 
-        foreach ($config['routes'] as $key => $spec) {
+        foreach ($routes as $key => $spec) {
             if (! isset($spec['path']) || ! isset($spec['middleware'])) {
                 continue;
             }
