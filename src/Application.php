@@ -75,7 +75,7 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      */
     public function pipe($middlewareOrPath, $middleware = null): void
     {
-        $middleware = $middleware ?: $middlewareOrPath;
+        $middleware = $middleware ?? $middlewareOrPath;
         $path       = $middleware === $middlewareOrPath ? '/' : $middlewareOrPath;
 
         $middleware = $path !== '/'

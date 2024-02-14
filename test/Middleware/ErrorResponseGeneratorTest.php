@@ -146,7 +146,7 @@ class ErrorResponseGeneratorTest extends TestCase
 
         $this->request->method('getUri')->willReturn(new Uri('https://example.com/foo'));
 
-        $generator = $template
+        $generator = $template !== null
             ? new ErrorResponseGenerator(false, $this->renderer, $template)
             : new ErrorResponseGenerator(false, $this->renderer);
 
@@ -196,7 +196,7 @@ class ErrorResponseGeneratorTest extends TestCase
 
         $this->request->method('getUri')->willReturn(new Uri('https://example.com/foo'));
 
-        $generator = $template
+        $generator = $template !== null
             ? new ErrorResponseGenerator(true, $this->renderer, $template)
             : new ErrorResponseGenerator(true, $this->renderer);
 

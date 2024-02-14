@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
+<files psalm-version="5.21.1@8c473e2437be8b6a8fd8f630f0f11a16b114c494">
   <file src="src/Application.php">
     <MixedArgumentTypeCoercion>
       <code>$middleware</code>
@@ -11,32 +11,24 @@
   <file src="src/Container/ApplicationConfigInjectionDelegator.php">
     <DocblockTypeContradiction>
       <code>! is_array($item)</code>
+      <code>! is_array($routes)</code>
       <code>1</code>
       <code>is_array($methods)</code>
-      <code>is_object($item)</code>
     </DocblockTypeContradiction>
     <MixedArgument>
       <code>$name</code>
     </MixedArgument>
     <MixedAssignment>
       <code>$name</code>
-      <code>$serial</code>
     </MixedAssignment>
-    <MixedOperand>
-      <code>$serial</code>
-    </MixedOperand>
     <RedundantCastGivenDocblockType>
       <code>(array) $config</code>
       <code>(array) $config</code>
     </RedundantCastGivenDocblockType>
     <RedundantConditionGivenDocblockType>
-      <code>gettype($item)</code>
       <code><![CDATA[is_int($item['priority'])]]></code>
       <code><![CDATA[isset($item['priority']) && is_int($item['priority'])]]></code>
     </RedundantConditionGivenDocblockType>
-    <TypeDoesNotContainType>
-      <code><![CDATA[! is_array($config['routes'])]]></code>
-    </TypeDoesNotContainType>
   </file>
   <file src="src/Container/ApplicationFactory.php">
     <MixedArgument>
@@ -195,7 +187,6 @@
   </file>
   <file src="test/Container/ApplicationConfigInjectionDelegatorTest.php">
     <MixedAssignment>
-      <code>$middleware</code>
       <code>$pipeline</code>
     </MixedAssignment>
   </file>

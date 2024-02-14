@@ -117,12 +117,16 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         );
     }
 
+    /**
+     * @param class-string<MiddlewareInterface> $class
+     * @param iterable<array-key, MiddlewareInterface> $pipeline
+     */
     public static function assertPipelineContainsInstanceOf(
         string $class,
         iterable $pipeline,
         ?string $message = null
     ): void {
-        $message = $message ?: 'Did not find expected middleware class type in pipeline';
+        $message = $message ?? 'Did not find expected middleware class type in pipeline';
         $found   = false;
 
         foreach ($pipeline as $middleware) {

@@ -27,7 +27,7 @@ about how things work, yet they're very broad and general. What’s more, it
 also has several pre-wired structures in place that may either aid you &mdash;
 or get in your way.
 
-As a result, you are required to know a lot of what those things are &mdash; *if* you
+As a result, you are required to know a lot of what those things are &mdash; _if_ you
 want to use it optimally. And to acquire that depth of knowledge, you’re going
 to need to spend a lot of time digging deep into laminas-mvc’s internals before
 you begin to get the most out of it.
