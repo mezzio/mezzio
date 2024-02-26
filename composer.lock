@@ -2202,16 +2202,16 @@
         },
         {
             "name": "laminas/laminas-validator",
-            "version": "2.47.0",
+            "version": "2.49.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-validator.git",
-                "reference": "5c3fc8c4f1263cda5c5f14aed874fdadd5b90bbd"
+                "reference": "d58c2e7d3cd420554400dd8cca694fafa3b8e45f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-validator/zipball/5c3fc8c4f1263cda5c5f14aed874fdadd5b90bbd",
-                "reference": "5c3fc8c4f1263cda5c5f14aed874fdadd5b90bbd",
+                "url": "https://api.github.com/repos/laminas/laminas-validator/zipball/d58c2e7d3cd420554400dd8cca694fafa3b8e45f",
+                "reference": "d58c2e7d3cd420554400dd8cca694fafa3b8e45f",
                 "shasum": ""
             },
             "require": {
@@ -2225,16 +2225,16 @@
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "^2.5",
-                "laminas/laminas-db": "^2.18",
-                "laminas/laminas-filter": "^2.33",
-                "laminas/laminas-i18n": "^2.24.1",
-                "laminas/laminas-session": "^2.17",
+                "laminas/laminas-db": "^2.19",
+                "laminas/laminas-filter": "^2.34",
+                "laminas/laminas-i18n": "^2.26.0",
+                "laminas/laminas-session": "^2.18",
                 "laminas/laminas-uri": "^2.11.0",
-                "phpunit/phpunit": "^10.5.2",
+                "phpunit/phpunit": "^10.5.10",
                 "psalm/plugin-phpunit": "^0.18.4",
                 "psr/http-client": "^1.0.3",
                 "psr/http-factory": "^1.0.2",
-                "vimeo/psalm": "^5.17"
+                "vimeo/psalm": "^5.22.1"
             },
             "suggest": {
                 "laminas/laminas-db": "Laminas\\Db component, required by the (No)RecordExists validator",
@@ -2282,7 +2282,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2024-01-17T11:31:50+00:00"
+            "time": "2024-02-22T16:46:06+00:00"
         },
         {
             "name": "mezzio/mezzio-aurarouter",
@@ -3369,16 +3369,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.10",
+            "version": "10.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "50b8e314b6d0dd06521dc31d1abffa73f25f850c"
+                "reference": "0d968f6323deb3dbfeba5bfd4929b9415eb7a9a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/50b8e314b6d0dd06521dc31d1abffa73f25f850c",
-                "reference": "50b8e314b6d0dd06521dc31d1abffa73f25f850c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0d968f6323deb3dbfeba5bfd4929b9415eb7a9a4",
+                "reference": "0d968f6323deb3dbfeba5bfd4929b9415eb7a9a4",
                 "shasum": ""
             },
             "require": {
@@ -3450,7 +3450,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.10"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.11"
             },
             "funding": [
                 {
@@ -3466,7 +3466,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-04T09:07:51+00:00"
+            "time": "2024-02-25T14:05:00+00:00"
         },
         {
             "name": "psalm/plugin-phpunit",
@@ -5459,16 +5459,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "5.22.1",
+            "version": "5.22.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "e9dad66e11274315dac27e08349c628c7d6a1a43"
+                "reference": "d768d914152dbbf3486c36398802f74e80cfde48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/e9dad66e11274315dac27e08349c628c7d6a1a43",
-                "reference": "e9dad66e11274315dac27e08349c628c7d6a1a43",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/d768d914152dbbf3486c36398802f74e80cfde48",
+                "reference": "d768d914152dbbf3486c36398802f74e80cfde48",
                 "shasum": ""
             },
             "require": {
@@ -5565,7 +5565,7 @@
                 "issues": "https://github.com/vimeo/psalm/issues",
                 "source": "https://github.com/vimeo/psalm"
             },
-            "time": "2024-02-15T22:52:31+00:00"
+            "time": "2024-02-22T23:39:07+00:00"
         },
         {
             "name": "webimpress/coding-standard",
