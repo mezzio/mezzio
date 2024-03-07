@@ -107,11 +107,11 @@ where:
   `Mezzio\Router\Route` instance.
 - `$middleware` **must** be present if `$pathOrRoute` is a string path, and
   **must** be:
-  - a callable;
-  - a service name that resolves to valid middleware in the container;
-  - a fully qualified class name of a constructor-less class;
-  - an array of any of the above; these will be composed in order into a
-    `Laminas\Stratigility\MiddlewarePipe` instance.
+    - a callable;
+    - a service name that resolves to valid middleware in the container;
+    - a fully qualified class name of a constructor-less class;
+    - an array of any of the above; these will be composed in order into a
+      `Laminas\Stratigility\MiddlewarePipe` instance.
 - `$methods` must be an array of HTTP methods valid for the given path and
   middleware. If null, it assumes any method is valid.
 - `$name` is the optional name for the route, and is used when generating a URI
