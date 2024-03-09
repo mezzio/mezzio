@@ -113,10 +113,10 @@ where:
     - an array of any of the above; these will be composed in order into a
       `Laminas\Stratigility\MiddlewarePipe` instance.
 - `$methods` must be an array of HTTP methods valid for the given path and
-  middleware. If null, it assumes any method is valid.
+    middleware. If null, it assumes any method is valid.
 - `$name` is the optional name for the route, and is used when generating a URI
-  from known routes. See the section on [route naming](router/uri-generation.md#generating-uris)
-  for details.
+    from known routes. See the section on [route naming](router/uri-generation.md#generating-uris)
+    for details.
 
 This method is typically only used if you want a single middleware to handle
 multiple HTTP request methods.
@@ -216,9 +216,8 @@ methods for retrieving them. They include:
   [emitter](https://docs.laminas.dev/laminas-diactoros/v1/emitting-responses/),
   typically a `Mezzio\Emitter\EmitterStack` instance.
 - `getFinalHandler(ResponseInterface $response = null)`: retrieves the final
-  handler instance. This is middleware with the signature `function ($request,
-$response, $error = null)`, and it is invoked when the middleware pipeline
-  queue is depleted and no response has been returned.
+  handler instance. This is middleware with the signature `function ($request, $response, $error = null)`, 
+  and it is invoked when the middleware pipeline queue is depleted and no response has been returned.
 
 ## Executing the application: run()
 
