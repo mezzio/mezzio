@@ -14,11 +14,11 @@ huge number of ramifications:
   if you are generating URIs.
 - If you are generating [HAL](https://docs.mezzio.dev/mezzio-hal/),
   you'll need:
-  - a separate URL generator for HAL that consumes the separate `UrlHelper`
-    instance.
-  - a separate `LinkGenerator` for HAL that consumes the separate URL generator.
-  - a separate `ResourceGenerator` for HAL that consumes the separate
-    `LinkGenerator`.
+    - a separate URL generator for HAL that consumes the separate `UrlHelper`
+      instance.
+    - a separate `LinkGenerator` for HAL that consumes the separate URL generator.
+    - a separate `ResourceGenerator` for HAL that consumes the separate
+      `LinkGenerator`.
 
 These tasks can be accomplished by writing your own factories, but that means a
 lot of extra code, and the potential for the factories to go out-of-sync with
