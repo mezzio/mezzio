@@ -51,6 +51,8 @@ application:
 $app->pipe($errorMiddleware);
 ```
 
+## There is an easier way
+
 So that you do not need to do this, we provide an error handler for you, via
 laminas-stratigility: `Laminas\Stratigility\Middleware\ErrorHandler`.
 
@@ -154,6 +156,9 @@ allowing the listener the ability to introspect the generated response as well.
 As an example, you could create a logging listener as follows:
 
 ```php
+<?php
+declare(strict_types=1);
+
 namespace Acme;
 
 use Exception;
@@ -195,6 +200,9 @@ You could then use a [delegator factory](container/delegator-factories.md) to
 create your logger listener and attach it to your error handler:
 
 ```php
+<?php
+declare(strict_types=1);
+
 namespace Acme;
 
 use Psr\Container\ContainerInterface;
@@ -211,6 +219,16 @@ class LoggingErrorListenerDelegatorFactory
         return $errorHandler;
     }
 }
+```
+
+Then, enable the delegator factory in your application, such as by adding the following to the `getDependencies()` function in your app or module’s _ConfigProvider.php_ file.
+
+```php
+'delegators' => [
+    ErrorHandler::class => [
+        LoggingErrorListenerDelegatorFactory::class,
+    ]
+],
 ```
 
 ## Handling more specific error types
