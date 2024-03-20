@@ -221,7 +221,7 @@ class LoggingErrorListenerDelegatorFactory
 }
 ```
 
-Then, enable the delegator factory in your application, such as by adding the following to the `getDependencies()` function in your app or module’s _ConfigProvider.php_ file.
+Then, enable the delegator factory in your application, such as by adding the following to the `getDependencies()` function in your app or module’s `ConfigProvider.php` file.
 
 ```php
 'delegators' => [
