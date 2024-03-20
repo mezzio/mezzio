@@ -51,7 +51,7 @@ application:
 $app->pipe($errorMiddleware);
 ```
 
-## There is an easier way
+## There Is an Easier Way
 
 So that you do not need to do this, we provide an error handler for you, via
 laminas-stratigility: `Laminas\Stratigility\Middleware\ErrorHandler`.
