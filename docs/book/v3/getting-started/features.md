@@ -84,23 +84,23 @@ and a delegate for handing off processing of the request should the middleware
 not be able to fully process it itself. Internally, the delegate composes a
 queue of middleware, and invokes the next in the queue when invoked.
 
-Any given middleware can return a *response*, at which point execution winds
+Any given middleware can return a _response_, at which point execution winds
 its way back out the onion.
 
 > ### Pipelines
 >
 > The terminology "pipeline" is often used to describe the onion. One way of
-> looking at the "onion" is as a *queue*, which is first-in-first-out (FIFO) in
+> looking at the "onion" is as a _queue_, which is first-in-first-out (FIFO) in
 > operation. This means that the first middleware on the queue is executed first,
 > and this invokes the next, and so on (and hence the "next" terminology). When
 > looked at from this perspective:
 >
-> - In most cases, the entire queue *will not* be traversed.
+> - In most cases, the entire queue _will not_ be traversed.
 > - The innermost layer of the onion represents the last item in the queue, and
 >   should be guaranteed to return a response; usually this is indicative of
 >   a malformed request (HTTP 400 response status) and/or inability to route
 >   the middleware to a handler (HTTP 404 response status).
-> - Responses are returned *through* the pipeline, in reverse order of
+> - Responses are returned _through_ the pipeline, in reverse order of
 >   traversal.
 
 > ### Double pass middleware
@@ -209,7 +209,7 @@ The main points to remember are:
 - The application is a queue, and operates in FIFO order.
 - Each middleware can choose whether to return a response, which will cause
   the queue to unwind, or to traverse to the next middleware.
-- Most of the time, you will be defining *routed middleware*, and the routing
+- Most of the time, you will be defining _routed middleware_, and the routing
   rules that map to them.
-- *You* get to control the workflow of your application by deciding the order in
+- _You_ get to control the workflow of your application by deciding the order in
   which middleware is queued.

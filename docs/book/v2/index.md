@@ -23,7 +23,7 @@ framework for PHP, with the following features:
   [Composer](https://getcomposer.org)-based installer prompts you for your
   initial stack choices, giving you exactly the base you want to start from.
 
-Essentially, Mezzio allows *you* to develop using the tools *you* prefer,
+Essentially, Mezzio allows _you_ to develop using the tools _you_ prefer,
 and provides minimal structure and facilities to ease your development.
 
 Should I choose it over Laminas\Mvc?

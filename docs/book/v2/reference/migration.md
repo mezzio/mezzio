@@ -145,7 +145,7 @@ recommend updating them to instead typehint against PSR-11, which will allow
 you to drop the container-interop requirement once your chosen container
 implementation no longer requires it.
 
-> ### Do not update blindly!
+> ### Do not update blindly
 >
 > If you are implementing interfaces from other packages in your factory
 > implementations, be sure to check and see if those interfaces update to PSR-11
@@ -399,7 +399,8 @@ handling needs:
   generate the error response. Its constructor takes a single argument, a
   `Whoops\Run` instance. If a `Whoops\Handler\PrettyPageHandler` is registered
   with the instance, it will add a data table with request details derived from
-  the `ServerRequestInterface` instance.<br/><br/>
+  the `ServerRequestInterface` instance.
+
   `Mezzio\Container\WhoopsErrorResponseGeneratorFactory` can create an
   instance, and will use the `Mezzio\Whoops` service to seed the
   `Whoops\Run` argument.
@@ -409,7 +410,8 @@ handling needs:
   get to the innermost layer, no middleware was able to handle the request,
   indicating a 404.) By default, it will produce a canned plaintext response.
   However, you can also provide an optional `TemplateRendererInterface` instance
-  and `$template` in order to provide templated content.<br/><br/>
+  and `$template` in order to provide templated content.
+
   The constructor arguments are:
 
     - `ResponseInterface $responsePrototype`: this is an empty response on which
@@ -418,7 +420,7 @@ handling needs:
     - `TemplateRendererInterface $renderer`: optionally, you may provide a
       renderer to use in order to provide templated response content.
 
-    -  $template = 'error::404'`: optionally, you may provide a
+    - $template = 'error::404'`: optionally, you may provide a
       template to render; if none is provided, a sane default is used.
 
 - `Mezzio\Container\NotFoundHandlerFactory` can create an instance of
@@ -433,10 +435,10 @@ handling needs:
 - `Mezzio\Container\ErrorHandlerFactory` will create an instance of
   `Laminas\Stratigility\Middleware\ErrorHandler`, and use the
   `Laminas\Stratigility\Middleware\ErrorResponseGenerator` service to seed
-  it.<br/><br/>
+  it.
+
   As such, register one of the following as a factory for the
   `Laminas\Stratigility\Middleware\ErrorResponseGenerator` service:
-
     - `Mezzio\Container\ErrorResponseGeneratorFactory`
     - `Mezzio\Container\WhoopsErrorResponseGeneratorFactory`
 
@@ -620,8 +622,8 @@ these features enabled by default.
 
 ## Programmatic middleware pipelines
 
-Starting with Mezzio 1.1, we recommended *programmatic creation of
-pipelines and routing*; the [Mezzio 1.1 migration
+Starting with Mezzio 1.1, we recommended _programmatic creation of
+pipelines and routing_; the [Mezzio 1.1 migration
 guide](../../v1/reference/migration/to-v1-1.md#programmatic-middleware-pipelines)
 provides more detail.
 

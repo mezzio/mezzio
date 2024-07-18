@@ -189,7 +189,7 @@ removed in version 3:
     - `getContainer()`: this method is removed in version 3; container access will only be via the bootstrap.
     - `getDefaultDelegate()`: the concept of a default delegate is removed in version 3.
     - `getEmitter()`: emitters move to a different collaborator in version 3.
-    - `injectPipelineFromConfig()` andd `injectRoutesFromConfig()` are methods
+    - `injectPipelineFromConfig()` and `injectRoutesFromConfig()` are methods
       defined by the `ApplicationConfigInjectionTrait`, which will be removed in
       version 3. See the section on the [ApplicationConfigInjectionDelegator](#applicationconfiginjectiondelegator)
       for an alternate, forwards-compatible, approach.

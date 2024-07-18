@@ -101,5 +101,5 @@ layer.
 One thing to note: the allowed methods reported by the route and/or route
 result, and returned via the `Allow` header,  may vary based on router
 implementation. In most cases, it should be an aggregate of all routes using the
-same path specification; however, it *could* be only the methods supported
+same path specification; however, it _could_ be only the methods supported
 explicitly by the matched route.

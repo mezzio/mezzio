@@ -21,9 +21,8 @@ This will prompt you to choose:
   (directories under `src/` are modules, each with source code and potentially
   templates, configuration, assets, etc.).
 
-- A dependency injection container. We recommend using the default, Laminas
-  ServiceManager. (We use ServiceManager in the examples below, so 
-  choose it if you want to code along).
+- A dependency injection container. We recommend using the default, Laminas ServiceManager.
+  (We use ServiceManager in the examples below, so choose it if you want to code along).
 
 - A router. We recommend using the default, FastRoute.
 
@@ -551,7 +550,7 @@ You should see the message change as you go between the two URIs!
 
 You likely don't want to hardcode HTML into your middleware; so, let's use
 templates. This particular exercise assumes you chose to use the
-[Plates](http://platesphp.com) integration. 
+[Plates](http://platesphp.com) integration.
 
 Templates are installed under the `templates/` subdirectory. By default, we also
 register the template namespace `app` to correspond with the `templates/app`
@@ -618,9 +617,8 @@ For the next part of the example, we'll be creating and wiring a factory for
 creating the `HelloAction` instance; the example assumes you used the default
 selection for a dependency injection container, laminas-servicemanager.
 
-laminas-servicemanager provides a console (command line) tool for generating factories 
-based on reflecting a class; we'll use that to generate our factory. Navigate to your
-root skeleton-app directory in the console and enter the following:
+laminas-servicemanager provides a console (command line) tool for generating factories based on reflecting a class; we'll use that to generate our factory.
+Navigate to your root skeleton-app directory in the console and enter the following:
 
 ```bash
 $ ./vendor/bin/generate-factory-for-class \
@@ -659,7 +657,7 @@ Save that file, and now re-visit the URIs:
 Your page should now have the same layout as the landing page of the skeleton
 application!
 
-## Congratulations!
+## Congratulations
 
 Congratulations! You've now created your application, and started writing
 middleware! It's time to start learning about the rest of the features of

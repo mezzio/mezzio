@@ -90,7 +90,6 @@ Each method will raise an exception if:
   }
   ```
 
-
 ### Registering the pipeline middleware
 
 For the `UrlHelper` to work, you must first register the `UrlHelperMiddleware`

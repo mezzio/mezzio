@@ -58,6 +58,7 @@ interface TemplateRendererInterface
 }
 ```
 
+<!-- markdownlint-disable-next-line header-increment -->
 > ### Namespaces
 >
 > Unfortunately, namespace syntax varies between different template engine
@@ -76,7 +77,6 @@ interface TemplateRendererInterface
 > When using a `TemplateRendererInterface` implementation, feel free to use namespaced
 > templates, and to omit the filename suffix; this will make your code portable
 > and allow it to use alternate template engines.
-
 
 ## Paths
 

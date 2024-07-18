@@ -158,8 +158,8 @@ update those calls to use the `originalResponse` request attribute.
 ## Programmatic middleware pipelines
 
 With Mezzio 1.0, we recommended creating middleware pipelines and routing
-via configuration. Starting with 1.1, we recommend *programmatic creation of
-pipelines and routing*.
+via configuration. Starting with 1.1, we recommend _programmatic creation of
+pipelines and routing_.
 
 Programmatic pipelines exercise the existing Mezzio API. Methods include:
 
