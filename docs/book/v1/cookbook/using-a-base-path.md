@@ -16,7 +16,7 @@ where `/var/www` is the web root, and your Mezzio application is in the
 `mezzio/` subdirectory. How can you make your application work correctly in
 this environment?
 
-## .htaccess in the application root.
+## .htaccess in the application root
 
 If you are using Apache, your first step is to add an `.htaccess` file to your
 application root, with directives for rewriting to the `public/` directory:

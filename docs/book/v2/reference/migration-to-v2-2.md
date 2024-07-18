@@ -184,15 +184,15 @@ removed in version 3:
   `Laminas\Stratigility\MiddlewarePipe` instance.
 
 - `Mezzio\Application`: deprecates the following methods:
-  - `pipeRoutingMiddleware()`: [see the section above](#routing-and-dispatch-middleware)
-  - `pipeDispatchMiddleware()`: [see the section above](#routing-and-dispatch-middleware)
-  - `getContainer()`: this method is removed in version 3; container access will only be via the bootstrap.
-  - `getDefaultDelegate()`: the concept of a default delegate is removed in version 3.
-  - `getEmitter()`: emitters move to a different collaborator in version 3.
-  - `injectPipelineFromConfig()` andd `injectRoutesFromConfig()` are methods
-    defined by the `ApplicationConfigInjectionTrait`, which will be removed in
-    version 3. See the section on the [ApplicationConfigInjectionDelegator](#applicationconfiginjectiondelegator)
-    for an alternate, forwards-compatible, approach.
+    - `pipeRoutingMiddleware()`: [see the section above](#routing-and-dispatch-middleware)
+    - `pipeDispatchMiddleware()`: [see the section above](#routing-and-dispatch-middleware)
+    - `getContainer()`: this method is removed in version 3; container access will only be via the bootstrap.
+    - `getDefaultDelegate()`: the concept of a default delegate is removed in version 3.
+    - `getEmitter()`: emitters move to a different collaborator in version 3.
+    - `injectPipelineFromConfig()` and `injectRoutesFromConfig()` are methods
+      defined by the `ApplicationConfigInjectionTrait`, which will be removed in
+      version 3. See the section on the [ApplicationConfigInjectionDelegator](#applicationconfiginjectiondelegator)
+      for an alternate, forwards-compatible, approach.
 
 - `Mezzio\ApplicationConfigInjectionTrait`: if you are using it, it is
   marked internal, and deprecated; it will be removed in version 3.

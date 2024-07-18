@@ -6,6 +6,7 @@ In this recipe we will concentrate on introspecting the URI path via middleware,
 which allows you to have a global mechanism for detecting the locale without
 requiring any changes to existing routes.
 
+<!-- markdownlint-disable-next-line header-increment -->
 > ### Distinguishing between routes that require localization
 >
 > If your application has a mixture of routes that require localization, and
