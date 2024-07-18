@@ -8,7 +8,7 @@ is matched. As an example, for an API resource, you might want to:
 - parse the incoming body
 - validate the parsed body parameters
 
-*before* you actually execute the selected middleware. The above might each be
+_before_ you actually execute the selected middleware. The above might each be
 encapsulated as discrete middleware, but should be executed within the routed
 middleware's context.
 

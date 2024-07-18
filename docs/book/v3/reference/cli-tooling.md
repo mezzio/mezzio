@@ -50,7 +50,7 @@ available tools:
 $ ./vendor/bin/mezzio
 ```
 
-> #### Integration with Composer
+> ### Integration with Composer
 >
 > In the skeleton application, we provide direct integration with Composer,
 > allowing you to invoke the tooling using:

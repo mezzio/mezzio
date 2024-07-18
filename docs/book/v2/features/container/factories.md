@@ -97,7 +97,7 @@ order to seed the `Application` instance:
   granular priority values to specify the order in which middleware should be
   piped to the application.
 
-  You *can* specify keys for each middleware specification. These will be
+  You _can_ specify keys for each middleware specification. These will be
   ignored by the factory, but can be useful when merging several configurations
   into one for the application.
 
@@ -126,7 +126,7 @@ order to seed the `Application` instance:
   ],
   ```
 
-  Each route *requires*:
+  Each route _requires_:
 
     - `path`: the path to match. Format will be based on the router you choose for
       your project.

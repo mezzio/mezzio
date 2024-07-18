@@ -5,7 +5,7 @@ managing an application.
 
 In all examples, the assumption is the following directory structure:
 
-```
+```text
 .
 ├── config
 ├── data
@@ -25,6 +25,7 @@ We assume also that:
   in your `composer.json` for those classes (this should be done for you during
   installation).
 
+<!-- markdownlint-disable-next-line header-increment -->
 > ### Using the built-in web server
 >
 > You can use the built-in web server to run the examples. Run:
@@ -217,13 +218,13 @@ $app->get('/', 'HelloWorld');
 $app->get('/ping', 'Ping');
 ```
 
-These map the two paths to *service names* instead of callables. When routing
+These map the two paths to _service names_ instead of callables. When routing
 matches a path, it does the following:
 
 - If the middleware provided when defining the route is callable, it uses it
   directly.
 - If the middleware is a valid service name in the container, it pulls it from
-  the container. *This is what happens in this example.*
+  the container. _This is what happens in this example_.
 - Finally, if no container is available, or the service name is not found in the
   container, it checks to see if it's a valid class name; if so, it instantiates
   and returns the class instance.
@@ -498,16 +499,16 @@ Each middleware specified must be in the following form:
 Priority should be an integer, and follows the semantics of
 [SplPriorityQueue](http://php.net/SplPriorityQueue): higher numbers indicate
 higher priority (top of the queue; executed earliest), while lower numbers
-indicated lower priority (bottom of the queue, executed last); *negative values
-are low priority*. Items of the same priority are executed in the order in which
+indicated lower priority (bottom of the queue, executed last); _negative values
+are low priority_. Items of the same priority are executed in the order in which
 they are attached.
 
 The default priority is 1, and this priority is used by the routing and dispatch
-middleware. To indicate that middleware should execute *before* these, use a
+middleware. To indicate that middleware should execute _before_ these, use a
 priority higher than 1.
 
 The above specification can be used for all middleware, with one exception:
-registration of the *routing* and/or *dispatch* middleware that Mezzio
+registration of the _routing_ and/or _dispatch_ middleware that Mezzio
 provides. In these cases, use the following constants, which will be caught by
 the factory and expanded:
 
@@ -531,7 +532,7 @@ return [
 
 > #### Place routing middleware correctly
 >
-> If you are defining routes *and* defining other middleware for the pipeline,
+> If you are defining routes _and_ defining other middleware for the pipeline,
 > you **must** add the routing middleware. When you do so, make sure you put
 > it at the appropriate location in the pipeline.
 >
