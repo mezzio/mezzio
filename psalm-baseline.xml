@@ -161,7 +161,9 @@
     </RedundantConditionGivenDocblockType>
   </file>
   <file src="src/MiddlewareContainer.php">
-    <InvalidStringClass/>
+    <InvalidStringClass>
+      <code><![CDATA[new $id()]]></code>
+    </InvalidStringClass>
   </file>
   <file src="src/Response/ServerRequestErrorResponseGenerator.php">
     <PropertyNotSetInConstructor>
