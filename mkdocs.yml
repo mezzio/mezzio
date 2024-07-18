@@ -3,13 +3,83 @@ site_dir: docs/html
 extra:
   project: Mezzio
   show_special_homepage: true
-  current_version: v3
+  current_version: v4
   versions:
+    - v4
     - v3
     - v2
     - v1
 nav:
     - Home: index.md
+    - v4:
+        - Introduction: v4/index.md
+        - 'Getting Started':
+            - 'Overview and Features': v4/getting-started/features.md
+            - 'Quick Start': v4/getting-started/quick-start.md
+        - Features:
+            - "Middleware Types": v4/features/middleware-types.md
+            - Applications: v4/features/application.md
+            - Containers:
+                - Introduction: v4/features/container/intro.md
+                - 'Container Factories': v4/features/container/factories.md
+                - 'Delegator Factories': v4/features/container/delegator-factories.md
+                - 'The Middleware Container': v4/features/container/middleware-container.md
+                - 'The Middleware Factory': v4/features/container/middleware-factory.md
+                - 'Using laminas-servicemanager': v4/features/container/laminas-servicemanager.md
+                - 'Using Pimple': v4/features/container/pimple.md
+                - 'Using Aura.Di': v4/features/container/aura-di.md
+                - 'Container configuration': v4/features/container/config.md
+            - 'Routing Adapters':
+                - Introduction: v4/features/router/intro.md
+                - 'Routing Interface': v4/features/router/interface.md
+                - 'The Route Collector': v4/features/router/route-collector.md
+                - 'URI Generation': v4/features/router/uri-generation.md
+                - 'Routing vs Piping': v4/features/router/piping.md
+                - 'Using Aura': v4/features/router/aura.md
+                - 'Using FastRoute': v4/features/router/fast-route.md
+                - 'Using laminas-router': v4/features/router/laminas-router.md
+            - Templating:
+                - Introduction: v4/features/template/intro.md
+                - 'Template Renderer Interface': v4/features/template/interface.md
+                - 'Templated Request Handlers': v4/features/template/request-handlers.md
+                - 'Using Plates': v4/features/template/plates.md
+                - 'Using Twig': v4/features/template/twig.md
+                - 'Using laminas-view': v4/features/template/laminas-view.md
+            - 'Error Handling': v4/features/error-handling.md
+            - 'Modular Applications': v4/features/modular-applications.md
+            - Middleware:
+                - 'Routing and Dispatch Middleware': v4/features/middleware/routing-and-dispatch-middleware.md
+                - 'Implicit HEAD and OPTIONS Middleware': v4/features/middleware/implicit-methods-middleware.md
+                - 'Returning Method Not Allowed': v4/features/middleware/method-not-allowed-middleware.md
+            - Helpers:
+                - Introduction: v4/features/helpers/intro.md
+                - UrlHelper: v4/features/helpers/url-helper.md
+                - ServerUrlHelper: v4/features/helpers/server-url-helper.md
+                - 'Body Params Middleware': v4/features/helpers/body-params.md
+                - 'Content-Length Middleware': v4/features/helpers/content-length.md
+                - 'Template Variable Container': v4/features/helpers/template-variable-container.md
+            - Emitters: v4/features/emitters.md
+        - Cookbook:
+            - 'Autowiring routes and pipeline middleware': v4/cookbook/autowiring-routes-and-pipelines.md
+            - 'Using Mezzio from a subdirectory': v4/cookbook/using-a-base-path.md
+            - 'Prepending a common path to all routes': v4/cookbook/common-prefix-for-routes.md
+            - 'Passing data between middleware': v4/cookbook/passing-data-between-middleware.md
+            - 'Path-segregated routing': v4/cookbook/path-segregated-routing.md
+            - 'Provide Access to Common Data In Templates': v4/cookbook/access-common-data-in-templates.md
+            - 'Route-specific middleware pipelines': v4/cookbook/route-specific-pipeline.md
+            - 'Segregating middleware by host': v4/cookbook/host-segregated-middleware.md
+            - 'Using double-pass middleware': v4/cookbook/double-pass-middleware.md
+            - 'Setting a locale based on a routing parameter': v4/cookbook/setting-locale-depending-routing-parameter.md
+            - 'Setting a locale without a routing parameter': v4/cookbook/setting-locale-without-routing-parameter.md
+            - 'Enabling debug toolbars': v4/cookbook/debug-toolbars.md
+            - 'Flash Messengers': v4/cookbook/flash-messengers.md
+            - 'Registering custom view helpers when using laminas-view': v4/cookbook/using-custom-view-helpers.md
+            - 'Using laminas-form view helpers': v4/cookbook/using-laminas-form-view-helpers.md
+        - Reference:
+            - "Why choose Mezzio?": v4/why-mezzio.md
+            - "CLI Tooling": v4/reference/cli-tooling.md
+            - 'Mezzio Projects': v4/reference/mezzio-projects.md
+            - Migration: v4/reference/migration.md
     - v3:
       - Introduction: v3/index.md
       - 'Getting Started':
