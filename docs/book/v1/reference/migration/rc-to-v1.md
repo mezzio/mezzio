@@ -73,7 +73,7 @@ Since the routing middleware has been split, we determined we could no longer
 automatically pipe the routing middleware; detection would require detecting
 both sets of middleware, and ensuring they are in the correct order.
 Additionally, since one goal of splitting the middleware is to allow
-*substitutions* for these responsibilities, auto-injection could in some cases
+_substitutions_ for these responsibilities, auto-injection could in some cases
 be undesired. As a result, we now require you to inject each manually.
 
 ### Impact
@@ -82,7 +82,7 @@ This change will require changes in your application.
 
 1. If you are using Mezzio programmatically (i.e., you are not using
    a container and the `Mezzio\Container\ApplicationFactory`),
-   you are now *required* to call `Application::pipeRoutingMiddleware()`.
+   you are now _required_ to call `Application::pipeRoutingMiddleware()`.
    Additionally, a new method, `Application::pipeDispatchMiddleware()` exists
    for injecting the application with the dispatch middleware, this, too, must
    be called.
@@ -94,10 +94,10 @@ This change will require changes in your application.
    middleware will not be executed!_ As such, the following two lines **must**
    be added to your application prior to calling `Application::run()`:
 
-```php
-$app->pipeRoutingMiddleware();
-$app->pipeDispatchMiddleware();
-```
+    ```php
+    $app->pipeRoutingMiddleware();
+    $app->pipeDispatchMiddleware();
+    ```
 
 2. If you are creating your `Application` instance using a container and the
    `Mezzio\Container\ApplicationFactory`, you will need to update your
@@ -153,8 +153,8 @@ The following changes have been made:
 
 - The concept of `pre_routing` and `post_routing` have been deprecated, and will
   be removed starting with the 1.1 version. A single middleware pipeline is now
-  provided, though *any individual specification can also specify an array of
-  middleware*.
+  provided, though _any individual specification can also specify an array of
+  middleware_.
 - **The routing and dispatch middleware must now be added to your configuration
   for them to be added to your application.**
 - Middleware specifications can now optionally provide a `priority` key, with 1
@@ -368,7 +368,7 @@ to ensure your functionality continues to work.
 To ensure your observers are triggered, you will need to adapt your application,
 based on how you create your instance.
 
-If you are *not* using the `ApplicationFactory`, you will need to pipe the
+If you are _not_ using the `ApplicationFactory`, you will need to pipe the
 `routeResultObserverMiddleware` to your application, between the routing and
 dispatch middleware:
 
@@ -380,8 +380,8 @@ $app->pipeDispatchMiddleware();
 
 If you are using the `ApplicationFactory`, you may need to update your
 configuration to allow injecting the route result observer middleware. If you
-have *not* updated your configuration to remove the `pre_routing` and/or
-`post_routing` keys, the middleware *will* be registered for you. If you have,
+have _not_ updated your configuration to remove the `pre_routing` and/or
+`post_routing` keys, the middleware _will_ be registered for you. If you have,
 however, you will need to register it following the routing middleware:
 
 ```php

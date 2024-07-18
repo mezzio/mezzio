@@ -629,7 +629,7 @@ following URIs:
 
 You should see the message change as you go between the two URIs!
 
-## Congratulations!
+## Congratulations
 
 Congratulations! You've now created your application, and started writing
 middleware! It's time to start learning about the rest of the features of

@@ -1,6 +1,6 @@
 # How Can I Implement Flash Messages?
 
-*Flash messages* are used to display one-time messages to a user. A typical use
+_Flash messages_ are used to display one-time messages to a user. A typical use
 case is for setting and later displaying a successful submission via a
 [Post/Redirect/Get (PRG)](https://en.wikipedia.org/wiki/Post/Redirect/Get)
 workflow, where the flash message would be set during the POST request, but

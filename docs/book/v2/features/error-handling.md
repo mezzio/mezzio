@@ -100,6 +100,7 @@ return [
 ];
 ```
 
+<!-- markdownlint-disable-next-line header-increment -->
 > ### Use development mode configuration to enable whoops
 >
 > You can specify the above in one of your `config/autoload/*.global.php` files,

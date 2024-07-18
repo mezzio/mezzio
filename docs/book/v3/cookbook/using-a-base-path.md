@@ -126,9 +126,8 @@ To install it:
 $ composer require mtymek/blast-base-url
 ```
 
-If you are using `laminas-component-installer`, you will be prompted to configure this package 
-automatically. If you don't choose to do so, you please refer to `Blast\BaseUrl\ConfigProvider` 
-class to see how to wire it manually.
+If you are using `laminas-component-installer`, you will be prompted to configure this package automatically.
+If you don't choose to do so, you please refer to `Blast\BaseUrl\ConfigProvider` class to see how to wire it manually.
 
 If using programmatic pipelines, pipe the middleware early in your pipeline (before routing):
 

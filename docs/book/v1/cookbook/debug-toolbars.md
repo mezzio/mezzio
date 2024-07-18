@@ -38,7 +38,7 @@ From there, you will need to create a factory for the middleware, and add it to
 your middleware pipeline. Stephan Hochdörfer, author of the package, has written
 a [post detailing these steps](https://blog.bitexpert.de/blog/prophiler-psr-7-middleware/).
 
-> ### Use locally!
+> ### Use locally
 >
 > One minor change we recommend over the directions Stephan provides is that you
 > configure the factory and middleware in the
@@ -83,7 +83,7 @@ one of two ways:
   return $provider();
   ```
 
-> ### Use locally!
+> ### Use locally
 >
 > Remember to enable `PhpMiddleware\PhpDebugBar\ConfigProvider` only in your
 > development environments!

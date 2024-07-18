@@ -7,6 +7,7 @@ _must_ support `HEAD` requests for any given URI, and that they _should_ support
 layer, and middleware that can detect _implicit_  support for these methods
 (i.e., the route was not registered _explicitly_ with the method).
 
+<!-- markdownlint-disable-next-line header-increment -->
 > ### Versions prior to 2.2
 >
 > If you are using Mezzio versions earlier than 2.2, you may define a
@@ -23,7 +24,7 @@ layer, and middleware that can detect _implicit_  support for these methods
 ## ImplicitHeadMiddleware
 
 `Mezzio\Middleware\ImplicitHeadMiddleware` provides support for
-handling `HEAD` requests to routed middleware when the route does not expliclity
+handling `HEAD` requests to routed middleware when the route does not explicitly
 allow for the method. It should be registered _between_ the routing and dispatch
 middleware.
 
@@ -150,5 +151,5 @@ layer.
 One thing to note: the allowed methods reported by the route and/or route
 result, and returned via the `Allow` header,  may vary based on router
 implementation. In most cases, it should be an aggregate of all routes using the
-same path specification; however, it *could* be only the methods supported
+same path specification; however, it _could_ be only the methods supported
 explicitly by the matched route.

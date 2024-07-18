@@ -9,8 +9,7 @@ for providing template variables that should be available to any template.
 One common use case for this is to set things such as the current user, current
 section of the website, currently matched route, etc. Unfortunately, because the
 method changes the internal state of the renderer, this can cause problems in an
-async environment, such as [Swoole](https://docs.mezzio.dev/mezzio-swoole), 
-where those changes will persist for parallel and subsequent requests.
+async environment, such as [Swoole](https://docs.mezzio.dev/mezzio-swoole), where those changes will persist for parallel and subsequent requests.
 
 To provide a stateless alternative, you can create a `Mezzio\Helper\Template\TemplateVariableContainer`
 and persist it as a request attribute. This allows you to set template variables
@@ -25,6 +24,7 @@ As such, any middleware that is providing additional values or removing values
 **must** call `$request->withAttribute()` to replace the instance, per the
 examples below.
 
+<!-- markdownlint-disable-next-line header-increment -->
 > ### When to use the TemplateVariableContainer
 >
 > If you are calling `addDefaultParam()` only in your factory for creating your

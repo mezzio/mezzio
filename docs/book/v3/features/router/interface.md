@@ -192,7 +192,7 @@ middleware:
 
 - `Mezzio\Router\Middleware\ImplicitOptionsMiddleware` checks to see if a
   routing failure was due to a route match using a `OPTIONS` request; if so, it
-  will return a 200 response with an appropriate `Allow `header.
+  will return a 200 response with an appropriate `Allow` header.
   ([read more](../middleware/implicit-methods-middleware.md#implicitoptionsmiddleware))
 
 The `RouteResult` signature is as follows:

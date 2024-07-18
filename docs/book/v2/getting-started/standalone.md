@@ -4,6 +4,7 @@ Mezzio allows you to get started at your own pace. You can start with
 the simplest example, detailed below, or move on to a more structured,
 configuration-driven approach as detailed in the [use case examples](../reference/usage-examples.md).
 
+<!-- markdownlint-disable-next-line header-increment -->
 > ### Deprecated with version 2.2
 >
 > The `Mezzio\AppFactory` detailed in this chapter is deprecated as of
