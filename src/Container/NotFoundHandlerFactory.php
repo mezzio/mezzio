@@ -22,9 +22,7 @@ class NotFoundHandlerFactory
 
         $renderer = $container->has(TemplateRendererInterface::class)
             ? $container->get(TemplateRendererInterface::class)
-            : ($container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)
-                ? $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)
-                : null);
+            : null;
 
         $mezzioConfiguration = $config['mezzio'] ?? [];
         Assert::isMap($mezzioConfiguration);
