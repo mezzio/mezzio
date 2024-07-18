@@ -26,8 +26,6 @@ nav:
                 - 'The Middleware Container': v4/features/container/middleware-container.md
                 - 'The Middleware Factory': v4/features/container/middleware-factory.md
                 - 'Using laminas-servicemanager': v4/features/container/laminas-servicemanager.md
-                - 'Using Pimple': v4/features/container/pimple.md
-                - 'Using Aura.Di': v4/features/container/aura-di.md
                 - 'Container configuration': v4/features/container/config.md
             - 'Routing Adapters':
                 - Introduction: v4/features/router/intro.md

@@ -89,10 +89,6 @@ can recommend the following implementations:
 
 - [laminas-servicemanager](https://github.com/laminas/laminas-servicemanager):
   `composer require laminas/laminas-servicemanager`
-- [Pimple](https://github.com/silexphp/Pimple) (see [docs](docs/book/features/container/pimple.md) for more details):
-  `composer require laminas/laminas-pimple-config`
-- [Aura.Di](https://github.com/auraphp/Aura.Di) (see [docs](docs/book/features/container/aura-di.md) for more details):
-  `composer require laminas/laminas-auradi-config`
 
 Additionally, you may optionally want to install a template renderer
 implementation, and/or an error handling integration. These are covered in the
