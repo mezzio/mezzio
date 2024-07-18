@@ -737,7 +737,7 @@
 <p>Below are several usage examples, covering a variety of ways of creating and
 managing an application.</p>
 <p>In all examples, the assumption is the following directory structure:</p>
-<pre class="highlight"><code>.
+<pre class="highlight"><code class="language-text">.
 ├── config
 ├── data
 ├── composer.json
@@ -754,6 +754,7 @@ managing an application.</p>
   in your <code>composer.json</code> for those classes (this should be done for you during
   installation).</li>
 </ul>
+<!-- markdownlint-disable-next-line header-increment -->
 <blockquote>
 <h3 id="using-the-built-in-web-server">Using the built-in web server</h3>
 <p>You can use the built-in web server to run the examples. Run:</p>
@@ -910,7 +911,7 @@ matches a path, it does the following:</p>
 <li>If the middleware provided when defining the route is callable, it uses it
   directly.</li>
 <li>If the middleware is a valid service name in the container, it pulls it from
-  the container. <em>This is what happens in this example.</em></li>
+  the container. <em>This is what happens in this example</em>.</li>
 <li>Finally, if no container is available, or the service name is not found in the
   container, it checks to see if it's a valid class name; if so, it instantiates
   and returns the class instance.</li>

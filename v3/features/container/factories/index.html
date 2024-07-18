@@ -1287,10 +1287,12 @@ This factory looks for the following configuration in order to generate an insta
     ],
 ];</code></pre>
 <ul>
-<li>The <code>trusted-proxies</code> value may be one of the following:</li>
+<li>The <code>trusted-proxies</code> value may be one of the following:<ul>
 <li>The string "*". This indicates that all originating addresses are trusted.</li>
 <li>A string IP address or CIDR notation value indicating a trusted proxy server or subnet.</li>
 <li>An array of string IP addresses or CIDR notation values.</li>
+</ul>
+</li>
 <li>The <code>trusted-headers</code> array should consist of one or more of the <code>X-Forwarded-Host</code>, <code>X-Forwarded-Port</code>, or <code>X-Forwarded-Proto</code> header names; the values are case insensitive.
   When the configuration is omitted, , the assumption is to honor all <code>X-Forwarded-*</code> headers for trusted proxies.
   If the configuration is an empty array, the assumption is <strong>no</strong> <code>X-Forwarded-*</code> headers are trusted.</li>

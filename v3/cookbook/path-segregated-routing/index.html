@@ -749,12 +749,14 @@ huge number of ramifications:</p>
 <li>You'll need a separate <a href="../../features/helpers/url-helper/">UrlHelper</a> instance, as well as its related middleware,
   if you are generating URIs.</li>
 <li>If you are generating <a href="https://docs.mezzio.dev/mezzio-hal/">HAL</a>,
-  you'll need:</li>
+  you'll need:<ul>
 <li>a separate URL generator for HAL that consumes the separate <code>UrlHelper</code>
-    instance.</li>
+  instance.</li>
 <li>a separate <code>LinkGenerator</code> for HAL that consumes the separate URL generator.</li>
 <li>a separate <code>ResourceGenerator</code> for HAL that consumes the separate
-    <code>LinkGenerator</code>.</li>
+  <code>LinkGenerator</code>.</li>
+</ul>
+</li>
 </ul>
 <p>These tasks can be accomplished by writing your own factories, but that means a
 lot of extra code, and the potential for the factories to go out-of-sync with

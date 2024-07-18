@@ -774,6 +774,7 @@ grow with your accepted content types.</p>
   uploads)</li>
 <li><code>application/json</code>, <code>application/*+json</code> (JSON payloads)</li>
 </ul>
+<!-- markdownlint-disable-next-line header-increment -->
 <blockquote>
 <h3 id="this-middleware-must-be-used-for-put-requests">This Middleware <strong>Must</strong> Be Used for PUT Requests</h3>
 <p>If it is not a part of the middleware pipeline for routes using PUT requests, then calls to <code>ServerRequestInterface::getParsedBody()</code> will return an empty array — even if the request included a body.</p>

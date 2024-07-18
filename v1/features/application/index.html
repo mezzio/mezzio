@@ -771,17 +771,19 @@ can use the following methods to provide routable middleware:</p>
 <li><code>$pathOrRoute</code> may be either a string path to match, or a
   <code>Mezzio\Router\Route</code> instance.</li>
 <li><code>$middleware</code> <strong>must</strong> be present if <code>$pathOrRoute</code> is a string path, and
-  <strong>must</strong> be:</li>
+  <strong>must</strong> be:<ul>
 <li>a callable;</li>
 <li>a service name that resolves to valid middleware in the container;</li>
 <li>a fully qualified class name of a constructor-less class;</li>
 <li>an array of any of the above; these will be composed in order into a
-    <code>Laminas\Stratigility\MiddlewarePipe</code> instance.</li>
+  <code>Laminas\Stratigility\MiddlewarePipe</code> instance.</li>
+</ul>
+</li>
 <li><code>$methods</code> must be an array of HTTP methods valid for the given path and
-  middleware. If null, it assumes any method is valid.</li>
+    middleware. If null, it assumes any method is valid.</li>
 <li><code>$name</code> is the optional name for the route, and is used when generating a URI
-  from known routes. See the section on <a href="../router/uri-generation/#generating-uris">route naming</a>
-  for details.</li>
+    from known routes. See the section on <a href="../router/uri-generation/#generating-uris">route naming</a>
+    for details.</li>
 </ul>
 <p>This method is typically only used if you want a single middleware to handle
 multiple HTTP request methods.</p>
@@ -809,12 +811,14 @@ applications by subpath.</p>
   callable middleware, or the service name for a middleware to fetch from the
   composed container.</li>
 <li><code>$middleware</code> is required if <code>$pathOrMiddleware</code> is a string URI path. It can
-  be one of:</li>
+  be one of:<ul>
 <li>a callable;</li>
 <li>a service name that resolves to valid middleware in the container;</li>
 <li>a fully qualified class name of a constructor-less class;</li>
 <li>an array of any of the above; these will be composed in order into a
-    <code>Laminas\Stratigility\MiddlewarePipe</code> instance.</li>
+  <code>Laminas\Stratigility\MiddlewarePipe</code> instance.</li>
+</ul>
+</li>
 </ul>
 <p>Unlike <code>Laminas\Stratigility\MiddlewarePipe</code>, <code>Application::pipe()</code> <em>allows
 fetching middleware by service name</em>. This facility allows lazy-loading of
@@ -850,9 +854,8 @@ methods for retrieving them. They include:</p>
   <a href="https://docs.laminas.dev/laminas-diactoros/v1/emitting-responses/">emitter</a>,
   typically a <code>Mezzio\Emitter\EmitterStack</code> instance.</li>
 <li><code>getFinalHandler(ResponseInterface $response = null)</code>: retrieves the final
-  handler instance. This is middleware with the signature <code>function ($request,
-  $response, $error = null)</code>, and it is invoked when the middleware pipeline
-  queue is depleted and no response has been returned.</li>
+  handler instance. This is middleware with the signature <code>function ($request, $response, $error = null)</code>, 
+  and it is invoked when the middleware pipeline queue is depleted and no response has been returned.</li>
 </ul>
 <h2 id="executing-the-application-run">Executing the application: run()</h2>
 <p>When the application is completely setup, you can execute it with the <code>run()</code>

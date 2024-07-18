@@ -777,8 +777,12 @@ be undesired. As a result, we now require you to inject each manually.</p>
    is that <em>unless you register the routing <strong>and</strong> dispatch middleware, your routed
    middleware will not be executed!</em> As such, the following two lines <strong>must</strong>
    be added to your application prior to calling <code>Application::run()</code>:</p>
-<pre class="highlight"><code class="language-php">$app-&gt;pipeRoutingMiddleware();
-$app-&gt;pipeDispatchMiddleware();</code></pre>
+<pre class="codehilite"><code>```php
+$app-&gt;pipeRoutingMiddleware();
+$app-&gt;pipeDispatchMiddleware();
+```
+</code></pre>
+
 <ol>
 <li>If you are creating your <code>Application</code> instance using a container and the
    <code>Mezzio\Container\ApplicationFactory</code>, you will need to update your

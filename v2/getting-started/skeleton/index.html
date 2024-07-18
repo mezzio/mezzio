@@ -688,7 +688,7 @@
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#congratulations" class="toc__link nav-link">Congratulations!</a>
+                        <a href="#congratulations" class="toc__link nav-link">Congratulations</a>
                     </li>
                 
             </ul>
@@ -763,9 +763,8 @@ renderer, and error handler from the outset.</p>
   templates, configuration, assets, etc.).</p>
 </li>
 <li>
-<p>A dependency injection container. We recommend using the default, Laminas
-  ServiceManager. (We use ServiceManager in the examples below, so 
-  choose it if you want to code along).</p>
+<p>A dependency injection container. We recommend using the default, Laminas ServiceManager.
+  (We use ServiceManager in the examples below, so choose it if you want to code along).</p>
 </li>
 <li>
 <p>A router. We recommend using the default, FastRoute.</p>
@@ -1162,7 +1161,7 @@ following URIs:</p>
 <h3 id="using-templates">Using templates</h3>
 <p>You likely don't want to hardcode HTML into your middleware; so, let's use
 templates. This particular exercise assumes you chose to use the
-<a href="http://platesphp.com">Plates</a> integration. </p>
+<a href="http://platesphp.com">Plates</a> integration.</p>
 <p>Templates are installed under the <code>templates/</code> subdirectory. By default, we also
 register the template namespace <code>app</code> to correspond with the <code>templates/app</code>
 subdirectory. Create the file <code>templates/app/hello-world.phtml</code> with the
@@ -1217,9 +1216,8 @@ injection.</p>
 <p>For the next part of the example, we'll be creating and wiring a factory for
 creating the <code>HelloAction</code> instance; the example assumes you used the default
 selection for a dependency injection container, laminas-servicemanager.</p>
-<p>laminas-servicemanager provides a console (command line) tool for generating factories 
-based on reflecting a class; we'll use that to generate our factory. Navigate to your
-root skeleton-app directory in the console and enter the following:</p>
+<p>laminas-servicemanager provides a console (command line) tool for generating factories based on reflecting a class; we'll use that to generate our factory.
+Navigate to your root skeleton-app directory in the console and enter the following:</p>
 <pre class="highlight"><code class="language-bash">$ ./vendor/bin/generate-factory-for-class \
 &gt; "App\\Action\\HelloAction" &gt; ./src/App/src/Action/HelloActionFactory.php</code></pre>
 <blockquote>
@@ -1250,7 +1248,7 @@ we created previously, and add a <code>factories</code> entry:</p>
 </ul>
 <p>Your page should now have the same layout as the landing page of the skeleton
 application!</p>
-<h2 id="congratulations">Congratulations!</h2>
+<h2 id="congratulations">Congratulations</h2>
 <p>Congratulations! You've now created your application, and started writing
 middleware! It's time to start learning about the rest of the features of
 Mezzio:</p>

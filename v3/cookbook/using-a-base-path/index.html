@@ -836,9 +836,8 @@ excluded from git by default):</p>
 configuration.</p>
 <p>To install it:</p>
 <pre class="highlight"><code class="language-bash">$ composer require mtymek/blast-base-url</code></pre>
-<p>If you are using <code>laminas-component-installer</code>, you will be prompted to configure this package 
-automatically. If you don't choose to do so, you please refer to <code>Blast\BaseUrl\ConfigProvider</code> 
-class to see how to wire it manually.</p>
+<p>If you are using <code>laminas-component-installer</code>, you will be prompted to configure this package automatically.
+If you don't choose to do so, you please refer to <code>Blast\BaseUrl\ConfigProvider</code> class to see how to wire it manually.</p>
 <p>If using programmatic pipelines, pipe the middleware early in your pipeline (before routing):</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipe(\Blast\BaseUrl\BaseUrlMiddleware::class);</code></pre>
 <p>For configuration-driven pipelines, add an entry in your

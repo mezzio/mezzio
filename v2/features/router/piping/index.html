@@ -758,7 +758,7 @@ application:</p>
 in an application. When you <em>pipe</em> middleware to the application, it is added to
 a queue, and dequeued in order until a middleware returns a response instance.
 If none ever returns a response instance, execution is delegated to a "final
-handler", which determines whether or not to return an error, and, if so, what
+handler", which determines whether to return an error, and, if so, what
 kind of error to return.</p>
 <p>Stratigility also allows you to segregate piped middleware to specific paths. As
 an example:</p>

@@ -683,7 +683,7 @@ all three of the above?</p>
 <p>In the following example, we'll use an <code>action</code> routing parameter which our
 middleware class will use in order to determine which internal method to invoke.</p>
 <p>Consider the following route configuration:</p>
-<p><pre class="highlight"><code class="language-php">return [
+<pre class="highlight"><code class="language-php">return [
     /* ... */
     'routes' =&gt; [
         /* ... */
@@ -696,7 +696,7 @@ middleware class will use in order to determine which internal method to invoke.
         /* ... */
     ],
 ];</code></pre>
-The above defines a route that will match any of the following:</p>
+<p>The above defines a route that will match any of the following:</p>
 <ul>
 <li><code>/album</code></li>
 <li><code>/album/add</code></li>
@@ -704,6 +704,7 @@ The above defines a route that will match any of the following:</p>
 </ul>
 <p>The <code>action</code> attribute can thus be one of <code>add</code> or <code>edit</code>, and we can optionally
 also receive an <code>id</code> attribute (in the latter example, it would be <code>3</code>).</p>
+<!-- markdownlint-disable-next-line header-increment -->
 <blockquote>
 <h3 id="routing-definitions-may-vary">Routing definitions may vary</h3>
 <p>Depending on the router you chose when starting your project, your routing

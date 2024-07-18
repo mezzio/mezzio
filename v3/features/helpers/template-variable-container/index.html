@@ -769,8 +769,7 @@ for providing template variables that should be available to any template.</p>
 <p>One common use case for this is to set things such as the current user, current
 section of the website, currently matched route, etc. Unfortunately, because the
 method changes the internal state of the renderer, this can cause problems in an
-async environment, such as <a href="https://docs.mezzio.dev/mezzio-swoole">Swoole</a>, 
-where those changes will persist for parallel and subsequent requests.</p>
+async environment, such as <a href="https://docs.mezzio.dev/mezzio-swoole">Swoole</a>, where those changes will persist for parallel and subsequent requests.</p>
 <p>To provide a stateless alternative, you can create a <code>Mezzio\Helper\Template\TemplateVariableContainer</code>
 and persist it as a request attribute. This allows you to set template variables
 that are pipeline-specific, and later extract and merge them with
@@ -781,6 +780,7 @@ which will populate the attribute for you if it has not yet been.</p>
 As such, any middleware that is providing additional values or removing values
 <strong>must</strong> call <code>$request-&gt;withAttribute()</code> to replace the instance, per the
 examples below.</p>
+<!-- markdownlint-disable-next-line header-increment -->
 <blockquote>
 <h3 id="when-to-use-the-templatevariablecontainer">When to use the TemplateVariableContainer</h3>
 <p>If you are calling <code>addDefaultParam()</code> only in your factory for creating your

@@ -739,6 +739,7 @@ requests. The HTTP/1.1 specifications indicate that all server implementations
 <code>OPTIONS</code> requests. To make this possible, we have added features to our routing
 layer, and middleware that can detect <em>implicit</em>  support for these methods
 (i.e., the route was not registered <em>explicitly</em> with the method).</p>
+<!-- markdownlint-disable-next-line header-increment -->
 <blockquote>
 <h3 id="versions-prior-to-22">Versions prior to 2.2</h3>
 <p>If you are using Mezzio versions earlier than 2.2, you may define a
@@ -752,7 +753,7 @@ under the namespace <code>Mezzio\Router\Middleware</code>.</p>
 </blockquote>
 <h2 id="implicitheadmiddleware">ImplicitHeadMiddleware</h2>
 <p><code>Mezzio\Middleware\ImplicitHeadMiddleware</code> provides support for
-handling <code>HEAD</code> requests to routed middleware when the route does not expliclity
+handling <code>HEAD</code> requests to routed middleware when the route does not explicitly
 allow for the method. It should be registered <em>between</em> the routing and dispatch
 middleware.</p>
 <p>To use it, it must first be registered with your container. The easiest way to

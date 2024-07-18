@@ -933,7 +933,7 @@ recommend updating them to instead typehint against PSR-11, which will allow
 you to drop the container-interop requirement once your chosen container
 implementation no longer requires it.</p>
 <blockquote>
-<h3 id="do-not-update-blindly">Do not update blindly!</h3>
+<h3 id="do-not-update-blindly">Do not update blindly</h3>
 <p>If you are implementing interfaces from other packages in your factory
 implementations, be sure to check and see if those interfaces update to PSR-11
 before making changes.</p>
@@ -1157,34 +1157,32 @@ handling needs:</p>
   generate the error response. Its constructor takes a single argument, a
   <code>Whoops\Run</code> instance. If a <code>Whoops\Handler\PrettyPageHandler</code> is registered
   with the instance, it will add a data table with request details derived from
-  the <code>ServerRequestInterface</code> instance.<br/><br/>
-  <code>Mezzio\Container\WhoopsErrorResponseGeneratorFactory</code> can create an
+  the <code>ServerRequestInterface</code> instance.</p>
+</li>
+</ul>
+<p><code>Mezzio\Container\WhoopsErrorResponseGeneratorFactory</code> can create an
   instance, and will use the <code>Mezzio\Whoops</code> service to seed the
   <code>Whoops\Run</code> argument.</p>
-</li>
-<li>
-<p><code>Mezzio\Middleware\NotFoundHandler</code> can be used as the innermost
+<ul>
+<li><code>Mezzio\Middleware\NotFoundHandler</code> can be used as the innermost
   layer of your pipeline in order to return a 404 response. (Typically, if you
   get to the innermost layer, no middleware was able to handle the request,
   indicating a 404.) By default, it will produce a canned plaintext response.
   However, you can also provide an optional <code>TemplateRendererInterface</code> instance
-  and <code>$template</code> in order to provide templated content.<br/><br/>
-  The constructor arguments are:</p>
-<ul>
-<li>
-<p><code>ResponseInterface $responsePrototype</code>: this is an empty response on which
-  to set the 404 status and inject the 404 content.</p>
-</li>
-<li>
-<p><code>TemplateRendererInterface $renderer</code>: optionally, you may provide a
-  renderer to use in order to provide templated response content.</p>
-</li>
-<li>
-<p>$template = 'error::404'`: optionally, you may provide a
-  template to render; if none is provided, a sane default is used.</p>
-</li>
+  and <code>$template</code> in order to provide templated content.</li>
 </ul>
-</li>
+<p>The constructor arguments are:</p>
+<pre class="codehilite"><code>- `ResponseInterface $responsePrototype`: this is an empty response on which
+  to set the 404 status and inject the 404 content.
+
+- `TemplateRendererInterface $renderer`: optionally, you may provide a
+  renderer to use in order to provide templated response content.
+
+- $template = 'error::404'`: optionally, you may provide a
+  template to render; if none is provided, a sane default is used.
+</code></pre>
+
+<ul>
 <li>
 <p><code>Mezzio\Container\NotFoundHandlerFactory</code> can create an instance of
   the <code>NotFoundHandler</code> for you, and will use the following to do so:</p>
@@ -1203,15 +1201,13 @@ handling needs:</p>
 <p><code>Mezzio\Container\ErrorHandlerFactory</code> will create an instance of
   <code>Laminas\Stratigility\Middleware\ErrorHandler</code>, and use the
   <code>Laminas\Stratigility\Middleware\ErrorResponseGenerator</code> service to seed
-  it.<br/><br/>
-  As such, register one of the following as a factory for the
-  <code>Laminas\Stratigility\Middleware\ErrorResponseGenerator</code> service:</p>
-<ul>
-<li><code>Mezzio\Container\ErrorResponseGeneratorFactory</code></li>
-<li><code>Mezzio\Container\WhoopsErrorResponseGeneratorFactory</code></li>
-</ul>
+  it.</p>
 </li>
 </ul>
+<p>As such, register one of the following as a factory for the
+  <code>Laminas\Stratigility\Middleware\ErrorResponseGenerator</code> service:
+    - <code>Mezzio\Container\ErrorResponseGeneratorFactory</code>
+    - <code>Mezzio\Container\WhoopsErrorResponseGeneratorFactory</code></p>
 <h3 id="error-handler-configuration-example">Error handler configuration example</h3>
 <p>If you are using configuration-driven middleware, your middleware pipeline
 configuration may look like this in order to make use of the new error handling

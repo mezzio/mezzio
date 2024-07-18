@@ -895,17 +895,17 @@ removed in version 3:</p>
 </li>
 <li>
 <p><code>Mezzio\Application</code>: deprecates the following methods:</p>
-</li>
+<ul>
 <li><code>pipeRoutingMiddleware()</code>: <a href="#routing-and-dispatch-middleware">see the section above</a></li>
 <li><code>pipeDispatchMiddleware()</code>: <a href="#routing-and-dispatch-middleware">see the section above</a></li>
 <li><code>getContainer()</code>: this method is removed in version 3; container access will only be via the bootstrap.</li>
 <li><code>getDefaultDelegate()</code>: the concept of a default delegate is removed in version 3.</li>
 <li><code>getEmitter()</code>: emitters move to a different collaborator in version 3.</li>
-<li>
-<p><code>injectPipelineFromConfig()</code> andd <code>injectRoutesFromConfig()</code> are methods
-    defined by the <code>ApplicationConfigInjectionTrait</code>, which will be removed in
-    version 3. See the section on the <a href="#applicationconfiginjectiondelegator">ApplicationConfigInjectionDelegator</a>
-    for an alternate, forwards-compatible, approach.</p>
+<li><code>injectPipelineFromConfig()</code> and <code>injectRoutesFromConfig()</code> are methods
+  defined by the <code>ApplicationConfigInjectionTrait</code>, which will be removed in
+  version 3. See the section on the <a href="#applicationconfiginjectiondelegator">ApplicationConfigInjectionDelegator</a>
+  for an alternate, forwards-compatible, approach.</li>
+</ul>
 </li>
 <li>
 <p><code>Mezzio\ApplicationConfigInjectionTrait</code>: if you are using it, it is
