@@ -4,6 +4,7 @@ Localized web applications often set the locale (and therefor the language)
 based on a routing parameter, the session, or a specialized sub-domain.
 In this recipe we will concentrate on using a routing parameter.
 
+<!-- markdownlint-disable-next-line header-increment -->
 > ### Routing parameters
 >
 > Using the approach in this chapter requires that you add a `/:locale` (or
@@ -83,7 +84,6 @@ $app->get('/:locale/contact', ContactPageHandler::class, 'contact')
 >
 > As such, be aware as you read the examples that you might not be able to
 > simply cut-and-paste them without modification.
-
 
 ## Create a route result middleware class for localization
 

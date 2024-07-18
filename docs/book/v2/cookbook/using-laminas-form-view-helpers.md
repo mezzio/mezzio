@@ -52,7 +52,7 @@ Alternative options to configure HelperPluginManager:
 The laminas-view integration provides `Mezzio\LaminasView\HelperPluginManagerFactory`,
 and the Mezzio skeleton registers it be default. The simplest solution for
 adding other helpers is to replace it with your own. In your own factory, you
-will *also* configure the plugin manager with the configuration from the
+will _also_ configure the plugin manager with the configuration from the
 laminas-form component (or whichever other components you wish to use).
 
 ```php
@@ -172,7 +172,7 @@ return [
 ```
 
 Note: delegator factories are keyed by the service they modify, and the value is
-an *array* of delegator factories, to allow multiple such factories to be in
+an _array_ of delegator factories, to allow multiple such factories to be in
 use.
 
 ### Pimple

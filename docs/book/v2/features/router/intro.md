@@ -20,7 +20,7 @@ abstraction for defining and aggregating routes and their related middleware.
 Routing enables the ability to match dynamic path segments (or other
 criteria). Typically, you will want access to the values matched. The routing
 middleware injects any matched parameters as returned by the underlying router
-into the request as *attributes*.
+into the request as _attributes_.
 
 In the example above, let's assume the route was defined as `/books/:id`, where
 `id` is the name of the dynamic segment. This means that in the middleware

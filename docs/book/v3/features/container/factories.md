@@ -546,9 +546,9 @@ $config = [
 ```
 
 - The `trusted-proxies` value may be one of the following:
-  - The string "*". This indicates that all originating addresses are trusted.
-  - A string IP address or CIDR notation value indicating a trusted proxy server or subnet.
-  - An array of string IP addresses or CIDR notation values.
+    - The string "*". This indicates that all originating addresses are trusted.
+    - A string IP address or CIDR notation value indicating a trusted proxy server or subnet.
+    - An array of string IP addresses or CIDR notation values.
 - The `trusted-headers` array should consist of one or more of the `X-Forwarded-Host`, `X-Forwarded-Port`, or `X-Forwarded-Proto` header names; the values are case insensitive.
   When the configuration is omitted, , the assumption is to honor all `X-Forwarded-*` headers for trusted proxies.
   If the configuration is an empty array, the assumption is **no** `X-Forwarded-*` headers are trusted.

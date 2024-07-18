@@ -10,11 +10,11 @@ application:
 
 ## Piping
 
-laminas-stratigility provides a mechanism termed *piping* for composing middleware
-in an application. When you *pipe* middleware to the application, it is added to
+laminas-stratigility provides a mechanism termed _piping_ for composing middleware
+in an application. When you _pipe_ middleware to the application, it is added to
 a queue, and dequeued in order until a middleware returns a response instance.
 If none ever returns a response instance, execution is delegated to a "final
-handler", which determines whether or not to return an error, and, if so, what
+handler", which determines whether to return an error, and, if so, what
 kind of error to return.
 
 Stratigility also allows you to segregate piped middleware to specific paths. As
@@ -91,12 +91,12 @@ Use routing when:
 - You want to restrict usage of middleware to specific HTTP methods.
 - You want to be able to generate URIs to your middleware.
 
-The above cover most use cases; *in other words, most middleware should be added
-to the application as routed middleware*.
+The above cover most use cases; _in other words, most middleware should be added
+to the application as routed middleware_.
 
 ## Controlling middleware execution order
 
-As noted in the earlier section on piping, piped middleware is *queued*, meaning
+As noted in the earlier section on piping, piped middleware is _queued_, meaning
 it has a FIFO ("first in, first out") execution order.
 
 Additionally, mezzio's routing and dispatch capabilities are themselves

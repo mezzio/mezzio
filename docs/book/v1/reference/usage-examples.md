@@ -23,6 +23,7 @@ We assume also that:
 - Your own classes are under `src/` with the top-level namespace `Application`,
   and you have configured [autoloading](https://getcomposer.org/doc/01-basic-usage.md#autoloading) in your `composer.json` for those classes.
 
+<!-- markdownlint-disable-next-line header-increment -->
 > ### Using the built-in web server
 >
 > You can use the built-in web server to run the examples. Run:

@@ -194,8 +194,8 @@ recommend doing exactly that. However, we note that such an approach does not
 solve the other two points above.
 
 However, we still recommend _shipping_ a delegator factory that would register
-your routes, since routes *are* often a part of module design; just **do not
-autowire** that delegator factory. This way, end-users who *can* use the
+your routes, since routes _are_ often a part of module design; just **do not
+autowire** that delegator factory. This way, end-users who _can_ use the
 defaults do not need to cut-and-paste routing definitions from your
 documentation into their own applications; they will instead opt-in to your
 delegator factory by wiring it into their own configuration.

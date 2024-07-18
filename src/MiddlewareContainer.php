@@ -21,36 +21,36 @@ class MiddlewareContainer implements ContainerInterface
      * Returns true if the service is in the container, or resolves to an
      * autoloadable class name.
      *
-     * @param string $service
+     * @param string $id
      */
-    public function has($service): bool
+    public function has($id): bool
     {
-        if ($this->container->has($service)) {
+        if ($this->container->has($id)) {
             return true;
         }
 
-        return class_exists($service);
+        return class_exists($id);
     }
 
     /**
      * Returns middleware pulled from container, or directly instantiated if
      * not managed by the container.
      *
-     * @param string $service
+     * @param string $id
      * @throws Exception\MissingDependencyException If the service does not
      *     exist, or is not a valid class name.
      * @throws Exception\InvalidMiddlewareException If the service is not
      *     an instance of MiddlewareInterface.
      */
-    public function get($service): MiddlewareInterface
+    public function get($id): MiddlewareInterface
     {
-        if (! $this->has($service)) {
-            throw Exception\MissingDependencyException::forMiddlewareService($service);
+        if (! $this->has($id)) {
+            throw Exception\MissingDependencyException::forMiddlewareService($id);
         }
 
-        $middleware = $this->container->has($service)
-            ? $this->container->get($service)
-            : new $service();
+        $middleware = $this->container->has($id)
+            ? $this->container->get($id)
+            : new $id();
 
         if (
             $middleware instanceof RequestHandlerInterface
@@ -60,7 +60,7 @@ class MiddlewareContainer implements ContainerInterface
         }
 
         if (! $middleware instanceof MiddlewareInterface) {
-            throw Exception\InvalidMiddlewareException::forMiddlewareService($service, $middleware);
+            throw Exception\InvalidMiddlewareException::forMiddlewareService($id, $middleware);
         }
 
         return $middleware;

@@ -19,6 +19,6 @@ mezzio.
 ## Applications
 
 - [Shlink: A self-hosted URL shortener](https://shlink.io/) - [*source*](https://github.com/shlinkio/shlink)
-- [Dotkernel Frontend: Basic CMS application ](https://v3.dotkernel.net/) - [*source*](https://github.com/dotkernel/frontend)
+- [Dotkernel Frontend: Basic CMS application](https://v3.dotkernel.net/) - [*source*](https://github.com/dotkernel/frontend)
 - [Dotkernel Admin: simple CRUD operations on a database](https://admin4.dotkernel.net/) - [*source*](https://github.com/dotkernel/admin)
 - [Dotkernel API: basic application for REST style API](https://api.dotkernel.net/) - [*source*](https://github.com/dotkernel/api)
