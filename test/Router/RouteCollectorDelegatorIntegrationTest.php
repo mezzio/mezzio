@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MezzioTest\Router;
 
 use Laminas\Router\ConfigProvider as LaminasRouterConfigProvider;
+use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 use Laminas\ServiceManager\ServiceManager;
 use Mezzio\ConfigProvider as MezzioConfigProvider;
@@ -51,7 +52,7 @@ final class RouteCollectorDelegatorIntegrationTest extends TestCase
         return new ServiceManager($dependencies);
     }
 
-    public function testThatTheRouteWillBeInjectedIntoTheRouteCollectorWhenNoFactoryIsDefined(): void
+    public function testThatAnExceptionIsThrownWhenAListedRouteProviderIsNotAvailableInTheContainer(): void
     {
         $config = [
             'router' => [
@@ -63,10 +64,10 @@ final class RouteCollectorDelegatorIntegrationTest extends TestCase
 
         $container = $this->serviceManagerWithConfig($config);
 
-        $collector = $container->get(RouteCollectorInterface::class);
-        assert($collector instanceof RouteCollector);
+        $this->expectException(ServiceNotFoundException::class);
+        $this->expectExceptionMessage(ExampleRouteProvider::class);
 
-        $this->assertContainsRouteWithNameAndPath('example-route', '/example-route', $collector->getRoutes());
+        $container->get(RouteCollectorInterface::class);
     }
 
     public function testThatTheRouteWillBeInjectedIntoTheRouteCollectorWhenAFactoryIsDefinedForTheProvider(): void
