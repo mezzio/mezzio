@@ -10,7 +10,6 @@ use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
 
 use function assert;
-use function is_a;
 use function is_array;
 use function is_string;
 
@@ -44,13 +43,11 @@ final class RouteCollectorDelegator implements DelegatorFactoryInterface
         $middlewareFactory = $container->get(MiddlewareFactoryInterface::class);
         foreach ($providers as $provider) {
             assert(is_string($provider));
-            assert(is_a($provider, RouteProviderInterface::class, true));
+            /** @psalm-suppress MixedAssignment */
+            $provider = $container->get($provider);
+            assert($provider instanceof RouteProviderInterface);
 
-            $instance = $container->has($provider)
-                ? $container->get($provider)
-                : new $provider();
-
-            $instance->registerRoutes($collector, $middlewareFactory);
+            $provider->registerRoutes($collector, $middlewareFactory);
         }
 
         return $collector;
