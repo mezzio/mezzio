@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "589bec38e498111e21519b96b12cbdb2",
+    "content-hash": "1c3b777e9f14f757b57ee2897dc7ec4b",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -606,16 +606,16 @@
         },
         {
             "name": "psr/http-message",
-            "version": "1.1",
+            "version": "2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
-                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
                 "shasum": ""
             },
             "require": {
@@ -624,7 +624,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -639,7 +639,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for HTTP messages",
@@ -653,9 +653,9 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-message/tree/1.1"
+                "source": "https://github.com/php-fig/http-message/tree/2.0"
             },
-            "time": "2023-04-04T09:50:52+00:00"
+            "time": "2023-04-04T09:54:51+00:00"
         },
         {
             "name": "psr/http-server-handler",
@@ -989,59 +989,6 @@
                 }
             ],
             "time": "2024-04-13T18:00:56+00:00"
-        },
-        {
-            "name": "aura/router",
-            "version": "3.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/auraphp/Aura.Router.git",
-                "reference": "589e806550d511e31a6609edb17f282ea8c957f9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/auraphp/Aura.Router/zipball/589e806550d511e31a6609edb17f282ea8c957f9",
-                "reference": "589e806550d511e31a6609edb17f282ea8c957f9",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.0",
-                "psr/http-message": "~1.0",
-                "psr/log": "^1.0 || ^2.0 || ^3.0"
-            },
-            "require-dev": {
-                "guzzlehttp/psr7": "^1.0 || ^2.0",
-                "yoast/phpunit-polyfills": "~1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Aura\\Router\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Aura.Router Contributors",
-                    "homepage": "https://github.com/auraphp/Aura.Router/contributors"
-                }
-            ],
-            "description": "Powerful, flexible web routing for PSR-7 requests.",
-            "homepage": "https://github.com/auraphp/Aura.Router",
-            "keywords": [
-                "psr-7",
-                "route",
-                "router",
-                "routing"
-            ],
-            "support": {
-                "issues": "https://github.com/auraphp/Aura.Router/issues",
-                "source": "https://github.com/auraphp/Aura.Router/tree/3.3.0"
-            },
-            "time": "2023-06-12T04:42:55+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",
@@ -2285,79 +2232,6 @@
                 }
             ],
             "time": "2024-08-01T09:32:54+00:00"
-        },
-        {
-            "name": "mezzio/mezzio-aurarouter",
-            "version": "3.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mezzio/mezzio-aurarouter.git",
-                "reference": "bef87aad9752def23274b704f0c683426758c2a9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-aurarouter/zipball/bef87aad9752def23274b704f0c683426758c2a9",
-                "reference": "bef87aad9752def23274b704f0c683426758c2a9",
-                "shasum": ""
-            },
-            "require": {
-                "aura/router": "^3.2",
-                "fig/http-message-util": "^1.1.5",
-                "mezzio/mezzio-router": "^3.17.0",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
-                "psr/http-message": "^1.0.1 || ^2.0"
-            },
-            "conflict": {
-                "zendframework/zend-expressive-aurarouter": "*"
-            },
-            "require-dev": {
-                "laminas/laminas-coding-standard": "~2.5.0",
-                "laminas/laminas-diactoros": "^3.0",
-                "laminas/laminas-stratigility": "^3.11",
-                "phpunit/phpunit": "^10.4.2",
-                "vimeo/psalm": "^5.15"
-            },
-            "type": "library",
-            "extra": {
-                "laminas": {
-                    "config-provider": "Mezzio\\Router\\AuraRouter\\ConfigProvider"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Mezzio\\Router\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Aura.Router integration for Mezzio",
-            "homepage": "https://mezzio.dev",
-            "keywords": [
-                "aura",
-                "http",
-                "laminas",
-                "mezzio",
-                "middleware",
-                "psr",
-                "psr-7"
-            ],
-            "support": {
-                "chat": "https://laminas.dev/chat",
-                "docs": "https://docs.mezzio.dev/mezzio/features/router/aura/",
-                "forum": "https://discourse.laminas.dev",
-                "issues": "https://github.com/mezzio/mezzio-aurarouter/issues",
-                "rss": "https://github.com/mezzio/mezzio-aurarouter/releases.atom",
-                "source": "https://github.com/mezzio/mezzio-aurarouter"
-            },
-            "funding": [
-                {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
-                }
-            ],
-            "time": "2023-11-03T10:50:36+00:00"
         },
         {
             "name": "mezzio/mezzio-fastroute",
@@ -3758,16 +3632,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "5.0.1",
+            "version": "5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "2db5010a484d53ebf536087a70b4a5423c102372"
+                "reference": "2d3e04c3b4c1e84a5e7382221ad8883c8fbc4f53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/2db5010a484d53ebf536087a70b4a5423c102372",
-                "reference": "2db5010a484d53ebf536087a70b4a5423c102372",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/2d3e04c3b4c1e84a5e7382221ad8883c8fbc4f53",
+                "reference": "2d3e04c3b4c1e84a5e7382221ad8883c8fbc4f53",
                 "shasum": ""
             },
             "require": {
@@ -3778,7 +3652,7 @@
                 "sebastian/exporter": "^5.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^10.3"
+                "phpunit/phpunit": "^10.4"
             },
             "type": "library",
             "extra": {
@@ -3823,7 +3697,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/comparator/issues",
                 "security": "https://github.com/sebastianbergmann/comparator/security/policy",
-                "source": "https://github.com/sebastianbergmann/comparator/tree/5.0.1"
+                "source": "https://github.com/sebastianbergmann/comparator/tree/5.0.2"
             },
             "funding": [
                 {
@@ -3831,7 +3705,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-14T13:18:12+00:00"
+            "time": "2024-08-12T06:03:08+00:00"
         },
         {
             "name": "sebastian/complexity",

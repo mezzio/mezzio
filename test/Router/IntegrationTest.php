@@ -14,7 +14,6 @@ use Laminas\Stratigility\MiddlewarePipe;
 use Mezzio\Application;
 use Mezzio\MiddlewareContainer;
 use Mezzio\MiddlewareFactory;
-use Mezzio\Router\AuraRouter;
 use Mezzio\Router\FastRouteRouter;
 use Mezzio\Router\LaminasRouter;
 use Mezzio\Router\Middleware\DispatchMiddleware;
@@ -75,7 +74,6 @@ class IntegrationTest extends TestCase
      */
     public static function routerAdapters(): iterable
     {
-        yield 'aura' => [AuraRouter::class];
         yield 'fast-route' => [FastRouteRouter::class];
         yield 'laminas'    => [LaminasRouter::class];
     }
@@ -373,8 +371,6 @@ class IntegrationTest extends TestCase
      */
     public static function allowedMethod(): iterable
     {
-        yield 'aura-head'    => [AuraRouter::class, RequestMethod::METHOD_HEAD];
-        yield 'aura-options' => [AuraRouter::class, RequestMethod::METHOD_OPTIONS];
         yield 'fast-route-head'    => [FastRouteRouter::class, RequestMethod::METHOD_HEAD];
         yield 'fast-route-options' => [FastRouteRouter::class, RequestMethod::METHOD_OPTIONS];
         yield 'laminas-head'       => [LaminasRouter::class, RequestMethod::METHOD_HEAD];
