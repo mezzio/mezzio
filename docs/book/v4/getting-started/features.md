@@ -34,7 +34,7 @@ Mezzio builds on [laminas-stratigility](https://docs.laminas.dev/laminas-stratig
 to provide a robust convenience layer on which to build applications. The
 features it provides include:
 
-- **Routing**
+### Routing
 
   Stratigility provides limited, literal matching only via its
   `PathMiddlewareDecorator`. Mezzio allows you to utilize dynamic routing
@@ -48,21 +48,21 @@ features it provides include:
   routing library that best fits the project needs. By default, we provide
   wrappers for Aura.Router, FastRoute, and the laminas-router.
 
-- **PSR-11 Container**
+### PSR-11 Container
 
   Mezzio encourages the use of Dependency Injection, and defines its
   `Application` class to compose a [PSR-11](https://www.php-fig.org/psr/psr-11)
   `ContainerInterface` instance. The container is used to lazy-load middleware,
   whether it is piped (Stratigility interface) or routed (Mezzio).
 
-- **Templating**
+### Templating
 
   While Mezzio does not assume templating is being used, it provides a
   templating abstraction. Developers can write middleware that typehints on
   this abstraction, and assume that the underlying adapter will provide
   layout support and namespaced template support.
 
-- **Error Handling**
+### Error Handling
 
   Applications should handle errors gracefully, but also handle them differently
   in development versus production. Mezzio provides both basic error
