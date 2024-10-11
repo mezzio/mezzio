@@ -242,7 +242,7 @@ methods for retrieving them. They include:
     - If a container is composed and contains the `Mezzio\Delegate\DefaultDelegate`
       service, it returns that.
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > #### Deprecated
 >
 > Each of the above methods are deprecated starting in version 2.2, and will be

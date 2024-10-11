@@ -25,7 +25,7 @@ We assume also that:
   in your `composer.json` for those classes (this should be done for you during
   installation).
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > ### Using the built-in web server
 >
 > You can use the built-in web server to run the examples. Run:
