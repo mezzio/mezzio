@@ -62,7 +62,7 @@ interface TemplateRendererInterface
 }
 ```
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > ### Namespaces
 >
 > Unfortunately, namespace syntax varies between different template engine

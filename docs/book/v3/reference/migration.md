@@ -4,7 +4,7 @@ Mezzio 3.0 should not result in many upgrade problems for users. However,
 starting in this version, we offer a few changes affecting the following that
 you should be aware of, and potentially update your application to adopt:
 
-- [PHP 7.1 support](#php-7.1-support)
+- [PHP 7.1 support](#php-71-support)
 - [PSR-15 support](#psr-15-support)
 - [New dependencies](#new-dependencies)
 - [New features](#new-features)

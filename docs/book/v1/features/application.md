@@ -216,7 +216,7 @@ methods for retrieving them. They include:
   [emitter](https://docs.laminas.dev/laminas-diactoros/v1/emitting-responses/),
   typically a `Mezzio\Emitter\EmitterStack` instance.
 - `getFinalHandler(ResponseInterface $response = null)`: retrieves the final
-  handler instance. This is middleware with the signature `function ($request, $response, $error = null)`, 
+  handler instance. This is middleware with the signature `function ($request, $response, $error = null)`,
   and it is invoked when the middleware pipeline queue is depleted and no response has been returned.
 
 ## Executing the application: run()

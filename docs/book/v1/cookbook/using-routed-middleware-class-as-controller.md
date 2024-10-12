@@ -46,7 +46,7 @@ The above defines a route that will match any of the following:
 The `action` attribute can thus be one of `add` or `edit`, and we can optionally
 also receive an `id` attribute (in the latter example, it would be `3`).
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > ### Routing definitions may vary
 >
 > Depending on the router you chose when starting your project, your routing

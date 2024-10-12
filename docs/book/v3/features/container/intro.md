@@ -31,7 +31,7 @@ At this time, we document support for the following specific containers:
 - [pimple-interop](pimple.md)
 - [aura.di](aura-di.md)
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > ### Service Names
 >
 > We recommend using fully-qualified class names whenever possible as service
