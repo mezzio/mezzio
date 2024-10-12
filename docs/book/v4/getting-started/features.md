@@ -30,45 +30,32 @@ With Mezzio, you can build middleware applications such as the following:
 
 ## Features
 
-Mezzio builds on [laminas-stratigility](https://docs.laminas.dev/laminas-stratigility/)
-to provide a robust convenience layer on which to build applications. The
-features it provides include:
+Mezzio builds on [laminas-stratigility](https://docs.laminas.dev/laminas-stratigility/) (Stratigility) to provide a robust convenience layer on which to build applications.
+The features it provides include:
 
-### Routing
+### Powerful Routing
 
-  Stratigility provides limited, literal matching only via its
-  `PathMiddlewareDecorator`. Mezzio allows you to utilize dynamic routing
-  capabilities from a variety of routers, providing much more fine-grained
-  matching capabilities. The routing layer also allows restricting matched
-  routes to specific HTTP methods, and will return "405 Not Allowed" responses
-  with an "Allow" HTTP header containing allowed HTTP methods for invalid
-  requests.
+Stratigility provides limited, literal route matching via its `PathMiddlewareDecorator`.
+Mezzio, however, allows you to utilize dynamic routing capabilities from a variety of router packages, providing much more fine-grained matching capabilities.
+Its routing layer also allows restricting matched routes to specific HTTP methods, and will return a [405 Not Allowed][405-not-allowed-url] response with an [Allow HTTP header][allow-http-header-url] containing the allowed HTTP methods for invalid requests.
 
-  Routing is abstracted in Mezzio, allowing the developer to choose the
-  routing library that best fits the project needs. By default, we provide
-  wrappers for Aura.Router, FastRoute, and the laminas-router.
+Routing is abstracted in Mezzio, allowing the developer to choose the routing library that best fits the project needs.
+By default, we provide wrappers for [Aura.Router][aura-router-url], [FastRoute][fastroute-url], and the [laminas-router][laminas-router-url].
 
-### PSR-11 Container
+### A PSR-11 Container
 
-  Mezzio encourages the use of Dependency Injection, and defines its
-  `Application` class to compose a [PSR-11](https://www.php-fig.org/psr/psr-11)
-  `ContainerInterface` instance. The container is used to lazy-load middleware,
-  whether it is piped (Stratigility interface) or routed (Mezzio).
+Mezzio encourages the use of dependency injection, and defines its core `Application` class to compose a [PSR-11][psr11-url] `ContainerInterface` instance.
+The container is used to lazy-load middleware, whether it is piped (Stratigility interface) or routed (Mezzio).
 
-### Templating
+### Flexible Templating
 
-  While Mezzio does not assume templating is being used, it provides a
-  templating abstraction. Developers can write middleware that typehints on
-  this abstraction, and assume that the underlying adapter will provide
-  layout support and namespaced template support.
+While Mezzio does not assume templating is being used, it provides a templating abstraction.
+Developers can write middleware that typehints on this abstraction, and assume that the underlying adapter will provide layout support and namespaced template support.
 
 ### Error Handling
 
-  Applications should handle errors gracefully, but also handle them differently
-  in development versus production. Mezzio provides both basic error
-  handling via Stratigility's own `ErrorHandler` implementation, providing
-  specialized error response generators that can perform templating or use
-  Whoops.
+Applications should handle errors gracefully, but also handle them differently in development versus production.
+Mezzio provides both basic error handling via Stratigility's own `ErrorHandler` implementation, providing specialized error response generators that can perform templating or use [Whoops][whoops-url].
 
 ## Flow Overview
 
@@ -213,3 +200,11 @@ The main points to remember are:
   rules that map to them.
 - _You_ get to control the workflow of your application by deciding the order in
   which middleware is queued.
+
+[405-not-allowed-url]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/405
+[allow-http-header-url]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Allow
+[aura-router-url]: https://auraphp.com/packages/2.x/Router
+[fastroute-url]: https://github.com/nikic/FastRoute
+[laminas-router-url]: https://docs.laminas.dev/laminas-router/routing/
+[psr11-url]: https://www.php-fig.org/psr/psr-11
+[whoops-url]: http://filp.github.io/whoops/
