@@ -30,45 +30,36 @@ With Mezzio, you can build middleware applications such as the following:
 
 ## Features
 
-Mezzio builds on [laminas-stratigility](https://docs.laminas.dev/laminas-stratigility/)
-to provide a robust convenience layer on which to build applications. The
-features it provides include:
+Mezzio builds on [laminas-stratigility](https://docs.laminas.dev/laminas-stratigility/) (Stratigility) to provide a robust convenience layer on which to build applications.
+The features it provides include:
 
-- **Routing**
+### Powerful Routing
 
-  Stratigility provides limited, literal matching only via its
-  `PathMiddlewareDecorator`. Mezzio allows you to utilize dynamic routing
-  capabilities from a variety of routers, providing much more fine-grained
-  matching capabilities. The routing layer also allows restricting matched
-  routes to specific HTTP methods, and will return "405 Not Allowed" responses
-  with an "Allow" HTTP header containing allowed HTTP methods for invalid
-  requests.
+Stratigility provides the foundation for Mezzio's routing. 
+Stratigility only provides limited, literal route matching via `PathMiddlewareDecorator`.
+However, Mezzio builds on this, providing an abstracted routing layer that allows the developer to choose the routing library that best fits the project needs.
 
-  Routing is abstracted in Mezzio, allowing the developer to choose the
-  routing library that best fits the project needs. By default, we provide
-  wrappers for Aura.Router, FastRoute, and the laminas-router.
+And, among other features, it:
 
-- **PSR-11 Container**
+- Supports dynamic routing capabilities from a variety of router packages, including [FastRoute][fastroute-url], and [laminas-router][laminas-router-url]
+- Provides much more fine-grained matching capabilities than Stratigility does
+- It allows restricting matched routes to specific HTTP methods and returns [405 Not Allowed][405-not-allowed-url] responses with an [Allow HTTP header][allow-http-header-url] containing the allowed HTTP methods for invalid requests
 
-  Mezzio encourages the use of Dependency Injection, and defines its
-  `Application` class to compose a [PSR-11](https://www.php-fig.org/psr/psr-11)
-  `ContainerInterface` instance. The container is used to lazy-load middleware,
-  whether it is piped (Stratigility interface) or routed (Mezzio).
+### A PSR-11 Container
 
-- **Templating**
+Mezzio encourages the use of dependency injection, and defines its core `Application` class to compose a [PSR-11][psr11-url] `ContainerInterface` instance.
+The container is used to lazy-load middleware, whether it is piped (Stratigility interface) or routed (Mezzio).
 
-  While Mezzio does not assume templating is being used, it provides a
-  templating abstraction. Developers can write middleware that typehints on
-  this abstraction, and assume that the underlying adapter will provide
-  layout support and namespaced template support.
+### Flexible Templating
 
-- **Error Handling**
+While Mezzio does not assume templating is being used, it provides a templating abstraction layer, allowing developers to choose the templating package that best suits their needs.
+In addition, developers can write middleware that typehints on this abstraction, and assume that the underlying templating package will provide layout support and namespaced template support.
+By default, Mezzio provides wrappers for [Plates][plates-url], and [Twig][twig-url], and [laminas-view][laminas-view-url].
 
-  Applications should handle errors gracefully, but also handle them differently
-  in development versus production. Mezzio provides both basic error
-  handling via Stratigility's own `ErrorHandler` implementation, providing
-  specialized error response generators that can perform templating or use
-  Whoops.
+### Error Handling
+
+Applications should handle errors gracefully, but also handle them differently in development versus production.
+Mezzio provides both basic error handling via Stratigility's own `ErrorHandler` implementation, providing specialized error response generators that can perform templating, and integrates with [Whoops][whoops-url].
 
 ## Flow Overview
 
@@ -213,3 +204,13 @@ The main points to remember are:
   rules that map to them.
 - _You_ get to control the workflow of your application by deciding the order in
   which middleware is queued.
+
+[405-not-allowed-url]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/405
+[allow-http-header-url]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Allow
+[fastroute-url]: https://github.com/nikic/FastRoute
+[laminas-router-url]: https://docs.laminas.dev/laminas-router/routing/
+[laminas-view-url]: https://docs.laminas.dev/laminas-view/
+[plates-url]: https://platesphp.com/
+[psr11-url]: https://www.php-fig.org/psr/psr-11
+[twig-url]: https://twig.symfony.com/
+[whoops-url]: http://filp.github.io/whoops/
