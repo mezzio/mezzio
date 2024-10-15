@@ -54,7 +54,7 @@ The container is used to lazy-load middleware, whether it is piped (Stratigility
 
 While Mezzio does not assume templating is being used, it provides a templating abstraction layer, allowing developers to choose the templating package that best suits their needs.
 In addition, developers can write middleware that typehints on this abstraction, and assume that the underlying templating package will provide layout support and namespaced template support.
-By default, Mezzio provides wrappers for [Plates][plates-url], and [Twig][twig-url], and [laminas-view][laminas-view-url].
+By default, Mezzio provides wrappers for [Plates][plates-url], [Twig][twig-url], and [laminas-view][laminas-view-url].
 
 ### Error Handling
 
