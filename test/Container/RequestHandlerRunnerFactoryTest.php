@@ -10,6 +10,7 @@ use Mezzio\ApplicationPipeline;
 use Mezzio\Container\RequestHandlerRunnerFactory;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use MezzioTest\InMemoryContainer;
+use MezzioTest\MutableMemoryContainerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -50,7 +51,7 @@ class RequestHandlerRunnerFactoryTest extends TestCase
         $this->assertSame($errorGenerator($e), $toTest($e));
     }
 
-    public function registerHandlerInContainer(InMemoryContainer $container): RequestHandlerInterface
+    public function registerHandlerInContainer(MutableMemoryContainerInterface $container): RequestHandlerInterface
     {
         $app = $this->createMock(RequestHandlerInterface::class);
         $container->set(ApplicationPipeline::class, $app);
@@ -58,7 +59,7 @@ class RequestHandlerRunnerFactoryTest extends TestCase
         return $app;
     }
 
-    public function registerEmitterInContainer(InMemoryContainer $container): EmitterInterface
+    public function registerEmitterInContainer(MutableMemoryContainerInterface $container): EmitterInterface
     {
         $emitter = $this->createMock(EmitterInterface::class);
         $container->set(EmitterInterface::class, $emitter);
@@ -69,7 +70,7 @@ class RequestHandlerRunnerFactoryTest extends TestCase
     /**
      * @return callable():ServerRequestInterface
      */
-    public function registerServerRequestFactoryInContainer(InMemoryContainer $container): callable
+    public function registerServerRequestFactoryInContainer(MutableMemoryContainerInterface $container): callable
     {
         $request = $this->createMock(ServerRequestInterface::class);
         $factory = static fn(): ServerRequestInterface => $request;
@@ -81,7 +82,7 @@ class RequestHandlerRunnerFactoryTest extends TestCase
     /**
      * @psalm-return MockObject&ServerRequestErrorResponseGenerator
      */
-    public function registerServerRequestErrorResponseGeneratorInContainer(InMemoryContainer $container)
+    public function registerServerRequestErrorResponseGeneratorInContainer(MutableMemoryContainerInterface $container)
     {
         $response  = $this->createMock(ResponseInterface::class);
         $generator = $this->createMock(ServerRequestErrorResponseGenerator::class);

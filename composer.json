@@ -43,7 +43,7 @@
         "laminas/laminas-stratigility": "^3.5",
         "mezzio/mezzio-router": "^3.7",
         "mezzio/mezzio-template": "^2.2",
-        "psr/container": "^1.0||^2.0",
+        "psr/container": "^1.1.2||^2.0.2",
         "psr/http-factory": "^1.0",
         "psr/http-message": "^1.0.1 || ^2.0.0",
         "psr/http-server-middleware": "^1.0",
@@ -71,8 +71,6 @@
     },
     "suggest": {
         "filp/whoops": "^2.1 to use the Whoops error handler",
-        "laminas/laminas-auradi-config": "^2.0 to use Aura.Di dependency injection container",
-        "laminas/laminas-pimple-config": "^1.0 to use Pimple for dependency injection container",
         "laminas/laminas-servicemanager": "^3.3 to use laminas-servicemanager for dependency injection",
         "mezzio/mezzio-helpers": "^3.0 for its UrlHelper, ServerUrlHelper, and BodyParseMiddleware",
         "mezzio/mezzio-tooling": "^1.0 for migration and development tools; require it with the --dev flag",
@@ -80,8 +78,7 @@
     },
     "autoload": {
         "files": [
-            "src/constants.php",
-            "src/constants.legacy.php"
+            "src/constants.php"
         ],
         "psr-4": {
             "Mezzio\\": "src/"
