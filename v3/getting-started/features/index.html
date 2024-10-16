@@ -86,17 +86,6 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="https://api-tools.getlaminas.org/documentation" class="dropdown-item">
-                                <div class="row align-items-center">
-                                    <div class="col-md-4 col-sm-12">
-                                        <img src="https://docs.laminas.dev/img/laminas-api-tools-rgb.svg">
-                                    </div>
-                                    <div class="col-md-8 col-sm-12">
-                                        <strong>API Tools</strong><br>
-                                        Build RESTful APIs in Minutes
-                                    </div>
-                                </div>
-                            </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item dropdown-item--secondardy" href="https://docs.laminas.dev/migration/">
                                 <div class="row align-items-center">
@@ -775,44 +764,28 @@ middleware and re-use middleware.</p>
 <li>and more.</li>
 </ul>
 <h2 id="features">Features</h2>
-<p>Mezzio builds on <a href="https://docs.laminas.dev/laminas-stratigility/">laminas-stratigility</a>
-to provide a robust convenience layer on which to build applications. The
-features it provides include:</p>
+<p>Mezzio builds on <a href="https://docs.laminas.dev/laminas-stratigility/">laminas-stratigility</a> (Stratigility) to provide a robust convenience layer on which to build applications.
+The features it provides include:</p>
+<h3 id="powerful-routing">Powerful Routing</h3>
+<p>Stratigility provides the foundation for Mezzio's routing.
+But, Stratigility only provides limited, literal route matching via <code>PathMiddlewareDecorator</code>.
+Mezzio builds on this, providing an abstracted routing layer that allows the developer to choose the routing library that best fits the project needs.</p>
+<p>And, among other features, it:</p>
 <ul>
-<li><strong>Routing</strong></li>
+<li>Supports dynamic routing capabilities from a variety of router packages, including <a href="https://github.com/nikic/FastRoute">FastRoute</a>, and <a href="https://docs.laminas.dev/laminas-router/routing/">laminas-router</a></li>
+<li>Provides much more fine-grained matching capabilities than Stratigility does</li>
+<li>It allows restricting matched routes to specific HTTP methods and returns <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/405">405 Not Allowed</a> responses with an <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Allow">Allow HTTP header</a> containing the allowed HTTP methods for invalid requests</li>
 </ul>
-<p>Stratigility provides limited, literal matching only via its
-  <code>PathMiddlewareDecorator</code>. Mezzio allows you to utilize dynamic routing
-  capabilities from a variety of routers, providing much more fine-grained
-  matching capabilities. The routing layer also allows restricting matched
-  routes to specific HTTP methods, and will return "405 Not Allowed" responses
-  with an "Allow" HTTP header containing allowed HTTP methods for invalid
-  requests.</p>
-<p>Routing is abstracted in Mezzio, allowing the developer to choose the
-  routing library that best fits the project needs. By default, we provide
-  wrappers for Aura.Router, FastRoute, and the laminas-router.</p>
-<ul>
-<li><strong>PSR-11 Container</strong></li>
-</ul>
-<p>Mezzio encourages the use of Dependency Injection, and defines its
-  <code>Application</code> class to compose a <a href="https://www.php-fig.org/psr/psr-11">PSR-11</a>
-  <code>ContainerInterface</code> instance. The container is used to lazy-load middleware,
-  whether it is piped (Stratigility interface) or routed (Mezzio).</p>
-<ul>
-<li><strong>Templating</strong></li>
-</ul>
-<p>While Mezzio does not assume templating is being used, it provides a
-  templating abstraction. Developers can write middleware that typehints on
-  this abstraction, and assume that the underlying adapter will provide
-  layout support and namespaced template support.</p>
-<ul>
-<li><strong>Error Handling</strong></li>
-</ul>
-<p>Applications should handle errors gracefully, but also handle them differently
-  in development versus production. Mezzio provides both basic error
-  handling via Stratigility's own <code>ErrorHandler</code> implementation, providing
-  specialized error response generators that can perform templating or use
-  Whoops.</p>
+<h3 id="a-psr-11-container">A PSR-11 Container</h3>
+<p>Mezzio encourages the use of dependency injection, and defines its core <code>Application</code> class to compose a <a href="https://www.php-fig.org/psr/psr-11">PSR-11</a> <code>ContainerInterface</code> instance.
+The container is used to lazy-load middleware, whether it is piped (Stratigility interface) or routed (Mezzio).</p>
+<h3 id="flexible-templating">Flexible Templating</h3>
+<p>While Mezzio does not assume templating is being used, it provides a templating abstraction layer, allowing developers to choose the templating package that best suits their needs.
+In addition, developers can write middleware that typehints on this abstraction, and assume that the underlying templating package will provide layout support and namespaced template support.
+By default, Mezzio provides wrappers for <a href="https://platesphp.com/">Plates</a>, <a href="https://twig.symfony.com/">Twig</a>, and <a href="https://docs.laminas.dev/laminas-view/">laminas-view</a>.</p>
+<h3 id="error-handling">Error Handling</h3>
+<p>Applications should handle errors gracefully, but also handle them differently in development versus production.
+Mezzio provides both basic error handling via Stratigility's own <code>ErrorHandler</code> implementation, providing specialized error response generators that can perform templating, and integrates with <a href="http://filp.github.io/whoops/">Whoops</a>.</p>
 <h2 id="flow-overview">Flow Overview</h2>
 <p>Below is a diagram detailing the workflow used by Mezzio.</p>
 <p><img alt="Mezzio Architectural Flow" src="../../../images/architecture.png" class="img-responsive"/></p>
@@ -1477,7 +1450,7 @@ error response for your application, usually as an HTTP 404 Not Found response.<
                     <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
                     <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
                     <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
-                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Maintenance Overview <a href="https://getlaminas.org/packages-maintenance-status/">Current maintenance status of Laminas &amp; Mezzio packages</a></li>
                 </ul>
             </div>
         </div>
