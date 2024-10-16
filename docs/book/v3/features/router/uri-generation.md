@@ -65,7 +65,7 @@ $app->route('/foo', $middleware)->setName('foo'); // 'foo'
 We recommend that if you plan on generating URIs for given routes, you provide a
 custom name.
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > #### Names must be unique
 >
 > In order for the URI generation functionality to work, routes must be uniquely

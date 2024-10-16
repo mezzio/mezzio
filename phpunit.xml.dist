@@ -10,6 +10,11 @@
          displayDetailsOnTestsThatTriggerErrors="true"
          displayDetailsOnTestsThatTriggerNotices="true"
          displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnPhpunitDeprecations="true"
+         failOnPhpunitDeprecation="true"
+         failOnWarning="true"
+         failOnNotice="true"
+         failOnDeprecation="true"
 >
     <testsuites>
         <testsuite name="mezzio-response-factory">

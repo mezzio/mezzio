@@ -4,7 +4,7 @@ In some cases, you may want to include an explicit `Content-Length` response
 header, without having to inject it manually. To facilitate this, we provide
 `Mezzio\Helper\ContentLengthMiddleware`.
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > ### When to use this middleware
 >
 > In most cases, you do not need to provide an explicit Content-Length value

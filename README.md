@@ -26,7 +26,6 @@ to provide a minimalist PSR-7 middleware framework for PHP, with the following
 features:
 
 - Routing. Choose your own router; we support:
-    - [Aura.Router](https://github.com/auraphp/Aura.Router)
     - [FastRoute](https://github.com/nikic/FastRoute)
     - [laminas-router](https://github.com/mezzio/mezzio-router)
 - DI Containers, via [PSR-11 Container](https://github.com/php-fig/container).
@@ -76,8 +75,6 @@ minimally:
 
 We currently support and provide the following routing integrations:
 
-- [Aura.Router](https://github.com/auraphp/Aura.Router):
-  `composer require mezzio/mezzio-aurarouter`
 - [FastRoute](https://github.com/nikic/FastRoute):
   `composer require mezzio/mezzio-fastroute`
 - [laminas-router](https://github.com/mezzio/mezzio-router):

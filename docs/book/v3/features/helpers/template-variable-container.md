@@ -24,7 +24,7 @@ As such, any middleware that is providing additional values or removing values
 **must** call `$request->withAttribute()` to replace the instance, per the
 examples below.
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > ### When to use the TemplateVariableContainer
 >
 > If you are calling `addDefaultParam()` only in your factory for creating your

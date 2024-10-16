@@ -751,7 +751,7 @@ automation:
 If you want to support these methods automatically, each of these should be
 enabled between the routing and dispatch middleware. If you use the
 `mezzio-pipeline-from-config` tool as documented in the
-[programmatic pipeline migration section](#migrate-to-programmatic-pipelines),
+[programmatic pipeline migration section](#programmatic-middleware-pipelines),
 entries for each will be injected into your generated pipeline.
 
 Please see the [chapter on the implicit methods middleware](../features/middleware/implicit-methods-middleware.md)

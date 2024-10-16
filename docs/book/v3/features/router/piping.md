@@ -28,7 +28,7 @@ This path segregation, however, is limited: it will only match literal paths.
 This is done purposefully, to provide excellent baseline performance, and to
 prevent feature creep in the library.
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > #### Path segregation
 >
 > Internally, when `Application::pipe()` detects two arguments, it calls

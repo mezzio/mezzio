@@ -35,7 +35,7 @@ The features it provides include:
 
 ### Powerful Routing
 
-Stratigility provides the foundation for Mezzio's routing. 
+Stratigility provides the foundation for Mezzio's routing.
 Stratigility only provides limited, literal route matching via `PathMiddlewareDecorator`.
 However, Mezzio builds on this, providing an abstracted routing layer that allows the developer to choose the routing library that best fits the project needs.
 

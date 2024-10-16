@@ -7,7 +7,7 @@ In previous releases, however, we supported "double-pass" middleware, and a
 number of third-party packages provided double-pass middleware. How can you use
 this middleware with Mezzio 3?
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > ### What is Double-Pass Middleware?
 >
 > Double pass middleware receives both the request and a response in addition to
