@@ -173,7 +173,7 @@ return function (Application $app, MiddlewareFactory $factory, ContainerInterfac
 };
 ```
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > #### Further simplifications
 >
 > Internally, `Application`'s `pipe()` and various routing methods make use of
