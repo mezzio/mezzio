@@ -686,11 +686,11 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
-                        <a href="#listening-for-errors" class="toc__link nav-link">Listening for errors</a>
+                        <a href="#there-is-an-easier-way" class="toc__link nav-link">There Is an Easier Way</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#handling-more-specific-error-types" class="toc__link nav-link">Handling more specific error types</a>
+                        <a href="#listening-for-errors" class="toc__link nav-link">Listening for errors</a>
                     </li>
                 
                     <li class="toc__entry">
@@ -783,6 +783,7 @@ the following:</p>
 <p>You would then pipe this as the outermost (or close to outermost) layer of your
 application:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipe($errorMiddleware);</code></pre>
+<h2 id="there-is-an-easier-way">There Is an Easier Way</h2>
 <p>So that you do not need to do this, we provide an error handler for you, via
 laminas-stratigility: <code>Laminas\Stratigility\Middleware\ErrorHandler</code>.</p>
 <p>This implementation allows you to both:</p>
@@ -866,7 +867,9 @@ the ability to do so via its <code>attachListener()</code> method.</p>
 <p>The response provided is the response returned by your error response generator,
 allowing the listener the ability to introspect the generated response as well.</p>
 <p>As an example, you could create a logging listener as follows:</p>
-<pre class="highlight"><code class="language-php">namespace Acme;
+<pre class="highlight"><code class="language-php">&lt;?php
+
+namespace Acme;
 
 use Exception;
 use Psr\Log\LoggerInterface;
@@ -903,7 +906,9 @@ class LoggingErrorListener
 }</code></pre>
 <p>You could then use a <a href="../container/delegator-factories/">delegator factory</a> to
 create your logger listener and attach it to your error handler:</p>
-<pre class="highlight"><code class="language-php">namespace Acme;
+<pre class="highlight"><code class="language-php">&lt;?php
+
+namespace Acme;
 
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -919,11 +924,29 @@ class LoggingErrorListenerDelegatorFactory
         return $errorHandler;
     }
 }</code></pre>
-<h2 id="handling-more-specific-error-types">Handling more specific error types</h2>
-<p>You could also write more specific error handlers. As an example, you might want
-to catch <code>UnauthorizedException</code> instances specifically, and display a login
-page:</p>
-<pre class="highlight"><code class="language-php">function (ServerRequestInterface $request, RequestHandlerInterface $handler) use ($renderer) : ResponseInterface
+<p>Then, enable the delegator factory in your application, such as by adding the following to the <code>getDependencies()</code> function in your app or module’s <code>ConfigProvider.php</code> file.</p>
+<pre class="highlight"><code class="language-php">public function getDependencies(): array
+{
+    return [
+        'factories'  =&gt; [
+            // …
+        ],
+        'delegators' =&gt; [
+            ErrorHandler::class =&gt; [
+                LoggingErrorListenerDelegatorFactory::class,
+            ],
+        ],
+    ];
+}
+
+## Handling more specific error types
+
+You could also write more specific error handlers. As an example, you might want
+to catch `UnauthorizedException` instances specifically, and display a login
+page:
+
+```php
+function (ServerRequestInterface $request, RequestHandlerInterface $handler) use ($renderer) : ResponseInterface
 {
     try {
         $response = $handler-&gt;handle($request);

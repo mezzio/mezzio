@@ -971,14 +971,14 @@ class ConfigProvider
 application, you can use the CLI tooling provided by default. All commands are
 exposed via <code>composer mezzio</code>, and include the following:</p>
 <ul>
-<li><code>composer mezzio module:create &lt;modulename&gt;</code> will create the default
+<li><code>composer mezzio mezzio:module:create &lt;modulename&gt;</code> will create the default
   directory structure for the named module, create a <code>ConfigProvider</code> for the
   module, add an autoloading rule to <code>composer.json</code>, and register the
   <code>ConfigProvider</code> with the application configuration.</li>
-<li><code>composer mezzio module:register &lt;modulename&gt;</code> will add an autoloading rule to
+<li><code>composer mezzio mezzio:module:register &lt;modulename&gt;</code> will add an autoloading rule to
   <code>composer.json</code> for the module, and register its <code>ConfigProvider</code>, if found,
   with the application configuration.</li>
-<li><code>mezzio module:deregister &lt;modulename&gt;</code> will remove any autoloading rules
+<li><code>mezzio mezzio:module:deregister &lt;modulename&gt;</code> will remove any autoloading rules
   for the module from <code>composer.json</code>, and deregister its <code>ConfigProvider</code>, if
   found, from the application configuration.</li>
 </ul>
@@ -1124,7 +1124,7 @@ anywhere within it.</p>
 <p>We'll create a simple middleware here that will run on every request, and alter
 the response to add a header.</p>
 <p>We can use our tooling to create the middleware file:</p>
-<pre class="highlight"><code class="language-bash">$ composer mezzio middleware:create "App\XClacksOverheadMiddleware"</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer mezzio mezzio:middleware:create "App\XClacksOverheadMiddleware"</code></pre>
 <p>This command will create a PSR-15 middleware implementation, a factory for it,
 and register the two in the application's container configuration. It tells you
 the location of both files.</p>
@@ -1156,7 +1156,7 @@ to request handlers</em>.</p>
 handlers under the namespace <code>App\Handler</code>.</p>
 <p>Let's create a "Hello" request handler. We can use our tooling to create the
 file:</p>
-<pre class="highlight"><code class="language-bash">$ composer mezzio handler:create "App\Handler\HelloHandler"</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer mezzio mezzio:handler:create "App\Handler\HelloHandler"</code></pre>
 <p>The command will tell you the location in the filesystem in which it created the
 new class; it will also create a factory for you, and register that factory with
 the container! Additionally, if you have a template renderer in place, it will
