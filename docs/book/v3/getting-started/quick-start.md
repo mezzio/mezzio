@@ -269,14 +269,14 @@ To aid in the creation, registration, and deregistration of modules in your
 application, you can use the CLI tooling provided by default. All commands are
 exposed via `composer mezzio`, and include the following:
 
-- `composer mezzio module:create <modulename>` will create the default
+- `composer mezzio mezzio:module:create <modulename>` will create the default
   directory structure for the named module, create a `ConfigProvider` for the
   module, add an autoloading rule to `composer.json`, and register the
   `ConfigProvider` with the application configuration.
-- `composer mezzio module:register <modulename>` will add an autoloading rule to
+- `composer mezzio mezzio:module:register <modulename>` will add an autoloading rule to
   `composer.json` for the module, and register its `ConfigProvider`, if found,
   with the application configuration.
-- `mezzio module:deregister <modulename>` will remove any autoloading rules
+- `mezzio mezzio:module:deregister <modulename>` will remove any autoloading rules
   for the module from `composer.json`, and deregister its `ConfigProvider`, if
   found, from the application configuration.
 
@@ -490,7 +490,7 @@ the response to add a header.
 We can use our tooling to create the middleware file:
 
 ```bash
-$ composer mezzio middleware:create "App\XClacksOverheadMiddleware"
+$ composer mezzio mezzio:middleware:create "App\XClacksOverheadMiddleware"
 ```
 
 This command will create a PSR-15 middleware implementation, a factory for it,
@@ -548,7 +548,7 @@ Let's create a "Hello" request handler. We can use our tooling to create the
 file:
 
 ```bash
-$ composer mezzio handler:create "App\Handler\HelloHandler"
+$ composer mezzio mezzio:handler:create "App\Handler\HelloHandler"
 ```
 
 The command will tell you the location in the filesystem in which it created the
