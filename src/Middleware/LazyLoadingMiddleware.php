@@ -13,7 +13,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class LazyLoadingMiddleware implements MiddlewareInterface
 {
-    public function __construct(private MiddlewareContainer $container, public readonly string $middlewareName)
+    public function __construct(private readonly MiddlewareContainer $container, public readonly string $middlewareName)
     {
     }
 

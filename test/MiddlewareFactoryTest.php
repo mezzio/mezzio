@@ -44,12 +44,9 @@ class MiddlewareFactoryTest extends TestCase
     /** @return Closure(ServerRequestInterface, RequestHandlerInterface): ResponseInterface */
     private static function validCallable(): Closure
     {
-        return function (
+        return fn(
             ServerRequestInterface $request,
-            RequestHandlerInterface $handler
-        ): ResponseInterface {
-            return new Response();
-        };
+            RequestHandlerInterface $handler): ResponseInterface => new Response();
     }
 
     public function assertLazyLoadingMiddleware(string $expectedMiddlewareName, MiddlewareInterface $middleware): void

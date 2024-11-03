@@ -126,8 +126,8 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         iterable $pipeline,
         ?string $message = null
     ): void {
-        $message = $message ?? 'Did not find expected middleware class type in pipeline';
-        $found   = false;
+        $message ??= 'Did not find expected middleware class type in pipeline';
+        $found     = false;
 
         foreach ($pipeline as $middleware) {
             if ($middleware instanceof $class) {
@@ -145,9 +145,9 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         return [
             ['HelloWorld'],
             [
-                static function (ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-                    return new Response();
-                },
+                static fn(
+                    ServerRequestInterface $request,
+                    RequestHandlerInterface $handler): ResponseInterface => new Response(),
             ],
             [[InvokableMiddleware::class, 'staticallyCallableMiddleware']],
         ];

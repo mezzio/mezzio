@@ -51,7 +51,7 @@ use function is_string;
  */
 class MiddlewareFactory implements MiddlewareFactoryInterface
 {
-    public function __construct(private MiddlewareContainer $container)
+    public function __construct(private readonly MiddlewareContainer $container)
     {
     }
 

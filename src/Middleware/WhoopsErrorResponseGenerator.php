@@ -15,13 +15,12 @@ use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 use Whoops\RunInterface;
 
-use function gettype;
-use function is_object;
+use function get_debug_type;
 use function sprintf;
 
 class WhoopsErrorResponseGenerator
 {
-    private RunInterface $whoops;
+    private readonly RunInterface $whoops;
 
     /**
      * @param RunInterface $whoops
@@ -30,14 +29,13 @@ class WhoopsErrorResponseGenerator
      */
     public function __construct($whoops)
     {
-        /** @psalm-suppress DocblockTypeContradiction Can be removed with the next major when enforcing argument type */
         if (! $whoops instanceof RunInterface) {
             throw new InvalidArgumentException(sprintf(
                 '%s expects a %s or %s instance; received %s',
                 static::class,
                 Run::class,
                 RunInterface::class,
-                is_object($whoops) ? $whoops::class : gettype($whoops)
+                get_debug_type($whoops)
             ));
         }
 
