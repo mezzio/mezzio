@@ -1695,23 +1695,23 @@
         },
         {
             "name": "laminas/laminas-http",
-            "version": "2.20.0",
+            "version": "2.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-http.git",
-                "reference": "a66bfb65c698aad6ee9f10df42cb5902f2c3dec8"
+                "reference": "a9867e4d1cda3dbad208903239c83a3d670cce10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-http/zipball/a66bfb65c698aad6ee9f10df42cb5902f2c3dec8",
-                "reference": "a66bfb65c698aad6ee9f10df42cb5902f2c3dec8",
+                "url": "https://api.github.com/repos/laminas/laminas-http/zipball/a9867e4d1cda3dbad208903239c83a3d670cce10",
+                "reference": "a9867e4d1cda3dbad208903239c83a3d670cce10",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-loader": "^2.10",
                 "laminas/laminas-stdlib": "^3.6",
                 "laminas/laminas-uri": "^2.11",
-                "laminas/laminas-validator": "^2.15",
+                "laminas/laminas-validator": "^2.15 || ^3.0",
                 "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
             },
             "conflict": {
@@ -1756,20 +1756,20 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2024-10-18T07:35:59+00:00"
+            "time": "2024-12-04T09:17:39+00:00"
         },
         {
             "name": "laminas/laminas-loader",
-            "version": "2.11.0",
+            "version": "2.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-loader.git",
-                "reference": "f2eedd3a6e774d965158fd11946bb1eba72e298c"
+                "reference": "c507d5eccb969f7208434e3980680a1f6c0b1d8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-loader/zipball/f2eedd3a6e774d965158fd11946bb1eba72e298c",
-                "reference": "f2eedd3a6e774d965158fd11946bb1eba72e298c",
+                "url": "https://api.github.com/repos/laminas/laminas-loader/zipball/c507d5eccb969f7208434e3980680a1f6c0b1d8d",
+                "reference": "c507d5eccb969f7208434e3980680a1f6c0b1d8d",
                 "shasum": ""
             },
             "require": {
@@ -1813,7 +1813,7 @@
                 }
             ],
             "abandoned": true,
-            "time": "2024-10-16T09:06:57+00:00"
+            "time": "2024-12-05T14:43:32+00:00"
         },
         {
             "name": "laminas/laminas-psr7bridge",
@@ -2097,21 +2097,21 @@
         },
         {
             "name": "laminas/laminas-uri",
-            "version": "2.12.0",
+            "version": "2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-uri.git",
-                "reference": "95a41a7592bacf4c648648a88b7c94b0c5c22b9e"
+                "reference": "de53600ae8153b3605bb6edce8aeeef524eaafba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-uri/zipball/95a41a7592bacf4c648648a88b7c94b0c5c22b9e",
-                "reference": "95a41a7592bacf4c648648a88b7c94b0c5c22b9e",
+                "url": "https://api.github.com/repos/laminas/laminas-uri/zipball/de53600ae8153b3605bb6edce8aeeef524eaafba",
+                "reference": "de53600ae8153b3605bb6edce8aeeef524eaafba",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-escaper": "^2.9",
-                "laminas/laminas-validator": "^2.39",
+                "laminas/laminas-validator": "^2.39 || ^3.0",
                 "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0"
             },
             "conflict": {
@@ -2151,7 +2151,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2024-08-03T21:22:51+00:00"
+            "time": "2024-12-03T12:27:51+00:00"
         },
         {
             "name": "laminas/laminas-validator",
