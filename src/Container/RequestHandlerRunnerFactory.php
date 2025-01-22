@@ -6,6 +6,7 @@ namespace Mezzio\Container;
 
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Mezzio\ApplicationPipeline;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use Psr\Container\ContainerInterface;
@@ -29,7 +30,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class RequestHandlerRunnerFactory
 {
-    public function __invoke(ContainerInterface $container): RequestHandlerRunner
+    public function __invoke(ContainerInterface $container): RequestHandlerRunnerInterface
     {
         return new RequestHandlerRunner(
             $container->get(ApplicationPipeline::class),

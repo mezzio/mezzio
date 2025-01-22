@@ -46,7 +46,7 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
     /**
      * Run the application.
      *
-     * Proxies to the RequestHandlerRunner::run() method.
+     * Proxies to the RequestHandlerRunnerInterface::run() method.
      */
     public function run(): void
     {
