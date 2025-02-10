@@ -29,6 +29,7 @@ use function file_get_contents;
 use function json_decode;
 use function sprintf;
 
+use const JSON_THROW_ON_ERROR;
 use const Mezzio\DEFAULT_DELEGATE;
 use const Mezzio\DISPATCH_MIDDLEWARE;
 use const Mezzio\IMPLICIT_HEAD_MIDDLEWARE;
@@ -94,10 +95,15 @@ class ConfigProviderTest extends TestCase
     {
         $config = ($this->provider)();
 
+        $content = file_get_contents(__DIR__ . '/../composer.lock');
+        self::assertIsString($content);
+
         $json = json_decode(
-            file_get_contents(__DIR__ . '/../composer.lock'),
-            true
+            $content,
+            true,
+            JSON_THROW_ON_ERROR,
         );
+
         foreach ($json['packages'] as $package) {
             if (isset($package['extra']['laminas']['config-provider'])) {
                 $configProvider = new $package['extra']['laminas']['config-provider']();

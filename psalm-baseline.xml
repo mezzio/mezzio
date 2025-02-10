@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="6.5.1@3f17a6b24a2dbe543e21408c2b19108cf6a355ef">
   <file src="src/Application.php">
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$middleware]]></code>
@@ -168,12 +168,6 @@
     </PropertyNotSetInConstructor>
   </file>
   <file src="test/ConfigProviderTest.php">
-    <ArgumentTypeCoercion>
-      <code><![CDATA[$dependencies]]></code>
-    </ArgumentTypeCoercion>
-    <MixedArgument>
-      <code><![CDATA[ApplicationPipeline::class]]></code>
-    </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$json['packages']]]></code>
       <code><![CDATA[$package['extra']]]></code>
