@@ -346,6 +346,8 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $routes = $app->getRoutes();
 
         $route = array_shift($routes);
+        self::assertInstanceOf(Route::class, $route);
+
         $this->assertEquals($config['routes'][0]['options'], $route->getOptions());
     }
 
@@ -407,6 +409,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $routes = $app->getRoutes();
 
         $route = array_shift($routes);
+        self::assertInstanceOf(Route::class, $route);
         $this->assertEquals('home', $route->getName());
     }
 
@@ -429,6 +432,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $routes = $app->getRoutes();
 
         $route = array_shift($routes);
+        self::assertInstanceOf(Route::class, $route);
         $this->assertEquals('homepage', $route->getName());
     }
 
