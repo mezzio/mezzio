@@ -16,7 +16,6 @@ use function Laminas\Stratigility\path;
 
 /**
  * @psalm-import-type MiddlewareParam from MiddlewareFactory
- *
  * @final
  */
 class Application implements MiddlewareInterface, RequestHandlerInterface
