@@ -14,14 +14,17 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 use function Laminas\Stratigility\path;
 
-/** @psalm-import-type MiddlewareParam from MiddlewareFactory */
+/**
+ * @psalm-import-type MiddlewareParam from MiddlewareFactory
+ * @final
+ */
 class Application implements MiddlewareInterface, RequestHandlerInterface
 {
     public function __construct(
-        private MiddlewareFactoryInterface $factory,
-        private MiddlewarePipeInterface $pipeline,
-        private RouteCollectorInterface $routes,
-        private RequestHandlerRunnerInterface $runner
+        private readonly MiddlewareFactoryInterface $factory,
+        private readonly MiddlewarePipeInterface $pipeline,
+        private readonly RouteCollectorInterface $routes,
+        private readonly RequestHandlerRunnerInterface $runner
     ) {
     }
 
@@ -75,8 +78,8 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      */
     public function pipe($middlewareOrPath, $middleware = null): void
     {
-        $middleware = $middleware ?? $middlewareOrPath;
-        $path       = $middleware === $middlewareOrPath ? '/' : $middlewareOrPath;
+        $middleware ??= $middlewareOrPath;
+        $path         = $middleware === $middlewareOrPath ? '/' : $middlewareOrPath;
 
         $middleware = $path !== '/'
             ? path($path, $this->factory->prepare($middleware))

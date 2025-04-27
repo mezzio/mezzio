@@ -8,9 +8,8 @@ use ArrayAccess;
 use Psr\Container\ContainerInterface;
 use Whoops\Handler\PrettyPageHandler;
 
-use function gettype;
+use function get_debug_type;
 use function is_callable;
-use function is_object;
 use function is_string;
 use function sprintf;
 
@@ -32,6 +31,8 @@ use function sprintf;
  *
  * If an editor is provided, it checks to see if it maps to a known service in
  * the container, and will use that; otherwise, it uses the value verbatim.
+ *
+ * @final
  */
 class WhoopsPageHandlerFactory
 {
@@ -71,7 +72,7 @@ class WhoopsPageHandlerFactory
         if (! is_string($editor)) {
             throw new Exception\InvalidServiceException(sprintf(
                 'Whoops editor must be a string editor name, string service name, or callable; received "%s"',
-                is_object($editor) ? $editor::class : gettype($editor)
+                get_debug_type($editor)
             ));
         }
 

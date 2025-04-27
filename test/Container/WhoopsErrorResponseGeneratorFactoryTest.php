@@ -11,7 +11,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Whoops\RunInterface;
 
-class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
+final class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
 {
     private InMemoryContainer $container;
 

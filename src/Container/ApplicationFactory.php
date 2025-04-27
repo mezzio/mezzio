@@ -23,6 +23,8 @@ use Psr\Container\ContainerInterface;
  *   Laminas\Stratigility\MiddlewarePipeInterface instance.
  * - Mezzio\Router\RouteCollector.
  * - Laminas\HttpHandler\RequestHandlerRunner.
+ *
+ * @final
  */
 class ApplicationFactory
 {

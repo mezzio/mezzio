@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class LazyLoadingMiddlewareTest extends TestCase
+final class LazyLoadingMiddlewareTest extends TestCase
 {
     /** @var MiddlewareContainer&MockObject */
     private $container;

@@ -19,7 +19,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 
-class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
+final class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
 {
     private ServerRequestErrorResponseGeneratorFactory $factory;
 

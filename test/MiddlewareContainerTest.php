@@ -15,7 +15,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use stdClass;
 
-class MiddlewareContainerTest extends TestCase
+final class MiddlewareContainerTest extends TestCase
 {
     private MiddlewareContainer $container;
 

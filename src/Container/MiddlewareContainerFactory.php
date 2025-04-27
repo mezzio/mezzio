@@ -7,6 +7,7 @@ namespace Mezzio\Container;
 use Mezzio\MiddlewareContainer;
 use Psr\Container\ContainerInterface;
 
+/** @final */
 class MiddlewareContainerFactory
 {
     public function __invoke(ContainerInterface $container): MiddlewareContainer

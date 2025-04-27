@@ -19,6 +19,7 @@ use Psr\Http\Message\StreamInterface;
  * This class provides initial _production_ configuration for mezzio.
  *
  * @psalm-import-type ServiceManagerConfigurationType from ConfigInterface
+ * @final
  */
 class ConfigProvider
 {

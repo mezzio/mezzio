@@ -14,7 +14,7 @@ use function spl_autoload_functions;
 use function spl_autoload_register;
 use function spl_autoload_unregister;
 
-class ResponseFactoryFactoryWithoutDiactorosTest extends TestCase
+final class ResponseFactoryFactoryWithoutDiactorosTest extends TestCase
 {
     private ContainerInterface $container;
 

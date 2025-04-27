@@ -9,6 +9,7 @@ use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
 
+/** @final */
 class ServerRequestErrorResponseGeneratorFactory
 {
     use Psr17ResponseFactoryTrait;

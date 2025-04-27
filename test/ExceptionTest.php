@@ -20,13 +20,15 @@ use function is_a;
 use function strrpos;
 use function substr;
 
-class ExceptionTest extends TestCase
+final class ExceptionTest extends TestCase
 {
+    /** @return Generator<string, array{0: string}> */
     public static function exception(): Generator
     {
         $namespace = substr(ExceptionInterface::class, 0, strrpos(ExceptionInterface::class, '\\') + 1);
 
         $exceptions = glob(__DIR__ . '/../src/Exception/*.php');
+        self::assertIsArray($exceptions);
         foreach ($exceptions as $exception) {
             $class = substr(basename($exception), 0, -4);
 

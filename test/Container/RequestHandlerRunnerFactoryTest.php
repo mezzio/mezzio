@@ -20,7 +20,7 @@ use ReflectionProperty;
 use RuntimeException;
 use Throwable;
 
-class RequestHandlerRunnerFactoryTest extends TestCase
+final class RequestHandlerRunnerFactoryTest extends TestCase
 {
     public function testFactoryProducesRunnerUsingServicesFromContainer(): void
     {

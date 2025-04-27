@@ -8,6 +8,7 @@ use RuntimeException;
 
 use function sprintf;
 
+/** @final */
 class ContainerNotRegisteredException extends RuntimeException implements ExceptionInterface
 {
     public static function forMiddlewareService(string $middleware): self

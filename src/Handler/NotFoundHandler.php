@@ -15,12 +15,13 @@ use Psr\Http\Server\RequestHandlerInterface;
 use function is_callable;
 use function sprintf;
 
+/** @final */
 class NotFoundHandler implements RequestHandlerInterface
 {
     public const TEMPLATE_DEFAULT = 'error::404';
     public const LAYOUT_DEFAULT   = 'layout::default';
 
-    private ResponseFactoryInterface $responseFactory;
+    private readonly ResponseFactoryInterface $responseFactory;
 
     /**
      * @todo Allow nullable $layout
@@ -29,9 +30,9 @@ class NotFoundHandler implements RequestHandlerInterface
      */
     public function __construct(
         $responseFactory,
-        private ?TemplateRendererInterface $renderer = null,
-        private string $template = self::TEMPLATE_DEFAULT,
-        private string $layout = self::LAYOUT_DEFAULT
+        private readonly ?TemplateRendererInterface $renderer = null,
+        private readonly string $template = self::TEMPLATE_DEFAULT,
+        private readonly string $layout = self::LAYOUT_DEFAULT
     ) {
         if (is_callable($responseFactory)) {
             $responseFactory = new CallableResponseFactoryDecorator($responseFactory);

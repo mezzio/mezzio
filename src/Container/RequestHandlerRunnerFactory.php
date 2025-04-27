@@ -26,6 +26,8 @@ use Psr\Http\Message\ServerRequestInterface;
  *   callable that will return a Psr\Http\Message\ServerRequestInterface
  *   instance.
  * - Mezzio\Response\ServerRequestErrorResponseGeneratorFactory,
+ *
+ * @final
  */
 class RequestHandlerRunnerFactory
 {

@@ -24,6 +24,8 @@ use function sprintf;
  * This factory consumes the
  * Laminas\Diactoros\ServerRequestFilter\FilterServerRequestInterface
  * service, which is used to make changes when initializing the request.
+ *
+ * @final
  */
 class ServerRequestFactoryFactory
 {

@@ -10,7 +10,7 @@ use Mezzio\MiddlewareFactory;
 use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 
-class MiddlewareFactoryFactoryTest extends TestCase
+final class MiddlewareFactoryFactoryTest extends TestCase
 {
     public function testFactoryProducesMiddlewareFactoryComposingMiddlewareContainerInstance(): void
     {

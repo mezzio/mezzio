@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class ServerRequestFactoryFactoryTest extends TestCase
+final class ServerRequestFactoryFactoryTest extends TestCase
 {
     public function testFactoryReturnsCallable(): callable
     {
@@ -38,7 +38,7 @@ class ServerRequestFactoryFactoryTest extends TestCase
     #[Depends('testFactoryReturnsCallable')]
     public function testFactoryIsAClosure(callable $factory): void
     {
-        $this->assertNotSame([ServerRequestFactory::class, 'fromGlobals'], $factory);
+        $this->assertNotSame(ServerRequestFactory::fromGlobals(...), $factory);
         $this->assertNotSame(ServerRequestFactory::class . '::fromGlobals', $factory);
         $this->assertInstanceOf(Closure::class, $factory);
     }

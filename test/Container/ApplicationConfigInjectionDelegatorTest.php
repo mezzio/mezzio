@@ -39,7 +39,7 @@ use function assert;
  * @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface
  * @psalm-import-type RouteSpec from ApplicationConfigInjectionDelegator
  */
-class ApplicationConfigInjectionDelegatorTest extends TestCase
+final class ApplicationConfigInjectionDelegatorTest extends TestCase
 {
     private InMemoryContainer $container;
 
@@ -126,8 +126,8 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         iterable $pipeline,
         ?string $message = null
     ): void {
-        $message = $message ?? 'Did not find expected middleware class type in pipeline';
-        $found   = false;
+        $message ??= 'Did not find expected middleware class type in pipeline';
+        $found     = false;
 
         foreach ($pipeline as $middleware) {
             if ($middleware instanceof $class) {
@@ -145,9 +145,9 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         return [
             ['HelloWorld'],
             [
-                static function (ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-                    return new Response();
-                },
+                static fn(
+                    ServerRequestInterface $request,
+                    RequestHandlerInterface $handler): ResponseInterface => new Response(),
             ],
             [[InvokableMiddleware::class, 'staticallyCallableMiddleware']],
         ];
@@ -155,10 +155,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     public function testInvocationAsDelegatorFactoryRaisesExceptionIfCallbackIsNotAnApplication(): void
     {
-        $callback = /**
-         * @return static
-         */
-        fn(): self => $this;
+        $callback = fn(): self => $this;
         $factory  = new ApplicationConfigInjectionDelegator();
         $this->expectException(InvalidServiceException::class);
         $this->expectExceptionMessage('cannot operate');
@@ -346,6 +343,8 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $routes = $app->getRoutes();
 
         $route = array_shift($routes);
+        self::assertInstanceOf(Route::class, $route);
+
         $this->assertEquals($config['routes'][0]['options'], $route->getOptions());
     }
 
@@ -407,6 +406,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $routes = $app->getRoutes();
 
         $route = array_shift($routes);
+        self::assertInstanceOf(Route::class, $route);
         $this->assertEquals('home', $route->getName());
     }
 
@@ -429,6 +429,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
         $routes = $app->getRoutes();
 
         $route = array_shift($routes);
+        self::assertInstanceOf(Route::class, $route);
         $this->assertEquals('homepage', $route->getName());
     }
 

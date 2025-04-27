@@ -7,15 +7,15 @@ namespace Mezzio\Container\Exception;
 use Mezzio\ConfigProvider;
 use Mezzio\Exception\RuntimeException;
 
-use function gettype;
-use function is_object;
+use function get_debug_type;
 use function sprintf;
 
+/** @final */
 class InvalidTrustedHeaderConfigurationException extends RuntimeException implements ExceptionInterface
 {
     public static function forHeaders(mixed $headers): self
     {
-        $type = is_object($headers) ? $headers::class : gettype($headers);
+        $type = get_debug_type($headers);
 
         return new self(sprintf(
             'Invalid %s.%s.%s.%s configuration; received %s; should be list<string>',

@@ -14,6 +14,8 @@ use function is_callable;
 
 /**
  * Generates a response for use when the server request factory fails.
+ *
+ * @final
  */
 class ServerRequestErrorResponseGenerator
 {

@@ -41,6 +41,12 @@
                 <file name="src/Container/ServerRequestErrorResponseGeneratorFactory.php"/>
             </errorLevel>
         </DeprecatedTrait>
+        <MissingOverrideAttribute>
+            <errorLevel type="suppress">
+                <directory name="src" />
+                <directory name="test" />
+            </errorLevel>
+        </MissingOverrideAttribute>
     </issueHandlers>
 
     <plugins>
