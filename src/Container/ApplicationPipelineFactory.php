@@ -8,6 +8,7 @@ use Laminas\Stratigility\MiddlewarePipe;
 use Laminas\Stratigility\MiddlewarePipeInterface;
 use Psr\Container\ContainerInterface;
 
+/** @final */
 class ApplicationPipelineFactory
 {
     public function __invoke(ContainerInterface $container): MiddlewarePipeInterface

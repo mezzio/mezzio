@@ -40,7 +40,7 @@ use const Mezzio\ROUTE_MIDDLEWARE;
 /**
  * @psalm-import-type ServiceManagerConfiguration from ServiceManager
  */
-class ConfigProviderTest extends TestCase
+final class ConfigProviderTest extends TestCase
 {
     private ConfigProvider $provider;
 

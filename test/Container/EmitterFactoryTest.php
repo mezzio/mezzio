@@ -12,7 +12,7 @@ use Psr\Container\ContainerInterface;
 use function array_shift;
 use function iterator_to_array;
 
-class EmitterFactoryTest extends TestCase
+final class EmitterFactoryTest extends TestCase
 {
     public function testFactoryProducesEmitterStackWithSapiEmitterComposed(): void
     {

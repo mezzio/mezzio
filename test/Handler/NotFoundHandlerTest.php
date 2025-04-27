@@ -18,7 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class NotFoundHandlerTest extends TestCase
+final class NotFoundHandlerTest extends TestCase
 {
     /** @var ResponseInterface&MockObject */
     private $response;

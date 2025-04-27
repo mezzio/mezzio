@@ -11,6 +11,7 @@ use Webmozart\Assert\Assert;
 
 use function array_key_exists;
 
+/** @final */
 class NotFoundHandlerFactory
 {
     use Psr17ResponseFactoryTrait;

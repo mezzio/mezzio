@@ -9,6 +9,7 @@ use Mezzio\Middleware\ErrorResponseGenerator;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 
+/** @final */
 class ErrorHandlerFactory
 {
     public function __invoke(ContainerInterface $container): ErrorHandler

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MezzioTest\TestAsset;
 
-class InvokableMiddleware
+final class InvokableMiddleware
 {
     public function __invoke($request, $response, $next)
     {

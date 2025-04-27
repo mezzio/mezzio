@@ -6,7 +6,7 @@ namespace MezzioTest\Container\TestAsset;
 
 use Psr\Http\Server\RequestHandlerInterface;
 
-class CallableInteropMiddleware
+final class CallableInteropMiddleware
 {
     public function __invoke($request, RequestHandlerInterface $handler): void
     {

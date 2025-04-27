@@ -18,6 +18,7 @@ use Whoops\RunInterface;
 use function get_debug_type;
 use function sprintf;
 
+/** @final */
 class WhoopsErrorResponseGenerator
 {
     private readonly RunInterface $whoops;

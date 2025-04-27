@@ -9,6 +9,7 @@ use Laminas\HttpHandlerRunner\Emitter\EmitterStack;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Psr\Container\ContainerInterface;
 
+/** @final */
 class EmitterFactory
 {
     public function __invoke(ContainerInterface $container): EmitterInterface

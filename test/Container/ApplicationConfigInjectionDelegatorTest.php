@@ -39,7 +39,7 @@ use function assert;
  * @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface
  * @psalm-import-type RouteSpec from ApplicationConfigInjectionDelegator
  */
-class ApplicationConfigInjectionDelegatorTest extends TestCase
+final class ApplicationConfigInjectionDelegatorTest extends TestCase
 {
     private InMemoryContainer $container;
 
@@ -155,10 +155,7 @@ class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     public function testInvocationAsDelegatorFactoryRaisesExceptionIfCallbackIsNotAnApplication(): void
     {
-        $callback = /**
-         * @return static
-         */
-        fn(): self => $this;
+        $callback = fn(): self => $this;
         $factory  = new ApplicationConfigInjectionDelegator();
         $this->expectException(InvalidServiceException::class);
         $this->expectExceptionMessage('cannot operate');

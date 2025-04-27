@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Whoops\Handler\PrettyPageHandler;
 
 #[CoversClass(WhoopsPageHandlerFactory::class)]
-class WhoopsPageHandlerFactoryTest extends TestCase
+final class WhoopsPageHandlerFactoryTest extends TestCase
 {
     private InMemoryContainer $container;
 

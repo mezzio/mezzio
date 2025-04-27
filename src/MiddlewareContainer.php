@@ -11,6 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 use function class_exists;
 
+/** @final */
 class MiddlewareContainer implements ContainerInterface
 {
     public function __construct(private readonly ContainerInterface $container)

@@ -14,6 +14,8 @@ use function sprintf;
 /**
  * Produces a callable capable of producing a response prototype for use with
  * services that need to produce a response.
+ *
+ * @final
  */
 class ResponseFactoryFactory
 {

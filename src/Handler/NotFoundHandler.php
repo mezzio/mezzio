@@ -15,6 +15,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use function is_callable;
 use function sprintf;
 
+/** @final */
 class NotFoundHandler implements RequestHandlerInterface
 {
     public const TEMPLATE_DEFAULT = 'error::404';

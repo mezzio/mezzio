@@ -12,7 +12,7 @@ use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class ErrorResponseGeneratorFactoryTest extends TestCase
+final class ErrorResponseGeneratorFactoryTest extends TestCase
 {
     private InMemoryContainer $container;
 

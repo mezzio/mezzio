@@ -26,7 +26,7 @@ use function sprintf;
 use function strtoupper;
 
 /** @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface */
-class ApplicationTest extends TestCase
+final class ApplicationTest extends TestCase
 {
     /** @var MiddlewareFactoryInterface&MockObject */
     private $factory;

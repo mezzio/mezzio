@@ -31,6 +31,8 @@ use function sprintf;
  *
  * If an editor is provided, it checks to see if it maps to a known service in
  * the container, and will use that; otherwise, it uses the value verbatim.
+ *
+ * @final
  */
 class WhoopsPageHandlerFactory
 {

@@ -14,7 +14,7 @@ use function spl_autoload_functions;
 use function spl_autoload_register;
 use function spl_autoload_unregister;
 
-class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
+final class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
 {
     private ContainerInterface $container;
 

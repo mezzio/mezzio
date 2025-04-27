@@ -40,6 +40,7 @@ use const PHP_INT_MAX;
  *     priority?: int,
  *     ...
  * }
+ * @final
  */
 class ApplicationConfigInjectionDelegator
 {

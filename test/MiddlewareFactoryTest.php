@@ -28,7 +28,7 @@ use function array_shift;
 use function iterator_to_array;
 
 /** @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface */
-class MiddlewareFactoryTest extends TestCase
+final class MiddlewareFactoryTest extends TestCase
 {
     /** @var MiddlewareContainer&MockObject */
     private $container;

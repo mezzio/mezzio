@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 use TypeError;
 
-class ErrorHandlerFactoryTest extends TestCase
+final class ErrorHandlerFactoryTest extends TestCase
 {
     private InMemoryContainer $container;
 

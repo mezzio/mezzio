@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class ServerRequestFactoryFactoryTest extends TestCase
+final class ServerRequestFactoryFactoryTest extends TestCase
 {
     public function testFactoryReturnsCallable(): callable
     {

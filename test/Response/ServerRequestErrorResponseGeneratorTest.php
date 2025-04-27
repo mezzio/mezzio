@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
 
-class ServerRequestErrorResponseGeneratorTest extends TestCase
+final class ServerRequestErrorResponseGeneratorTest extends TestCase
 {
     /** @var TemplateRendererInterface&MockObject */
     private $renderer;

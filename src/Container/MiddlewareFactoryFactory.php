@@ -9,6 +9,7 @@ use Mezzio\MiddlewareFactory;
 use Mezzio\MiddlewareFactoryInterface;
 use Psr\Container\ContainerInterface;
 
+/** @final */
 class MiddlewareFactoryFactory
 {
     public function __invoke(ContainerInterface $container): MiddlewareFactoryInterface
