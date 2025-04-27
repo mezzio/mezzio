@@ -36,6 +36,8 @@ use Whoops\Util\Misc as WhoopsUtil;
  * </code>
  *
  * All values are booleans; omission of any implies boolean false.
+ *
+ * @final
  */
 class WhoopsFactory
 {

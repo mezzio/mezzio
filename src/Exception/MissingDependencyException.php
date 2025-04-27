@@ -9,6 +9,7 @@ use RuntimeException;
 
 use function sprintf;
 
+/** @final */
 class MissingDependencyException extends RuntimeException implements
     ContainerExceptionInterface,
     ExceptionInterface

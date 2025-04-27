@@ -10,6 +10,7 @@ use Mezzio\Exception\RuntimeException;
 use function get_debug_type;
 use function sprintf;
 
+/** @final */
 class InvalidTrustedProxyConfigurationException extends RuntimeException implements ExceptionInterface
 {
     public static function forProxies(mixed $proxies): self

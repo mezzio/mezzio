@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/** @final */
 class LazyLoadingMiddleware implements MiddlewareInterface
 {
     public function __construct(private readonly MiddlewareContainer $container, public readonly string $middlewareName)

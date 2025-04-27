@@ -7,6 +7,7 @@ namespace Mezzio\Container;
 use Mezzio\Middleware\WhoopsErrorResponseGenerator;
 use Psr\Container\ContainerInterface;
 
+/** @final */
 class WhoopsErrorResponseGeneratorFactory
 {
     public function __invoke(ContainerInterface $container): WhoopsErrorResponseGenerator

@@ -14,7 +14,11 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 use function Laminas\Stratigility\path;
 
-/** @psalm-import-type MiddlewareParam from MiddlewareFactory */
+/**
+ * @psalm-import-type MiddlewareParam from MiddlewareFactory
+ *
+ * @final
+ */
 class Application implements MiddlewareInterface, RequestHandlerInterface
 {
     public function __construct(

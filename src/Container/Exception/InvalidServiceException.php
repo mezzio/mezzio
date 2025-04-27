@@ -9,6 +9,8 @@ use RuntimeException;
 
 /**
  * Exception indicating a service type is invalid or un-fetchable.
+ *
+ * @final
  */
 class InvalidServiceException extends RuntimeException implements
     ContainerExceptionInterface,

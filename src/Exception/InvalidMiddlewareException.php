@@ -12,6 +12,7 @@ use RuntimeException;
 use function get_debug_type;
 use function sprintf;
 
+/** @final */
 class InvalidMiddlewareException extends RuntimeException implements
     ContainerExceptionInterface,
     ExceptionInterface
