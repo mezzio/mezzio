@@ -14,7 +14,7 @@ use Mezzio\Router\RouteCollector;
 use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 
-class ApplicationFactoryTest extends TestCase
+final class ApplicationFactoryTest extends TestCase
 {
     public function testFactoryProducesAnApplication(): void
     {

@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class NotFoundHandlerFactoryTest extends TestCase
+final class NotFoundHandlerFactoryTest extends TestCase
 {
     private InMemoryContainer $container;
 

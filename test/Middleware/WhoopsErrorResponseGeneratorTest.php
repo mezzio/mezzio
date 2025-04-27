@@ -22,7 +22,7 @@ use Whoops\RunInterface;
 
 use function method_exists;
 
-class WhoopsErrorResponseGeneratorTest extends TestCase
+final class WhoopsErrorResponseGeneratorTest extends TestCase
 {
     /** @var RunInterface&MockObject */
     private $whoops;

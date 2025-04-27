@@ -7,6 +7,6 @@ namespace MezzioTest\TestAsset;
 use Psr\Container\ContainerExceptionInterface;
 use RuntimeException;
 
-class ContainerException extends RuntimeException implements ContainerExceptionInterface
+final class ContainerException extends RuntimeException implements ContainerExceptionInterface
 {
 }

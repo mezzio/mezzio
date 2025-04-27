@@ -12,7 +12,7 @@ use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-class FilterUsingXForwardedHeadersFactoryTest extends TestCase
+final class FilterUsingXForwardedHeadersFactoryTest extends TestCase
 {
     private InMemoryContainer $container;
 

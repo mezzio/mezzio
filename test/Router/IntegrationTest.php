@@ -34,7 +34,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use function array_pop;
 use function sprintf;
 
-class IntegrationTest extends TestCase
+final class IntegrationTest extends TestCase
 {
     private Response $response;
 

@@ -9,7 +9,7 @@ use Mezzio\MiddlewareContainer;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
-class MiddlewareContainerFactoryTest extends TestCase
+final class MiddlewareContainerFactoryTest extends TestCase
 {
     public function testFactoryCreatesMiddlewareContainerUsingProvidedContainer(): void
     {

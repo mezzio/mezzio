@@ -22,7 +22,7 @@ use function method_exists;
 use function sprintf;
 
 #[CoversClass(WhoopsFactory::class)]
-class WhoopsFactoryTest extends TestCase
+final class WhoopsFactoryTest extends TestCase
 {
     private InMemoryContainer $container;
 

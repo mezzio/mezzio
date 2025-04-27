@@ -9,7 +9,7 @@ use Mezzio\Container\ResponseFactoryFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
-class ResponseFactoryFactoryTest extends TestCase
+final class ResponseFactoryFactoryTest extends TestCase
 {
     public function testFactoryProducesACallableCapableOfGeneratingAResponseWhenDiactorosIsInstalled(): void
     {

@@ -9,7 +9,7 @@ use Mezzio\Container\StreamFactoryFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
-class StreamFactoryFactoryTest extends TestCase
+final class StreamFactoryFactoryTest extends TestCase
 {
     public function testFactoryProducesACallableCapableOfGeneratingAStreamWhenDiactorosIsInstalled(): void
     {
