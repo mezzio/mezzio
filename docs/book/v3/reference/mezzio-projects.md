@@ -23,5 +23,3 @@ mezzio.
 - [Dotkernel Admin: backend management](https://admin6.dotkernel.net/) - [*source*](https://github.com/dotkernel/admin)
 - [Dotkernel Light: minimal project for simple website, learning purpose](https://light.dotkernel.net/) - [*source*](https://github.com/dotkernel/light)
 - [Dotkernel Frontend: website application](https://v5.dotkernel.net/) - [*source*](https://github.com/dotkernel/frontend)
-
-
