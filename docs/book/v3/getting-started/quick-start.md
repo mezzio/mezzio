@@ -588,7 +588,7 @@ return new HtmlResponse($this->renderer->render(
 > - Add the statement `use Laminas\Diactoros\Response\HtmlResponse;` to the `use`
 >   statements at the top of the file.
 > - Alter the response creation to read:
->  ```php
+>    ```php
 >   return new HtmlResponse(sprintf(
 >       '<h1>Hello %s</h1>',
 >       $target
