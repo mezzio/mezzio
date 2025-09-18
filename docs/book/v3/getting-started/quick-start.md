@@ -6,6 +6,15 @@ The skeleton provides a generic structure for creating your applications, and
 prompts you to choose a router, dependency injection container, template
 renderer, and error handler from the outset.
 
+## Technical Requirements
+
+Before getting started with Mezzio, you must:
+
+- Install one of the supported PHP versions, using the [generic installation from source](https://www.php.net/manual/en/install.php)
+- Install [Composer](https://getcomposer.org/download/), which is used to install PHP packages.
+
+> You can find the supported versions of PHP in the `require` section of the `composer.json` file.
+
 ## Create a new project
 
 First, we'll create a new project, using Composer's `create-project` command:
@@ -577,9 +586,9 @@ return new HtmlResponse($this->renderer->render(
 > In that case, alter the above example as follows:
 >
 > - Add the statement `use Laminas\Diactoros\Response\HtmlResponse;` to the `use`
->   statements at the top of the file.
+    >   statements at the top of the file.
 > - Alter the response creation to read:
->   ```php
+    >   ```php
 >   return new HtmlResponse(sprintf(
 >       '<h1>Hello %s</h1>',
 >       $target
