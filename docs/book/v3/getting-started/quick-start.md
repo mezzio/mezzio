@@ -8,12 +8,12 @@ renderer, and error handler from the outset.
 
 ## Technical Requirements
 
-Before getting started with Mezzio, you must:
+Before getting started with Mezzio, you will need to:
 
-- Install one of the supported PHP versions, using the [generic installation from source](https://www.php.net/manual/en/install.php)
-- Install [Composer](https://getcomposer.org/download/), which is used to install PHP packages.
+- Install a supported version of PHP. You can find [PHP installation instructions on the PHP website](https://www.php.net/manual/install.php)
+- Install [Composer](https://getcomposer.org/download/). Composer is PHP's de facto standard package manager. All Mezzio packages require installation via Composer.
 
-> You can find the supported versions of PHP in the `require` section of the `composer.json` file.
+> You can find supported versions of PHP in the `require` section of the `composer.json` file.
 
 ## Create a new project
 
@@ -586,9 +586,9 @@ return new HtmlResponse($this->renderer->render(
 > In that case, alter the above example as follows:
 >
 > - Add the statement `use Laminas\Diactoros\Response\HtmlResponse;` to the `use`
-    >   statements at the top of the file.
+>   statements at the top of the file.
 > - Alter the response creation to read:
-    >   ```php
+>  ```php
 >   return new HtmlResponse(sprintf(
 >       '<h1>Hello %s</h1>',
 >       $target
