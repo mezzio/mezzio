@@ -696,6 +696,10 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
+                        <a href="#using-a-routeprovider" class="toc__link nav-link">Using a RouteProvider</a>
+                    </li>
+                
+                    <li class="toc__entry">
                         <a href="#applicationconfiginjectiondelegator" class="toc__link nav-link">ApplicationConfigInjectionDelegator</a>
                     </li>
                 
@@ -768,12 +772,66 @@
     
 
     <h1 id="how-can-i-autowire-routes-and-pipelines">How can I autowire routes and pipelines?</h1>
-<p>Sometimes you may find you'd like to keep route definitions close to the
-handlers and middleware they will invoke. This is particularly important if you
-want to re-use a module or library in another project.</p>
-<p>In this recipe, we'll demonstrate two mechanisms for doing so. One is a built-in
-<a href="../../features/container/delegator-factories/">delegator factory</a>, and the other
-is a custom delegator factory.</p>
+<p>Sometimes you may find you'd like to keep route definitions close to the handlers and middleware they will invoke.
+This is particularly important if you want to re-use a module or library in another project.</p>
+<p>In this recipe, we'll demonstrate some mechanisms for doing so.
+One is a built-in <a href="../../features/container/delegator-factories/">delegator factory</a> around the route collector, another delegates around the application instance allowing a declarative config driven approach and the other is a custom delegator factory.</p>
+<h2 id="using-a-routeprovider">Using a <code>RouteProvider</code></h2>
+<p>Mezzio ships with a delegator factory around the <a href="../../features/router/route-collector/"><code>RouteCollector</code></a> that will execute any registered classes that implement the interface <code>Mezzio\Router\RouteProviderInterface</code>.</p>
+<p>This is the most predictable and portable way of registering routes, but there are several steps to get a "Route Provider" to execute.</p>
+<h3 id="first-create-the-routeprovider">First, Create the RouteProvider</h3>
+<p>The following "Route Provider" adds a single route to the route collector.
+Because the Route Provider is <em>simple</em> it needs no constructor dependencies, but, you could create a more advanced route provider for your module that extracts routing information from configuration, or scans the codebase for attributes for example.
+All Route Providers, once registered are retrieved from the application DI container, so you are free to inject any services or configuration that you require.</p>
+<pre class="highlight"><code class="language-php">use Laminas\Diactoros\Response\TextResponse;
+use Mezzio\MiddlewareFactoryInterface;
+use Mezzio\Router\RouteCollectorInterface;
+use Mezzio\Router\RouteProviderInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
+final class MyRouteProvider implements RouteProviderInterface
+{
+    public function registerRoutes(
+        RouteCollectorInterface $routeCollector,
+        MiddlewareFactoryInterface $middlewareFactory,
+    ): void {
+        /**
+         * Add a single trivial route using a closure to produce a response:
+         */
+        $routeCollector-&gt;get(
+            '/hello-world',
+            $middlewareFactory-&gt;callable(function (RequestInterface $request): ResponseInterface {
+                return new TextResponse('Hi There!');
+            }),
+            'hello',
+        );
+    }
+}</code></pre>
+<h3 id="second-register-the-route-provider-in-your-di-container">Second: Register the Route Provider in Your DI Container</h3>
+<p>Depending on the DI Container in use you will need to register a <a href="../../features/container/factories/">factory</a> for your Route Provider.
+When using Laminas Service Manager, the configuration would look like this:</p>
+<pre class="highlight"><code class="language-php">use Laminas\ServiceManager\Factory\InvokableFactory;
+
+return [
+    'dependencies' =&gt; [
+        'factories' =&gt; [
+            MyRouteProvider::class =&gt; InvokableFactory::class,
+        ],
+    ],
+];</code></pre>
+<p>Our Route Provider is 'invokable', meaning it has no constructor dependencies and can simply be <code>new</code>ed.
+The Laminas <code>InvokableFactory</code> is a convenient way of declaring a factory for such a service.</p>
+<h3 id="third-register-the-route-provider-with-the-delegator">Third: Register the Route Provider with the Delegator</h3>
+<p>There is one final configuration item to ensure that your route provider is executed when the <code>RouteCollector</code> is retrieved from the DI container:</p>
+<pre class="highlight"><code class="language-php">return [
+    'router' =&gt; [
+        'route-providers' =&gt; [
+            MyRouteProvider::class,
+        ],
+    ],
+]</code></pre>
+<p>Using "Route Providers" ensures that routes are registered when you interact with Mezzio components <em>outside</em> the middleware application lifecycle such as on the command line, providing you make proper use of dependency injection elsewhere in your codebase.</p>
 <h2 id="applicationconfiginjectiondelegator">ApplicationConfigInjectionDelegator</h2>
 <p>Mezzio ships with the class <code>Mezzio\Container\ApplicationConfigInjectionDelegator</code>,
 which can be used as a delegator factory for the <code>Mezzio\Application</code>

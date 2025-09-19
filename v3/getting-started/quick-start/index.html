@@ -696,6 +696,10 @@
             <ul class="toc__list">
                 
                     <li class="toc__entry">
+                        <a href="#technical-requirements" class="toc__link nav-link">Technical Requirements</a>
+                    </li>
+                
+                    <li class="toc__entry">
                         <a href="#create-a-new-project" class="toc__link nav-link">Create a new project</a>
                     </li>
                 
@@ -781,6 +785,15 @@ application and installer</a>.
 The skeleton provides a generic structure for creating your applications, and
 prompts you to choose a router, dependency injection container, template
 renderer, and error handler from the outset.</p>
+<h2 id="technical-requirements">Technical Requirements</h2>
+<p>Before getting started with Mezzio, you will need to:</p>
+<ul>
+<li>Install a supported version of PHP. You can find <a href="https://www.php.net/manual/install.php">PHP installation instructions on the PHP website</a></li>
+<li>Install <a href="https://getcomposer.org/download/">Composer</a>. Composer is PHP's de facto standard package manager. All Mezzio packages require installation via Composer.</li>
+</ul>
+<blockquote>
+<p>You can find supported versions of PHP in the <code>require</code> section of the <code>composer.json</code> file.</p>
+</blockquote>
 <h2 id="create-a-new-project">Create a new project</h2>
 <p>First, we'll create a new project, using Composer's <code>create-project</code> command:</p>
 <pre class="highlight"><code class="language-bash">$ composer create-project mezzio/mezzio-skeleton mezzio</code></pre>
@@ -1195,10 +1208,11 @@ contents of your <code>handle()</code> method will be empty to begin.</p>
 <li>Add the statement <code>use Laminas\Diactoros\Response\HtmlResponse;</code> to the <code>use</code>
   statements at the top of the file.</li>
 <li>Alter the response creation to read:
-  <pre class="highlight"><code class="language-php">return new HtmlResponse(sprintf(
-    '&lt;h1&gt;Hello %s&lt;/h1&gt;',
-    $target
-));</code></pre></li>
+   <code>php
+  return new HtmlResponse(sprintf(
+      '&lt;h1&gt;Hello %s&lt;/h1&gt;',
+      $target
+  ));</code></li>
 </ul>
 <p>You can also skip the next step below where we edit the template file.</p>
 </blockquote>
