@@ -42,7 +42,7 @@ class ConfigProvider
     {
         // phpcs:disable Generic.Files.LineLength.TooLong
         return [
-            'aliases'   => [
+            'aliases'    => [
                 DEFAULT_DELEGATE                     => Handler\NotFoundHandler::class,
                 DISPATCH_MIDDLEWARE                  => Router\Middleware\DispatchMiddleware::class,
                 IMPLICIT_HEAD_MIDDLEWARE             => Router\Middleware\ImplicitHeadMiddleware::class,
@@ -52,7 +52,7 @@ class ConfigProvider
                 RequestHandlerRunnerInterface::class => RequestHandlerRunner::class,
                 MiddlewareFactoryInterface::class    => MiddlewareFactory::class,
             ],
-            'factories' => [
+            'factories'  => [
                 Application::class             => Container\ApplicationFactory::class,
                 'Mezzio\ApplicationPipeline'   => Container\ApplicationPipelineFactory::class,
                 EmitterInterface::class        => Container\EmitterFactory::class,
@@ -67,6 +67,11 @@ class ConfigProvider
                 Response\ServerRequestErrorResponseGenerator::class => Container\ServerRequestErrorResponseGeneratorFactory::class,
                 ServerRequestInterface::class                       => Container\ServerRequestFactoryFactory::class,
                 StreamInterface::class                              => Container\StreamFactoryFactory::class,
+            ],
+            'delegators' => [
+                Router\RouteCollector::class => [
+                    Router\RouteCollectorDelegator::class,
+                ],
             ],
         ];
         // phpcs:enable Generic.Files.LineLength.TooLong

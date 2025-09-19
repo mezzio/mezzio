@@ -1,12 +1,86 @@
 # How can I autowire routes and pipelines?
 
-Sometimes you may find you'd like to keep route definitions close to the
-handlers and middleware they will invoke. This is particularly important if you
-want to re-use a module or library in another project.
+Sometimes you may find you'd like to keep route definitions close to the handlers and middleware they will invoke.
+This is particularly important if you want to re-use a module or library in another project.
 
-In this recipe, we'll demonstrate two mechanisms for doing so. One is a built-in
-[delegator factory](../features/container/delegator-factories.md), and the other
-is a custom delegator factory.
+In this recipe, we'll demonstrate some mechanisms for doing so.
+One is a built-in [delegator factory](../features/container/delegator-factories.md) around the route collector, another delegates around the application instance allowing a declarative config driven approach and the other is a custom delegator factory.
+
+## Using a `RouteProvider`
+
+Mezzio ships with a delegator factory around the [`RouteCollector`](../features/router/route-collector.md) that will execute any registered classes that implement the interface `Mezzio\Router\RouteProviderInterface`.
+
+This is the most predictable and portable way of registering routes, but there are several steps to get a "Route Provider" to execute.
+
+### First, Create the RouteProvider
+
+The following "Route Provider" adds a single route to the route collector.
+Because the Route Provider is _simple_ it needs no constructor dependencies, but, you could create a more advanced route provider for your module that extracts routing information from configuration, or scans the codebase for attributes for example.
+All Route Providers, once registered are retrieved from the application DI container, so you are free to inject any services or configuration that you require.
+
+```php
+use Laminas\Diactoros\Response\TextResponse;
+use Mezzio\MiddlewareFactoryInterface;
+use Mezzio\Router\RouteCollectorInterface;
+use Mezzio\Router\RouteProviderInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
+final class MyRouteProvider implements RouteProviderInterface
+{
+    public function registerRoutes(
+        RouteCollectorInterface $routeCollector,
+        MiddlewareFactoryInterface $middlewareFactory,
+    ): void {
+        /**
+         * Add a single trivial route using a closure to produce a response:
+         */
+        $routeCollector->get(
+            '/hello-world',
+            $middlewareFactory->callable(function (RequestInterface $request): ResponseInterface {
+                return new TextResponse('Hi There!');
+            }),
+            'hello',
+        );
+    }
+}
+```
+
+### Second: Register the Route Provider in Your DI Container
+
+Depending on the DI Container in use you will need to register a [factory](../features/container/factories.md) for your Route Provider.
+When using Laminas Service Manager, the configuration would look like this:
+
+```php
+use Laminas\ServiceManager\Factory\InvokableFactory;
+
+return [
+    'dependencies' => [
+        'factories' => [
+            MyRouteProvider::class => InvokableFactory::class,
+        ],
+    ],
+];
+```
+
+Our Route Provider is 'invokable', meaning it has no constructor dependencies and can simply be `new`ed.
+The Laminas `InvokableFactory` is a convenient way of declaring a factory for such a service.
+
+### Third: Register the Route Provider with the Delegator
+
+There is one final configuration item to ensure that your route provider is executed when the `RouteCollector` is retrieved from the DI container:
+
+```php
+return [
+    'router' => [
+        'route-providers' => [
+            MyRouteProvider::class,
+        ],
+    ],
+]
+```
+
+Using "Route Providers" ensures that routes are registered when you interact with Mezzio components _outside_ the middleware application lifecycle such as on the command line, providing you make proper use of dependency injection elsewhere in your codebase.
 
 ## ApplicationConfigInjectionDelegator
 
