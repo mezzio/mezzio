@@ -10,6 +10,8 @@ One is a built-in [delegator factory](../features/container/delegator-factories.
 
 Mezzio ships with a delegator factory around the [`RouteCollector`](../features/router/route-collector.md) that will execute any registered classes that implement the interface `Mezzio\Router\RouteProviderInterface`.
 
+In order to make use of this feature, the DI container that you use, must [support "Delegator Factories"](../features/container/delegator-factories.md).
+
 This is the most predictable and portable way of registering routes, but there are several steps to get a "Route Provider" to execute.
 
 ### First, Create the RouteProvider
