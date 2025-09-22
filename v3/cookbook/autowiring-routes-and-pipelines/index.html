@@ -778,6 +778,7 @@ This is particularly important if you want to re-use a module or library in anot
 One is a built-in <a href="../../features/container/delegator-factories/">delegator factory</a> around the route collector, another delegates around the application instance allowing a declarative config driven approach and the other is a custom delegator factory.</p>
 <h2 id="using-a-routeprovider">Using a <code>RouteProvider</code></h2>
 <p>Mezzio ships with a delegator factory around the <a href="../../features/router/route-collector/"><code>RouteCollector</code></a> that will execute any registered classes that implement the interface <code>Mezzio\Router\RouteProviderInterface</code>.</p>
+<p>In order to make use of this feature, the DI container that you use, must <a href="../../features/container/delegator-factories/">support "Delegator Factories"</a>.</p>
 <p>This is the most predictable and portable way of registering routes, but there are several steps to get a "Route Provider" to execute.</p>
 <h3 id="first-create-the-routeprovider">First, Create the RouteProvider</h3>
 <p>The following "Route Provider" adds a single route to the route collector.
