@@ -38,13 +38,11 @@ final class RequestHandlerRunnerFactoryTest extends TestCase
             $runner
         );
 
-        $r = new ReflectionProperty($runner, 'serverRequestFactory');
-        $r->setAccessible(true);
+        $r      = new ReflectionProperty($runner, 'serverRequestFactory');
         $toTest = $r->getValue($runner);
         $this->assertSame($serverRequestFactory(), $toTest());
 
-        $r = new ReflectionProperty($runner, 'serverRequestErrorResponseGenerator');
-        $r->setAccessible(true);
+        $r      = new ReflectionProperty($runner, 'serverRequestErrorResponseGenerator');
         $toTest = $r->getValue($runner);
         $e      = new RuntimeException();
         $this->assertSame($errorGenerator($e), $toTest($e));
