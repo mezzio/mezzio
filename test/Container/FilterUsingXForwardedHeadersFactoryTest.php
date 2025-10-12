@@ -22,6 +22,7 @@ final class FilterUsingXForwardedHeadersFactoryTest extends TestCase
         $this->container->set('config', []);
     }
 
+    /** @param array<non-empty-string, array<array-key, string>|string> $headers */
     public function generateServerRequest(array $headers, array $server, string $baseUrlString): ServerRequest
     {
         return new ServerRequest($server, [], $baseUrlString, 'GET', 'php://temp', $headers);
@@ -57,7 +58,7 @@ final class FilterUsingXForwardedHeadersFactoryTest extends TestCase
         $this->assertSame($request, $filteredRequest);
     }
 
-    /** @psalm-return iterable<string, array{0: string, 1: array<string, string>}> */
+    /** @psalm-return iterable<string, array{0: string, 1: array<non-empty-string, array<array-key, string>|string>}> */
     public static function trustAnyProvider(): iterable
     {
         $headers = [
@@ -74,6 +75,7 @@ final class FilterUsingXForwardedHeadersFactoryTest extends TestCase
         }
     }
 
+    /** @param array<non-empty-string, array<array-key, string>|string> $headers */
     #[DataProvider('trustAnyProvider')]
     public function testIfWildcardProxyAddressSpecifiedReturnsFilterConfiguredToTrustAny(
         string $remoteAddr,
@@ -104,7 +106,9 @@ final class FilterUsingXForwardedHeadersFactoryTest extends TestCase
         $uri = $filteredRequest->getUri();
         $this->assertSame($headers[FilterUsingXForwardedHeaders::HEADER_HOST], $uri->getHost());
         // Port is always cast to int
-        $this->assertSame((int) $headers[FilterUsingXForwardedHeaders::HEADER_PORT], $uri->getPort());
+        $port = $headers[FilterUsingXForwardedHeaders::HEADER_PORT];
+        self::assertIsNumeric($port);
+        $this->assertSame((int) $port, $uri->getPort());
         $this->assertSame($headers[FilterUsingXForwardedHeaders::HEADER_PROTO], $uri->getScheme());
     }
 
@@ -216,7 +220,7 @@ final class FilterUsingXForwardedHeadersFactoryTest extends TestCase
      * @psalm-return iterable<string, array{
      *     0: bool,
      *     1: array<string, array<string, array<string, mixed>>>,
-     *     2: array<string, string>,
+     *     2: array<non-empty-string, array<array-key, string>|string>,
      *     3: array<string, string>,
      *     4: string,
      *     5: string
@@ -329,6 +333,7 @@ final class FilterUsingXForwardedHeadersFactoryTest extends TestCase
         ];
     }
 
+    /** @param array<non-empty-string, array<array-key, string>|string> $headers */
     #[DataProvider('trustedProxiesAndHeaders')]
     public function testCombinedProxiesAndHeadersDefineTrust(
         bool $expectUnfiltered,
