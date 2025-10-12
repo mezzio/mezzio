@@ -69,7 +69,6 @@ final class MiddlewareFactoryTest extends TestCase
     public function reflectPipeline(MiddlewarePipe $pipeline): array
     {
         $r = new ReflectionProperty($pipeline, 'pipeline');
-        $r->setAccessible(true);
         return iterator_to_array($r->getValue($pipeline));
     }
 
@@ -188,8 +187,7 @@ final class MiddlewareFactoryTest extends TestCase
         $pipeline = $this->factory->pipeline($middleware);
         $this->assertInstanceOf(MiddlewarePipe::class, $pipeline);
 
-        $r = new ReflectionProperty($pipeline, 'pipeline');
-        $r->setAccessible(true);
+        $r        = new ReflectionProperty($pipeline, 'pipeline');
         $values   = iterator_to_array($r->getValue($pipeline));
         $received = array_shift($values);
 
