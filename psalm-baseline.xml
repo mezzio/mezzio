@@ -43,9 +43,6 @@
     <InvalidArgument>
       <code><![CDATA[$container->get(ResponseInterface::class)]]></code>
     </InvalidArgument>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$generator]]></code>
-    </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/ErrorResponseGeneratorFactory.php">
     <MixedArgument>
@@ -61,9 +58,6 @@
       <code><![CDATA[$errorHandlerConfig]]></code>
       <code><![CDATA[$template]]></code>
     </MixedAssignment>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$renderer]]></code>
-    </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/FilterUsingXForwardedHeadersFactory.php">
     <MixedArrayAccess>
@@ -83,9 +77,6 @@
       <code><![CDATA[$errorHandlerConfig]]></code>
       <code><![CDATA[$template]]></code>
     </MixedAssignment>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$renderer]]></code>
-    </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/RequestHandlerRunnerFactory.php">
     <InvalidArgument>
@@ -108,9 +99,6 @@
       <code><![CDATA[$debug]]></code>
       <code><![CDATA[$template]]></code>
     </MixedAssignment>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$renderer]]></code>
-    </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/WhoopsErrorResponseGeneratorFactory.php">
     <MixedArgument>
