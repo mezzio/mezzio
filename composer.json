@@ -55,7 +55,7 @@
         "laminas/laminas-diactoros": "^3.8.0",
         "laminas/laminas-servicemanager": "^3.23.1",
         "mezzio/mezzio-fastroute": "^3.14",
-        "mezzio/mezzio-laminasrouter": "^3.11",
+        "mezzio/mezzio-laminasrouter": "^3.12",
         "phpunit/phpunit": "^11.5.42",
         "psalm/plugin-phpunit": "^0.19.5",
         "vimeo/psalm": "^6.13.1"
