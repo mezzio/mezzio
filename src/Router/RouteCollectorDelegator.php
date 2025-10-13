@@ -29,7 +29,7 @@ final class RouteCollectorDelegator
         Assert::isInstanceOf($collector, RouteCollectorInterface::class);
 
         $config = $container->get('config');
-        Assert::isArray($config);
+        Assert::isArrayAccessible($config);
 
         $routerConfig = $config['router'] ?? [];
         assert(is_array($routerConfig));

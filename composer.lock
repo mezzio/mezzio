@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "09dbbfe71a9f7c899a788f3b4d4b5284",
+    "content-hash": "c804d467eb0f9642fca69a1eee56a1bc",
     "packages": [
         {
             "name": "fig/http-message-util",
@@ -3236,16 +3236,16 @@
         },
         {
             "name": "mezzio/mezzio-laminasrouter",
-            "version": "3.11.0",
+            "version": "3.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mezzio/mezzio-laminasrouter.git",
-                "reference": "d0bd7431494ad0f5efc02cc060b65f815be8dee0"
+                "reference": "99be8034f49a0ecebe3de464cece6fefa40c276c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mezzio/mezzio-laminasrouter/zipball/d0bd7431494ad0f5efc02cc060b65f815be8dee0",
-                "reference": "d0bd7431494ad0f5efc02cc060b65f815be8dee0",
+                "url": "https://api.github.com/repos/mezzio/mezzio-laminasrouter/zipball/99be8034f49a0ecebe3de464cece6fefa40c276c",
+                "reference": "99be8034f49a0ecebe3de464cece6fefa40c276c",
                 "shasum": ""
             },
             "require": {
@@ -3253,20 +3253,20 @@
                 "laminas/laminas-psr7bridge": "^1.0.0",
                 "laminas/laminas-router": "^3.10.0",
                 "mezzio/mezzio-router": "^3.14 || ^4.0",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
                 "psr/http-message": "^1.0.1 || ^2.0.0"
             },
             "conflict": {
                 "zendframework/zend-expressive-zendrouter": "*"
             },
             "require-dev": {
-                "laminas/laminas-coding-standard": "~3.0.0",
-                "laminas/laminas-diactoros": "^2.25.2 || ^3.4.0",
-                "laminas/laminas-i18n": "^2.29.0",
-                "laminas/laminas-stratigility": "^4.0.2",
-                "phpunit/phpunit": "^10.5.36",
-                "psalm/plugin-phpunit": "^0.19.0",
-                "vimeo/psalm": "^5.26.1"
+                "laminas/laminas-coding-standard": "~3.1.0",
+                "laminas/laminas-diactoros": "^2.25.2 || ^3.8.0",
+                "laminas/laminas-i18n": "^2.30.0",
+                "laminas/laminas-stratigility": "^4.2.0",
+                "phpunit/phpunit": "^11.5.42",
+                "psalm/plugin-phpunit": "^0.19.5",
+                "vimeo/psalm": "^6.13.1"
             },
             "type": "library",
             "extra": {
@@ -3307,7 +3307,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2025-04-27T09:51:58+00:00"
+            "time": "2025-10-13T10:23:08+00:00"
         },
         {
             "name": "myclabs/deep-copy",
