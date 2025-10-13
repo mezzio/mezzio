@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Mezzio\Router;
 
-use ArrayAccess;
 use Mezzio\MiddlewareFactoryInterface;
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
