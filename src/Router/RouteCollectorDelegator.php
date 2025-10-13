@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mezzio\Router;
 
+use ArrayAccess;
 use Mezzio\MiddlewareFactoryInterface;
 use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
@@ -29,7 +30,7 @@ final class RouteCollectorDelegator
         Assert::isInstanceOf($collector, RouteCollectorInterface::class);
 
         $config = $container->get('config');
-        Assert::isArray($config);
+        assert(is_array($config) || $config instanceof ArrayAccess);
 
         $routerConfig = $config['router'] ?? [];
         assert(is_array($routerConfig));
