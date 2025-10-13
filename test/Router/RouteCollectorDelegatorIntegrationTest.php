@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MezzioTest\Router;
 
+use ArrayObject;
 use Laminas\Router\ConfigProvider as LaminasRouterConfigProvider;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\InvokableFactory;
@@ -14,6 +15,7 @@ use Mezzio\Router\LaminasRouter\ConfigProvider as MezzioLaminasRouterConfigProvi
 use Mezzio\Router\Route;
 use Mezzio\Router\RouteCollector;
 use Mezzio\Router\RouteCollectorInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function array_filter;
@@ -27,11 +29,16 @@ use function sprintf;
 /** @psalm-import-type ServiceManagerConfiguration from ServiceManager */
 final class RouteCollectorDelegatorIntegrationTest extends TestCase
 {
-    protected function setUp(): void
+    /** @return array<string, array{0: bool}> */
+    public static function useArrayObject(): array
     {
+        return [
+            'Config as Array'        => [false],
+            'Config as Array Object' => [true],
+        ];
     }
 
-    private function serviceManagerWithConfig(array $config): ServiceManager
+    private function serviceManagerWithConfig(array $config, bool $asArrayObject): ServiceManager
     {
         $config = array_merge_recursive(
             (new MezzioConfigProvider())(),
@@ -46,14 +53,16 @@ final class RouteCollectorDelegatorIntegrationTest extends TestCase
         /** @psalm-suppress MixedAssignment */
         $dependencies['services'] = $dependencies['services'] ?? [];
         assert(is_array($dependencies['services']));
-        $dependencies['services']['config'] = $config;
+        $dependencies['services']['config'] = $asArrayObject ? new ArrayObject($config) : $config;
         /** @psalm-var ServiceManagerConfiguration $dependencies */
 
         return new ServiceManager($dependencies);
     }
 
-    public function testThatAnExceptionIsThrownWhenAListedRouteProviderIsNotAvailableInTheContainer(): void
-    {
+    #[DataProvider('useArrayObject')]
+    public function testThatAnExceptionIsThrownWhenAListedRouteProviderIsNotAvailableInTheContainer(
+        bool $arrayObject,
+    ): void {
         $config = [
             'router' => [
                 'route-providers' => [
@@ -62,7 +71,7 @@ final class RouteCollectorDelegatorIntegrationTest extends TestCase
             ],
         ];
 
-        $container = $this->serviceManagerWithConfig($config);
+        $container = $this->serviceManagerWithConfig($config, $arrayObject);
 
         $this->expectException(ServiceNotFoundException::class);
         $this->expectExceptionMessage(ExampleRouteProvider::class);
@@ -70,8 +79,10 @@ final class RouteCollectorDelegatorIntegrationTest extends TestCase
         $container->get(RouteCollectorInterface::class);
     }
 
-    public function testThatTheRouteWillBeInjectedIntoTheRouteCollectorWhenAFactoryIsDefinedForTheProvider(): void
-    {
+    #[DataProvider('useArrayObject')]
+    public function testThatTheRouteWillBeInjectedIntoTheRouteCollectorWhenAFactoryIsDefinedForTheProvider(
+        bool $arrayObject,
+    ): void {
         $config = [
             'dependencies' => [
                 'factories' => [
@@ -85,7 +96,7 @@ final class RouteCollectorDelegatorIntegrationTest extends TestCase
             ],
         ];
 
-        $container = $this->serviceManagerWithConfig($config);
+        $container = $this->serviceManagerWithConfig($config, $arrayObject);
 
         $collector = $container->get(RouteCollectorInterface::class);
         assert($collector instanceof RouteCollector);
