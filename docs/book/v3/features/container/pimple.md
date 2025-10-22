@@ -1,6 +1,6 @@
 # Using Pimple
 
-[Pimple](http://pimple.sensiolabs.org/) is a widely used, code-driven,
+[Pimple](https://github.com/silexphp/Pimple/) is a widely used, code-driven,
 dependency injection container provided as a standalone component by SensioLabs.
 It features:
 

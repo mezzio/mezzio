@@ -550,7 +550,7 @@ You should see the message change as you go between the two URIs!
 
 You likely don't want to hardcode HTML into your middleware; so, let's use
 templates. This particular exercise assumes you chose to use the
-[Plates](http://platesphp.com) integration.
+[Plates](https://platesphp.com) integration.
 
 Templates are installed under the `templates/` subdirectory. By default, we also
 register the template namespace `app` to correspond with the `templates/app`
