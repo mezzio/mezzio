@@ -1,6 +1,6 @@
 # Using Twig
 
-[Twig](http://twig.sensiolabs.org/) is a template language and engine provided
+[Twig](https://twig.symfony.com/) is a template language and engine provided
 as a standalone component by SensioLabs. It provides:
 
 - Layout facilities.

@@ -1,6 +1,6 @@
 # Using laminas-view
 
-[laminas-view](https://github.com/laminas/laminas-view) provides a native PHP
+[laminas-view](https://docs.laminas.dev/laminas-view/) provides a native PHP
 template system via its `PhpRenderer`, and is maintained by Laminas. It
 provides:
 
