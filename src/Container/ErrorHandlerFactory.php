@@ -6,6 +6,7 @@ namespace Mezzio\Container;
 
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Mezzio\Middleware\ErrorResponseGenerator;
+use Mezzio\Response\CallableResponseFactoryDecorator;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -20,6 +21,9 @@ class ErrorHandlerFactory
                 ? $container->get(\Zend\Expressive\Middleware\ErrorResponseGenerator::class)
                 : null);
 
-        return new ErrorHandler($container->get(ResponseInterface::class), $generator);
+        /** @var callable():ResponseInterface $responseFactory */
+        $responseFactory = $container->get(ResponseInterface::class);
+
+        return new ErrorHandler(new CallableResponseFactoryDecorator($responseFactory), $generator);
     }
 }
