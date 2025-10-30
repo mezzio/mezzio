@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace MezzioTest\Container;
 
+use Laminas\Diactoros\Response;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Stratigility\Middleware\ErrorResponseGenerator as StratigilityGenerator;
 use Mezzio\Container\ErrorHandlerFactory;
 use Mezzio\Middleware\ErrorResponseGenerator;
+use Mezzio\Response\CallableResponseFactoryDecorator;
 use MezzioTest\InMemoryContainer;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -43,20 +45,25 @@ final class ErrorHandlerFactoryTest extends TestCase
 
     public function testFactoryCreatesHandlerWithStratigilityGeneratorIfNoGeneratorServiceAvailable(): void
     {
-        $responseFactory = static function (): void {
+        $responseFactory = static function (): ResponseInterface {
+            return new Response();
         };
         $this->container->set(ResponseInterface::class, $responseFactory);
 
         $factory = new ErrorHandlerFactory();
         $handler = $factory($this->container);
 
-        self::assertEquals(new ErrorHandler($responseFactory, new StratigilityGenerator()), $handler);
+        self::assertEquals(
+            new ErrorHandler(new CallableResponseFactoryDecorator($responseFactory), new StratigilityGenerator()),
+            $handler,
+        );
     }
 
     public function testFactoryCreatesHandlerWithGeneratorIfGeneratorServiceAvailable(): void
     {
         $generator       = $this->createMock(ErrorResponseGenerator::class);
-        $responseFactory = static function (): void {
+        $responseFactory = static function (): ResponseInterface {
+            return new Response();
         };
 
         $this->container->set(ErrorResponseGenerator::class, $generator);
@@ -65,6 +72,9 @@ final class ErrorHandlerFactoryTest extends TestCase
         $factory = new ErrorHandlerFactory();
         $handler = $factory($this->container);
 
-        self::assertEquals(new ErrorHandler($responseFactory, $generator), $handler);
+        self::assertEquals(
+            new ErrorHandler(new CallableResponseFactoryDecorator($responseFactory), $generator),
+            $handler,
+        );
     }
 }

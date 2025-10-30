@@ -10,6 +10,9 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * @internal
  * @deprecated Will be removed with v4.0.0
+ *
+ * @psalm-internal Mezzio
+ * @psalm-internal MezzioTest
  */
 final class CallableResponseFactoryDecorator implements ResponseFactoryInterface
 {
