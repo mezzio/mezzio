@@ -12,6 +12,5 @@ mezzio.
 
 ## Personal Sites
 
-- [mwop.net](https://mwop.net/) - [*source*](https://github.com/weierophinney/mwop.net)
 - [alejandrocelaya.com](http://www.alejandrocelaya.com/) - [*source*](https://github.com/acelaya/alejandrocelaya.com)
-- [zimuel.it](http://www.zimuel.it) - [*source*](https://github.com/ezimuel/zimuel.it)
+- [zimuel.it](https://www.zimuel.it) - [*source*](https://github.com/ezimuel/zimuel.it)
