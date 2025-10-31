@@ -14,3 +14,4 @@
 /phpunit.xml.dist export-ignore
 .psr-container.php.stub export-ignore
 /lychee.toml export-ignore
+/Makefile export-ignore
