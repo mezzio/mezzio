@@ -34,7 +34,7 @@ EOT;
     /**
      * Name of the template to render.
      *
-     * @var string
+     * @var non-empty-string
      */
     private $template;
 
@@ -45,6 +45,9 @@ EOT;
      */
     private $layout;
 
+    /**
+     * @param array<non-empty-string, mixed> $templateData
+     */
     private function prepareTemplatedResponse(
         Throwable $e,
         TemplateRendererInterface $renderer,

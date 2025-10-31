@@ -45,22 +45,18 @@
     </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/ErrorResponseGeneratorFactory.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$layout]]></code>
+    </ArgumentTypeCoercion>
     <MixedArgument>
-      <code><![CDATA[$debug]]></code>
       <code><![CDATA[$errorHandlerConfig]]></code>
-      <code><![CDATA[$template]]></code>
     </MixedArgument>
     <MixedArrayAccess>
       <code><![CDATA[$errorHandlerConfig['template_error']]]></code>
     </MixedArrayAccess>
     <MixedAssignment>
-      <code><![CDATA[$debug]]></code>
       <code><![CDATA[$errorHandlerConfig]]></code>
-      <code><![CDATA[$template]]></code>
     </MixedAssignment>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$renderer]]></code>
-    </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/FilterUsingXForwardedHeadersFactory.php">
     <MixedArrayAccess>

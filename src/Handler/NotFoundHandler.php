@@ -25,6 +25,7 @@ class NotFoundHandler implements RequestHandlerInterface
 
     /**
      * @todo Allow nullable $layout
+     * @param non-empty-string $template
      * @param callable|ResponseFactoryInterface $responseFactory
      * @psalm-param (callable():ResponseInterface)|ResponseFactoryInterface $responseFactory
      */

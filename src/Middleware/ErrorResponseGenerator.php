@@ -21,6 +21,8 @@ class ErrorResponseGenerator
 
     /**
      * @todo Allow nullable $layout
+     * @param non-empty-string $template
+     * @param non-empty-string $layout
      */
     public function __construct(
         bool $isDevelopmentMode = false,
