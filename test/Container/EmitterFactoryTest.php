@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Mezzio\Container;
+namespace MezzioTest\Container;
 
 use Laminas\HttpHandlerRunner\Emitter\EmitterStack;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Mezzio\Container\EmitterFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 

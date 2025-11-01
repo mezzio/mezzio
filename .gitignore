@@ -1,5 +1,4 @@
 /clover.xml
-/coveralls-upload.json
 /docs/html/
 /laminas-mkdoc-theme.tgz
 /laminas-mkdoc-theme/
@@ -7,3 +6,4 @@
 /vendor/
 /.phpunit.cache
 /.phpcs-cache
+/.markdownlint.json
