@@ -10,6 +10,9 @@ use Psr\Container\ContainerInterface;
 use Webmozart\Assert\Assert;
 
 use function array_key_exists;
+use function assert;
+use function is_bool;
+use function is_string;
 
 /** @final */
 class ErrorResponseGeneratorFactory
@@ -19,14 +22,18 @@ class ErrorResponseGeneratorFactory
         $config = $container->has('config') ? $container->get('config') : [];
         Assert::isArrayAccessible($config);
 
-        $debug               = $config['debug'] ?? false;
+        $debug = $config['debug'] ?? false;
+        assert(is_bool($debug));
+
         $mezzioConfiguration = $config['mezzio'] ?? [];
         Assert::isMap($mezzioConfiguration);
 
         $errorHandlerConfig = $mezzioConfiguration['error_handler'] ?? [];
 
         $template = $errorHandlerConfig['template_error'] ?? ErrorResponseGenerator::TEMPLATE_DEFAULT;
-        $layout   = array_key_exists('layout', $errorHandlerConfig)
+        assert(is_string($template) && $template !== '');
+
+        $layout = array_key_exists('layout', $errorHandlerConfig)
             ? (string) $errorHandlerConfig['layout']
             : ErrorResponseGenerator::LAYOUT_DEFAULT;
 

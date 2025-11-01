@@ -18,14 +18,9 @@ use RuntimeException;
 
 final class ErrorResponseGeneratorTest extends TestCase
 {
-    /** @var ServerRequestInterface&MockObject */
-    private $request;
-
-    /** @var StreamInterface&MockObject */
-    private $stream;
-
-    /** @var TemplateRendererInterface&MockObject */
-    private $renderer;
+    private ServerRequestInterface&MockObject $request;
+    private StreamInterface&MockObject $stream;
+    private TemplateRendererInterface&MockObject $renderer;
 
     public function setUp(): void
     {
@@ -97,7 +92,7 @@ final class ErrorResponseGeneratorTest extends TestCase
         $this->assertSame($response, $secondaryResponse);
     }
 
-    /** @return array<string, array{0:string|null, 1: string}> */
+    /** @return array<string, array{0:non-empty-string|null, 1: non-empty-string}> */
     public static function templates(): array
     {
         return [
@@ -106,6 +101,7 @@ final class ErrorResponseGeneratorTest extends TestCase
         ];
     }
 
+    /** @param non-empty-string $template */
     #[DataProvider('templates')]
     public function testRendersTemplateWithoutErrorDetailsWhenRendererPresentAndNotInDebugMode(
         ?string $template,
@@ -155,6 +151,7 @@ final class ErrorResponseGeneratorTest extends TestCase
         $this->assertSame($response, $secondaryResponse);
     }
 
+    /** @param non-empty-string $template */
     #[DataProvider('templates')]
     public function testRendersTemplateWithErrorDetailsWhenRendererPresentAndInDebugMode(
         ?string $template,

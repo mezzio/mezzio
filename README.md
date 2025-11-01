@@ -32,7 +32,7 @@ features:
   Middleware matched via routing is retrieved from the composed container.
 - Optionally, templating. We support:
     - [Plates](http://platesphp.com/)
-    - [Twig](http://twig.sensiolabs.org/)
+    - [Twig](https://twig.symfony.com/)
     - [Laminas's PhpRenderer](https://github.com/laminas/laminas-view)
 
 ## Installation
