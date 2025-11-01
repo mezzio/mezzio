@@ -87,6 +87,7 @@ final class ErrorResponseGeneratorFactoryTest extends TestCase
 
         // ideally we would like to keep null there,
         // but right now ErrorResponseGeneratorFactory does not accept null for layout
+        /** @psalm-suppress InvalidArgument */
         self::assertEquals(new ErrorResponseGenerator(false, null, 'error::custom', ''), $generator);
     }
 

@@ -27,6 +27,7 @@ class ServerRequestErrorResponseGenerator
 
     /**
      * @param (callable():ResponseInterface)|ResponseFactoryInterface $responseFactory
+     * @param non-empty-string $template
      */
     public function __construct(
         $responseFactory,
