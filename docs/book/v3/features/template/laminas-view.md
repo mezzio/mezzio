@@ -31,6 +31,8 @@ There are significant changes in `laminas-view` version 3, but broadly speaking,
 
 This documentation will cover usage of `laminas-view` with the version 3 series of releases.
 
+You can read the integration documentation for `mezzio-laminasviewrenderer` version 2 in the [older documentation for Mezzio](../../../v2/features/template/laminas-view.md).
+
 ## Using the wrapper
 
 By default, once the components are installed, retrieving the `Mezzio\Template\TemplateRendererInterface` from the application DI container will yield an instance of `Mezzio\LaminasView\LaminasViewRenderer`.
