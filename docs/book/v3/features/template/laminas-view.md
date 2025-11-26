@@ -33,7 +33,7 @@ This documentation will cover usage of `laminas-view` with the version 3 series 
 
 You can read the integration documentation for `mezzio-laminasviewrenderer` version 2 in the [older documentation for Mezzio](../../../v2/features/template/laminas-view.md).
 
-## Using the wrapper
+## Using the Wrapper
 
 By default, once the components are installed, retrieving the `Mezzio\Template\TemplateRendererInterface` from the application DI container will yield an instance of `Mezzio\LaminasView\LaminasViewRenderer`.
 
@@ -266,7 +266,7 @@ render in order to provide content within the selected layout.
 
 Additionally, layouts, when passed as parameters during rendering can also be `Laminas\View\Model\ViewModel` instances:
 
-#### Provide a layout view model when rendering
+#### Provide a Layout View Model When Rendering
 
 ```php
 use Laminas\View\Model\ViewModel;
