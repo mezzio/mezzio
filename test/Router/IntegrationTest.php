@@ -7,8 +7,10 @@ namespace MezzioTest\Router;
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\Stream;
+use Laminas\Diactoros\StreamFactory;
 use Laminas\HttpHandlerRunner\RequestHandlerRunnerInterface;
 use Laminas\Stratigility\MiddlewarePipe;
 use Mezzio\Application;
@@ -37,14 +39,12 @@ use function sprintf;
 final class IntegrationTest extends TestCase
 {
     private Response $response;
-
-    /** @var callable(): Response */
-    private $responseFactory;
+    private ResponseFactory $responseFactory;
 
     public function setUp(): void
     {
         $this->response        = new Response();
-        $this->responseFactory = fn(): Response => $this->response;
+        $this->responseFactory = new ResponseFactory();
     }
 
     public function getApplication(): Application
@@ -387,9 +387,7 @@ final class IntegrationTest extends TestCase
         $router = new $adapter();
         $app    = $this->createApplicationFromRouter($router);
         $app->pipe(new RouteMiddleware($router));
-        /** @psalm-suppress InvalidArgument */
-        $app->pipe(new ImplicitHeadMiddleware($router, static function (): void {
-        }));
+        $app->pipe(new ImplicitHeadMiddleware($router, new StreamFactory()));
         $app->pipe(new ImplicitOptionsMiddleware($this->responseFactory));
         $app->pipe(new MethodNotAllowedMiddleware($this->responseFactory));
         $app->pipe(new DispatchMiddleware());

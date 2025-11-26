@@ -12,7 +12,7 @@ use Laminas\Stratigility\MiddlewarePipeInterface;
 use Mezzio\Application;
 use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\Route;
-use Mezzio\Router\RouteCollector;
+use Mezzio\Router\RouteCollectorInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -34,8 +34,7 @@ final class ApplicationTest extends TestCase
     /** @var MiddlewarePipeInterface&MockObject */
     private $pipeline;
 
-    /** @var RouteCollector&MockObject */
-    private $routes;
+    private RouteCollectorInterface&MockObject $routes;
 
     /** @var RequestHandlerRunnerInterface&MockObject */
     private $runner;
@@ -46,7 +45,7 @@ final class ApplicationTest extends TestCase
     {
         $this->factory  = $this->createMock(MiddlewareFactoryInterface::class);
         $this->pipeline = $this->createMock(MiddlewarePipeInterface::class);
-        $this->routes   = $this->createMock(RouteCollector::class);
+        $this->routes   = $this->createMock(RouteCollectorInterface::class);
         $this->runner   = $this->createMock(RequestHandlerRunnerInterface::class);
 
         $this->app = new Application(
@@ -169,7 +168,7 @@ final class ApplicationTest extends TestCase
             ->with($middleware)
             ->willReturn($preparedMiddleware);
 
-        $route = $this->createMock(Route::class);
+        $route = new Route('/foo', $preparedMiddleware);
 
         $this->routes->expects(self::once())
             ->method('route')
@@ -197,7 +196,7 @@ final class ApplicationTest extends TestCase
             ->with($middleware)
             ->willReturn($preparedMiddleware);
 
-        $route = $this->createMock(Route::class);
+        $route = new Route('/foo', $preparedMiddleware);
 
         $this->routes->expects(self::once())
             ->method('route')
@@ -225,7 +224,7 @@ final class ApplicationTest extends TestCase
             ->with($middleware)
             ->willReturn($preparedMiddleware);
 
-        $route = $this->createMock(Route::class);
+        $route = new Route('/foo', $preparedMiddleware);
 
         $this->routes->expects(self::once())
             ->method('route')
@@ -264,7 +263,7 @@ final class ApplicationTest extends TestCase
             ->with($middleware)
             ->willReturn($preparedMiddleware);
 
-        $route = $this->createMock(Route::class);
+        $route = new Route('/foo', $preparedMiddleware);
 
         $this->routes->expects(self::once())
             ->method('route')
@@ -292,7 +291,7 @@ final class ApplicationTest extends TestCase
             ->with($middleware)
             ->willReturn($preparedMiddleware);
 
-        $route = $this->createMock(Route::class);
+        $route = new Route('/foo', $preparedMiddleware);
 
         $this->routes->expects(self::once())
             ->method('route')
@@ -320,7 +319,7 @@ final class ApplicationTest extends TestCase
             ->with($middleware)
             ->willReturn($preparedMiddleware);
 
-        $route = $this->createMock(Route::class);
+        $route = new Route('/foo', $preparedMiddleware);
 
         $this->routes->expects(self::once())
             ->method('route')
@@ -348,7 +347,7 @@ final class ApplicationTest extends TestCase
             ->with($middleware)
             ->willReturn($preparedMiddleware);
 
-        $route = $this->createMock(Route::class);
+        $route = new Route('/foo', $preparedMiddleware);
 
         $this->routes->expects(self::once())
             ->method('route')
@@ -365,7 +364,7 @@ final class ApplicationTest extends TestCase
 
     public function testGetRoutesProxiesToRouteCollector(): void
     {
-        $route = $this->createMock(Route::class);
+        $route = new Route('/foo', $this->createMockMiddleware());
         $this->routes->method('getRoutes')->willReturn([$route]);
 
         $this->assertSame([$route], $this->app->getRoutes());
