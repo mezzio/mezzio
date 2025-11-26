@@ -169,8 +169,7 @@ $resolver->resolve('not-there'); // false
 
 We encourage you to familiarise yourself with the [template resolver documentation](https://docs.laminas.dev/laminas-view/v3/template-resolvers/) in `laminas-view` for alternative ways of resolving templates and how to implement your own template resolver.
 
-> ### Namespaced path resolving in Mezzio
->
+> NOTE: **Namespaced Path Resolving in Mezzio**
 > The Mezzio-specific `Mezzio\LaminasView\NamespacedPathStackResolver` satisfies the convention of "namespaced" template paths.
 > The format is `namespace::template` and typically, `namespace` refers to one or more directories and `template` refers to a file named `template.phtml` in one of those directories.
 
