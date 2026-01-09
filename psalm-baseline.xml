@@ -39,11 +39,6 @@
       <code><![CDATA[ApplicationPipeline]]></code>
     </UndefinedClass>
   </file>
-  <file src="src/Container/ErrorHandlerFactory.php">
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$generator]]></code>
-    </PossiblyInvalidArgument>
-  </file>
   <file src="src/Container/ErrorResponseGeneratorFactory.php">
     <ArgumentTypeCoercion>
       <code><![CDATA[$layout]]></code>
@@ -76,9 +71,6 @@
       <code><![CDATA[$errorHandlerConfig]]></code>
       <code><![CDATA[$template]]></code>
     </MixedAssignment>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$renderer]]></code>
-    </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/RequestHandlerRunnerFactory.php">
     <InvalidArgument>
@@ -101,9 +93,6 @@
       <code><![CDATA[$debug]]></code>
       <code><![CDATA[$template]]></code>
     </MixedAssignment>
-    <PossiblyInvalidArgument>
-      <code><![CDATA[$renderer]]></code>
-    </PossiblyInvalidArgument>
   </file>
   <file src="src/Container/WhoopsErrorResponseGeneratorFactory.php">
     <MixedArgument>
