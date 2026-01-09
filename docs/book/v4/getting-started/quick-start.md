@@ -6,6 +6,15 @@ The skeleton provides a generic structure for creating your applications, and
 prompts you to choose a router, dependency injection container, template
 renderer, and error handler from the outset.
 
+## Technical Requirements
+
+Before getting started with Mezzio, you will need to:
+
+- Install a supported version of PHP. You can find [PHP installation instructions on the PHP website](https://www.php.net/manual/install.php)
+- Install [Composer](https://getcomposer.org/download/). Composer is PHP's de facto standard package manager. All Mezzio packages require installation via Composer.
+
+> You can find supported versions of PHP in the `require` section of the `composer.json` file.
+
 ## Create a new project
 
 First, we'll create a new project, using Composer's `create-project` command:
@@ -269,14 +278,14 @@ To aid in the creation, registration, and deregistration of modules in your
 application, you can use the CLI tooling provided by default. All commands are
 exposed via `composer mezzio`, and include the following:
 
-- `composer mezzio module:create <modulename>` will create the default
+- `composer mezzio mezzio:module:create <modulename>` will create the default
   directory structure for the named module, create a `ConfigProvider` for the
   module, add an autoloading rule to `composer.json`, and register the
   `ConfigProvider` with the application configuration.
-- `composer mezzio module:register <modulename>` will add an autoloading rule to
+- `composer mezzio mezzio:module:register <modulename>` will add an autoloading rule to
   `composer.json` for the module, and register its `ConfigProvider`, if found,
   with the application configuration.
-- `mezzio module:deregister <modulename>` will remove any autoloading rules
+- `mezzio mezzio:module:deregister <modulename>` will remove any autoloading rules
   for the module from `composer.json`, and deregister its `ConfigProvider`, if
   found, from the application configuration.
 
@@ -490,7 +499,7 @@ the response to add a header.
 We can use our tooling to create the middleware file:
 
 ```bash
-$ composer mezzio middleware:create "App\XClacksOverheadMiddleware"
+$ composer mezzio mezzio:middleware:create "App\XClacksOverheadMiddleware"
 ```
 
 This command will create a PSR-15 middleware implementation, a factory for it,
@@ -548,7 +557,7 @@ Let's create a "Hello" request handler. We can use our tooling to create the
 file:
 
 ```bash
-$ composer mezzio handler:create "App\Handler\HelloHandler"
+$ composer mezzio mezzio:handler:create "App\Handler\HelloHandler"
 ```
 
 The command will tell you the location in the filesystem in which it created the
