@@ -28,8 +28,6 @@ examples.
 At this time, we document support for the following specific containers:
 
 - [laminas-servicemanager](laminas-servicemanager.md)
-- [pimple-interop](pimple.md)
-- [aura.di](aura-di.md)
 
 <!-- markdownlint-disable-next-line heading-increment -->
 > ### Service Names

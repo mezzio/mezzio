@@ -36,8 +36,8 @@ The features it provides include:
 ### Powerful Routing
 
 Stratigility provides the foundation for Mezzio's routing.
-Stratigility only provides limited, literal route matching via `PathMiddlewareDecorator`.
-However, Mezzio builds on this, providing an abstracted routing layer that allows the developer to choose the routing library that best fits the project needs.
+But, Stratigility only provides limited, literal route matching via `PathMiddlewareDecorator`.
+Mezzio builds on this, providing an abstracted routing layer that allows the developer to choose the routing library that best fits the project needs.
 
 And, among other features, it:
 
@@ -54,7 +54,7 @@ The container is used to lazy-load middleware, whether it is piped (Stratigility
 
 While Mezzio does not assume templating is being used, it provides a templating abstraction layer, allowing developers to choose the templating package that best suits their needs.
 In addition, developers can write middleware that typehints on this abstraction, and assume that the underlying templating package will provide layout support and namespaced template support.
-By default, Mezzio provides wrappers for [Plates][plates-url], and [Twig][twig-url], and [laminas-view][laminas-view-url].
+By default, Mezzio provides wrappers for [Plates][plates-url], [Twig][twig-url], and [laminas-view][laminas-view-url].
 
 ### Error Handling
 
@@ -207,10 +207,10 @@ The main points to remember are:
 
 [405-not-allowed-url]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/405
 [allow-http-header-url]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Allow
-[fastroute-url]: https://github.com/nikic/FastRoute
-[laminas-router-url]: https://docs.laminas.dev/laminas-router/routing/
 [laminas-view-url]: https://docs.laminas.dev/laminas-view/
 [plates-url]: https://platesphp.com/
+[fastroute-url]: https://github.com/nikic/FastRoute
+[laminas-router-url]: https://docs.laminas.dev/laminas-router/routing/
 [psr11-url]: https://www.php-fig.org/psr/psr-11
 [twig-url]: https://twig.symfony.com/
 [whoops-url]: http://filp.github.io/whoops/
