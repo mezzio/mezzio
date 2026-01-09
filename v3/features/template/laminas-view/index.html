@@ -700,15 +700,11 @@
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#using-the-wrapper" class="toc__link nav-link">Using the wrapper</a>
+                        <a href="#available-versions" class="toc__link nav-link">Available Versions</a>
                     </li>
                 
                     <li class="toc__entry">
-                        <a href="#layouts" class="toc__link nav-link">Layouts</a>
-                    </li>
-                
-                    <li class="toc__entry">
-                        <a href="#helpers" class="toc__link nav-link">Helpers</a>
+                        <a href="#using-the-wrapper" class="toc__link nav-link">Using the Wrapper</a>
                     </li>
                 
                     <li class="toc__entry">
@@ -787,134 +783,236 @@ provides:</p>
 <h2 id="installing-laminas-view">Installing laminas-view</h2>
 <p>To use the laminas-view wrapper, you must first install the laminas-view integration:</p>
 <pre class="highlight"><code class="language-bash">$ composer require mezzio/mezzio-laminasviewrenderer</code></pre>
-<h2 id="using-the-wrapper">Using the wrapper</h2>
-<p>If instantiated without arguments, <code>Mezzio\LaminasView\LaminasViewRenderer</code> will create
-an instance of the <code>PhpRenderer</code>, which it will then proxy to.</p>
-<pre class="highlight"><code class="language-php">use Mezzio\LaminasView\LaminasViewRenderer;
+<h2 id="available-versions">Available Versions</h2>
+<p>The following table shows the compatibility of the libraries that go together to provide a usable templating system using <code>laminas-view</code>:</p>
+<div class="table-responsive"><table>
+<thead>
+<tr>
+<th><code>laminas-view</code></th>
+<th><code>mezzio-template</code></th>
+<th><code>mezzio-laminasviewrenderer</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.x</td>
+<td>2.x</td>
+<td>2.x</td>
+</tr>
+<tr>
+<td>3.x</td>
+<td>3.x</td>
+<td>3.x</td>
+</tr>
+</tbody>
+</table></div>
+<p>There are significant changes in <code>laminas-view</code> version 3, but broadly speaking, its usage in a Mezzio application is largely unchanged.</p>
+<p>This documentation will cover usage of <code>laminas-view</code> with the version 3 series of releases.</p>
+<p>You can read the integration documentation for <code>mezzio-laminasviewrenderer</code> version 2 in the <a href="../../../../v2/features/template/laminas-view/">older documentation for Mezzio</a>.</p>
+<h2 id="using-the-wrapper">Using the Wrapper</h2>
+<p>By default, once the components are installed, retrieving the <code>Mezzio\Template\TemplateRendererInterface</code> from the application DI container will yield an instance of <code>Mezzio\LaminasView\LaminasViewRenderer</code>.</p>
+<p>From a Mezzio perspective, rendering templates in request handlers or middleware is no different to any other <code>mezzio-template</code> implementation:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Diactoros\Response\HtmlResponse;
+use Mezzio\Template\TemplateRendererInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-$renderer = new LaminasViewRenderer();</code></pre>
-<p>Alternately, you can instantiate and configure the engine yourself, and pass it
-to the <code>Mezzio\LaminasView\LaminasViewRenderer</code> constructor:</p>
-<pre class="highlight"><code class="language-php">use Laminas\View\Renderer\PhpRenderer;
-use Laminas\View\Resolver;
+final readonly class ExampleRequestHandler implements RequestHandlerInterface
+{
+    public function __construct(
+        private TemplateRendererInterface $renderer
+    ) {
+    }
+
+    public function handle(ServerRequestInterface $request) : ResponseInterface
+    {
+        return new HtmlResponse(
+            $this-&gt;renderer-&gt;render('some-template', ['some' =&gt; 'data']),
+            200,
+        );
+    }
+}</code></pre>
+<p>In order to instantiate the template renderer yourself, you will need to retrieve a number of dependencies from the container:</p>
+<pre class="highlight"><code class="language-php">use Psr\Container\ContainerInterface;
+use Laminas\View\HelperPluginManagerInterface;
+use Laminas\View\Renderer\RendererInterface;
 use Mezzio\LaminasView\LaminasViewRenderer;
 
-// Create the engine instance:
-$renderer = new PhpRenderer();
+assert($container instanceof ContainerInterface);
 
-// Configure it:
-$resolver = new Resolver\AggregateResolver();
-$resolver-&gt;attach(
-    new Resolver\TemplateMapResolver(include 'config/templates.php'),
-    100
-);
-$resolver-&gt;attach(
-    (new Resolver\TemplatePathStack())
-    -&gt;setPaths(include 'config/template_paths.php')
-);
-$renderer-&gt;setResolver($resolver);
+$defaultLayoutTemplate = 'some::layout';
 
-// Inject:
-$renderer = new LaminasViewRenderer($renderer);</code></pre>
-<blockquote>
-<h3 id="namespaced-path-resolving">Namespaced path resolving</h3>
-<p>Mezzio defines a custom laminas-view resolver,
-<code>Mezzio\LaminasView\NamespacedPathStackResolver</code>. This resolver
-provides the ability to segregate paths by namespace, and later resolve a
-template according to the namespace, using the <code>namespace::template</code> notation
-required of <code>TemplateRendererInterface</code> implementations.</p>
-<p>The <code>LaminasView</code> adapter ensures that:</p>
-<ul>
-<li>An <code>AggregateResolver</code> is registered with the renderer. If the registered
-  resolver is not an <code>AggregateResolver</code>, it creates one and adds the original
-  resolver to it.</li>
-<li>A <code>NamespacedPathStackResolver</code> is registered with the <code>AggregateResolver</code>, at
-  a low priority (0), ensuring attempts to resolve hit it later.</li>
-</ul>
-<p>With resolvers such as the <code>TemplateMapResolver</code>, you can also resolve
-namespaced templates, mapping them directly to the template on the filesystem
-that matches; adding such a resolver can be a nice performance boost!</p>
-</blockquote>
-<h2 id="layouts">Layouts</h2>
-<p>Unlike the other supported template engines, laminas-view does not support layouts
-out-of-the-box. Mezzio abstracts this fact away, providing two facilities
-for doing so:</p>
-<ul>
-<li>You may pass a layout template name or <code>Laminas\View\Model\ModelInterface</code>
-  instance representing the layout as the second argument to the constructor.</li>
-<li>You may pass a "layout" parameter during rendering, with a value of either a
-  layout template name or a <code>Laminas\View\Model\ModelInterface</code>
-  instance representing the layout. Passing a layout this way will override any
-  layout provided to the constructor.</li>
-</ul>
-<p>In each case, the laminas-view implementation will do a depth-first, recursive
-render in order to provide content within the selected layout.</p>
-<ul>
-<li>Since 1.3: You may also pass a boolean <code>false</code> value to either
-  <code>addDefaultParam()</code> or via the template variables for the <code>layout</code> key; doing
-  so will disable the layout.</li>
-</ul>
-<h3 id="layout-name-passed-to-constructor">Layout name passed to constructor</h3>
-<pre class="highlight"><code class="language-php">use Mezzio\LaminasView\LaminasViewRenderer;
+$renderer = new LaminasViewRenderer(
+    $container-&gt;get(RendererInterface::class),
+    $container-&gt;get(HelperPluginManagerInterface::class),
+    $defaultLayoutTemplate,
+);</code></pre>
+<h3 id="template-resolvers">Template Resolvers</h3>
+<p>The Laminas template renderer (<code>Laminas\View\Renderer\PhpRenderer</code>) consumes <a href="https://docs.laminas.dev/laminas-view/v3/template-resolvers/">template resolvers</a> in order to map template names to file paths.</p>
+<p><code>laminas-view</code> itself ships several template resolvers, and <code>mezzio-laminasviewrenderer</code> ships an additional resolver called <code>Mezzio\LaminasView\NamespacedPathStackResolver</code>.</p>
+<p>Conceptually, template resolvers are straight-forward; given a template name, return the path to an on-disk template file or return false.</p>
+<p>In Mezzio, when you ask for <code>Laminas\View\Resolver\ResolverInterface</code>, you will receive an "AggregateResolver", that configures a "MapResolver" followed by the "NamespacedPathStackResolver".</p>
+<p>What this means is that the "MapResolver" will be consulted first <em>(The fastest resolver)</em> and the "NamespacedPathStackResolver" second, when the "MapResolver" fails to identify the template asked for.</p>
+<p>If we were to configure the aggregate resolver ourselves, it would look like this:</p>
+<pre class="highlight"><code class="language-php">use Laminas\View\Resolver\AggregateResolver;
+use Laminas\View\Resolver\TemplateMapResolver;
+use Mezzio\LaminasView\NamespacedPathStackResolver;
 
-// Create the engine instance with a layout name:
-$renderer = new LaminasViewRenderer(null, 'layout::layout');</code></pre>
-<h3 id="layout-view-model-passed-to-constructor">Layout view model passed to constructor</h3>
-<pre class="highlight"><code class="language-php">use Laminas\View\Model\ViewModel;
-use Mezzio\LaminasView\LaminasViewRenderer;
+$mappedTemplates = [
+    'one' =&gt; __DIR__ . '/templates/one.phtml',
+    'two' =&gt; __DIR__ . '/templates/two.phtml',
+];
 
-// Create the layout view model:
-$layout = new ViewModel([
-    'encoding' =&gt; 'utf-8',
-    'cssPath'  =&gt; '/css/prod/',
+$namespacedPaths = [
+    'muppets' =&gt; __DIR__ . '/templates/muppets', // A directory containing multiple files
+];
+
+// The "Map Resolver"
+$mapResolver = new TemplateMapResolver($mappedTemplates);
+
+// The "Namespaced Path Stack Resolver"
+$namespacedResolver = new NamespacedPathStackResolver([
+    'script_paths' =&gt; $namespacedPaths,
+    // ... Other Options
 ]);
-$layout-&gt;setTemplate('layout::layout');
 
-// Create the engine instance with the layout:
-$renderer = new LaminasViewRenderer(null, $layout);</code></pre>
-<h3 id="provide-a-layout-name-when-rendering">Provide a layout name when rendering</h3>
-<pre class="highlight"><code class="language-php">$content = $renderer-&gt;render('blog/entry', [
-    'layout' =&gt; 'layout::blog',
-    'entry'  =&gt; $entry,
-]);</code></pre>
-<h3 id="provide-a-layout-view-model-when-rendering">Provide a layout view model when rendering</h3>
+/**
+ * Now we can create the aggregate resolver: 
+ */
+$aggregateResolver = new AggregateResolver([
+    $mapResolver,
+    $namespacedResolver,
+]);
+
+/**
+ * And locate template files: 
+ */
+$one = $aggregateResolver-&gt;resolve('one'); // templates/one.phtml
+$kermit = $aggregateResolver-&gt;resolve('muppets::kermit'); // templates/muppets/kermit.phtml</code></pre>
+<p>The configuration above essentially describes the default setup you will get.</p>
+<p>All you need to do is configure the templates and retrieve the template resolver from the container:</p>
+<pre class="highlight"><code class="language-php">// config/autoload/templates.global.php
+return [
+    'templates' =&gt; [
+        'default_suffix' =&gt; 'phtml',
+        'map' =&gt; [
+            'one' =&gt; __DIR__ . '/templates/one.phtml',
+            'two' =&gt; __DIR__ . '/templates/two.phtml',
+        ],
+        'paths' =&gt; [
+            'muppets' =&gt; __DIR__ . '/templates/muppets',
+        ],
+    ],
+];</code></pre>
+<pre class="highlight"><code class="language-php">use Laminas\View\Resolver\ResolverInterface;
+use Psr\Container\ContainerInterface;
+
+assert($container instanceof ContainerInterface);
+
+$resolver = $container-&gt;get(ResolverInterface::class);
+
+$resolver-&gt;resolve('one'); // templates/one.phtml
+$resolver-&gt;resolve('muppets::kermit'); // templates/muppets/kermit.phtml
+$resolver-&gt;resolve('not-there'); // false</code></pre>
+<p>We encourage you to familiarise yourself with the <a href="https://docs.laminas.dev/laminas-view/v3/template-resolvers/">template resolver documentation</a> in <code>laminas-view</code> for alternative ways of resolving templates and how to implement your own template resolver.</p>
+<div class="admonition note">
+<p class="admonition-title">Namespaced Path Resolving in Mezzio</p>
+<p>
+The Mezzio-specific <code>Mezzio\LaminasView\NamespacedPathStackResolver</code> satisfies the convention of "namespaced" template paths.
+The format is <code>namespace::template</code> and typically, <code>namespace</code> refers to one or more directories and <code>template</code> refers to a file named <code>template.phtml</code> in one of those directories.</p>
+</div>
+<h3 id="view-helpers-plugins">View Helpers <em>(Plugins)</em></h3>
+<p>All templating systems provide a way of authoring plugins or helpers to make repetitive, or complex rendering tasks easy - helping to keep templates easy to maintain or perform essential functions such as escaping output.
+<code>laminas-view</code> is no different, and it comes with a number of ready-to-use helpers which are <a href="https://docs.laminas.dev/laminas-view/v3/helpers/intro/">documented in detail over on the Laminas website</a>.</p>
+<p>Creating your own plugins is straight-forward, and we encourage you to again <a href="https://docs.laminas.dev/laminas-view/v3/helpers/advanced-usage/">look at the relevant documentation</a> in order to do this.</p>
+<p><code>mezzio-laminasviewrenderer</code> comes with a few Mezzio-specific plugins:</p>
+<h4 id="the-serverurl-plugin">The <code>serverUrl</code> Plugin</h4>
+<p>This plugin proxies to the <a href="../../helpers/server-url-helper/">ServerUrlHelper</a> to return absolute URIs:</p>
+<pre class="highlight"><code class="language-php">// some-template.phtml
+
+echo $this-&gt;serverUrl('/path.html'); // 'https://example.com/path.phtml'</code></pre>
+<h4 id="the-url-plugin">The <code>url</code> Plugin</h4>
+<p>This plugin proxies to the <a href="../../helpers/url-helper/">UrlHelper</a> to assemble local URLs for your configured routes:</p>
+<pre class="highlight"><code class="language-php">// some-template.phtml
+
+// '/some-path/page/1#some-hash?search=foo'
+echo $this-&gt;url('my-route', ['page' =&gt; 1], ['search' =&gt; 'foo'], 'some-hash');</code></pre>
+<h3 id="layouts">Layouts</h3>
+<p>To take advantage of layouts in Mezzio with <code>laminas-view</code>, configure the <em>default</em> layout template appropriately:</p>
+<pre class="highlight"><code class="language-php">// config/autoload/templates.global.php
+
+return [
+    'templates' =&gt; [
+        'layout' =&gt; 'layout::default', // Default layout template
+        'map' =&gt; [
+
+            'layout::default' =&gt; __DIR__ . '/templates/layout/default-layout.phtml',
+            'layout::alternative' =&gt; __DIR__ . '/templates/layout/alternative-layout.phtml',
+
+            'page::home' =&gt; __DIR__ . '/templates/static/home.phtml',
+            'page::other' =&gt; __DIR__ . '/templates/static/other.phtml',
+        ],
+    ],
+];</code></pre>
+<p>With the above configuration, calling <code>render('page::home')</code> on the template renderer will yield the contents of <code>home.phtml</code> inside of <code>default-layout.phtml</code>.</p>
+<h4 id="changing-layout">Changing Layout</h4>
+<p>Layout can be changed from the default, or set when no default has been configured in several ways:</p>
+<ul>
+<li>Passing a <code>layout</code> variable during rendering of a template:
+  <pre class="highlight"><code class="language-php">$renderer-&gt;render('page::home', ['layout' =&gt; 'layout::alternative']);</code></pre></li>
+<li>Calling <code>addDefaultParam(TemplateRendererInterface::TEMPLATE_ALL, 'layout', 'layout::alternative')</code> on the template renderer.</li>
+<li>Calling the <code>layout</code> view-helper from within a template:
+  <pre class="highlight"><code class="language-php">// other.phtml
+$this-&gt;layout('layout::alternative');
+// more template content…</code></pre></li>
+<li>Calling the <code>layout</code> view-helper in other contexts such as middleware</li>
+</ul>
+<h4 id="disabling-layout">Disabling Layout</h4>
+<p>You can disable layouts entirely by not configuring a default layout <em>(This is default behaviour)</em>, or in one of the following ways:</p>
+<ul>
+<li>Passing a <code>layout</code> variable with a <code>false</code> value during rendering:
+  <pre class="highlight"><code class="language-php">$renderer-&gt;render('page::home', ['layout' =&gt; false]);</code></pre></li>
+<li>Calling <code>addDefaultParam(TemplateRendererInterface::TEMPLATE_ALL, 'layout', false)</code> on the template renderer.</li>
+<li>Calling the <code>layout</code> view-helper with an empty string from within a template:
+  <pre class="highlight"><code class="language-php">// other.phtml
+$this-&gt;layout('');
+// more template content…</code></pre></li>
+<li>Calling the <code>layout</code> view-helper in other contexts such as middleware.</li>
+</ul>
+<p>When layout is enabled, the laminas-view implementation will do a depth-first, recursive
+render in order to provide content within the selected layout.</p>
+<p>Additionally, layouts, when passed as parameters during rendering can also be <code>Laminas\View\Model\ViewModel</code> instances:</p>
+<h4 id="provide-a-layout-view-model-when-rendering">Provide a Layout View Model When Rendering</h4>
 <pre class="highlight"><code class="language-php">use Laminas\View\Model\ViewModel;
 
 // Create the layout view model:
 $layout = new ViewModel([
-    'encoding' =&gt; 'utf-8',
     'cssPath'  =&gt; '/css/blog/',
 ]);
-$layout-&gt;setTemplate('layout::layout');
+$layout-&gt;setTemplate('layout::blog-layout');
 
-$content = $renderer-&gt;render('blog/entry', [
+$content = $renderer-&gt;render('blog::entry', [
     'layout' =&gt; $layout,
-    'entry'  =&gt; $entry,
+    'entry'  =&gt; $blogEntryDataModel,
 ]);</code></pre>
-<h2 id="helpers">Helpers</h2>
-<p>Mezzio provides overrides of specific view helpers in order to better
-integrate with <a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a>. These include:</p>
-<ul>
-<li><code>Mezzio\LaminasView\UrlHelper</code>. This helper consumes the
-  application's <code>Mezzio\Router\RouterInterface</code> instance in order
-  to generate URIs. Its signature is:
-  <code>url($routeName, array $routeParams = [], array $queryParams = [], $fragmentIdentifier = null, array $options = [])</code></li>
-<li><code>Mezzio\LaminasView\ServerUrlHelper</code>. This helper consumes the
-  URI from the application's request in order to provide fully qualified URIs.
-  Its signature is: <code>serverUrl($path = null)</code>.</li>
-</ul>
-<p>To use this particular helper, you will need to inject it with the request URI
-  somewhere within your application:</p>
-<pre class="highlight"><code class="language-php">$serverUrlHelper-&gt;setUri($request-&gt;getUri());</code></pre>
-<p>We recommend doing this within a pre-pipeline middleware.</p>
+<h3 id="templates">Templates</h3>
+<p>Template files for consumption in <code>laminas-view</code> are of course specific to <code>laminas-view</code> and are incompatible with either the <a href="../plates/">Plates template engine</a> or the <a href="../twig/">Twig template engine</a>.</p>
+<p>For more information on writing templates, please <a href="https://docs.laminas.dev/laminas-view/v3/view-scripts/">consult the Laminas View documentation</a>.</p>
 <h2 id="recommendations">Recommendations</h2>
-<p>We recommend the following practices when using the laminas-view adapter:</p>
+<p>We recommend the following practices when using the <code>laminas-view</code> adapter:</p>
 <ul>
 <li>If using a layout, create a factory to return the layout view model as a
   service; this allows you to inject it into middleware and add variables to it.</li>
 <li>While we support passing the layout as a rendering parameter, be aware that if
   you change engines, this may not be supported.</li>
+<li>If you need to make use of multiple layout templates, carefully consider which method you use to change layout and stick to it.
+  Sometimes, it makes most sense to delegate layout selection to the content template, in other situations manipulating layouts in middleware is the right thing to do.
+  Mixing methods however, is not advised, and will lead to confusion in future!</li>
+<li>Leverage custom plugins <em>("View Helpers")</em> to make testable and maintainable utilities that help you write consistent markup.</li>
+<li>Investigate the <a href="https://docs.laminas.dev/laminas-view/v3/helpers/partial/">Partial View Helper</a> for re-using chunks of markup in dedicated templates.</li>
 </ul>
+<p>Laminas View is also capable of rendering arbitrarily nested view models, which can be of significant help when working with complex layouts.  </p>
 
 
 
@@ -1516,7 +1614,7 @@ integrate with <a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a>. These inc
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/mezzio/mezzio/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2025 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2026 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>
