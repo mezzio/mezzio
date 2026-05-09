@@ -6,7 +6,6 @@ namespace MezzioTest\Container;
 
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
-use Mezzio\ApplicationPipeline;
 use Mezzio\Container\RequestHandlerRunnerFactory;
 use Mezzio\Response\ServerRequestErrorResponseGenerator;
 use MezzioTest\InMemoryContainer;
@@ -28,22 +27,27 @@ final class RequestHandlerRunnerFactoryTest extends TestCase
         $handler              = $this->registerHandlerInContainer($container);
         $emitter              = $this->registerEmitterInContainer($container);
         $serverRequestFactory = $this->registerServerRequestFactoryInContainer($container);
-        $errorGenerator       = $this->registerServerRequestErrorResponseGeneratorInContainer($container);
+        /** @psalm-suppress NoValue */
+        $errorGenerator = $this->registerServerRequestErrorResponseGeneratorInContainer($container);
+        self::assertIsCallable($errorGenerator);
 
         $factory = new RequestHandlerRunnerFactory();
 
         $runner = $factory($container);
 
+        /** @psalm-suppress MixedArgumentTypeCoercion */
         self::assertEquals(
             new RequestHandlerRunner($handler, $emitter, $serverRequestFactory, $errorGenerator),
             $runner
         );
 
-        $r      = new ReflectionProperty($runner, 'serverRequestFactory');
+        $r = new ReflectionProperty($runner, 'serverRequestFactory');
+        /** @var callable():ServerRequestInterface $toTest */
         $toTest = $r->getValue($runner);
         $this->assertSame($serverRequestFactory(), $toTest());
 
-        $r      = new ReflectionProperty($runner, 'serverRequestErrorResponseGenerator');
+        $r = new ReflectionProperty($runner, 'serverRequestErrorResponseGenerator');
+        /** @var callable(Throwable):ResponseInterface $toTest */
         $toTest = $r->getValue($runner);
         $e      = new RuntimeException();
         $this->assertSame($errorGenerator($e), $toTest($e));
@@ -52,7 +56,7 @@ final class RequestHandlerRunnerFactoryTest extends TestCase
     public function registerHandlerInContainer(MutableMemoryContainerInterface $container): RequestHandlerInterface
     {
         $app = $this->createMock(RequestHandlerInterface::class);
-        $container->set(ApplicationPipeline::class, $app);
+        $container->set('Mezzio\\ApplicationPipeline', $app);
 
         return $app;
     }
@@ -78,10 +82,12 @@ final class RequestHandlerRunnerFactoryTest extends TestCase
     }
 
     /**
-     * @psalm-return MockObject&ServerRequestErrorResponseGenerator
+     * @psalm-suppress InvalidReturnType
+     * @psalm-suppress InvalidReturnStatement
      */
-    public function registerServerRequestErrorResponseGeneratorInContainer(MutableMemoryContainerInterface $container)
-    {
+    public function registerServerRequestErrorResponseGeneratorInContainer(
+        MutableMemoryContainerInterface $container,
+    ): MockObject&ServerRequestErrorResponseGenerator {
         $response  = $this->createMock(ResponseInterface::class);
         $generator = $this->createMock(ServerRequestErrorResponseGenerator::class);
         $generator->method('__invoke')

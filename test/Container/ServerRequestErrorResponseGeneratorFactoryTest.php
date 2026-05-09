@@ -80,9 +80,7 @@ final class ServerRequestErrorResponseGeneratorFactoryTest extends TestCase
     {
         $container = new InMemoryContainer();
 
-        $responseFactory = function (): ResponseInterface {
-            return $this->createMock(ResponseInterface::class);
-        };
+        $responseFactory = fn(): ResponseInterface => $this->createMock(ResponseInterface::class);
         $container->set(ResponseInterface::class, $responseFactory);
 
         $generator = ($this->factory)($container);
