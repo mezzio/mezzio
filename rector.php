@@ -13,5 +13,6 @@ return RectorConfig::configure()
     ])
     ->withPreparedSets(
         typeDeclarations: true,
+        privatization: true,
     )
     ->withSkipPath(__DIR__ . '/test/TestAsset');
