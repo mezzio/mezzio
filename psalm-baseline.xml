@@ -196,28 +196,6 @@
       <code><![CDATA[$this->container->get(ResponseInterface::class)]]></code>
     </InvalidArgument>
   </file>
-  <file src="test/Container/RequestHandlerRunnerFactoryTest.php">
-    <InvalidArgument>
-      <code><![CDATA[$errorGenerator]]></code>
-    </InvalidArgument>
-    <InvalidFunctionCall>
-      <code><![CDATA[$errorGenerator($e)]]></code>
-    </InvalidFunctionCall>
-    <MixedArgument>
-      <code><![CDATA[ApplicationPipeline::class]]></code>
-    </MixedArgument>
-    <MixedAssignment>
-      <code><![CDATA[$toTest]]></code>
-      <code><![CDATA[$toTest]]></code>
-    </MixedAssignment>
-    <MixedFunctionCall>
-      <code><![CDATA[$toTest($e)]]></code>
-      <code><![CDATA[$toTest()]]></code>
-    </MixedFunctionCall>
-    <UndefinedClass>
-      <code><![CDATA[ApplicationPipeline]]></code>
-    </UndefinedClass>
-  </file>
   <file src="test/Container/ResponseFactoryFactoryTest.php">
     <RedundantCondition>
       <code><![CDATA[assertIsCallable]]></code>
@@ -289,11 +267,6 @@
       <code><![CDATA[$this->services[$id]]]></code>
     </MixedReturnStatement>
   </file>
-  <file src="test/Middleware/ErrorResponseGeneratorTest.php">
-    <MixedArgument>
-      <code><![CDATA[$body]]></code>
-    </MixedArgument>
-  </file>
   <file src="test/Middleware/WhoopsErrorResponseGeneratorTest.php">
     <InvalidArgument>
       <code><![CDATA[$whoops]]></code>
@@ -348,21 +321,5 @@
     <ParamNameMismatch>
       <code><![CDATA[$delegate]]></code>
     </ParamNameMismatch>
-  </file>
-  <file src="test/TestAsset/InvokableMiddleware.php">
-    <MissingParamType>
-      <code><![CDATA[$next]]></code>
-      <code><![CDATA[$next]]></code>
-      <code><![CDATA[$request]]></code>
-      <code><![CDATA[$request]]></code>
-      <code><![CDATA[$response]]></code>
-      <code><![CDATA[$response]]></code>
-    </MissingParamType>
-    <MissingReturnType>
-      <code><![CDATA[staticallyCallableMiddleware]]></code>
-    </MissingReturnType>
-    <MixedMethodCall>
-      <code><![CDATA[withHeader]]></code>
-    </MixedMethodCall>
   </file>
 </files>

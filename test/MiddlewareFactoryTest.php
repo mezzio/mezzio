@@ -16,8 +16,8 @@ use Mezzio\MiddlewareFactory;
 use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\Middleware\DispatchMiddleware;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -30,14 +30,13 @@ use function iterator_to_array;
 /** @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface */
 final class MiddlewareFactoryTest extends TestCase
 {
-    /** @var MiddlewareContainer&MockObject */
-    private $container;
+    private MiddlewareContainer $container;
 
     private MiddlewareFactory $factory;
 
     public function setUp(): void
     {
-        $this->container = $this->createMock(MiddlewareContainer::class);
+        $this->container = new MiddlewareContainer($this->createMock(ContainerInterface::class));
         $this->factory   = new MiddlewareFactory($this->container);
     }
 
@@ -175,12 +174,14 @@ final class MiddlewareFactoryTest extends TestCase
     }
 
     /**
-     * @param MiddlewareParam $middleware
+    /**
+     *
+     * @psalm-param MiddlewareParam $middleware
      * @param mixed $expected Expected type or value for use with assertion
      */
     #[DataProvider('validPrepareTypes')]
     public function testPipelineAllowsAnyTypeSupportedByPrepare(
-        $middleware,
+        mixed $middleware,
         string $assertion,
         mixed $expected
     ): void {

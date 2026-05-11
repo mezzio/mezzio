@@ -15,6 +15,7 @@
     <file>bin</file>
     <file>src</file>
     <file>test</file>
+    <file>rector.php</file>
 
     <!-- Include all rules from the Laminas Coding Standard -->
     <rule ref="LaminasCodingStandard"/>

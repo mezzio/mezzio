@@ -58,6 +58,7 @@
         "mezzio/mezzio-laminasrouter": "^3.12",
         "phpunit/phpunit": "^11.5.44",
         "psalm/plugin-phpunit": "^0.19.5",
+        "rector/rector": "^2.4",
         "vimeo/psalm": "^6.13.1"
     },
     "conflict": {
@@ -100,6 +101,8 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
+        "rector": "rector -n",
+        "rector:fix": "rector",
         "static-analysis": "psalm --shepherd --stats",
         "update-baseline": "psalm --update-baseline",
         "test": "phpunit --colors=always",

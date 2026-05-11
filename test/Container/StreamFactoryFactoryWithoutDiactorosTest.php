@@ -6,6 +6,7 @@ namespace MezzioTest\Container;
 
 use Mezzio\Container\Exception\InvalidServiceException;
 use Mezzio\Container\StreamFactoryFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
@@ -16,7 +17,7 @@ use function spl_autoload_unregister;
 
 final class StreamFactoryFactoryWithoutDiactorosTest extends TestCase
 {
-    private ContainerInterface $container;
+    private ContainerInterface&MockObject $container;
 
     private StreamFactoryFactory $factory;
 
