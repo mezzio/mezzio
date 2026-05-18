@@ -59,6 +59,7 @@ final class WhoopsFactoryTest extends TestCase
         $result  = $factory($this->container);
         $this->assertInstanceOf(Whoops::class, $result);
         $this->assertWhoopsContainsHandler(PrettyPageHandler::class, $result);
+        $result->unregister();
     }
 
     public function testWillInjectJsonResponseHandlerIfConfigurationExpectsIt(): void
@@ -71,6 +72,7 @@ final class WhoopsFactoryTest extends TestCase
         $this->assertInstanceOf(Whoops::class, $result);
         $this->assertWhoopsContainsHandler(PrettyPageHandler::class, $result);
         $this->assertWhoopsContainsHandler(JsonResponseHandler::class, $result);
+        $result->unregister();
     }
 
     #[DataProvider('provideConfig')]
@@ -109,6 +111,7 @@ final class WhoopsFactoryTest extends TestCase
             && method_exists(WhoopsUtil::class, 'isAjaxRequest')
         ) {
             self::assertInstanceOf(PrettyPageHandler::class, $handler);
+            $whoops->unregister();
 
             // Skip remaining assertions
             return;
@@ -120,6 +123,8 @@ final class WhoopsFactoryTest extends TestCase
         if (method_exists($handler, 'onlyForAjaxRequests')) {
             self::assertSame($isAjaxOnly, $handler->onlyForAjaxRequests());
         }
+
+        $whoops->unregister();
     }
 
     /**
@@ -145,7 +150,8 @@ final class WhoopsFactoryTest extends TestCase
         $this->container->set('config', $config);
 
         $factory = new WhoopsFactory();
-        $factory($this->container);
+        $whoops  = $factory($this->container);
+        $whoops->unregister();
         $this->expectNotToPerformAssertions();
     }
 }
