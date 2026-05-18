@@ -6,6 +6,7 @@ namespace MezzioTest;
 
 use Closure;
 use Laminas\Diactoros\Response;
+use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
 use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
 use Laminas\Stratigility\MiddlewarePipe;
@@ -16,7 +17,6 @@ use Mezzio\MiddlewareFactory;
 use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\Middleware\DispatchMiddleware;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,14 +30,12 @@ use function iterator_to_array;
 /** @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface */
 final class MiddlewareFactoryTest extends TestCase
 {
-    /** @var MiddlewareContainer&MockObject */
-    private $container;
-
+    private MiddlewareContainer $container;
     private MiddlewareFactory $factory;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
-        $this->container = $this->createMock(MiddlewareContainer::class);
+        $this->container = new MiddlewareContainer(new ServiceManager([]));
         $this->factory   = new MiddlewareFactory($this->container);
     }
 
@@ -182,7 +180,7 @@ final class MiddlewareFactoryTest extends TestCase
     public function testPipelineAllowsAnyTypeSupportedByPrepare(
         $middleware,
         string $assertion,
-        mixed $expected
+        mixed $expected,
     ): void {
         $pipeline = $this->factory->pipeline($middleware);
         $this->assertInstanceOf(MiddlewarePipe::class, $pipeline);
@@ -223,5 +221,12 @@ final class MiddlewareFactoryTest extends TestCase
         $middleware = $this->factory->handler($handler);
 
         self::assertEquals(new RequestHandlerMiddleware($handler), $middleware);
+    }
+
+    public function testAnEmptyArrayOfMiddlewareWillProduceAnEmptyPipeline(): void
+    {
+        $pipeline = $this->factory->prepare([]);
+        self::assertInstanceOf(MiddlewarePipe::class, $pipeline);
+        self::assertSame([], iterator_to_array($pipeline, false));
     }
 }
