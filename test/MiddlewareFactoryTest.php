@@ -30,12 +30,11 @@ use function iterator_to_array;
 /** @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface */
 final class MiddlewareFactoryTest extends TestCase
 {
-    /** @var MiddlewareContainer&MockObject */
-    private $container;
+    private MiddlewareContainer&MockObject $container;
 
     private MiddlewareFactory $factory;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->container = $this->createMock(MiddlewareContainer::class);
         $this->factory   = new MiddlewareFactory($this->container);
@@ -182,7 +181,7 @@ final class MiddlewareFactoryTest extends TestCase
     public function testPipelineAllowsAnyTypeSupportedByPrepare(
         $middleware,
         string $assertion,
-        mixed $expected
+        mixed $expected,
     ): void {
         $pipeline = $this->factory->pipeline($middleware);
         $this->assertInstanceOf(MiddlewarePipe::class, $pipeline);
@@ -223,5 +222,12 @@ final class MiddlewareFactoryTest extends TestCase
         $middleware = $this->factory->handler($handler);
 
         self::assertEquals(new RequestHandlerMiddleware($handler), $middleware);
+    }
+
+    public function testAnEmptyArrayOfMiddlewareWillProduceAnEmptyPipeline(): void
+    {
+        $pipeline = $this->factory->prepare([]);
+        self::assertInstanceOf(MiddlewarePipe::class, $pipeline);
+        self::assertSame([], iterator_to_array($pipeline, false));
     }
 }

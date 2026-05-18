@@ -12,7 +12,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-use function array_shift;
 use function count;
 use function is_array;
 use function is_callable;
@@ -106,11 +105,9 @@ class MiddlewareFactory implements MiddlewareFactoryInterface
     public function pipeline(...$middleware): MiddlewarePipe
     {
         // Allow passing arrays of middleware or individual lists of middleware
-        if (
-            is_array($middleware[0])
-            && count($middleware) === 1
-        ) {
-            $middleware = array_shift($middleware);
+        $firstArgument = $middleware[0] ?? null;
+        if (is_array($firstArgument) && count($middleware) === 1) {
+            $middleware = $firstArgument;
         }
 
         $pipeline = new MiddlewarePipe();
