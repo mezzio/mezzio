@@ -6,6 +6,7 @@ namespace MezzioTest;
 
 use Closure;
 use Laminas\Diactoros\Response;
+use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
 use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
 use Laminas\Stratigility\MiddlewarePipe;
@@ -16,7 +17,6 @@ use Mezzio\MiddlewareFactory;
 use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\Middleware\DispatchMiddleware;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,13 +30,12 @@ use function iterator_to_array;
 /** @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface */
 final class MiddlewareFactoryTest extends TestCase
 {
-    private MiddlewareContainer&MockObject $container;
-
+    private MiddlewareContainer $container;
     private MiddlewareFactory $factory;
 
     protected function setUp(): void
     {
-        $this->container = $this->createMock(MiddlewareContainer::class);
+        $this->container = new MiddlewareContainer(new ServiceManager([]));
         $this->factory   = new MiddlewareFactory($this->container);
     }
 
