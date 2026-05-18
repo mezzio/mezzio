@@ -75,16 +75,14 @@ final class WhoopsFactoryTest extends TestCase
         $result->unregister();
     }
 
-    /**
-     * @param bool  $showsTrace
-     * @param bool  $isAjaxOnly
-     * @param bool  $requestIsAjax
-     */
     #[DataProvider('provideConfig')]
     #[Depends('testWillInjectJsonResponseHandlerIfConfigurationExpectsIt')]
     #[BackupGlobals(true)]
-    public function testJsonResponseHandlerCanBeConfigured($showsTrace, $isAjaxOnly, $requestIsAjax): void
-    {
+    public function testJsonResponseHandlerCanBeConfigured(
+        bool $showsTrace,
+        bool $isAjaxOnly,
+        bool $requestIsAjax,
+    ): void {
         // Set for Whoops 2.x json handler detection
         if ($requestIsAjax) {
             $_SERVER['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';

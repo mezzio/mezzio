@@ -20,11 +20,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final class NotFoundHandlerTest extends TestCase
 {
-    /** @var ResponseInterface&MockObject */
-    private $response;
+    private ResponseInterface&MockObject $response;
 
-    /** @var ResponseFactoryInterface&MockObject */
-    private $responseFactory;
+    private ResponseFactoryInterface&MockObject $responseFactory;
 
     public function setUp(): void
     {
