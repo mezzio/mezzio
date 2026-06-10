@@ -236,6 +236,7 @@ public function getDependencies(): array
         ],
     ];
 }
+```
 
 ## Handling more specific error types
 
