@@ -700,6 +700,10 @@
                     </li>
                 
                     <li class="toc__entry">
+                        <a href="#handling-more-specific-error-types" class="toc__link nav-link">Handling more specific error types</a>
+                    </li>
+                
+                    <li class="toc__entry">
                         <a href="#page-not-found" class="toc__link nav-link">Page not found</a>
                     </li>
                 
@@ -949,16 +953,12 @@ class LoggingErrorListenerDelegatorFactory
             ],
         ],
     ];
-}
-
-## Handling more specific error types
-
-You could also write more specific error handlers. As an example, you might want
-to catch `UnauthorizedException` instances specifically, and display a login
-page:
-
-```php
-function (ServerRequestInterface $request, RequestHandlerInterface $handler) use ($renderer) : ResponseInterface
+}</code></pre>
+<h2 id="handling-more-specific-error-types">Handling more specific error types</h2>
+<p>You could also write more specific error handlers. As an example, you might want
+to catch <code>UnauthorizedException</code> instances specifically, and display a login
+page:</p>
+<pre class="highlight"><code class="language-php">function (ServerRequestInterface $request, RequestHandlerInterface $handler) use ($renderer) : ResponseInterface
 {
     try {
         $response = $handler-&gt;handle($request);
