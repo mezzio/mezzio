@@ -57,7 +57,7 @@
         "mezzio/mezzio-fastroute": "^3.14",
         "mezzio/mezzio-laminasrouter": "^3.12",
         "phpunit/phpunit": "^11.5.44",
-        "psalm/plugin-phpunit": "^0.19.5",
+        "psalm/plugin-phpunit": "^0.20.0",
         "vimeo/psalm": "^6.13.1"
     },
     "conflict": {
