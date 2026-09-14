@@ -100,7 +100,7 @@ final class ApplicationTest extends TestCase
         // @codingStandardsIgnoreStart
         yield 'string'   => ['service'];
         yield 'array'    => [['middleware', 'service']];
-        yield 'callable' => [fn ( ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface => new Response()];
+        yield 'callable' => [static fn ( ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface => new Response()];
         yield 'instance' => [new MiddlewarePipe()];
         // @codingStandardsIgnoreEnd
     }

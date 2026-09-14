@@ -126,7 +126,7 @@ final class NotFoundHandlerTest extends TestCase
     public function testCanHandleCallableResponseFactory(): void
     {
         $response        = new TextResponse('Foo');
-        $responseFactory = fn(): ResponseInterface => $response;
+        $responseFactory = static fn(): ResponseInterface => $response;
         $handler         = new NotFoundHandler($responseFactory);
         $result          = $handler->handle($this->createMock(ServerRequestInterface::class));
 
