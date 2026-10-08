@@ -14,37 +14,43 @@ Laminas. It features:
 - interface injection (via *initializers*).
 
 laminas-servicemanager may either be created and populated programmatically, or via
-configuration. Configuration uses the following structure:
+configuration. Within Mezzio application configuration, container configuration
+is provided under the top-level `dependencies` key:
 
 ```php
 [
-    'services' => [
-        'service name' => $serviceInstance,
-    ],
-    'invokables' => [
-        'service name' => 'class to instantiate',
-    ],
-    'factories' => [
-        'service name' => 'callable, Laminas\ServiceManager\FactoryInterface instance, or name of factory class returning the service',
-    ],
-    'abstract_factories' => [
-        'class name of Laminas\ServiceManager\AbstractFactoryInterface implementation',
-    ],
-    'delegators' => [
-        'service name' => [
-            'class name of Laminas\ServiceManager\DelegatorFactoryInterface implementation',
+    'dependencies' => [
+        'services' => [
+            'service name' => $serviceInstance,
         ],
-    ],
-    'lazy_services' => [
-        'class_map' => [
-            'service name' => 'Class\Name\Of\Service',
+        'invokables' => [
+            'service name' => 'class to instantiate',
         ],
-    ],
-    'initializers' => [
-        'callable, Laminas\ServiceManager\InitializerInterface implementation, or name of initializer class',
+        'factories' => [
+            'service name' => 'callable, Laminas\ServiceManager\FactoryInterface instance, or name of factory class returning the service',
+        ],
+        'abstract_factories' => [
+            'class name of Laminas\ServiceManager\AbstractFactoryInterface implementation',
+        ],
+        'delegators' => [
+            'service name' => [
+                'class name of Laminas\ServiceManager\DelegatorFactoryInterface implementation',
+            ],
+        ],
+        'lazy_services' => [
+            'class_map' => [
+                'service name' => 'Class\Name\Of\Service',
+            ],
+        ],
+        'initializers' => [
+            'callable, Laminas\ServiceManager\InitializerInterface implementation, or name of initializer class',
+        ],
     ],
 ]
 ```
+
+See the [container configuration format](config.md#the-format) for more detail
+about how Mezzio consumes this structure.
 
 Read more about laminas-servicemanager in [its documentation](https://docs.laminas.dev/laminas-servicemanager/).
 
@@ -154,138 +160,53 @@ $app->run();
 
 ### Configuration-Driven Container
 
-Alternately, you can use a configuration file to define the container. As
-before, we'll define our configuration in `config/config.php`, and our
-`config/container.php` file will still return our service manager instance; we'll
-define the service configuration in `config/dependencies.php`:
+Alternately, you can use application configuration to define the container.
+Service definitions are commonly placed in files such as
+`config/autoload/dependencies.global.php`, where they are nested under the
+top-level `dependencies` key:
 
 ```php
 return [
-    'services' => [
-        'config' => include __DIR__ . '/config.php',
-    ],
-    'aliases' => [
-        'Mezzio\Delegate\DefaultDelegate' => 'Mezzio\Delegate\NotFoundDelegate',
-    ],
-    'invokables' => [
-        Mezzio\Router\RouterInterface::class     => Mezzio\Router\AuraRouter::class,
-        Mezzio\Template\TemplateRendererInterface::class => Mezzio\Plates\PlatesRenderer::class
-    ],
-    'factories' => [
-        Mezzio\Application::class       => Mezzio\Container\ApplicationFactory::class,
-        'Mezzio\Whoops'            => Mezzio\Container\WhoopsFactory::class,
-        'Mezzio\WhoopsPageHandler' => Mezzio\Container\WhoopsPageHandlerFactory::class,
-
-        Laminas\Stratigility\Middleware\ErrorHandler::class    => Mezzio\Container\ErrorHandlerFactory::class,
-        Mezzio\Delegate\NotFoundDelegate::class  => Mezzio\Container\NotFoundDelegateFactory::class,
-        Mezzio\Middleware\NotFoundHandler::class => Mezzio\Container\NotFoundHandlerFactory::class,
+    'dependencies' => [
+        'aliases' => [
+            SomeInterface::class => SomeImplementation::class,
+        ],
+        'factories' => [
+            SomeImplementation::class => SomeImplementationFactory::class,
+        ],
     ],
 ];
 ```
 
-`config/container.php` becomes:
+`config/config.php` aggregates this configuration with configuration providers
+from Mezzio and other packages. `config/container.php` then passes only the
+`dependencies` section to laminas-servicemanager while making the complete
+application configuration available as the `config` service:
 
 ```php
-use Laminas\ServiceManager\Config;
 use Laminas\ServiceManager\ServiceManager;
 
-return new ServiceManager(new Config(include 'config/dependencies.php'));
+$config = require __DIR__ . '/config.php';
+
+$dependencies                       = $config['dependencies'];
+$dependencies['services']['config'] = $config;
+
+return new ServiceManager($dependencies);
 ```
 
-There is one problem, however: you may want to vary error handling strategies
-based on whether or not you're in production: You have two choices on how to
-approach this:
-
-- Selectively inject the factory in the bootstrap.
-- Define the final handler service in an environment specific file and use file
-  globbing to merge files.
-
-In the first case, you would change the `config/container.php` example to look
-like this:
-
-```php
-use Laminas\ServiceManager\Config;
-use Laminas\ServiceManager\ServiceManager;
-
-$container = new ServiceManager(new Config(include 'config/container.php'));
-switch ($variableOrConstantIndicatingEnvironment) {
-    case 'development':
-        $container->setFactory(
-            Mezzio\Middleware\ErrorResponseGenerator::class,
-            Mezzio\Container\WhoopsErrorResponseGeneratorFactory::class
-        );
-        break;
-    case 'production':
-    default:
-        $container->setFactory(
-            Mezzio\Middleware\ErrorResponseGenerator::class,
-            Mezzio\Container\ErrorResponseGeneratorFactory::class
-        );
-}
-return $container;
-```
-
-In the second case, you will need to install laminas-config:
-
-```bash
-$ composer require laminas/laminas-config
-```
-
-Then, create the directory `config/autoload/`, and create two files,
-`dependencies.global.php` and `dependencies.local.php`. In your `.gitignore`,
-add an entry for `config/autoload/*local.php` to ensure "local"
-(environment-specific) files are excluded from the repository.
-
-`config/dependencies.php` will look like this:
-
-```php
-use Laminas\Config\Factory as ConfigFactory;
-
-return ConfigFactory::fromFiles(
-    glob('config/autoload/dependencies.{global,local}.php', GLOB_BRACE)
-);
-```
-
-`config/autoload/dependencies.global.php` will look like this:
+Environment-specific configuration can use the same structure in
+`config/autoload/dependencies.local.php`. For example, a development-only
+factory override can look like this:
 
 ```php
 return [
-    'services' => [
-        'config' => include __DIR__ . '/config.php',
-    ],
-    'aliases' => [
-        'Mezzio\Delegate\DefaultDelegate' => Mezzio\Delegate\NotFoundDelegate::class,
-    ],
-    'invokables' => [
-        Mezzio\Router\RouterInterface::class     => Mezzio\Router\AuraRouter::class,
-        Mezzio\Template\TemplateRendererInterface::class => Mezzio\Plates\PlatesRenderer::class
-    ],
-    'factories' => [
-        Mezzio\Application::class       => Mezzio\Container\ApplicationFactory::class,
-        'Mezzio\Whoops'            => Mezzio\Container\WhoopsFactory::class,
-        'Mezzio\WhoopsPageHandler' => Mezzio\Container\WhoopsPageHandlerFactory::class,
-
-        Mezzio\Middleware\ErrorResponseGenerator::class => Mezzio\Container\ErrorResponseGeneratorFactory::class,
-        Laminas\Stratigility\Middleware\ErrorHandler::class    => Mezzio\Container\ErrorHandlerFactory::class,
-        'Mezzio\Delegate\NotFoundDelegate'  => Mezzio\Container\NotFoundDelegateFactory::class,
-        Mezzio\Middleware\NotFoundHandler::class => Mezzio\Container\NotFoundHandlerFactory::class,
+    'dependencies' => [
+        'factories' => [
+            SomeImplementation::class => DevelopmentImplementationFactory::class,
+        ],
     ],
 ];
 ```
 
-`config/autoload/dependencies.local.php` on your development machine can look
-like this:
-
-```php
-return [
-    'factories' => [
-        'Mezzio\Whoops'            => Mezzio\Container\WhoopsFactory::class,
-        'Mezzio\WhoopsPageHandler' => Mezzio\Container\WhoopsPageHandlerFactory::class,
-        Mezzio\Middleware\ErrorResponseGenerator::class => Mezzio\Container\WhoopsErrorResponseGeneratorFactory::class,
-    ],
-];
-```
-
-Using the above approach allows you to keep the bootstrap file minimal and
-agnostic of environment. (Note: you can take a similar approach with
-the application configuration.)
+See the [configuration quick start](../../getting-started/quick-start.md#config-aggregator)
+for details on aggregating global and local configuration.
