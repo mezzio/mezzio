@@ -7,7 +7,7 @@ on:
     tags:
 
 env:
-  default_php: 8.2
+  default_php: 8.3
 
 jobs:
   ci:

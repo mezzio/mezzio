@@ -27,15 +27,13 @@ final class RequestHandlerRunnerFactoryTest extends TestCase
         $handler              = $this->registerHandlerInContainer($container);
         $emitter              = $this->registerEmitterInContainer($container);
         $serverRequestFactory = $this->registerServerRequestFactoryInContainer($container);
-        /** @psalm-suppress NoValue */
-        $errorGenerator = $this->registerServerRequestErrorResponseGeneratorInContainer($container);
+        $errorGenerator       = $this->registerServerRequestErrorResponseGeneratorInContainer($container);
         self::assertIsCallable($errorGenerator);
 
         $factory = new RequestHandlerRunnerFactory();
 
         $runner = $factory($container);
 
-        /** @psalm-suppress MixedArgumentTypeCoercion */
         self::assertEquals(
             new RequestHandlerRunner($handler, $emitter, $serverRequestFactory, $errorGenerator),
             $runner
@@ -81,10 +79,6 @@ final class RequestHandlerRunnerFactoryTest extends TestCase
         return $factory;
     }
 
-    /**
-     * @psalm-suppress InvalidReturnType
-     * @psalm-suppress InvalidReturnStatement
-     */
     public function registerServerRequestErrorResponseGeneratorInContainer(
         MutableMemoryContainerInterface $container,
     ): MockObject&ServerRequestErrorResponseGenerator {

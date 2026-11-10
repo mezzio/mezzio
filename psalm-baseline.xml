@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
+<files psalm-version="6.20.10@7fc81490f861c801061836a9010603d2393bf8da">
   <file src="src/Application.php">
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$middleware]]></code>
@@ -195,6 +195,17 @@
       <code><![CDATA[$this->container->get(ResponseInterface::class)]]></code>
       <code><![CDATA[$this->container->get(ResponseInterface::class)]]></code>
     </InvalidArgument>
+  </file>
+  <file src="test/Container/RequestHandlerRunnerFactoryTest.php">
+    <InvalidFunctionCall>
+      <code><![CDATA[$errorGenerator($e)]]></code>
+    </InvalidFunctionCall>
+    <NoValue>
+      <code><![CDATA[$errorGenerator]]></code>
+    </NoValue>
+    <TypeDoesNotContainType>
+      <code><![CDATA[assertIsCallable]]></code>
+    </TypeDoesNotContainType>
   </file>
   <file src="test/Container/ResponseFactoryFactoryTest.php">
     <RedundantCondition>
