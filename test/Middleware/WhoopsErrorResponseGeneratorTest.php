@@ -24,17 +24,13 @@ use function method_exists;
 
 final class WhoopsErrorResponseGeneratorTest extends TestCase
 {
-    /** @var RunInterface&MockObject */
-    private $whoops;
+    private RunInterface&MockObject $whoops;
 
-    /** @var ServerRequestInterface&MockObject */
-    private $request;
+    private ServerRequestInterface&MockObject $request;
 
-    /** @var ResponseInterface&MockObject */
-    private $response;
+    private ResponseInterface&MockObject $response;
 
-    /** @var StreamInterface&MockObject */
-    private $stream;
+    private StreamInterface&MockObject $stream;
 
     public function setUp(): void
     {

@@ -6,7 +6,6 @@ namespace MezzioTest;
 
 use Closure;
 use Laminas\Diactoros\Response;
-use Laminas\ServiceManager\ServiceManager;
 use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
 use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
 use Laminas\Stratigility\MiddlewarePipe;
@@ -18,6 +17,7 @@ use Mezzio\MiddlewareFactoryInterface;
 use Mezzio\Router\Middleware\DispatchMiddleware;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -35,7 +35,7 @@ final class MiddlewareFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->container = new MiddlewareContainer(new ServiceManager([]));
+        $this->container = new MiddlewareContainer($this->createMock(ContainerInterface::class));
         $this->factory   = new MiddlewareFactory($this->container);
     }
 
@@ -173,12 +173,12 @@ final class MiddlewareFactoryTest extends TestCase
     }
 
     /**
-     * @param MiddlewareParam $middleware
+     * @psalm-param MiddlewareParam $middleware
      * @param mixed $expected Expected type or value for use with assertion
      */
     #[DataProvider('validPrepareTypes')]
     public function testPipelineAllowsAnyTypeSupportedByPrepare(
-        $middleware,
+        mixed $middleware,
         string $assertion,
         mixed $expected,
     ): void {

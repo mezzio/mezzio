@@ -16,13 +16,11 @@ use RuntimeException;
 
 final class ServerRequestErrorResponseGeneratorTest extends TestCase
 {
-    /** @var TemplateRendererInterface&MockObject */
-    private $renderer;
+    private TemplateRendererInterface&MockObject $renderer;
 
-    /** @var ResponseInterface&MockObject */
-    private $response;
+    private ResponseInterface&MockObject $response;
 
-    private ResponseFactoryInterface $responseFactory;
+    private ResponseFactoryInterface&MockObject $responseFactory;
 
     public function setUp(): void
     {

@@ -15,8 +15,7 @@ final class WhoopsErrorResponseGeneratorFactoryTest extends TestCase
 {
     private InMemoryContainer $container;
 
-    /** @var RunInterface&MockObject */
-    private $whoops;
+    private RunInterface&MockObject $whoops;
 
     public function setUp(): void
     {

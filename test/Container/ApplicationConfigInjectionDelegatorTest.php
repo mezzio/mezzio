@@ -45,8 +45,7 @@ final class ApplicationConfigInjectionDelegatorTest extends TestCase
 
     private RouteCollector $routeCollector;
 
-    /** @var RouterInterface&MockObject */
-    private $router;
+    private RouterInterface&MockObject $router;
 
     public function setUp(): void
     {
@@ -139,7 +138,7 @@ final class ApplicationConfigInjectionDelegatorTest extends TestCase
         Assert::assertThat($found, Assert::isTrue(), $message);
     }
 
-    /** @return list<array{MiddlewareParam}> */
+    /** @psalm-return list<array{MiddlewareParam}> */
     public static function callableMiddlewares(): array
     {
         return [
@@ -149,7 +148,7 @@ final class ApplicationConfigInjectionDelegatorTest extends TestCase
                     ServerRequestInterface $request,
                     RequestHandlerInterface $handler): ResponseInterface => new Response(),
             ],
-            [[InvokableMiddleware::class, 'staticallyCallableMiddleware']],
+            [InvokableMiddleware::staticallyCallableMiddleware(...)],
         ];
     }
 
@@ -163,10 +162,10 @@ final class ApplicationConfigInjectionDelegatorTest extends TestCase
     }
 
     /**
-     * @param MiddlewareParam $middleware
+     * @psalm-param MiddlewareParam $middleware
      */
     #[DataProvider('callableMiddlewares')]
-    public function testInjectRoutesFromConfigSetsUpRoutesFromConfig($middleware): void
+    public function testInjectRoutesFromConfigSetsUpRoutesFromConfig(mixed $middleware): void
     {
         $this->container->set('HelloWorld', true);
         $this->container->set('Ping', true);
@@ -465,7 +464,7 @@ final class ApplicationConfigInjectionDelegatorTest extends TestCase
         $this->container->set('config', $config);
 
         $delegator   = new ApplicationConfigInjectionDelegator();
-        $application = $delegator($this->container, '', fn() => $this->createApplication());
+        $application = $delegator($this->container, '', fn(): Application => $this->createApplication());
 
         $this->assertCount(1, $application->getRoutes());
     }

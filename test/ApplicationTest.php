@@ -28,16 +28,13 @@ use function strtoupper;
 /** @psalm-import-type MiddlewareParam from MiddlewareFactoryInterface */
 final class ApplicationTest extends TestCase
 {
-    /** @var MiddlewareFactoryInterface&MockObject */
-    private $factory;
+    private MiddlewareFactoryInterface&MockObject $factory;
 
-    /** @var MiddlewarePipeInterface&MockObject */
-    private $pipeline;
+    private MiddlewarePipeInterface&MockObject $pipeline;
 
     private RouteCollectorInterface&MockObject $routes;
 
-    /** @var RequestHandlerRunnerInterface&MockObject */
-    private $runner;
+    private RequestHandlerRunnerInterface&MockObject $runner;
 
     private Application $app;
 
@@ -106,10 +103,10 @@ final class ApplicationTest extends TestCase
     }
 
     /**
-     * @param MiddlewareParam $middleware
+     * @psalm-param MiddlewareParam $middleware
      */
     #[DataProvider('validMiddleware')]
-    public function testPipeCanAcceptSingleMiddlewareArgument($middleware): void
+    public function testPipeCanAcceptSingleMiddlewareArgument(mixed $middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
         $this->factory->expects(self::once())
@@ -126,10 +123,10 @@ final class ApplicationTest extends TestCase
     }
 
     /**
-     * @param MiddlewareParam $middleware
+     * @psalm-param MiddlewareParam $middleware
      */
     #[DataProvider('validMiddleware')]
-    public function testPipeCanAcceptAPathArgument($middleware): void
+    public function testPipeCanAcceptAPathArgument(mixed $middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
         $this->factory->expects(self::once())
@@ -156,10 +153,10 @@ final class ApplicationTest extends TestCase
     }
 
     /**
-     * @param MiddlewareParam $middleware
+     * @psalm-param MiddlewareParam $middleware
      */
     #[DataProvider('validMiddleware')]
-    public function testRouteAcceptsPathAndMiddlewareOnly($middleware): void
+    public function testRouteAcceptsPathAndMiddlewareOnly(mixed $middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
 
@@ -184,10 +181,10 @@ final class ApplicationTest extends TestCase
     }
 
     /**
-     * @param MiddlewareParam $middleware
+     * @psalm-param MiddlewareParam $middleware
      */
     #[DataProvider('validMiddleware')]
-    public function testRouteAcceptsPathMiddlewareAndMethodsOnly($middleware): void
+    public function testRouteAcceptsPathMiddlewareAndMethodsOnly(mixed $middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
 
@@ -212,10 +209,10 @@ final class ApplicationTest extends TestCase
     }
 
     /**
-     * @param MiddlewareParam $middleware
+     * @psalm-param MiddlewareParam $middleware
      */
     #[DataProvider('validMiddleware')]
-    public function testRouteAcceptsPathMiddlewareMethodsAndName($middleware): void
+    public function testRouteAcceptsPathMiddlewareMethodsAndName(mixed $middleware): void
     {
         $preparedMiddleware = $this->createMockMiddleware();
 
@@ -307,11 +304,12 @@ final class ApplicationTest extends TestCase
     }
 
     /**
-     * @param MiddlewareParam $middleware
+     * @psalm-param MiddlewareParam $middleware
      */
     #[DataProvider('validMiddleware')]
-    public function testAnyMethodPassesNullForMethodWhenNoNamePresent($middleware): void
-    {
+    public function testAnyMethodPassesNullForMethodWhenNoNamePresent(
+        mixed $middleware,
+    ): void {
         $preparedMiddleware = $this->createMockMiddleware();
 
         $this->factory->expects(self::once())
@@ -335,11 +333,12 @@ final class ApplicationTest extends TestCase
     }
 
     /**
-     * @param MiddlewareParam $middleware
+     * @psalm-param MiddlewareParam $middleware
      */
     #[DataProvider('validMiddleware')]
-    public function testAnyMethodPassesNullForMethodWhenAllArgumentsPresent($middleware): void
-    {
+    public function testAnyMethodPassesNullForMethodWhenAllArgumentsPresent(
+        mixed $middleware,
+    ): void {
         $preparedMiddleware = $this->createMockMiddleware();
 
         $this->factory->expects(self::once())

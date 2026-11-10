@@ -11,8 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 
 final class CallableResponseFactoryDecoratorTest extends TestCase
 {
-    /** @var MockObject&ResponseInterface */
-    private $response;
+    private MockObject&ResponseInterface $response;
 
     private CallableResponseFactoryDecorator $factory;
 

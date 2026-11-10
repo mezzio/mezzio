@@ -16,8 +16,7 @@ final class ErrorResponseGeneratorFactoryTest extends TestCase
 {
     private InMemoryContainer $container;
 
-    /** @var TemplateRendererInterface&MockObject */
-    private $renderer;
+    private TemplateRendererInterface&MockObject $renderer;
 
     public function setUp(): void
     {

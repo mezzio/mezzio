@@ -9,6 +9,7 @@ use Mezzio\Middleware\LazyLoadingMiddleware;
 use Mezzio\MiddlewareContainer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -16,20 +17,20 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final class LazyLoadingMiddlewareTest extends TestCase
 {
-    /** @var MiddlewareContainer&MockObject */
-    private $container;
+    private MiddlewareContainer $container;
 
-    /** @var ServerRequestInterface&MockObject */
-    private $request;
+    private ContainerInterface&MockObject $innerContainer;
 
-    /** @var RequestHandlerInterface&MockObject */
-    private $handler;
+    private ServerRequestInterface&MockObject $request;
+
+    private RequestHandlerInterface&MockObject $handler;
 
     public function setUp(): void
     {
-        $this->container = $this->createMock(MiddlewareContainer::class);
-        $this->request   = $this->createMock(ServerRequestInterface::class);
-        $this->handler   = $this->createMock(RequestHandlerInterface::class);
+        $this->innerContainer = $this->createMock(ContainerInterface::class);
+        $this->container      = new MiddlewareContainer($this->innerContainer);
+        $this->request        = $this->createMock(ServerRequestInterface::class);
+        $this->handler        = $this->createMock(RequestHandlerInterface::class);
     }
 
     public function buildLazyLoadingMiddleware(string $middlewareName): LazyLoadingMiddleware
@@ -46,7 +47,8 @@ final class LazyLoadingMiddlewareTest extends TestCase
             ->with($this->request, $this->handler)
             ->willReturn($response);
 
-        $this->container->method('get')->with('foo')->willReturn($middleware);
+        $this->innerContainer->method('has')->with('foo')->willReturn(true);
+        $this->innerContainer->method('get')->with('foo')->willReturn($middleware);
 
         $lazyloader = $this->buildLazyLoadingMiddleware('foo');
         $this->assertSame(
@@ -58,7 +60,8 @@ final class LazyLoadingMiddlewareTest extends TestCase
     public function testDoesNotCatchContainerExceptions(): void
     {
         $exception = new InvalidMiddlewareException();
-        $this->container->method('get')->with('foo')->willThrowException($exception);
+        $this->innerContainer->method('has')->with('foo')->willReturn(true);
+        $this->innerContainer->method('get')->with('foo')->willThrowException($exception);
 
         $lazyloader = $this->buildLazyLoadingMiddleware('foo');
         $this->expectException(InvalidMiddlewareException::class);

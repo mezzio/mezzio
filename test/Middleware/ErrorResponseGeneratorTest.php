@@ -79,7 +79,7 @@ final class ErrorResponseGeneratorTest extends TestCase
 
         $this->stream->expects(self::once())
             ->method('write')
-            ->with(self::callback(function ($body) use ($leaf, $branch, $error): bool {
+            ->with(self::callback(function (string $body) use ($leaf, $branch, $error): bool {
                 $this->assertStringContainsString($leaf->getTraceAsString(), $body);
                 $this->assertStringContainsString($branch->getTraceAsString(), $body);
                 $this->assertStringContainsString($error->getTraceAsString(), $body);

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace MezzioTest;
 
-use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use RuntimeException;
 
 use function array_key_exists;
 
-final class InMemoryContainer implements ContainerInterface
+final class InMemoryContainer implements MutableMemoryContainerInterface
 {
     /** @var array<string,mixed> */
     private array $services = [];

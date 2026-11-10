@@ -51,7 +51,7 @@ final class RouteCollectorDelegatorIntegrationTest extends TestCase
         $dependencies = $config['dependencies'] ?? [];
         assert(is_array($dependencies));
         /** @psalm-suppress MixedAssignment */
-        $dependencies['services'] = $dependencies['services'] ?? [];
+        $dependencies['services'] ??= [];
         assert(is_array($dependencies['services']));
         $dependencies['services']['config'] = $asArrayObject ? new ArrayObject($config) : $config;
         /** @psalm-var ServiceManagerConfiguration $dependencies */

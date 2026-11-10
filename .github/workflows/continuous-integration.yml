@@ -6,6 +6,22 @@ on:
     branches:
     tags:
 
+env:
+  default_php: 8.2
+
 jobs:
   ci:
     uses: laminas/workflow-continuous-integration/.github/workflows/continuous-integration.yml@1.x
+
+  rector:
+    runs-on: ubuntu-latest
+    name: Run Rector on PHP
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: shivammathur/setup-php@2.34.1
+        with:
+          php-version: ${{ env.default_php }}
+          extensions: swoole
+          tools: composer
+      - uses: ramsey/composer-install@v3
+      - run: composer rector

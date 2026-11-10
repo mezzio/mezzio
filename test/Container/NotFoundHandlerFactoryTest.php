@@ -23,8 +23,7 @@ final class NotFoundHandlerFactoryTest extends TestCase
 {
     private InMemoryContainer $container;
 
-    /** @var ResponseInterface&MockObject */
-    private $response;
+    private ResponseInterface&MockObject $response;
 
     private NotFoundHandlerFactory $factory;
 
@@ -32,7 +31,7 @@ final class NotFoundHandlerFactoryTest extends TestCase
     {
         $this->response  = $this->createMock(ResponseInterface::class);
         $this->container = new InMemoryContainer();
-        $this->container->set(ResponseInterface::class, fn() => $this->response);
+        $this->container->set(ResponseInterface::class, fn(): ResponseInterface&MockObject => $this->response);
         $this->factory = new NotFoundHandlerFactory();
     }
 

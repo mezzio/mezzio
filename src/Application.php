@@ -127,7 +127,7 @@ class Application implements MiddlewareInterface, RequestHandlerInterface
      *     those types) to associate with route.
      * @param null|non-empty-string $name The name of the route.
      */
-    public function post(string $path, $middleware, $name = null): Router\Route
+    public function post(string $path, $middleware, ?string $name = null): Router\Route
     {
         return $this->route($path, $middleware, ['POST'], $name);
     }
