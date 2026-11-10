@@ -45,7 +45,7 @@ final class NotFoundHandlerFactoryTest extends TestCase
                 'dependencies' => [
                     'factories' => [
                         ResponseInterface::class
-                            => fn(): ResponseInterface => new TextResponse('Foo'),
+                            => static fn(): ResponseInterface => new TextResponse('Foo'),
                     ],
                 ],
             ],
@@ -66,7 +66,7 @@ final class NotFoundHandlerFactoryTest extends TestCase
                 'dependencies' => [
                     'delegators' => [
                         ResponseInterface::class => [
-                            fn(): ResponseInterface => new TextResponse('Foo'),
+                            static fn(): ResponseInterface => new TextResponse('Foo'),
                         ],
                     ],
                 ],

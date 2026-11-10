@@ -15,7 +15,7 @@ injection container with the following features:
 
 Aura.Di implements [PSR-11](https://www.php-fig.org/psr/psr-11/) as of
 version 3. To use Aura.Di as a dependency injection container, we recommend using
-[laminas/laminas-auradi-config](https://github.com/laminas/laminas-auradi-config),
+[laminas/laminas-auradi-config](https://github.com/laminas/laminas-auradi-config/blob/2.7.x/README.md),
 which helps you to configure its container. First, install the package:
 
 ```bash

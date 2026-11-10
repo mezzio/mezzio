@@ -109,7 +109,7 @@ final class ServerRequestErrorResponseGeneratorTest extends TestCase
     public function testCanHandleCallableResponseFactory(): void
     {
         $response        = new TextResponse('Foo');
-        $responseFactory = fn(): ResponseInterface => $response;
+        $responseFactory = static fn(): ResponseInterface => $response;
 
         $e             = new RuntimeException('This is the exception message', 422);
         $generator     = new ServerRequestErrorResponseGenerator($responseFactory, false);

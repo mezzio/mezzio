@@ -97,7 +97,7 @@ final class ApplicationTest extends TestCase
         // @codingStandardsIgnoreStart
         yield 'string'   => ['service'];
         yield 'array'    => [['middleware', 'service']];
-        yield 'callable' => [fn ( ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface => new Response()];
+        yield 'callable' => [static fn ( ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface => new Response()];
         yield 'instance' => [new MiddlewarePipe()];
         // @codingStandardsIgnoreEnd
     }
@@ -251,8 +251,10 @@ final class ApplicationTest extends TestCase
      * @param MiddlewareParam $middleware
      */
     #[DataProvider('requestMethodsWithValidMiddleware')]
-    public function testSpecificRouteMethodsCanAcceptOnlyPathAndMiddleware(string $method, $middleware): void
-    {
+    public function testSpecificRouteMethodsCanAcceptOnlyPathAndMiddleware(
+        string $method,
+        string|RequestHandlerInterface|MiddlewareInterface|callable|array $middleware,
+    ): void {
         $preparedMiddleware = $this->createMockMiddleware();
 
         $this->factory->expects(self::once())
@@ -279,8 +281,10 @@ final class ApplicationTest extends TestCase
      * @param MiddlewareParam $middleware
      */
     #[DataProvider('requestMethodsWithValidMiddleware')]
-    public function testSpecificRouteMethodsCanAcceptPathMiddlewareAndName(string $method, $middleware): void
-    {
+    public function testSpecificRouteMethodsCanAcceptPathMiddlewareAndName(
+        string $method,
+        string|RequestHandlerInterface|MiddlewareInterface|callable|array $middleware,
+    ): void {
         $preparedMiddleware = $this->createMockMiddleware();
 
         $this->factory->expects(self::once())

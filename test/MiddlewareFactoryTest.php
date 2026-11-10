@@ -42,7 +42,7 @@ final class MiddlewareFactoryTest extends TestCase
     /** @return Closure(ServerRequestInterface, RequestHandlerInterface): ResponseInterface */
     private static function validCallable(): Closure
     {
-        return fn(
+        return static fn(
             ServerRequestInterface $request,
             RequestHandlerInterface $handler): ResponseInterface => new Response();
     }
