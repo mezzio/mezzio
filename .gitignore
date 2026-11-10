@@ -7,3 +7,5 @@
 /.phpunit.cache
 /.phpcs-cache
 /.markdownlint.json
+/doc/html/
+/documentation-theme/

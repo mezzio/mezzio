@@ -14,7 +14,7 @@ Pimple only supports programmatic creation at this time.
 
 Pimple implements [PSR-11 Container](https://github.com/php-fig/container)
 as of version 3.2. To use Pimple as a dependency injection container, we
-recommend using [laminas/laminas-pimple-config](https://github.com/laminas/laminas-pimple-config),
+recommend using [laminas/laminas-pimple-config](https://github.com/laminas/laminas-pimple-config/blob/1.7.x/README.md),
 which helps you to configure the PSR-11 container. First install the package:
 
 ```bash
