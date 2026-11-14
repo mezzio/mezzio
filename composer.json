@@ -60,7 +60,7 @@
         "mezzio/mezzio-laminasrouter": "^3.13",
         "phpunit/phpunit": "^11.5.57",
         "psalm/plugin-phpunit": "^0.22.2",
-        "vimeo/psalm": "^6.20.10"
+        "vimeo/psalm": "^7.0.0"
     },
     "conflict": {
         "container-interop/container-interop": "<1.2.0",
