@@ -50,7 +50,7 @@
         "webmozart/assert": "^1.11.0 || ^2.0.0"
     },
     "require-dev": {
-        "boundwize/structarmed": "^0.21.8",
+        "boundwize/structarmed": "^0.22.0",
         "filp/whoops": "^2.19.3",
         "laminas/internal-tooling": "^1.0.0",
         "laminas/laminas-coding-standard": "^3.1.0",
