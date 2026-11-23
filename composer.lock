@@ -942,16 +942,16 @@
         },
         {
             "name": "amphp/byte-stream",
-            "version": "v2.1.3",
+            "version": "v2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amphp/byte-stream.git",
-                "reference": "1511cdfdf868a706307358bd48f155c3df2c490f"
+                "reference": "de5b94a727c5fb970e018452e552ce20dc75aa16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amphp/byte-stream/zipball/1511cdfdf868a706307358bd48f155c3df2c490f",
-                "reference": "1511cdfdf868a706307358bd48f155c3df2c490f",
+                "url": "https://api.github.com/repos/amphp/byte-stream/zipball/de5b94a727c5fb970e018452e552ce20dc75aa16",
+                "reference": "de5b94a727c5fb970e018452e552ce20dc75aa16",
                 "shasum": ""
             },
             "require": {
@@ -1005,7 +1005,7 @@
             ],
             "support": {
                 "issues": "https://github.com/amphp/byte-stream/issues",
-                "source": "https://github.com/amphp/byte-stream/tree/v2.1.3"
+                "source": "https://github.com/amphp/byte-stream/tree/v2.1.4"
             },
             "funding": [
                 {
@@ -1013,8 +1013,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-31T19:10:04+00:00",
-            "published-time": "2026-10-31T19:16:39+00:00"
+            "time": "2026-11-21T17:57:31+00:00",
+            "published-time": "2026-11-22T22:18:56+00:00"
         },
         {
             "name": "amphp/cache",
@@ -1758,16 +1758,16 @@
         },
         {
             "name": "boundwize/structarmed",
-            "version": "0.22.1",
+            "version": "0.22.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/boundwize/structarmed.git",
-                "reference": "0ca44dc575ed7b7d3720e5067c7192f0432ed6ab"
+                "reference": "7926d82085a10b6553c4a685bd63e6cd2c688f78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/boundwize/structarmed/zipball/0ca44dc575ed7b7d3720e5067c7192f0432ed6ab",
-                "reference": "0ca44dc575ed7b7d3720e5067c7192f0432ed6ab",
+                "url": "https://api.github.com/repos/boundwize/structarmed/zipball/7926d82085a10b6553c4a685bd63e6cd2c688f78",
+                "reference": "7926d82085a10b6553c4a685bd63e6cd2c688f78",
                 "shasum": ""
             },
             "require": {
@@ -1824,7 +1824,7 @@
             ],
             "support": {
                 "issues": "https://github.com/boundwize/structarmed/issues",
-                "source": "https://github.com/boundwize/structarmed/tree/0.22.1"
+                "source": "https://github.com/boundwize/structarmed/tree/0.22.3"
             },
             "funding": [
                 {
@@ -1832,21 +1832,21 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-22T08:33:41+00:00",
-            "published-time": "2026-11-22T08:34:02+00:00"
+            "time": "2026-11-22T23:21:31+00:00",
+            "published-time": "2026-11-22T23:22:01+00:00"
         },
         {
             "name": "carthage-software/mago",
-            "version": "1.60.1",
+            "version": "1.61.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/carthage-software/mago.git",
-                "reference": "4f64a85e4b4c5632eae895a8d8564898ffcaec6e"
+                "reference": "08934a6e3925cc1c836041efc931505330911f6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/carthage-software/mago/zipball/4f64a85e4b4c5632eae895a8d8564898ffcaec6e",
-                "reference": "4f64a85e4b4c5632eae895a8d8564898ffcaec6e",
+                "url": "https://api.github.com/repos/carthage-software/mago/zipball/08934a6e3925cc1c836041efc931505330911f6e",
+                "reference": "08934a6e3925cc1c836041efc931505330911f6e",
                 "shasum": ""
             },
             "require": {
@@ -1889,7 +1889,7 @@
             ],
             "support": {
                 "issues": "https://github.com/carthage-software/mago/issues",
-                "source": "https://github.com/carthage-software/mago/tree/1.60.1"
+                "source": "https://github.com/carthage-software/mago/tree/1.61.0"
             },
             "funding": [
                 {
@@ -1897,8 +1897,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-15T03:04:38+00:00",
-            "published-time": "2026-11-15T03:04:54+00:00"
+            "time": "2026-11-21T21:46:25+00:00",
+            "published-time": "2026-11-21T21:47:01+00:00"
         },
         {
             "name": "composer/pcre",
@@ -2736,16 +2736,16 @@
         },
         {
             "name": "laminas/internal-tooling",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/internal-tooling.git",
-                "reference": "60e17d1b30a04a1751b3b61ec80d02c6bd2d5f70"
+                "reference": "5faeaf5fe8c49093fa9686cbce84d04ad6401c81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/internal-tooling/zipball/60e17d1b30a04a1751b3b61ec80d02c6bd2d5f70",
-                "reference": "60e17d1b30a04a1751b3b61ec80d02c6bd2d5f70",
+                "url": "https://api.github.com/repos/laminas/internal-tooling/zipball/5faeaf5fe8c49093fa9686cbce84d04ad6401c81",
+                "reference": "5faeaf5fe8c49093fa9686cbce84d04ad6401c81",
                 "shasum": ""
             },
             "require": {
@@ -2787,8 +2787,8 @@
                     "type": "custom"
                 }
             ],
-            "time": "2026-11-12T10:51:14+00:00",
-            "published-time": "2026-11-12T10:57:11+00:00"
+            "time": "2026-11-16T13:06:28+00:00",
+            "published-time": "2026-11-16T13:07:10+00:00"
         },
         {
             "name": "laminas/laminas-coding-standard",
@@ -3105,21 +3105,21 @@
         },
         {
             "name": "laminas/laminas-servicemanager",
-            "version": "3.24.0",
+            "version": "3.25.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-servicemanager.git",
-                "reference": "b172a0df568bf37ebdfb3658263156eefe3c1e8c"
+                "reference": "4f482c7e98864fabf67666cb4699ba7c6ec48adb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/b172a0df568bf37ebdfb3658263156eefe3c1e8c",
-                "reference": "b172a0df568bf37ebdfb3658263156eefe3c1e8c",
+                "url": "https://api.github.com/repos/laminas/laminas-servicemanager/zipball/4f482c7e98864fabf67666cb4699ba7c6ec48adb",
+                "reference": "4f482c7e98864fabf67666cb4699ba7c6ec48adb",
                 "shasum": ""
             },
             "require": {
                 "laminas/laminas-stdlib": "^3.19",
-                "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+                "php": "~8.3.0 || ~8.4.0 || ~8.5.0 || ~8.6.0",
                 "psr/container": "^1.0"
             },
             "conflict": {
@@ -3136,13 +3136,13 @@
             },
             "require-dev": {
                 "composer/package-versions-deprecated": "^1.11.99.5",
-                "friendsofphp/proxy-manager-lts": "^1.0.18",
-                "laminas/laminas-code": "^4.16.0",
+                "friendsofphp/proxy-manager-lts": "^1.0.19",
+                "laminas/laminas-code": "^4.19.0",
                 "laminas/laminas-coding-standard": "~2.5.0",
-                "laminas/laminas-container-config-test": "^0.8",
+                "laminas/laminas-container-config-test": "^1.1",
                 "mikey179/vfsstream": "^1.6.12",
-                "phpbench/phpbench": "^1.4.1",
-                "phpunit/phpunit": "^10.5.58",
+                "phpbench/phpbench": "^1.7.0",
+                "phpunit/phpunit": "^10.5.67",
                 "psalm/plugin-phpunit": "^0.18.4",
                 "vimeo/psalm": "^5.26.1"
             },
@@ -3187,12 +3187,12 @@
             },
             "funding": [
                 {
-                    "url": "https://funding.communitybridge.org/projects/laminas-project",
-                    "type": "community_bridge"
+                    "url": "https://crowdfunding.linuxfoundation.org/initiatives/laminas-project",
+                    "type": "custom"
                 }
             ],
-            "time": "2025-10-14T09:03:51+00:00",
-            "published-time": "2025-10-14T09:04:50+00:00"
+            "time": "2026-11-19T12:19:27+00:00",
+            "published-time": "2026-11-19T12:20:12+00:00"
         },
         {
             "name": "laminas/laminas-stdlib",
@@ -4934,16 +4934,16 @@
         },
         {
             "name": "revolt/event-loop",
-            "version": "v1.0.9",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/revoltphp/event-loop.git",
-                "reference": "44061cf513e53c6200372fc935ac42271566295d"
+                "reference": "93999a4ffca70aaa3890c553001e9f8313a1895c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/revoltphp/event-loop/zipball/44061cf513e53c6200372fc935ac42271566295d",
-                "reference": "44061cf513e53c6200372fc935ac42271566295d",
+                "url": "https://api.github.com/repos/revoltphp/event-loop/zipball/93999a4ffca70aaa3890c553001e9f8313a1895c",
+                "reference": "93999a4ffca70aaa3890c553001e9f8313a1895c",
                 "shasum": ""
             },
             "require": {
@@ -4953,7 +4953,7 @@
                 "ext-json": "*",
                 "jetbrains/phpstorm-stubs": "^2019.3",
                 "phpunit/phpunit": "^9",
-                "psalm/phar": "6.16.*"
+                "psalm/phar": "6.20.*"
             },
             "type": "library",
             "extra": {
@@ -5000,10 +5000,10 @@
             ],
             "support": {
                 "issues": "https://github.com/revoltphp/event-loop/issues",
-                "source": "https://github.com/revoltphp/event-loop/tree/v1.0.9"
+                "source": "https://github.com/revoltphp/event-loop/tree/v1.1.0"
             },
-            "time": "2026-05-16T17:55:38+00:00",
-            "published-time": "2026-05-16T18:04:08+00:00"
+            "time": "2026-11-14T19:05:53+00:00",
+            "published-time": "2026-11-19T18:36:08+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -7169,16 +7169,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "6.20.11",
+            "version": "6.21.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "fca8e037ed356b9fc1afc213902e82dfad418eba"
+                "reference": "7c854e9a39b14e49552cb949829abc36c16c866f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/fca8e037ed356b9fc1afc213902e82dfad418eba",
-                "reference": "fca8e037ed356b9fc1afc213902e82dfad418eba",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/7c854e9a39b14e49552cb949829abc36c16c866f",
+                "reference": "7c854e9a39b14e49552cb949829abc36c16c866f",
                 "shasum": ""
             },
             "require": {
@@ -7283,8 +7283,8 @@
                 "issues": "https://github.com/vimeo/psalm/issues",
                 "source": "https://github.com/vimeo/psalm"
             },
-            "time": "2026-11-11T21:00:48+00:00",
-            "published-time": "2026-11-11T22:27:01+00:00"
+            "time": "2026-11-21T08:25:52+00:00",
+            "published-time": "2026-11-22T00:46:41+00:00"
         },
         {
             "name": "webimpress/coding-standard",
